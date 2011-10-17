@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <talendfile:ContextType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" confirmationNeeded="false" name="Default">
-  <contextParameter comment="Enter the ovirt JDBC connection URL." name="ovirtJdbcConnection" prompt="Enter the ovirt JDBC connection URL." promptNeeded="true" type="id_String" value="jdbc:postgresql://localhost:5432/ovirt?stringtype=unspecified"/>
-  <contextParameter comment="Enter the JDBC driver class for the ovirt database." name="ovirtDriverClass" prompt="Enter the JDBC driver class for the ovirt database." promptNeeded="true" type="id_String" value="org.postgresql.Driver"/>
-  <contextParameter comment="Enter the ovirt admin database user." name="ovirtUser" prompt="Enter the ovirt admin database user." promptNeeded="true" type="id_String" value="postgres"/>
-  <contextParameter comment="Enter the ovirt admin user's password." name="ovirtPassword" prompt="Enter the ovirt admin user's password." promptNeeded="true" type="id_Password" value=""/>
+  <contextParameter comment="Enter the ovirt JDBC connection URL." name="ovirtEngineJdbcConnection" prompt="Enter the ovirt JDBC connection URL." promptNeeded="true" type="id_String" value="jdbc:postgresql://localhost:5432/engine?stringtype=unspecified"/>
+  <contextParameter comment="Enter the JDBC driver class for the ovirt database." name="ovirtEngineDriverClass" prompt="Enter the JDBC driver class for the ovirt database." promptNeeded="true" type="id_String" value="org.postgresql.Driver"/>
+  <contextParameter comment="Enter the ovirt admin database user." name="ovirtEngineUser" prompt="Enter the ovirt admin database user." promptNeeded="true" type="id_String" value="postgres"/>
+  <contextParameter comment="Enter the ovirt admin user's password." name="ovirtEnginePassword" prompt="Enter the ovirt admin user's password." promptNeeded="true" type="id_Password" value=""/>
   <contextParameter comment="Enter the ovirt history JDBC connection URL." name="ovirtHistoryJdbcConnection" prompt="Enter the ovirt history JDBC connection URL." promptNeeded="true" type="id_String" value="jdbc:postgresql://localhost:5432/ovirt_history?stringtype=unspecified"/>
   <contextParameter comment="Enter the ovirt history admin database user." name="ovirtHistoryUser" prompt="Enter the ovirt history admin database user." promptNeeded="true" type="id_String" value="postgres"/>
   <contextParameter comment="Enter the JDBC driver class for the ovirt history database." name="ovirtHistoryDriverClass" prompt="Enter the JDBC driver class for the ovirt history database." promptNeeded="true" type="id_String" value="org.postgresql.Driver"/>

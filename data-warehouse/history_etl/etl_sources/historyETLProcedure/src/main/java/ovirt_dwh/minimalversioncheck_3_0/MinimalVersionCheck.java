@@ -99,10 +99,10 @@ public class MinimalVersionCheck implements TalendJob {
 
 			}
 
-			if (ovirtDriverClass != null) {
+			if (ovirtEngineDriverClass != null) {
 
-				this.setProperty("ovirtDriverClass", ovirtDriverClass
-						.toString());
+				this.setProperty("ovirtEngineDriverClass",
+						ovirtEngineDriverClass.toString());
 
 			}
 
@@ -134,22 +134,23 @@ public class MinimalVersionCheck implements TalendJob {
 
 			}
 
-			if (ovirtJdbcConnection != null) {
+			if (ovirtEngineJdbcConnection != null) {
 
-				this.setProperty("ovirtJdbcConnection", ovirtJdbcConnection
+				this.setProperty("ovirtEngineJdbcConnection",
+						ovirtEngineJdbcConnection.toString());
+
+			}
+
+			if (ovirtEnginePassword != null) {
+
+				this.setProperty("ovirtEnginePassword", ovirtEnginePassword
 						.toString());
 
 			}
 
-			if (ovirtPassword != null) {
+			if (ovirtEngineUser != null) {
 
-				this.setProperty("ovirtPassword", ovirtPassword.toString());
-
-			}
-
-			if (ovirtUser != null) {
-
-				this.setProperty("ovirtUser", ovirtUser.toString());
+				this.setProperty("ovirtEngineUser", ovirtEngineUser.toString());
 
 			}
 
@@ -173,10 +174,10 @@ public class MinimalVersionCheck implements TalendJob {
 			return this.etlVersion;
 		}
 
-		public String ovirtDriverClass;
+		public String ovirtEngineDriverClass;
 
-		public String getOvirtDriverClass() {
-			return this.ovirtDriverClass;
+		public String getOvirtEngineDriverClass() {
+			return this.ovirtEngineDriverClass;
 		}
 
 		public String ovirtHistoryDriverClass;
@@ -203,22 +204,22 @@ public class MinimalVersionCheck implements TalendJob {
 			return this.ovirtHistoryUser;
 		}
 
-		public String ovirtJdbcConnection;
+		public String ovirtEngineJdbcConnection;
 
-		public String getOvirtJdbcConnection() {
-			return this.ovirtJdbcConnection;
+		public String getOvirtEngineJdbcConnection() {
+			return this.ovirtEngineJdbcConnection;
 		}
 
-		public java.lang.String ovirtPassword;
+		public java.lang.String ovirtEnginePassword;
 
-		public java.lang.String getOvirtPassword() {
-			return this.ovirtPassword;
+		public java.lang.String getOvirtEnginePassword() {
+			return this.ovirtEnginePassword;
 		}
 
-		public String ovirtUser;
+		public String ovirtEngineUser;
 
-		public String getOvirtUser() {
-			return this.ovirtUser;
+		public String getOvirtEngineUser() {
+			return this.ovirtEngineUser;
 		}
 	}
 
@@ -530,17 +531,17 @@ public class MinimalVersionCheck implements TalendJob {
 
 				int tos_count_tJDBCConnection_1 = 0;
 
-				String url_tJDBCConnection_1 = context.ovirtJdbcConnection;
+				String url_tJDBCConnection_1 = context.ovirtEngineJdbcConnection;
 
-				String userName_tJDBCConnection_1 = context.ovirtUser;
+				String userName_tJDBCConnection_1 = context.ovirtEngineUser;
 
-				String password_tJDBCConnection_1 = context.ovirtPassword;
+				String password_tJDBCConnection_1 = context.ovirtEnginePassword;
 
 				java.sql.Connection conn_tJDBCConnection_1 = null;
 
-				String sharedConnectionName_tJDBCConnection_1 = "ovirt";
+				String sharedConnectionName_tJDBCConnection_1 = "engine";
 				conn_tJDBCConnection_1 = SharedDBConnection.getDBConnection(
-						context.ovirtDriverClass, url_tJDBCConnection_1,
+						context.ovirtEngineDriverClass, url_tJDBCConnection_1,
 						userName_tJDBCConnection_1, password_tJDBCConnection_1,
 						sharedConnectionName_tJDBCConnection_1);
 
@@ -1001,9 +1002,9 @@ public class MinimalVersionCheck implements TalendJob {
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtDriverClass"
+									&& "ovirtEngineDriverClass"
 											.equals(key_tContextLoad_1)) {
-								context.ovirtDriverClass = value_tContextLoad_1;
+								context.ovirtEngineDriverClass = value_tContextLoad_1;
 							}
 
 							if (key_tContextLoad_1 != null
@@ -1031,20 +1032,21 @@ public class MinimalVersionCheck implements TalendJob {
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtJdbcConnection"
+									&& "ovirtEngineJdbcConnection"
 											.equals(key_tContextLoad_1)) {
-								context.ovirtJdbcConnection = value_tContextLoad_1;
+								context.ovirtEngineJdbcConnection = value_tContextLoad_1;
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtPassword"
+									&& "ovirtEnginePassword"
 											.equals(key_tContextLoad_1)) {
-								context.ovirtPassword = value_tContextLoad_1;
+								context.ovirtEnginePassword = value_tContextLoad_1;
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtUser".equals(key_tContextLoad_1)) {
-								context.ovirtUser = value_tContextLoad_1;
+									&& "ovirtEngineUser"
+											.equals(key_tContextLoad_1)) {
+								context.ovirtEngineUser = value_tContextLoad_1;
 							}
 
 							if (context.getProperty(key_tContextLoad_1) != null) {
@@ -1476,9 +1478,9 @@ public class MinimalVersionCheck implements TalendJob {
 							}
 
 							if (key_tContextLoad_2 != null
-									&& "ovirtDriverClass"
+									&& "ovirtEngineDriverClass"
 											.equals(key_tContextLoad_2)) {
-								context.ovirtDriverClass = value_tContextLoad_2;
+								context.ovirtEngineDriverClass = value_tContextLoad_2;
 							}
 
 							if (key_tContextLoad_2 != null
@@ -1506,20 +1508,21 @@ public class MinimalVersionCheck implements TalendJob {
 							}
 
 							if (key_tContextLoad_2 != null
-									&& "ovirtJdbcConnection"
+									&& "ovirtEngineJdbcConnection"
 											.equals(key_tContextLoad_2)) {
-								context.ovirtJdbcConnection = value_tContextLoad_2;
+								context.ovirtEngineJdbcConnection = value_tContextLoad_2;
 							}
 
 							if (key_tContextLoad_2 != null
-									&& "ovirtPassword"
+									&& "ovirtEnginePassword"
 											.equals(key_tContextLoad_2)) {
-								context.ovirtPassword = value_tContextLoad_2;
+								context.ovirtEnginePassword = value_tContextLoad_2;
 							}
 
 							if (key_tContextLoad_2 != null
-									&& "ovirtUser".equals(key_tContextLoad_2)) {
-								context.ovirtUser = value_tContextLoad_2;
+									&& "ovirtEngineUser"
+											.equals(key_tContextLoad_2)) {
+								context.ovirtEngineUser = value_tContextLoad_2;
 							}
 
 							if (context.getProperty(key_tContextLoad_2) != null) {
@@ -2537,8 +2540,8 @@ public class MinimalVersionCheck implements TalendJob {
 
 			context.etlVersion = (String) context.getProperty("etlVersion");
 
-			context.ovirtDriverClass = (String) context
-					.getProperty("ovirtDriverClass");
+			context.ovirtEngineDriverClass = (String) context
+					.getProperty("ovirtEngineDriverClass");
 
 			context.ovirtHistoryDriverClass = (String) context
 					.getProperty("ovirtHistoryDriverClass");
@@ -2552,13 +2555,14 @@ public class MinimalVersionCheck implements TalendJob {
 			context.ovirtHistoryUser = (String) context
 					.getProperty("ovirtHistoryUser");
 
-			context.ovirtJdbcConnection = (String) context
-					.getProperty("ovirtJdbcConnection");
+			context.ovirtEngineJdbcConnection = (String) context
+					.getProperty("ovirtEngineJdbcConnection");
 
-			context.ovirtPassword = (java.lang.String) context
-					.getProperty("ovirtPassword");
+			context.ovirtEnginePassword = (java.lang.String) context
+					.getProperty("ovirtEnginePassword");
 
-			context.ovirtUser = (String) context.getProperty("ovirtUser");
+			context.ovirtEngineUser = (String) context
+					.getProperty("ovirtEngineUser");
 
 		} catch (java.io.IOException ie) {
 			System.err.println("Could not load context " + contextStr);
@@ -2579,9 +2583,9 @@ public class MinimalVersionCheck implements TalendJob {
 				context.etlVersion = (String) parentContextMap
 						.get("etlVersion");
 			}
-			if (parentContextMap.containsKey("ovirtDriverClass")) {
-				context.ovirtDriverClass = (String) parentContextMap
-						.get("ovirtDriverClass");
+			if (parentContextMap.containsKey("ovirtEngineDriverClass")) {
+				context.ovirtEngineDriverClass = (String) parentContextMap
+						.get("ovirtEngineDriverClass");
 			}
 			if (parentContextMap.containsKey("ovirtHistoryDriverClass")) {
 				context.ovirtHistoryDriverClass = (String) parentContextMap
@@ -2599,16 +2603,17 @@ public class MinimalVersionCheck implements TalendJob {
 				context.ovirtHistoryUser = (String) parentContextMap
 						.get("ovirtHistoryUser");
 			}
-			if (parentContextMap.containsKey("ovirtJdbcConnection")) {
-				context.ovirtJdbcConnection = (String) parentContextMap
-						.get("ovirtJdbcConnection");
+			if (parentContextMap.containsKey("ovirtEngineJdbcConnection")) {
+				context.ovirtEngineJdbcConnection = (String) parentContextMap
+						.get("ovirtEngineJdbcConnection");
 			}
-			if (parentContextMap.containsKey("ovirtPassword")) {
-				context.ovirtPassword = (java.lang.String) parentContextMap
-						.get("ovirtPassword");
+			if (parentContextMap.containsKey("ovirtEnginePassword")) {
+				context.ovirtEnginePassword = (java.lang.String) parentContextMap
+						.get("ovirtEnginePassword");
 			}
-			if (parentContextMap.containsKey("ovirtUser")) {
-				context.ovirtUser = (String) parentContextMap.get("ovirtUser");
+			if (parentContextMap.containsKey("ovirtEngineUser")) {
+				context.ovirtEngineUser = (String) parentContextMap
+						.get("ovirtEngineUser");
 			}
 		}
 
@@ -2727,6 +2732,6 @@ public class MinimalVersionCheck implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 73291 characters generated by Talend Open Studio on the October 16, 2011
- * 11:09:55 AM IST
+ * 73676 characters generated by Talend Open Studio on the October 17, 2011
+ * 2:21:19 PM IST
  ************************************************************************************************/

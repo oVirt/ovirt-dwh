@@ -82,29 +82,30 @@ public class ConfigurationSync implements TalendJob {
 
 		public void synchronizeContext() {
 
-			if (ovirtDriverClass != null) {
+			if (ovirtEngineDriverClass != null) {
 
-				this.setProperty("ovirtDriverClass", ovirtDriverClass
+				this.setProperty("ovirtEngineDriverClass",
+						ovirtEngineDriverClass.toString());
+
+			}
+
+			if (ovirtEnginePassword != null) {
+
+				this.setProperty("ovirtEnginePassword", ovirtEnginePassword
 						.toString());
 
 			}
 
-			if (ovirtPassword != null) {
+			if (ovirtEngineUser != null) {
 
-				this.setProperty("ovirtPassword", ovirtPassword.toString());
-
-			}
-
-			if (ovirtUser != null) {
-
-				this.setProperty("ovirtUser", ovirtUser.toString());
+				this.setProperty("ovirtEngineUser", ovirtEngineUser.toString());
 
 			}
 
-			if (ovirtJdbcConnection != null) {
+			if (ovirtEngineJdbcConnection != null) {
 
-				this.setProperty("ovirtJdbcConnection", ovirtJdbcConnection
-						.toString());
+				this.setProperty("ovirtEngineJdbcConnection",
+						ovirtEngineJdbcConnection.toString());
 
 			}
 
@@ -156,28 +157,28 @@ public class ConfigurationSync implements TalendJob {
 
 		}
 
-		public String ovirtDriverClass;
+		public String ovirtEngineDriverClass;
 
-		public String getOvirtDriverClass() {
-			return this.ovirtDriverClass;
+		public String getOvirtEngineDriverClass() {
+			return this.ovirtEngineDriverClass;
 		}
 
-		public java.lang.String ovirtPassword;
+		public java.lang.String ovirtEnginePassword;
 
-		public java.lang.String getOvirtPassword() {
-			return this.ovirtPassword;
+		public java.lang.String getOvirtEnginePassword() {
+			return this.ovirtEnginePassword;
 		}
 
-		public String ovirtUser;
+		public String ovirtEngineUser;
 
-		public String getOvirtUser() {
-			return this.ovirtUser;
+		public String getOvirtEngineUser() {
+			return this.ovirtEngineUser;
 		}
 
-		public String ovirtJdbcConnection;
+		public String ovirtEngineJdbcConnection;
 
-		public String getOvirtJdbcConnection() {
-			return this.ovirtJdbcConnection;
+		public String getOvirtEngineJdbcConnection() {
+			return this.ovirtEngineJdbcConnection;
 		}
 
 		public String ovirtHistoryJdbcConnection;
@@ -49559,17 +49560,17 @@ public class ConfigurationSync implements TalendJob {
 
 				int tos_count_tJDBCConnection_1 = 0;
 
-				String url_tJDBCConnection_1 = context.ovirtJdbcConnection;
+				String url_tJDBCConnection_1 = context.ovirtEngineJdbcConnection;
 
-				String userName_tJDBCConnection_1 = context.ovirtUser;
+				String userName_tJDBCConnection_1 = context.ovirtEngineUser;
 
-				String password_tJDBCConnection_1 = context.ovirtPassword;
+				String password_tJDBCConnection_1 = context.ovirtEnginePassword;
 
 				java.sql.Connection conn_tJDBCConnection_1 = null;
 
-				String sharedConnectionName_tJDBCConnection_1 = "ovirt";
+				String sharedConnectionName_tJDBCConnection_1 = "engine";
 				conn_tJDBCConnection_1 = SharedDBConnection.getDBConnection(
-						context.ovirtDriverClass, url_tJDBCConnection_1,
+						context.ovirtEngineDriverClass, url_tJDBCConnection_1,
 						userName_tJDBCConnection_1, password_tJDBCConnection_1,
 						sharedConnectionName_tJDBCConnection_1);
 
@@ -50431,16 +50432,17 @@ public class ConfigurationSync implements TalendJob {
 				context.putAll(context_param);
 			}
 
-			context.ovirtDriverClass = (String) context
-					.getProperty("ovirtDriverClass");
+			context.ovirtEngineDriverClass = (String) context
+					.getProperty("ovirtEngineDriverClass");
 
-			context.ovirtPassword = (java.lang.String) context
-					.getProperty("ovirtPassword");
+			context.ovirtEnginePassword = (java.lang.String) context
+					.getProperty("ovirtEnginePassword");
 
-			context.ovirtUser = (String) context.getProperty("ovirtUser");
+			context.ovirtEngineUser = (String) context
+					.getProperty("ovirtEngineUser");
 
-			context.ovirtJdbcConnection = (String) context
-					.getProperty("ovirtJdbcConnection");
+			context.ovirtEngineJdbcConnection = (String) context
+					.getProperty("ovirtEngineJdbcConnection");
 
 			context.ovirtHistoryJdbcConnection = (String) context
 					.getProperty("ovirtHistoryJdbcConnection");
@@ -50482,20 +50484,21 @@ public class ConfigurationSync implements TalendJob {
 
 		// get context value from parent directly
 		if (parentContextMap != null && !parentContextMap.isEmpty()) {
-			if (parentContextMap.containsKey("ovirtDriverClass")) {
-				context.ovirtDriverClass = (String) parentContextMap
-						.get("ovirtDriverClass");
+			if (parentContextMap.containsKey("ovirtEngineDriverClass")) {
+				context.ovirtEngineDriverClass = (String) parentContextMap
+						.get("ovirtEngineDriverClass");
 			}
-			if (parentContextMap.containsKey("ovirtPassword")) {
-				context.ovirtPassword = (java.lang.String) parentContextMap
-						.get("ovirtPassword");
+			if (parentContextMap.containsKey("ovirtEnginePassword")) {
+				context.ovirtEnginePassword = (java.lang.String) parentContextMap
+						.get("ovirtEnginePassword");
 			}
-			if (parentContextMap.containsKey("ovirtUser")) {
-				context.ovirtUser = (String) parentContextMap.get("ovirtUser");
+			if (parentContextMap.containsKey("ovirtEngineUser")) {
+				context.ovirtEngineUser = (String) parentContextMap
+						.get("ovirtEngineUser");
 			}
-			if (parentContextMap.containsKey("ovirtJdbcConnection")) {
-				context.ovirtJdbcConnection = (String) parentContextMap
-						.get("ovirtJdbcConnection");
+			if (parentContextMap.containsKey("ovirtEngineJdbcConnection")) {
+				context.ovirtEngineJdbcConnection = (String) parentContextMap
+						.get("ovirtEngineJdbcConnection");
 			}
 			if (parentContextMap.containsKey("ovirtHistoryJdbcConnection")) {
 				context.ovirtHistoryJdbcConnection = (String) parentContextMap
@@ -50680,6 +50683,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1354760 characters generated by Talend Open Studio on the October 16, 2011
- * 11:10:05 AM IST
+ * 1355049 characters generated by Talend Open Studio on the October 17, 2011
+ * 2:21:26 PM IST
  ************************************************************************************************/
