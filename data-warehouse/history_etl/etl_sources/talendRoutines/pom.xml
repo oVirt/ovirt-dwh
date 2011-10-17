@@ -1,0 +1,63 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"> 
+	<modelVersion>4.0.0</modelVersion> 
+
+  <parent>
+  	<groupId>ovirt_dwh</groupId> 
+	<artifactId>etl_sources</artifactId> 
+	<version>3.0.0</version>
+  </parent>
+
+  <groupId>ovirt_dwh</groupId> 
+  <artifactId>talendRoutines</artifactId> 
+  <packaging>jar</packaging> 
+  <version>4.2.2.r63143</version> 
+  <name>Talend's Routines</name> 
+  <description>The talend routines required for etl jobs</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+	<pluginManagement>
+	    <plugins>
+	        <plugin>
+	            <artifactId>maven-compiler-plugin</artifactId> <configuration>
+	                <source>1.6</source> <target>1.6</target> <includes>
+	                    <include>**/*.txt</include> <include>**/*.java</include> <include>**/*.properties</include> 
+	                </includes> 
+	            </configuration> 
+	        </plugin> 
+	    </plugins> 
+	</pluginManagement> 
+  </build>
+  <repositories>
+   <repository>
+      <id>gwt-local</id>
+      <name>gwt local</name>
+      <url>http://fivehole.eng.lab.tlv.redhat.com:8081/artifactory/libs-releases/</url>
+      <layout>default</layout>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+   </repository>
+    <repository>
+      <id>mead-repository.redhat.com</id>
+      <name>JBoss Production Releases MEAD Repository</name>
+      <url>http://download.lab.bos.redhat.com/brewroot/repos/jb-eap-5-rhel-6-build/latest/maven</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+
+  </repositories>
+</project> 

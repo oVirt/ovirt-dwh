@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ovirt_dwh</groupId>
+  <artifactId>root</artifactId>
+  <version>3.0.0</version>
+  <packaging>pom</packaging>
+
+  <name>oVirt DWH Root Project</name>
+
+  <modules>
+    <module>data-warehouse</module>
+  </modules>
+
+  <!-- ====================================================================== -->
+  <!-- Needed for MEAD, which runs 'mvn deploy -DaltDeploymentRepository=..'  -->
+  <!-- and gets an error if there is no distributionManagement section        -->
+  <!-- ====================================================================== -->
+  <distributionManagement>
+    <repository>
+      <id>dummy</id>
+      <name>Dummy Repo</name>
+      <url>scp://dummy.org/dummy</url>
+      <layout>default</layout>
+    </repository>
+  </distributionManagement>
+</project>

@@ -1,0 +1,5 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<expression:EMFExpression xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:expression="http:///expression.ecore" id="null=>count_load=>value" expression="Integer.toString(row13.value)">
+  <variables name="row13.key" value="null" talendType="id_String" nullable="true"/>
+  <variables name="row13.value" value="0" talendType="id_Integer"/>
+</expression:EMFExpression>

@@ -1,0 +1,610 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:expression="http:///expression.ecore">
+  <expression:EMFExpression id="null=>datacenter_history=>history_datetime" expression="TalendDate.getDate(&quot;CCYY-MM-DD hh:mm:ss&quot;)">
+    <variables name="row9.id" value="null" talendType="id_Object"/>
+    <variables name="row9.status" value="0" talendType="id_Integer"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_history=>history_datetime" expression="TalendDate.getCurrentDate()">
+    <variables name="row10.status" value="0" talendType="id_Integer"/>
+    <variables name="row10.software_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.cpu_cores" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.physical_mem_mb" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.vm_count" value="0" talendType="id_Integer"/>
+    <variables name="row10.vms_cores_count" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.usage_mem_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.usage_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10._int" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.vds_id" value="null" talendType="id_Object"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>Var=>var1" expression="TalendDate.getCurrentDate()">
+    <variables name="row30.storage_id" value="null" talendType="id_Object"/>
+    <variables name="row30.datacenter_id" value="null" talendType="id_Object"/>
+    <variables name="row30.attach_date" value="null" talendType="id_Date"/>
+    <variables name="row30.detach_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row32.storage_id" value="null" talendType="id_Object"/>
+    <variables name="row32.storage_pool_id" value="null" talendType="id_Object"/>
+    <variables name="Var.var1" value="null" talendType="id_Date"/>
+    <variables name="row31.storage_id" value="null" talendType="id_Object"/>
+    <variables name="row31.storage_pool_id" value="null" talendType="id_Object"/>
+    <variables name="row33.storage_id" value="null" talendType="id_Object"/>
+    <variables name="row33.datacenter_id" value="null" talendType="id_Object"/>
+    <variables name="row33.attach_date" value="null" talendType="id_Date"/>
+    <variables name="row33.detach_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row9.id" value="null" talendType="id_Object"/>
+    <variables name="row9.status" value="0" talendType="id_Integer"/>
+    <variables name="row14.id" value="null" talendType="id_Object"/>
+    <variables name="row15.datacenter_id" value="null" talendType="id_Object"/>
+    <variables name="row13.id" value="null" talendType="id_Object"/>
+    <variables name="row13.vm_guid" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row13.rx_rate" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row13.tx_rate" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row13.speed" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row13.type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.vm_guid" value="null" talendType="id_Object"/>
+    <variables name="row12.status" value="0" talendType="id_Integer"/>
+    <variables name="row12.mem_size_mb" value="0" talendType="id_Integer"/>
+    <variables name="row12.num_of_monitors" value="0" talendType="id_Integer"/>
+    <variables name="row12.num_of_sockets" value="0" talendType="id_Integer"/>
+    <variables name="row12.num_of_cpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.vm_last_up_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row12.vm_last_boot_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row12.guest_os" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.vm_ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.guest_cur_user_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.usage_mem_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.usage_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.vds_group_id" value="null" talendType="id_Object"/>
+    <variables name="row12.dedicated_vm_for_vds" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.run_on_vds" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row11.id" value="null" talendType="id_Object"/>
+    <variables name="row11.rx_rate" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row11.tx_rate" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row11.speed" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row11.vds_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row10.status" value="0" talendType="id_Integer"/>
+    <variables name="row10.software_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.cpu_cores" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.physical_mem_mb" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.vm_count" value="0" talendType="id_Integer"/>
+    <variables name="row10.vms_cores_count" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.usage_mem_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.usage_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10._int" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.vds_id" value="null" talendType="id_Object"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>new_tag_relations=>attach_date" expression="row9.move_date == null ? row9.attach_date : row9.move_date  ">
+    <variables name="row9.entity_id" value="null" talendType="id_Object"/>
+    <variables name="row9.entity_join_id" value="null" talendType="id_String"/>
+    <variables name="row9.parent_id" value="null" talendType="id_Object"/>
+    <variables name="row9.parent_join_id" value="null" talendType="id_String"/>
+    <variables name="row9.entity_type" value="0" talendType="id_Integer"/>
+    <variables name="row9.attach_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row9.move_date" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>currentSync=>customize parameter" expression="context.runTime"/>
+  <expression:EMFExpression id="null=>runDate=>customize parameter" expression="context.runTime"/>
+  <expression:EMFExpression id="null=>datacenter_configuration=>datacenter_name" expression="StringHandling.TRIM(row3.datacenter_name)">
+    <variables name="row3.datacenter_id" value="null" talendType="id_Object"/>
+    <variables name="row3.datacenter_name" value="null" talendType="id_String"/>
+    <variables name="row3.datacenter_description" value="null" talendType="id_String"/>
+    <variables name="row3.storage_type" value="0" talendType="id_Integer"/>
+    <variables name="row3.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row3.update_date" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="es name=&quot;row7.number_of_cores&quot; value=&quot;null&quot; tale" expression="StringHandling.TRIM(row1.description) == &quot;''&quot; ? null : StringHandling.TRIM(row1.description) ">
+    <variables name="row1.cluster_id" value="null" talendType="id_Object"/>
+    <variables name="row1.cluster_name" value="null" talendType="id_String"/>
+    <variables name="row1.description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.cpu_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.datacenter_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row1.compatibility_version" value="null" talendType="id_String"/>
+    <variables name="row1.datacenter_join_id" value="null" talendType="id_String"/>
+    <variables name="row1.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row1.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row35.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row35.datacenter_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>cluster_configuration=>cpu_name" expression="StringHandling.TRIM(row1.cpu_name) == &quot;''&quot; ? null : StringHandling.TRIM(row1.cpu_name)  ">
+    <variables name="row1.cluster_id" value="null" talendType="id_Object"/>
+    <variables name="row1.cluster_name" value="null" talendType="id_String"/>
+    <variables name="row1.description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.cpu_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.datacenter_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row1.compatibility_version" value="null" talendType="id_String"/>
+    <variables name="row1.datacenter_join_id" value="null" talendType="id_String"/>
+    <variables name="row1.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row1.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row35.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row35.datacenter_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>cluster_configuration=>compatibility_version" expression="StringHandling.TRIM(row1.compatibility_version) == &quot;''&quot; ? null : StringHandling.TRIM(row1.compatibility_version)   ">
+    <variables name="row1.cluster_id" value="null" talendType="id_Object"/>
+    <variables name="row1.cluster_name" value="null" talendType="id_String"/>
+    <variables name="row1.description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.cpu_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.datacenter_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row1.compatibility_version" value="null" talendType="id_String"/>
+    <variables name="row1.datacenter_join_id" value="null" talendType="id_String"/>
+    <variables name="row1.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row1.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row35.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row35.datacenter_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>storage_configuration=>storage_domain_name" expression="StringHandling.TRIM(row5.storage_domain_name) == &quot;''&quot; ? null : StringHandling.TRIM(row5.storage_domain_name)">
+    <variables name="row5.storage_domain_id" value="null" talendType="id_Object"/>
+    <variables name="row5.storage_domain_name" value="null" talendType="id_String"/>
+    <variables name="row5.storage_domain_type" value="0" talendType="id_Integer"/>
+    <variables name="row5.storage_type" value="0" talendType="id_Integer"/>
+    <variables name="row5.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row5.update_date" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_configuration=>fqn_or_ip" expression="StringHandling.TRIM(row7.fqn_or_ip) == &quot;''&quot; ? null : StringHandling.TRIM(row7.fqn_or_ip)">
+    <variables name="row7.host_id" value="null" talendType="id_Object"/>
+    <variables name="row7.host_name" value="null" talendType="id_String"/>
+    <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.fqn_or_ip" value="null" talendType="id_String"/>
+    <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
+    <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
+    <variables name="row7.host_type" value="0" talendType="id_Integer"/>
+    <variables name="row7.vdsm_port" value="0" talendType="id_Integer"/>
+    <variables name="row7.host_os" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kernel_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kvm_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.software_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.cpu_model" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.cpu_flags" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.vds_id___old" value="0" talendType="id_Integer"/>
+    <variables name="row7.physical_memory" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.number_of_cores" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row7.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row36.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row36.cluster_join_id" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_configuration=>host_os" expression="StringHandling.TRIM(row7.host_os) == &quot;''&quot; ? null : StringHandling.TRIM(row7.host_os) ">
+    <variables name="row7.host_id" value="null" talendType="id_Object"/>
+    <variables name="id&quot; value=&quot;nul" value="Type" talendType="id_String"/>
+    <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.fqn_or_ip" value="null" talendType="id_String"/>
+    <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
+    <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
+    <variables name="row7.host_type" value="0" talendType="id_Integer"/>
+    <variables name="row7.vdsm_port" value="0" talendType="id_Integer"/>
+    <variables name="row7.host_os" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kernel_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kvm_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.software_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.cpu_model" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.cpu_flags" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.vds_id___old" value="0" talendType="id_Integer"/>
+    <variables name="row7.physical_memory" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="ring&quot; nullable=&quot;true" value="&lt;var" talendType="ow7.cpu_mo" nullable="true"/>
+    <variables name="row7.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row7.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row36.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row36.cluster_join_id" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_configuration=>pm_ip_address" expression="StringHandling.TRIM(row7.ip) == &quot;''&quot; ? null : StringHandling.TRIM(row7.ip) ">
+    <variables name="row7.host_id" value="null" talendType="id_Object"/>
+    <variables name="row7.host_name" value="null" talendType="id_String"/>
+    <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.fqn_or_ip" value="null" talendType="id_String"/>
+    <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
+    <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
+    <variables name="row7.host_type" value="0" talendType="id_Integer"/>
+    <variables name="row7.vdsm_port" value="0" talendType="id_Integer"/>
+    <variables name="row7.host_os" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kernel_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kvm_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.software_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.cpu_model" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.cpu_flags" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.vds_id___old" value="0" talendType="id_Integer"/>
+    <variables name="row7.physical_memory" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.number_of_cores" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row7.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row36.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row36.cluster_join_id" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_configuration=>kernel_version" expression="StringHandling.TRIM(row7.kernel_version) == &quot;''&quot; ? null : StringHandling.TRIM(row7.kernel_version) ">
+    <variables name="row7.host_id" value="null" talendType="id_Object"/>
+    <variables name="row7.host_name" value="null" talendType="id_String"/>
+    <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.fqn_or_ip" value="null" talendType="id_String"/>
+    <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
+    <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
+    <variables name="row7.host_type" value="0" talendType="id_Integer"/>
+    <variables name="row7.vdsm_port" value="0" talendType="id_Integer"/>
+    <variables name="row7.host_os" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kernel_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kvm_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.software_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.cpu_model" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.cpu_flags" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.vds_id___old" value="0" talendType="id_Integer"/>
+    <variables name="row7.physical_memory" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.number_of_cores" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row7.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row36.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row36.cluster_join_id" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_configuration=>kvm_version" expression="StringHandling.TRIM(row7.kvm_version) == &quot;''&quot; ? null : StringHandling.TRIM(row7.kvm_version) ">
+    <variables name="row7.host_id" value="null" talendType="id_Object"/>
+    <variables name="row7.host_name" value="null" talendType="id_String"/>
+    <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.fqn_or_ip" value="null" talendType="id_String"/>
+    <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
+    <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
+    <variables name="row7.host_type" value="0" talendType="id_Integer"/>
+    <variables name="row7.vdsm_port" value="0" talendType="id_Integer"/>
+    <variables name="row7.host_os" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kernel_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kvm_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.software_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="d&quot; value=&quot;null" value="ype=" talendType="id_String" nullable="true"/>
+    <variables name="row7.cpu_flags" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.vds_id___old" value="0" talendType="id_Integer"/>
+    <variables name="row7.physical_memory" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.number_of_cores" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row7.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row36.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="e=&quot;null&quot; talendType=&quot;" value="&quot; nu" talendType=">&#xD;&#xA;    &lt;v"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_configuration=>vdsm_version" expression="StringHandling.TRIM(row7.software_version) == &quot;''&quot; ? null : StringHandling.TRIM(row7.software_version) ">
+    <variables name="row7.host_id" value="null" talendType="id_Object"/>
+    <variables name="row7.host_name" value="null" talendType="id_String"/>
+    <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.fqn_or_ip" value="null" talendType="id_String"/>
+    <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
+    <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
+    <variables name="row7.host_type" value="0" talendType="id_Integer"/>
+    <variables name="row7.vdsm_port" value="0" talendType="id_Integer"/>
+    <variables name="row7.host_os" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kernel_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kvm_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.software_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="dType=&quot;id_Obje" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.cpu_flags" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.vds_id___old" value="0" talendType="id_Integer"/>
+    <variables name="row7.physical_memory" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.number_of_cores" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row7.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row36.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row36.cluster_join_id" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>hinterface_configuration=>mac_address" expression="StringHandling.TRIM(row2.mac_address) == &quot;''&quot; ? null : StringHandling.TRIM(row2.mac_address)">
+    <variables name="row2.host_interface_id" value="null" talendType="id_Object"/>
+    <variables name="row2.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row2.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.mac_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.interface_name" value="null" talendType="id_String"/>
+    <variables name="row2.network_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.bond" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row2.bond_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.bond_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.vlan_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.ip_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.gateway" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row2.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row37.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row37.host_join_id" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>hinterface_configuration=>network_name" expression="StringHandling.TRIM(row2.network_name)  == &quot;''&quot; ? null : StringHandling.TRIM(row2.network_name)">
+    <variables name="row2.host_interface_id" value="null" talendType="id_Object"/>
+    <variables name="row2.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row2.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.mac_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.interface_name" value="null" talendType="id_String"/>
+    <variables name="row2.network_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.bond" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row2.bond_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.bond_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.vlan_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.ip_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.gateway" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row2.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row37.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row37.host_join_id" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>hinterface_configuration=>ip_address" expression="StringHandling.TRIM(row2.ip_address)  == &quot;''&quot; ? null : StringHandling.TRIM(row2.ip_address)">
+    <variables name="row2.host_interface_id" value="null" talendType="id_Object"/>
+    <variables name="row2.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row2.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.mac_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.interface_name" value="null" talendType="id_String"/>
+    <variables name="row2.network_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.bond" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row2.bond_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.bond_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.vlan_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.ip_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.gateway" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row2.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row37.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row37.host_join_id" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>hinterface_configuration=>gateway" expression="StringHandling.TRIM(row2.gateway)  == &quot;''&quot; ? null : StringHandling.TRIM(row2.gateway)">
+    <variables name="row2.host_interface_id" value="null" talendType="id_Object"/>
+    <variables name="row2.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row2.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.mac_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.interface_name" value="null" talendType="id_String"/>
+    <variables name="ame=&quot;row7.update_" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.bond" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row2.bond_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.bond_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.vlan_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.ip_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.gateway" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row2.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row37.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row37.host_join_id" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>hinterface_configuration=>bond_name" expression="StringHandling.TRIM(row2.bond_name)  == &quot;''&quot; ? null : StringHandling.TRIM(row2.bond_name)">
+    <variables name="row2.host_interface_id" value="null" talendType="id_Object"/>
+    <variables name="s name=&quot;row4" value="k&quot; v" talendType="lendType=" nullable="true"/>
+    <variables name="row2.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.mac_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.interface_name" value="null" talendType="id_String"/>
+    <variables name="row2.network_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.bond" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row2.bond_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.bond_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.vlan_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.ip_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.gateway" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row2.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row37.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row37.host_join_id" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>datacenter_configuration=>datacenter_description" expression="StringHandling.TRIM(row3.datacenter_description) == &quot;''&quot; ? &quot;&quot; : StringHandling.TRIM(row3.datacenter_description) ">
+    <variables name="row3.datacenter_id" value="null" talendType="id_Object"/>
+    <variables name="row3.datacenter_name" value="null" talendType="id_String"/>
+    <variables name="row3.datacenter_description" value="null" talendType="id_String"/>
+    <variables name="row3.storage_type" value="0" talendType="id_Integer"/>
+    <variables name="row3.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row3.update_date" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_disk_configuration=>vm_internal_drive_mapping" expression="Integer.parseInt(row6.internal_drive_mapping)">
+    <variables name="row6.disk_id" value="null" talendType="id_Object"/>
+    <variables name="row6.internal_drive_mapping" value="1" talendType="id_String" nullable="true"/>
+    <variables name="row6.description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row6.disk_type" value="0" talendType="id_Integer"/>
+    <variables name="row6.format" value="0" talendType="id_Integer"/>
+    <variables name="row6.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row6.update_date" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>delete_disks=>vm_internal_drive_mapping" expression="Integer.parseInt(StringHandling.RIGHT(row27.vm_internal_drive_mapping,StringHandling.LEN(row27.vm_internal_drive_mapping)-5))">
+    <variables name="row27.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row27.vm_disk_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row27.vm_disk_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row27.vm_internal_drive_mapping" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row27.vm_disk_description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row27.vm_disk_format" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row27.vm_disk_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row27.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row27.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row26.vm_disk_join_id" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_configuration=>swap_size_mb" expression="row7.swap_size_mb.intValue()">
+    <variables name="row7.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.host_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.cluster_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row7.cluster_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.host_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.fqn_or_ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.memory_size_mb" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.swap_size_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row7.cpu_model" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.number_of_cores" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.host_os" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.pm_ip_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kernel_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.kvm_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.vdsm_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.vdsm_port" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="variables name=&quot;" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row36.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row36.cluster_join_id" value="null" talendType="id_String"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_configuration=>vm_type" expression="row4.vm_type.shortValue()">
+    <variables name="row4.vm_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row4.vm_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.vm_description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.vm_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.cluster_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row4.cluster_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.template_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row4.template_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.cpu_per_socket" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.number_of_sockets" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.memory_size_mb" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.operating_system" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.ad_domain" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.default_host" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row4.default_host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.high_availability" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.initialized" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row4.stateless" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="&quot; talendType=&quot;" value="&quot; nu" talendType="id_Boolean" nullable="true"/>
+    <variables name="row4.auto_startup" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row4.auto_suspend" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row4.usb_policy" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.time_zone" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row4.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row38.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row38.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row39.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row39.cluster_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_disk_configuration=>vm_disk_type" expression="row6.vm_disk_type.shortValue()">
+    <variables name="row6.vm_disk_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row6.storage_domain_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row6.vm_internal_drive_mapping" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row6.vm_disk_description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row6.vm_disk_size_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row6.vm_disk_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.vm_disk_format" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.vm_disk_interface" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row6.update_date" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_interface_configuration=>vm_interface_type" expression="row8.vm_interface_type.shortValue()">
+    <variables name="row8.vm_interface_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row8.vm_interface_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row8.vm_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row8.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row8.vm_interface_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row8.vm_interface_speed_bps" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row8.mac_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row8.network_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row8.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row8.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row40.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row40.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_disk_configuration=>vm_disk_size_mb" expression="row6.vm_disk_size_mb.intValue()">
+    <variables name="row6.vm_disk_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row6.storage_domain_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row6.vm_internal_drive_mapping" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row6.vm_disk_description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row6.vm_disk_size_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row6.vm_disk_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.vm_disk_format" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.vm_disk_interface" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row6.update_date" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>tag_details_update=>tag_level" expression="(short) StringHandling.COUNT(row42.tag_path,&quot;/&quot;) ">
+    <variables name="row42.tag_id" value="null" talendType="id_Object"/>
+    <variables name="row42.tag_name" value="null" talendType="id_String"/>
+    <variables name="row42.description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row42.tag_path" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row42._create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row42._update_date" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>new_tag_relations=>entity_type" expression="(short) row9.entity_type">
+    <variables name="row9.entity_id" value="null" talendType="id_Object"/>
+    <variables name="row9.parent_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row9.entity_type" value="0" talendType="id_Integer"/>
+    <variables name="row9.attach_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row9.move_date" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_configuration=>usb_policy" expression="row4.usb_policy != null ? row4.usb_policy.shortValue() : null">
+    <variables name="row4.vm_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row4.vm_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.vm_description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.vm_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.cluster_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row4.cluster_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.template_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row4.template_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.cpu_per_socket" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.number_of_sockets" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.memory_size_mb" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.operating_system" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.ad_domain" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.default_host" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row4.default_host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.high_availability" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.initialized" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row4.stateless" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row4.fail_back" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row4.auto_startup" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row4.auto_suspend" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row4.usb_policy" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row4.time_zone" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row4.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row4.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row38.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row38.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row39.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row39.cluster_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>hinterface_configuration=>bond_type" expression="row2.bond_type != null ? row2.bond_type.shortValue() : null ">
+    <variables name="row2.host_interface_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row2.host_interface_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row2.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.host_interface_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.host_interface_speed_bps" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.mac_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.network_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.ip_address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.gateway" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.bond" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row2.bond_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.bond_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.vlan_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row2.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row37.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row37.host_join_id" value="null" talendType="id_String"/>
+    <variables name=">&#xD;&#xA;    &lt;v" value="name" talendType="type&quot; valu" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>datacenter_configuration=>storage_type" expression="row3.storage_type != null ? row3.storage_type.shortValue() : null ">
+    <variables name="row3.datacenter_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row3.datacenter_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.datacenter_description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.storage_type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row3.update_date" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>reset_lastSync=>var_datetime" expression="TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2000-01-01 01:01:00&quot;)">
+    <variables name="row44.var_name" value="null" talendType="id_String"/>
+    <variables name="row44.var_value" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row44.var_datetime" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>updateFirstSync=>var_value" expression="&quot;false&quot;">
+    <variables name="row44.var_name" value="null" talendType="id_String"/>
+    <variables name="row44.var_value" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row44.var_datetime" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>update_lastSync=>var_datetime" expression="row44.var_value == &quot;true&quot; ? TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss&quot;,&quot;2001-01-01 01:01:00&quot;) : context.runTime">
+    <variables name="row44.var_name" value="null" talendType="id_String"/>
+    <variables name="row44.var_value" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row44.var_datetime" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>updateFirstSync=>var_datetime" expression="row44.var_value.equals(&quot;true&quot;) ? context.runTime : row44.var_datetime ">
+    <variables name="row44.var_name" value="null" talendType="id_String"/>
+    <variables name="row44.var_value" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row44.var_datetime" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>tag_details_update=>update_date" expression="row42.update_date == null ? row42.update_date : context.runTime   ">
+    <variables name="row42.tag_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row42.tag_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row42.tag_description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row42.tag_path" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row42.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row42.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row42.description" value="null" talendType="id_String" nullable="true"/>
+    <variables name="&#xD;&#xA;    &lt;variabl" value="&quot;nul" talendType="es&quot; value"/>
+    <variables name="row42._create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row42._update_date" value="null" talendType="id_Date" nullable="true"/>
+  </expression:EMFExpression>
+</xmi:XMI>

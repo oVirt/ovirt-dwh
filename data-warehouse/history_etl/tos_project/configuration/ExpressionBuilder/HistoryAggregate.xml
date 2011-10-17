@@ -1,0 +1,161 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:expression="http:///expression.ecore">
+  <expression:EMFExpression id="null=>vm_history_aggregate=>history_datetime" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;,row2.history_datetime)">
+    <variables name="row2.aggregation_level" value="0" talendType="id_Short"/>
+    <variables name="row2.history_datetime" value="null" talendType="id_Date"/>
+    <variables name="row2.vm_guid" value="null" talendType="id_Object"/>
+    <variables name="row2.status" value="0" talendType="id_Integer"/>
+    <variables name="row2.mem_size_mb" value="0" talendType="id_Integer"/>
+    <variables name="row2.num_of_monitors" value="0" talendType="id_Integer"/>
+    <variables name="row2.num_of_sockets" value="0" talendType="id_Integer"/>
+    <variables name="row2.num_of_cpus" value="0" talendType="id_Integer"/>
+    <variables name="row2.vm_last_up_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row2.vm_last_boot_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row2.guest_os" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.vm_ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.guest_cur_user_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row2.usage_mem_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.usage_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.vds_group_id" value="null" talendType="id_Object"/>
+    <variables name="row2.dedicated_vm_for_vds" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row2.run_on_vds" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row2.time_in_status" value="0" talendType="id_Integer"/>
+    <variables name="row2.max_usage_mem" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row2.max_usage_cpu" value="null" talendType="id_Integer" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>Datacenter_history_aggregate=>history_datetime" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;,row4.history_datetime)">
+    <variables name="row4.aggregation_level" value="0" talendType="id_Short"/>
+    <variables name="row4.history_datetime" value="null" talendType="id_Date"/>
+    <variables name="row4.datacenter_id" value="null" talendType="id_Object"/>
+    <variables name="row4.status" value="0" talendType="id_Integer"/>
+    <variables name="row4.time_in_status" value="0" talendType="id_Integer"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_history_aggregate=>history_datetime" expression="TalendDate.formatDate(&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;,row6.history_datetime)">
+    <variables name="row6.aggregation_level" value="0" talendType="id_Short"/>
+    <variables name="row6.history_datetime" value="null" talendType="id_Date"/>
+    <variables name="row6.status" value="0" talendType="id_Integer"/>
+    <variables name="row6.software_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row6.cpu_cores" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.physical_mem_mb" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.vm_count" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.usage_mem_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.usage_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.vms_cores_count" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.vds_id" value="null" talendType="id_Object"/>
+    <variables name="row6.time_in_status" value="0" talendType="id_Integer"/>
+    <variables name="row6.max_usage_mem" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.max_usage_cpu" value="null" talendType="id_Integer" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_history_aggregate=>aggregation_level" expression="row6.aggregation_level+1">
+    <variables name="row6.aggregation_level" value="0" talendType="id_Short"/>
+    <variables name="row6.history_datetime" value="null" talendType="id_Date"/>
+    <variables name="row6.status" value="0" talendType="id_Integer"/>
+    <variables name="row6.software_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row6.cpu_cores" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.physical_mem_mb" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.vm_count" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.usage_mem_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.usage_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.vms_cores_count" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.vds_id" value="null" talendType="id_Object"/>
+    <variables name="row6.time_in_status" value="0" talendType="id_Integer"/>
+    <variables name="row6.max_usage_mem" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row6.max_usage_cpu" value="null" talendType="id_Integer" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>Var=>DateHour" expression="routines.RoutineHistoryETL.startOfHour(row1.history_datetime) ">
+    <variables name="row1.aggregation_level" value="0" talendType="id_Short"/>
+    <variables name="row1.history_datetime" value="null" talendType="id_Date"/>
+    <variables name="row1.datacenter_id" value="null" talendType="id_Object"/>
+    <variables name="row1.status" value="0" talendType="id_Integer"/>
+    <variables name="row1.time_in_status" value="0" talendType="id_Integer"/>
+    <variables name="Var.DateHour" value="null" talendType="id_Date"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>Var=>HourDate" expression="row7.history_datetime">
+    <variables name="row7.aggregation_level" value="0" talendType="id_Short"/>
+    <variables name="row7.history_datetime" value="null" talendType="id_Date"/>
+    <variables name="row7.vm_guid" value="null" talendType="id_Object"/>
+    <variables name="row7.status" value="0" talendType="id_Integer"/>
+    <variables name="row7.mem_size_mb" value="0" talendType="id_Integer"/>
+    <variables name="row7.num_of_monitors" value="0" talendType="id_Integer"/>
+    <variables name="row7.num_of_sockets" value="0" talendType="id_Integer"/>
+    <variables name="row7.num_of_cpus" value="0" talendType="id_Integer"/>
+    <variables name="row7.vm_last_up_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row7.vm_last_boot_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row7.guest_os" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.vm_ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.guest_cur_user_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.usage_mem_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.usage_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.vds_group_id" value="null" talendType="id_Object"/>
+    <variables name="row7.dedicated_vm_for_vds" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row7.run_on_vds" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row7.time_in_status" value="0" talendType="id_Integer"/>
+    <variables name="row7.max_usage_mem" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row7.max_usage_cpu" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="Var.HourDate" value="null" talendType="id_Date"/>
+    <variables name="row8.aggregation_level" value="0" talendType="id_Short"/>
+    <variables name="row8.history_datetime" value="null" talendType="id_Date"/>
+    <variables name="row8.interface_id" value="null" talendType="id_Object"/>
+    <variables name="row8.vm_guid" value="null" talendType="id_Object"/>
+    <variables name="row8.rx_rate" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row8.tx_rate" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row8.speed" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row8.type" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row8.rx_rate_max" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row8.tx_rate_max" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row5.aggregation_level" value="0" talendType="id_Short"/>
+    <variables name="row5.history_datetime" value="null" talendType="id_Date"/>
+    <variables name="row5.interface_id" value="null" talendType="id_Object"/>
+    <variables name="row5.rx_rate" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row5.tx_rate" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row5.speed" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row5.vds_id" value="null" talendType="id_Object"/>
+    <variables name="row5.rx_rate_max" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row5.tx_rate_max" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row3.aggregation_level" value="0" talendType="id_Short"/>
+    <variables name="row3.history_datetime" value="null" talendType="id_Date"/>
+    <variables name="row3.status" value="0" talendType="id_Integer"/>
+    <variables name="row3.software_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row3.cpu_cores" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.physical_mem_mb" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.vm_count" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.usage_mem_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.usage_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.vms_cores_count" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.vds_id" value="null" talendType="id_Object"/>
+    <variables name="row3.time_in_status" value="0" talendType="id_Integer"/>
+    <variables name="row3.max_usage_mem" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.max_usage_cpu" value="null" talendType="id_Integer" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>Var=>var1" expression="TalendDate.parseDate(&quot;yyyy-MM-dd HH:mm:ss.SSSSSS:mm:ss&quot;,row1.history_datetime)">
+    <variables name="row1.aggregation_level" value="0" talendType="id_Short"/>
+    <variables name="row1.history_datetime" value="null" talendType="id_Date"/>
+    <variables name="row1.vm_guid" value="null" talendType="id_Object"/>
+    <variables name="row1.status" value="0" talendType="id_Integer"/>
+    <variables name="row1.mem_size_mb" value="0" talendType="id_Integer"/>
+    <variables name="row1.num_of_monitors" value="0" talendType="id_Integer"/>
+    <variables name="row1.num_of_sockets" value="0" talendType="id_Integer"/>
+    <variables name="row1.num_of_cpus" value="0" talendType="id_Integer"/>
+    <variables name="row1.vm_last_up_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row1.vm_last_boot_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row1.guest_os" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.vm_ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.guest_cur_user_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.usage_mem_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row1.usage_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row1.vds_group_id" value="null" talendType="id_Object"/>
+    <variables name="row1.dedicated_vm_for_vds" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row1.run_on_vds" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row1.time_in_status" value="0" talendType="id_Integer"/>
+    <variables name="row1.max_usage_mem" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row1.max_usage_cpu" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="Var.var1" value="null" talendType="id_Date"/>
+    <variables name="row1.datacenter_id" value="null" talendType="id_Object"/>
+  </expression:EMFExpression>
+</xmi:XMI>

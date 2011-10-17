@@ -1,0 +1,12 @@
+"Artifact","URL","Name","License","Owner","Affiliate","Provided By","License URL","Crypto","Comments","Target"
+"org.talend.core.advancedPersistentLookupLib:1.0","http://www.talend.com/","Advanced Persistent Lookup Library","GPL v2","Yaniv Dary","3rd Party","Us","http://www.gnu.org/licenses/old-licenses/gpl-2.0.html","?","only component required for bulid of ETL","compile\deploy"
+"Commons-collections:3.2.1","http://commons.apache.org/collections/","Apache Commons-Collections","Apache v2","Yaniv Dary","3rd Party","Jboss RPM","http://commons.apache.org/collections/license.html","?",,"compile\deploy"
+"jboss-serialization.jar:1.0.5.FINAL","http://www.jboss.org/serialization","Jboss Serialization","LGPL 2.1","Yaniv Dary","Red Hat","Jboss RPM","http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html","?",,"compile\deploy"
+"log4j:log4j:jar:1.2.14","http://logging.apache.org/","Apache Logging Services","Apache v2","Yaniv Dary","3rd Party","Jboss RPM","http://logging.apache.org/log4j/1.2/license.html","?",,"compile\deploy"
+"Trove:1.0.2","http://trove.starlight-systems.com/","Trove for Java","LGPL","Yaniv Dary","3rd Party","Jboss RPM","http://trove.starlight-systems.com/license","?",,"compile\deploy"
+"postgresql:postgresql:8.4.701.jdbc4","http://jdbc.postgresql.org","PostgreSQL JDBC Driver","BSD License","Yaniv Dary","3rd Party","Jboss RPM","http://jdbc.postgresql.org/license.html","?",,"deploy"
+"xml-apis:xml-apis:1.0.b2","http://xml.apache.org/commons/#external","XML Commons External Components XML APIs","(The Apache Software License Version 2.0)","Yaniv Dary","3rd Party","Jboss RPM","http://xml.apache.org/commons/licenses.html","-?",,"compile\deploy"
+"dom4j:dom4j:jar:1.6.1","http://dom4j.sourceforge.net","dom4j","BSD style license","Yaniv Dary","3rd Party","Jboss RPM","http://dom4j.sourceforge.net/license.html",-0,,"compile\deploy"
+,,,,,,,,,,
+"HistoryETLProcedure:1.0",,"oVirt History ETL Procedure","LGPL","Yaniv Dary","Self Jar","Us",,"?",,"compile\deploy"
+"TalendRoutines:4.2.2.r63143","http://www.talend.com/","Talend Java Required Routines","LGPL\GPL v2","Yaniv Dary","Self Jar","Us",,,,"compile\deploy"

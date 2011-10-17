@@ -1,0 +1,405 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:expression="http:///expression.ecore">
+  <expression:EMFExpression id="&quot;id_Integer&quot; nullable=&quot;true&quot;/>&#xD;&#xA;" expression="Integer.parseInt(row10.swap_used_mb)">
+    <variables name="row10.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row10.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.host_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_load" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.swap_used_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms_vcpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>datacenter_history=>minutes_in_status" expression="context.runInterleave.doubleValue()/60">
+    <variables name="row9.datacenter_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row9.datacenter_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row9.datacenter_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row41.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row41.datacenter_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>datacenter_history=>datacenter_status" expression="(row9.datacenter_status == 3 || row9.datacenter_status == 4) ? (short) 3 : &#xD;&#xA;row9.datacenter_status == 1 ? (short) 1 :&#xD;&#xA;(row9.datacenter_status == 2 || row9.datacenter_status == 5) ? (short) 2 : (short) -1  ">
+    <variables name="row9.datacenter_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row9.datacenter_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row9.datacenter_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row41.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row41.datacenter_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row9.id" value="null" talendType="id_Object"/>
+    <variables name="row9.status" value="0" talendType="id_Integer"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="le=&quot;true&quot;/>&#xD;&#xA;  &lt;/expression:EMF" expression="(row10.host_status == 3 || row10.host_status == 8 || row10.host_status ==  12 || row10.host_status == 9) ? (short) 1 :&#xA;(row10.host_status == 2 || row10.host_status == 6 || row10.host_status == 11) ? (short) 2 :&#xA;(row10.host_status == 5 || row10.host_status == 10 || row10.host_status == 4 || row10.host_status == 7 || row10.host_status == 1 || row10.host_status == 13) ? (short) 3 :&#xA;(short) -1   ">
+    <variables name="row10.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row10.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.host_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_load" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.swap_used_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms_vcpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="lue() : null&quot;>&#xD;&#xA;  " value="les " talendType="_id&quot; valu" nullable="true"/>
+    <variables name="row10.status" value="0" talendType="id_Integer"/>
+    <variables name="row10.software_version" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.cpu_cores" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.physical_mem_mb" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.vm_count" value="0" talendType="id_Integer"/>
+    <variables name="row10.vms_cores_count" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.usage_mem_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.usage_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.vds_id" value="null" talendType="id_Object"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_history=>vm_status" expression="(row12.vm_status == 0 || row12.vm_status == 15 || row12.vm_status == 9) ? (short) 0 :&#xA;(row12.vm_status == 1 || row12.vm_status == 2 || row12.vm_status == 3 || row12.vm_status == 5 || row12.vm_status == 10 || row12.vm_status == 11 || row12.vm_status == 12 || row12.vm_status == 16) ? (short) 1 :&#xA;(row12.vm_status == 4 || row12.vm_status == 13) ? (short) 2 :&#xA;(row12.vm_status == 14 || row12.vm_status == 7 || row12.vm_status == 8) ? (short) 3 : &#xA;(short) -1  ">
+    <variables name="row12.vm_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.vm_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row12.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row12.vm_last_up_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row12.vm_last_boot_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row12.vm_ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.current_user_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.currently_running_on_host" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.running_on_host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row47.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row47.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row48.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row48.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.vm_guid" value="null" talendType="id_Object"/>
+    <variables name="row12.status" value="0" talendType="id_Integer"/>
+    <variables name="row12.mem_size_mb" value="0" talendType="id_Integer"/>
+    <variables name="row12.num_of_monitors" value="0" talendType="id_Integer"/>
+    <variables name="row12.num_of_sockets" value="0" talendType="id_Integer"/>
+    <variables name="row12.num_of_cpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.guest_os" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.guest_cur_user_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.usage_mem_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.usage_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="able=&quot;true&quot;/>&#xD;&#xA;   " value="es n" talendType="id_Object"/>
+    <variables name="row12.dedicated_vm_for_vds" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.run_on_vds" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.run_on_vds_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_disk_history=>vm_disk_actual_size_mb" expression="row1.vm_disk_actual_size_mb.intValue()">
+    <variables name="row1.vm_disk_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row1.vm_disk_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.vm_disk_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row1.vm_disk_actual_size_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row1.read_rate_bytes_per_second" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row1.write_rate_bytes_per_second" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.vm_disk_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_disk_history=>vm_disk_status" expression="row1.vm_disk_status.shortValue()">
+    <variables name="row1.vm_disk_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row1.vm_disk_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row1.vm_disk_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row1.vm_disk_actual_size_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row1.read_rate_bytes_per_second" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row1.write_rate_bytes_per_second" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row3.vm_disk_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vinterface_history=>receive_rate_percent" expression="row13.receive_rate_percent != null ? row13.receive_rate_percent.shortValue() : null">
+    <variables name=" &lt;variables name=&quot;row" value=" val" talendType="id_Object" nullable="true"/>
+    <variables name="row13.vm_interface_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row13.receive_rate_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row13.transmit_rate_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row50.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row50.vm_interface_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vinterface_history=>transmit_rate_percent" expression="row13.transmit_rate_percent != null ? row13.transmit_rate_percent.shortValue() : null">
+    <variables name="row13.vm_interface_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row13.vm_interface_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row13.receive_rate_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row13.transmit_rate_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row50.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row50.vm_interface_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_history=>cpu_usage_percent" expression="row12.cpu_usage_percent != null ? row12.cpu_usage_percent.shortValue() : null">
+    <variables name="&quot; talendTyp" value="ble&quot;" talendType="id_Object" nullable="true"/>
+    <variables name="row12.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.vm_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row12.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row12.vm_last_up_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row12.vm_last_boot_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row12.vm_ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.current_user_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.currently_running_on_host" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.running_on_host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row47.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row47.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row48.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="ue=&quot;null&quot; talendTy" value="ype=" talendType="rue&quot;/>&#xD;&#xA; " nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_history=>memory_usage_percent" expression="row12.memory_usage_percent != null ? row12.memory_usage_percent.shortValue() : null ">
+    <variables name="row12.vm_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.vm_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row12.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row12.vm_last_up_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row12.vm_last_boot_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="&quot;null&quot; tale" value="d_Ob" talendType="id_String" nullable="true"/>
+    <variables name="row12.current_user_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.currently_running_on_host" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.running_on_host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row47.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row47.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row48.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row48.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_history=>user_cpu_usage_percent" expression="row12.user_cpu_usage_percent != null ? row12.user_cpu_usage_percent.shortValue() : null">
+    <variables name="row12.vm_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.vm_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row12.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row12.vm_last_up_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row12.vm_last_boot_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row12.vm_ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.current_user_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.currently_running_on_host" value="null" talendType="id_Object" nullable="true"/>
+    <variables name=" nullable=&quot;true&quot;/>&#xD;&#xA;    &lt;vari" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row47.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row47.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row48.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row48.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>vm_history=>system_cpu_usage_percent" expression="row12.system_cpu_usage_percent != null ? row12.system_cpu_usage_percent.shortValue() : null">
+    <variables name="row12.vm_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.vm_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row12.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row12.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row12.vm_last_up_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row12.vm_last_boot_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="_load&quot; valu" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.current_user_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.currently_running_on_host" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.running_on_host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row47.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row47.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row48.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row48.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_history=>memory_usage_percent" expression="row10.memory_usage_percent != null ? row10.memory_usage_percent.shortValue() : null">
+    <variables name="row10.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row10.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.host_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="teger&quot; nullabl" value=">&#xD;&#xA; " talendType="name=&quot;row" nullable="true"/>
+    <variables name="row10.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.swap_used_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms_vcpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_history=>cpu_usage_percent" expression="row10.cpu_usage_percent != null ? row10.cpu_usage_percent.shortValue() : null">
+    <variables name="row10.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row10.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.host_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="=&quot;null&quot; talendType=&quot;i" value="&quot; nu" talendType=">&#xD;&#xA;    &lt;va" nullable="true"/>
+    <variables name="row10.cpu_load" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.swap_used_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms_vcpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_history=>ksm_cpu_percent" expression="row10.ksm_cpu_percent != null ? row10.ksm_cpu_percent.shortValue() : null">
+    <variables name="  &lt;expression" value="Expr" talendType="id_Object" nullable="true"/>
+    <variables name="row10.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.host_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_load" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.swap_used_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms_vcpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_history=>active_vms" expression="row10.vm_active != null ? row10.vm_active.shortValue() : null">
+    <variables name="row10.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row10.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.host_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_load" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.swap_used_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms_vcpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_history=>total_vms" expression="row10.total_vms != null ? row10.total_vms.shortValue() : null">
+    <variables name="row10.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row10.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.host_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_load" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.swap_used_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms_vcpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_history=>cpu_load" expression="row10.cpu_load != null ? row10.cpu_load.intValue() : null">
+    <variables name="row10.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row10.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.host_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_load" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.swap_used_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms_vcpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_history=>system_cpu_usage_percent" expression="row10.system_cpu_usage_percent != null ? row10.system_cpu_usage_percent.shortValue() : null">
+    <variables name="row10.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row10.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.host_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_load" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.swap_used_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms_vcpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="ame=&quot;row41.history_id&quot; " value="null" talendType="id_Integer" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_history=>swap_used_mb" expression="row10.swap_used_mb != null ? row10.swap_used_mb.intValue() : null">
+    <variables name="row10.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row10.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.host_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_load" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.swap_used_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms_vcpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>hinterface_history=>receive_rate_percent" expression="row11.receive_rate_percent != null ? row11.receive_rate_percent.shortValue() : null">
+    <variables name="row11.host_interface_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row11.host_interface_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row11.receive_rate_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row11.transmit_rate_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row45.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row45.host_interface_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row11.id" value="null" talendType="id_Object"/>
+    <variables name="row11.rx_rate" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row11.tx_rate" value="null" talendType="id_BigDecimal" nullable="true"/>
+    <variables name="row11.speed" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row11.vds_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row11.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row46.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row46.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>hinterface_history=>transmit_rate_percent" expression="row11.transmit_rate_percent != null ? row11.transmit_rate_percent.shortValue() : null">
+    <variables name="row11.host_interface_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row11.host_interface_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row11.receive_rate_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row11.transmit_rate_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row45.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row45.host_interface_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>host_history=>user_cpu_usage_percent" expression="row10.user_cpu_usage_percent != null ? row10.user_cpu_usage_percent.shortValue() : null ">
+    <variables name="row10.host_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row10.host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row10.host_status" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.memory_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_usage_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.ksm_cpu_percent" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.cpu_load" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.system_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.user_cpu_usage_percent" value="null" talendType="id_Double" nullable="true"/>
+    <variables name="row10.swap_used_mb" value="null" talendType="id_Long" nullable="true"/>
+    <variables name="row10.vm_active" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row10.total_vms_vcpus" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row42.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>disk_usage_history=>vm_status" expression="(row12.vm_status == 0 || row12.vm_status == 15 || row12.vm_status == 9) ? (short) 0 :&#xD;&#xA;(row12.vm_status == 1 || row12.vm_status == 2 || row12.vm_status == 3 || row12.vm_status == 5 || row12.vm_status == 10 || row12.vm_status == 11 || row12.vm_status == 12 || row12.vm_status == 16) ? (short) 1 :&#xD;&#xA;(row12.vm_status == 4 || row12.vm_status == 13) ? (short) 2 :&#xD;&#xA;(row12.vm_status == 14 || row12.vm_status == 7 || row12.vm_status == 8) ? (short) 3 : &#xD;&#xA;(short) -1   ">
+    <variables name="row12.vm_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.vm_status" value="null" talendType="id_Short" nullable="true"/>
+    <variables name="row12.cpu_usage_percent" value="null" talendType="id_Short" nullable="true"/>
+    <variables name="row12.memory_usage_percent" value="null" talendType="id_Short" nullable="true"/>
+    <variables name="row12.system_cpu_usage_percent" value="null" talendType="id_Short" nullable="true"/>
+    <variables name="row12.user_cpu_usage_percent" value="null" talendType="id_Short" nullable="true"/>
+    <variables name="row12.disks_usage" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.vm_last_up_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row12.vm_last_boot_time" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row12.vm_ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.current_user_name" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row12.currently_running_on_host" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row12.running_on_host_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row47.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row47.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row48.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row48.host_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+</xmi:XMI>

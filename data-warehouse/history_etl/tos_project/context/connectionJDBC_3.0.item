@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<talendfile:ContextType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" confirmationNeeded="false" name="Default">
+  <contextParameter comment="Enter the ovirt JDBC connection URL." name="ovirtJdbcConnection" prompt="Enter the ovirt JDBC connection URL." promptNeeded="true" type="id_String" value="jdbc:postgresql://localhost:5432/ovirt?stringtype=unspecified"/>
+  <contextParameter comment="Enter the JDBC driver class for the ovirt database." name="ovirtDriverClass" prompt="Enter the JDBC driver class for the ovirt database." promptNeeded="true" type="id_String" value="org.postgresql.Driver"/>
+  <contextParameter comment="Enter the ovirt admin database user." name="ovirtUser" prompt="Enter the ovirt admin database user." promptNeeded="true" type="id_String" value="postgres"/>
+  <contextParameter comment="Enter the ovirt admin user's password." name="ovirtPassword" prompt="Enter the ovirt admin user's password." promptNeeded="true" type="id_Password" value=""/>
+  <contextParameter comment="Enter the ovirt history JDBC connection URL." name="ovirtHistoryJdbcConnection" prompt="Enter the ovirt history JDBC connection URL." promptNeeded="true" type="id_String" value="jdbc:postgresql://localhost:5432/ovirt_history?stringtype=unspecified"/>
+  <contextParameter comment="Enter the ovirt history admin database user." name="ovirtHistoryUser" prompt="Enter the ovirt history admin database user." promptNeeded="true" type="id_String" value="postgres"/>
+  <contextParameter comment="Enter the JDBC driver class for the ovirt history database." name="ovirtHistoryDriverClass" prompt="Enter the JDBC driver class for the ovirt history database." promptNeeded="true" type="id_String" value="org.postgresql.Driver"/>
+  <contextParameter comment="Enter the ovirt history admin user's password." name="ovirtHistoryPassword" prompt="Enter the ovirt history admin user's password." promptNeeded="true" type="id_Password" value=""/>
+  <contextParameter comment="Start run time." name="runTime" prompt="runTime?" promptNeeded="true" type="id_Date" value="yyyy-MM-dd HH:mm:ss.SSSSSS;2011-07-03 12:46:47.000000"/>
+  <contextParameter comment="Enter the run interleave in seconds" name="runInterleave" prompt="Enter the run interleave in seconds?" promptNeeded="true" type="id_Integer" value="60"/>
+  <contextParameter comment="Enter the amout of hour to keep Hourly level records." name="hoursToKeepHourly" prompt="How many hours to keep of hourly data?" promptNeeded="true" type="id_Integer" value="1440"/>
+  <contextParameter comment="Enter the amout of hour to keep Daily level records." name="hoursToKeepDaily" prompt="How many hours to keep of daily data?" promptNeeded="true" type="id_Integer" value="43800"/>
+  <contextParameter comment="Enter the amout of hour to keep Samples level records." name="hoursToKeepSamples" prompt="How many hours to keep of samples data?" promptNeeded="true" type="id_Integer" value="24"/>
+  <contextParameter comment="End run time." name="endTime" prompt="endTime?" promptNeeded="false" type="id_Date" value=""/>
+  <contextParameter comment="" name="etlVersion" prompt="etlVersion?" promptNeeded="false" type="id_String" value="3.0.0"/>
+  <contextParameter comment="Enter the time to run the delete job. Can only run on round hour 24 hours clock." name="runDeleteTime" prompt="runDeleteTime?" promptNeeded="true" type="id_Integer" value="3"/>
+</talendfile:ContextType>
