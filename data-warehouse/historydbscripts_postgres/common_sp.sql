@@ -19,6 +19,22 @@ begin
 END; $procedure$
 LANGUAGE plpgsql;
 
+-- delete a column from a table and all its dependencied
+Create or replace FUNCTION fn_db_drop_column(v_table varchar(128), v_column varchar(128))
+returns void
+AS $procedure$
+declare
+v_sql text;
+begin
+        if (exists (select 1 from information_schema.columns where table_name ilike v_table and column_name ilike v_column)) then
+            begin
+                v_sql := 'ALTER TABLE ' || v_table || ' DROP COLUMN ' || v_column;
+                EXECUTE v_sql;
+            end;
+        end if;
+end;$procedure$
+LANGUAGE plpgsql;
+
 -- Changes a column data type (if value conversion is supported)
 Create or replace FUNCTION fn_db_change_column_type(v_table varchar(128), v_column varchar(128),
                                                     v_type varchar(128), v_new_type varchar(128))

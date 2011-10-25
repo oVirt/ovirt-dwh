@@ -497,67 +497,76 @@ WHERE history_id = (SELECT max(a.history_id)
 CREATE OR REPLACE VIEW v3_0_vm_samples_history_view
  AS
 SELECT
-	  history_id as history_id,
-      history_datetime as history_datetime,
-      vm_id as vm_id,
-      vm_status as vm_status,
-	  minutes_in_status as minutes_in_status,  
-      cpu_usage_percent as cpu_usage_percent,
-      memory_usage_percent as memory_usage_percent,
-	  user_cpu_usage_percent as user_cpu_usage_percent,
-	  system_cpu_usage_percent as system_cpu_usage_percent,
-	  vm_ip as vm_ip,
-	  currently_running_on_host as currently_running_on_host,
-	  current_user_name as current_user_name,
-      vm_configuration_version as vm_configuration_version,
-	  current_host_configuration_version as current_host_configuration_version
-FROM vm_samples_history;
+	a.history_id as history_id,
+	a.history_datetime as history_datetime,
+	a.vm_id as vm_id,
+	a.vm_status as vm_status,
+	a.minutes_in_status as minutes_in_status,  
+	a.cpu_usage_percent as cpu_usage_percent,
+	a.memory_usage_percent as memory_usage_percent,
+	a.user_cpu_usage_percent as user_cpu_usage_percent,
+	a.system_cpu_usage_percent as system_cpu_usage_percent,
+	a.vm_ip as vm_ip,
+	a.currently_running_on_host as currently_running_on_host,
+	a.current_user_name as current_user_name,
+	b.disks_usage as disks_usage,
+	a.vm_configuration_version as vm_configuration_version,
+	a.current_host_configuration_version as current_host_configuration_version
+FROM 	vm_samples_history as a
+		LEFT OUTER JOIN vm_disks_usage_samples_history as b
+			ON (a.history_datetime = b.history_datetime AND a.vm_id = b.vm_id);
 
 CREATE OR REPLACE VIEW v3_0_vm_hourly_history_view
  AS
 SELECT
-	  history_id as history_id,
-      history_datetime as history_datetime,
-      vm_id as vm_id,
-      vm_status as vm_status,
-	  minutes_in_status as minutes_in_status,  
-      cpu_usage_percent as cpu_usage_percent,
-      max_cpu_usage as max_cpu_usage,
-      memory_usage_percent as memory_usage_percent,
-	  max_memory_usage as max_memory_usage,
-	  user_cpu_usage_percent as user_cpu_usage_percent,
-	  max_user_cpu_usage_percent as max_user_cpu_usage_percent,
-	  system_cpu_usage_percent as system_cpu_usage_percent,
-	  max_system_cpu_usage_percent as max_system_cpu_usage_percent,
-	  vm_ip as vm_ip,
-	  currently_running_on_host as currently_running_on_host,
-	  current_user_name as current_user_name,
-      vm_configuration_version as vm_configuration_version,
-	  current_host_configuration_version as current_host_configuration_version
-FROM vm_hourly_history;
+	a.history_id as history_id,
+	a.history_datetime as history_datetime,
+      	a.vm_id as vm_id,
+	a.vm_status as vm_status,
+	a.minutes_in_status as minutes_in_status,  
+	a.cpu_usage_percent as cpu_usage_percent,
+      	a.max_cpu_usage as max_cpu_usage,
+ 	a.memory_usage_percent as memory_usage_percent,
+	a.max_memory_usage as max_memory_usage,
+	a.user_cpu_usage_percent as user_cpu_usage_percent,
+	a.max_user_cpu_usage_percent as max_user_cpu_usage_percent,
+	a.system_cpu_usage_percent as system_cpu_usage_percent,
+	a.max_system_cpu_usage_percent as max_system_cpu_usage_percent,
+	a.vm_ip as vm_ip,
+	a.currently_running_on_host as currently_running_on_host,
+	a.current_user_name as current_user_name,
+	b.disks_usage as disks_usage,
+	a.vm_configuration_version as vm_configuration_version,
+	a.current_host_configuration_version as current_host_configuration_version
+FROM 	vm_hourly_history as a
+		LEFT OUTER JOIN vm_disks_usage_hourly_history as b
+			ON (a.history_datetime = b.history_datetime AND a.vm_id = b.vm_id);
 
 CREATE OR REPLACE VIEW v3_0_vm_daily_history_view
  AS
 SELECT
-	  history_id as history_id,
-      history_datetime as history_datetime,
-      vm_id as vm_id,
-      vm_status as vm_status,
-	  minutes_in_status as minutes_in_status,  
-      cpu_usage_percent as cpu_usage_percent,
-      max_cpu_usage as max_cpu_usage,
-      memory_usage_percent as memory_usage_percent,
-	  user_cpu_usage_percent as user_cpu_usage_percent,
-	  max_user_cpu_usage_percent as max_user_cpu_usage_percent,
-	  system_cpu_usage_percent as system_cpu_usage_percent,
-	  max_system_cpu_usage_percent as max_system_cpu_usage_percent,
-	  max_memory_usage as max_memory_usage,
-	  vm_ip as vm_ip,
-	  currently_running_on_host as currently_running_on_host,
-	  current_user_name as current_user_name,
-      vm_configuration_version as vm_configuration_version,
-	  current_host_configuration_version as current_host_configuration_version
-FROM vm_daily_history;
+	a.history_id as history_id,
+	a.history_datetime as history_datetime,
+	a.vm_id as vm_id,
+	a.vm_status as vm_status,
+	a.minutes_in_status as minutes_in_status,  
+	a.cpu_usage_percent as cpu_usage_percent,
+	a.max_cpu_usage as max_cpu_usage,
+	a.memory_usage_percent as memory_usage_percent,
+	a.max_memory_usage as max_memory_usage,
+	a.user_cpu_usage_percent as user_cpu_usage_percent,
+	a.max_user_cpu_usage_percent as max_user_cpu_usage_percent,
+	a.system_cpu_usage_percent as system_cpu_usage_percent,
+	a.max_system_cpu_usage_percent as max_system_cpu_usage_percent,
+	a.vm_ip as vm_ip,
+	a.currently_running_on_host as currently_running_on_host,
+	a.current_user_name as current_user_name,
+	b.disks_usage as disks_usage,
+	a.vm_configuration_version as vm_configuration_version,
+	a.current_host_configuration_version as current_host_configuration_version
+FROM 	vm_daily_history as a
+		LEFT OUTER JOIN vm_disks_usage_daily_history as b
+			ON (a.history_datetime = b.history_datetime AND a.vm_id = b.vm_id);
 
 CREATE OR REPLACE VIEW v3_0_vm_interface_configuration_view
  AS
@@ -645,7 +654,6 @@ SELECT
 	'disk ' || cast(vm_internal_drive_mapping as varchar) as vm_internal_drive_mapping,
 	vm_disk_description as vm_disk_description,
 	vm_disk_size_mb as vm_disk_size_mb,
-	guest_disk_size_mb as guest_disk_size_mb,
 	vm_disk_type as vm_disk_type, 
 	vm_disk_format as vm_disk_format,
 	vm_disk_interface as vm_disk_interface,
@@ -663,7 +671,6 @@ SELECT
 	'disk ' || cast(vm_internal_drive_mapping as varchar) as vm_internal_drive_mapping,
 	vm_disk_description as vm_disk_description,
 	vm_disk_size_mb as vm_disk_size_mb,
-	guest_disk_size_mb as guest_disk_size_mb,
 	vm_disk_type as vm_disk_type,
 	vm_disk_format as vm_disk_format,
 	vm_disk_interface as vm_disk_interface,
@@ -684,7 +691,6 @@ SELECT
 	vm_disk_status as vm_disk_status,
 	minutes_in_status as minutes_in_status,  
 	vm_disk_actual_size_mb as vm_disk_actual_size_mb,
-	guest_used_disk_size_mb as guest_used_disk_size_mb,
 	read_rate_bytes_per_second as read_rate_bytes_per_second,
 	read_latency_seconds as read_latency_seconds,
 	write_rate_bytes_per_second as write_rate_bytes_per_second,
@@ -702,7 +708,6 @@ SELECT
 	vm_disk_status as vm_disk_status,
 	minutes_in_status as minutes_in_status,  
 	vm_disk_actual_size_mb as vm_disk_actual_size_mb,
-	guest_used_disk_size_mb as guest_used_disk_size_mb,
 	read_rate_bytes_per_second as read_rate_bytes_per_second,
 	max_read_rate_bytes_per_second as max_read_rate_bytes_per_second,
 	read_latency_seconds as read_latency_seconds,
@@ -725,7 +730,6 @@ SELECT
 	vm_disk_status as vm_disk_status,
 	minutes_in_status as minutes_in_status,  
 	vm_disk_actual_size_mb as vm_disk_actual_size_mb,
-	guest_used_disk_size_mb as guest_used_disk_size_mb,
 	read_rate_bytes_per_second as read_rate_bytes_per_second,
 	max_read_rate_bytes_per_second as max_read_rate_bytes_per_second,
 	read_latency_seconds as read_latency_seconds,
