@@ -9,10 +9,10 @@ SELECT
      initcap(to_char(d.dates, 'FMday')) as day_name,
      cast(b.h as time) as the_hour
 FROM
-   (select ('2011-04-01'::date + s.a) as dates
+   (select (to_date('29/03/2011', 'DD/MM/YYYY') + s.a) as dates
     from generate_series(0, 4000) as s(a)) d,
    (SELECT (TIMESTAMP 'epoch' + h * INTERVAL '1 second') AS h
-    FROM  (SELECT generate_series(EXTRACT(EPOCH FROM DATE_TRUNC('hour', cast('2011-03-29 12:00:00' as timestamp)))::bigint,
-      (EXTRACT(EPOCH FROM cast('2020-01-02' as timestamp))::bigint), 60*60) as h) as hour_lists) as b
+    FROM  (SELECT generate_series(EXTRACT(EPOCH FROM DATE_TRUNC('hour', to_timestamp('29/03/2011', 'DD/MM/YYYY')))::bigint,
+      (EXTRACT(EPOCH FROM to_timestamp('29/03/2020', 'DD/MM/YYYY'))::bigint), 60*60) as h) as hour_lists) as b
 WHERE d.dates = cast(b.h as date)
 ORDER BY b.h;
