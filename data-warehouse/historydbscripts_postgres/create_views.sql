@@ -37,9 +37,7 @@ SELECT
 	  create_date as create_date,
 	  update_date as update_date
 FROM datacenter_configuration
-WHERE history_id = (SELECT max(a.history_id)
-					 FROM datacenter_configuration as a
-					 WHERE a.datacenter_id = datacenter_configuration.datacenter_id)
+WHERE history_id in (SELECT max(a.history_id) FROM datacenter_configuration as a GROUP BY a.datacenter_id)
 	  and delete_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_0_datacenter_samples_history_view
@@ -93,10 +91,7 @@ SELECT
 	datacenter_id as datacenter_id,
 	attach_date as attach_date
 FROM         datacenter_storage_domain_map
-WHERE history_id = (SELECT max(a.history_id)
-					 FROM datacenter_storage_domain_map as a
-					 WHERE a.storage_domain_id = datacenter_storage_domain_map.storage_domain_id
-						   AND a.datacenter_id = datacenter_storage_domain_map.datacenter_id)
+WHERE history_id in (SELECT max(a.history_id) FROM datacenter_storage_domain_map as a GROUP BY a.storage_domain_id, a.datacenter_id)
 	  and detach_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_0_storage_domain_configuration_view
@@ -123,9 +118,7 @@ SELECT
 	  create_date as create_date,
 	  update_date as update_date
 FROM storage_domain_configuration
-WHERE history_id = (SELECT max(a.history_id)
-					 FROM storage_domain_configuration as a
-					 WHERE a.storage_domain_id = storage_domain_configuration.storage_domain_id)
+WHERE history_id in (SELECT max(a.history_id) FROM storage_domain_configuration as a GROUP BY a.storage_domain_id)
 	  and delete_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_0_storage_domain_samples_history_view
@@ -191,9 +184,7 @@ SELECT
 	  create_date as create_date,
 	  update_date as update_date
 FROM cluster_configuration
-WHERE history_id = (SELECT max(a.history_id)
-					 FROM cluster_configuration as a
-					 WHERE a.cluster_id = cluster_configuration.cluster_id)
+WHERE history_id in (SELECT max(a.history_id) FROM cluster_configuration as a GROUP BY a.cluster_id)
 	  and delete_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_0_host_configuration_view
@@ -256,9 +247,7 @@ SELECT
 	  create_date as create_date,
 	  update_date as update_date 
 FROM host_configuration
-WHERE history_id = (SELECT max(a.history_id)
-					 FROM host_configuration as a
-					 WHERE a.host_id = host_configuration.host_id)
+WHERE history_id in (SELECT max(a.history_id) FROM host_configuration as a GROUP BY a.host_id)
 	  and delete_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_0_host_samples_history_view
@@ -386,9 +375,7 @@ SELECT
 	  create_date as create_date,
 	  update_date as update_date
 FROM host_interface_configuration
-WHERE history_id = (SELECT max(a.history_id)
-					 FROM host_interface_configuration as a
-					 WHERE a.host_interface_id = host_interface_configuration.host_interface_id)
+WHERE history_id in (SELECT max(a.history_id) FROM host_interface_configuration as a GROUP BY a.host_interface_id)
 	  and delete_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_0_host_interface_samples_history_view
@@ -489,9 +476,7 @@ SELECT
 	  create_date as create_date,
 	  update_date as update_date
 FROM vm_configuration
-WHERE history_id = (SELECT max(a.history_id)
-					 FROM vm_configuration as a
-					 WHERE a.vm_id = vm_configuration.vm_id)
+WHERE history_id in (SELECT max(a.history_id) FROM vm_configuration as a GROUP BY a.vm_id)
 	  and delete_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_0_vm_samples_history_view
@@ -600,9 +585,7 @@ SELECT
 	  create_date as create_date,
 	  update_date as update_date
 FROM vm_interface_configuration
-WHERE history_id = (SELECT max(a.history_id)
-					 FROM vm_interface_configuration as a
-					 WHERE a.vm_interface_id = vm_interface_configuration.vm_interface_id)
+WHERE history_id in (SELECT max(a.history_id) FROM vm_interface_configuration as a GROUP BY a.vm_interface_id)
 	  and delete_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_0_vm_interface_samples_history_view
@@ -677,9 +660,7 @@ SELECT
 	create_date as create_date,
 	update_date as update_date
 FROM vm_disk_configuration
-WHERE history_id = (SELECT max(a.history_id)
-					 FROM vm_disk_configuration as a
-					 WHERE a.vm_disk_id = vm_disk_configuration.vm_disk_id)
+WHERE history_id in (SELECT max(a.history_id) FROM vm_disk_configuration as a GROUP BY a.vm_disk_id)
 	  and delete_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_0_vm_disk_samples_history_view
@@ -761,10 +742,7 @@ SELECT
 	vm_id as vm_id,
 	attach_date as attach_date
 FROM         disks_vm_map
-WHERE history_id = (SELECT max(a.history_id)
-					 FROM disks_vm_map as a
-					 WHERE a.vm_disk_id = disks_vm_map.vm_disk_id
-							AND a.vm_id = disks_vm_map.vm_id)
+WHERE history_id in (SELECT max(a.history_id) FROM disks_vm_map as a GROUP BY a.vm_disk_id, a.vm_id)
 	  and detach_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_0_tag_relations_history_view
@@ -788,10 +766,7 @@ SELECT	history_id as history_id,
 		detach_date as detach_date
 FROM         tag_relations_history
 WHERE	   entity_type in(3,2,5,18)
-	   and history_id = (SELECT max(a.history_id)
-		  	     FROM tag_relations_history as a
-			     WHERE a.entity_id = tag_relations_history.entity_id
-				   and a.parent_id = tag_relations_history.parent_id)
+	   and history_id in (SELECT max(a.history_id) FROM tag_relations_history as a GROUP BY a.entity_id, a.parent_id)
 	   and detach_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_0_tag_details_view
@@ -819,9 +794,7 @@ SELECT  history_id as history_id,
 		update_date as update_date, 
 		delete_date as delete_date
 FROM         tag_details
-WHERE history_id = (SELECT max(a.history_id)
-					 FROM tag_details as a
-					 WHERE a.tag_id = tag_details.tag_id)
+WHERE history_id in (SELECT max(a.history_id) FROM tag_details as a GROUP BY a.tag_id)
 	  and delete_date IS NULL;
 
 
@@ -844,9 +817,7 @@ SELECT
 	  delete_date as delete_date, 
 	  0 as sort
 FROM cluster_configuration
-WHERE history_id = (SELECT max(a.history_id)
-		    FROM cluster_configuration as a
-		    WHERE a.cluster_id = cluster_configuration.cluster_id)
+WHERE history_id in (SELECT max(a.history_id) FROM cluster_configuration as a GROUP BY a.cluster_id)
 UNION ALL
 SELECT -1, '11111111-1111-1111-1111-111111111111','All', '11111111-1111-1111-1111-111111111111', null, 1;
 

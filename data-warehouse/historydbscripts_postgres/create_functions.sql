@@ -71,10 +71,10 @@ BEGIN
 	FROM tag_details a,
 	     (select e.tag_path || '/' || CAST(e.tag_id AS VARCHAR(36)) as old_child_path, e.tag_id as parent /*36 is the uuid length*/
 	      from tag_details e
-	      where e.history_id = (SELECT max(f.history_id)
+	      where e.history_id in (SELECT max(f.history_id)
 				    FROM tag_details f
 			   	    WHERE (f.update_date < thisUpdate or f.update_date IS NULL) 
-						   AND f.tag_id = e.tag_id)
+					GROUP BY f.tag_id)
 		   AND e.delete_date IS NULL) b,
 	     (select tag_path || '/' || CAST(tag_id AS VARCHAR(36)) as new_child_path, tag_id as parent /*36 is the uuid length*/
 	      from tag_details
