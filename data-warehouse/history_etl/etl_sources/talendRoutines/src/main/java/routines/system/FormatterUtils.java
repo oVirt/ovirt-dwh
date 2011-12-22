@@ -12,13 +12,68 @@
 // ============================================================================
 package routines.system;
 
+import java.math.BigDecimal;
+import java.nio.charset.Charset;
+import java.text.DecimalFormat;
+import java.util.Date;
+
 import routines.TalendDate;
 
 public class FormatterUtils {
 
+	public static String format(Object obj,String pattern) {
+		return (obj == null) ? null : obj.toString();
+	}
+	
+	public static String format(Date date,String pattern) {
+		if (date != null) {
+			return TalendDate.formatDate(pattern == null ? Constant.dateDefaultPattern : pattern, date);
+	    } else {
+            return null;
+        }
+	}
+	
+	public static String format(BigDecimal decimal,String pattern) {
+		if(decimal == null) return null;
+		return decimal.toPlainString();
+	}
+
+	public static String format(byte data[],String pattern) {
+		return Charset.defaultCharset().decode(java.nio.ByteBuffer.wrap(data)).toString();
+	}
+	
+	public static String format(char data[],String pattern) {
+		return String.valueOf(data);
+	}
+
+	public static String format(boolean b,String pattern) {
+		return String.valueOf(b);
+	}
+
+	public static String format(char c,String pattern) {
+		return String.valueOf(c);
+	}
+
+	public static String format(int i,String pattern) {
+		return String.valueOf(i);
+	}
+
+	public static String format(long l,String pattern) {
+		return String.valueOf(l);
+	}
+
+	public static String format(float f,String pattern) {
+		return String.valueOf(f);
+	}
+
+	public static String format(double d,String pattern) {
+		return String.valueOf(d);
+	}
+	
+	
     public static String format_Date(java.util.Date date, String pattern) {
         if (date != null) {
-            return TalendDate.formatDate(pattern, date);
+            return TalendDate.formatDate(pattern == null ? Constant.dateDefaultPattern : pattern, date);
         } else {
             return null;
         }
@@ -26,7 +81,7 @@ public class FormatterUtils {
 
     public static String format_Date_Locale(java.util.Date date, String pattern, String locale) {
         if (date != null) {
-            return TalendDate.formatDateLocale(pattern, date, locale);
+            return TalendDate.formatDateLocale(pattern == null ? Constant.dateDefaultPattern : pattern, date, locale);
         } else {
             return null;
         }
@@ -123,6 +178,8 @@ public class FormatterUtils {
         return returnString.toString();
     }
 
+    
+    private static final DecimalFormat df = new DecimalFormat("#.###########################################################");
     /**
      * DOC Administrator Comment method "formatUnwithE". In java when double more than six decimal that use toString
      * will rentru contains E scientific natation.
@@ -132,15 +189,16 @@ public class FormatterUtils {
      */
     public static String formatUnwithE(Object arg) {
         String doubleString = String.valueOf(arg);
-        if (doubleString.indexOf("E") != -1) {
-            String position;
-            if (doubleString.charAt(doubleString.indexOf("E") + 1) != '-') {
-                position = doubleString.substring(doubleString.indexOf("E") + 1);
+        int index = doubleString.indexOf("E");
+        if (index != -1) {
+            if (doubleString.charAt(index + 1) != '-') {
+            	return df.format(arg);
             } else {
-                position = doubleString.substring(doubleString.indexOf("E") + 2);
+            	String position = doubleString.substring(index + 2);
+                return String.format("%1." + position + "f", arg);
             }
-            return String.format("%1." + position + "f", arg);
         }
         return doubleString;
     }
+    
 }

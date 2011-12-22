@@ -8,7 +8,7 @@
 // You should have received a copy of the agreement
 // along with this program; if not, write to Talend SA
 // 9 rue Pages 92150 Suresnes, France
-//   
+//
 // ============================================================================
 package routines.system;
 
@@ -85,13 +85,13 @@ public class LogCatcherUtils {
 
     public java.util.List<LogCatcherMessage> getMessages() {
         java.util.List<LogCatcherMessage> messagesToSend = new java.util.ArrayList<LogCatcherMessage>();
-        synchronized(messages) {
-        	  for (LogCatcherMessage lcm : messages) {
-                  messagesToSend.add(lcm);
-              }
+        synchronized (messages) {
+            for (LogCatcherMessage lcm : messages) {
+                messagesToSend.add(lcm);
+            }
+            messages.clear();
         }
-      
-        messages.clear();
+
         return messagesToSend;
     }
 }

@@ -12,10 +12,62 @@
 // ============================================================================
 package routines.system;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringUtils {
+	
+	public static final String[] EMPTY_STRING_ARRAY = new String[0];
+	
+	public static final String EMPTY = "";
+	
+	/**
+	 * replace the method : String.split(String regex)
+	 * @param str
+	 * @param separatorChars
+	 * @return
+	 */
+	public static String[] splitNotRegex(String str,String separatorChars) {
+		if (str == null) {
+            return null;
+        }
+
+        int len = str.length();
+
+        if (len == 0) {
+            return EMPTY_STRING_ARRAY;
+        }
+
+        int separatorLength = separatorChars.length();
+
+        ArrayList<String> substrings = new ArrayList<String>();
+        int beg = 0;
+        int end = 0;
+        while (end < len) {
+            end = str.indexOf(separatorChars, beg);
+
+            if (end > -1) {
+                if (end > beg) {
+                    substrings.add(str.substring(beg, end));
+                    beg = end + separatorLength;
+                } else {
+                    substrings.add(EMPTY);
+                    beg = end + separatorLength;
+                }
+            } else {
+                substrings.add(str.substring(beg));
+                end = len;
+            }
+        }
+
+        int resultSize = substrings.size();
+        while (resultSize > 0 && substrings.get(resultSize-1).equals("")) {
+        	resultSize--;
+        }
+        String[] result = new String[resultSize];
+        return substrings.subList(0, resultSize).toArray(result);
+	}
 
     public static String[] split(String str, String separator) {
         return str.split(separator);
@@ -217,4 +269,44 @@ public class StringUtils {
 
         return sb.toString();
     }
+    
+    
+    /**
+     * return null value not "null" String when obj is null 
+     * that is the only difference with String.valueOf(Object obj)
+     * @param obj
+     * @return
+     */
+	public static String valueOf(Object obj) {
+		return (obj == null) ? null : obj.toString();
+	}
+
+	public static String valueOf(char data[]) {
+		return String.valueOf(data);
+	}
+
+	public static String valueOf(boolean b) {
+		return String.valueOf(b);
+	}
+
+	public static String valueOf(char c) {
+		return String.valueOf(c);
+	}
+
+	public static String valueOf(int i) {
+		return String.valueOf(i);
+	}
+
+	public static String valueOf(long l) {
+		return String.valueOf(l);
+	}
+
+	public static String valueOf(float f) {
+		return String.valueOf(f);
+	}
+
+	public static String valueOf(double d) {
+		return String.valueOf(d);
+	}
+	
 }

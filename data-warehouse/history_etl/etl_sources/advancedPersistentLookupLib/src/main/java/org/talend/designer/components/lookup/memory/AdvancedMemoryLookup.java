@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2010 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2011 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -368,6 +368,29 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
     @Override
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+    
+    /**
+     * Getter for id_Document lookup(for tXMLMap)
+     * Purpose : Get all value data storing in the lookup Object 
+     * Use case : When no basic lookup(not Document lookup) exists,but Document lookup exists
+     * for ALL,First Matching(When no basic lookup,not override the hashCode(),equals() method,so no List<V> value,only V value)
+     */ 
+    public void lookup() {
+    	List<V> localList = new ArrayList<V>();
+    	if(matchingMode == MATCHING_MODE.UNIQUE_MATCH) {
+    		for(V value : uniqueHash.values()) {
+    			localList.add(value);
+    		}
+    	} else {
+    		for(Object value : mapOfCol.values()) {
+    			localList.add((V)value);
+    		}
+    	}
+    	listResult = localList;
+		sizeResultList = localList.size();
+		objectResult = null;
+		currentIndex = 0;
     }
 
 }

@@ -8,7 +8,7 @@
 // You should have received a copy of the agreement
 // along with this program; if not, write to Talend SA
 // 9 rue Pages 92150 Suresnes, France
-//   
+//
 // ============================================================================
 package routines.system;
 
@@ -223,12 +223,12 @@ public class AssertCatcherUtils {
 
     public java.util.List<AssertCatcherMessage> getMessages() {
         java.util.List<AssertCatcherMessage> messagesToSend = new java.util.ArrayList<AssertCatcherMessage>();
-	    synchronized(messages) {
-	        for (AssertCatcherMessage acm : messages) {
-	            messagesToSend.add(acm);
-	        }
-	    }
-        messages.clear();
+        synchronized (messages) {
+            for (AssertCatcherMessage acm : messages) {
+                messagesToSend.add(acm);
+            }
+            messages.clear();
+        }
         return messagesToSend;
     }
 }
