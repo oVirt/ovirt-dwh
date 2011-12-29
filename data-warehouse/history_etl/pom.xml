@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-	  <groupId>ovirt_dwh</groupId>
+          <groupId>${dwh.groupId}</groupId>
 	  <artifactId>data-warehouse</artifactId>
-	  <version>3.0.0</version>
+          <version>${dwh.version}</version>
   </parent>
 
   <artifactId>history_etl</artifactId>

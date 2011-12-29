@@ -1,61 +1,44 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"> 
-	<modelVersion>4.0.0</modelVersion> 
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
   <parent>
-	  <groupId>ovirt_dwh</groupId>
+          <groupId>${dwh.groupId}</groupId>
 	  <artifactId>etl_sources</artifactId>
-	  <version>3.0.0</version>
+          <version>${dwh.version}</version>
   </parent>
 
-  <groupId>ovirt_dwh</groupId> 
-  <artifactId>historyETLProcedure</artifactId> 
-  <packaging>jar</packaging> 
-  <version>3.0.0</version> 
-  <name>History's ETL Procedure</name> 
+  <groupId>ovirt_dwh</groupId>
+  <artifactId>historyETLProcedure</artifactId>
+  <packaging>jar</packaging>
+  <version>${dwh.version}</version>
+  <name>History's ETL Procedure</name>
   <description>The jar that contains the oVirt History DB ETL module</description>
-  
+
   <dependencies>
   	<dependency>
-		<groupId>ovirt_dwh</groupId> 
-		<artifactId>talendRoutines</artifactId> 
-		<version>4.2.2.r63143</version> 
+		<groupId>ovirt_dwh</groupId>
+		<artifactId>talendRoutines</artifactId>
+		<version>${version.talend-routines}</version>
   	</dependency>
   	<dependency>
-		<groupId>ovirt_dwh</groupId> 
-		<artifactId>advancedPersistentLookupLib</artifactId> 
-		<version>1.0</version> 
+		<groupId>ovirt_dwh</groupId>
+		<artifactId>advancedPersistentLookupLib</artifactId>
+		<version>${version.advancedPersistentLookupLib}</version>
   	</dependency>
   </dependencies>
 
   <build>
-		<pluginManagement>
-		    <plugins>
-		        <plugin>
-		            <artifactId>maven-compiler-plugin</artifactId> <configuration>
-		                <source>1.6</source> <target>1.6</target> <includes>
-		                    <include>**/*.txt</include> <include>**/*.java</include> <include>**/*.properties</include> 
-		                </includes> 
-		            </configuration> 
-		        </plugin> 
-		        <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>2.2</version>
-				<executions>
-				  <execution>
-				    <id>copy-dependencies</id>
-				    <phase>process-resources</phase>
-				    <goals>
-				      <goal>copy-dependencies</goal>
-				    </goals>
-				    <configuration>
-				      <!-- configure the plugin here -->
-				    </configuration>
-				  </execution>
-				</executions>
-		        </plugin> 
-		    </plugins> 
-		</pluginManagement> 
-  </build> 
+
+    <plugins>
+      <plugin>
+            <artifactId>maven-compiler-plugin</artifactId> <configuration>
+                <source>1.6</source> <target>1.6</target> <includes>
+                    <include>**/*.txt</include> <include>**/*.java</include> <include>**/*.properties</include>
+                </includes>
+            </configuration>
+      </plugin>
+    </plugins>
+
+  </build>
 </project>

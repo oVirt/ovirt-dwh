@@ -1,27 +1,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"> 
-	<modelVersion>4.0.0</modelVersion> 
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
   <parent>
-  	<groupId>ovirt_dwh</groupId> 
-	<artifactId>etl_sources</artifactId> 
-	<version>3.0.0</version>
+        <groupId>${dwh.groupId}</groupId>
+	<artifactId>etl_sources</artifactId>
+        <version>${dwh.version}</version>
   </parent>
 
-  <groupId>ovirt_dwh</groupId> 
-  <artifactId>talendRoutines</artifactId> 
-  <packaging>jar</packaging> 
-  <version>4.2.2.r63143</version> 
-  <name>Talend's Routines</name> 
+  <groupId>${dwh.groupId}</groupId>
+  <artifactId>talendRoutines</artifactId>
+  <packaging>jar</packaging>
+  <version>${version.talend-routines}</version>
+  <name>Talend's Routines</name>
   <description>The talend routines required for etl jobs</description>
 
   <dependencies>
     <dependency>
       <groupId>dom4j</groupId>
       <artifactId>dom4j</artifactId>
-      <version>1.6.1</version>
+      <version>${version.dom4j}</version>
     </dependency>
-
   </dependencies>
 
   <build>
@@ -30,12 +29,12 @@
 	        <plugin>
 	            <artifactId>maven-compiler-plugin</artifactId> <configuration>
 	                <source>1.6</source> <target>1.6</target> <includes>
-	                    <include>**/*.txt</include> <include>**/*.java</include> <include>**/*.properties</include> 
-	                </includes> 
-	            </configuration> 
-	        </plugin> 
-	    </plugins> 
-	</pluginManagement> 
+	                    <include>**/*.txt</include> <include>**/*.java</include> <include>**/*.properties</include>
+	                </includes>
+	            </configuration>
+	        </plugin>
+	    </plugins>
+	</pluginManagement>
   </build>
   <repositories>
    <repository>
@@ -44,7 +43,7 @@
       <url>http://fivehole.eng.lab.tlv.redhat.com:8081/artifactory/libs-releases/</url>
       <layout>default</layout>
       <snapshots>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
       </snapshots>
    </repository>
     <repository>
@@ -60,4 +59,4 @@
     </repository>
 
   </repositories>
-</project> 
+</project>

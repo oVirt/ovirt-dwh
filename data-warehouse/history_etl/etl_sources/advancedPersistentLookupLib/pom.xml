@@ -1,27 +1,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"> 
-	<modelVersion>4.0.0</modelVersion> 
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
   <parent>
-	  <groupId>ovirt_dwh</groupId>
+          <groupId>${dwh.groupId}</groupId>
 	  <artifactId>etl_sources</artifactId>
-	  <version>3.0.0</version>
+          <version>${dwh.version}</version>
   </parent>
 
-  <groupId>ovirt_dwh</groupId> 
-  <artifactId>advancedPersistentLookupLib</artifactId> 
-  <packaging>jar</packaging> 
-  <version>1.0</version> 
-  <name>Advanced Persistent Lookup Library</name> 
-  <description>The jar that contains the advanced persistent lookup library</description> 
-
-  <properties>
-	<!-- dependency versions -->
-  	<version.commons-collections>3.2.1</version.commons-collections>
-  	<version.log4j>1.2.14</version.log4j>
-	<version.trove>1.0.2</version.trove>
-  	<version.jboss-serialization>1.0.5.FINAL</version.jboss-serialization>
-  </properties>
+  <groupId>${dwh.groupId}</groupId>
+  <artifactId>advancedPersistentLookupLib</artifactId>
+  <packaging>jar</packaging>
+  <version>${version.advancedPersistentLookupLib}</version>
+  <name>Advanced Persistent Lookup Library</name>
+  <description>The jar that contains the advanced persistent lookup library</description>
 
   <dependencies>
     <dependency>
@@ -49,9 +41,9 @@
     </dependency>
 
     <dependency>
-  	<groupId>ovirt_dwh</groupId> 
-	<artifactId>talendRoutines</artifactId> 
-	<version>4.2.2.r63143</version> 
+  	<groupId>ovirt_dwh</groupId>
+	<artifactId>talendRoutines</artifactId>
+	<version>${version.talend-routines}</version>
     </dependency>
 
   </dependencies>
@@ -61,13 +53,13 @@
 		        <plugin>
 		            <artifactId>maven-compiler-plugin</artifactId> <configuration>
 		                <source>1.6</source> <target>1.6</target> <includes>
-		                    <include>**/*.txt</include> <include>**/*.java</include> <include>**/*.properties</include> 
-		                </includes> 
-		            </configuration> 
-		        </plugin> 
-		    </plugins> 
-		</pluginManagement> 
-  </build> 
+		                    <include>**/*.txt</include> <include>**/*.java</include> <include>**/*.properties</include>
+		                </includes>
+		            </configuration>
+		        </plugin>
+		    </plugins>
+		</pluginManagement>
+  </build>
   <repositories>
    <repository>
       <id>gwt-local</id>
@@ -75,7 +67,7 @@
       <url>http://fivehole.eng.lab.tlv.redhat.com:8081/artifactory/libs-releases/</url>
       <layout>default</layout>
       <snapshots>
-        <enabled>true</enabled>
+        <enabled>false</enabled>
       </snapshots>
    </repository>
     <repository>
@@ -92,4 +84,4 @@
 
   </repositories>
 
-</project> 
+</project>
