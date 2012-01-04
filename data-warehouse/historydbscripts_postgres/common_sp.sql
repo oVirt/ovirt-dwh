@@ -125,8 +125,8 @@ CREATE OR REPLACE FUNCTION isloggingenabled(errorcode text)
 $BODY$
 -- determine if logging errors is enabled.
 -- define in your postgresql.conf:
--- custom_variable_classes = 'ovirt'
--- set ovirt.logging = 'true';
+-- custom_variable_classes = 'engine'
+-- set engine.logging = 'true';
 -- or this could be in a config table
 
 -- NOTE: We should look at checking error codes as not all are suitable for exceptions some are just notice or info
@@ -135,7 +135,7 @@ declare
     prop text;
 begin
     -- check for log setting in postgresql.conf
-    select current_setting('ovirt.logging') into prop;
+    select current_setting('engine.logging') into prop;
     if prop = 'true' then
 result = true;
     end if;
@@ -158,7 +158,7 @@ $BODY$
 
 
 
-Create or replace FUNCTION ovirt_record_license_usage(v_dt TIMESTAMP WITH TIME ZONE,
+Create or replace FUNCTION engine_record_license_usage(v_dt TIMESTAMP WITH TIME ZONE,
 	v_lic_desktops INTEGER, 
 	v_used_desktops INTEGER, 
 	v_lic_sockets INTEGER , 
@@ -200,8 +200,8 @@ BEGIN
          end if;
       end if;
    end if;
-   if exists(select quarter from ovirt_license_usage where quarter = v_quarter) then
-      select   lic_desktops, max_used_desktops, lic_sockets, max_used_sockets INTO v_current_lic_desktops,v_current_used_desktops,v_current_lic_sockets,v_current_used_sockets from ovirt_license_usage where quarter = v_quarter;
+   if exists(select quarter from engine_license_usage where quarter = v_quarter) then
+      select   lic_desktops, max_used_desktops, lic_sockets, max_used_sockets INTO v_current_lic_desktops,v_current_used_desktops,v_current_lic_sockets,v_current_used_sockets from engine_license_usage where quarter = v_quarter;
       v_update_info := 0;
       if (SWV_used_desktops > v_current_used_desktops or
       SWV_used_sockets > v_current_used_sockets or
@@ -216,13 +216,13 @@ BEGIN
          SWV_used_sockets := v_current_used_sockets;
       end if;
       if (v_update_info = true) then
-         update ovirt_license_usage
+         update engine_license_usage
          set date = SWV_dt,lic_desktops = v_lic_desktops,lic_sockets = v_lic_sockets,
          max_used_desktops = SWV_used_desktops,max_used_sockets = SWV_used_sockets
          where quarter = v_quarter;
       end if;
    else
-insert INTO ovirt_license_usage  values(SWV_dt,v_quarter,v_lic_desktops,SWV_used_desktops,v_lic_sockets,SWV_used_sockets);
+insert INTO engine_license_usage  values(SWV_dt,v_quarter,v_lic_desktops,SWV_used_desktops,v_lic_sockets,SWV_used_sockets);
    end if;
 	
 END; $procedure$
