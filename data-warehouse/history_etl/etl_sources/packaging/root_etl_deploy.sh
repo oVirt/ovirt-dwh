@@ -26,8 +26,13 @@ echo
 echo -- Copying history service to /etc/init.d and setting it up --
 echo
 cp -f ../../../../data-warehouse/history_etl/history_service/ovirt-etl /etc/init.d
-sed -i "s/\/usr\/share/\/home\/${USER}/g" /etc/init.d/ovirt-etl
-sed -i "s/\/usr\/share/\/home\/${USER}/g" /home/${USER}/ovirt-dwh/etl/history_service.sh
+if [ ${USER} = "root" ]; then
+    sed -i "s/\/usr\/share/\/${USER}/g" /etc/init.d/ovirt-etl
+    sed -i "s/\/usr\/share/\/${USER}/g" /${USER}/ovirt-dwh/etl/history_service.sh
+else
+    sed -i "s/\/usr\/share/\/home\/${USER}/g" /etc/init.d/ovirt-etl
+    sed -i "s/\/usr\/share/\/home\/${USER}/g" /home/${USER}/ovirt-dwh/etl/history_service.sh
+fi
 
 echo
 echo -- Copying log rotate config file to /etc/logrotate.d/ovirt-etl --
@@ -37,7 +42,11 @@ cp -n ../../../../data-warehouse/history_etl/history_service/ovirt-etl.logrotate
 echo
 echo -- Adding history service to linux --
 echo
-ln -s -f /home/${USER}/ovirt-dwh/etl/config/Default.properties /etc/ovirt/ovirt-dwh
+if [ ${USER} = "root" ]; then
+    ln -s -f /${USER}/ovirt-dwh/etl/config/Default.properties /etc/ovirt/ovirt-dwh
+else
+    ln -s -f /home/${USER}/ovirt-dwh/etl/config/Default.properties /etc/ovirt/ovirt-dwh
+fi
 chmod 744 /etc/init.d/ovirt-etl
 /sbin/chkconfig --add ovirt-etl
 /sbin/service ovirt-etl stop > /dev/null 2>&1
