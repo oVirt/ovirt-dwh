@@ -21,13 +21,27 @@
     <version.commons-collections>3.2.1</version.commons-collections>
     <version.log4j>1.2.14</version.log4j>
     <version.trove>1.0.2</version.trove>
-    <version.jboss-serialization>1.0.5.FINAL</version.jboss-serialization>
+    <version.jboss-serialization>1.0.3.GA</version.jboss-serialization>
     <version.dom4j>1.6.1</version.dom4j>
     <version.talend-routines>5.0.1.r74687</version.talend-routines>
     <version.advancedPersistentLookupLib>1.0</version.advancedPersistentLookupLib>
     <version.postgresql-jdbc>9.1-901-1.jdbc4</version.postgresql-jdbc>
     <version.dependency-plugin>2.4</version.dependency-plugin>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>jboss-public-repository</id>
+      <name>JBoss Public Repository</name>
+      <url>http://repository.jboss.org/nexus/content/groups/public-jboss</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
 
   <!-- ====================================================================== -->
   <!-- Needed for MEAD, which runs 'mvn deploy -DaltDeploymentRepository=..'  -->

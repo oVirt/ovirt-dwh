@@ -36,27 +36,4 @@
 	    </plugins>
 	</pluginManagement>
   </build>
-  <repositories>
-   <repository>
-      <id>gwt-local</id>
-      <name>gwt local</name>
-      <url>http://fivehole.eng.lab.tlv.redhat.com:8081/artifactory/libs-releases/</url>
-      <layout>default</layout>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-   </repository>
-    <repository>
-      <id>mead-repository.redhat.com</id>
-      <name>JBoss Production Releases MEAD Repository</name>
-      <url>http://download.lab.bos.redhat.com/brewroot/repos/jb-eap-5-rhel-6-build/latest/maven</url>
-      <releases>
-        <enabled>true</enabled>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-
-  </repositories>
 </project>
