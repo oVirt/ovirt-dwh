@@ -14111,15 +14111,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_disk_actual_size_mb;
 		}
 
-		public Integer read_rate_bytes_per_second;
+		public Long read_rate_bytes_per_second;
 
-		public Integer getRead_rate_bytes_per_second() {
+		public Long getRead_rate_bytes_per_second() {
 			return this.read_rate_bytes_per_second;
 		}
 
-		public Integer max_read_rate_bytes_per_second;
+		public Long max_read_rate_bytes_per_second;
 
-		public Integer getMax_read_rate_bytes_per_second() {
+		public Long getMax_read_rate_bytes_per_second() {
 			return this.max_read_rate_bytes_per_second;
 		}
 
@@ -14135,15 +14135,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.max_read_latency_seconds;
 		}
 
-		public Integer write_rate_bytes_per_second;
+		public Long write_rate_bytes_per_second;
 
-		public Integer getWrite_rate_bytes_per_second() {
+		public Long getWrite_rate_bytes_per_second() {
 			return this.write_rate_bytes_per_second;
 		}
 
-		public Integer max_write_rate_bytes_per_second;
+		public Long max_write_rate_bytes_per_second;
 
-		public Integer getMax_write_rate_bytes_per_second() {
+		public Long getMax_write_rate_bytes_per_second() {
 			return this.max_write_rate_bytes_per_second;
 		}
 
@@ -14245,9 +14245,19 @@ public class AggregationToDaily implements TalendJob {
 
 					this.vm_disk_actual_size_mb = dis.readInt();
 
-					this.read_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.read_rate_bytes_per_second = null;
+					} else {
+						this.read_rate_bytes_per_second = dis.readLong();
+					}
 
-					this.max_read_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_read_rate_bytes_per_second = null;
+					} else {
+						this.max_read_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -14263,9 +14273,19 @@ public class AggregationToDaily implements TalendJob {
 						this.max_read_latency_seconds = dis.readDouble();
 					}
 
-					this.write_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.write_rate_bytes_per_second = null;
+					} else {
+						this.write_rate_bytes_per_second = dis.readLong();
+					}
 
-					this.max_write_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_write_rate_bytes_per_second = null;
+					} else {
+						this.max_write_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -14337,13 +14357,23 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeInt(this.vm_disk_actual_size_mb);
 
-				// Integer
+				// Long
 
-				writeInteger(this.read_rate_bytes_per_second, dos);
+				if (this.read_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.read_rate_bytes_per_second);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.max_read_rate_bytes_per_second, dos);
+				if (this.max_read_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.max_read_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -14363,13 +14393,23 @@ public class AggregationToDaily implements TalendJob {
 					dos.writeDouble(this.max_read_latency_seconds);
 				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.write_rate_bytes_per_second, dos);
+				if (this.write_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.write_rate_bytes_per_second);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.max_write_rate_bytes_per_second, dos);
+				if (this.max_write_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.max_write_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -14524,15 +14564,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_disk_actual_size_mb;
 		}
 
-		public Integer read_rate_bytes_per_second;
+		public Long read_rate_bytes_per_second;
 
-		public Integer getRead_rate_bytes_per_second() {
+		public Long getRead_rate_bytes_per_second() {
 			return this.read_rate_bytes_per_second;
 		}
 
-		public Integer max_read_rate_bytes_per_second;
+		public Long max_read_rate_bytes_per_second;
 
-		public Integer getMax_read_rate_bytes_per_second() {
+		public Long getMax_read_rate_bytes_per_second() {
 			return this.max_read_rate_bytes_per_second;
 		}
 
@@ -14548,15 +14588,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.max_read_latency_seconds;
 		}
 
-		public Integer write_rate_bytes_per_second;
+		public Long write_rate_bytes_per_second;
 
-		public Integer getWrite_rate_bytes_per_second() {
+		public Long getWrite_rate_bytes_per_second() {
 			return this.write_rate_bytes_per_second;
 		}
 
-		public Integer max_write_rate_bytes_per_second;
+		public Long max_write_rate_bytes_per_second;
 
-		public Integer getMax_write_rate_bytes_per_second() {
+		public Long getMax_write_rate_bytes_per_second() {
 			return this.max_write_rate_bytes_per_second;
 		}
 
@@ -14658,9 +14698,19 @@ public class AggregationToDaily implements TalendJob {
 
 					this.vm_disk_actual_size_mb = dis.readInt();
 
-					this.read_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.read_rate_bytes_per_second = null;
+					} else {
+						this.read_rate_bytes_per_second = dis.readLong();
+					}
 
-					this.max_read_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_read_rate_bytes_per_second = null;
+					} else {
+						this.max_read_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -14676,9 +14726,19 @@ public class AggregationToDaily implements TalendJob {
 						this.max_read_latency_seconds = dis.readDouble();
 					}
 
-					this.write_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.write_rate_bytes_per_second = null;
+					} else {
+						this.write_rate_bytes_per_second = dis.readLong();
+					}
 
-					this.max_write_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_write_rate_bytes_per_second = null;
+					} else {
+						this.max_write_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -14750,13 +14810,23 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeInt(this.vm_disk_actual_size_mb);
 
-				// Integer
+				// Long
 
-				writeInteger(this.read_rate_bytes_per_second, dos);
+				if (this.read_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.read_rate_bytes_per_second);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.max_read_rate_bytes_per_second, dos);
+				if (this.max_read_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.max_read_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -14776,13 +14846,23 @@ public class AggregationToDaily implements TalendJob {
 					dos.writeDouble(this.max_read_latency_seconds);
 				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.write_rate_bytes_per_second, dos);
+				if (this.write_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.write_rate_bytes_per_second);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.max_write_rate_bytes_per_second, dos);
+				if (this.max_write_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.max_write_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -14937,9 +15017,9 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_disk_actual_size_mb;
 		}
 
-		public Integer read_rate_bytes_per_second;
+		public Long read_rate_bytes_per_second;
 
-		public Integer getRead_rate_bytes_per_second() {
+		public Long getRead_rate_bytes_per_second() {
 			return this.read_rate_bytes_per_second;
 		}
 
@@ -14949,9 +15029,9 @@ public class AggregationToDaily implements TalendJob {
 			return this.read_latency_seconds;
 		}
 
-		public Integer write_rate_bytes_per_second;
+		public Long write_rate_bytes_per_second;
 
-		public Integer getWrite_rate_bytes_per_second() {
+		public Long getWrite_rate_bytes_per_second() {
 			return this.write_rate_bytes_per_second;
 		}
 
@@ -15041,7 +15121,12 @@ public class AggregationToDaily implements TalendJob {
 
 					this.vm_disk_actual_size_mb = dis.readInt();
 
-					this.read_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.read_rate_bytes_per_second = null;
+					} else {
+						this.read_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -15050,7 +15135,12 @@ public class AggregationToDaily implements TalendJob {
 						this.read_latency_seconds = dis.readDouble();
 					}
 
-					this.write_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.write_rate_bytes_per_second = null;
+					} else {
+						this.write_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -15108,9 +15198,14 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeInt(this.vm_disk_actual_size_mb);
 
-				// Integer
+				// Long
 
-				writeInteger(this.read_rate_bytes_per_second, dos);
+				if (this.read_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.read_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -15121,9 +15216,14 @@ public class AggregationToDaily implements TalendJob {
 					dos.writeDouble(this.read_latency_seconds);
 				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.write_rate_bytes_per_second, dos);
+				if (this.write_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.write_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -15250,9 +15350,9 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_disk_actual_size_mb;
 		}
 
-		public Integer read_rate_bytes_per_second;
+		public Long read_rate_bytes_per_second;
 
-		public Integer getRead_rate_bytes_per_second() {
+		public Long getRead_rate_bytes_per_second() {
 			return this.read_rate_bytes_per_second;
 		}
 
@@ -15262,9 +15362,9 @@ public class AggregationToDaily implements TalendJob {
 			return this.read_latency_seconds;
 		}
 
-		public Integer write_rate_bytes_per_second;
+		public Long write_rate_bytes_per_second;
 
-		public Integer getWrite_rate_bytes_per_second() {
+		public Long getWrite_rate_bytes_per_second() {
 			return this.write_rate_bytes_per_second;
 		}
 
@@ -15354,7 +15454,12 @@ public class AggregationToDaily implements TalendJob {
 
 					this.vm_disk_actual_size_mb = dis.readInt();
 
-					this.read_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.read_rate_bytes_per_second = null;
+					} else {
+						this.read_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -15363,7 +15468,12 @@ public class AggregationToDaily implements TalendJob {
 						this.read_latency_seconds = dis.readDouble();
 					}
 
-					this.write_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.write_rate_bytes_per_second = null;
+					} else {
+						this.write_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -15421,9 +15531,14 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeInt(this.vm_disk_actual_size_mb);
 
-				// Integer
+				// Long
 
-				writeInteger(this.read_rate_bytes_per_second, dos);
+				if (this.read_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.read_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -15434,9 +15549,14 @@ public class AggregationToDaily implements TalendJob {
 					dos.writeDouble(this.read_latency_seconds);
 				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.write_rate_bytes_per_second, dos);
+				if (this.write_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.write_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -15719,18 +15839,18 @@ public class AggregationToDaily implements TalendJob {
 					int vm_disk_actual_size_mb_sum;
 					int vm_disk_actual_size_mb_count = 0;
 
-					Integer read_rate_bytes_per_second_sum;
+					Long read_rate_bytes_per_second_sum;
 					int read_rate_bytes_per_second_count = 0;
 
-					Integer max_read_rate_bytes_per_second_max;
+					Long max_read_rate_bytes_per_second_max;
 					BigDecimal read_latency_seconds_sum;
 					int read_latency_seconds_count = 0;
 
 					Double max_read_latency_seconds_max;
-					Integer write_rate_bytes_per_second_sum;
+					Long write_rate_bytes_per_second_sum;
 					int write_rate_bytes_per_second_count = 0;
 
-					Integer max_write_rate_bytes_per_second_max;
+					Long max_write_rate_bytes_per_second_max;
 					BigDecimal write_latency_seconds_sum;
 					int write_latency_seconds_count = 0;
 
@@ -15943,7 +16063,7 @@ public class AggregationToDaily implements TalendJob {
 
 						if (rs_tJDBCInput_13.getObject(6) != null) {
 							row19.read_rate_bytes_per_second = rs_tJDBCInput_13
-									.getInt(6);
+									.getLong(6);
 						} else {
 							row19.read_rate_bytes_per_second = null;
 						}
@@ -15973,7 +16093,7 @@ public class AggregationToDaily implements TalendJob {
 
 						if (rs_tJDBCInput_13.getObject(8) != null) {
 							row19.write_rate_bytes_per_second = rs_tJDBCInput_13
-									.getInt(8);
+									.getLong(8);
 						} else {
 							row19.write_rate_bytes_per_second = null;
 						}
@@ -16160,7 +16280,7 @@ public class AggregationToDaily implements TalendJob {
 								operation_result_tAggregateRow_7.read_rate_bytes_per_second_count++;
 
 								if (operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum == null) {
-									operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum = (int) 0;
+									operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum = (long) 0;
 								}
 
 								if (vm_disk_aggregate.read_rate_bytes_per_second != null)
@@ -16208,7 +16328,7 @@ public class AggregationToDaily implements TalendJob {
 								operation_result_tAggregateRow_7.write_rate_bytes_per_second_count++;
 
 								if (operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum == null) {
-									operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum = (int) 0;
+									operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum = (long) 0;
 								}
 
 								if (vm_disk_aggregate.write_rate_bytes_per_second != null)
@@ -16443,13 +16563,13 @@ public class AggregationToDaily implements TalendJob {
 						double row20_read_rate_bytes_per_second_temp = (double) aggregated_row_tAggregateRow_7.read_rate_bytes_per_second_sum
 								/ (double) aggregated_row_tAggregateRow_7.read_rate_bytes_per_second_count;
 
-						row20.read_rate_bytes_per_second = (int) row20_read_rate_bytes_per_second_temp;
+						row20.read_rate_bytes_per_second = (long) row20_read_rate_bytes_per_second_temp;
 
 					} else {
 						String count = "0";
 
 						row20.read_rate_bytes_per_second = ParserUtils
-								.parseTo_Integer(count);
+								.parseTo_Long(count);
 
 					}
 					row20.max_read_rate_bytes_per_second = aggregated_row_tAggregateRow_7.max_read_rate_bytes_per_second_max;
@@ -16478,13 +16598,13 @@ public class AggregationToDaily implements TalendJob {
 						double row20_write_rate_bytes_per_second_temp = (double) aggregated_row_tAggregateRow_7.write_rate_bytes_per_second_sum
 								/ (double) aggregated_row_tAggregateRow_7.write_rate_bytes_per_second_count;
 
-						row20.write_rate_bytes_per_second = (int) row20_write_rate_bytes_per_second_temp;
+						row20.write_rate_bytes_per_second = (long) row20_write_rate_bytes_per_second_temp;
 
 					} else {
 						String count = "0";
 
 						row20.write_rate_bytes_per_second = ParserUtils
-								.parseTo_Integer(count);
+								.parseTo_Long(count);
 
 					}
 					row20.max_write_rate_bytes_per_second = aggregated_row_tAggregateRow_7.max_write_rate_bytes_per_second_max;
@@ -16571,14 +16691,14 @@ public class AggregationToDaily implements TalendJob {
 					if (row20.read_rate_bytes_per_second == null) {
 						pstmt_tJDBCOutput_13.setNull(6, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_13.setInt(6,
+						pstmt_tJDBCOutput_13.setLong(6,
 								row20.read_rate_bytes_per_second);
 					}
 
 					if (row20.max_read_rate_bytes_per_second == null) {
 						pstmt_tJDBCOutput_13.setNull(7, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_13.setInt(7,
+						pstmt_tJDBCOutput_13.setLong(7,
 								row20.max_read_rate_bytes_per_second);
 					}
 
@@ -16600,7 +16720,7 @@ public class AggregationToDaily implements TalendJob {
 						pstmt_tJDBCOutput_13
 								.setNull(10, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_13.setInt(10,
+						pstmt_tJDBCOutput_13.setLong(10,
 								row20.write_rate_bytes_per_second);
 					}
 
@@ -16608,7 +16728,7 @@ public class AggregationToDaily implements TalendJob {
 						pstmt_tJDBCOutput_13
 								.setNull(11, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_13.setInt(11,
+						pstmt_tJDBCOutput_13.setLong(11,
 								row20.max_write_rate_bytes_per_second);
 					}
 
@@ -20326,6 +20446,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 578612 characters generated by Talend Open Studio for Data Integration on the
- * December 21, 2011 12:33:17 PM IST
+ * 582800 characters generated by Talend Open Studio for Data Integration on the
+ * January 25, 2012 4:47:17 PM IST
  ************************************************************************************************/
