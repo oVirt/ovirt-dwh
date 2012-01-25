@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 # $1 - the command to execute
 # $2 - the database to use

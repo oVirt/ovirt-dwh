@@ -137,7 +137,7 @@ CREATE TABLE storage_domain_daily_history
    storage_domain_id UUID NOT NULL,
    available_disk_size_gb INTEGER,
    used_disk_size_gb INTEGER,
-   storage_configuration_version INTEGER REFERENCES storage_domain_configuration (history_id) 
+   storage_configuration_version INTEGER REFERENCES storage_domain_configuration (history_id)
 ) WITH OIDS;
 
 CREATE INDEX IDX_storage_domain_history_datetime_daily ON storage_domain_daily_history (history_datetime);
@@ -155,7 +155,7 @@ CREATE TABLE cluster_configuration
    datacenter_configuration_version INTEGER REFERENCES datacenter_configuration (history_id),
    create_date TIMESTAMP WITH TIME ZONE,
    update_date TIMESTAMP WITH TIME ZONE,
-   delete_date TIMESTAMP WITH TIME ZONE 
+   delete_date TIMESTAMP WITH TIME ZONE
 ) WITH OIDS;
 
 CREATE TABLE host_configuration
@@ -180,9 +180,9 @@ CREATE TABLE host_configuration
    cluster_configuration_version INTEGER REFERENCES cluster_configuration (history_id),
    create_date TIMESTAMP WITH TIME ZONE,
    update_date TIMESTAMP WITH TIME ZONE,
-   delete_date TIMESTAMP WITH TIME ZONE 
+   delete_date TIMESTAMP WITH TIME ZONE
 ) WITH OIDS;
- 
+
 CREATE SEQUENCE host_history_seq1 INCREMENT BY 1 START WITH 1;
 CREATE TABLE host_samples_history
 (
@@ -370,9 +370,9 @@ CREATE TABLE vm_configuration
    default_host_configuration_version INTEGER REFERENCES host_configuration (history_id),
    create_date TIMESTAMP WITH TIME ZONE,
    update_date TIMESTAMP WITH TIME ZONE,
-   delete_date TIMESTAMP WITH TIME ZONE 
+   delete_date TIMESTAMP WITH TIME ZONE
 ) WITH OIDS;
- 
+
 CREATE SEQUENCE vm_history_seq1 INCREMENT BY 1 START WITH 1;
 CREATE TABLE vm_samples_history
 (
@@ -393,7 +393,7 @@ CREATE TABLE vm_samples_history
    vm_configuration_version INTEGER REFERENCES vm_configuration (history_id),
    current_host_configuration_version INTEGER REFERENCES host_configuration (history_id)
 ) WITH OIDS;
- 
+
 CREATE INDEX IDX_vm_history_datetime_samples ON vm_samples_history (history_datetime);
 CREATE INDEX IDX_vm_configuration_version_samples ON vm_samples_history (vm_configuration_version);
 CREATE INDEX IDX_vm_current_host_configuration_samples ON vm_samples_history (current_host_configuration_version);
@@ -422,7 +422,7 @@ CREATE TABLE vm_hourly_history
    vm_configuration_version INTEGER REFERENCES vm_configuration (history_id),
    current_host_configuration_version INTEGER REFERENCES host_configuration (history_id)
 ) WITH OIDS;
- 
+
 CREATE INDEX IDX_vm_history_datetime_hourly ON vm_hourly_history (history_datetime);
 CREATE INDEX IDX_vm_configuration_version_hourly ON vm_hourly_history (vm_configuration_version);
 CREATE INDEX IDX_vm_current_host_configuration_hourly ON vm_hourly_history (current_host_configuration_version);
@@ -451,7 +451,7 @@ CREATE TABLE vm_daily_history
    vm_configuration_version INTEGER REFERENCES vm_configuration (history_id),
    current_host_configuration_version INTEGER REFERENCES host_configuration (history_id)
 ) WITH OIDS;
- 
+
 CREATE INDEX IDX_vm_history_datetime_daily ON vm_daily_history (history_datetime);
 CREATE INDEX IDX_vm_configuration_version_daily ON vm_daily_history (vm_configuration_version);
 CREATE INDEX IDX_vm_current_host_configuration_daily ON vm_daily_history (current_host_configuration_version);
@@ -521,7 +521,7 @@ CREATE TABLE vm_interface_daily_history
 CREATE INDEX IDX_vm_interface_history_datetime_daily ON vm_interface_daily_history(history_datetime);
 CREATE INDEX IDX_vm_interface_configuration_version_daily ON vm_interface_daily_history(vm_interface_configuration_version);
 
-CREATE TABLE vm_disk_configuration 
+CREATE TABLE vm_disk_configuration
 (
    history_id INTEGER DEFAULT NEXTVAL('configuration_seq') PRIMARY KEY NOT NULL,
    vm_disk_id UUID NOT NULL,
@@ -544,7 +544,7 @@ CREATE TABLE vm_disk_samples_history
    history_id INTEGER DEFAULT NEXTVAL('vm_disk_history_seq1') primary key NOT NULL,
    history_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
    vm_disk_id UUID  NOT NULL,
-   vm_disk_status SMALLINT,  
+   vm_disk_status SMALLINT,
    minutes_in_status DECIMAL(7,2) NOT NULL DEFAULT 1,
    vm_disk_actual_size_mb INTEGER NOT NULL,
    guest_used_disk_size_mb INTEGER,
@@ -565,7 +565,7 @@ CREATE TABLE vm_disk_hourly_history
    history_id INTEGER DEFAULT NEXTVAL('vm_disk_history_seq2') primary key NOT NULL,
    history_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
    vm_disk_id UUID  NOT NULL,
-   vm_disk_status SMALLINT, 
+   vm_disk_status SMALLINT,
    minutes_in_status DECIMAL(7,2) NOT NULL DEFAULT 1,
    vm_disk_actual_size_mb INTEGER NOT NULL,
    guest_used_disk_size_mb INTEGER,
@@ -591,7 +591,7 @@ CREATE TABLE vm_disk_daily_history
    history_id INTEGER DEFAULT NEXTVAL('vm_disk_history_seq3') primary key NOT NULL,
    history_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
    vm_disk_id UUID  NOT NULL,
-   vm_disk_status SMALLINT, 
+   vm_disk_status SMALLINT,
    minutes_in_status DECIMAL(7,2) NOT NULL DEFAULT 1,
    vm_disk_actual_size_mb INTEGER NOT NULL,
    guest_used_disk_size_mb INTEGER,
@@ -650,14 +650,14 @@ CREATE INDEX IX_tag_relations_history_1 ON tag_relations_history(entity_type);
 
 CREATE TABLE calendar
 (
-   the_datetime TIMESTAMP without time zone PRIMARY KEY NOT NULL, 
-   the_date date NOT NULL, 
-   the_year smallint NOT NULL, 
-   the_month smallint NOT NULL, 
-   month_name character varying(9) NOT NULL, 
-   the_day smallint NOT NULL, 
-   day_name character varying(9) NOT NULL, 
-   the_hour time without time zone NOT NULL 
+   the_datetime TIMESTAMP without time zone PRIMARY KEY NOT NULL,
+   the_date date NOT NULL,
+   the_year smallint NOT NULL,
+   the_month smallint NOT NULL,
+   month_name character varying(9) NOT NULL,
+   the_day smallint NOT NULL,
+   day_name character varying(9) NOT NULL,
+   the_hour time without time zone NOT NULL
 ) WITH OIDS;
 
 CREATE INDEX calendar_table_index ON calendar (the_date);

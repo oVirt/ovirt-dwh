@@ -18,7 +18,7 @@ BEGIN
 	RETURN SWV_path;
    ELSEIF (SWV_path = '/00000000-0000-0000-0000-000000000000') THEN
 	RETURN v_path_names;
-   ELSE 
+   ELSE
       SWV_path := SUBSTR(SWV_path,38);
       WHILE (LENGTH(SWV_path) > 0) LOOP
          v_id := cast(SUBSTR(SWV_path,2,36) as UUID);
@@ -33,13 +33,13 @@ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION GetPathIDs(currentTagID UUID, runNumber int default 0)
 RETURNS VARCHAR(4000)
    AS $function$
-   DECLARE 
+   DECLARE
 	ParentID UUID;
 BEGIN
    IF currentTagID IS NULL then
       RETURN NULL;
    end if;
-   select parent_id INTO ParentID FROM tag_relations_history WHERE entity_id = currentTagID and history_id in  (SELECT max(a.history_id) 
+   select parent_id INTO ParentID FROM tag_relations_history WHERE entity_id = currentTagID and history_id in  (SELECT max(a.history_id)
 														FROM tag_relations_history a
 														WHERE a.entity_id = currentTagID);
 	IF runNumber = 0 then
@@ -73,7 +73,7 @@ BEGIN
 	      from tag_details e
 	      where e.history_id in (SELECT max(f.history_id)
 				    FROM tag_details f
-			   	    WHERE (f.update_date < thisUpdate or f.update_date IS NULL) 
+			   	    WHERE (f.update_date < thisUpdate or f.update_date IS NULL)
 					GROUP BY f.tag_id)
 		   AND e.delete_date IS NULL) b,
 	     (select tag_path || '/' || CAST(tag_id AS VARCHAR(36)) as new_child_path, tag_id as parent /*36 is the uuid length*/

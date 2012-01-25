@@ -4,10 +4,10 @@
 
 CREATE OR REPLACE VIEW v3_0_enum_translator_view
  AS
-SELECT 
+SELECT
 	enum_translator.enum_type as enum_type,
 	enum_translator.enum_key as enum_key,
-    enum_translator.value as value    
+    enum_translator.value as value
 FROM enum_translator INNER JOIN
 			history_configuration ON
 				(enum_translator.language_code = history_configuration.var_value
@@ -15,7 +15,7 @@ FROM enum_translator INNER JOIN
 
 CREATE OR REPLACE VIEW v3_0_datacenter_configuration_view
  AS
-SELECT 
+SELECT
 	  history_id as history_id,
 	  datacenter_id as datacenter_id,
       datacenter_name as datacenter_name,
@@ -28,7 +28,7 @@ FROM datacenter_configuration;
 
 CREATE OR REPLACE VIEW v3_0_latest_datacenter_configuration_view
  AS
-SELECT 
+SELECT
 	  history_id as history_id,
 	  datacenter_id as datacenter_id,
       datacenter_name as datacenter_name,
@@ -75,17 +75,17 @@ FROM datacenter_daily_history;
 
 CREATE OR REPLACE VIEW v3_0_datacenter_storage_domain_map_view
  AS
-SELECT    
+SELECT
 	history_id as history_id,
 	storage_domain_id as storage_domain_id,
 	datacenter_id as datacenter_id,
 	attach_date as attach_date,
-	detach_date as detach_date 
+	detach_date as detach_date
 FROM         datacenter_storage_domain_map;
 
 CREATE OR REPLACE VIEW v3_0_latest_datacenter_storage_domain_map_view
  AS
-SELECT    
+SELECT
 	history_id as history_id,
 	storage_domain_id as storage_domain_id,
 	datacenter_id as datacenter_id,
@@ -96,7 +96,7 @@ WHERE history_id in (SELECT max(a.history_id) FROM datacenter_storage_domain_map
 
 CREATE OR REPLACE VIEW v3_0_storage_domain_configuration_view
  AS
-SELECT 
+SELECT
 	  history_id as history_id,
 	  storage_domain_id as storage_domain_id,
       storage_domain_name as storage_domain_name,
@@ -109,7 +109,7 @@ FROM storage_domain_configuration;
 
 CREATE OR REPLACE VIEW v3_0_latest_storage_domain_configuration_view
  AS
-SELECT 
+SELECT
 	  history_id as history_id,
 	  storage_domain_id as storage_domain_id,
       storage_domain_name as storage_domain_name,
@@ -189,8 +189,8 @@ WHERE history_id in (SELECT max(a.history_id) FROM cluster_configuration as a GR
 
 CREATE OR REPLACE VIEW v3_0_host_configuration_view
  AS
-SELECT   
-	  history_id as history_id,   
+SELECT
+	  history_id as history_id,
 	  host_id as host_id,
       host_unique_id as host_unique_id,
       host_name as host_name,
@@ -205,23 +205,23 @@ SELECT
 	  pm_ip_address as pm_ip_address,
 	  kernel_version as kernel_version,
 	  kvm_version as kvm_version,
-      CASE SUBSTR(vdsm_version,1,3) 
+      CASE SUBSTR(vdsm_version,1,3)
 		WHEN '4.4' THEN '2.1' || SUBSTR(vdsm_version,4,LENGTH(vdsm_version))
-		WHEN '4.5' THEN '2.2' || SUBSTR(vdsm_version,4,LENGTH(vdsm_version)) 
+		WHEN '4.5' THEN '2.2' || SUBSTR(vdsm_version,4,LENGTH(vdsm_version))
 		WHEN '4.9' THEN '2.3' || SUBSTR(vdsm_version,4,LENGTH(vdsm_version))
-	  ELSE vdsm_version  
+	  ELSE vdsm_version
 	  END as vdsm_version,
       vdsm_port as vdsm_port,
 	  cluster_configuration_version as cluster_configuration_version,
 	  create_date as create_date,
 	  update_date as update_date,
-	  delete_date as delete_date 
+	  delete_date as delete_date
 FROM host_configuration;
 
 CREATE OR REPLACE VIEW v3_0_latest_host_configuration_view
  AS
-SELECT      
-	  history_id as history_id,   
+SELECT
+	  history_id as history_id,
 	  host_id as host_id,
       host_unique_id as host_unique_id,
       host_name as host_name,
@@ -236,16 +236,16 @@ SELECT
 	  pm_ip_address as pm_ip_address,
 	  kernel_version as kernel_version,
 	  kvm_version as kvm_version,
-      CASE SUBSTR(vdsm_version,1,3) 
+      CASE SUBSTR(vdsm_version,1,3)
 		WHEN '4.4' THEN '2.1' || SUBSTR(vdsm_version,4,LENGTH(vdsm_version))
-		WHEN '4.5' THEN '2.2' || SUBSTR(vdsm_version,4,LENGTH(vdsm_version)) 
+		WHEN '4.5' THEN '2.2' || SUBSTR(vdsm_version,4,LENGTH(vdsm_version))
 		WHEN '4.9' THEN '2.3' || SUBSTR(vdsm_version,4,LENGTH(vdsm_version))
-	  ELSE vdsm_version  
+	  ELSE vdsm_version
 	  END as vdsm_version,
       vdsm_port as vdsm_port,
 	  cluster_configuration_version as cluster_configuration_version,
 	  create_date as create_date,
-	  update_date as update_date 
+	  update_date as update_date
 FROM host_configuration
 WHERE history_id in (SELECT max(a.history_id) FROM host_configuration as a GROUP BY a.host_id)
 	  and delete_date IS NULL;
@@ -256,11 +256,11 @@ SELECT
 	  history_id as history_id,
       history_datetime as history_datetime,
       host_id as host_id,
-      host_status as host_status, 
-	  minutes_in_status as minutes_in_status, 
+      host_status as host_status,
+	  minutes_in_status as minutes_in_status,
       memory_usage_percent as memory_usage_percent,
-      cpu_usage_percent as cpu_usage_percent, 
-      ksm_cpu_percent as ksm_cpu_percent,      
+      cpu_usage_percent as cpu_usage_percent,
+      ksm_cpu_percent as ksm_cpu_percent,
       active_vms as active_vms,
       total_vms as total_vms,
 	  total_vms_vcpus as total_vms_vcpus,
@@ -277,14 +277,14 @@ SELECT
 	  history_id as history_id,
       history_datetime as history_datetime,
       host_id as host_id,
-      host_status as host_status, 
-	  minutes_in_status as minutes_in_status, 
+      host_status as host_status,
+	  minutes_in_status as minutes_in_status,
       memory_usage_percent as memory_usage_percent,
-	  max_memory_usage as max_memory_usage, 
-      cpu_usage_percent as cpu_usage_percent,  
-      max_cpu_usage as max_cpu_usage, 
-      ksm_cpu_percent as ksm_cpu_percent,  
-	  max_ksm_cpu_percent as max_ksm_cpu_percent,  
+	  max_memory_usage as max_memory_usage,
+      cpu_usage_percent as cpu_usage_percent,
+      max_cpu_usage as max_cpu_usage,
+      ksm_cpu_percent as ksm_cpu_percent,
+	  max_ksm_cpu_percent as max_ksm_cpu_percent,
       active_vms as active_vms,
 	  max_active_vms as max_active_vms,
       total_vms as total_vms,
@@ -344,11 +344,11 @@ SELECT
 	  host_interface_speed_bps as host_interface_speed_bps,
 	  mac_address as mac_address,
 	  network_name as network_name,
-	  ip_address as ip_address, 
-	  gateway as gateway, 
+	  ip_address as ip_address,
+	  gateway as gateway,
       bond as bond,
-	  bond_name as bond_name, 
-	  vlan_id as vlan_id, 
+	  bond_name as bond_name,
+	  vlan_id as vlan_id,
 	  host_configuration_version as host_configuration_version,
 	  create_date as create_date,
 	  update_date as update_date,
@@ -366,11 +366,11 @@ SELECT
 	  host_interface_speed_bps as host_interface_speed_bps,
 	  mac_address as mac_address,
 	  network_name as network_name,
-	  ip_address as ip_address, 
-	  gateway as gateway, 
+	  ip_address as ip_address,
+	  gateway as gateway,
       bond as bond,
-	  bond_name as bond_name, 
-	  vlan_id as vlan_id, 
+	  bond_name as bond_name,
+	  vlan_id as vlan_id,
 	  host_configuration_version as host_configuration_version,
 	  create_date as create_date,
 	  update_date as update_date
@@ -384,7 +384,7 @@ SELECT
 	  history_id as history_id,
       history_datetime as history_datetime,
 	  host_interface_id as host_interface_id,
-      receive_rate_percent as receive_rate_percent, 
+      receive_rate_percent as receive_rate_percent,
 	  transmit_rate_percent as transmit_rate_percent,
 	  host_interface_configuration_version as host_interface_configuration_version
 FROM host_interface_samples_history;
@@ -395,7 +395,7 @@ SELECT
 	  history_id as history_id,
       history_datetime as history_datetime,
 	  host_interface_id as host_interface_id,
-      receive_rate_percent as receive_rate_percent, 
+      receive_rate_percent as receive_rate_percent,
       max_receive_rate_percent as max_receive_rate_percent,
 	  transmit_rate_percent as transmit_rate_percent,
       max_transmit_rate_percent as max_transmit_rate_percent,
@@ -418,7 +418,7 @@ FROM host_interface_daily_history;
 
 CREATE OR REPLACE VIEW v3_0_vm_configuration_view
  AS
-SELECT 
+SELECT
 	  history_id as history_id,
 	  vm_id as vm_id,
       vm_name as vm_name,
@@ -449,7 +449,7 @@ FROM vm_configuration;
 
 CREATE OR REPLACE VIEW v3_0_latest_vm_configuration_view
  AS
-SELECT 
+SELECT
 	  history_id as history_id,
 	  vm_id as vm_id,
       vm_name as vm_name,
@@ -486,7 +486,7 @@ SELECT
 	a.history_datetime as history_datetime,
 	a.vm_id as vm_id,
 	a.vm_status as vm_status,
-	a.minutes_in_status as minutes_in_status,  
+	a.minutes_in_status as minutes_in_status,
 	a.cpu_usage_percent as cpu_usage_percent,
 	a.memory_usage_percent as memory_usage_percent,
 	a.user_cpu_usage_percent as user_cpu_usage_percent,
@@ -508,7 +508,7 @@ SELECT
 	a.history_datetime as history_datetime,
       	a.vm_id as vm_id,
 	a.vm_status as vm_status,
-	a.minutes_in_status as minutes_in_status,  
+	a.minutes_in_status as minutes_in_status,
 	a.cpu_usage_percent as cpu_usage_percent,
       	a.max_cpu_usage as max_cpu_usage,
  	a.memory_usage_percent as memory_usage_percent,
@@ -595,7 +595,7 @@ SELECT
 	  history_id as history_id,
       history_datetime as history_datetime,
 	  vm_interface_id as vm_interface_id,
-      receive_rate_percent as receive_rate_percent, 
+      receive_rate_percent as receive_rate_percent,
 	  transmit_rate_percent as transmit_rate_percent,
 	  vm_interface_configuration_version as vm_interface_configuration_version
 FROM vm_interface_samples_history;
@@ -607,7 +607,7 @@ SELECT
 	  history_id as history_id,
       history_datetime as history_datetime,
 	  vm_interface_id as vm_interface_id,
-      receive_rate_percent as receive_rate_percent, 
+      receive_rate_percent as receive_rate_percent,
 	  max_receive_rate_percent as max_receive_rate_percent,
 	  transmit_rate_percent as transmit_rate_percent,
       max_transmit_rate_percent as max_transmit_rate_percent,
@@ -637,7 +637,7 @@ SELECT
 	'disk ' || cast(vm_internal_drive_mapping as varchar) as vm_internal_drive_mapping,
 	vm_disk_description as vm_disk_description,
 	vm_disk_size_mb as vm_disk_size_mb,
-	vm_disk_type as vm_disk_type, 
+	vm_disk_type as vm_disk_type,
 	vm_disk_format as vm_disk_format,
 	vm_disk_interface as vm_disk_interface,
 	create_date as create_date,
@@ -670,7 +670,7 @@ SELECT
 	history_datetime as history_datetime,
 	vm_disk_id as vm_disk_id,
 	vm_disk_status as vm_disk_status,
-	minutes_in_status as minutes_in_status,  
+	minutes_in_status as minutes_in_status,
 	vm_disk_actual_size_mb as vm_disk_actual_size_mb,
 	read_rate_bytes_per_second as read_rate_bytes_per_second,
 	read_latency_seconds as read_latency_seconds,
@@ -687,7 +687,7 @@ SELECT
 	history_datetime as history_datetime,
 	vm_disk_id as vm_disk_id,
 	vm_disk_status as vm_disk_status,
-	minutes_in_status as minutes_in_status,  
+	minutes_in_status as minutes_in_status,
 	vm_disk_actual_size_mb as vm_disk_actual_size_mb,
 	read_rate_bytes_per_second as read_rate_bytes_per_second,
 	max_read_rate_bytes_per_second as max_read_rate_bytes_per_second,
@@ -726,17 +726,17 @@ FROM vm_disk_daily_history;
 
 CREATE OR REPLACE VIEW v3_0_disks_vm_map_view
  AS
-SELECT    
+SELECT
 	history_id as history_id,
 	vm_disk_id as vm_disk_id,
 	vm_id as vm_id,
 	attach_date as attach_date,
-	detach_date as detach_date 
+	detach_date as detach_date
 FROM         disks_vm_map;
 
 CREATE OR REPLACE VIEW v3_0_latest_disks_vm_map_view
  AS
-SELECT    
+SELECT
 	history_id as history_id,
 	vm_disk_id as vm_disk_id,
 	vm_id as vm_id,
@@ -748,10 +748,10 @@ WHERE history_id in (SELECT max(a.history_id) FROM disks_vm_map as a GROUP BY a.
 CREATE OR REPLACE VIEW v3_0_tag_relations_history_view
  AS
 SELECT	history_id as history_id,
-	    entity_id as entity_id, 
-		entity_type as entity_type, 
-		parent_id as parent_id, 
-		attach_date as attach_date, 
+	    entity_id as entity_id,
+		entity_type as entity_type,
+		parent_id as parent_id,
+		attach_date as attach_date,
 		detach_date as detach_date
 FROM         tag_relations_history
 WHERE	   entity_type in(3,2,5,18);
@@ -759,10 +759,10 @@ WHERE	   entity_type in(3,2,5,18);
 CREATE OR REPLACE VIEW v3_0_latest_tag_relations_history_view
  AS
 SELECT	history_id as history_id,
-	    entity_id as entity_id, 
-		entity_type as entity_type, 
-		parent_id as parent_id, 
-		attach_date as attach_date, 
+	    entity_id as entity_id,
+		entity_type as entity_type,
+		parent_id as parent_id,
+		attach_date as attach_date,
 		detach_date as detach_date
 FROM         tag_relations_history
 WHERE	   entity_type in(3,2,5,18)
@@ -772,13 +772,13 @@ WHERE	   entity_type in(3,2,5,18)
 CREATE OR REPLACE VIEW v3_0_tag_details_view
  AS
 SELECT  history_id as history_id,
-		tag_id as tag_id, 
-		tag_name as tag_name, 
+		tag_id as tag_id,
+		tag_name as tag_name,
 		tag_description as tag_description,
-		tag_path as tag_path, 
+		tag_path as tag_path,
 		tag_level as tag_level,
-		create_date as create_date, 
-		update_date as update_date, 
+		create_date as create_date,
+		update_date as update_date,
 		delete_date as delete_date
 FROM         tag_details;
 
@@ -1605,15 +1605,15 @@ WHERE history_id in (SELECT max(a.history_id) FROM tag_details as a GROUP BY a.t
 
 CREATE OR REPLACE VIEW rhev_reports_input_control_cluster
  AS
-SELECT 
+SELECT
 	  history_id as history_id,
 	  cluster_id as cluster_id,
-      	  CASE 
+      	  CASE
 		WHEN delete_date IS NULL THEN cluster_name
 		ELSE cluster_name || ' (Removed on ' || cast(delete_date as varchar) || ')'
 	  END as cluster_name_ic,
 	  datacenter_id as datacenter_id,
-	  delete_date as delete_date, 
+	  delete_date as delete_date,
 	  0 as sort
 FROM cluster_configuration
 WHERE history_id in (SELECT max(a.history_id) FROM cluster_configuration as a GROUP BY a.cluster_id)
@@ -1622,8 +1622,8 @@ SELECT -1, '11111111-1111-1111-1111-111111111111','All', '11111111-1111-1111-111
 
 CREATE OR REPLACE VIEW rhev_reports_input_control_enum
  AS
-SELECT  value, 
-	enum_key,  
+SELECT  value,
+	enum_key,
 	enum_type,
 	0 as sort
 FROM v3_0_enum_translator_view

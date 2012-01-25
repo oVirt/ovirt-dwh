@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 #include db general functions
 source ./dbfunctions.sh
 source ./dbcustomfunctions.sh
@@ -54,7 +54,7 @@ CMD="ALTER DATABASE \"${DATABASE}\" SET client_min_messages=ERROR;"
 execute_command "${CMD}"  ${DATABASE} > /dev/null
 printf "Inserting UUID functions...\n"
 
-echo user name is: ${USERNAME} 
+echo user name is: ${USERNAME}
 
 check_and_install_uuid_osspa ${UUID}
 

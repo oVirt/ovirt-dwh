@@ -1,4 +1,4 @@
-#!/bin/bash 
+#!/bin/bash
 
 insert_initial_data() {
 	printf "Inserting Period Table Values ...\n"

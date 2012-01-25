@@ -39,7 +39,7 @@ PGSQL_SERVICE=/etc/init.d/$PGSQL
 #auth security file path
 PG_HBA_FILE=/var/lib/pgsql/data/pg_hba.conf
 
-#uuid generate sql 
+#uuid generate sql
 UUID_SQL=/usr/share/pgsql/contrib/uuid-ossp.sql
 LOG_PATH=/var/log/ovirt
 USER=`/usr/bin/whoami`
@@ -100,7 +100,7 @@ initLogFile()
 #TODO: check if postgresql patch is installed
 verifyPostgresPkgAreInstalled()
 {
-    echo "[$SCRIPT_NAME] verifying required rpms are installed." >> $LOG_FILE 
+    echo "[$SCRIPT_NAME] verifying required rpms are installed." >> $LOG_FILE
 	for rpm in "${REQUIRED_RPMS[@]}"; do
 		verifyPkgIsInstalled ${rpm}
 	done
@@ -109,28 +109,28 @@ verifyPostgresPkgAreInstalled()
 verifyPkgIsInstalled()
 {
 	RPM="$1"
-	rpm -q $RPM >> $LOG_FILE 2>&1  
+	rpm -q $RPM >> $LOG_FILE 2>&1
 	_verifyRC $? "error, rpm $RPM is not installed"
 }
 
 verifyPostgresService()
 {
-   echo "[$SCRIPT_NAME] verifying postgres service exists." >> $LOG_FILE 
+   echo "[$SCRIPT_NAME] verifying postgres service exists." >> $LOG_FILE
    if [ ! -x $PGSQL_SERVICE ]
    then
-        echo "[$SCRIPT_NAME] postgresql service cannot be executed from $PGSQL_SERVICE" 
-        exit 1 
-   fi 
+        echo "[$SCRIPT_NAME] postgresql service cannot be executed from $PGSQL_SERVICE"
+        exit 1
+   fi
    if [ ! -x $PSQL ]
    then
-        echo "[$SCRIPT_NAME] postgres psql command cannot be executed from $PSQL" 
-        exit 1 
-   fi 
+        echo "[$SCRIPT_NAME] postgres psql command cannot be executed from $PSQL"
+        exit 1
+   fi
 }
 
 initPgsqlDB()
 {
-    echo "[$SCRIPT_NAME] init postgres db." >> $LOG_FILE 
+    echo "[$SCRIPT_NAME] init postgres db." >> $LOG_FILE
     #verify is service postgres initdb has run already
     if [ -e "$PGDATA/PG_VERSION" ]
     then
