@@ -32,7 +32,7 @@ while getopts :hs:d:u:p:l:f:v option; do
         s) SERVERNAME=$OPTARG;;
         d) DATABASE=$OPTARG;;
         u) USERNAME=$OPTARG;;
-	l) LOGFILE=$OPTARG;;
+        l) LOGFILE=$OPTARG;;
         f) UUID=$OPTARG;;
         v) VERBOSE=true;;
         h) usage;;

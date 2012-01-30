@@ -10,12 +10,12 @@ declare
 v_sql text;
 
 begin
-	if (not exists (select 1 from information_schema.columns where table_name ilike v_table and column_name ilike v_column)) then
-	    begin
-		v_sql := 'ALTER TABLE ' || v_table || ' ADD COLUMN ' || v_column || ' ' || v_column_def;
-		EXECUTE v_sql;
+    if (not exists (select 1 from information_schema.columns where table_name ilike v_table and column_name ilike v_column)) then
+        begin
+        v_sql := 'ALTER TABLE ' || v_table || ' ADD COLUMN ' || v_column || ' ' || v_column_def;
+        EXECUTE v_sql;
             end;
-	end if;
+    end if;
 END; $procedure$
 LANGUAGE plpgsql;
 
@@ -44,12 +44,12 @@ declare
 v_sql text;
 
 begin
-	if (exists (select 1 from information_schema.columns where table_name ilike v_table and column_name ilike v_column and (udt_name ilike v_type or data_type ilike v_type))) then
-	    begin
-		v_sql := 'ALTER TABLE ' || v_table || ' ALTER COLUMN ' || v_column || ' TYPE ' || v_new_type;
-		EXECUTE v_sql;
+    if (exists (select 1 from information_schema.columns where table_name ilike v_table and column_name ilike v_column and (udt_name ilike v_type or data_type ilike v_type))) then
+        begin
+        v_sql := 'ALTER TABLE ' || v_table || ' ALTER COLUMN ' || v_column || ' TYPE ' || v_new_type;
+        EXECUTE v_sql;
             end;
-	end if;
+    end if;
 END; $procedure$
 LANGUAGE plpgsql;
 
@@ -159,10 +159,10 @@ $BODY$
 
 
 Create or replace FUNCTION engine_record_license_usage(v_dt TIMESTAMP WITH TIME ZONE,
-	v_lic_desktops INTEGER, 
-	v_used_desktops INTEGER, 
-	v_lic_sockets INTEGER , 
-	v_used_sockets INTEGER)
+    v_lic_desktops INTEGER, 
+    v_used_desktops INTEGER, 
+    v_lic_sockets INTEGER , 
+    v_used_sockets INTEGER)
 RETURNS VOID
    AS $procedure$
    DECLARE
@@ -224,7 +224,7 @@ BEGIN
    else
 insert INTO engine_license_usage  values(SWV_dt,v_quarter,v_lic_desktops,SWV_used_desktops,v_lic_sockets,SWV_used_sockets);
    end if;
-	
+    
 END; $procedure$
 LANGUAGE plpgsql;
 

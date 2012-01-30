@@ -98,15 +98,15 @@ stop() {
     pid=0
     procrunning > /dev/null 2>&1
     if [ $pid = '0' ]; then
-	failure $"$prog shutdown"
-	echo -n -e "\noVirt ETL Service is currently not running\n"
+        failure $"$prog shutdown"
+        echo -n -e "\noVirt ETL Service is currently not running\n"
         if [ -f $lock_file ]; then
-		rm -f $lock_file
-	fi
-	if [ -f $ETL_PID ]; then
-		rm -f $ETL_PID
-	fi
-	return 1
+            rm -f $lock_file
+        fi
+        if [ -f $ETL_PID ]; then
+            rm -f $ETL_PID
+        fi
+        return 1
     fi
 
     # If process is still running
@@ -119,14 +119,14 @@ stop() {
     procrunning > /dev/null 2>&1
 
     if [ $pid != '0' ]; then
-	sleep 10
+    sleep 10
     fi
 
     pid=0
     procrunning > /dev/null 2>&1
 
     if [ $pid != '0' ]; then
-	sleep 10
+    sleep 10
     fi
 
     pid=0
@@ -134,7 +134,7 @@ stop() {
 
     # Second, try to kill signal it nicely
     if [ $pid != '0' ]; then
-	killproc -p $ETL_PID -d $SHUTDOWN_WAIT > /dev/null 2>&1
+    killproc -p $ETL_PID -d $SHUTDOWN_WAIT > /dev/null 2>&1
     fi
 
     # Still not dead... notify user
@@ -143,18 +143,18 @@ stop() {
     procrunning > /dev/null 2>&1
 
     if [ $pid != '0' ] ; then
-	failure $"$prog shutdown"
-	echo -n -e "\nTimeout: Shutdown command was sent, but process is still running with PID $pid\n"
-	return 1
+    failure $"$prog shutdown"
+    echo -n -e "\nTimeout: Shutdown command was sent, but process is still running with PID $pid\n"
+    return 1
     else
-	if [ -f $lock_file ]; then
-		rm -f $lock_file
-	fi
-	if [ -f $ETL_PID ]; then
-		rm -f $ETL_PID
-	fi
-	success $"$prog shutdown";echo
-	return 0
+    if [ -f $lock_file ]; then
+        rm -f $lock_file
+    fi
+    if [ -f $ETL_PID ]; then
+        rm -f $ETL_PID
+    fi
+    success $"$prog shutdown";echo
+    return 0
     fi
 }
 
@@ -205,8 +205,8 @@ case "$1" in
             stop
             sleep 2
             start
-	else
-	    echo "oVirt ETL Service is currently not running"
+    else
+        echo "oVirt ETL Service is currently not running"
         fi
         ;;
   *)

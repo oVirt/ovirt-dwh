@@ -36,7 +36,7 @@ execute_file () {
     fi
 
     if [[ -n "${LOGFILE}" ]]; then
-	cmdline="${cmdline} --log-file=${LOGFILE} "
+    cmdline="${cmdline} --log-file=${LOGFILE} "
     fi
 
     eval $cmdline
@@ -179,12 +179,12 @@ run_upgrade_files() {
             updated=1
         fi
 
-	for file in upgrade/??_??_????*.sql; do
+    for file in upgrade/??_??_????*.sql; do
             before=$(get_db_time)
             checksum=$(md5sum $file | cut -d " " -f1)
             # upgrade/dd_dd_dddd* => dddddddd
-	    ver="${file:8:2}${file:11:2}${file:14:4}"
-	    if [ "$ver" -gt "$current" ] ; then
+        ver="${file:8:2}${file:11:2}${file:14:4}"
+        if [ "$ver" -gt "$current" ] ; then
                 echo "Running upgrade script $file "
                 execute_file $file ${DATABASE} 1 > /dev/null
                 code=$?
@@ -209,7 +209,7 @@ run_upgrade_files() {
             # aoto generate .schema file
             pg_dump -f .schema -F p -n public -s -U ${USERNAME} ${DATABASE}  >& /dev/null
         else
-	    echo "database is up to date."
+        echo "database is up to date."
         fi
     fi
 }

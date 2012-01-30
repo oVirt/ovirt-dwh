@@ -3,7 +3,7 @@
 # Copyright 2009-2011 Red Hat, Inc. All rights reserved.
 # Use is subject to license terms.
 #
-# Description:	  Installs and configs postgres db for ovirt_history
+# Description:      Installs and configs postgres db for ovirt_history
 #
 # note: this script should be run as root in order to have the permissions to create the nessesary files on the fs.
 #
@@ -56,12 +56,12 @@ PSQL=/usr/bin/psql
 
 verifyArgs()
 {
-	#if we dont have mandatory args, exit with 1
-	if [[ "x${LOG_FILE}" == "x" ]]
-	then
-		echo "$SCRIPT_NAME must get log filename as argument 1"
-		exit 1
-	fi
+    #if we dont have mandatory args, exit with 1
+    if [[ "x${LOG_FILE}" == "x" ]]
+    then
+        echo "$SCRIPT_NAME must get log filename as argument 1"
+        exit 1
+    fi
 }
 
 verifyRunPermissions()
@@ -101,16 +101,16 @@ initLogFile()
 verifyPostgresPkgAreInstalled()
 {
     echo "[$SCRIPT_NAME] verifying required rpms are installed." >> $LOG_FILE
-	for rpm in "${REQUIRED_RPMS[@]}"; do
-		verifyPkgIsInstalled ${rpm}
-	done
+    for rpm in "${REQUIRED_RPMS[@]}"; do
+        verifyPkgIsInstalled ${rpm}
+    done
 }
 
 verifyPkgIsInstalled()
 {
-	RPM="$1"
-	rpm -q $RPM >> $LOG_FILE 2>&1
-	_verifyRC $? "error, rpm $RPM is not installed"
+    RPM="$1"
+    rpm -q $RPM >> $LOG_FILE 2>&1
+    _verifyRC $? "error, rpm $RPM is not installed"
 }
 
 verifyPostgresService()
@@ -137,20 +137,20 @@ initPgsqlDB()
         echo "[$SCRIPT_NAME] psgql db already been initialized." >> $LOG_FILE
     else
         $PGSQL_SERVICE initdb >> $LOG_FILE 2>&1
-	    _verifyRC $? "error, failed initializing postgresql db"
+        _verifyRC $? "error, failed initializing postgresql db"
     fi
 }
 
 startPgsqlService()
 {
-	USER=$1
-	DB=$2
-	echo "[$SCRIPT_NAME] stop postgres service." >> $LOG_FILE
-	$PGSQL_SERVICE stop >> $LOG_FILE 2>&1
+    USER=$1
+    DB=$2
+    echo "[$SCRIPT_NAME] stop postgres service." >> $LOG_FILE
+    $PGSQL_SERVICE stop >> $LOG_FILE 2>&1
 
     echo "[$SCRIPT_NAME] starting postgres service." >> $LOG_FILE
     $PGSQL_SERVICE start >> $LOG_FILE 2>&1
-	_verifyRC $? "failed starting postgresql service"
+    _verifyRC $? "failed starting postgresql service"
 
     #verify that the postgres service is up before continuing
     SERVICE_UP=0
@@ -177,9 +177,9 @@ startPgsqlService()
 #TODO: Handle more auth types in the future
 changePgAuthScheme()
 {
-	OLD=$1
-	NEW=$2
-	OLD_OPTIONAL=$3
+    OLD=$1
+    NEW=$2
+    OLD_OPTIONAL=$3
     echo "[$SCRIPT_NAME] changing authentication scheme from $OLD to $NEW." >> $LOG_FILE
     #backup original hba file
     BACKUP_HBA_FILE=$PG_HBA_FILE.orig
@@ -192,15 +192,15 @@ changePgAuthScheme()
        exit 1
     fi
 
-	#if we dont have optional old, use old
+    #if we dont have optional old, use old
         if [[ "x${OLD_OPTIONAL}" == "x" ]]
         then
                OLD_OPTIONAL=$OLD
         fi
 
-	#sed will replace any OLD with NEW but will ignore comment and empty lines
-	eval "$SED -i -e '/^[[:space:]]*#/!s/$OLD/$NEW/g' -e '/^[[:space:]]*#/!s/$OLD_OPTIONAL/$NEW/g' $PG_HBA_FILE" >> $LOG_FILE 2>&1
-	_verifyRC $? "error, failed updating hba auth file $PG_HBA_FILE"
+    #sed will replace any OLD with NEW but will ignore comment and empty lines
+    eval "$SED -i -e '/^[[:space:]]*#/!s/$OLD/$NEW/g' -e '/^[[:space:]]*#/!s/$OLD_OPTIONAL/$NEW/g' $PG_HBA_FILE" >> $LOG_FILE 2>&1
+    _verifyRC $? "error, failed updating hba auth file $PG_HBA_FILE"
 }
 
 #TODO: handle remote DB Installation
@@ -249,23 +249,23 @@ checkIfDBExists()
 
 updateDBUsers()
 {
-	echo "[$SCRIPT_NAME] updating postgres users credentials" >> $LOG_FILE
+    echo "[$SCRIPT_NAME] updating postgres users credentials" >> $LOG_FILE
 
-	#update user postgres password
-	$PSQL -U $DB_ADMIN -c "ALTER ROLE $DB_ADMIN WITH ENCRYPTED PASSWORD '$DB_PASS'" >> /dev/null  2>&1
-	_verifyRC $? "failed updating user $DB_ADMIN password"
+    #update user postgres password
+    $PSQL -U $DB_ADMIN -c "ALTER ROLE $DB_ADMIN WITH ENCRYPTED PASSWORD '$DB_PASS'" >> /dev/null  2>&1
+    _verifyRC $? "failed updating user $DB_ADMIN password"
 
-	#drop ovirt ROLE if exists
-	$PSQL -U $DB_ADMIN -c "DROP ROLE IF EXISTS $DB_USER" >> $LOG_FILE 2>&1
-	_verifyRC $? "failed updating user $DB_USER password"
+    #drop ovirt ROLE if exists
+    $PSQL -U $DB_ADMIN -c "DROP ROLE IF EXISTS $DB_USER" >> $LOG_FILE 2>&1
+    _verifyRC $? "failed updating user $DB_USER password"
 
-	#create user ovirt + password
-	$PSQL -U $DB_ADMIN -c "CREATE ROLE $DB_USER WITH LOGIN SUPERUSER ENCRYPTED PASSWORD '$DB_PASS'" >> /dev/null 2>&1
-	_verifyRC $? "failed updating user $DB_USER password"
+    #create user ovirt + password
+    $PSQL -U $DB_ADMIN -c "CREATE ROLE $DB_USER WITH LOGIN SUPERUSER ENCRYPTED PASSWORD '$DB_PASS'" >> /dev/null 2>&1
+    _verifyRC $? "failed updating user $DB_USER password"
 
-	#grant all permissions to user ovirt to db ovirt
-	$PSQL -U $DB_ADMIN -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME to $DB_USER " >> $LOG_FILE 2>&1
-	_verifyRC $? "failed updating user $DB_USER privileges"
+    #grant all permissions to user ovirt to db ovirt
+    $PSQL -U $DB_ADMIN -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME to $DB_USER " >> $LOG_FILE 2>&1
+    _verifyRC $? "failed updating user $DB_USER privileges"
 }
 
 turnPgsqlOnStartup()
@@ -291,8 +291,8 @@ checkIfDBExists
 DB_EXISTS=$?
 if [[ $DB_EXISTS -eq 0 ]]
 then
-	createDB
-	startPgsqlService postgres ovirt_history
+    createDB
+    startPgsqlService postgres ovirt_history
 elif [[ $DB_EXISTS -eq 2 ]]
 then
    echo "[$SCRIPT_NAME] error, $TABLE_NAME doesnt exists on DB $DB_NAME" >> $LOG_FILE

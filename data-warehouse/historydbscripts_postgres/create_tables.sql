@@ -30,7 +30,7 @@ CREATE TABLE datacenter_configuration
    history_id INTEGER DEFAULT NEXTVAL('configuration_seq') PRIMARY KEY NOT NULL,
    datacenter_id UUID NOT NULL,
    datacenter_name VARCHAR(40) NOT NULL,
-   datacenter_description VARCHAR(4000) NOT NULL,	
+   datacenter_description VARCHAR(4000) NOT NULL,
    storage_type SMALLINT NOT NULL,
    create_date TIMESTAMP WITH TIME ZONE,
    update_date TIMESTAMP WITH TIME ZONE,

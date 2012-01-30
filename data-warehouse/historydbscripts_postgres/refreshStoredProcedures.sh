@@ -31,7 +31,7 @@ while getopts hs:d:u:p:l:v option; do
         s) SERVERNAME=$OPTARG;;
         d) DATABASE=$OPTARG;;
         u) USERNAME=$OPTARG;;
-	l) LOGFILE=$OPTARG;;
+        l) LOGFILE=$OPTARG;;
         v) VERBOSE=true;;
         h) usage;;
     esac

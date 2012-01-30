@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
   <parent>
         <groupId>${dwh.groupId}</groupId>
-	<artifactId>etl_sources</artifactId>
+    <artifactId>etl_sources</artifactId>
         <version>${dwh.version}</version>
   </parent>
 
@@ -24,16 +24,16 @@
   </dependencies>
 
   <build>
-	<pluginManagement>
-	    <plugins>
-	        <plugin>
-	            <artifactId>maven-compiler-plugin</artifactId> <configuration>
-	                <source>1.6</source> <target>1.6</target> <includes>
-	                    <include>**/*.txt</include> <include>**/*.java</include> <include>**/*.properties</include>
-	                </includes>
-	            </configuration>
-	        </plugin>
-	    </plugins>
-	</pluginManagement>
+    <pluginManagement>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId> <configuration>
+                    <source>1.6</source> <target>1.6</target> <includes>
+                        <include>**/*.txt</include> <include>**/*.java</include> <include>**/*.properties</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </pluginManagement>
   </build>
 </project>

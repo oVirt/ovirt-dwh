@@ -3,7 +3,7 @@
 
   <parent>
           <groupId>${dwh.groupId}</groupId>
-	  <artifactId>data-warehouse</artifactId>
+          <artifactId>data-warehouse</artifactId>
           <version>${dwh.version}</version>
   </parent>
 
