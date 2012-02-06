@@ -13,93 +13,27 @@
     <contextParameter comment="" name="lastFullHostCheck" prompt="lastFullHostCheck?" promptNeeded="false" type="id_Date" value=""/>
   </context>
   <parameters>
-    <elementParameter field="DIRECTORY" name="COMP_DEFAULT_FILE_DIR" value="/ext_space/TOS-All-r63143-V4.2.2/workspace"/>
-    <elementParameter field="DIRECTORY" name="PRODUCT_ROOT_DIR" value="/ext_space/TOS-All-r63143-V4.2.2"/>
-    <elementParameter field="DIRECTORY" name="COMP_DEFAULT_PROJECT_DIR" value="/ext_space/TOS-All-r63143-V4.2.2/workspace/oVirt DWH"/>
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx1024M"/>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="false"/>
-    <elementParameter field="TEXT" name="AUTHOR" value="ydary@redhat.com"/>
-    <elementParameter field="TEXT" name="STATUS" value=""/>
-    <elementParameter field="TEXT" name="NAME" value="HostConfigCheck"/>
-    <elementParameter field="TEXT" name="VERSION" value="3.0"/>
-    <elementParameter field="TEXT" name="PURPOSE" value=""/>
-    <elementParameter field="TEXT" name="DESCRIPTION" value=""/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="224"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="32"/>
     <elementParameter field="TEXT" name="SCHEMA_OPTIONS" value="none"/>
+    <elementParameter field="TEXT" name="OEM_CUSTOM_ATTRIBUTE" value=""/>
     <elementParameter field="CHECK" name="IMPLICITCONTEXT_USE_PROJECT_SETTINGS" value="true"/>
     <elementParameter field="CHECK" name="STATANDLOG_USE_PROJECT_SETTINGS" value="true"/>
-    <elementParameter field="CHECK" name="MULTI_THREAD_EXECATION" value="false"/>
-    <elementParameter field="CHECK" name="IMPLICIT_TCONTEXTLOAD" value="false"/>
-    <elementParameter field="RADIO" name="FROM_FILE_FLAG_IMPLICIT_CONTEXT" value="false"/>
-    <elementParameter field="RADIO" name="FROM_DATABASE_FLAG_IMPLICIT_CONTEXT" value="false"/>
     <elementParameter field="FILE" name="IMPLICIT_TCONTEXTLOAD_FILE" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;&quot;"/>
-    <elementParameter field="TECHNICAL" name="PROPERTY_TYPE_IMPLICIT_CONTEXT:PROPERTY_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="PROPERTY_TYPE_IMPLICIT_CONTEXT:REPOSITORY_PROPERTY_TYPE" value=""/>
-    <elementParameter field="CLOSED_LIST" name="DB_TYPE_IMPLICIT_CONTEXT" value=""/>
     <elementParameter field="CLOSED_LIST" name="DB_VERSION_IMPLICIT_CONTEXT" value=""/>
-    <elementParameter field="TEXT" name="HOST_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PORT_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="DBNAME_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PROPERTIES_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="SCHEMA_DB_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="USER_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
-    <elementParameter field="FILE" name="DBFILE_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
-    <elementParameter field="DBTABLE" name="DBTABLE_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="QUERY_CONDITION_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
     <elementParameter field="CLOSED_LIST" name="LOAD_NEW_VARIABLE" value=""/>
     <elementParameter field="CLOSED_LIST" name="NOT_LOAD_OLD_VARIABLE" value=""/>
-    <elementParameter field="CHECK" name="PRINT_OPERATIONS" value="false"/>
-    <elementParameter field="CHECK" name="DISABLE_ERROR" value="false"/>
     <elementParameter field="CHECK" name="DISABLE_WARNINGS" value="false"/>
     <elementParameter field="CHECK" name="DISABLE_INFO" value="false"/>
-    <elementParameter field="CHECK" name="ON_STATCATCHER_FLAG" value="false"/>
     <elementParameter field="CHECK" name="ON_LOGCATCHER_FLAG" value="true"/>
-    <elementParameter field="CHECK" name="ON_METERCATCHER_FLAG" value="false"/>
     <elementParameter field="CHECK" name="ON_CONSOLE_FLAG" value="true"/>
-    <elementParameter field="CHECK" name="ON_FILES_FLAG" value="false"/>
     <elementParameter field="DIRECTORY" name="FILE_PATH" value="&quot;/home/ydary/Desktop&quot;"/>
-    <elementParameter field="TEXT" name="FILENAME_STATS" value="&quot;stats_file.txt&quot;"/>
-    <elementParameter field="TEXT" name="FILENAME_LOGS" value="&quot;logs_file.txt&quot;"/>
-    <elementParameter field="TEXT" name="FILENAME_METTER" value="&quot;meter_file.txt&quot;"/>
-    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="ISO-8859-15"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
-    <elementParameter field="CHECK" name="ON_DATABASE_FLAG" value="false"/>
-    <elementParameter field="CLOSED_LIST" name="DB_TYPE" value="tJDBCOutput"/>
     <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ojdbc14-10g.jar"/>
-    <elementParameter field="TEXT" name="URL" value="&quot;&quot;"/>
-    <elementParameter field="TABLE" name="DRIVER_JAR"/>
-    <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="HOST" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PORT" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="DATASOURCE" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="DBNAME" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PROPERTIES" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="SCHEMA_DB" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
-    <elementParameter field="FILE" name="DBFILE" value="&quot;&quot;"/>
-    <elementParameter field="DBTABLE" name="TABLE_STATS" value="&quot;&quot;"/>
-    <elementParameter field="DBTABLE" name="TABLE_LOGS" value="&quot;&quot;"/>
-    <elementParameter field="DBTABLE" name="TABLE_METER" value="&quot;&quot;"/>
-    <elementParameter field="CHECK" name="CATCH_RUNTIME_ERRORS" value="true"/>
-    <elementParameter field="CHECK" name="CATCH_USER_ERRORS" value="true"/>
-    <elementParameter field="CHECK" name="CATCH_USER_WARNING" value="true"/>
-    <elementParameter field="CHECK" name="CATCH_REALTIME_STATS" value="false"/>
-    <elementParameter field="TEXT" name="HEADERFOOTER_HEADERID" value=""/>
-    <elementParameter field="CHECK" name="HEADER_ENABLED" value="false"/>
-    <elementParameter field="TEXT" name="HEADER_LIBRARY" value=""/>
-    <elementParameter field="TEXT" name="HEADER_CODE" value=""/>
-    <elementParameter field="TEXT" name="HEADER_IMPORT" value=""/>
-    <elementParameter field="TEXT" name="HEADERFOOTER_FOOTERID" value=""/>
-    <elementParameter field="CHECK" name="FOOTER_ENABLED" value="false"/>
-    <elementParameter field="TEXT" name="FOOTER_LIBRARY" value=""/>
-    <elementParameter field="TEXT" name="FOOTER_CODE" value=""/>
-    <elementParameter field="TEXT" name="FOOTER_IMPORT" value=""/>
     <routinesParameter id="_S6Oh4EJlEeCWRqOtaF5m-w" name="DataOperation"/>
     <routinesParameter id="_S6YS4EJlEeCWRqOtaF5m-w" name="Mathematical"/>
     <routinesParameter id="_S6avIEJlEeCWRqOtaF5m-w" name="Numeric"/>
@@ -167,7 +101,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_id, &#xD;&#xA;  upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;  host_unique_id, &#xD;&#xA;  host_name, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  host_type, &#xD;&#xA;  fqn_or_ip, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  swap_size_mb, &#xD;&#xA;  cpu_model, &#xD;&#xA;  number_of_cores, &#xD;&#xA;  host_os, &#xD;&#xA;  pm_ip_address, &#xD;&#xA;  kernel_version, &#xD;&#xA;  kvm_version, &#xD;&#xA;  vdsm_version, &#xD;&#xA;  vdsm_port, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_host_configuration_full_check_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_id, &#xD;&#xA;  upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;  host_unique_id, &#xD;&#xA;  host_name, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  host_type, &#xD;&#xA;  fqn_or_ip, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  swap_size_mb, &#xD;&#xA;  cpu_model, &#xD;&#xA;  number_of_cores,&#xA;  number_of_sockets,&#xA;  cpu_speed_mh,&#xD;&#xA;  host_os, &#xD;&#xA;  pm_ip_address, &#xD;&#xA;  kernel_version, &#xD;&#xA;  kvm_version, &#xD;&#xA;  vdsm_version, &#xD;&#xA;  vdsm_port, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_host_configuration_full_check_view&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -197,6 +131,10 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="cpu_model"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="number_of_cores"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="number_of_sockets"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="cpu_speed_mh"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="host_os"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -233,6 +171,8 @@
       <column comment="" key="false" length="10" name="swap_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="255" name="cpu_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="5" name="number_of_cores" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
       <column comment="" key="false" length="4000" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="pm_ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="4000" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -257,7 +197,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;swap_size_mb,&#xD;&#xA;&#x9;&#x9;cpu_model, &#xD;&#xA;&#x9;&#x9;number_of_cores, &#xD;&#xA;&#x9;&#x9;host_os, &#xD;&#xA;&#x9;&#x9;kernel_version, &#xD;&#xA;&#x9;&#x9;kvm_version, &#xD;&#xA;&#x9;&#x9;vdsm_version&#xD;&#xA;FROM v3_0_latest_host_configuration_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;swap_size_mb,&#xD;&#xA;&#x9;&#x9;cpu_model, &#xD;&#xA;&#x9;&#x9;number_of_cores,&#xA;        number_of_sockets,&#xA;        cpu_speed_mh,&#xD;&#xA;&#x9;&#x9;host_os, &#xD;&#xA;&#x9;&#x9;kernel_version, &#xD;&#xA;&#x9;&#x9;kvm_version, &#xD;&#xA;&#x9;&#x9;vdsm_version&#xD;&#xA;FROM v3_0_latest_host_configuration_view&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -273,6 +213,10 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="cpu_model"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="number_of_cores"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="number_of_sockets"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="cpu_speed_mh"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="host_os"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -294,6 +238,8 @@
       <column comment="" key="false" length="4" name="swap_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="255" name="cpu_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="2" name="number_of_cores" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
       <column comment="" key="false" length="255" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="kvm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -324,6 +270,8 @@
       <column comment="" key="false" length="4" name="swap_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="255" name="cpu_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="2" name="number_of_cores" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
       <column comment="" key="false" length="255" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="pm_ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -336,7 +284,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="host_changes" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="host_id" expression="row2.host_id" type="id_Object"/>
@@ -349,6 +297,8 @@
         <mapperTableEntries name="swap_size_mb" expression="row2.swap_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="cpu_model" expression="StringHandling.TRIM(row2.cpu_model)" type="id_String" nullable="true"/>
         <mapperTableEntries name="number_of_cores" expression="row2.number_of_cores" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="number_of_sockets" expression="row2.number_of_sockets" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="cpu_speed_mh" expression="row2.cpu_speed_mh" type="id_Double" nullable="true"/>
         <mapperTableEntries name="host_os" expression="StringHandling.TRIM(row2.host_os)" type="id_String" nullable="true"/>
         <mapperTableEntries name="pm_ip_address" expression="StringHandling.TRIM(row2.pm_ip_address)" type="id_String" nullable="true"/>
         <mapperTableEntries name="kernel_version" expression="StringHandling.TRIM(row2.kernel_version)" type="id_String" nullable="true"/>
@@ -373,6 +323,8 @@
         <mapperTableEntries name="swap_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="cpu_model" type="id_String" nullable="true"/>
         <mapperTableEntries name="number_of_cores" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="number_of_sockets" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="cpu_speed_mh" type="id_Double" nullable="true"/>
         <mapperTableEntries name="host_os" type="id_String" nullable="true"/>
         <mapperTableEntries name="pm_ip_address" type="id_String" nullable="true"/>
         <mapperTableEntries name="kernel_version" type="id_String" nullable="true"/>
@@ -392,6 +344,8 @@
         <mapperTableEntries name="swap_size_mb" expression="row2.swap_size_mb " type="id_Integer" nullable="true" operator="="/>
         <mapperTableEntries name="cpu_model" expression="StringHandling.TRIM(row2.cpu_model)" type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="number_of_cores" expression="row2.number_of_cores " type="id_Short" nullable="true" operator="="/>
+        <mapperTableEntries name="number_of_sockets" expression="row2.number_of_sockets" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="cpu_speed_mh" expression="row2.cpu_speed_mh" type="id_Double" nullable="true"/>
         <mapperTableEntries name="host_os" expression="StringHandling.TRIM(row2.host_os)" type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="kernel_version" expression="StringHandling.TRIM(row2.kernel_version)" type="id_String" nullable="true" operator="="/>
         <mapperTableEntries name="kvm_version" expression="StringHandling.TRIM(row2.kvm_version)" type="id_String" nullable="true" operator="="/>
@@ -468,6 +422,16 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="number_of_sockets"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="cpu_speed_mh"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="host_os"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -537,6 +501,8 @@
       <column comment="" key="false" length="4" name="swap_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="255" name="cpu_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="2" name="number_of_cores" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
       <column comment="" key="false" length="255" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="pm_ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -559,6 +525,8 @@
       <column comment="" key="false" length="4" name="swap_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="255" name="cpu_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="2" name="number_of_cores" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
       <column comment="" key="false" length="255" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="pm_ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -862,6 +830,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="host_join_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="cpu_speed_mh"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="number_of_sockets"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -883,6 +857,12 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="host_join_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="cpu_speed_mh"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="number_of_sockets"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -956,6 +936,12 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="vdsm_version"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="cpu_speed_mh"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="number_of_sockets"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>

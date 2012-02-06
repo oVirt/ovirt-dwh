@@ -11539,6 +11539,18 @@ public class ConfigurationSync implements TalendJob {
 			return this.number_of_cores;
 		}
 
+		public Short number_of_sockets;
+
+		public Short getNumber_of_sockets() {
+			return this.number_of_sockets;
+		}
+
+		public Double cpu_speed_mh;
+
+		public Double getCpu_speed_mh() {
+			return this.cpu_speed_mh;
+		}
+
 		public String host_os;
 
 		public String getHost_os() {
@@ -11708,6 +11720,20 @@ public class ConfigurationSync implements TalendJob {
 						this.number_of_cores = dis.readShort();
 					}
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.number_of_sockets = null;
+					} else {
+						this.number_of_sockets = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.cpu_speed_mh = null;
+					} else {
+						this.cpu_speed_mh = dis.readDouble();
+					}
+
 					this.host_os = readString(dis);
 
 					this.pm_ip_address = readString(dis);
@@ -11788,6 +11814,24 @@ public class ConfigurationSync implements TalendJob {
 					dos.writeShort(this.number_of_cores);
 				}
 
+				// Short
+
+				if (this.number_of_sockets == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.number_of_sockets);
+				}
+
+				// Double
+
+				if (this.cpu_speed_mh == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeDouble(this.cpu_speed_mh);
+				}
+
 				// String
 
 				writeString(this.host_os, dos);
@@ -11849,6 +11893,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",swap_size_mb=" + String.valueOf(swap_size_mb));
 			sb.append(",cpu_model=" + cpu_model);
 			sb.append(",number_of_cores=" + String.valueOf(number_of_cores));
+			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
+			sb.append(",cpu_speed_mh=" + String.valueOf(cpu_speed_mh));
 			sb.append(",host_os=" + host_os);
 			sb.append(",pm_ip_address=" + pm_ip_address);
 			sb.append(",kernel_version=" + kernel_version);
@@ -11970,6 +12016,18 @@ public class ConfigurationSync implements TalendJob {
 			return this.number_of_cores;
 		}
 
+		public Short number_of_sockets;
+
+		public Short getNumber_of_sockets() {
+			return this.number_of_sockets;
+		}
+
+		public Double cpu_speed_mh;
+
+		public Double getCpu_speed_mh() {
+			return this.cpu_speed_mh;
+		}
+
 		public String host_os;
 
 		public String getHost_os() {
@@ -12134,6 +12192,20 @@ public class ConfigurationSync implements TalendJob {
 						this.number_of_cores = dis.readShort();
 					}
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.number_of_sockets = null;
+					} else {
+						this.number_of_sockets = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.cpu_speed_mh = null;
+					} else {
+						this.cpu_speed_mh = dis.readDouble();
+					}
+
 					this.host_os = readString(dis);
 
 					this.pm_ip_address = readString(dis);
@@ -12219,6 +12291,24 @@ public class ConfigurationSync implements TalendJob {
 					dos.writeShort(this.number_of_cores);
 				}
 
+				// Short
+
+				if (this.number_of_sockets == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.number_of_sockets);
+				}
+
+				// Double
+
+				if (this.cpu_speed_mh == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeDouble(this.cpu_speed_mh);
+				}
+
 				// String
 
 				writeString(this.host_os, dos);
@@ -12273,6 +12363,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",swap_size_mb=" + String.valueOf(swap_size_mb));
 			sb.append(",cpu_model=" + cpu_model);
 			sb.append(",number_of_cores=" + String.valueOf(number_of_cores));
+			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
+			sb.append(",cpu_speed_mh=" + String.valueOf(cpu_speed_mh));
 			sb.append(",host_os=" + host_os);
 			sb.append(",pm_ip_address=" + pm_ip_address);
 			sb.append(",kernel_version=" + kernel_version);
@@ -12391,6 +12483,18 @@ public class ConfigurationSync implements TalendJob {
 			return this.number_of_cores;
 		}
 
+		public Short number_of_sockets;
+
+		public Short getNumber_of_sockets() {
+			return this.number_of_sockets;
+		}
+
+		public Double cpu_speed_mh;
+
+		public Double getCpu_speed_mh() {
+			return this.cpu_speed_mh;
+		}
+
 		public String host_os;
 
 		public String getHost_os() {
@@ -12555,6 +12659,20 @@ public class ConfigurationSync implements TalendJob {
 						this.number_of_cores = dis.readShort();
 					}
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.number_of_sockets = null;
+					} else {
+						this.number_of_sockets = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.cpu_speed_mh = null;
+					} else {
+						this.cpu_speed_mh = dis.readDouble();
+					}
+
 					this.host_os = readString(dis);
 
 					this.pm_ip_address = readString(dis);
@@ -12640,6 +12758,24 @@ public class ConfigurationSync implements TalendJob {
 					dos.writeShort(this.number_of_cores);
 				}
 
+				// Short
+
+				if (this.number_of_sockets == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.number_of_sockets);
+				}
+
+				// Double
+
+				if (this.cpu_speed_mh == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeDouble(this.cpu_speed_mh);
+				}
+
 				// String
 
 				writeString(this.host_os, dos);
@@ -12694,6 +12830,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",swap_size_mb=" + String.valueOf(swap_size_mb));
 			sb.append(",cpu_model=" + cpu_model);
 			sb.append(",number_of_cores=" + String.valueOf(number_of_cores));
+			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
+			sb.append(",cpu_speed_mh=" + String.valueOf(cpu_speed_mh));
 			sb.append(",host_os=" + host_os);
 			sb.append(",pm_ip_address=" + pm_ip_address);
 			sb.append(",kernel_version=" + kernel_version);
@@ -12797,7 +12935,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_4 = "INSERT INTO "
 						+ "host_configuration"
-						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,host_os,pm_ip_address,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,number_of_sockets,cpu_speed_mh,host_os,pm_ip_address,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_4 = connection_tJDBCOutput_4
 						.prepareStatement(insert_tJDBCOutput_4);
 
@@ -12856,7 +12994,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_4 = conn_tJDBCInput_4
 						.createStatement();
 
-				String dbquery_tJDBCInput_4 = "SELECT     host_id,     host_unique_id,     host_name,     cluster_id,    upper(cast(cluster_id as char(36))) as cluster_join_id,      host_type,     fqn_or_ip,     memory_size_mb,     swap_size_mb,     cpu_model,     number_of_cores,     host_os,     pm_ip_address,     kernel_version,     kvm_version,     vdsm_version,     vdsm_port,     create_date,     update_date  FROM dwh_host_configuration_history_view";
+				String dbquery_tJDBCInput_4 = "SELECT     host_id,     host_unique_id,     host_name,     cluster_id,    upper(cast(cluster_id as char(36))) as cluster_join_id,      host_type,     fqn_or_ip,     memory_size_mb,     swap_size_mb,     cpu_model,    number_of_cores,    number_of_sockets,   cpu_speed_mh,    host_os,     pm_ip_address,     kernel_version,     kvm_version,     vdsm_version,     vdsm_port,     create_date,     update_date  FROM dwh_host_configuration_history_view";
 
 				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
 
@@ -13031,10 +13169,39 @@ public class ConfigurationSync implements TalendJob {
 						}
 					}
 					if (colQtyInRs_tJDBCInput_4 < 12) {
+						row7.number_of_sockets = null;
+					} else {
+
+						if (rs_tJDBCInput_4.getObject(12) != null) {
+							row7.number_of_sockets = rs_tJDBCInput_4
+									.getShort(12);
+						} else {
+							row7.number_of_sockets = null;
+						}
+
+						if (rs_tJDBCInput_4.wasNull()) {
+							row7.number_of_sockets = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_4 < 13) {
+						row7.cpu_speed_mh = null;
+					} else {
+
+						if (rs_tJDBCInput_4.getObject(13) != null) {
+							row7.cpu_speed_mh = rs_tJDBCInput_4.getDouble(13);
+						} else {
+							row7.cpu_speed_mh = null;
+						}
+
+						if (rs_tJDBCInput_4.wasNull()) {
+							row7.cpu_speed_mh = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_4 < 14) {
 						row7.host_os = null;
 					} else {
 
-						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4.getString(12);
+						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4.getString(14);
 						if (tmpContent_tJDBCInput_4 != null) {
 							row7.host_os = tmpContent_tJDBCInput_4;
 						} else {
@@ -13045,11 +13212,11 @@ public class ConfigurationSync implements TalendJob {
 							row7.host_os = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_4 < 13) {
+					if (colQtyInRs_tJDBCInput_4 < 15) {
 						row7.pm_ip_address = null;
 					} else {
 
-						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4.getString(13);
+						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4.getString(15);
 						if (tmpContent_tJDBCInput_4 != null) {
 							row7.pm_ip_address = tmpContent_tJDBCInput_4;
 						} else {
@@ -13060,11 +13227,11 @@ public class ConfigurationSync implements TalendJob {
 							row7.pm_ip_address = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_4 < 14) {
+					if (colQtyInRs_tJDBCInput_4 < 16) {
 						row7.kernel_version = null;
 					} else {
 
-						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4.getString(14);
+						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4.getString(16);
 						if (tmpContent_tJDBCInput_4 != null) {
 							row7.kernel_version = tmpContent_tJDBCInput_4;
 						} else {
@@ -13075,11 +13242,11 @@ public class ConfigurationSync implements TalendJob {
 							row7.kernel_version = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_4 < 15) {
+					if (colQtyInRs_tJDBCInput_4 < 17) {
 						row7.kvm_version = null;
 					} else {
 
-						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4.getString(15);
+						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4.getString(17);
 						if (tmpContent_tJDBCInput_4 != null) {
 							row7.kvm_version = tmpContent_tJDBCInput_4;
 						} else {
@@ -13090,11 +13257,11 @@ public class ConfigurationSync implements TalendJob {
 							row7.kvm_version = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_4 < 16) {
+					if (colQtyInRs_tJDBCInput_4 < 18) {
 						row7.vdsm_version = null;
 					} else {
 
-						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4.getString(16);
+						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4.getString(18);
 						if (tmpContent_tJDBCInput_4 != null) {
 							row7.vdsm_version = tmpContent_tJDBCInput_4;
 						} else {
@@ -13105,12 +13272,12 @@ public class ConfigurationSync implements TalendJob {
 							row7.vdsm_version = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_4 < 17) {
+					if (colQtyInRs_tJDBCInput_4 < 19) {
 						row7.vdsm_port = null;
 					} else {
 
-						if (rs_tJDBCInput_4.getObject(17) != null) {
-							row7.vdsm_port = rs_tJDBCInput_4.getInt(17);
+						if (rs_tJDBCInput_4.getObject(19) != null) {
+							row7.vdsm_port = rs_tJDBCInput_4.getInt(19);
 						} else {
 							row7.vdsm_port = null;
 						}
@@ -13119,16 +13286,16 @@ public class ConfigurationSync implements TalendJob {
 							row7.vdsm_port = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_4 < 18) {
+					if (colQtyInRs_tJDBCInput_4 < 20) {
 						row7.create_date = null;
 					} else {
 
 						java.util.Date date_tJDBCInput_4 = null;
 						try {
 							date_tJDBCInput_4 = rs_tJDBCInput_4
-									.getTimestamp(18);
+									.getTimestamp(20);
 						} catch (Exception e) {
-							date_tJDBCInput_4 = rs_tJDBCInput_4.getDate(18);
+							date_tJDBCInput_4 = rs_tJDBCInput_4.getDate(20);
 						}
 						row7.create_date = date_tJDBCInput_4;
 
@@ -13136,16 +13303,16 @@ public class ConfigurationSync implements TalendJob {
 							row7.create_date = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_4 < 19) {
+					if (colQtyInRs_tJDBCInput_4 < 21) {
 						row7.update_date = null;
 					} else {
 
 						java.util.Date date_tJDBCInput_4 = null;
 						try {
 							date_tJDBCInput_4 = rs_tJDBCInput_4
-									.getTimestamp(19);
+									.getTimestamp(21);
 						} catch (Exception e) {
-							date_tJDBCInput_4 = rs_tJDBCInput_4.getDate(19);
+							date_tJDBCInput_4 = rs_tJDBCInput_4.getDate(21);
 						}
 						row7.update_date = date_tJDBCInput_4;
 
@@ -13267,6 +13434,8 @@ public class ConfigurationSync implements TalendJob {
 							host_configuration_tmp.cpu_model = StringHandling
 									.TRIM(row7.cpu_model);
 							host_configuration_tmp.number_of_cores = row7.number_of_cores;
+							host_configuration_tmp.number_of_sockets = row7.number_of_sockets;
+							host_configuration_tmp.cpu_speed_mh = row7.cpu_speed_mh;
 							host_configuration_tmp.host_os = StringHandling
 									.TRIM(row7.host_os);
 							host_configuration_tmp.pm_ip_address = StringHandling
@@ -13379,86 +13548,102 @@ public class ConfigurationSync implements TalendJob {
 										host_configuration.number_of_cores);
 							}
 
-							if (host_configuration.host_os == null) {
+							if (host_configuration.number_of_sockets == null) {
 								pstmt_tJDBCOutput_4.setNull(11,
-										java.sql.Types.VARCHAR);
+										java.sql.Types.INTEGER);
 							} else {
-								pstmt_tJDBCOutput_4.setString(11,
-										host_configuration.host_os);
+								pstmt_tJDBCOutput_4.setShort(11,
+										host_configuration.number_of_sockets);
 							}
 
-							if (host_configuration.pm_ip_address == null) {
+							if (host_configuration.cpu_speed_mh == null) {
 								pstmt_tJDBCOutput_4.setNull(12,
-										java.sql.Types.VARCHAR);
+										java.sql.Types.DOUBLE);
 							} else {
-								pstmt_tJDBCOutput_4.setString(12,
-										host_configuration.pm_ip_address);
+								pstmt_tJDBCOutput_4.setDouble(12,
+										host_configuration.cpu_speed_mh);
 							}
 
-							if (host_configuration.kernel_version == null) {
+							if (host_configuration.host_os == null) {
 								pstmt_tJDBCOutput_4.setNull(13,
 										java.sql.Types.VARCHAR);
 							} else {
 								pstmt_tJDBCOutput_4.setString(13,
-										host_configuration.kernel_version);
+										host_configuration.host_os);
 							}
 
-							if (host_configuration.kvm_version == null) {
+							if (host_configuration.pm_ip_address == null) {
 								pstmt_tJDBCOutput_4.setNull(14,
 										java.sql.Types.VARCHAR);
 							} else {
 								pstmt_tJDBCOutput_4.setString(14,
-										host_configuration.kvm_version);
+										host_configuration.pm_ip_address);
 							}
 
-							if (host_configuration.vdsm_version == null) {
+							if (host_configuration.kernel_version == null) {
 								pstmt_tJDBCOutput_4.setNull(15,
 										java.sql.Types.VARCHAR);
 							} else {
 								pstmt_tJDBCOutput_4.setString(15,
+										host_configuration.kernel_version);
+							}
+
+							if (host_configuration.kvm_version == null) {
+								pstmt_tJDBCOutput_4.setNull(16,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_4.setString(16,
+										host_configuration.kvm_version);
+							}
+
+							if (host_configuration.vdsm_version == null) {
+								pstmt_tJDBCOutput_4.setNull(17,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_4.setString(17,
 										host_configuration.vdsm_version);
 							}
 
-							pstmt_tJDBCOutput_4.setInt(16,
+							pstmt_tJDBCOutput_4.setInt(18,
 									host_configuration.vdsm_port);
 
 							if (host_configuration.cluster_configuration_version == null) {
-								pstmt_tJDBCOutput_4.setNull(17,
+								pstmt_tJDBCOutput_4.setNull(19,
 										java.sql.Types.INTEGER);
 							} else {
 								pstmt_tJDBCOutput_4
 										.setInt(
-												17,
+												19,
 												host_configuration.cluster_configuration_version);
 							}
 
 							if (host_configuration.create_date != null) {
-								pstmt_tJDBCOutput_4.setTimestamp(18,
+								pstmt_tJDBCOutput_4.setTimestamp(20,
 										new java.sql.Timestamp(
 												host_configuration.create_date
 														.getTime()));
 							} else {
-								pstmt_tJDBCOutput_4.setNull(18,
+								pstmt_tJDBCOutput_4.setNull(20,
 										java.sql.Types.DATE);
 							}
 
 							if (host_configuration.update_date != null) {
-								pstmt_tJDBCOutput_4.setTimestamp(19,
+								pstmt_tJDBCOutput_4.setTimestamp(21,
 										new java.sql.Timestamp(
 												host_configuration.update_date
 														.getTime()));
 							} else {
-								pstmt_tJDBCOutput_4.setNull(19,
+								pstmt_tJDBCOutput_4.setNull(21,
 										java.sql.Types.DATE);
 							}
 
 							if (host_configuration.delete_date != null) {
-								pstmt_tJDBCOutput_4.setTimestamp(20,
+								pstmt_tJDBCOutput_4.setTimestamp(22,
 										new java.sql.Timestamp(
 												host_configuration.delete_date
 														.getTime()));
 							} else {
-								pstmt_tJDBCOutput_4.setNull(20,
+								pstmt_tJDBCOutput_4.setNull(22,
 										java.sql.Types.DATE);
 							}
 
@@ -13653,6 +13838,18 @@ public class ConfigurationSync implements TalendJob {
 			return this.number_of_cores;
 		}
 
+		public Short number_of_sockets;
+
+		public Short getNumber_of_sockets() {
+			return this.number_of_sockets;
+		}
+
+		public Double cpu_speed_mh;
+
+		public Double getCpu_speed_mh() {
+			return this.cpu_speed_mh;
+		}
+
 		public String host_os;
 
 		public String getHost_os() {
@@ -13822,6 +14019,20 @@ public class ConfigurationSync implements TalendJob {
 						this.number_of_cores = dis.readShort();
 					}
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.number_of_sockets = null;
+					} else {
+						this.number_of_sockets = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.cpu_speed_mh = null;
+					} else {
+						this.cpu_speed_mh = dis.readDouble();
+					}
+
 					this.host_os = readString(dis);
 
 					this.pm_ip_address = readString(dis);
@@ -13902,6 +14113,24 @@ public class ConfigurationSync implements TalendJob {
 					dos.writeShort(this.number_of_cores);
 				}
 
+				// Short
+
+				if (this.number_of_sockets == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.number_of_sockets);
+				}
+
+				// Double
+
+				if (this.cpu_speed_mh == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeDouble(this.cpu_speed_mh);
+				}
+
 				// String
 
 				writeString(this.host_os, dos);
@@ -13963,6 +14192,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",swap_size_mb=" + String.valueOf(swap_size_mb));
 			sb.append(",cpu_model=" + cpu_model);
 			sb.append(",number_of_cores=" + String.valueOf(number_of_cores));
+			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
+			sb.append(",cpu_speed_mh=" + String.valueOf(cpu_speed_mh));
 			sb.append(",host_os=" + host_os);
 			sb.append(",pm_ip_address=" + pm_ip_address);
 			sb.append(",kernel_version=" + kernel_version);
@@ -14090,6 +14321,18 @@ public class ConfigurationSync implements TalendJob {
 			return this.number_of_cores;
 		}
 
+		public Short number_of_sockets;
+
+		public Short getNumber_of_sockets() {
+			return this.number_of_sockets;
+		}
+
+		public Double cpu_speed_mh;
+
+		public Double getCpu_speed_mh() {
+			return this.cpu_speed_mh;
+		}
+
 		public String host_os;
 
 		public String getHost_os() {
@@ -14262,6 +14505,20 @@ public class ConfigurationSync implements TalendJob {
 						this.number_of_cores = dis.readShort();
 					}
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.number_of_sockets = null;
+					} else {
+						this.number_of_sockets = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.cpu_speed_mh = null;
+					} else {
+						this.cpu_speed_mh = dis.readDouble();
+					}
+
 					this.host_os = readString(dis);
 
 					this.pm_ip_address = readString(dis);
@@ -14353,6 +14610,24 @@ public class ConfigurationSync implements TalendJob {
 					dos.writeShort(this.number_of_cores);
 				}
 
+				// Short
+
+				if (this.number_of_sockets == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.number_of_sockets);
+				}
+
+				// Double
+
+				if (this.cpu_speed_mh == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeDouble(this.cpu_speed_mh);
+				}
+
 				// String
 
 				writeString(this.host_os, dos);
@@ -14412,6 +14687,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",swap_size_mb=" + String.valueOf(swap_size_mb));
 			sb.append(",cpu_model=" + cpu_model);
 			sb.append(",number_of_cores=" + String.valueOf(number_of_cores));
+			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
+			sb.append(",cpu_speed_mh=" + String.valueOf(cpu_speed_mh));
 			sb.append(",host_os=" + host_os);
 			sb.append(",pm_ip_address=" + pm_ip_address);
 			sb.append(",kernel_version=" + kernel_version);
@@ -14538,6 +14815,18 @@ public class ConfigurationSync implements TalendJob {
 			return this.number_of_cores;
 		}
 
+		public Short number_of_sockets;
+
+		public Short getNumber_of_sockets() {
+			return this.number_of_sockets;
+		}
+
+		public Double cpu_speed_mh;
+
+		public Double getCpu_speed_mh() {
+			return this.cpu_speed_mh;
+		}
+
 		public String host_os;
 
 		public String getHost_os() {
@@ -14710,6 +14999,20 @@ public class ConfigurationSync implements TalendJob {
 						this.number_of_cores = dis.readShort();
 					}
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.number_of_sockets = null;
+					} else {
+						this.number_of_sockets = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.cpu_speed_mh = null;
+					} else {
+						this.cpu_speed_mh = dis.readDouble();
+					}
+
 					this.host_os = readString(dis);
 
 					this.pm_ip_address = readString(dis);
@@ -14801,6 +15104,24 @@ public class ConfigurationSync implements TalendJob {
 					dos.writeShort(this.number_of_cores);
 				}
 
+				// Short
+
+				if (this.number_of_sockets == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.number_of_sockets);
+				}
+
+				// Double
+
+				if (this.cpu_speed_mh == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeDouble(this.cpu_speed_mh);
+				}
+
 				// String
 
 				writeString(this.host_os, dos);
@@ -14860,6 +15181,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",swap_size_mb=" + String.valueOf(swap_size_mb));
 			sb.append(",cpu_model=" + cpu_model);
 			sb.append(",number_of_cores=" + String.valueOf(number_of_cores));
+			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
+			sb.append(",cpu_speed_mh=" + String.valueOf(cpu_speed_mh));
 			sb.append(",host_os=" + host_os);
 			sb.append(",pm_ip_address=" + pm_ip_address);
 			sb.append(",kernel_version=" + kernel_version);
@@ -14965,7 +15288,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_17 = "INSERT INTO "
 						+ "host_configuration"
-						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,host_os,pm_ip_address,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,number_of_sockets,cpu_speed_mh,host_os,pm_ip_address,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_17 = connection_tJDBCOutput_17
 						.prepareStatement(insert_tJDBCOutput_17);
 
@@ -15024,7 +15347,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_22 = conn_tJDBCInput_22
 						.createStatement();
 
-				String dbquery_tJDBCInput_22 = "SELECT history_id,   		host_id,   		upper(cast(host_id as char(36))) as host_join_id,  		host_unique_id,   		host_name,   		cluster_id,   		host_type,   		fqn_or_ip,   		memory_size_mb,   		swap_size_mb,  		cpu_model,   		number_of_cores,   		host_os,   		pm_ip_address,  		kernel_version,   		kvm_version,   		vdsm_version,   		vdsm_port,   		cluster_configuration_version,   		create_date,   		update_date  FROM v3_0_latest_host_configuration_view";
+				String dbquery_tJDBCInput_22 = "SELECT history_id,   		host_id,   		upper(cast(host_id as char(36))) as host_join_id,  		host_unique_id,   		host_name,   		cluster_id,   		host_type,   		fqn_or_ip,   		memory_size_mb,   		swap_size_mb,  		cpu_model,   		number_of_cores,          number_of_sockets,         cpu_speed_mh,  		host_os,   		pm_ip_address,  		kernel_version,   		kvm_version,   		vdsm_version,   		vdsm_port,   		cluster_configuration_version,   		create_date,   		update_date  FROM v3_0_latest_host_configuration_view";
 
 				globalMap.put("tJDBCInput_22_QUERY", dbquery_tJDBCInput_22);
 
@@ -15219,11 +15542,40 @@ public class ConfigurationSync implements TalendJob {
 						}
 					}
 					if (colQtyInRs_tJDBCInput_22 < 13) {
+						row21.number_of_sockets = null;
+					} else {
+
+						if (rs_tJDBCInput_22.getObject(13) != null) {
+							row21.number_of_sockets = rs_tJDBCInput_22
+									.getShort(13);
+						} else {
+							row21.number_of_sockets = null;
+						}
+
+						if (rs_tJDBCInput_22.wasNull()) {
+							row21.number_of_sockets = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_22 < 14) {
+						row21.cpu_speed_mh = null;
+					} else {
+
+						if (rs_tJDBCInput_22.getObject(14) != null) {
+							row21.cpu_speed_mh = rs_tJDBCInput_22.getDouble(14);
+						} else {
+							row21.cpu_speed_mh = null;
+						}
+
+						if (rs_tJDBCInput_22.wasNull()) {
+							row21.cpu_speed_mh = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_22 < 15) {
 						row21.host_os = null;
 					} else {
 
 						tmpContent_tJDBCInput_22 = rs_tJDBCInput_22
-								.getString(13);
+								.getString(15);
 						if (tmpContent_tJDBCInput_22 != null) {
 							row21.host_os = tmpContent_tJDBCInput_22;
 						} else {
@@ -15234,12 +15586,12 @@ public class ConfigurationSync implements TalendJob {
 							row21.host_os = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_22 < 14) {
+					if (colQtyInRs_tJDBCInput_22 < 16) {
 						row21.pm_ip_address = null;
 					} else {
 
 						tmpContent_tJDBCInput_22 = rs_tJDBCInput_22
-								.getString(14);
+								.getString(16);
 						if (tmpContent_tJDBCInput_22 != null) {
 							row21.pm_ip_address = tmpContent_tJDBCInput_22;
 						} else {
@@ -15250,12 +15602,12 @@ public class ConfigurationSync implements TalendJob {
 							row21.pm_ip_address = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_22 < 15) {
+					if (colQtyInRs_tJDBCInput_22 < 17) {
 						row21.kernel_version = null;
 					} else {
 
 						tmpContent_tJDBCInput_22 = rs_tJDBCInput_22
-								.getString(15);
+								.getString(17);
 						if (tmpContent_tJDBCInput_22 != null) {
 							row21.kernel_version = tmpContent_tJDBCInput_22;
 						} else {
@@ -15266,12 +15618,12 @@ public class ConfigurationSync implements TalendJob {
 							row21.kernel_version = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_22 < 16) {
+					if (colQtyInRs_tJDBCInput_22 < 18) {
 						row21.kvm_version = null;
 					} else {
 
 						tmpContent_tJDBCInput_22 = rs_tJDBCInput_22
-								.getString(16);
+								.getString(18);
 						if (tmpContent_tJDBCInput_22 != null) {
 							row21.kvm_version = tmpContent_tJDBCInput_22;
 						} else {
@@ -15282,12 +15634,12 @@ public class ConfigurationSync implements TalendJob {
 							row21.kvm_version = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_22 < 17) {
+					if (colQtyInRs_tJDBCInput_22 < 19) {
 						row21.vdsm_version = null;
 					} else {
 
 						tmpContent_tJDBCInput_22 = rs_tJDBCInput_22
-								.getString(17);
+								.getString(19);
 						if (tmpContent_tJDBCInput_22 != null) {
 							row21.vdsm_version = tmpContent_tJDBCInput_22;
 						} else {
@@ -15298,12 +15650,12 @@ public class ConfigurationSync implements TalendJob {
 							row21.vdsm_version = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_22 < 18) {
+					if (colQtyInRs_tJDBCInput_22 < 20) {
 						row21.vdsm_port = null;
 					} else {
 
-						if (rs_tJDBCInput_22.getObject(18) != null) {
-							row21.vdsm_port = rs_tJDBCInput_22.getInt(18);
+						if (rs_tJDBCInput_22.getObject(20) != null) {
+							row21.vdsm_port = rs_tJDBCInput_22.getInt(20);
 						} else {
 							row21.vdsm_port = null;
 						}
@@ -15312,13 +15664,13 @@ public class ConfigurationSync implements TalendJob {
 							row21.vdsm_port = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_22 < 19) {
+					if (colQtyInRs_tJDBCInput_22 < 21) {
 						row21.cluster_configuration_version = null;
 					} else {
 
-						if (rs_tJDBCInput_22.getObject(19) != null) {
+						if (rs_tJDBCInput_22.getObject(21) != null) {
 							row21.cluster_configuration_version = rs_tJDBCInput_22
-									.getInt(19);
+									.getInt(21);
 						} else {
 							row21.cluster_configuration_version = null;
 						}
@@ -15327,16 +15679,16 @@ public class ConfigurationSync implements TalendJob {
 							row21.cluster_configuration_version = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_22 < 20) {
+					if (colQtyInRs_tJDBCInput_22 < 22) {
 						row21.create_date = null;
 					} else {
 
 						java.util.Date date_tJDBCInput_22 = null;
 						try {
 							date_tJDBCInput_22 = rs_tJDBCInput_22
-									.getTimestamp(20);
+									.getTimestamp(22);
 						} catch (Exception e) {
-							date_tJDBCInput_22 = rs_tJDBCInput_22.getDate(20);
+							date_tJDBCInput_22 = rs_tJDBCInput_22.getDate(22);
 						}
 						row21.create_date = date_tJDBCInput_22;
 
@@ -15344,16 +15696,16 @@ public class ConfigurationSync implements TalendJob {
 							row21.create_date = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_22 < 21) {
+					if (colQtyInRs_tJDBCInput_22 < 23) {
 						row21.update_date = null;
 					} else {
 
 						java.util.Date date_tJDBCInput_22 = null;
 						try {
 							date_tJDBCInput_22 = rs_tJDBCInput_22
-									.getTimestamp(21);
+									.getTimestamp(23);
 						} catch (Exception e) {
-							date_tJDBCInput_22 = rs_tJDBCInput_22.getDate(21);
+							date_tJDBCInput_22 = rs_tJDBCInput_22.getDate(23);
 						}
 						row21.update_date = date_tJDBCInput_22;
 
@@ -15468,6 +15820,8 @@ public class ConfigurationSync implements TalendJob {
 							delete_hosts_tmp.swap_size_mb = row21.swap_size_mb;
 							delete_hosts_tmp.cpu_model = row21.cpu_model;
 							delete_hosts_tmp.number_of_cores = row21.number_of_cores;
+							delete_hosts_tmp.number_of_sockets = row21.number_of_sockets;
+							delete_hosts_tmp.cpu_speed_mh = row21.cpu_speed_mh;
 							delete_hosts_tmp.host_os = row21.host_os;
 							delete_hosts_tmp.pm_ip_address = row21.pm_ip_address;
 							delete_hosts_tmp.kernel_version = row21.kernel_version;
@@ -15576,80 +15930,96 @@ public class ConfigurationSync implements TalendJob {
 									delete_hosts.number_of_cores);
 						}
 
-						if (delete_hosts.host_os == null) {
+						if (delete_hosts.number_of_sockets == null) {
 							pstmt_tJDBCOutput_17.setNull(11,
-									java.sql.Types.VARCHAR);
+									java.sql.Types.INTEGER);
 						} else {
-							pstmt_tJDBCOutput_17.setString(11,
-									delete_hosts.host_os);
+							pstmt_tJDBCOutput_17.setShort(11,
+									delete_hosts.number_of_sockets);
 						}
 
-						if (delete_hosts.pm_ip_address == null) {
+						if (delete_hosts.cpu_speed_mh == null) {
 							pstmt_tJDBCOutput_17.setNull(12,
-									java.sql.Types.VARCHAR);
+									java.sql.Types.DOUBLE);
 						} else {
-							pstmt_tJDBCOutput_17.setString(12,
-									delete_hosts.pm_ip_address);
+							pstmt_tJDBCOutput_17.setDouble(12,
+									delete_hosts.cpu_speed_mh);
 						}
 
-						if (delete_hosts.kernel_version == null) {
+						if (delete_hosts.host_os == null) {
 							pstmt_tJDBCOutput_17.setNull(13,
 									java.sql.Types.VARCHAR);
 						} else {
 							pstmt_tJDBCOutput_17.setString(13,
-									delete_hosts.kernel_version);
+									delete_hosts.host_os);
 						}
 
-						if (delete_hosts.kvm_version == null) {
+						if (delete_hosts.pm_ip_address == null) {
 							pstmt_tJDBCOutput_17.setNull(14,
 									java.sql.Types.VARCHAR);
 						} else {
 							pstmt_tJDBCOutput_17.setString(14,
-									delete_hosts.kvm_version);
+									delete_hosts.pm_ip_address);
 						}
 
-						if (delete_hosts.vdsm_version == null) {
+						if (delete_hosts.kernel_version == null) {
 							pstmt_tJDBCOutput_17.setNull(15,
 									java.sql.Types.VARCHAR);
 						} else {
 							pstmt_tJDBCOutput_17.setString(15,
+									delete_hosts.kernel_version);
+						}
+
+						if (delete_hosts.kvm_version == null) {
+							pstmt_tJDBCOutput_17.setNull(16,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmt_tJDBCOutput_17.setString(16,
+									delete_hosts.kvm_version);
+						}
+
+						if (delete_hosts.vdsm_version == null) {
+							pstmt_tJDBCOutput_17.setNull(17,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmt_tJDBCOutput_17.setString(17,
 									delete_hosts.vdsm_version);
 						}
 
-						pstmt_tJDBCOutput_17.setInt(16, delete_hosts.vdsm_port);
+						pstmt_tJDBCOutput_17.setInt(18, delete_hosts.vdsm_port);
 
 						if (delete_hosts.cluster_configuration_version == null) {
-							pstmt_tJDBCOutput_17.setNull(17,
+							pstmt_tJDBCOutput_17.setNull(19,
 									java.sql.Types.INTEGER);
 						} else {
-							pstmt_tJDBCOutput_17.setInt(17,
+							pstmt_tJDBCOutput_17.setInt(19,
 									delete_hosts.cluster_configuration_version);
 						}
 
 						if (delete_hosts.create_date != null) {
 							pstmt_tJDBCOutput_17
-									.setTimestamp(18, new java.sql.Timestamp(
+									.setTimestamp(20, new java.sql.Timestamp(
 											delete_hosts.create_date.getTime()));
 						} else {
-							pstmt_tJDBCOutput_17.setNull(18,
+							pstmt_tJDBCOutput_17.setNull(20,
 									java.sql.Types.DATE);
 						}
 
 						if (delete_hosts.update_date != null) {
 							pstmt_tJDBCOutput_17
-									.setTimestamp(19, new java.sql.Timestamp(
+									.setTimestamp(21, new java.sql.Timestamp(
 											delete_hosts.update_date.getTime()));
 						} else {
-							pstmt_tJDBCOutput_17.setNull(19,
+							pstmt_tJDBCOutput_17.setNull(21,
 									java.sql.Types.DATE);
 						}
 
 						if (delete_hosts.delete_date != null) {
 							pstmt_tJDBCOutput_17
-									.setTimestamp(20, new java.sql.Timestamp(
+									.setTimestamp(22, new java.sql.Timestamp(
 											delete_hosts.delete_date.getTime()));
 						} else {
-							pstmt_tJDBCOutput_17.setNull(20,
+							pstmt_tJDBCOutput_17.setNull(22,
 									java.sql.Types.DATE);
 						}
 
@@ -50115,6 +50485,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1341155 characters generated by Talend Open Studio for Data Integration on
- * the December 21, 2011 12:33:22 PM IST
+ * 1352142 characters generated by Talend Open Studio for Data Integration on
+ * the February 6, 2012 4:51:57 PM IST
  ************************************************************************************************/
