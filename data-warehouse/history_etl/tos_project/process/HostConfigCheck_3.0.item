@@ -192,12 +192,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v3_0_latest_host_configuration_view&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v3_1_latest_host_configuration_view&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;swap_size_mb,&#xD;&#xA;&#x9;&#x9;cpu_model, &#xD;&#xA;&#x9;&#x9;number_of_cores,&#xA;        number_of_sockets,&#xA;        cpu_speed_mh,&#xD;&#xA;&#x9;&#x9;host_os, &#xD;&#xA;&#x9;&#x9;kernel_version, &#xD;&#xA;&#x9;&#x9;kvm_version, &#xD;&#xA;&#x9;&#x9;vdsm_version&#xD;&#xA;FROM v3_0_latest_host_configuration_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;swap_size_mb,&#xD;&#xA;&#x9;&#x9;cpu_model, &#xD;&#xA;&#x9;&#x9;number_of_cores,&#xA;        number_of_sockets,&#xA;        cpu_speed_mh,&#xD;&#xA;&#x9;&#x9;host_os, &#xD;&#xA;&#x9;&#x9;kernel_version, &#xD;&#xA;&#x9;&#x9;kvm_version, &#xD;&#xA;&#x9;&#x9;vdsm_version&#xD;&#xA;FROM v3_1_latest_host_configuration_view&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -232,7 +232,7 @@
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
-    <metadata connector="FLOW" label="v3_0_latest_host_configuration_view" name="tJDBCInput_1">
+    <metadata connector="FLOW" label="v3_1_latest_host_configuration_view" name="tJDBCInput_1">
       <column comment="" key="false" name="host_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
       <column comment="" key="false" length="4" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="swap_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -550,12 +550,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v3_0_latest_cluster_configuration_view&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v3_1_latest_cluster_configuration_view&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id&#xD;&#xA;FROM  v3_0_latest_cluster_configuration_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id&#xD;&#xA;FROM  v3_1_latest_cluster_configuration_view&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -572,7 +572,7 @@
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
-    <metadata connector="FLOW" label="v3_0_latest_vm_interface_configuration_view" name="tJDBCInput_3">
+    <metadata connector="FLOW" label="v3_1_latest_vm_interface_configuration_view" name="tJDBCInput_3">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="36" name="cluster_join_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_String"/>
     </metadata>

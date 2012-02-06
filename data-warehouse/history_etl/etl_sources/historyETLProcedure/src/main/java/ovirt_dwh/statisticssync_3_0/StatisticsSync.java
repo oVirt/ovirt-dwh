@@ -2231,7 +2231,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_1 = conn_tJDBCInput_1
 						.createStatement();
 
-				String dbquery_tJDBCInput_1 = "SELECT history_id, upper(cast(datacenter_id as char(36))) as datacenter_join_id  FROM  v3_0_latest_datacenter_configuration_view";
+				String dbquery_tJDBCInput_1 = "SELECT history_id, upper(cast(datacenter_id as char(36))) as datacenter_join_id  FROM  v3_1_latest_datacenter_configuration_view";
 
 				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
 
@@ -3693,7 +3693,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_3 = conn_tJDBCInput_3
 						.createStatement();
 
-				String dbquery_tJDBCInput_3 = "SELECT history_id, upper(cast(storage_domain_id as char(36))) as storage_domain_join_id  FROM  v3_0_latest_storage_domain_configuration_view";
+				String dbquery_tJDBCInput_3 = "SELECT history_id, upper(cast(storage_domain_id as char(36))) as storage_domain_join_id  FROM  v3_1_latest_storage_domain_configuration_view";
 
 				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
 
@@ -5988,7 +5988,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_6 = conn_tJDBCInput_6
 						.createStatement();
 
-				String dbquery_tJDBCInput_6 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id  FROM v3_0_latest_host_configuration_view";
+				String dbquery_tJDBCInput_6 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id  FROM v3_1_latest_host_configuration_view";
 
 				globalMap.put("tJDBCInput_6_QUERY", dbquery_tJDBCInput_6);
 
@@ -7470,7 +7470,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_13 = conn_tJDBCInput_13
 						.createStatement();
 
-				String dbquery_tJDBCInput_13 = "SELECT history_id, upper(cast(host_interface_id as char(36))) as host_interface_join_id  FROM v3_0_latest_host_interface_configuration_view";
+				String dbquery_tJDBCInput_13 = "SELECT history_id, upper(cast(host_interface_id as char(36))) as host_interface_join_id  FROM v3_1_latest_host_interface_configuration_view";
 
 				globalMap.put("tJDBCInput_13_QUERY", dbquery_tJDBCInput_13);
 
@@ -10146,7 +10146,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_9 = conn_tJDBCInput_9
 						.createStatement();
 
-				String dbquery_tJDBCInput_9 = "SELECT history_id, upper(cast(vm_id as char(36))) as vm_join_id  FROM  v3_0_latest_vm_configuration_view";
+				String dbquery_tJDBCInput_9 = "SELECT history_id, upper(cast(vm_id as char(36))) as vm_join_id  FROM  v3_1_latest_vm_configuration_view";
 
 				globalMap.put("tJDBCInput_9_QUERY", dbquery_tJDBCInput_9);
 
@@ -10582,7 +10582,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_14 = conn_tJDBCInput_14
 						.createStatement();
 
-				String dbquery_tJDBCInput_14 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id  FROM v3_0_latest_host_configuration_view";
+				String dbquery_tJDBCInput_14 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id  FROM v3_1_latest_host_configuration_view";
 
 				globalMap.put("tJDBCInput_14_QUERY", dbquery_tJDBCInput_14);
 
@@ -12066,7 +12066,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_15 = conn_tJDBCInput_15
 						.createStatement();
 
-				String dbquery_tJDBCInput_15 = "SELECT history_id, upper(cast(vm_interface_id as char(36))) as vm_interface_join_id  FROM  v3_0_latest_vm_interface_configuration_view";
+				String dbquery_tJDBCInput_15 = "SELECT history_id, upper(cast(vm_interface_id as char(36))) as vm_interface_join_id  FROM  v3_1_latest_vm_interface_configuration_view";
 
 				globalMap.put("tJDBCInput_15_QUERY", dbquery_tJDBCInput_15);
 
@@ -13993,7 +13993,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_20 = conn_tJDBCInput_20
 						.createStatement();
 
-				String dbquery_tJDBCInput_20 = "SELECT history_id, upper(cast(vm_disk_id as char(36))) as vm_disk_join_id  FROM  v3_0_latest_vm_disk_configuration_view";
+				String dbquery_tJDBCInput_20 = "SELECT history_id, upper(cast(vm_disk_id as char(36))) as vm_disk_join_id  FROM  v3_1_latest_vm_disk_configuration_view";
 
 				globalMap.put("tJDBCInput_20_QUERY", dbquery_tJDBCInput_20);
 

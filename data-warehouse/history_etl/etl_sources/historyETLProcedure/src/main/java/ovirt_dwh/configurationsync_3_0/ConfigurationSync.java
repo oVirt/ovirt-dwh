@@ -3809,7 +3809,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_15 = conn_tJDBCInput_15
 						.createStatement();
 
-				String dbquery_tJDBCInput_15 = "SELECT history_id,   		datacenter_id,   		upper(cast(datacenter_id as char(36))) as datacenter_join_id,  		datacenter_name,   		datacenter_description,          	storage_type,   		create_date,   		update_date  FROM  v3_0_latest_datacenter_configuration_view";
+				String dbquery_tJDBCInput_15 = "SELECT history_id,   		datacenter_id,   		upper(cast(datacenter_id as char(36))) as datacenter_join_id,  		datacenter_name,   		datacenter_description,          	storage_type,   		create_date,   		update_date  FROM  v3_1_latest_datacenter_configuration_view";
 
 				globalMap.put("tJDBCInput_15_QUERY", dbquery_tJDBCInput_15);
 
@@ -6661,7 +6661,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_18 = conn_tJDBCInput_18
 						.createStatement();
 
-				String dbquery_tJDBCInput_18 = "SELECT history_id,    		cluster_id,     		upper(cast(cluster_id as char(36))) as cluster_join_id,   		cluster_name,    		cluster_description,    		datacenter_id,    		cpu_name,    		compatibility_version,    		datacenter_configuration_version,    		create_date,    		update_date FROM v3_0_latest_cluster_configuration_view";
+				String dbquery_tJDBCInput_18 = "SELECT history_id,    		cluster_id,     		upper(cast(cluster_id as char(36))) as cluster_join_id,   		cluster_name,    		cluster_description,    		datacenter_id,    		cpu_name,    		compatibility_version,    		datacenter_configuration_version,    		create_date,    		update_date FROM v3_1_latest_cluster_configuration_view";
 
 				globalMap.put("tJDBCInput_18_QUERY", dbquery_tJDBCInput_18);
 
@@ -9019,7 +9019,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_20 = conn_tJDBCInput_20
 						.createStatement();
 
-				String dbquery_tJDBCInput_20 = "SELECT history_id,    		storage_domain_id,   		upper(cast(storage_domain_id as char(36))) as storage_domain_join_id,  		storage_domain_name,   		storage_domain_type,    		storage_type,    		create_date,    		update_date FROM v3_0_latest_storage_domain_configuration_view";
+				String dbquery_tJDBCInput_20 = "SELECT history_id,    		storage_domain_id,   		upper(cast(storage_domain_id as char(36))) as storage_domain_join_id,  		storage_domain_name,   		storage_domain_type,    		storage_type,    		create_date,    		update_date FROM v3_1_latest_storage_domain_configuration_view";
 
 				globalMap.put("tJDBCInput_20_QUERY", dbquery_tJDBCInput_20);
 
@@ -11085,7 +11085,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_34 = conn_tJDBCInput_34
 						.createStatement();
 
-				String dbquery_tJDBCInput_34 = "SELECT storage_domain_id,   		upper(cast(storage_domain_id as char(36))) as storage_domain_join_id,  		datacenter_id,   		upper(cast(datacenter_id as char(36))) as datacenter_join_id, 		attach_date FROM  v3_0_latest_datacenter_storage_domain_map_view";
+				String dbquery_tJDBCInput_34 = "SELECT storage_domain_id,   		upper(cast(storage_domain_id as char(36))) as storage_domain_join_id,  		datacenter_id,   		upper(cast(datacenter_id as char(36))) as datacenter_join_id, 		attach_date FROM  v3_1_latest_datacenter_storage_domain_map_view";
 
 				globalMap.put("tJDBCInput_34_QUERY", dbquery_tJDBCInput_34);
 
@@ -15347,7 +15347,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_22 = conn_tJDBCInput_22
 						.createStatement();
 
-				String dbquery_tJDBCInput_22 = "SELECT history_id,   		host_id,   		upper(cast(host_id as char(36))) as host_join_id,  		host_unique_id,   		host_name,   		cluster_id,   		host_type,   		fqn_or_ip,   		memory_size_mb,   		swap_size_mb,  		cpu_model,   		number_of_cores,          number_of_sockets,         cpu_speed_mh,  		host_os,   		pm_ip_address,  		kernel_version,   		kvm_version,   		vdsm_version,   		vdsm_port,   		cluster_configuration_version,   		create_date,   		update_date  FROM v3_0_latest_host_configuration_view";
+				String dbquery_tJDBCInput_22 = "SELECT history_id,   		host_id,   		upper(cast(host_id as char(36))) as host_join_id,  		host_unique_id,   		host_name,   		cluster_id,   		host_type,   		fqn_or_ip,   		memory_size_mb,   		swap_size_mb,  		cpu_model,   		number_of_cores,          number_of_sockets,         cpu_speed_mh,  		host_os,   		pm_ip_address,  		kernel_version,   		kvm_version,   		vdsm_version,   		vdsm_port,   		cluster_configuration_version,   		create_date,   		update_date  FROM v3_1_latest_host_configuration_view";
 
 				globalMap.put("tJDBCInput_22_QUERY", dbquery_tJDBCInput_22);
 
@@ -19347,7 +19347,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_24 = conn_tJDBCInput_24
 						.createStatement();
 
-				String dbquery_tJDBCInput_24 = "SELECT     history_id,     host_interface_id,     upper(cast(host_interface_id as char(36))) as host_interface_join_id,    host_interface_name,     host_id,     host_interface_type,     host_interface_speed_bps,     mac_address,     network_name,     ip_address,     gateway,     bond,     bond_name,     vlan_id,     host_configuration_version,     create_date,     update_date  FROM v3_0_latest_host_interface_configuration_view";
+				String dbquery_tJDBCInput_24 = "SELECT     history_id,     host_interface_id,     upper(cast(host_interface_id as char(36))) as host_interface_join_id,    host_interface_name,     host_id,     host_interface_type,     host_interface_speed_bps,     mac_address,     network_name,     ip_address,     gateway,     bond,     bond_name,     vlan_id,     host_configuration_version,     create_date,     update_date  FROM v3_1_latest_host_interface_configuration_view";
 
 				globalMap.put("tJDBCInput_24_QUERY", dbquery_tJDBCInput_24);
 
@@ -24622,7 +24622,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_26 = conn_tJDBCInput_26
 						.createStatement();
 
-				String dbquery_tJDBCInput_26 = "SELECT history_id,   		vm_id,   		upper(cast(vm_id as char(36))) as vm_join_id,  		vm_name,   		vm_description,   		vm_type,   		cluster_id,   		template_id,   		template_name,   		cpu_per_socket,   		number_of_sockets,   		memory_size_mb,   		operating_system,   		ad_domain,   		default_host,   		high_availability,   		initialized,   		stateless,   		fail_back,   		auto_suspend,   		usb_policy,   		time_zone,   		cluster_configuration_version,   		default_host_configuration_version,   		create_date,   		update_date  FROM v3_0_latest_vm_configuration_view";
+				String dbquery_tJDBCInput_26 = "SELECT history_id,   		vm_id,   		upper(cast(vm_id as char(36))) as vm_join_id,  		vm_name,   		vm_description,   		vm_type,   		cluster_id,   		template_id,   		template_name,   		cpu_per_socket,   		number_of_sockets,   		memory_size_mb,   		operating_system,   		ad_domain,   		default_host,   		high_availability,   		initialized,   		stateless,   		fail_back,   		auto_suspend,   		usb_policy,   		time_zone,   		cluster_configuration_version,   		default_host_configuration_version,   		create_date,   		update_date  FROM v3_1_latest_vm_configuration_view";
 
 				globalMap.put("tJDBCInput_26_QUERY", dbquery_tJDBCInput_26);
 
@@ -27876,7 +27876,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_28 = conn_tJDBCInput_28
 						.createStatement();
 
-				String dbquery_tJDBCInput_28 = "SELECT	history_id,   		vm_disk_id,   		upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,  		storage_domain_id,   		vm_internal_drive_mapping,   		vm_disk_description,   		vm_disk_size_mb,  		vm_disk_type,   		vm_disk_format,    		vm_disk_interface,   		create_date,   		update_date  FROM v3_0_latest_vm_disk_configuration_view";
+				String dbquery_tJDBCInput_28 = "SELECT	history_id,   		vm_disk_id,   		upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,  		storage_domain_id,   		vm_internal_drive_mapping,   		vm_disk_description,   		vm_disk_size_mb,  		vm_disk_type,   		vm_disk_format,    		vm_disk_interface,   		create_date,   		update_date  FROM v3_1_latest_vm_disk_configuration_view";
 
 				globalMap.put("tJDBCInput_28_QUERY", dbquery_tJDBCInput_28);
 
@@ -30123,7 +30123,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_56 = conn_tJDBCInput_56
 						.createStatement();
 
-				String dbquery_tJDBCInput_56 = "SELECT    	history_id,    	vm_disk_id,  	upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,   	vm_id,   	upper(cast(vm_id as char(36))) as vm_join_id,   	attach_date FROM v3_0_latest_disks_vm_map_view";
+				String dbquery_tJDBCInput_56 = "SELECT    	history_id,    	vm_disk_id,  	upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,   	vm_id,   	upper(cast(vm_id as char(36))) as vm_join_id,   	attach_date FROM v3_1_latest_disks_vm_map_view";
 
 				globalMap.put("tJDBCInput_56_QUERY", dbquery_tJDBCInput_56);
 
@@ -33144,7 +33144,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_30 = conn_tJDBCInput_30
 						.createStatement();
 
-				String dbquery_tJDBCInput_30 = "SELECT     history_id,     vm_interface_id,     upper(cast(vm_interface_id as char(36))) as vm_interface_join_id,    vm_interface_name,     vm_id,     vm_interface_type,     vm_interface_speed_bps,     mac_address,     network_name,     vm_configuration_version,     create_date,     update_date  FROM v3_0_latest_vm_interface_configuration_view";
+				String dbquery_tJDBCInput_30 = "SELECT     history_id,     vm_interface_id,     upper(cast(vm_interface_id as char(36))) as vm_interface_join_id,    vm_interface_name,     vm_id,     vm_interface_type,     vm_interface_speed_bps,     mac_address,     network_name,     vm_configuration_version,     create_date,     update_date  FROM v3_1_latest_vm_interface_configuration_view";
 
 				globalMap.put("tJDBCInput_30_QUERY", dbquery_tJDBCInput_30);
 
@@ -35681,7 +35681,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_48 = conn_tJDBCInput_48
 						.createStatement();
 
-				String dbquery_tJDBCInput_48 = "SELECT    history_id,   entity_id,    upper(cast(entity_id as char(36))) as entity_join_id,   entity_type,    parent_id,    upper(cast(parent_id as char(36))) as parent_join_id,   attach_date,    detach_date FROM v3_0_latest_tag_relations_history_view";
+				String dbquery_tJDBCInput_48 = "SELECT    history_id,   entity_id,    upper(cast(entity_id as char(36))) as entity_join_id,   entity_type,    parent_id,    upper(cast(parent_id as char(36))) as parent_join_id,   attach_date,    detach_date FROM v3_1_latest_tag_relations_history_view";
 
 				globalMap.put("tJDBCInput_48_QUERY", dbquery_tJDBCInput_48);
 
@@ -38456,7 +38456,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_50 = conn_tJDBCInput_50
 						.createStatement();
 
-				String dbquery_tJDBCInput_50 = "SELECT    tag_id,     upper(cast(tag_id as char(36))) as tag_join_id,   tag_name,    tag_description,     tag_path,    tag_level,   create_date FROM v3_0_latest_tag_details_view";
+				String dbquery_tJDBCInput_50 = "SELECT    tag_id,     upper(cast(tag_id as char(36))) as tag_join_id,   tag_name,    tag_description,     tag_path,    tag_level,   create_date FROM v3_1_latest_tag_details_view";
 
 				globalMap.put("tJDBCInput_50_QUERY", dbquery_tJDBCInput_50);
 
@@ -40340,7 +40340,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_39 = conn_tJDBCInput_39
 						.createStatement();
 
-				String dbquery_tJDBCInput_39 = "SELECT history_id, upper(cast(datacenter_id as char(36))) as datacenter_join_id  FROM  v3_0_latest_datacenter_configuration_view";
+				String dbquery_tJDBCInput_39 = "SELECT history_id, upper(cast(datacenter_id as char(36))) as datacenter_join_id  FROM  v3_1_latest_datacenter_configuration_view";
 
 				globalMap.put("tJDBCInput_39_QUERY", dbquery_tJDBCInput_39);
 
@@ -40777,7 +40777,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_40 = conn_tJDBCInput_40
 						.createStatement();
 
-				String dbquery_tJDBCInput_40 = "SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id  FROM  v3_0_latest_cluster_configuration_view";
+				String dbquery_tJDBCInput_40 = "SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id  FROM  v3_1_latest_cluster_configuration_view";
 
 				globalMap.put("tJDBCInput_40_QUERY", dbquery_tJDBCInput_40);
 
@@ -41211,7 +41211,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_41 = conn_tJDBCInput_41
 						.createStatement();
 
-				String dbquery_tJDBCInput_41 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id  FROM  v3_0_latest_host_configuration_view";
+				String dbquery_tJDBCInput_41 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id  FROM  v3_1_latest_host_configuration_view";
 
 				globalMap.put("tJDBCInput_41_QUERY", dbquery_tJDBCInput_41);
 
@@ -41645,7 +41645,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_43 = conn_tJDBCInput_43
 						.createStatement();
 
-				String dbquery_tJDBCInput_43 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id  FROM  v3_0_latest_host_configuration_view";
+				String dbquery_tJDBCInput_43 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id  FROM  v3_1_latest_host_configuration_view";
 
 				globalMap.put("tJDBCInput_43_QUERY", dbquery_tJDBCInput_43);
 
@@ -42082,7 +42082,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_42 = conn_tJDBCInput_42
 						.createStatement();
 
-				String dbquery_tJDBCInput_42 = "SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id  FROM  v3_0_latest_cluster_configuration_view";
+				String dbquery_tJDBCInput_42 = "SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id  FROM  v3_1_latest_cluster_configuration_view";
 
 				globalMap.put("tJDBCInput_42_QUERY", dbquery_tJDBCInput_42);
 
@@ -42519,7 +42519,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_44 = conn_tJDBCInput_44
 						.createStatement();
 
-				String dbquery_tJDBCInput_44 = "SELECT history_id, upper(cast(vm_id as char(36))) as vm_join_id  FROM  v3_0_latest_vm_configuration_view";
+				String dbquery_tJDBCInput_44 = "SELECT history_id, upper(cast(vm_id as char(36))) as vm_join_id  FROM  v3_1_latest_vm_configuration_view";
 
 				globalMap.put("tJDBCInput_44_QUERY", dbquery_tJDBCInput_44);
 
@@ -46017,7 +46017,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_35 = conn_tJDBCInput_35
 						.createStatement();
 
-				String dbquery_tJDBCInput_35 = "SELECT    	upper(cast(storage_domain_id as char(36))) as storage_domain_join_id,   	upper(cast(datacenter_id as char(36))) as datacenter_join_id FROM  v3_0_latest_datacenter_storage_domain_map_view";
+				String dbquery_tJDBCInput_35 = "SELECT    	upper(cast(storage_domain_id as char(36))) as storage_domain_join_id,   	upper(cast(datacenter_id as char(36))) as datacenter_join_id FROM  v3_1_latest_datacenter_storage_domain_map_view";
 
 				globalMap.put("tJDBCInput_35_QUERY", dbquery_tJDBCInput_35);
 
@@ -46883,7 +46883,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_58 = conn_tJDBCInput_58
 						.createStatement();
 
-				String dbquery_tJDBCInput_58 = "SELECT upper(cast(entity_id as char(36))) as entity_join_id, 		upper(cast(parent_id as char(36))) as parent_join_id FROM v3_0_latest_tag_relations_history_view";
+				String dbquery_tJDBCInput_58 = "SELECT upper(cast(entity_id as char(36))) as entity_join_id, 		upper(cast(parent_id as char(36))) as parent_join_id FROM v3_1_latest_tag_relations_history_view";
 
 				globalMap.put("tJDBCInput_58_QUERY", dbquery_tJDBCInput_58);
 
@@ -47812,7 +47812,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_59 = conn_tJDBCInput_59
 						.createStatement();
 
-				String dbquery_tJDBCInput_59 = "SELECT upper(cast(tag_id as char(36))) as tag_join_id, 		tag_name,  		tag_description, 		tag_path FROM v3_0_latest_tag_details_view";
+				String dbquery_tJDBCInput_59 = "SELECT upper(cast(tag_id as char(36))) as tag_join_id, 		tag_name,  		tag_description, 		tag_path FROM v3_1_latest_tag_details_view";
 
 				globalMap.put("tJDBCInput_59_QUERY", dbquery_tJDBCInput_59);
 
@@ -48665,7 +48665,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_54 = conn_tJDBCInput_54
 						.createStatement();
 
-				String dbquery_tJDBCInput_54 = "SELECT    upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,    upper(cast(vm_id as char(36))) as vm_join_id FROM v3_0_latest_disks_vm_map_view";
+				String dbquery_tJDBCInput_54 = "SELECT    upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,    upper(cast(vm_id as char(36))) as vm_join_id FROM v3_1_latest_disks_vm_map_view";
 
 				globalMap.put("tJDBCInput_54_QUERY", dbquery_tJDBCInput_54);
 

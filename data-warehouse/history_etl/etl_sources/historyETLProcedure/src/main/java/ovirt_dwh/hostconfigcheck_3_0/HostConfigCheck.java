@@ -5062,7 +5062,7 @@ public class HostConfigCheck implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_1 = conn_tJDBCInput_1
 						.createStatement();
 
-				String dbquery_tJDBCInput_1 = "SELECT upper(cast(host_id as char(36))) as host_join_id,  		memory_size_mb,   		swap_size_mb,  		cpu_model,   		number_of_cores,         number_of_sockets,         cpu_speed_mh,  		host_os,   		kernel_version,   		kvm_version,   		vdsm_version  FROM v3_0_latest_host_configuration_view";
+				String dbquery_tJDBCInput_1 = "SELECT upper(cast(host_id as char(36))) as host_join_id,  		memory_size_mb,   		swap_size_mb,  		cpu_model,   		number_of_cores,         number_of_sockets,         cpu_speed_mh,  		host_os,   		kernel_version,   		kvm_version,   		vdsm_version  FROM v3_1_latest_host_configuration_view";
 
 				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
 
@@ -5648,7 +5648,7 @@ public class HostConfigCheck implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_3 = conn_tJDBCInput_3
 						.createStatement();
 
-				String dbquery_tJDBCInput_3 = "SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id  FROM  v3_0_latest_cluster_configuration_view";
+				String dbquery_tJDBCInput_3 = "SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id  FROM  v3_1_latest_cluster_configuration_view";
 
 				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
 
