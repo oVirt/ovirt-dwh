@@ -82,57 +82,58 @@ public class ConfigurationSync implements TalendJob {
 
 		public void synchronizeContext() {
 
-			if (ovirtEngineDriverClass != null) {
+			if (ovirtEngineDbDriverClass != null) {
 
-				this.setProperty("ovirtEngineDriverClass",
-						ovirtEngineDriverClass.toString());
+				this.setProperty("ovirtEngineDbDriverClass",
+						ovirtEngineDbDriverClass.toString());
 
 			}
 
-			if (ovirtEnginePassword != null) {
+			if (ovirtEngineDbPassword != null) {
 
-				this.setProperty("ovirtEnginePassword", ovirtEnginePassword
+				this.setProperty("ovirtEngineDbPassword", ovirtEngineDbPassword
 						.toString());
 
 			}
 
-			if (ovirtEngineUser != null) {
+			if (ovirtEngineDbUser != null) {
 
-				this.setProperty("ovirtEngineUser", ovirtEngineUser.toString());
-
-			}
-
-			if (ovirtEngineJdbcConnection != null) {
-
-				this.setProperty("ovirtEngineJdbcConnection",
-						ovirtEngineJdbcConnection.toString());
-
-			}
-
-			if (ovirtHistoryJdbcConnection != null) {
-
-				this.setProperty("ovirtHistoryJdbcConnection",
-						ovirtHistoryJdbcConnection.toString());
-
-			}
-
-			if (ovirtHistoryDriverClass != null) {
-
-				this.setProperty("ovirtHistoryDriverClass",
-						ovirtHistoryDriverClass.toString());
-
-			}
-
-			if (ovirtHistoryPassword != null) {
-
-				this.setProperty("ovirtHistoryPassword", ovirtHistoryPassword
+				this.setProperty("ovirtEngineDbUser", ovirtEngineDbUser
 						.toString());
 
 			}
 
-			if (ovirtHistoryUser != null) {
+			if (ovirtEngineDbJdbcConnection != null) {
 
-				this.setProperty("ovirtHistoryUser", ovirtHistoryUser
+				this.setProperty("ovirtEngineDbJdbcConnection",
+						ovirtEngineDbJdbcConnection.toString());
+
+			}
+
+			if (ovirtHistoryDbJdbcConnection != null) {
+
+				this.setProperty("ovirtHistoryDbJdbcConnection",
+						ovirtHistoryDbJdbcConnection.toString());
+
+			}
+
+			if (ovirtHistoryDbDriverClass != null) {
+
+				this.setProperty("ovirtHistoryDbDriverClass",
+						ovirtHistoryDbDriverClass.toString());
+
+			}
+
+			if (ovirtHistoryDbPassword != null) {
+
+				this.setProperty("ovirtHistoryDbPassword",
+						ovirtHistoryDbPassword.toString());
+
+			}
+
+			if (ovirtHistoryDbUser != null) {
+
+				this.setProperty("ovirtHistoryDbUser", ovirtHistoryDbUser
 						.toString());
 
 			}
@@ -157,52 +158,52 @@ public class ConfigurationSync implements TalendJob {
 
 		}
 
-		public String ovirtEngineDriverClass;
+		public String ovirtEngineDbDriverClass;
 
-		public String getOvirtEngineDriverClass() {
-			return this.ovirtEngineDriverClass;
+		public String getOvirtEngineDbDriverClass() {
+			return this.ovirtEngineDbDriverClass;
 		}
 
-		public java.lang.String ovirtEnginePassword;
+		public java.lang.String ovirtEngineDbPassword;
 
-		public java.lang.String getOvirtEnginePassword() {
-			return this.ovirtEnginePassword;
+		public java.lang.String getOvirtEngineDbPassword() {
+			return this.ovirtEngineDbPassword;
 		}
 
-		public String ovirtEngineUser;
+		public String ovirtEngineDbUser;
 
-		public String getOvirtEngineUser() {
-			return this.ovirtEngineUser;
+		public String getOvirtEngineDbUser() {
+			return this.ovirtEngineDbUser;
 		}
 
-		public String ovirtEngineJdbcConnection;
+		public String ovirtEngineDbJdbcConnection;
 
-		public String getOvirtEngineJdbcConnection() {
-			return this.ovirtEngineJdbcConnection;
+		public String getOvirtEngineDbJdbcConnection() {
+			return this.ovirtEngineDbJdbcConnection;
 		}
 
-		public String ovirtHistoryJdbcConnection;
+		public String ovirtHistoryDbJdbcConnection;
 
-		public String getOvirtHistoryJdbcConnection() {
-			return this.ovirtHistoryJdbcConnection;
+		public String getOvirtHistoryDbJdbcConnection() {
+			return this.ovirtHistoryDbJdbcConnection;
 		}
 
-		public String ovirtHistoryDriverClass;
+		public String ovirtHistoryDbDriverClass;
 
-		public String getOvirtHistoryDriverClass() {
-			return this.ovirtHistoryDriverClass;
+		public String getOvirtHistoryDbDriverClass() {
+			return this.ovirtHistoryDbDriverClass;
 		}
 
-		public java.lang.String ovirtHistoryPassword;
+		public java.lang.String ovirtHistoryDbPassword;
 
-		public java.lang.String getOvirtHistoryPassword() {
-			return this.ovirtHistoryPassword;
+		public java.lang.String getOvirtHistoryDbPassword() {
+			return this.ovirtHistoryDbPassword;
 		}
 
-		public String ovirtHistoryUser;
+		public String ovirtHistoryDbUser;
 
-		public String getOvirtHistoryUser() {
-			return this.ovirtHistoryUser;
+		public String getOvirtHistoryDbUser() {
+			return this.ovirtHistoryDbUser;
 		}
 
 		public java.util.Date runTime;
@@ -49334,18 +49335,19 @@ public class ConfigurationSync implements TalendJob {
 
 				int tos_count_tJDBCConnection_1 = 0;
 
-				String url_tJDBCConnection_1 = context.ovirtEngineJdbcConnection;
+				String url_tJDBCConnection_1 = context.ovirtEngineDbJdbcConnection;
 
-				String userName_tJDBCConnection_1 = context.ovirtEngineUser;
+				String userName_tJDBCConnection_1 = context.ovirtEngineDbUser;
 
-				String password_tJDBCConnection_1 = context.ovirtEnginePassword;
+				String password_tJDBCConnection_1 = context.ovirtEngineDbPassword;
 
 				java.sql.Connection conn_tJDBCConnection_1 = null;
 
 				String sharedConnectionName_tJDBCConnection_1 = "engine";
 				conn_tJDBCConnection_1 = SharedDBConnection.getDBConnection(
-						context.ovirtEngineDriverClass, url_tJDBCConnection_1,
-						userName_tJDBCConnection_1, password_tJDBCConnection_1,
+						context.ovirtEngineDbDriverClass,
+						url_tJDBCConnection_1, userName_tJDBCConnection_1,
+						password_tJDBCConnection_1,
 						sharedConnectionName_tJDBCConnection_1);
 
 				conn_tJDBCConnection_1.setAutoCommit(false);
@@ -49431,18 +49433,19 @@ public class ConfigurationSync implements TalendJob {
 
 				int tos_count_tJDBCConnection_2 = 0;
 
-				String url_tJDBCConnection_2 = context.ovirtHistoryJdbcConnection;
+				String url_tJDBCConnection_2 = context.ovirtHistoryDbJdbcConnection;
 
-				String userName_tJDBCConnection_2 = context.ovirtHistoryUser;
+				String userName_tJDBCConnection_2 = context.ovirtHistoryDbUser;
 
-				String password_tJDBCConnection_2 = context.ovirtHistoryPassword;
+				String password_tJDBCConnection_2 = context.ovirtHistoryDbPassword;
 
 				java.sql.Connection conn_tJDBCConnection_2 = null;
 
 				String sharedConnectionName_tJDBCConnection_2 = "sample_ovirt_history";
 				conn_tJDBCConnection_2 = SharedDBConnection.getDBConnection(
-						context.ovirtHistoryDriverClass, url_tJDBCConnection_2,
-						userName_tJDBCConnection_2, password_tJDBCConnection_2,
+						context.ovirtHistoryDbDriverClass,
+						url_tJDBCConnection_2, userName_tJDBCConnection_2,
+						password_tJDBCConnection_2,
 						sharedConnectionName_tJDBCConnection_2);
 
 				conn_tJDBCConnection_2.setAutoCommit(false);
@@ -50212,29 +50215,29 @@ public class ConfigurationSync implements TalendJob {
 					context.putAll(context_param);
 				}
 
-				context.ovirtEngineDriverClass = (String) context
-						.getProperty("ovirtEngineDriverClass");
+				context.ovirtEngineDbDriverClass = (String) context
+						.getProperty("ovirtEngineDbDriverClass");
 
-				context.ovirtEnginePassword = (java.lang.String) context
-						.getProperty("ovirtEnginePassword");
+				context.ovirtEngineDbPassword = (java.lang.String) context
+						.getProperty("ovirtEngineDbPassword");
 
-				context.ovirtEngineUser = (String) context
-						.getProperty("ovirtEngineUser");
+				context.ovirtEngineDbUser = (String) context
+						.getProperty("ovirtEngineDbUser");
 
-				context.ovirtEngineJdbcConnection = (String) context
-						.getProperty("ovirtEngineJdbcConnection");
+				context.ovirtEngineDbJdbcConnection = (String) context
+						.getProperty("ovirtEngineDbJdbcConnection");
 
-				context.ovirtHistoryJdbcConnection = (String) context
-						.getProperty("ovirtHistoryJdbcConnection");
+				context.ovirtHistoryDbJdbcConnection = (String) context
+						.getProperty("ovirtHistoryDbJdbcConnection");
 
-				context.ovirtHistoryDriverClass = (String) context
-						.getProperty("ovirtHistoryDriverClass");
+				context.ovirtHistoryDbDriverClass = (String) context
+						.getProperty("ovirtHistoryDbDriverClass");
 
-				context.ovirtHistoryPassword = (java.lang.String) context
-						.getProperty("ovirtHistoryPassword");
+				context.ovirtHistoryDbPassword = (java.lang.String) context
+						.getProperty("ovirtHistoryDbPassword");
 
-				context.ovirtHistoryUser = (String) context
-						.getProperty("ovirtHistoryUser");
+				context.ovirtHistoryDbUser = (String) context
+						.getProperty("ovirtHistoryDbUser");
 
 				try {
 					String context_runTime_value = context
@@ -50268,37 +50271,37 @@ public class ConfigurationSync implements TalendJob {
 
 		// get context value from parent directly
 		if (parentContextMap != null && !parentContextMap.isEmpty()) {
-			if (parentContextMap.containsKey("ovirtEngineDriverClass")) {
-				context.ovirtEngineDriverClass = (String) parentContextMap
-						.get("ovirtEngineDriverClass");
+			if (parentContextMap.containsKey("ovirtEngineDbDriverClass")) {
+				context.ovirtEngineDbDriverClass = (String) parentContextMap
+						.get("ovirtEngineDbDriverClass");
 			}
-			if (parentContextMap.containsKey("ovirtEnginePassword")) {
-				context.ovirtEnginePassword = (java.lang.String) parentContextMap
-						.get("ovirtEnginePassword");
+			if (parentContextMap.containsKey("ovirtEngineDbPassword")) {
+				context.ovirtEngineDbPassword = (java.lang.String) parentContextMap
+						.get("ovirtEngineDbPassword");
 			}
-			if (parentContextMap.containsKey("ovirtEngineUser")) {
-				context.ovirtEngineUser = (String) parentContextMap
-						.get("ovirtEngineUser");
+			if (parentContextMap.containsKey("ovirtEngineDbUser")) {
+				context.ovirtEngineDbUser = (String) parentContextMap
+						.get("ovirtEngineDbUser");
 			}
-			if (parentContextMap.containsKey("ovirtEngineJdbcConnection")) {
-				context.ovirtEngineJdbcConnection = (String) parentContextMap
-						.get("ovirtEngineJdbcConnection");
+			if (parentContextMap.containsKey("ovirtEngineDbJdbcConnection")) {
+				context.ovirtEngineDbJdbcConnection = (String) parentContextMap
+						.get("ovirtEngineDbJdbcConnection");
 			}
-			if (parentContextMap.containsKey("ovirtHistoryJdbcConnection")) {
-				context.ovirtHistoryJdbcConnection = (String) parentContextMap
-						.get("ovirtHistoryJdbcConnection");
+			if (parentContextMap.containsKey("ovirtHistoryDbJdbcConnection")) {
+				context.ovirtHistoryDbJdbcConnection = (String) parentContextMap
+						.get("ovirtHistoryDbJdbcConnection");
 			}
-			if (parentContextMap.containsKey("ovirtHistoryDriverClass")) {
-				context.ovirtHistoryDriverClass = (String) parentContextMap
-						.get("ovirtHistoryDriverClass");
+			if (parentContextMap.containsKey("ovirtHistoryDbDriverClass")) {
+				context.ovirtHistoryDbDriverClass = (String) parentContextMap
+						.get("ovirtHistoryDbDriverClass");
 			}
-			if (parentContextMap.containsKey("ovirtHistoryPassword")) {
-				context.ovirtHistoryPassword = (java.lang.String) parentContextMap
-						.get("ovirtHistoryPassword");
+			if (parentContextMap.containsKey("ovirtHistoryDbPassword")) {
+				context.ovirtHistoryDbPassword = (java.lang.String) parentContextMap
+						.get("ovirtHistoryDbPassword");
 			}
-			if (parentContextMap.containsKey("ovirtHistoryUser")) {
-				context.ovirtHistoryUser = (String) parentContextMap
-						.get("ovirtHistoryUser");
+			if (parentContextMap.containsKey("ovirtHistoryDbUser")) {
+				context.ovirtHistoryDbUser = (String) parentContextMap
+						.get("ovirtHistoryDbUser");
 			}
 			if (parentContextMap.containsKey("runTime")) {
 				context.runTime = (java.util.Date) parentContextMap
@@ -50485,6 +50488,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1352142 characters generated by Talend Open Studio for Data Integration on
- * the February 6, 2012 4:51:57 PM IST
+ * 1352334 characters generated by Talend Open Studio for Data Integration on
+ * the March 6, 2012 5:41:54 PM IST
  ************************************************************************************************/

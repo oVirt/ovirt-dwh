@@ -4,10 +4,10 @@
     <contextParameter comment="Enter the amout of hour to keep Daily level records." name="hoursToKeepDaily" prompt="How many hours to keep of daily data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="43800"/>
     <contextParameter comment="Enter the amout of hour to keep Hourly level records." name="hoursToKeepHourly" prompt="How many hours to keep of hourly data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="1440"/>
     <contextParameter comment="Enter the amout of hour to keep Samples level records." name="hoursToKeepSamples" prompt="How many hours to keep of samples data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="24"/>
-    <contextParameter comment="Enter the JDBC driver class for the ovirt history database." name="ovirtHistoryDriverClass" prompt="Enter the JDBC driver class for the ovirt history database." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="org.postgresql.Driver"/>
-    <contextParameter comment="Enter the ovirt history JDBC connection URL." name="ovirtHistoryJdbcConnection" prompt="Enter the ovirt history JDBC connection URL." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="jdbc:postgresql://localhost:5432/ovirt_history?stringtype=unspecified"/>
-    <contextParameter comment="Enter the ovirt history admin user's password." name="ovirtHistoryPassword" prompt="Enter the ovirt history admin user's password." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Password" value=""/>
-    <contextParameter comment="Enter the ovirt history admin database user." name="ovirtHistoryUser" prompt="Enter the ovirt history admin database user." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="postgres"/>
+    <contextParameter comment="Enter the JDBC driver class for the ovirt history database." name="ovirtHistoryDbDriverClass" prompt="Enter the JDBC driver class for the ovirt history database." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="org.postgresql.Driver"/>
+    <contextParameter comment="Enter the ovirt history JDBC connection URL." name="ovirtHistoryDbJdbcConnection" prompt="Enter the ovirt history JDBC connection URL." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="jdbc:postgresql://localhost:5432/ovirt_history?stringtype=unspecified"/>
+    <contextParameter comment="Enter the ovirt history admin user's password." name="ovirtHistoryDbPassword" prompt="Enter the ovirt history admin user's password." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Password" value=""/>
+    <contextParameter comment="Enter the ovirt history admin database user." name="ovirtHistoryDbUser" prompt="Enter the ovirt history admin database user." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="postgres"/>
     <contextParameter comment="Start run time." name="runTime" prompt="runTime?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Date" value="yyyy-MM-dd HH:mm:ss.SSSSSS;2011-07-03 12:46:47.000000"/>
     <contextParameter comment="" name="limitRows" prompt="limitRows?" promptNeeded="false" type="id_String" value="limit 1000"/>
   </context>
@@ -23,7 +23,6 @@
     <elementParameter field="CHECK" name="MULTI_THREAD_EXECATION" value="true"/>
     <elementParameter field="FILE" name="IMPLICIT_TCONTEXTLOAD_FILE" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;&quot;"/>
-    <elementParameter field="TECHNICAL" name="PROPERTY_TYPE_IMPLICIT_CONTEXT:REPOSITORY_PROPERTY_TYPE" value=""/>
     <elementParameter field="CLOSED_LIST" name="DB_VERSION_IMPLICIT_CONTEXT" value=""/>
     <elementParameter field="CLOSED_LIST" name="LOAD_NEW_VARIABLE" value=""/>
     <elementParameter field="CLOSED_LIST" name="NOT_LOAD_OLD_VARIABLE" value=""/>
@@ -46,13 +45,13 @@
   </parameters>
   <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="192" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_1"/>
-    <elementParameter field="TEXT" name="URL" value="context.ovirtHistoryJdbcConnection"/>
+    <elementParameter field="TEXT" name="URL" value="context.ovirtHistoryDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
       <elementValue elementRef="JAR_NAME" value="postgresql-8.4-701.jdbc4.jar"/>
     </elementParameter>
-    <elementParameter field="TEXT" name="DRIVER_CLASS" value="context.ovirtHistoryDriverClass"/>
-    <elementParameter field="TEXT" name="USER" value="context.ovirtHistoryUser"/>
-    <elementParameter field="TEXT" name="PASS" value="context.ovirtHistoryPassword"/>
+    <elementParameter field="TEXT" name="DRIVER_CLASS" value="context.ovirtHistoryDbDriverClass"/>
+    <elementParameter field="TEXT" name="USER" value="context.ovirtHistoryDbUser"/>
+    <elementParameter field="TEXT" name="PASS" value="context.ovirtHistoryDbPassword"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_SHARED_CONNECTION" value="true"/>

@@ -99,58 +99,59 @@ public class MinimalVersionCheck implements TalendJob {
 
 			}
 
-			if (ovirtEngineDriverClass != null) {
+			if (ovirtEngineDbDriverClass != null) {
 
-				this.setProperty("ovirtEngineDriverClass",
-						ovirtEngineDriverClass.toString());
-
-			}
-
-			if (ovirtHistoryDriverClass != null) {
-
-				this.setProperty("ovirtHistoryDriverClass",
-						ovirtHistoryDriverClass.toString());
+				this.setProperty("ovirtEngineDbDriverClass",
+						ovirtEngineDbDriverClass.toString());
 
 			}
 
-			if (ovirtHistoryJdbcConnection != null) {
+			if (ovirtHistoryDbDriverClass != null) {
 
-				this.setProperty("ovirtHistoryJdbcConnection",
-						ovirtHistoryJdbcConnection.toString());
+				this.setProperty("ovirtHistoryDbDriverClass",
+						ovirtHistoryDbDriverClass.toString());
 
 			}
 
-			if (ovirtHistoryPassword != null) {
+			if (ovirtHistoryDbJdbcConnection != null) {
 
-				this.setProperty("ovirtHistoryPassword", ovirtHistoryPassword
+				this.setProperty("ovirtHistoryDbJdbcConnection",
+						ovirtHistoryDbJdbcConnection.toString());
+
+			}
+
+			if (ovirtHistoryDbPassword != null) {
+
+				this.setProperty("ovirtHistoryDbPassword",
+						ovirtHistoryDbPassword.toString());
+
+			}
+
+			if (ovirtHistoryDbUser != null) {
+
+				this.setProperty("ovirtHistoryDbUser", ovirtHistoryDbUser
 						.toString());
 
 			}
 
-			if (ovirtHistoryUser != null) {
+			if (ovirtEngineDbJdbcConnection != null) {
 
-				this.setProperty("ovirtHistoryUser", ovirtHistoryUser
+				this.setProperty("ovirtEngineDbJdbcConnection",
+						ovirtEngineDbJdbcConnection.toString());
+
+			}
+
+			if (ovirtEngineDbPassword != null) {
+
+				this.setProperty("ovirtEngineDbPassword", ovirtEngineDbPassword
 						.toString());
 
 			}
 
-			if (ovirtEngineJdbcConnection != null) {
+			if (ovirtEngineDbUser != null) {
 
-				this.setProperty("ovirtEngineJdbcConnection",
-						ovirtEngineJdbcConnection.toString());
-
-			}
-
-			if (ovirtEnginePassword != null) {
-
-				this.setProperty("ovirtEnginePassword", ovirtEnginePassword
+				this.setProperty("ovirtEngineDbUser", ovirtEngineDbUser
 						.toString());
-
-			}
-
-			if (ovirtEngineUser != null) {
-
-				this.setProperty("ovirtEngineUser", ovirtEngineUser.toString());
 
 			}
 
@@ -174,52 +175,52 @@ public class MinimalVersionCheck implements TalendJob {
 			return this.etlVersion;
 		}
 
-		public String ovirtEngineDriverClass;
+		public String ovirtEngineDbDriverClass;
 
-		public String getOvirtEngineDriverClass() {
-			return this.ovirtEngineDriverClass;
+		public String getOvirtEngineDbDriverClass() {
+			return this.ovirtEngineDbDriverClass;
 		}
 
-		public String ovirtHistoryDriverClass;
+		public String ovirtHistoryDbDriverClass;
 
-		public String getOvirtHistoryDriverClass() {
-			return this.ovirtHistoryDriverClass;
+		public String getOvirtHistoryDbDriverClass() {
+			return this.ovirtHistoryDbDriverClass;
 		}
 
-		public String ovirtHistoryJdbcConnection;
+		public String ovirtHistoryDbJdbcConnection;
 
-		public String getOvirtHistoryJdbcConnection() {
-			return this.ovirtHistoryJdbcConnection;
+		public String getOvirtHistoryDbJdbcConnection() {
+			return this.ovirtHistoryDbJdbcConnection;
 		}
 
-		public java.lang.String ovirtHistoryPassword;
+		public java.lang.String ovirtHistoryDbPassword;
 
-		public java.lang.String getOvirtHistoryPassword() {
-			return this.ovirtHistoryPassword;
+		public java.lang.String getOvirtHistoryDbPassword() {
+			return this.ovirtHistoryDbPassword;
 		}
 
-		public String ovirtHistoryUser;
+		public String ovirtHistoryDbUser;
 
-		public String getOvirtHistoryUser() {
-			return this.ovirtHistoryUser;
+		public String getOvirtHistoryDbUser() {
+			return this.ovirtHistoryDbUser;
 		}
 
-		public String ovirtEngineJdbcConnection;
+		public String ovirtEngineDbJdbcConnection;
 
-		public String getOvirtEngineJdbcConnection() {
-			return this.ovirtEngineJdbcConnection;
+		public String getOvirtEngineDbJdbcConnection() {
+			return this.ovirtEngineDbJdbcConnection;
 		}
 
-		public java.lang.String ovirtEnginePassword;
+		public java.lang.String ovirtEngineDbPassword;
 
-		public java.lang.String getOvirtEnginePassword() {
-			return this.ovirtEnginePassword;
+		public java.lang.String getOvirtEngineDbPassword() {
+			return this.ovirtEngineDbPassword;
 		}
 
-		public String ovirtEngineUser;
+		public String ovirtEngineDbUser;
 
-		public String getOvirtEngineUser() {
-			return this.ovirtEngineUser;
+		public String getOvirtEngineDbUser() {
+			return this.ovirtEngineDbUser;
 		}
 	}
 
@@ -524,18 +525,19 @@ public class MinimalVersionCheck implements TalendJob {
 
 				int tos_count_tJDBCConnection_1 = 0;
 
-				String url_tJDBCConnection_1 = context.ovirtEngineJdbcConnection;
+				String url_tJDBCConnection_1 = context.ovirtEngineDbJdbcConnection;
 
-				String userName_tJDBCConnection_1 = context.ovirtEngineUser;
+				String userName_tJDBCConnection_1 = context.ovirtEngineDbUser;
 
-				String password_tJDBCConnection_1 = context.ovirtEnginePassword;
+				String password_tJDBCConnection_1 = context.ovirtEngineDbPassword;
 
 				java.sql.Connection conn_tJDBCConnection_1 = null;
 
 				String sharedConnectionName_tJDBCConnection_1 = "engine";
 				conn_tJDBCConnection_1 = SharedDBConnection.getDBConnection(
-						context.ovirtEngineDriverClass, url_tJDBCConnection_1,
-						userName_tJDBCConnection_1, password_tJDBCConnection_1,
+						context.ovirtEngineDbDriverClass,
+						url_tJDBCConnection_1, userName_tJDBCConnection_1,
+						password_tJDBCConnection_1,
 						sharedConnectionName_tJDBCConnection_1);
 
 				conn_tJDBCConnection_1.setAutoCommit(false);
@@ -621,18 +623,19 @@ public class MinimalVersionCheck implements TalendJob {
 
 				int tos_count_tJDBCConnection_2 = 0;
 
-				String url_tJDBCConnection_2 = context.ovirtHistoryJdbcConnection;
+				String url_tJDBCConnection_2 = context.ovirtHistoryDbJdbcConnection;
 
-				String userName_tJDBCConnection_2 = context.ovirtHistoryUser;
+				String userName_tJDBCConnection_2 = context.ovirtHistoryDbUser;
 
-				String password_tJDBCConnection_2 = context.ovirtHistoryPassword;
+				String password_tJDBCConnection_2 = context.ovirtHistoryDbPassword;
 
 				java.sql.Connection conn_tJDBCConnection_2 = null;
 
 				String sharedConnectionName_tJDBCConnection_2 = "sample_ovirt_history";
 				conn_tJDBCConnection_2 = SharedDBConnection.getDBConnection(
-						context.ovirtHistoryDriverClass, url_tJDBCConnection_2,
-						userName_tJDBCConnection_2, password_tJDBCConnection_2,
+						context.ovirtHistoryDbDriverClass,
+						url_tJDBCConnection_2, userName_tJDBCConnection_2,
+						password_tJDBCConnection_2,
 						sharedConnectionName_tJDBCConnection_2);
 
 				conn_tJDBCConnection_2.setAutoCommit(false);
@@ -995,51 +998,51 @@ public class MinimalVersionCheck implements TalendJob {
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtEngineDriverClass"
+									&& "ovirtEngineDbDriverClass"
 											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineDriverClass = value_tContextLoad_1;
+								context.ovirtEngineDbDriverClass = value_tContextLoad_1;
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtHistoryDriverClass"
+									&& "ovirtHistoryDbDriverClass"
 											.equals(key_tContextLoad_1)) {
-								context.ovirtHistoryDriverClass = value_tContextLoad_1;
+								context.ovirtHistoryDbDriverClass = value_tContextLoad_1;
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtHistoryJdbcConnection"
+									&& "ovirtHistoryDbJdbcConnection"
 											.equals(key_tContextLoad_1)) {
-								context.ovirtHistoryJdbcConnection = value_tContextLoad_1;
+								context.ovirtHistoryDbJdbcConnection = value_tContextLoad_1;
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtHistoryPassword"
+									&& "ovirtHistoryDbPassword"
 											.equals(key_tContextLoad_1)) {
-								context.ovirtHistoryPassword = value_tContextLoad_1;
+								context.ovirtHistoryDbPassword = value_tContextLoad_1;
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtHistoryUser"
+									&& "ovirtHistoryDbUser"
 											.equals(key_tContextLoad_1)) {
-								context.ovirtHistoryUser = value_tContextLoad_1;
+								context.ovirtHistoryDbUser = value_tContextLoad_1;
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtEngineJdbcConnection"
+									&& "ovirtEngineDbJdbcConnection"
 											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineJdbcConnection = value_tContextLoad_1;
+								context.ovirtEngineDbJdbcConnection = value_tContextLoad_1;
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtEnginePassword"
+									&& "ovirtEngineDbPassword"
 											.equals(key_tContextLoad_1)) {
-								context.ovirtEnginePassword = value_tContextLoad_1;
+								context.ovirtEngineDbPassword = value_tContextLoad_1;
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtEngineUser"
+									&& "ovirtEngineDbUser"
 											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineUser = value_tContextLoad_1;
+								context.ovirtEngineDbUser = value_tContextLoad_1;
 							}
 
 							if (context.getProperty(key_tContextLoad_1) != null) {
@@ -1473,51 +1476,51 @@ public class MinimalVersionCheck implements TalendJob {
 							}
 
 							if (key_tContextLoad_2 != null
-									&& "ovirtEngineDriverClass"
+									&& "ovirtEngineDbDriverClass"
 											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineDriverClass = value_tContextLoad_2;
+								context.ovirtEngineDbDriverClass = value_tContextLoad_2;
 							}
 
 							if (key_tContextLoad_2 != null
-									&& "ovirtHistoryDriverClass"
+									&& "ovirtHistoryDbDriverClass"
 											.equals(key_tContextLoad_2)) {
-								context.ovirtHistoryDriverClass = value_tContextLoad_2;
+								context.ovirtHistoryDbDriverClass = value_tContextLoad_2;
 							}
 
 							if (key_tContextLoad_2 != null
-									&& "ovirtHistoryJdbcConnection"
+									&& "ovirtHistoryDbJdbcConnection"
 											.equals(key_tContextLoad_2)) {
-								context.ovirtHistoryJdbcConnection = value_tContextLoad_2;
+								context.ovirtHistoryDbJdbcConnection = value_tContextLoad_2;
 							}
 
 							if (key_tContextLoad_2 != null
-									&& "ovirtHistoryPassword"
+									&& "ovirtHistoryDbPassword"
 											.equals(key_tContextLoad_2)) {
-								context.ovirtHistoryPassword = value_tContextLoad_2;
+								context.ovirtHistoryDbPassword = value_tContextLoad_2;
 							}
 
 							if (key_tContextLoad_2 != null
-									&& "ovirtHistoryUser"
+									&& "ovirtHistoryDbUser"
 											.equals(key_tContextLoad_2)) {
-								context.ovirtHistoryUser = value_tContextLoad_2;
+								context.ovirtHistoryDbUser = value_tContextLoad_2;
 							}
 
 							if (key_tContextLoad_2 != null
-									&& "ovirtEngineJdbcConnection"
+									&& "ovirtEngineDbJdbcConnection"
 											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineJdbcConnection = value_tContextLoad_2;
+								context.ovirtEngineDbJdbcConnection = value_tContextLoad_2;
 							}
 
 							if (key_tContextLoad_2 != null
-									&& "ovirtEnginePassword"
+									&& "ovirtEngineDbPassword"
 											.equals(key_tContextLoad_2)) {
-								context.ovirtEnginePassword = value_tContextLoad_2;
+								context.ovirtEngineDbPassword = value_tContextLoad_2;
 							}
 
 							if (key_tContextLoad_2 != null
-									&& "ovirtEngineUser"
+									&& "ovirtEngineDbUser"
 											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineUser = value_tContextLoad_2;
+								context.ovirtEngineDbUser = value_tContextLoad_2;
 							}
 
 							if (context.getProperty(key_tContextLoad_2) != null) {
@@ -2544,29 +2547,29 @@ public class MinimalVersionCheck implements TalendJob {
 
 				context.etlVersion = (String) context.getProperty("etlVersion");
 
-				context.ovirtEngineDriverClass = (String) context
-						.getProperty("ovirtEngineDriverClass");
+				context.ovirtEngineDbDriverClass = (String) context
+						.getProperty("ovirtEngineDbDriverClass");
 
-				context.ovirtHistoryDriverClass = (String) context
-						.getProperty("ovirtHistoryDriverClass");
+				context.ovirtHistoryDbDriverClass = (String) context
+						.getProperty("ovirtHistoryDbDriverClass");
 
-				context.ovirtHistoryJdbcConnection = (String) context
-						.getProperty("ovirtHistoryJdbcConnection");
+				context.ovirtHistoryDbJdbcConnection = (String) context
+						.getProperty("ovirtHistoryDbJdbcConnection");
 
-				context.ovirtHistoryPassword = (java.lang.String) context
-						.getProperty("ovirtHistoryPassword");
+				context.ovirtHistoryDbPassword = (java.lang.String) context
+						.getProperty("ovirtHistoryDbPassword");
 
-				context.ovirtHistoryUser = (String) context
-						.getProperty("ovirtHistoryUser");
+				context.ovirtHistoryDbUser = (String) context
+						.getProperty("ovirtHistoryDbUser");
 
-				context.ovirtEngineJdbcConnection = (String) context
-						.getProperty("ovirtEngineJdbcConnection");
+				context.ovirtEngineDbJdbcConnection = (String) context
+						.getProperty("ovirtEngineDbJdbcConnection");
 
-				context.ovirtEnginePassword = (java.lang.String) context
-						.getProperty("ovirtEnginePassword");
+				context.ovirtEngineDbPassword = (java.lang.String) context
+						.getProperty("ovirtEngineDbPassword");
 
-				context.ovirtEngineUser = (String) context
-						.getProperty("ovirtEngineUser");
+				context.ovirtEngineDbUser = (String) context
+						.getProperty("ovirtEngineDbUser");
 
 			}
 		} catch (java.io.IOException ie) {
@@ -2588,37 +2591,37 @@ public class MinimalVersionCheck implements TalendJob {
 				context.etlVersion = (String) parentContextMap
 						.get("etlVersion");
 			}
-			if (parentContextMap.containsKey("ovirtEngineDriverClass")) {
-				context.ovirtEngineDriverClass = (String) parentContextMap
-						.get("ovirtEngineDriverClass");
+			if (parentContextMap.containsKey("ovirtEngineDbDriverClass")) {
+				context.ovirtEngineDbDriverClass = (String) parentContextMap
+						.get("ovirtEngineDbDriverClass");
 			}
-			if (parentContextMap.containsKey("ovirtHistoryDriverClass")) {
-				context.ovirtHistoryDriverClass = (String) parentContextMap
-						.get("ovirtHistoryDriverClass");
+			if (parentContextMap.containsKey("ovirtHistoryDbDriverClass")) {
+				context.ovirtHistoryDbDriverClass = (String) parentContextMap
+						.get("ovirtHistoryDbDriverClass");
 			}
-			if (parentContextMap.containsKey("ovirtHistoryJdbcConnection")) {
-				context.ovirtHistoryJdbcConnection = (String) parentContextMap
-						.get("ovirtHistoryJdbcConnection");
+			if (parentContextMap.containsKey("ovirtHistoryDbJdbcConnection")) {
+				context.ovirtHistoryDbJdbcConnection = (String) parentContextMap
+						.get("ovirtHistoryDbJdbcConnection");
 			}
-			if (parentContextMap.containsKey("ovirtHistoryPassword")) {
-				context.ovirtHistoryPassword = (java.lang.String) parentContextMap
-						.get("ovirtHistoryPassword");
+			if (parentContextMap.containsKey("ovirtHistoryDbPassword")) {
+				context.ovirtHistoryDbPassword = (java.lang.String) parentContextMap
+						.get("ovirtHistoryDbPassword");
 			}
-			if (parentContextMap.containsKey("ovirtHistoryUser")) {
-				context.ovirtHistoryUser = (String) parentContextMap
-						.get("ovirtHistoryUser");
+			if (parentContextMap.containsKey("ovirtHistoryDbUser")) {
+				context.ovirtHistoryDbUser = (String) parentContextMap
+						.get("ovirtHistoryDbUser");
 			}
-			if (parentContextMap.containsKey("ovirtEngineJdbcConnection")) {
-				context.ovirtEngineJdbcConnection = (String) parentContextMap
-						.get("ovirtEngineJdbcConnection");
+			if (parentContextMap.containsKey("ovirtEngineDbJdbcConnection")) {
+				context.ovirtEngineDbJdbcConnection = (String) parentContextMap
+						.get("ovirtEngineDbJdbcConnection");
 			}
-			if (parentContextMap.containsKey("ovirtEnginePassword")) {
-				context.ovirtEnginePassword = (java.lang.String) parentContextMap
-						.get("ovirtEnginePassword");
+			if (parentContextMap.containsKey("ovirtEngineDbPassword")) {
+				context.ovirtEngineDbPassword = (java.lang.String) parentContextMap
+						.get("ovirtEngineDbPassword");
 			}
-			if (parentContextMap.containsKey("ovirtEngineUser")) {
-				context.ovirtEngineUser = (String) parentContextMap
-						.get("ovirtEngineUser");
+			if (parentContextMap.containsKey("ovirtEngineDbUser")) {
+				context.ovirtEngineDbUser = (String) parentContextMap
+						.get("ovirtEngineDbUser");
 			}
 		}
 
@@ -2754,6 +2757,6 @@ public class MinimalVersionCheck implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 74448 characters generated by Talend Open Studio for Data Integration on the
- * December 21, 2011 12:33:11 PM IST
+ * 74704 characters generated by Talend Open Studio for Data Integration on the
+ * March 6, 2012 5:42:02 PM IST
  ************************************************************************************************/

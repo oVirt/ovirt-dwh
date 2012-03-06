@@ -82,57 +82,58 @@ public class SampleRunJobs implements TalendJob {
 
 		public void synchronizeContext() {
 
-			if (ovirtEngineDriverClass != null) {
+			if (ovirtEngineDbDriverClass != null) {
 
-				this.setProperty("ovirtEngineDriverClass",
-						ovirtEngineDriverClass.toString());
-
-			}
-
-			if (ovirtEngineJdbcConnection != null) {
-
-				this.setProperty("ovirtEngineJdbcConnection",
-						ovirtEngineJdbcConnection.toString());
+				this.setProperty("ovirtEngineDbDriverClass",
+						ovirtEngineDbDriverClass.toString());
 
 			}
 
-			if (ovirtEnginePassword != null) {
+			if (ovirtEngineDbJdbcConnection != null) {
 
-				this.setProperty("ovirtEnginePassword", ovirtEnginePassword
+				this.setProperty("ovirtEngineDbJdbcConnection",
+						ovirtEngineDbJdbcConnection.toString());
+
+			}
+
+			if (ovirtEngineDbPassword != null) {
+
+				this.setProperty("ovirtEngineDbPassword", ovirtEngineDbPassword
 						.toString());
 
 			}
 
-			if (ovirtEngineUser != null) {
+			if (ovirtEngineDbUser != null) {
 
-				this.setProperty("ovirtEngineUser", ovirtEngineUser.toString());
-
-			}
-
-			if (ovirtHistoryDriverClass != null) {
-
-				this.setProperty("ovirtHistoryDriverClass",
-						ovirtHistoryDriverClass.toString());
-
-			}
-
-			if (ovirtHistoryJdbcConnection != null) {
-
-				this.setProperty("ovirtHistoryJdbcConnection",
-						ovirtHistoryJdbcConnection.toString());
-
-			}
-
-			if (ovirtHistoryPassword != null) {
-
-				this.setProperty("ovirtHistoryPassword", ovirtHistoryPassword
+				this.setProperty("ovirtEngineDbUser", ovirtEngineDbUser
 						.toString());
 
 			}
 
-			if (ovirtHistoryUser != null) {
+			if (ovirtHistoryDbDriverClass != null) {
 
-				this.setProperty("ovirtHistoryUser", ovirtHistoryUser
+				this.setProperty("ovirtHistoryDbDriverClass",
+						ovirtHistoryDbDriverClass.toString());
+
+			}
+
+			if (ovirtHistoryDbJdbcConnection != null) {
+
+				this.setProperty("ovirtHistoryDbJdbcConnection",
+						ovirtHistoryDbJdbcConnection.toString());
+
+			}
+
+			if (ovirtHistoryDbPassword != null) {
+
+				this.setProperty("ovirtHistoryDbPassword",
+						ovirtHistoryDbPassword.toString());
+
+			}
+
+			if (ovirtHistoryDbUser != null) {
+
+				this.setProperty("ovirtHistoryDbUser", ovirtHistoryDbUser
 						.toString());
 
 			}
@@ -163,52 +164,52 @@ public class SampleRunJobs implements TalendJob {
 
 		}
 
-		public String ovirtEngineDriverClass;
+		public String ovirtEngineDbDriverClass;
 
-		public String getOvirtEngineDriverClass() {
-			return this.ovirtEngineDriverClass;
+		public String getOvirtEngineDbDriverClass() {
+			return this.ovirtEngineDbDriverClass;
 		}
 
-		public String ovirtEngineJdbcConnection;
+		public String ovirtEngineDbJdbcConnection;
 
-		public String getOvirtEngineJdbcConnection() {
-			return this.ovirtEngineJdbcConnection;
+		public String getOvirtEngineDbJdbcConnection() {
+			return this.ovirtEngineDbJdbcConnection;
 		}
 
-		public java.lang.String ovirtEnginePassword;
+		public java.lang.String ovirtEngineDbPassword;
 
-		public java.lang.String getOvirtEnginePassword() {
-			return this.ovirtEnginePassword;
+		public java.lang.String getOvirtEngineDbPassword() {
+			return this.ovirtEngineDbPassword;
 		}
 
-		public String ovirtEngineUser;
+		public String ovirtEngineDbUser;
 
-		public String getOvirtEngineUser() {
-			return this.ovirtEngineUser;
+		public String getOvirtEngineDbUser() {
+			return this.ovirtEngineDbUser;
 		}
 
-		public String ovirtHistoryDriverClass;
+		public String ovirtHistoryDbDriverClass;
 
-		public String getOvirtHistoryDriverClass() {
-			return this.ovirtHistoryDriverClass;
+		public String getOvirtHistoryDbDriverClass() {
+			return this.ovirtHistoryDbDriverClass;
 		}
 
-		public String ovirtHistoryJdbcConnection;
+		public String ovirtHistoryDbJdbcConnection;
 
-		public String getOvirtHistoryJdbcConnection() {
-			return this.ovirtHistoryJdbcConnection;
+		public String getOvirtHistoryDbJdbcConnection() {
+			return this.ovirtHistoryDbJdbcConnection;
 		}
 
-		public java.lang.String ovirtHistoryPassword;
+		public java.lang.String ovirtHistoryDbPassword;
 
-		public java.lang.String getOvirtHistoryPassword() {
-			return this.ovirtHistoryPassword;
+		public java.lang.String getOvirtHistoryDbPassword() {
+			return this.ovirtHistoryDbPassword;
 		}
 
-		public String ovirtHistoryUser;
+		public String ovirtHistoryDbUser;
 
-		public String getOvirtHistoryUser() {
-			return this.ovirtHistoryUser;
+		public String getOvirtHistoryDbUser() {
+			return this.ovirtHistoryDbUser;
 		}
 
 		public Integer runInterleave;
@@ -492,18 +493,19 @@ public class SampleRunJobs implements TalendJob {
 
 				int tos_count_tJDBCConnection_1 = 0;
 
-				String url_tJDBCConnection_1 = context.ovirtEngineJdbcConnection;
+				String url_tJDBCConnection_1 = context.ovirtEngineDbJdbcConnection;
 
-				String userName_tJDBCConnection_1 = context.ovirtEngineUser;
+				String userName_tJDBCConnection_1 = context.ovirtEngineDbUser;
 
-				String password_tJDBCConnection_1 = context.ovirtEnginePassword;
+				String password_tJDBCConnection_1 = context.ovirtEngineDbPassword;
 
 				java.sql.Connection conn_tJDBCConnection_1 = null;
 
 				String sharedConnectionName_tJDBCConnection_1 = "engine";
 				conn_tJDBCConnection_1 = SharedDBConnection.getDBConnection(
-						context.ovirtEngineDriverClass, url_tJDBCConnection_1,
-						userName_tJDBCConnection_1, password_tJDBCConnection_1,
+						context.ovirtEngineDbDriverClass,
+						url_tJDBCConnection_1, userName_tJDBCConnection_1,
+						password_tJDBCConnection_1,
 						sharedConnectionName_tJDBCConnection_1);
 
 				conn_tJDBCConnection_1.setAutoCommit(false);
@@ -589,18 +591,19 @@ public class SampleRunJobs implements TalendJob {
 
 				int tos_count_tJDBCConnection_2 = 0;
 
-				String url_tJDBCConnection_2 = context.ovirtHistoryJdbcConnection;
+				String url_tJDBCConnection_2 = context.ovirtHistoryDbJdbcConnection;
 
-				String userName_tJDBCConnection_2 = context.ovirtHistoryUser;
+				String userName_tJDBCConnection_2 = context.ovirtHistoryDbUser;
 
-				String password_tJDBCConnection_2 = context.ovirtHistoryPassword;
+				String password_tJDBCConnection_2 = context.ovirtHistoryDbPassword;
 
 				java.sql.Connection conn_tJDBCConnection_2 = null;
 
 				String sharedConnectionName_tJDBCConnection_2 = "sample_ovirt_history";
 				conn_tJDBCConnection_2 = SharedDBConnection.getDBConnection(
-						context.ovirtHistoryDriverClass, url_tJDBCConnection_2,
-						userName_tJDBCConnection_2, password_tJDBCConnection_2,
+						context.ovirtHistoryDbDriverClass,
+						url_tJDBCConnection_2, userName_tJDBCConnection_2,
+						password_tJDBCConnection_2,
 						sharedConnectionName_tJDBCConnection_2);
 
 				conn_tJDBCConnection_2.setAutoCommit(false);
@@ -738,22 +741,22 @@ public class SampleRunJobs implements TalendJob {
 							+ "=" + value_tRunJob_1);
 				}
 
-				parentContextMap_tRunJob_1.put("ovirtEngineDriverClass",
-						context.ovirtEngineDriverClass);
-				parentContextMap_tRunJob_1.put("ovirtEngineJdbcConnection",
-						context.ovirtEngineJdbcConnection);
-				parentContextMap_tRunJob_1.put("ovirtEnginePassword",
-						context.ovirtEnginePassword);
-				parentContextMap_tRunJob_1.put("ovirtEngineUser",
-						context.ovirtEngineUser);
-				parentContextMap_tRunJob_1.put("ovirtHistoryDriverClass",
-						context.ovirtHistoryDriverClass);
-				parentContextMap_tRunJob_1.put("ovirtHistoryJdbcConnection",
-						context.ovirtHistoryJdbcConnection);
-				parentContextMap_tRunJob_1.put("ovirtHistoryPassword",
-						context.ovirtHistoryPassword);
-				parentContextMap_tRunJob_1.put("ovirtHistoryUser",
-						context.ovirtHistoryUser);
+				parentContextMap_tRunJob_1.put("ovirtEngineDbDriverClass",
+						context.ovirtEngineDbDriverClass);
+				parentContextMap_tRunJob_1.put("ovirtEngineDbJdbcConnection",
+						context.ovirtEngineDbJdbcConnection);
+				parentContextMap_tRunJob_1.put("ovirtEngineDbPassword",
+						context.ovirtEngineDbPassword);
+				parentContextMap_tRunJob_1.put("ovirtEngineDbUser",
+						context.ovirtEngineDbUser);
+				parentContextMap_tRunJob_1.put("ovirtHistoryDbDriverClass",
+						context.ovirtHistoryDbDriverClass);
+				parentContextMap_tRunJob_1.put("ovirtHistoryDbJdbcConnection",
+						context.ovirtHistoryDbJdbcConnection);
+				parentContextMap_tRunJob_1.put("ovirtHistoryDbPassword",
+						context.ovirtHistoryDbPassword);
+				parentContextMap_tRunJob_1.put("ovirtHistoryDbUser",
+						context.ovirtHistoryDbUser);
 				parentContextMap_tRunJob_1.put("runInterleave",
 						context.runInterleave);
 				parentContextMap_tRunJob_1.put("runTime", context.runTime);
@@ -909,22 +912,22 @@ public class SampleRunJobs implements TalendJob {
 							+ "=" + value_tRunJob_6);
 				}
 
-				parentContextMap_tRunJob_6.put("ovirtEngineDriverClass",
-						context.ovirtEngineDriverClass);
-				parentContextMap_tRunJob_6.put("ovirtEngineJdbcConnection",
-						context.ovirtEngineJdbcConnection);
-				parentContextMap_tRunJob_6.put("ovirtEnginePassword",
-						context.ovirtEnginePassword);
-				parentContextMap_tRunJob_6.put("ovirtEngineUser",
-						context.ovirtEngineUser);
-				parentContextMap_tRunJob_6.put("ovirtHistoryDriverClass",
-						context.ovirtHistoryDriverClass);
-				parentContextMap_tRunJob_6.put("ovirtHistoryJdbcConnection",
-						context.ovirtHistoryJdbcConnection);
-				parentContextMap_tRunJob_6.put("ovirtHistoryPassword",
-						context.ovirtHistoryPassword);
-				parentContextMap_tRunJob_6.put("ovirtHistoryUser",
-						context.ovirtHistoryUser);
+				parentContextMap_tRunJob_6.put("ovirtEngineDbDriverClass",
+						context.ovirtEngineDbDriverClass);
+				parentContextMap_tRunJob_6.put("ovirtEngineDbJdbcConnection",
+						context.ovirtEngineDbJdbcConnection);
+				parentContextMap_tRunJob_6.put("ovirtEngineDbPassword",
+						context.ovirtEngineDbPassword);
+				parentContextMap_tRunJob_6.put("ovirtEngineDbUser",
+						context.ovirtEngineDbUser);
+				parentContextMap_tRunJob_6.put("ovirtHistoryDbDriverClass",
+						context.ovirtHistoryDbDriverClass);
+				parentContextMap_tRunJob_6.put("ovirtHistoryDbJdbcConnection",
+						context.ovirtHistoryDbJdbcConnection);
+				parentContextMap_tRunJob_6.put("ovirtHistoryDbPassword",
+						context.ovirtHistoryDbPassword);
+				parentContextMap_tRunJob_6.put("ovirtHistoryDbUser",
+						context.ovirtHistoryDbUser);
 				parentContextMap_tRunJob_6.put("runInterleave",
 						context.runInterleave);
 				parentContextMap_tRunJob_6.put("runTime", context.runTime);
@@ -1080,22 +1083,22 @@ public class SampleRunJobs implements TalendJob {
 							+ "=" + value_tRunJob_5);
 				}
 
-				parentContextMap_tRunJob_5.put("ovirtEngineDriverClass",
-						context.ovirtEngineDriverClass);
-				parentContextMap_tRunJob_5.put("ovirtEngineJdbcConnection",
-						context.ovirtEngineJdbcConnection);
-				parentContextMap_tRunJob_5.put("ovirtEnginePassword",
-						context.ovirtEnginePassword);
-				parentContextMap_tRunJob_5.put("ovirtEngineUser",
-						context.ovirtEngineUser);
-				parentContextMap_tRunJob_5.put("ovirtHistoryDriverClass",
-						context.ovirtHistoryDriverClass);
-				parentContextMap_tRunJob_5.put("ovirtHistoryJdbcConnection",
-						context.ovirtHistoryJdbcConnection);
-				parentContextMap_tRunJob_5.put("ovirtHistoryPassword",
-						context.ovirtHistoryPassword);
-				parentContextMap_tRunJob_5.put("ovirtHistoryUser",
-						context.ovirtHistoryUser);
+				parentContextMap_tRunJob_5.put("ovirtEngineDbDriverClass",
+						context.ovirtEngineDbDriverClass);
+				parentContextMap_tRunJob_5.put("ovirtEngineDbJdbcConnection",
+						context.ovirtEngineDbJdbcConnection);
+				parentContextMap_tRunJob_5.put("ovirtEngineDbPassword",
+						context.ovirtEngineDbPassword);
+				parentContextMap_tRunJob_5.put("ovirtEngineDbUser",
+						context.ovirtEngineDbUser);
+				parentContextMap_tRunJob_5.put("ovirtHistoryDbDriverClass",
+						context.ovirtHistoryDbDriverClass);
+				parentContextMap_tRunJob_5.put("ovirtHistoryDbJdbcConnection",
+						context.ovirtHistoryDbJdbcConnection);
+				parentContextMap_tRunJob_5.put("ovirtHistoryDbPassword",
+						context.ovirtHistoryDbPassword);
+				parentContextMap_tRunJob_5.put("ovirtHistoryDbUser",
+						context.ovirtHistoryDbUser);
 				parentContextMap_tRunJob_5.put("runInterleave",
 						context.runInterleave);
 				parentContextMap_tRunJob_5.put("runTime", context.runTime);
@@ -1876,29 +1879,29 @@ public class SampleRunJobs implements TalendJob {
 					context.putAll(context_param);
 				}
 
-				context.ovirtEngineDriverClass = (String) context
-						.getProperty("ovirtEngineDriverClass");
+				context.ovirtEngineDbDriverClass = (String) context
+						.getProperty("ovirtEngineDbDriverClass");
 
-				context.ovirtEngineJdbcConnection = (String) context
-						.getProperty("ovirtEngineJdbcConnection");
+				context.ovirtEngineDbJdbcConnection = (String) context
+						.getProperty("ovirtEngineDbJdbcConnection");
 
-				context.ovirtEnginePassword = (java.lang.String) context
-						.getProperty("ovirtEnginePassword");
+				context.ovirtEngineDbPassword = (java.lang.String) context
+						.getProperty("ovirtEngineDbPassword");
 
-				context.ovirtEngineUser = (String) context
-						.getProperty("ovirtEngineUser");
+				context.ovirtEngineDbUser = (String) context
+						.getProperty("ovirtEngineDbUser");
 
-				context.ovirtHistoryDriverClass = (String) context
-						.getProperty("ovirtHistoryDriverClass");
+				context.ovirtHistoryDbDriverClass = (String) context
+						.getProperty("ovirtHistoryDbDriverClass");
 
-				context.ovirtHistoryJdbcConnection = (String) context
-						.getProperty("ovirtHistoryJdbcConnection");
+				context.ovirtHistoryDbJdbcConnection = (String) context
+						.getProperty("ovirtHistoryDbJdbcConnection");
 
-				context.ovirtHistoryPassword = (java.lang.String) context
-						.getProperty("ovirtHistoryPassword");
+				context.ovirtHistoryDbPassword = (java.lang.String) context
+						.getProperty("ovirtHistoryDbPassword");
 
-				context.ovirtHistoryUser = (String) context
-						.getProperty("ovirtHistoryUser");
+				context.ovirtHistoryDbUser = (String) context
+						.getProperty("ovirtHistoryDbUser");
 
 				try {
 					context.runInterleave = Integer.parseInt(context
@@ -1939,37 +1942,37 @@ public class SampleRunJobs implements TalendJob {
 
 		// get context value from parent directly
 		if (parentContextMap != null && !parentContextMap.isEmpty()) {
-			if (parentContextMap.containsKey("ovirtEngineDriverClass")) {
-				context.ovirtEngineDriverClass = (String) parentContextMap
-						.get("ovirtEngineDriverClass");
+			if (parentContextMap.containsKey("ovirtEngineDbDriverClass")) {
+				context.ovirtEngineDbDriverClass = (String) parentContextMap
+						.get("ovirtEngineDbDriverClass");
 			}
-			if (parentContextMap.containsKey("ovirtEngineJdbcConnection")) {
-				context.ovirtEngineJdbcConnection = (String) parentContextMap
-						.get("ovirtEngineJdbcConnection");
+			if (parentContextMap.containsKey("ovirtEngineDbJdbcConnection")) {
+				context.ovirtEngineDbJdbcConnection = (String) parentContextMap
+						.get("ovirtEngineDbJdbcConnection");
 			}
-			if (parentContextMap.containsKey("ovirtEnginePassword")) {
-				context.ovirtEnginePassword = (java.lang.String) parentContextMap
-						.get("ovirtEnginePassword");
+			if (parentContextMap.containsKey("ovirtEngineDbPassword")) {
+				context.ovirtEngineDbPassword = (java.lang.String) parentContextMap
+						.get("ovirtEngineDbPassword");
 			}
-			if (parentContextMap.containsKey("ovirtEngineUser")) {
-				context.ovirtEngineUser = (String) parentContextMap
-						.get("ovirtEngineUser");
+			if (parentContextMap.containsKey("ovirtEngineDbUser")) {
+				context.ovirtEngineDbUser = (String) parentContextMap
+						.get("ovirtEngineDbUser");
 			}
-			if (parentContextMap.containsKey("ovirtHistoryDriverClass")) {
-				context.ovirtHistoryDriverClass = (String) parentContextMap
-						.get("ovirtHistoryDriverClass");
+			if (parentContextMap.containsKey("ovirtHistoryDbDriverClass")) {
+				context.ovirtHistoryDbDriverClass = (String) parentContextMap
+						.get("ovirtHistoryDbDriverClass");
 			}
-			if (parentContextMap.containsKey("ovirtHistoryJdbcConnection")) {
-				context.ovirtHistoryJdbcConnection = (String) parentContextMap
-						.get("ovirtHistoryJdbcConnection");
+			if (parentContextMap.containsKey("ovirtHistoryDbJdbcConnection")) {
+				context.ovirtHistoryDbJdbcConnection = (String) parentContextMap
+						.get("ovirtHistoryDbJdbcConnection");
 			}
-			if (parentContextMap.containsKey("ovirtHistoryPassword")) {
-				context.ovirtHistoryPassword = (java.lang.String) parentContextMap
-						.get("ovirtHistoryPassword");
+			if (parentContextMap.containsKey("ovirtHistoryDbPassword")) {
+				context.ovirtHistoryDbPassword = (java.lang.String) parentContextMap
+						.get("ovirtHistoryDbPassword");
 			}
-			if (parentContextMap.containsKey("ovirtHistoryUser")) {
-				context.ovirtHistoryUser = (String) parentContextMap
-						.get("ovirtHistoryUser");
+			if (parentContextMap.containsKey("ovirtHistoryDbUser")) {
+				context.ovirtHistoryDbUser = (String) parentContextMap
+						.get("ovirtHistoryDbUser");
 			}
 			if (parentContextMap.containsKey("runInterleave")) {
 				context.runInterleave = (Integer) parentContextMap
@@ -2145,6 +2148,6 @@ public class SampleRunJobs implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 60034 characters generated by Talend Open Studio for Data Integration on the
- * December 21, 2011 12:33:28 PM IST
+ * 60322 characters generated by Talend Open Studio for Data Integration on the
+ * March 6, 2012 5:41:59 PM IST
  ************************************************************************************************/
