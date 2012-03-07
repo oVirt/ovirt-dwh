@@ -115,6 +115,24 @@ public class HistoryETL implements TalendJob {
 
 			}
 
+			if (lastErrorSent != null) {
+
+				String pattern_lastErrorSent = "yyyy-MM-dd HH:mm:ss";
+				String value_lastErrorSent = "yyyy-MM-dd HH:mm:ss;0200-01-01 00:00:00";
+				String[] parts_lastErrorSent = value_lastErrorSent.split(";");
+				if (parts_lastErrorSent.length > 1) {
+					pattern_lastErrorSent = parts_lastErrorSent[0];
+					this.setProperty("lastErrorSent", pattern_lastErrorSent
+							+ ";"
+							+ FormatterUtils.format_Date(lastErrorSent,
+									pattern_lastErrorSent));
+				} else {
+					this.setProperty("lastErrorSent", FormatterUtils
+							.format_Date(lastErrorSent, pattern_lastErrorSent));
+				}
+
+			}
+
 			if (ovirtEngineDbDriverClass != null) {
 
 				this.setProperty("ovirtEngineDbDriverClass",
@@ -224,6 +242,12 @@ public class HistoryETL implements TalendJob {
 			return this.hoursToKeepSamples;
 		}
 
+		public java.util.Date lastErrorSent;
+
+		public java.util.Date getLastErrorSent() {
+			return this.lastErrorSent;
+		}
+
 		public String ovirtEngineDbDriverClass;
 
 		public String getOvirtEngineDbDriverClass() {
@@ -327,6 +351,7 @@ public class HistoryETL implements TalendJob {
 
 	public boolean isExportedAsOSGI = false;
 
+	LogCatcherUtils tLogCatcher_1 = new LogCatcherUtils();
 	LogCatcherUtils talendLogs_LOGS = new LogCatcherUtils();
 
 	private final java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
@@ -391,10 +416,17 @@ public class HistoryETL implements TalendJob {
 					}
 
 					if (!(e instanceof TDieException)) {
+						tLogCatcher_1.addMessage("Java Exception",
+								currentComponent, 6, e.getClass().getName()
+										+ ":" + e.getMessage(), 1);
 						talendLogs_LOGS.addMessage("Java Exception",
 								currentComponent, 6, e.getClass().getName()
 										+ ":" + e.getMessage(), 1);
-						talendLogs_LOGSProcess(globalMap);
+						try {
+							tLogCatcher_1Process(globalMap);
+						} finally {
+							talendLogs_LOGSProcess(globalMap);
+						}
 					}
 				} catch (java.lang.SecurityException e) {
 					this.e.printStackTrace();
@@ -475,6 +507,60 @@ public class HistoryETL implements TalendJob {
 
 	}
 
+	public void tRowGenerator_1_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tRowGenerator_1", System.currentTimeMillis());
+
+		tRowGenerator_1_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tLogRow_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tLogRow_1", System.currentTimeMillis());
+
+		tRowGenerator_1_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tRowGenerator_5_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tRowGenerator_5", System.currentTimeMillis());
+
+		tRowGenerator_5_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tMap_2_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tMap_2", System.currentTimeMillis());
+
+		tRowGenerator_5_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCOutput_2_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCOutput_2", System.currentTimeMillis());
+
+		tRowGenerator_5_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCRollback_6_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCRollback_6", System.currentTimeMillis());
+
+		tJDBCRollback_6_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
 	public void tPrejob_1_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -540,6 +626,42 @@ public class HistoryETL implements TalendJob {
 
 	}
 
+	public void tJDBCConnection_6_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCConnection_6", System.currentTimeMillis());
+
+		tJDBCConnection_6_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tRowGenerator_6_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tRowGenerator_6", System.currentTimeMillis());
+
+		tRowGenerator_6_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tMap_3_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tMap_3", System.currentTimeMillis());
+
+		tRowGenerator_6_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCOutput_3_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCOutput_3", System.currentTimeMillis());
+
+		tRowGenerator_6_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
 	public void tJDBCConnection_1_error(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -589,24 +711,6 @@ public class HistoryETL implements TalendJob {
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 		end_Hash.put("tJava_1", System.currentTimeMillis());
-
-		tWaitForFile_1_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
-	public void tRowGenerator_1_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tRowGenerator_1", System.currentTimeMillis());
-
-		tWaitForFile_1_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
-	public void tLogRow_1_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tLogRow_1", System.currentTimeMillis());
 
 		tWaitForFile_1_onSubJobError(exception, errorComponent, globalMap);
 
@@ -673,6 +777,42 @@ public class HistoryETL implements TalendJob {
 		end_Hash.put("tJava_4", System.currentTimeMillis());
 
 		tJava_4_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tLogCatcher_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tLogCatcher_1", System.currentTimeMillis());
+
+		tLogCatcher_1_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tMap_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tMap_1", System.currentTimeMillis());
+
+		tLogCatcher_1_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tContextLoad_2_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tContextLoad_2", System.currentTimeMillis());
+
+		tLogCatcher_1_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCOutput_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCOutput_1", System.currentTimeMillis());
+
+		tLogCatcher_1_onSubJobError(exception, errorComponent, globalMap);
 
 	}
 
@@ -771,6 +911,39 @@ public class HistoryETL implements TalendJob {
 
 	}
 
+	public void tRowGenerator_1_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tRowGenerator_5_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCRollback_6_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
 	public void tPrejob_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -816,6 +989,28 @@ public class HistoryETL implements TalendJob {
 	}
 
 	public void tJDBCConnection_2_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCConnection_6_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tRowGenerator_6_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -944,6 +1139,17 @@ public class HistoryETL implements TalendJob {
 
 	}
 
+	public void tLogCatcher_1_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
 	public void talendLogs_LOGS_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1043,6 +1249,8 @@ public class HistoryETL implements TalendJob {
 						context.hoursToKeepHourly);
 				parentContextMap_tRunJob_4.put("hoursToKeepSamples",
 						context.hoursToKeepSamples);
+				parentContextMap_tRunJob_4.put("lastErrorSent",
+						context.lastErrorSent);
 				parentContextMap_tRunJob_4.put("ovirtEngineDbDriverClass",
 						context.ovirtEngineDbDriverClass);
 				parentContextMap_tRunJob_4.put("ovirtEngineDbJdbcConnection",
@@ -1635,6 +1843,17 @@ public class HistoryETL implements TalendJob {
 
 			}// end the resume
 
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog(
+								"CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCRollback_5:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tRowGenerator_1Process(globalMap);
+
 		} catch (Exception e) {
 
 			throw new TalendException(e, currentComponent, globalMap);
@@ -1646,6 +1865,1107 @@ public class HistoryETL implements TalendJob {
 		}
 
 		globalMap.put("tJDBCRollback_5_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row6Struct implements
+			routines.system.IPersistableRow<row6Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public String time;
+
+		public String getTime() {
+			return this.time;
+		}
+
+		public String message;
+
+		public String getMessage() {
+			return this.message;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.time = readString(dis);
+
+					this.message = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.time, dos);
+
+				// String
+
+				writeString(this.message, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("time=" + time);
+			sb.append(",message=" + message);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row6Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tRowGenerator_1Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tRowGenerator_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row6Struct row6 = new row6Struct();
+
+				/**
+				 * [tLogRow_1 begin ] start
+				 */
+
+				ok_Hash.put("tLogRow_1", false);
+				start_Hash.put("tLogRow_1", System.currentTimeMillis());
+				currentComponent = "tLogRow_1";
+
+				int tos_count_tLogRow_1 = 0;
+
+				// /////////////////////
+
+				final String OUTPUT_FIELD_SEPARATOR_tLogRow_1 = "|";
+				java.io.PrintStream consoleOut_tLogRow_1 = null;
+
+				StringBuilder strBuffer_tLogRow_1 = null;
+				int nb_line_tLogRow_1 = 0;
+				// /////////////////////
+
+				/**
+				 * [tLogRow_1 begin ] stop
+				 */
+
+				/**
+				 * [tRowGenerator_1 begin ] start
+				 */
+
+				ok_Hash.put("tRowGenerator_1", false);
+				start_Hash.put("tRowGenerator_1", System.currentTimeMillis());
+				currentComponent = "tRowGenerator_1";
+
+				int tos_count_tRowGenerator_1 = 0;
+
+				int nb_line_tRowGenerator_1 = 0;
+				int nb_max_row_tRowGenerator_1 = 1;
+
+				class tRowGenerator_1Randomizer {
+					public String getRandomtime() {
+
+						return TalendDate.getDate("CCYY-MM-DD hh:mm:ss");
+
+					}
+
+					public String getRandommessage() {
+
+						return "ETL Service Stopped";
+
+					}
+				}
+				tRowGenerator_1Randomizer randtRowGenerator_1 = new tRowGenerator_1Randomizer();
+
+				for (int itRowGenerator_1 = 0; itRowGenerator_1 < nb_max_row_tRowGenerator_1; itRowGenerator_1++) {
+					row6.time = randtRowGenerator_1.getRandomtime();
+					row6.message = randtRowGenerator_1.getRandommessage();
+					nb_line_tRowGenerator_1++;
+
+					/**
+					 * [tRowGenerator_1 begin ] stop
+					 */
+					/**
+					 * [tRowGenerator_1 main ] start
+					 */
+
+					currentComponent = "tRowGenerator_1";
+
+					tos_count_tRowGenerator_1++;
+
+					/**
+					 * [tRowGenerator_1 main ] stop
+					 */
+
+					/**
+					 * [tLogRow_1 main ] start
+					 */
+
+					currentComponent = "tLogRow_1";
+
+					// /////////////////////
+
+					strBuffer_tLogRow_1 = new StringBuilder();
+
+					if (row6.time != null) { //
+
+						strBuffer_tLogRow_1.append(String.valueOf(row6.time));
+
+					} //
+
+					strBuffer_tLogRow_1.append("|");
+
+					if (row6.message != null) { //
+
+						strBuffer_tLogRow_1
+								.append(String.valueOf(row6.message));
+
+					} //
+
+					if (globalMap.get("tLogRow_CONSOLE") != null) {
+						consoleOut_tLogRow_1 = (java.io.PrintStream) globalMap
+								.get("tLogRow_CONSOLE");
+					} else {
+						consoleOut_tLogRow_1 = new java.io.PrintStream(
+								new java.io.BufferedOutputStream(System.out));
+						globalMap.put("tLogRow_CONSOLE", consoleOut_tLogRow_1);
+					}
+
+					consoleOut_tLogRow_1
+							.println(strBuffer_tLogRow_1.toString());
+					consoleOut_tLogRow_1.flush();
+					nb_line_tLogRow_1++;
+					// ////
+
+					// ////
+
+					// /////////////////////
+
+					tos_count_tLogRow_1++;
+
+					/**
+					 * [tLogRow_1 main ] stop
+					 */
+
+					/**
+					 * [tRowGenerator_1 end ] start
+					 */
+
+					currentComponent = "tRowGenerator_1";
+
+				}
+				globalMap.put("tRowGenerator_1_NB_LINE",
+						nb_line_tRowGenerator_1);
+
+				ok_Hash.put("tRowGenerator_1", true);
+				end_Hash.put("tRowGenerator_1", System.currentTimeMillis());
+
+				/**
+				 * [tRowGenerator_1 end ] stop
+				 */
+
+				/**
+				 * [tLogRow_1 end ] start
+				 */
+
+				currentComponent = "tLogRow_1";
+
+				// ////
+				// ////
+				globalMap.put("tLogRow_1_NB_LINE", nb_line_tLogRow_1);
+
+				// /////////////////////
+
+				ok_Hash.put("tLogRow_1", true);
+				end_Hash.put("tLogRow_1", System.currentTimeMillis());
+
+				/**
+				 * [tLogRow_1 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog(
+								"CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tRowGenerator_1:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tRowGenerator_5Process(globalMap);
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tRowGenerator_1_SUBPROCESS_STATE", 1);
+	}
+
+	public static class copyOfevent_outputStruct implements
+			routines.system.IPersistableRow<copyOfevent_outputStruct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public java.util.Date log_time;
+
+		public java.util.Date getLog_time() {
+			return this.log_time;
+		}
+
+		public String log_type_name;
+
+		public String getLog_type_name() {
+			return this.log_type_name;
+		}
+
+		public int log_type;
+
+		public int getLog_type() {
+			return this.log_type;
+		}
+
+		public int severity;
+
+		public int getSeverity() {
+			return this.severity;
+		}
+
+		public String message;
+
+		public String getMessage() {
+			return this.message;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.log_time = readDate(dis);
+
+					this.log_type_name = readString(dis);
+
+					this.log_type = dis.readInt();
+
+					this.severity = dis.readInt();
+
+					this.message = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.log_time, dos);
+
+				// String
+
+				writeString(this.log_type_name, dos);
+
+				// int
+
+				dos.writeInt(this.log_type);
+
+				// int
+
+				dos.writeInt(this.severity);
+
+				// String
+
+				writeString(this.message, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("log_time=" + String.valueOf(log_time));
+			sb.append(",log_type_name=" + log_type_name);
+			sb.append(",log_type=" + String.valueOf(log_type));
+			sb.append(",severity=" + String.valueOf(severity));
+			sb.append(",message=" + message);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(copyOfevent_outputStruct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class row2Struct implements
+			routines.system.IPersistableRow<row2Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public java.util.Date time;
+
+		public java.util.Date getTime() {
+			return this.time;
+		}
+
+		public String message;
+
+		public String getMessage() {
+			return this.message;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.time = readDate(dis);
+
+					this.message = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.time, dos);
+
+				// String
+
+				writeString(this.message, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("time=" + String.valueOf(time));
+			sb.append(",message=" + message);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row2Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tRowGenerator_5Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tRowGenerator_5_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row2Struct row2 = new row2Struct();
+				copyOfevent_outputStruct copyOfevent_output = new copyOfevent_outputStruct();
+
+				/**
+				 * [tJDBCOutput_2 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCOutput_2", false);
+				start_Hash.put("tJDBCOutput_2", System.currentTimeMillis());
+				currentComponent = "tJDBCOutput_2";
+
+				int tos_count_tJDBCOutput_2 = 0;
+
+				int nb_line_tJDBCOutput_2 = 0;
+				int nb_line_update_tJDBCOutput_2 = 0;
+				int nb_line_inserted_tJDBCOutput_2 = 0;
+				int nb_line_deleted_tJDBCOutput_2 = 0;
+				int nb_line_rejected_tJDBCOutput_2 = 0;
+
+				int deletedCount_tJDBCOutput_2 = 0;
+				int updatedCount_tJDBCOutput_2 = 0;
+				int insertedCount_tJDBCOutput_2 = 0;
+				int rejectedCount_tJDBCOutput_2 = 0;
+
+				boolean whetherReject_tJDBCOutput_2 = false;
+
+				java.sql.Connection connection_tJDBCOutput_2 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_6");
+
+				int batchSize_tJDBCOutput_2 = 10000;
+				int batchSizeCounter_tJDBCOutput_2 = 0;
+
+				String insert_tJDBCOutput_2 = "INSERT INTO "
+						+ "audit_log"
+						+ " (log_time,log_type_name,log_type,severity,message) VALUES (?,?,?,?,?)";
+				java.sql.PreparedStatement pstmt_tJDBCOutput_2 = connection_tJDBCOutput_2
+						.prepareStatement(insert_tJDBCOutput_2);
+
+				/**
+				 * [tJDBCOutput_2 begin ] stop
+				 */
+
+				/**
+				 * [tMap_2 begin ] start
+				 */
+
+				ok_Hash.put("tMap_2", false);
+				start_Hash.put("tMap_2", System.currentTimeMillis());
+				currentComponent = "tMap_2";
+
+				int tos_count_tMap_2 = 0;
+
+				// ###############################
+				// # Lookup's keys initialization
+				// ###############################
+
+				// ###############################
+				// # Vars initialization
+				// ###############################
+
+				// ###############################
+				// # Outputs initialization
+				copyOfevent_outputStruct copyOfevent_output_tmp = new copyOfevent_outputStruct();
+				// ###############################
+
+				/**
+				 * [tMap_2 begin ] stop
+				 */
+
+				/**
+				 * [tRowGenerator_5 begin ] start
+				 */
+
+				ok_Hash.put("tRowGenerator_5", false);
+				start_Hash.put("tRowGenerator_5", System.currentTimeMillis());
+				currentComponent = "tRowGenerator_5";
+
+				int tos_count_tRowGenerator_5 = 0;
+
+				int nb_line_tRowGenerator_5 = 0;
+				int nb_max_row_tRowGenerator_5 = 1;
+
+				class tRowGenerator_5Randomizer {
+					public java.util.Date getRandomtime() {
+
+						return TalendDate.getCurrentDate();
+
+					}
+
+					public String getRandommessage() {
+
+						return "ETL Service Stopped";
+
+					}
+				}
+				tRowGenerator_5Randomizer randtRowGenerator_5 = new tRowGenerator_5Randomizer();
+
+				for (int itRowGenerator_5 = 0; itRowGenerator_5 < nb_max_row_tRowGenerator_5; itRowGenerator_5++) {
+					row2.time = randtRowGenerator_5.getRandomtime();
+					row2.message = randtRowGenerator_5.getRandommessage();
+					nb_line_tRowGenerator_5++;
+
+					/**
+					 * [tRowGenerator_5 begin ] stop
+					 */
+					/**
+					 * [tRowGenerator_5 main ] start
+					 */
+
+					currentComponent = "tRowGenerator_5";
+
+					tos_count_tRowGenerator_5++;
+
+					/**
+					 * [tRowGenerator_5 main ] stop
+					 */
+
+					/**
+					 * [tMap_2 main ] start
+					 */
+
+					currentComponent = "tMap_2";
+
+					boolean hasCasePrimitiveKeyWithNull_tMap_2 = false;
+
+					// ###############################
+					// # Input tables (lookups)
+					boolean rejectedInnerJoin_tMap_2 = false;
+					boolean mainRowRejected_tMap_2 = false;
+
+					// ###############################
+					{ // start of Var scope
+
+						// ###############################
+						// # Vars tables
+						// ###############################
+						// ###############################
+						// # Output tables
+
+						copyOfevent_output = null;
+
+						// # Output table : 'copyOfevent_output'
+						copyOfevent_output_tmp.log_time = row2.time;
+						copyOfevent_output_tmp.log_type_name = "DWH_STOPPED";
+						copyOfevent_output_tmp.log_type = 9701;
+						copyOfevent_output_tmp.severity = 0;
+						copyOfevent_output_tmp.message = row2.message;
+						copyOfevent_output = copyOfevent_output_tmp;
+						// ###############################
+
+					} // end of Var scope
+
+					rejectedInnerJoin_tMap_2 = false;
+
+					tos_count_tMap_2++;
+
+					/**
+					 * [tMap_2 main ] stop
+					 */
+					// Start of branch "copyOfevent_output"
+					if (copyOfevent_output != null) {
+
+						/**
+						 * [tJDBCOutput_2 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_2";
+
+						whetherReject_tJDBCOutput_2 = false;
+						if (copyOfevent_output.log_time != null) {
+							pstmt_tJDBCOutput_2.setTimestamp(1,
+									new java.sql.Timestamp(
+											copyOfevent_output.log_time
+													.getTime()));
+						} else {
+							pstmt_tJDBCOutput_2.setNull(1, java.sql.Types.DATE);
+						}
+
+						if (copyOfevent_output.log_type_name == null) {
+							pstmt_tJDBCOutput_2.setNull(2,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmt_tJDBCOutput_2.setString(2,
+									copyOfevent_output.log_type_name);
+						}
+
+						pstmt_tJDBCOutput_2.setInt(3,
+								copyOfevent_output.log_type);
+
+						pstmt_tJDBCOutput_2.setInt(4,
+								copyOfevent_output.severity);
+
+						if (copyOfevent_output.message == null) {
+							pstmt_tJDBCOutput_2.setNull(5,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmt_tJDBCOutput_2.setString(5,
+									copyOfevent_output.message);
+						}
+
+						try {
+							insertedCount_tJDBCOutput_2 = insertedCount_tJDBCOutput_2
+									+ pstmt_tJDBCOutput_2.executeUpdate();
+							nb_line_tJDBCOutput_2++;
+						} catch (Exception e) {
+							whetherReject_tJDBCOutput_2 = true;
+							throw (e);
+						}
+
+						tos_count_tJDBCOutput_2++;
+
+						/**
+						 * [tJDBCOutput_2 main ] stop
+						 */
+
+					} // End of branch "copyOfevent_output"
+
+					/**
+					 * [tRowGenerator_5 end ] start
+					 */
+
+					currentComponent = "tRowGenerator_5";
+
+				}
+				globalMap.put("tRowGenerator_5_NB_LINE",
+						nb_line_tRowGenerator_5);
+
+				ok_Hash.put("tRowGenerator_5", true);
+				end_Hash.put("tRowGenerator_5", System.currentTimeMillis());
+
+				/**
+				 * [tRowGenerator_5 end ] stop
+				 */
+
+				/**
+				 * [tMap_2 end ] start
+				 */
+
+				currentComponent = "tMap_2";
+
+				// ###############################
+				// # Lookup hashes releasing
+				// ###############################
+
+				ok_Hash.put("tMap_2", true);
+				end_Hash.put("tMap_2", System.currentTimeMillis());
+
+				/**
+				 * [tMap_2 end ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_2 end ] start
+				 */
+
+				currentComponent = "tJDBCOutput_2";
+
+				if (pstmt_tJDBCOutput_2 != null) {
+
+					pstmt_tJDBCOutput_2.close();
+
+				}
+
+				nb_line_deleted_tJDBCOutput_2 = nb_line_deleted_tJDBCOutput_2
+						+ deletedCount_tJDBCOutput_2;
+				nb_line_update_tJDBCOutput_2 = nb_line_update_tJDBCOutput_2
+						+ updatedCount_tJDBCOutput_2;
+				nb_line_inserted_tJDBCOutput_2 = nb_line_inserted_tJDBCOutput_2
+						+ insertedCount_tJDBCOutput_2;
+				nb_line_rejected_tJDBCOutput_2 = nb_line_rejected_tJDBCOutput_2
+						+ rejectedCount_tJDBCOutput_2;
+
+				globalMap.put("tJDBCOutput_2_NB_LINE", nb_line_tJDBCOutput_2);
+				globalMap.put("tJDBCOutput_2_NB_LINE_UPDATED",
+						nb_line_update_tJDBCOutput_2);
+				globalMap.put("tJDBCOutput_2_NB_LINE_INSERTED",
+						nb_line_inserted_tJDBCOutput_2);
+				globalMap.put("tJDBCOutput_2_NB_LINE_DELETED",
+						nb_line_deleted_tJDBCOutput_2);
+				globalMap.put("tJDBCOutput_2_NB_LINE_REJECTED",
+						nb_line_rejected_tJDBCOutput_2);
+
+				ok_Hash.put("tJDBCOutput_2", true);
+				end_Hash.put("tJDBCOutput_2", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCOutput_2 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog(
+								"CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tRowGenerator_5:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCRollback_6Process(globalMap);
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tRowGenerator_5_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCRollback_6Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCRollback_6_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCRollback_6 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCRollback_6", false);
+				start_Hash.put("tJDBCRollback_6", System.currentTimeMillis());
+				currentComponent = "tJDBCRollback_6";
+
+				int tos_count_tJDBCRollback_6 = 0;
+
+				/**
+				 * [tJDBCRollback_6 begin ] stop
+				 */
+				/**
+				 * [tJDBCRollback_6 main ] start
+				 */
+
+				currentComponent = "tJDBCRollback_6";
+
+				java.sql.Connection conn_tJDBCRollback_6 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_6");
+				if (conn_tJDBCRollback_6 != null
+						&& !conn_tJDBCRollback_6.isClosed()) {
+					conn_tJDBCRollback_6.rollback();
+					conn_tJDBCRollback_6.close();
+				}
+
+				tos_count_tJDBCRollback_6++;
+
+				/**
+				 * [tJDBCRollback_6 main ] stop
+				 */
+				/**
+				 * [tJDBCRollback_6 end ] start
+				 */
+
+				currentComponent = "tJDBCRollback_6";
+
+				ok_Hash.put("tJDBCRollback_6", true);
+				end_Hash.put("tJDBCRollback_6", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCRollback_6 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJDBCRollback_6_SUBPROCESS_STATE", 1);
 	}
 
 	public void tPrejob_1Process(final java.util.Map<String, Object> globalMap)
@@ -1920,7 +3240,7 @@ public class HistoryETL implements TalendJob {
 
 					public String getRandommessage() {
 
-						return "Service has Started";
+						return "ETL Service Started";
 
 					}
 				}
@@ -2472,6 +3792,27 @@ public class HistoryETL implements TalendJob {
 							}
 
 							if (key_tContextLoad_1 != null
+									&& "lastErrorSent"
+											.equals(key_tContextLoad_1)) {
+								String context_lastErrorSent_value = context
+										.getProperty("lastErrorSent");
+								if (context_lastErrorSent_value == null)
+									context_lastErrorSent_value = "";
+								int context_lastErrorSent_pos = context_lastErrorSent_value
+										.indexOf(";");
+								String context_lastErrorSent_pattern = "yyyy-MM-dd HH:mm:ss";
+								if (context_lastErrorSent_pos > -1) {
+									context_lastErrorSent_pattern = context_lastErrorSent_value
+											.substring(0,
+													context_lastErrorSent_pos);
+								}
+								context.lastErrorSent = (java.util.Date) (new java.text.SimpleDateFormat(
+										context_lastErrorSent_pattern)
+										.parse(value_tContextLoad_1));
+
+							}
+
+							if (key_tContextLoad_1 != null
 									&& "ovirtEngineDbDriverClass"
 											.equals(key_tContextLoad_1)) {
 								context.ovirtEngineDbDriverClass = value_tContextLoad_1;
@@ -2750,7 +4091,7 @@ public class HistoryETL implements TalendJob {
 				ok_Hash.put("tJDBCConnection_2", true);
 				end_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
 
-				tJDBCConnection_1Process(globalMap);
+				tJDBCConnection_6Process(globalMap);
 
 				/**
 				 * [tJDBCConnection_2 end ] stop
@@ -2769,6 +4110,788 @@ public class HistoryETL implements TalendJob {
 		}
 
 		globalMap.put("tJDBCConnection_2_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCConnection_6Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCConnection_6_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCConnection_6 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCConnection_6", false);
+				start_Hash.put("tJDBCConnection_6", System.currentTimeMillis());
+				currentComponent = "tJDBCConnection_6";
+
+				int tos_count_tJDBCConnection_6 = 0;
+
+				String url_tJDBCConnection_6 = context.ovirtEngineDbJdbcConnection;
+
+				String userName_tJDBCConnection_6 = context.ovirtEngineDbUser;
+
+				String password_tJDBCConnection_6 = context.ovirtEngineDbPassword;
+
+				java.sql.Connection conn_tJDBCConnection_6 = null;
+
+				String sharedConnectionName_tJDBCConnection_6 = "engine-events";
+				conn_tJDBCConnection_6 = SharedDBConnection.getDBConnection(
+						context.ovirtEngineDbDriverClass,
+						url_tJDBCConnection_6, userName_tJDBCConnection_6,
+						password_tJDBCConnection_6,
+						sharedConnectionName_tJDBCConnection_6);
+
+				conn_tJDBCConnection_6.setAutoCommit(true);
+
+				globalMap.put("conn_tJDBCConnection_6", conn_tJDBCConnection_6);
+				globalMap.put("url_tJDBCConnection_6", url_tJDBCConnection_6);
+				// globalMap.put("user_tJDBCConnection_6",
+				// userName_tJDBCConnection_6);
+				// globalMap.put("pass_tJDBCConnection_6",
+				// password_tJDBCConnection_6);
+
+				/**
+				 * [tJDBCConnection_6 begin ] stop
+				 */
+				/**
+				 * [tJDBCConnection_6 main ] start
+				 */
+
+				currentComponent = "tJDBCConnection_6";
+
+				tos_count_tJDBCConnection_6++;
+
+				/**
+				 * [tJDBCConnection_6 main ] stop
+				 */
+				/**
+				 * [tJDBCConnection_6 end ] start
+				 */
+
+				currentComponent = "tJDBCConnection_6";
+
+				ok_Hash.put("tJDBCConnection_6", true);
+				end_Hash.put("tJDBCConnection_6", System.currentTimeMillis());
+
+				tRowGenerator_6Process(globalMap);
+
+				/**
+				 * [tJDBCConnection_6 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJDBCConnection_6_SUBPROCESS_STATE", 1);
+	}
+
+	public static class copyOfevent_output_0Struct implements
+			routines.system.IPersistableRow<copyOfevent_output_0Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public java.util.Date log_time;
+
+		public java.util.Date getLog_time() {
+			return this.log_time;
+		}
+
+		public String log_type_name;
+
+		public String getLog_type_name() {
+			return this.log_type_name;
+		}
+
+		public int log_type;
+
+		public int getLog_type() {
+			return this.log_type;
+		}
+
+		public int severity;
+
+		public int getSeverity() {
+			return this.severity;
+		}
+
+		public String message;
+
+		public String getMessage() {
+			return this.message;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.log_time = readDate(dis);
+
+					this.log_type_name = readString(dis);
+
+					this.log_type = dis.readInt();
+
+					this.severity = dis.readInt();
+
+					this.message = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.log_time, dos);
+
+				// String
+
+				writeString(this.log_type_name, dos);
+
+				// int
+
+				dos.writeInt(this.log_type);
+
+				// int
+
+				dos.writeInt(this.severity);
+
+				// String
+
+				writeString(this.message, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("log_time=" + String.valueOf(log_time));
+			sb.append(",log_type_name=" + log_type_name);
+			sb.append(",log_type=" + String.valueOf(log_type));
+			sb.append(",severity=" + String.valueOf(severity));
+			sb.append(",message=" + message);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(copyOfevent_output_0Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class row7Struct implements
+			routines.system.IPersistableRow<row7Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public java.util.Date time;
+
+		public java.util.Date getTime() {
+			return this.time;
+		}
+
+		public String message;
+
+		public String getMessage() {
+			return this.message;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.time = readDate(dis);
+
+					this.message = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.time, dos);
+
+				// String
+
+				writeString(this.message, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("time=" + String.valueOf(time));
+			sb.append(",message=" + message);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row7Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tRowGenerator_6Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tRowGenerator_6_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row7Struct row7 = new row7Struct();
+				copyOfevent_output_0Struct copyOfevent_output_0 = new copyOfevent_output_0Struct();
+
+				/**
+				 * [tJDBCOutput_3 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCOutput_3", false);
+				start_Hash.put("tJDBCOutput_3", System.currentTimeMillis());
+				currentComponent = "tJDBCOutput_3";
+
+				int tos_count_tJDBCOutput_3 = 0;
+
+				int nb_line_tJDBCOutput_3 = 0;
+				int nb_line_update_tJDBCOutput_3 = 0;
+				int nb_line_inserted_tJDBCOutput_3 = 0;
+				int nb_line_deleted_tJDBCOutput_3 = 0;
+				int nb_line_rejected_tJDBCOutput_3 = 0;
+
+				int deletedCount_tJDBCOutput_3 = 0;
+				int updatedCount_tJDBCOutput_3 = 0;
+				int insertedCount_tJDBCOutput_3 = 0;
+				int rejectedCount_tJDBCOutput_3 = 0;
+
+				boolean whetherReject_tJDBCOutput_3 = false;
+
+				java.sql.Connection connection_tJDBCOutput_3 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_6");
+
+				int batchSize_tJDBCOutput_3 = 10000;
+				int batchSizeCounter_tJDBCOutput_3 = 0;
+
+				String insert_tJDBCOutput_3 = "INSERT INTO "
+						+ "audit_log"
+						+ " (log_time,log_type_name,log_type,severity,message) VALUES (?,?,?,?,?)";
+				java.sql.PreparedStatement pstmt_tJDBCOutput_3 = connection_tJDBCOutput_3
+						.prepareStatement(insert_tJDBCOutput_3);
+
+				/**
+				 * [tJDBCOutput_3 begin ] stop
+				 */
+
+				/**
+				 * [tMap_3 begin ] start
+				 */
+
+				ok_Hash.put("tMap_3", false);
+				start_Hash.put("tMap_3", System.currentTimeMillis());
+				currentComponent = "tMap_3";
+
+				int tos_count_tMap_3 = 0;
+
+				// ###############################
+				// # Lookup's keys initialization
+				// ###############################
+
+				// ###############################
+				// # Vars initialization
+				// ###############################
+
+				// ###############################
+				// # Outputs initialization
+				copyOfevent_output_0Struct copyOfevent_output_0_tmp = new copyOfevent_output_0Struct();
+				// ###############################
+
+				/**
+				 * [tMap_3 begin ] stop
+				 */
+
+				/**
+				 * [tRowGenerator_6 begin ] start
+				 */
+
+				ok_Hash.put("tRowGenerator_6", false);
+				start_Hash.put("tRowGenerator_6", System.currentTimeMillis());
+				currentComponent = "tRowGenerator_6";
+
+				int tos_count_tRowGenerator_6 = 0;
+
+				int nb_line_tRowGenerator_6 = 0;
+				int nb_max_row_tRowGenerator_6 = 1;
+
+				class tRowGenerator_6Randomizer {
+					public java.util.Date getRandomtime() {
+
+						return TalendDate.getCurrentDate();
+
+					}
+
+					public String getRandommessage() {
+
+						return "ETL Service Started";
+
+					}
+				}
+				tRowGenerator_6Randomizer randtRowGenerator_6 = new tRowGenerator_6Randomizer();
+
+				for (int itRowGenerator_6 = 0; itRowGenerator_6 < nb_max_row_tRowGenerator_6; itRowGenerator_6++) {
+					row7.time = randtRowGenerator_6.getRandomtime();
+					row7.message = randtRowGenerator_6.getRandommessage();
+					nb_line_tRowGenerator_6++;
+
+					/**
+					 * [tRowGenerator_6 begin ] stop
+					 */
+					/**
+					 * [tRowGenerator_6 main ] start
+					 */
+
+					currentComponent = "tRowGenerator_6";
+
+					tos_count_tRowGenerator_6++;
+
+					/**
+					 * [tRowGenerator_6 main ] stop
+					 */
+
+					/**
+					 * [tMap_3 main ] start
+					 */
+
+					currentComponent = "tMap_3";
+
+					boolean hasCasePrimitiveKeyWithNull_tMap_3 = false;
+
+					// ###############################
+					// # Input tables (lookups)
+					boolean rejectedInnerJoin_tMap_3 = false;
+					boolean mainRowRejected_tMap_3 = false;
+
+					// ###############################
+					{ // start of Var scope
+
+						// ###############################
+						// # Vars tables
+						// ###############################
+						// ###############################
+						// # Output tables
+
+						copyOfevent_output_0 = null;
+
+						// # Output table : 'copyOfevent_output_0'
+						copyOfevent_output_0_tmp.log_time = row7.time;
+						copyOfevent_output_0_tmp.log_type_name = "DWH_STARTED";
+						copyOfevent_output_0_tmp.log_type = 9700;
+						copyOfevent_output_0_tmp.severity = 0;
+						copyOfevent_output_0_tmp.message = row7.message;
+						copyOfevent_output_0 = copyOfevent_output_0_tmp;
+						// ###############################
+
+					} // end of Var scope
+
+					rejectedInnerJoin_tMap_3 = false;
+
+					tos_count_tMap_3++;
+
+					/**
+					 * [tMap_3 main ] stop
+					 */
+					// Start of branch "copyOfevent_output_0"
+					if (copyOfevent_output_0 != null) {
+
+						/**
+						 * [tJDBCOutput_3 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_3";
+
+						whetherReject_tJDBCOutput_3 = false;
+						if (copyOfevent_output_0.log_time != null) {
+							pstmt_tJDBCOutput_3.setTimestamp(1,
+									new java.sql.Timestamp(
+											copyOfevent_output_0.log_time
+													.getTime()));
+						} else {
+							pstmt_tJDBCOutput_3.setNull(1, java.sql.Types.DATE);
+						}
+
+						if (copyOfevent_output_0.log_type_name == null) {
+							pstmt_tJDBCOutput_3.setNull(2,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmt_tJDBCOutput_3.setString(2,
+									copyOfevent_output_0.log_type_name);
+						}
+
+						pstmt_tJDBCOutput_3.setInt(3,
+								copyOfevent_output_0.log_type);
+
+						pstmt_tJDBCOutput_3.setInt(4,
+								copyOfevent_output_0.severity);
+
+						if (copyOfevent_output_0.message == null) {
+							pstmt_tJDBCOutput_3.setNull(5,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmt_tJDBCOutput_3.setString(5,
+									copyOfevent_output_0.message);
+						}
+
+						try {
+							insertedCount_tJDBCOutput_3 = insertedCount_tJDBCOutput_3
+									+ pstmt_tJDBCOutput_3.executeUpdate();
+							nb_line_tJDBCOutput_3++;
+						} catch (Exception e) {
+							whetherReject_tJDBCOutput_3 = true;
+							throw (e);
+						}
+
+						tos_count_tJDBCOutput_3++;
+
+						/**
+						 * [tJDBCOutput_3 main ] stop
+						 */
+
+					} // End of branch "copyOfevent_output_0"
+
+					/**
+					 * [tRowGenerator_6 end ] start
+					 */
+
+					currentComponent = "tRowGenerator_6";
+
+				}
+				globalMap.put("tRowGenerator_6_NB_LINE",
+						nb_line_tRowGenerator_6);
+
+				ok_Hash.put("tRowGenerator_6", true);
+				end_Hash.put("tRowGenerator_6", System.currentTimeMillis());
+
+				/**
+				 * [tRowGenerator_6 end ] stop
+				 */
+
+				/**
+				 * [tMap_3 end ] start
+				 */
+
+				currentComponent = "tMap_3";
+
+				// ###############################
+				// # Lookup hashes releasing
+				// ###############################
+
+				ok_Hash.put("tMap_3", true);
+				end_Hash.put("tMap_3", System.currentTimeMillis());
+
+				/**
+				 * [tMap_3 end ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_3 end ] start
+				 */
+
+				currentComponent = "tJDBCOutput_3";
+
+				if (pstmt_tJDBCOutput_3 != null) {
+
+					pstmt_tJDBCOutput_3.close();
+
+				}
+
+				nb_line_deleted_tJDBCOutput_3 = nb_line_deleted_tJDBCOutput_3
+						+ deletedCount_tJDBCOutput_3;
+				nb_line_update_tJDBCOutput_3 = nb_line_update_tJDBCOutput_3
+						+ updatedCount_tJDBCOutput_3;
+				nb_line_inserted_tJDBCOutput_3 = nb_line_inserted_tJDBCOutput_3
+						+ insertedCount_tJDBCOutput_3;
+				nb_line_rejected_tJDBCOutput_3 = nb_line_rejected_tJDBCOutput_3
+						+ rejectedCount_tJDBCOutput_3;
+
+				globalMap.put("tJDBCOutput_3_NB_LINE", nb_line_tJDBCOutput_3);
+				globalMap.put("tJDBCOutput_3_NB_LINE_UPDATED",
+						nb_line_update_tJDBCOutput_3);
+				globalMap.put("tJDBCOutput_3_NB_LINE_INSERTED",
+						nb_line_inserted_tJDBCOutput_3);
+				globalMap.put("tJDBCOutput_3_NB_LINE_DELETED",
+						nb_line_deleted_tJDBCOutput_3);
+				globalMap.put("tJDBCOutput_3_NB_LINE_REJECTED",
+						nb_line_rejected_tJDBCOutput_3);
+
+				ok_Hash.put("tJDBCOutput_3", true);
+				end_Hash.put("tJDBCOutput_3", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCOutput_3 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog(
+								"CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tRowGenerator_6:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCConnection_1Process(globalMap);
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tRowGenerator_6_SUBPROCESS_STATE", 1);
 	}
 
 	public void tJDBCConnection_1Process(
@@ -3161,138 +5284,6 @@ public class HistoryETL implements TalendJob {
 		globalMap.put("tJDBCConnection_5_SUBPROCESS_STATE", 1);
 	}
 
-	public static class row2Struct implements
-			routines.system.IPersistableRow<row2Struct> {
-		final static byte[] commonByteArrayLock = new byte[0];
-		static byte[] commonByteArray = new byte[0];
-
-		public String time;
-
-		public String getTime() {
-			return this.time;
-		}
-
-		public String message;
-
-		public String getMessage() {
-			return this.message;
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray.length) {
-					if (length < 1024 && commonByteArray.length == 0) {
-						commonByteArray = new byte[1024];
-					} else {
-						commonByteArray = new byte[2 * length];
-					}
-				}
-				dis.readFully(commonByteArray, 0, length);
-				strReturn = new String(commonByteArray, 0, length, utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock) {
-
-				try {
-
-					int length = 0;
-
-					this.time = readString(dis);
-
-					this.message = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// String
-
-				writeString(this.time, dos);
-
-				// String
-
-				writeString(this.message, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("time=" + time);
-			sb.append(",message=" + message);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(row2Struct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(), object2
-						.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
 	public void tWaitForFile_1Process(
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -3313,14 +5304,11 @@ public class HistoryETL implements TalendJob {
 																					// resume
 				globalResumeTicket = true;
 
-				row2Struct row2 = new row2Struct();
-
 				/**
 				 * [tWaitForFile_1 begin ] start
 				 */
 
 				int NB_ITERATE_tJava_1 = 0; // for statistics
-				int NB_ITERATE_tRowGenerator_1 = 0; // for statistics
 
 				ok_Hash.put("tWaitForFile_1", false);
 				start_Hash.put("tWaitForFile_1", System.currentTimeMillis());
@@ -3511,168 +5499,6 @@ public class HistoryETL implements TalendJob {
 					 * [tJava_1 end ] stop
 					 */
 
-					NB_ITERATE_tRowGenerator_1++;
-
-					/**
-					 * [tLogRow_1 begin ] start
-					 */
-
-					ok_Hash.put("tLogRow_1", false);
-					start_Hash.put("tLogRow_1", System.currentTimeMillis());
-					currentComponent = "tLogRow_1";
-
-					int tos_count_tLogRow_1 = 0;
-
-					// /////////////////////
-
-					final String OUTPUT_FIELD_SEPARATOR_tLogRow_1 = "|";
-					java.io.PrintStream consoleOut_tLogRow_1 = null;
-
-					StringBuilder strBuffer_tLogRow_1 = null;
-					int nb_line_tLogRow_1 = 0;
-					// /////////////////////
-
-					/**
-					 * [tLogRow_1 begin ] stop
-					 */
-
-					/**
-					 * [tRowGenerator_1 begin ] start
-					 */
-
-					ok_Hash.put("tRowGenerator_1", false);
-					start_Hash.put("tRowGenerator_1", System
-							.currentTimeMillis());
-					currentComponent = "tRowGenerator_1";
-
-					int tos_count_tRowGenerator_1 = 0;
-
-					int nb_line_tRowGenerator_1 = 0;
-					int nb_max_row_tRowGenerator_1 = 10;
-
-					class tRowGenerator_1Randomizer {
-						public String getRandomtime() {
-
-							return TalendDate.getDate("CCYY-MM-DD hh:mm:ss");
-
-						}
-
-						public String getRandommessage() {
-
-							return "Service was Stopped Successfully";
-
-						}
-					}
-					tRowGenerator_1Randomizer randtRowGenerator_1 = new tRowGenerator_1Randomizer();
-
-					for (int itRowGenerator_1 = 0; itRowGenerator_1 < nb_max_row_tRowGenerator_1; itRowGenerator_1++) {
-						row2.time = randtRowGenerator_1.getRandomtime();
-						row2.message = randtRowGenerator_1.getRandommessage();
-						nb_line_tRowGenerator_1++;
-
-						/**
-						 * [tRowGenerator_1 begin ] stop
-						 */
-						/**
-						 * [tRowGenerator_1 main ] start
-						 */
-
-						currentComponent = "tRowGenerator_1";
-
-						tos_count_tRowGenerator_1++;
-
-						/**
-						 * [tRowGenerator_1 main ] stop
-						 */
-
-						/**
-						 * [tLogRow_1 main ] start
-						 */
-
-						currentComponent = "tLogRow_1";
-
-						// /////////////////////
-
-						strBuffer_tLogRow_1 = new StringBuilder();
-
-						if (row2.time != null) { //
-
-							strBuffer_tLogRow_1.append(String
-									.valueOf(row2.time));
-
-						} //
-
-						strBuffer_tLogRow_1.append("|");
-
-						if (row2.message != null) { //
-
-							strBuffer_tLogRow_1.append(String
-									.valueOf(row2.message));
-
-						} //
-
-						if (globalMap.get("tLogRow_CONSOLE") != null) {
-							consoleOut_tLogRow_1 = (java.io.PrintStream) globalMap
-									.get("tLogRow_CONSOLE");
-						} else {
-							consoleOut_tLogRow_1 = new java.io.PrintStream(
-									new java.io.BufferedOutputStream(System.out));
-							globalMap.put("tLogRow_CONSOLE",
-									consoleOut_tLogRow_1);
-						}
-
-						consoleOut_tLogRow_1.println(strBuffer_tLogRow_1
-								.toString());
-						consoleOut_tLogRow_1.flush();
-						nb_line_tLogRow_1++;
-						// ////
-
-						// ////
-
-						// /////////////////////
-
-						tos_count_tLogRow_1++;
-
-						/**
-						 * [tLogRow_1 main ] stop
-						 */
-
-						/**
-						 * [tRowGenerator_1 end ] start
-						 */
-
-						currentComponent = "tRowGenerator_1";
-
-					}
-					globalMap.put("tRowGenerator_1_NB_LINE",
-							nb_line_tRowGenerator_1);
-
-					ok_Hash.put("tRowGenerator_1", true);
-					end_Hash.put("tRowGenerator_1", System.currentTimeMillis());
-
-					/**
-					 * [tRowGenerator_1 end ] stop
-					 */
-
-					/**
-					 * [tLogRow_1 end ] start
-					 */
-
-					currentComponent = "tLogRow_1";
-
-					// ////
-					// ////
-					globalMap.put("tLogRow_1_NB_LINE", nb_line_tLogRow_1);
-
-					// /////////////////////
-
-					ok_Hash.put("tLogRow_1", true);
-					end_Hash.put("tLogRow_1", System.currentTimeMillis());
-
-					/**
-					 * [tLogRow_1 end ] stop
-					 */
-
 					/**
 					 * [tWaitForFile_1 end ] start
 					 */
@@ -3794,6 +5620,8 @@ public class HistoryETL implements TalendJob {
 						context.hoursToKeepHourly);
 				parentContextMap_tRunJob_2.put("hoursToKeepSamples",
 						context.hoursToKeepSamples);
+				parentContextMap_tRunJob_2.put("lastErrorSent",
+						context.lastErrorSent);
 				parentContextMap_tRunJob_2.put("ovirtEngineDbDriverClass",
 						context.ovirtEngineDbDriverClass);
 				parentContextMap_tRunJob_2.put("ovirtEngineDbJdbcConnection",
@@ -4451,6 +6279,1273 @@ public class HistoryETL implements TalendJob {
 		}
 
 		globalMap.put("tJava_4_SUBPROCESS_STATE", 1);
+	}
+
+	public static class five_min_checkStruct implements
+			routines.system.IPersistableRow<five_min_checkStruct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public java.util.Date value;
+
+		public java.util.Date getValue() {
+			return this.value;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readDate(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// java.util.Date
+
+				writeDate(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + String.valueOf(value));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(five_min_checkStruct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class event_outputStruct implements
+			routines.system.IPersistableRow<event_outputStruct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public java.util.Date log_time;
+
+		public java.util.Date getLog_time() {
+			return this.log_time;
+		}
+
+		public String log_type_name;
+
+		public String getLog_type_name() {
+			return this.log_type_name;
+		}
+
+		public int log_type;
+
+		public int getLog_type() {
+			return this.log_type;
+		}
+
+		public int severity;
+
+		public int getSeverity() {
+			return this.severity;
+		}
+
+		public String message;
+
+		public String getMessage() {
+			return this.message;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.log_time = readDate(dis);
+
+					this.log_type_name = readString(dis);
+
+					this.log_type = dis.readInt();
+
+					this.severity = dis.readInt();
+
+					this.message = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.log_time, dos);
+
+				// String
+
+				writeString(this.log_type_name, dos);
+
+				// int
+
+				dos.writeInt(this.log_type);
+
+				// int
+
+				dos.writeInt(this.severity);
+
+				// String
+
+				writeString(this.message, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("log_time=" + String.valueOf(log_time));
+			sb.append(",log_type_name=" + log_type_name);
+			sb.append(",log_type=" + String.valueOf(log_type));
+			sb.append(",severity=" + String.valueOf(severity));
+			sb.append(",message=" + message);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(event_outputStruct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class row5Struct implements
+			routines.system.IPersistableRow<row5Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public java.util.Date moment;
+
+		public java.util.Date getMoment() {
+			return this.moment;
+		}
+
+		public String pid;
+
+		public String getPid() {
+			return this.pid;
+		}
+
+		public String root_pid;
+
+		public String getRoot_pid() {
+			return this.root_pid;
+		}
+
+		public String father_pid;
+
+		public String getFather_pid() {
+			return this.father_pid;
+		}
+
+		public String project;
+
+		public String getProject() {
+			return this.project;
+		}
+
+		public String job;
+
+		public String getJob() {
+			return this.job;
+		}
+
+		public String context;
+
+		public String getContext() {
+			return this.context;
+		}
+
+		public Integer priority;
+
+		public Integer getPriority() {
+			return this.priority;
+		}
+
+		public String type;
+
+		public String getType() {
+			return this.type;
+		}
+
+		public String origin;
+
+		public String getOrigin() {
+			return this.origin;
+		}
+
+		public String message;
+
+		public String getMessage() {
+			return this.message;
+		}
+
+		public Integer code;
+
+		public Integer getCode() {
+			return this.code;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		private Integer readInteger(ObjectInputStream dis) throws IOException {
+			Integer intReturn;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				intReturn = null;
+			} else {
+				intReturn = dis.readInt();
+			}
+			return intReturn;
+		}
+
+		private void writeInteger(Integer intNum, ObjectOutputStream dos)
+				throws IOException {
+			if (intNum == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeInt(intNum);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.moment = readDate(dis);
+
+					this.pid = readString(dis);
+
+					this.root_pid = readString(dis);
+
+					this.father_pid = readString(dis);
+
+					this.project = readString(dis);
+
+					this.job = readString(dis);
+
+					this.context = readString(dis);
+
+					this.priority = readInteger(dis);
+
+					this.type = readString(dis);
+
+					this.origin = readString(dis);
+
+					this.message = readString(dis);
+
+					this.code = readInteger(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.moment, dos);
+
+				// String
+
+				writeString(this.pid, dos);
+
+				// String
+
+				writeString(this.root_pid, dos);
+
+				// String
+
+				writeString(this.father_pid, dos);
+
+				// String
+
+				writeString(this.project, dos);
+
+				// String
+
+				writeString(this.job, dos);
+
+				// String
+
+				writeString(this.context, dos);
+
+				// Integer
+
+				writeInteger(this.priority, dos);
+
+				// String
+
+				writeString(this.type, dos);
+
+				// String
+
+				writeString(this.origin, dos);
+
+				// String
+
+				writeString(this.message, dos);
+
+				// Integer
+
+				writeInteger(this.code, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("moment=" + String.valueOf(moment));
+			sb.append(",pid=" + pid);
+			sb.append(",root_pid=" + root_pid);
+			sb.append(",father_pid=" + father_pid);
+			sb.append(",project=" + project);
+			sb.append(",job=" + job);
+			sb.append(",context=" + context);
+			sb.append(",priority=" + String.valueOf(priority));
+			sb.append(",type=" + type);
+			sb.append(",origin=" + origin);
+			sb.append(",message=" + message);
+			sb.append(",code=" + String.valueOf(code));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row5Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tLogCatcher_1Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tLogCatcher_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row5Struct row5 = new row5Struct();
+				five_min_checkStruct five_min_check = new five_min_checkStruct();
+				event_outputStruct event_output = new event_outputStruct();
+
+				/**
+				 * [tContextLoad_2 begin ] start
+				 */
+
+				ok_Hash.put("tContextLoad_2", false);
+				start_Hash.put("tContextLoad_2", System.currentTimeMillis());
+				currentComponent = "tContextLoad_2";
+
+				int tos_count_tContextLoad_2 = 0;
+				java.util.List<String> assignList_tContextLoad_2 = new java.util.ArrayList<String>();
+				java.util.List<String> newPropertyList_tContextLoad_2 = new java.util.ArrayList<String>();
+				java.util.List<String> noAssignList_tContextLoad_2 = new java.util.ArrayList<String>();
+				int nb_line_tContextLoad_2 = 0;
+
+				/**
+				 * [tContextLoad_2 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_1 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCOutput_1", false);
+				start_Hash.put("tJDBCOutput_1", System.currentTimeMillis());
+				currentComponent = "tJDBCOutput_1";
+
+				int tos_count_tJDBCOutput_1 = 0;
+
+				int nb_line_tJDBCOutput_1 = 0;
+				int nb_line_update_tJDBCOutput_1 = 0;
+				int nb_line_inserted_tJDBCOutput_1 = 0;
+				int nb_line_deleted_tJDBCOutput_1 = 0;
+				int nb_line_rejected_tJDBCOutput_1 = 0;
+
+				int deletedCount_tJDBCOutput_1 = 0;
+				int updatedCount_tJDBCOutput_1 = 0;
+				int insertedCount_tJDBCOutput_1 = 0;
+				int rejectedCount_tJDBCOutput_1 = 0;
+
+				boolean whetherReject_tJDBCOutput_1 = false;
+
+				java.sql.Connection connection_tJDBCOutput_1 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_6");
+
+				int batchSize_tJDBCOutput_1 = 10000;
+				int batchSizeCounter_tJDBCOutput_1 = 0;
+
+				String insert_tJDBCOutput_1 = "INSERT INTO "
+						+ "audit_log"
+						+ " (log_time,log_type_name,log_type,severity,message) VALUES (?,?,?,?,?)";
+				java.sql.PreparedStatement pstmt_tJDBCOutput_1 = connection_tJDBCOutput_1
+						.prepareStatement(insert_tJDBCOutput_1);
+
+				/**
+				 * [tJDBCOutput_1 begin ] stop
+				 */
+
+				/**
+				 * [tMap_1 begin ] start
+				 */
+
+				ok_Hash.put("tMap_1", false);
+				start_Hash.put("tMap_1", System.currentTimeMillis());
+				currentComponent = "tMap_1";
+
+				int tos_count_tMap_1 = 0;
+
+				// ###############################
+				// # Lookup's keys initialization
+				// ###############################
+
+				// ###############################
+				// # Vars initialization
+				// ###############################
+
+				// ###############################
+				// # Outputs initialization
+				five_min_checkStruct five_min_check_tmp = new five_min_checkStruct();
+				event_outputStruct event_output_tmp = new event_outputStruct();
+				// ###############################
+
+				/**
+				 * [tMap_1 begin ] stop
+				 */
+
+				/**
+				 * [tLogCatcher_1 begin ] start
+				 */
+
+				ok_Hash.put("tLogCatcher_1", false);
+				start_Hash.put("tLogCatcher_1", System.currentTimeMillis());
+				currentComponent = "tLogCatcher_1";
+
+				int tos_count_tLogCatcher_1 = 0;
+
+				for (LogCatcherUtils.LogCatcherMessage lcm : tLogCatcher_1
+						.getMessages()) {
+					row5.type = lcm.getType();
+					row5.origin = (lcm.getOrigin() == null
+							|| lcm.getOrigin().length() < 1 ? null : lcm
+							.getOrigin());
+					row5.priority = lcm.getPriority();
+					row5.message = lcm.getMessage();
+					row5.code = lcm.getCode();
+
+					row5.moment = java.util.Calendar.getInstance().getTime();
+
+					row5.pid = pid;
+					row5.root_pid = rootPid;
+					row5.father_pid = fatherPid;
+
+					row5.project = projectName;
+					row5.job = jobName;
+					row5.context = contextStr;
+
+					/**
+					 * [tLogCatcher_1 begin ] stop
+					 */
+					/**
+					 * [tLogCatcher_1 main ] start
+					 */
+
+					currentComponent = "tLogCatcher_1";
+
+					tos_count_tLogCatcher_1++;
+
+					/**
+					 * [tLogCatcher_1 main ] stop
+					 */
+
+					/**
+					 * [tMap_1 main ] start
+					 */
+
+					currentComponent = "tMap_1";
+
+					boolean hasCasePrimitiveKeyWithNull_tMap_1 = false;
+
+					// ###############################
+					// # Input tables (lookups)
+					boolean rejectedInnerJoin_tMap_1 = false;
+					boolean mainRowRejected_tMap_1 = false;
+
+					if (
+
+					(
+
+					row5.moment.getTime() - context.lastErrorSent.getTime() > 300000
+
+					)
+
+					) { // G_TM_M_280
+
+						// CALL close main tMap filter for table 'row5'
+						// ###############################
+						{ // start of Var scope
+
+							// ###############################
+							// # Vars tables
+							// ###############################
+							// ###############################
+							// # Output tables
+
+							five_min_check = null;
+							event_output = null;
+
+							// # Output table : 'five_min_check'
+							five_min_check_tmp.key = "lastErrorSent";
+							five_min_check_tmp.value = row5.moment;
+							five_min_check = five_min_check_tmp;
+
+							// # Output table : 'event_output'
+							event_output_tmp.log_time = row5.moment;
+							event_output_tmp.log_type_name = "DWH_ERROR";
+							event_output_tmp.log_type = 9704;
+							event_output_tmp.severity = 2;
+							event_output_tmp.message = "ETL service has encountered an error. Please consult the service log for more details.";
+							event_output = event_output_tmp;
+							// ###############################
+
+						} // end of Var scope
+
+						rejectedInnerJoin_tMap_1 = false;
+
+						tos_count_tMap_1++;
+
+						/**
+						 * [tMap_1 main ] stop
+						 */
+						// Start of branch "five_min_check"
+						if (five_min_check != null) {
+
+							/**
+							 * [tContextLoad_2 main ] start
+							 */
+
+							currentComponent = "tContextLoad_2";
+
+							// ////////////////////////
+							String tmp_key_tContextLoad_2 = null;
+
+							String key_tContextLoad_2 = null;
+							if (five_min_check.key != null) {
+								tmp_key_tContextLoad_2 = five_min_check.key
+										.trim();
+								if ((tmp_key_tContextLoad_2.startsWith("#") || tmp_key_tContextLoad_2
+										.startsWith("!"))) {
+									tmp_key_tContextLoad_2 = null;
+								} else {
+									five_min_check.key = tmp_key_tContextLoad_2;
+								}
+							}
+							if (five_min_check.key != null) {
+
+								key_tContextLoad_2 =
+
+								five_min_check.key;
+
+							}
+
+							String value_tContextLoad_2 = null;
+							if (five_min_check.value != null) {
+
+								value_tContextLoad_2 =
+
+								FormatterUtils.format_Date(
+										five_min_check.value,
+										"yyyy-MM-dd HH:mm:ss.SSSSSS");
+
+							}
+
+							if (tmp_key_tContextLoad_2 != null) {
+								try {
+									if (key_tContextLoad_2 != null
+											&& "hoursToKeepDaily"
+													.equals(key_tContextLoad_2)) {
+
+										context.hoursToKeepDaily = Integer
+												.parseInt(value_tContextLoad_2);
+
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "hoursToKeepHourly"
+													.equals(key_tContextLoad_2)) {
+
+										context.hoursToKeepHourly = Integer
+												.parseInt(value_tContextLoad_2);
+
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "hoursToKeepSamples"
+													.equals(key_tContextLoad_2)) {
+
+										context.hoursToKeepSamples = Integer
+												.parseInt(value_tContextLoad_2);
+
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "lastErrorSent"
+													.equals(key_tContextLoad_2)) {
+										String context_lastErrorSent_value = context
+												.getProperty("lastErrorSent");
+										if (context_lastErrorSent_value == null)
+											context_lastErrorSent_value = "";
+										int context_lastErrorSent_pos = context_lastErrorSent_value
+												.indexOf(";");
+										String context_lastErrorSent_pattern = "yyyy-MM-dd HH:mm:ss";
+										if (context_lastErrorSent_pos > -1) {
+											context_lastErrorSent_pattern = context_lastErrorSent_value
+													.substring(0,
+															context_lastErrorSent_pos);
+										}
+										context.lastErrorSent = (java.util.Date) (new java.text.SimpleDateFormat(
+												context_lastErrorSent_pattern)
+												.parse(value_tContextLoad_2));
+
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "ovirtEngineDbDriverClass"
+													.equals(key_tContextLoad_2)) {
+										context.ovirtEngineDbDriverClass = value_tContextLoad_2;
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "ovirtEngineDbJdbcConnection"
+													.equals(key_tContextLoad_2)) {
+										context.ovirtEngineDbJdbcConnection = value_tContextLoad_2;
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "ovirtEngineDbPassword"
+													.equals(key_tContextLoad_2)) {
+										context.ovirtEngineDbPassword = value_tContextLoad_2;
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "ovirtEngineDbUser"
+													.equals(key_tContextLoad_2)) {
+										context.ovirtEngineDbUser = value_tContextLoad_2;
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "ovirtEnginePortalAddress"
+													.equals(key_tContextLoad_2)) {
+										context.ovirtEnginePortalAddress = value_tContextLoad_2;
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "ovirtEnginePortalConnectionProtocol"
+													.equals(key_tContextLoad_2)) {
+										context.ovirtEnginePortalConnectionProtocol = value_tContextLoad_2;
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "ovirtEnginePortalPort"
+													.equals(key_tContextLoad_2)) {
+										context.ovirtEnginePortalPort = value_tContextLoad_2;
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "ovirtHistoryDbDriverClass"
+													.equals(key_tContextLoad_2)) {
+										context.ovirtHistoryDbDriverClass = value_tContextLoad_2;
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "ovirtHistoryDbJdbcConnection"
+													.equals(key_tContextLoad_2)) {
+										context.ovirtHistoryDbJdbcConnection = value_tContextLoad_2;
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "ovirtHistoryDbPassword"
+													.equals(key_tContextLoad_2)) {
+										context.ovirtHistoryDbPassword = value_tContextLoad_2;
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "ovirtHistoryDbUser"
+													.equals(key_tContextLoad_2)) {
+										context.ovirtHistoryDbUser = value_tContextLoad_2;
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "runDeleteTime"
+													.equals(key_tContextLoad_2)) {
+
+										context.runDeleteTime = Integer
+												.parseInt(value_tContextLoad_2);
+
+									}
+
+									if (key_tContextLoad_2 != null
+											&& "runInterleave"
+													.equals(key_tContextLoad_2)) {
+
+										context.runInterleave = Integer
+												.parseInt(value_tContextLoad_2);
+
+									}
+
+									if (context.getProperty(key_tContextLoad_2) != null) {
+										assignList_tContextLoad_2
+												.add(key_tContextLoad_2);
+									} else {
+										newPropertyList_tContextLoad_2
+												.add(key_tContextLoad_2);
+									}
+									context.setProperty(key_tContextLoad_2,
+											value_tContextLoad_2);
+								} catch (Exception e) {
+									System.err.println("Set value for key: "
+											+ key_tContextLoad_2
+											+ " failed, error message: "
+											+ e.getMessage());
+								}
+								nb_line_tContextLoad_2++;
+							}
+							// ////////////////////////
+
+							tos_count_tContextLoad_2++;
+
+							/**
+							 * [tContextLoad_2 main ] stop
+							 */
+
+						} // End of branch "five_min_check"
+
+						// Start of branch "event_output"
+						if (event_output != null) {
+
+							/**
+							 * [tJDBCOutput_1 main ] start
+							 */
+
+							currentComponent = "tJDBCOutput_1";
+
+							whetherReject_tJDBCOutput_1 = false;
+							if (event_output.log_time != null) {
+								pstmt_tJDBCOutput_1
+										.setTimestamp(1,
+												new java.sql.Timestamp(
+														event_output.log_time
+																.getTime()));
+							} else {
+								pstmt_tJDBCOutput_1.setNull(1,
+										java.sql.Types.DATE);
+							}
+
+							if (event_output.log_type_name == null) {
+								pstmt_tJDBCOutput_1.setNull(2,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_1.setString(2,
+										event_output.log_type_name);
+							}
+
+							pstmt_tJDBCOutput_1
+									.setInt(3, event_output.log_type);
+
+							pstmt_tJDBCOutput_1
+									.setInt(4, event_output.severity);
+
+							if (event_output.message == null) {
+								pstmt_tJDBCOutput_1.setNull(5,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_1.setString(5,
+										event_output.message);
+							}
+
+							try {
+								insertedCount_tJDBCOutput_1 = insertedCount_tJDBCOutput_1
+										+ pstmt_tJDBCOutput_1.executeUpdate();
+								nb_line_tJDBCOutput_1++;
+							} catch (Exception e) {
+								whetherReject_tJDBCOutput_1 = true;
+								throw (e);
+							}
+
+							tos_count_tJDBCOutput_1++;
+
+							/**
+							 * [tJDBCOutput_1 main ] stop
+							 */
+
+						} // End of branch "event_output"
+
+					} // G_TM_M_280 close main tMap filter for table 'row5'
+
+					/**
+					 * [tLogCatcher_1 end ] start
+					 */
+
+					currentComponent = "tLogCatcher_1";
+
+				}
+
+				ok_Hash.put("tLogCatcher_1", true);
+				end_Hash.put("tLogCatcher_1", System.currentTimeMillis());
+
+				/**
+				 * [tLogCatcher_1 end ] stop
+				 */
+
+				/**
+				 * [tMap_1 end ] start
+				 */
+
+				currentComponent = "tMap_1";
+
+				// ###############################
+				// # Lookup hashes releasing
+				// ###############################
+
+				ok_Hash.put("tMap_1", true);
+				end_Hash.put("tMap_1", System.currentTimeMillis());
+
+				/**
+				 * [tMap_1 end ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_1 end ] start
+				 */
+
+				currentComponent = "tJDBCOutput_1";
+
+				if (pstmt_tJDBCOutput_1 != null) {
+
+					pstmt_tJDBCOutput_1.close();
+
+				}
+
+				nb_line_deleted_tJDBCOutput_1 = nb_line_deleted_tJDBCOutput_1
+						+ deletedCount_tJDBCOutput_1;
+				nb_line_update_tJDBCOutput_1 = nb_line_update_tJDBCOutput_1
+						+ updatedCount_tJDBCOutput_1;
+				nb_line_inserted_tJDBCOutput_1 = nb_line_inserted_tJDBCOutput_1
+						+ insertedCount_tJDBCOutput_1;
+				nb_line_rejected_tJDBCOutput_1 = nb_line_rejected_tJDBCOutput_1
+						+ rejectedCount_tJDBCOutput_1;
+
+				globalMap.put("tJDBCOutput_1_NB_LINE", nb_line_tJDBCOutput_1);
+				globalMap.put("tJDBCOutput_1_NB_LINE_UPDATED",
+						nb_line_update_tJDBCOutput_1);
+				globalMap.put("tJDBCOutput_1_NB_LINE_INSERTED",
+						nb_line_inserted_tJDBCOutput_1);
+				globalMap.put("tJDBCOutput_1_NB_LINE_DELETED",
+						nb_line_deleted_tJDBCOutput_1);
+				globalMap.put("tJDBCOutput_1_NB_LINE_REJECTED",
+						nb_line_rejected_tJDBCOutput_1);
+
+				ok_Hash.put("tJDBCOutput_1", true);
+				end_Hash.put("tJDBCOutput_1", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCOutput_1 end ] stop
+				 */
+
+				/**
+				 * [tContextLoad_2 end ] start
+				 */
+
+				currentComponent = "tContextLoad_2";
+
+				java.util.Enumeration<?> enu_tContextLoad_2 = context
+						.propertyNames();
+				while (enu_tContextLoad_2.hasMoreElements()) {
+					String key_tContextLoad_2 = (String) enu_tContextLoad_2
+							.nextElement();
+					if (!assignList_tContextLoad_2.contains(key_tContextLoad_2)
+							&& !newPropertyList_tContextLoad_2
+									.contains(key_tContextLoad_2)) {
+						noAssignList_tContextLoad_2.add(key_tContextLoad_2);
+					}
+				}
+
+				String newPropertyStr_tContextLoad_2 = newPropertyList_tContextLoad_2
+						.toString();
+				String newProperty_tContextLoad_2 = newPropertyStr_tContextLoad_2
+						.substring(1,
+								newPropertyStr_tContextLoad_2.length() - 1);
+
+				String noAssignStr_tContextLoad_2 = noAssignList_tContextLoad_2
+						.toString();
+				String noAssign_tContextLoad_2 = noAssignStr_tContextLoad_2
+						.substring(1, noAssignStr_tContextLoad_2.length() - 1);
+
+				globalMap.put("tContextLoad_2_KEY_NOT_INCONTEXT",
+						newProperty_tContextLoad_2);
+				globalMap.put("tContextLoad_2_KEY_NOT_LOADED",
+						noAssign_tContextLoad_2);
+
+				globalMap.put("tContextLoad_2_NB_LINE", nb_line_tContextLoad_2);
+
+				resumeUtil.addLog("NODE", "NODE:tContextLoad_2", "", Thread
+						.currentThread().getId()
+						+ "", "", "", "", "", resumeUtil
+						.convertToJsonText(context));
+
+				ok_Hash.put("tContextLoad_2", true);
+				end_Hash.put("tContextLoad_2", System.currentTimeMillis());
+
+				/**
+				 * [tContextLoad_2 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tLogCatcher_1_SUBPROCESS_STATE", 1);
 	}
 
 	public static class row_talendLogs_LOGSStruct implements
@@ -5190,6 +8285,30 @@ public class HistoryETL implements TalendJob {
 					context.hoursToKeepSamples = null;
 				}
 
+				try {
+					String context_lastErrorSent_value = context
+							.getProperty("lastErrorSent");
+					if (context_lastErrorSent_value == null) {
+						context_lastErrorSent_value = "";
+					}
+					int context_lastErrorSent_pos = context_lastErrorSent_value
+							.indexOf(";");
+					String context_lastErrorSent_pattern = "yyyy-MM-dd HH:mm:ss";
+					if (context_lastErrorSent_pos > -1) {
+						context_lastErrorSent_pattern = context_lastErrorSent_value
+								.substring(0, context_lastErrorSent_pos);
+						context_lastErrorSent_value = context_lastErrorSent_value
+								.substring(context_lastErrorSent_pos + 1);
+					}
+
+					context.lastErrorSent = (java.util.Date) (new java.text.SimpleDateFormat(
+							context_lastErrorSent_pattern)
+							.parse(context_lastErrorSent_value));
+
+				} catch (ParseException e) {
+					context.lastErrorSent = null;
+				}
+
 				context.ovirtEngineDbDriverClass = (String) context
 						.getProperty("ovirtEngineDbDriverClass");
 
@@ -5256,6 +8375,10 @@ public class HistoryETL implements TalendJob {
 			if (parentContextMap.containsKey("hoursToKeepSamples")) {
 				context.hoursToKeepSamples = (Integer) parentContextMap
 						.get("hoursToKeepSamples");
+			}
+			if (parentContextMap.containsKey("lastErrorSent")) {
+				context.lastErrorSent = (java.util.Date) parentContextMap
+						.get("lastErrorSent");
 			}
 			if (parentContextMap.containsKey("ovirtEngineDbDriverClass")) {
 				context.ovirtEngineDbDriverClass = (String) parentContextMap
@@ -5621,6 +8744,6 @@ public class HistoryETL implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 146648 characters generated by Talend Open Studio for Data Integration on the
- * March 6, 2012 5:42:03 PM IST
+ * 225043 characters generated by Talend Open Studio for Data Integration on the
+ * March 7, 2012 5:27:34 PM IST
  ************************************************************************************************/
