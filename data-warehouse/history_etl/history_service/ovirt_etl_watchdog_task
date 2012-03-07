@@ -1,0 +1,1 @@
+1 * * * * root /usr/share/ovirt-dwh/etl/ovirt_etl_watchdog.sh
