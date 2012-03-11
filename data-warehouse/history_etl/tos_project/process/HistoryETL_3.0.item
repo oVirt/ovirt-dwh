@@ -18,6 +18,7 @@
     <contextParameter comment="Enter the ovirt history admin database user." name="ovirtHistoryDbUser" prompt="Enter the ovirt history admin database user." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="postgres"/>
     <contextParameter comment="Enter the time to run the delete job. Can only run on round hour 24 hours clock." name="runDeleteTime" prompt="runDeleteTime?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="3"/>
     <contextParameter comment="Enter the run interleave in seconds" name="runInterleave" prompt="Enter the run interleave in seconds?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="60"/>
+    <contextParameter comment="Enter the amout of to wait between sending error events to audit log" name="timeBetweenErrorEvents" prompt="timeBetweenErrorEvents?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Long" value="300000"/>
   </context>
   <parameters>
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx1024M"/>
@@ -435,7 +436,7 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="time"/>
       <elementValue elementRef="ARRAY" value="TalendDate.getDate(&quot;CCYY-MM-DD hh:mm:ss&quot;)"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="message"/>
-      <elementValue elementRef="ARRAY" value="&quot;oVirt Engine Portal is not avilable. Please check your ETL configuration.&quot;"/>
+      <elementValue elementRef="ARRAY" value="&quot;oVirt Engine Portal is not available. Please check your ETL configuration.&quot;"/>
     </elementParameter>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -595,7 +596,7 @@
         <mapperTableEntries name="severity" expression="2" type="id_Integer"/>
         <mapperTableEntries name="message" expression="&quot;ETL service has encountered an error. Please consult the service log for more details.&quot; " type="id_String"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row5" expressionFilter="row5.moment.getTime() - context.lastErrorSent.getTime() > 300000" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row5" expressionFilter="row5.moment.getTime() - context.lastErrorSent.getTime() > context.timeBetweenErrorEvents" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="moment" type="id_Date" nullable="true"/>
         <mapperTableEntries name="pid" type="id_String" nullable="true"/>
         <mapperTableEntries name="root_pid" type="id_String" nullable="true"/>
@@ -760,7 +761,7 @@
       <column comment="" key="false" length="2147483647" name="message" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="copyOfevent_output">
         <mapperTableEntries name="log_time" expression="row2.time " type="id_Date"/>
@@ -896,7 +897,7 @@
       <column comment="" key="false" length="2147483647" name="message" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="copyOfevent_output_0">
         <mapperTableEntries name="log_time" expression="row7.time " type="id_Date"/>
