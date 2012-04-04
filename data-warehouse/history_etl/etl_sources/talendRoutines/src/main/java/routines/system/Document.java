@@ -66,26 +66,28 @@ public class Document {
         for (org.dom4j.tree.AbstractNode node : nodes) {
             boolean reject = false;
             // lookup action
-            for (String xpath : lookupInfo.keySet()) {
-                Object lookupValue = lookupInfo.get(xpath);
-                org.dom4j.XPath xpathObjectForLookup = node.createXPath(xpath);
-                xpathObjectForLookup.setNamespaceURIs(nsMapping);
-                Node nodeOfLookup = xpathObjectForLookup.selectSingleNode(node);
-                //parse action
-            	String text = (nodeOfLookup == null ? null : xpathObjectForLookup.valueOf(node));
-            	String pattern = xpathToPatternMap.get(xpath);
-            	String javaType = xpathToTypeMap.get(xpath);
-            	Object value = ParserUtils.parse(text, javaType, pattern);
-            	
-            	if(lookupValue == null && value == null) {
-            		//do nothing(null==null)
-            	} else {
-                	if(value == null || !value.equals(lookupValue)) {
-                		reject = true;
-                    	break;
-                	}
-            	}
-                
+            if(!"ALL_ROWS".equals(matchingMode)) {
+	            for (String xpath : lookupInfo.keySet()) {
+	                Object lookupValue = lookupInfo.get(xpath);
+	                org.dom4j.XPath xpathObjectForLookup = node.createXPath(xpath);
+	                xpathObjectForLookup.setNamespaceURIs(nsMapping);
+	                Node nodeOfLookup = xpathObjectForLookup.selectSingleNode(node);
+	                //parse action
+	            	String text = (nodeOfLookup == null ? null : xpathObjectForLookup.valueOf(node));
+	            	String pattern = xpathToPatternMap.get(xpath);
+	            	String javaType = xpathToTypeMap.get(xpath);
+	            	Object value = ParserUtils.parse(text, javaType, pattern);
+	            	
+	            	if(lookupValue == null && value == null) {
+	            		//do nothing(null==null)
+	            	} else {
+	                	if(value == null || !value.equals(lookupValue)) {
+	                		reject = true;
+	                    	break;
+	                	}
+	            	}
+	                
+	            }
             }
             // generate result action
             if (reject) {

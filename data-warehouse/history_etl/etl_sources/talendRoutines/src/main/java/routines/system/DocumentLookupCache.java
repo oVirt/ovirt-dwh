@@ -19,7 +19,7 @@ public class DocumentLookupCache {
 			cache = new UniqueLookupCache();
 		} else if("FIRST_MATCH".equals(matchingMode)) {
 			cache = new FirstLookupCache();
-		} else if("ALL_MATCHES".equals(matchingMode)) {
+		} else if("ALL_MATCHES".equals(matchingMode) || "ALL_ROWS".equals(matchingMode)) {
 			cache = new AllMatchLookupCache();
 		}
 	}

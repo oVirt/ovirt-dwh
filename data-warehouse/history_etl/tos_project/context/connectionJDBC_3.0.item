@@ -19,6 +19,6 @@
   <contextParameter comment="Enter the oVirt Engine Portal connection protocol." name="ovirtEnginePortalConnectionProtocol" prompt="ovirtEnginePortalConnectionProtocol?" promptNeeded="true" type="id_String" value="http"/>
   <contextParameter comment="Enter the oVirt Engine Portal address." name="ovirtEnginePortalAddress" prompt="ovirtEnginePortalAddress?" promptNeeded="true" type="id_String" value="localhost"/>
   <contextParameter comment="Enter the oVirt Engine Portal port." name="ovirtEnginePortalPort" prompt="ovirtEnginePortalPort?" promptNeeded="true" type="id_String" value="8080"/>
-  <contextParameter comment="" name="lastErrorSent" prompt="lastErrorSent?" promptNeeded="true" type="id_Date" value="yyyy-MM-dd HH:mm:ss;0200-01-01 00:00:00"/>
+  <contextParameter comment="" name="lastErrorSent" prompt="lastErrorSent?" promptNeeded="true" type="id_Date" value="yyyy-MM-dd HH:mm:ss;2000-04-04 15:43:14"/>
   <contextParameter comment="Enter the amout of to wait between sending error events to audit log" name="timeBetweenErrorEvents" prompt="timeBetweenErrorEvents?" promptNeeded="true" type="id_Long" value="300000"/>
 </talendfile:ContextType>

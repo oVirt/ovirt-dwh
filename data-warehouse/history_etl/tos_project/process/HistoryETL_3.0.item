@@ -4,7 +4,7 @@
     <contextParameter comment="Enter the amout of hour to keep Daily level records." name="hoursToKeepDaily" prompt="How many hours to keep of daily data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="43800"/>
     <contextParameter comment="Enter the amout of hour to keep Hourly level records." name="hoursToKeepHourly" prompt="How many hours to keep of hourly data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="1440"/>
     <contextParameter comment="Enter the amout of hour to keep Samples level records." name="hoursToKeepSamples" prompt="How many hours to keep of samples data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="24"/>
-    <contextParameter comment="" name="lastErrorSent" prompt="lastErrorSent?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Date" value="yyyy-MM-dd HH:mm:ss;0200-01-01 00:00:00"/>
+    <contextParameter comment="" name="lastErrorSent" prompt="lastErrorSent?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Date" value="yyyy-MM-dd HH:mm:ss;2000-04-04 15:43:14"/>
     <contextParameter comment="Enter the JDBC driver class for the ovirt database." name="ovirtEngineDbDriverClass" prompt="Enter the JDBC driver class for the ovirt database." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="org.postgresql.Driver"/>
     <contextParameter comment="Enter the ovirt JDBC connection URL." name="ovirtEngineDbJdbcConnection" prompt="Enter the ovirt JDBC connection URL." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="jdbc:postgresql://localhost:5432/engine?stringtype=unspecified"/>
     <contextParameter comment="Enter the ovirt admin user's password." name="ovirtEngineDbPassword" prompt="Enter the ovirt admin user's password." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Password" value=""/>
@@ -103,6 +103,7 @@
     <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_PROCESS" value="_6g7rUNI5EeCOk4qSIFFDtw"/>
     <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_VERSION" value="Latest"/>
     <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_CONTEXT" value="Default"/>
+    <elementParameter field="TEXT" name="CONTEXT_NAME" value="Default"/>
     <elementParameter field="CHECK" name="USE_INDEPENDENT_PROCESS" value="false"/>
     <elementParameter field="CHECK" name="DIE_ON_CHILD_ERROR" value="true"/>
     <elementParameter field="CHECK" name="TRANSMIT_WHOLE_CONTEXT" value="true"/>
@@ -395,6 +396,7 @@
     <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_PROCESS" value="_iWyvwMvcEeC0NqH3keq0gg"/>
     <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_VERSION" value="Latest"/>
     <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_CONTEXT" value="Default"/>
+    <elementParameter field="TEXT" name="CONTEXT_NAME" value="Default"/>
     <elementParameter field="CHECK" name="USE_INDEPENDENT_PROCESS" value="false"/>
     <elementParameter field="CHECK" name="DIE_ON_CHILD_ERROR" value="true"/>
     <elementParameter field="CHECK" name="TRANSMIT_WHOLE_CONTEXT" value="true"/>
@@ -583,7 +585,7 @@
       <column comment="" key="false" length="2147483647" name="message" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="five_min_check">
         <mapperTableEntries name="key" expression="&quot;lastErrorSent&quot;" type="id_String" nullable="true"/>
@@ -846,17 +848,6 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String"/>
     </metadata>
   </node>
-  <node componentName="tJDBCRollback" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1600" posY="800">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCRollback_6"/>
-    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_6"/>
-    <elementParameter field="CHECK" name="CLOSE" value="true"/>
-    <elementParameter field="TEXT" name="LABEL" value="rollback_close_engine_events"/>
-    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
-    <metadata connector="FLOW" name="tJDBCRollback_6"/>
-  </node>
   <node componentName="tRowGenerator" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="832" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRowGenerator_6"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
@@ -981,6 +972,15 @@
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String"/>
     </metadata>
+  </node>
+  <node componentName="tJDBCClose" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1568" posY="800">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCClose_1"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_6"/>
+    <elementParameter field="TEXT" name="LABEL" value="close_engine_events"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter field="MEMO" name="COMMENT" value=""/>
+    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_1" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_1" target="tJDBCConnection_3">
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
@@ -1309,7 +1309,7 @@
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2"/>
   </connection>
-  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tRowGenerator_5" offsetLabelX="0" offsetLabelY="0" source="tRowGenerator_5" target="tJDBCRollback_6">
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tRowGenerator_5" offsetLabelX="0" offsetLabelY="0" source="tRowGenerator_5" target="tJDBCClose_1">
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk11"/>
   </connection>
@@ -1633,12 +1633,12 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
   </subjob>
   <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCRollback_6"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRowGenerator_6"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
   </subjob>
   <subjob>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRowGenerator_6"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCClose_1"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
   </subjob>
