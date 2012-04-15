@@ -4,7 +4,7 @@
     <contextParameter comment="Enter the amout of hour to keep Daily level records." name="hoursToKeepDaily" prompt="How many hours to keep of daily data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="43800"/>
     <contextParameter comment="Enter the amout of hour to keep Hourly level records." name="hoursToKeepHourly" prompt="How many hours to keep of hourly data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="1440"/>
     <contextParameter comment="Enter the amout of hour to keep Samples level records." name="hoursToKeepSamples" prompt="How many hours to keep of samples data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="24"/>
-    <contextParameter comment="" name="lastErrorSent" prompt="lastErrorSent?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Date" value="yyyy-MM-dd HH:mm:ss;2000-04-04 15:43:14"/>
+    <contextParameter comment="" name="lastErrorSent" prompt="lastErrorSent?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Date" value="yyyy-MM-dd HH:mm:ss.SSSSSS;2011-07-03 12:46:47.000000"/>
     <contextParameter comment="Enter the JDBC driver class for the ovirt database." name="ovirtEngineDbDriverClass" prompt="Enter the JDBC driver class for the ovirt database." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="org.postgresql.Driver"/>
     <contextParameter comment="Enter the ovirt JDBC connection URL." name="ovirtEngineDbJdbcConnection" prompt="Enter the ovirt JDBC connection URL." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="jdbc:postgresql://localhost:5432/engine?stringtype=unspecified"/>
     <contextParameter comment="Enter the ovirt admin user's password." name="ovirtEngineDbPassword" prompt="Enter the ovirt admin user's password." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Password" value=""/>
@@ -546,7 +546,7 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tLogCatcher_1">
-      <column key="false" length="0" name="moment" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss&quot;" precision="0" sourceType="" type="id_Date"/>
+      <column key="false" length="0" name="moment" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="0" sourceType="" type="id_Date"/>
       <column key="false" length="20" name="pid" nullable="true" precision="0" sourceType="" type="id_String"/>
       <column key="false" length="20" name="root_pid" nullable="true" precision="0" sourceType="" type="id_String"/>
       <column key="false" length="20" name="father_pid" nullable="true" precision="0" sourceType="" type="id_String"/>
@@ -578,14 +578,14 @@
       <column key="false" length="35" name="value" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="DATETIME" type="id_Date"/>
     </metadata>
     <metadata connector="FLOW" label="audit_log" name="event_output">
-      <column comment="" key="false" length="35" name="log_time" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="log_time" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" defaultValue="::character varying" key="false" length="100" name="log_type_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="10" name="log_type" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="10" name="severity" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="2147483647" name="message" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="five_min_check">
         <mapperTableEntries name="key" expression="&quot;lastErrorSent&quot;" type="id_String" nullable="true"/>
@@ -668,14 +668,14 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="audit_log" name="tJDBCOutput_1">
-      <column comment="" key="false" length="35" name="log_time" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="log_time" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" defaultValue="::character varying" key="false" length="100" name="log_type_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="10" name="log_type" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="10" name="severity" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="2147483647" name="message" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
     </metadata>
     <metadata connector="REJECT" label="audit_log" name="REJECT">
-      <column comment="" key="false" length="35" name="log_time" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="log_time" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" defaultValue="::character varying" key="false" length="100" name="log_type_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="10" name="log_type" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="10" name="severity" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
