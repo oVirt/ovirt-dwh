@@ -1,0 +1,105 @@
+Name: ovirt-dwh
+Version: 1
+Release: 1%{?dist}
+License: GPLv2
+Summary: Data warehouse package for oVirt Virtualization Suite
+Group: Virtualization/Management
+URL: http://www.ovirt.org
+BuildArchitectures: noarch
+Source0: %{name}-%{version}.tar.gz
+
+BuildRequires: make
+BuildRequires: maven
+Requires: bash
+Requires: python
+Requires: java-1.6.0-openjdk
+Requires: apache-commons-collections >= 3.2
+#Requires: jboss-serialization >= 1.0.3
+Requires: log4j
+#Requires: gnu-trove >= 1.0.2
+Requires: dom4j >= 1.6.1
+Requires: postgresql-jdbc
+Requires: postgresql-server >= 8.4.7
+Requires: postgresql-contrib >= 8.4.7
+Requires: logrotate
+Requires: ovirt-engine
+
+%description
+The oVirt virtualization manager data warehouse package provides
+the ETL process and DB scripts to create a historic database API.
+Enables SQL BI reports creation for management and monitoring.
+
+%prep
+%setup -c -q
+
+%build
+make build
+
+%install
+rm -rf %{buildroot}
+install -d %{buildroot}%{_var}/log/ovirt/
+install -d %{buildroot}%{_datadir}/%{name}
+install -d %{buildroot}%{_datadir}/%{name}/etl
+install -d %{buildroot}%{_datadir}/%{name}/etl/lib
+install -d %{buildroot}%{_datadir}/%{name}/db-scripts
+install -d %{buildroot}%{_sysconfdir}/ovirt/%{name}
+install -d %{buildroot}%{_sysconfdir}/init.d
+install -d %{buildroot}%{_sysconfdir}/cron.hourly
+install -d %{buildroot}%{_bindir}
+install -d %{buildroot}%{_sysconfdir}/logrotate.d
+
+install -p -m 755 packaging/%{name}-setup.py %{buildroot}%{_datadir}/%{name}
+install -p -m 755 packaging/common_utils.py %{buildroot}%{_datadir}/%{name}
+install -p -m 755 packaging/decorators.py %{buildroot}%{_datadir}/%{name}
+install -p -m 660 data-warehouse/history_etl/context_files/ovirt_dwh/historyetl_3_0/contexts/Default.properties %{buildroot}%{_sysconfdir}/ovirt/%{name}
+install -p -m 644 packaging/resources/%{name}d.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}d
+install -p -m 755 data-warehouse/history_etl/etl_sources/historyETLProcedure/target/*.jar %{buildroot}%{_datadir}/%{name}/etl
+install -p -m 644 data-warehouse/history_etl/etl_sources/talendRoutines/target/*.jar %{buildroot}%{_datadir}/%{name}/etl/lib
+install -p -m 644 data-warehouse/history_etl/etl_sources/advancedPersistentLookupLib/target/*.jar %{buildroot}%{_datadir}/%{name}/etl/lib
+install -p -m 755 data-warehouse/history_etl/history_service/history_service.sh %{buildroot}%{_datadir}/%{name}/etl
+install -p -m 755 packaging/resources/ovirt_etl_watchdog.cron %{buildroot}%{_sysconfdir}/cron.hourly
+install -p -m 755 data-warehouse/history_etl/history_service/%{name}d %{buildroot}%{_sysconfdir}/init.d/
+cp -a  data-warehouse/history_etl/context_files/* %{buildroot}%{_datadir}/%{name}/etl
+echo > %{buildroot}%{_datadir}/%{name}/etl/kill
+
+cp -r -a  data-warehouse/historydbscripts_postgres/* %{buildroot}%{_datadir}/%{name}/db-scripts
+
+ln -s %{_datadir}/%{name}/%{name}-setup.py %{buildroot}%{_bindir}/%{name}-setup
+ln -s %{_sysconfdir}/init.d/%{name}d %{buildroot}%{_sysconfdir}/init.d/ovirt-etl
+
+cp data-warehouse/history_etl/etl_sources/historyETLProcedure/target/dep-jars/jboss-serialization-1.0.3.GA.jar %{buildroot}%{_datadir}/%{name}/etl/lib/jboss-serialization.jar
+cp data-warehouse/history_etl/etl_sources/historyETLProcedure/target/dep-jars/trove-1.0.2.jar %{buildroot}%{_datadir}/%{name}/etl/lib/trove.jar
+cp data-warehouse/history_etl/etl_sources/historyETLProcedure/target/dep-jars/xml-apis-1.0.b2.jar %{buildroot}%{_datadir}/%{name}/etl/lib/xml-apis-1.0.b2.jar
+
+%post
+/sbin/chkconfig --add %{name}d > /dev/null 2>&1
+/sbin/service %{name}d stop > /dev/null 2>&1
+/usr/sbin/logrotate /etc/logrotate.conf > /dev/null || /bin/true
+
+
+%preun
+if [ "$1" -eq 0 ]
+then
+	/sbin/service %{name}d stop > /dev/null 2>&1
+	/sbin/chkconfig --list %{name}d > /dev/null 2>&1
+	if [ $? -eq 0 ]
+	then
+		/sbin/chkconfig --del %{name}d > /dev/null 2>&1
+	fi
+fi
+
+%files
+%defattr(-,root,root,-)
+%{_datadir}/%{name}
+%dir %{_sysconfdir}/ovirt/%{name}
+%{_sysconfdir}/init.d/%{name}d
+%{_sysconfdir}/init.d/ovirt-etl
+%{_sysconfdir}/logrotate.d/%{name}d
+%{_bindir}/%{name}-setup
+%{_sysconfdir}/cron.hourly/ovirt_etl_watchdog.cron
+%config(noreplace) %{_sysconfdir}/ovirt/%{name}/Default.properties
+
+
+%changelog
+* Thu Apr 19 2012 Yaniv Dary <ydary@redhat.com> - 3.0.0-1.fc16
+- Added packaging to dwh

@@ -1,0 +1,7 @@
+/var/log/ovirt/ovirt-dwhd.log {
+	size 100M
+	missingok
+	copytruncate
+	rotate 5
+	compress
+}

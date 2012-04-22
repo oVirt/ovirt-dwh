@@ -3,11 +3,11 @@
 # This shell script takes care of starting and stopping oVirt History ETL Service
 #
 # chkconfig: 2345 99 00
-# processname: ovirt-etl
-# pidfile: /var/run/ovirt/ovirt-etl.pid
+# processname: ovirt-dwhd
+# pidfile: /var/run/ovirt/ovirt-dwhd.pid
 #
 ### BEGIN INIT INFO
-# Provides: ovirt-etl
+# Provides: ovirt-dwhd
 # Required-Start: $syslog $network
 # Should-Start: $time
 # Required-Stop: $syslog
@@ -22,7 +22,10 @@
 # Source function library.
 . /etc/init.d/functions
 
-prog=ovirt-etl
+# ETL functions library.
+. /usr/share/ovirt-dwh/etl/etl-common-functions.sh
+
+prog=ovirt-dwhd
 RETVAL=0
 PID_FOLDER=/var/run/ovirt/
 LOG_FOLDER=/var/log/ovirt/
@@ -39,7 +42,7 @@ if [ ! -d LOG_FOLDER ]; then
     fi
 fi
 
-# Path to the ovirt-etl launch script
+# Path to the ovirt-dwhd launch script
 ETL_SCRIPT=/usr/share/ovirt-dwh/etl/history_service.sh
 
 # if oVirt_USER is not set, use root
@@ -87,13 +90,6 @@ start() {
         echo > /usr/share/ovirt-dwh/etl/kill
     fi
     return $RETVAL
-}
-
-function procrunning() {
-   procid=0
-   for procid in `cat /var/run/ovirt/ovirt-etl.pid`; do
-          ps -fp $procid | grep HistoryETL > /dev/null && pid=$procid
-   done
 }
 
 stop() {

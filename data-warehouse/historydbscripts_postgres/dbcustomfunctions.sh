@@ -13,7 +13,7 @@ insert_initial_data() {
 
 set_defaults() {
     ME=$(basename $0)
-    SERVERNAME="127.0.0.1"
+    SERVERNAME="localhost"
     DATABASE="ovirt_history"
     USERNAME="postgres"
     VERBOSE=false

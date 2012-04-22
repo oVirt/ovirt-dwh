@@ -12,9 +12,9 @@ fi
 echo
 echo -- Removing ETL --
 echo
-/sbin/service ovirt-etl stop > /dev/null 2>&1
-/sbin/chkconfig --del ovirt-etl > /dev/null 2>&1
-rm -f /etc/init.d/ovirt-etl  > /dev/null 2>&1
+/sbin/service ovirt-dwhd stop > /dev/null 2>&1
+/sbin/chkconfig --del ovirt-dwhd > /dev/null 2>&1
+rm -f /etc/init.d/ovirt-dwhd  > /dev/null 2>&1
 
 echo
 echo DONE

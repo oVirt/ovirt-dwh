@@ -1,7 +1,0 @@
-/var/log/ovirt/ovirt-etl.log {
-    size 100M
-    missingok
-    copytruncate
-    rotate 5
-    compress
-}

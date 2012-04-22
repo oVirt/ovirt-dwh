@@ -84,7 +84,7 @@
                     <property name="deployment.etl.dir" location="${dwh.deploymentDir}/etl"/>
                     <echo>*** Copying etl jar to ${deployment.etl.dir}${file.separator}...</echo>
                     <move todir="${deployment.etl.dir}" verbose="true">
-                      <fileset file="${basedir}/target/dependency/historyETLProcedure-${version}.jar"/>
+                      <fileset file="${basedir}/target/dep-jars/historyETLProcedure-${version}.jar"/>
                     </move>
                     <echo>*** Copying history service shell to ${deployment.etl.dir}${file.separator}...</echo>
                     <copy todir="${deployment.etl.dir}" verbose="true">
@@ -99,7 +99,7 @@
                     <property name="deployment.etl.lib.dir" location="${dwh.deploymentDir}/etl/lib"/>
                     <echo>*** Copying etl dependencies to ${deployment.etl.lib.dir}${file.separator}...</echo>
                     <move todir="${deployment.etl.lib.dir}" verbose="true">
-                      <fileset dir="${basedir}/target/dependency/"/>
+                      <fileset dir="${basedir}/target/dep-jars/"/>
                     </move>
 
             <!-- Copy to config folder -->
@@ -181,7 +181,7 @@
                     <property name="deployment.dir" location="${dwh.deploymentDir}"/>
                     <echo>*** Deleting ${deployment.dir}${file.separator}...</echo>
                     <delete dir="${deployment.dir}"/>
-                    <echo>*** To completely remove run root_etl_undeploy.sh. config folders are located in /etc/ovirt/ovirt-dwh and /etc/logrotate.d/ovirt-etl and should be removed manually...</echo>
+                    <echo>*** To completely remove run root_etl_undeploy.sh. config folders are located in /etc/ovirt/ovirt-dwh and /etc/logrotate.d/ovirt-dwhd and should be removed manually...</echo>
                   </tasks>
                 </configuration>
 

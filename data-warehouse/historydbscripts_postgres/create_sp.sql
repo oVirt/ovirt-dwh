@@ -1,0 +1,1 @@
+--This file is a place holder for the creation of stored procedures in the oVirt history database.
