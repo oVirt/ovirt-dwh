@@ -3,7 +3,7 @@
 
 
 # ETL functions library.
-. /etc/init.d/ovirt-etl
+. /usr/share/ovirt-dwh/etl/etl-common-functions.sh
 
 if [ ! -e /usr/share/ovirt-dwh/etl/kill ]; then
     pid=0

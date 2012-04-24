@@ -57,6 +57,7 @@ install -p -m 755 data-warehouse/history_etl/etl_sources/historyETLProcedure/tar
 install -p -m 644 data-warehouse/history_etl/etl_sources/talendRoutines/target/*.jar %{buildroot}%{_datadir}/%{name}/etl/lib
 install -p -m 644 data-warehouse/history_etl/etl_sources/advancedPersistentLookupLib/target/*.jar %{buildroot}%{_datadir}/%{name}/etl/lib
 install -p -m 755 data-warehouse/history_etl/history_service/history_service.sh %{buildroot}%{_datadir}/%{name}/etl
+install -p -m 755 data-warehouse/history_etl/history_service/etl-common-functions.sh %{buildroot}%{_datadir}/%{name}/etl
 install -p -m 755 packaging/resources/ovirt_etl_watchdog.cron %{buildroot}%{_sysconfdir}/cron.hourly
 install -p -m 755 data-warehouse/history_etl/history_service/%{name}d %{buildroot}%{_sysconfdir}/init.d/
 cp -a  data-warehouse/history_etl/context_files/* %{buildroot}%{_datadir}/%{name}/etl
