@@ -1931,7 +1931,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT vm_disk_id,&#xA;&#x9;&#x9;storage_domain_id,&#xA;&#x9;&#x9;vm_internal_drive_mapping,&#xA;&#x9;&#x9;vm_disk_description,&#xA;&#x9;&#x9;vm_disk_size_mb,&#xA;&#x9;&#x9;vm_disk_type,&#xA;&#x9;&#x9;vm_disk_format,&#xA;&#x9;&#x9;vm_disk_interface,&#xA;&#x9;&#x9;create_date,&#xA;&#x9;&#x9;update_date &#xA;FROM dwh_vm_disk_configuration_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT vm_disk_id,&#xA;        vm_disk_name,&#xA;        vm_disk_description,&#xA;        image_id,&#xA;&#x9;&#x9;storage_domain_id,&#xA;&#x9;&#x9;vm_internal_drive_mapping,&#xA;&#x9;&#x9;vm_disk_size_mb,&#xA;&#x9;&#x9;vm_disk_type,&#xA;&#x9;&#x9;vm_disk_format,&#xA;&#x9;&#x9;vm_disk_interface,&#xA;        is_shared,&#xA;&#x9;&#x9;create_date,&#xA;&#x9;&#x9;update_date &#xA;FROM dwh_vm_disk_configuration_history_view&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1940,11 +1940,15 @@
     <elementParameter field="TABLE" name="TRIM_COLUMN">
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_id"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_name"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_description"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="image_id"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="storage_domain_id"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_internal_drive_mapping"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_description"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_size_mb"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1953,6 +1957,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_format"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_interface"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_shared"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="create_date"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1965,16 +1971,19 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="dwh_vm_disk_configuration_history_view" name="tJDBCInput_7">
-      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="255" name="vm_disk_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="500" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="5" name="vm_internal_drive_mapping" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="5" name="vm_disk_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_format" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_interface" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
+      <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
+      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="2112" posY="256">
@@ -1991,23 +2000,26 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_configuration" name="vm_disk_configuration">
-      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="5" name="vm_internal_drive_mapping" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="5" name="vm_disk_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_format" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_interface" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
+      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="255" name="vm_disk_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_configuration">
-        <mapperTableEntries name="vm_disk_id" expression="row6.vm_disk_id " type="id_Object"/>
+        <mapperTableEntries name="image_id" expression="row6.image_id " type="id_Object"/>
         <mapperTableEntries name="storage_domain_id" expression="row6.storage_domain_id " type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_internal_drive_mapping" expression="row6.vm_internal_drive_mapping" type="id_Short" nullable="true"/>
         <mapperTableEntries name="vm_disk_description" expression="StringHandling.TRIM(row6.vm_disk_description)" type="id_String" nullable="true"/>
@@ -2018,16 +2030,22 @@
         <mapperTableEntries name="create_date" expression="row6.create_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="row6.update_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="delete_date" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="vm_disk_id" expression="row6.vm_disk_id " type="id_Object" nullable="true"/>
+        <mapperTableEntries name="vm_disk_name" expression="row6.vm_disk_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_shared" expression="row6.is_shared" type="id_Boolean" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row6" expressionFilter="row6.update_date == null ? TalendDate.compareDate(row6.create_date,context.runTime) &lt;=0 : TalendDate.compareDate(row6.update_date,context.runTime) &lt;=0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="vm_disk_id" type="id_Object" nullable="true"/>
+        <mapperTableEntries name="vm_disk_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vm_disk_description" type="id_String" nullable="true"/>
+        <mapperTableEntries name="image_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="storage_domain_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_internal_drive_mapping" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="vm_disk_description" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_disk_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="vm_disk_type" type="id_Short" nullable="true"/>
         <mapperTableEntries name="vm_disk_format" type="id_Short" nullable="true"/>
         <mapperTableEntries name="vm_disk_interface" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="is_shared" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="create_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" type="id_Date" nullable="true"/>
       </inputTables>
@@ -2052,7 +2070,7 @@
     <elementParameter field="TABLE" name="ADD_COLS"/>
     <elementParameter field="CHECK" name="USE_FIELD_OPTIONS" value="false"/>
     <elementParameter field="TABLE" name="FIELD_OPTIONS">
-      <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_id"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="image_id"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -2107,6 +2125,21 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_id"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_name"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_shared"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
@@ -2117,30 +2150,36 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_configuration" name="tJDBCOutput_7">
-      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="5" name="vm_internal_drive_mapping" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="5" name="vm_disk_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_format" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_interface" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
+      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="255" name="vm_disk_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
     </metadata>
     <metadata connector="REJECT" label="vm_disk_configuration" name="REJECT">
-      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="5" name="vm_internal_drive_mapping" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="5" name="vm_disk_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_format" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_interface" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
+      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="255" name="vm_disk_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String"/>
     </metadata>
@@ -4328,7 +4367,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#x9;history_id, &#xD;&#xA;&#x9;&#x9;vm_disk_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,&#xD;&#xA;&#x9;&#x9;storage_domain_id, &#xD;&#xA;&#x9;&#x9;vm_internal_drive_mapping, &#xD;&#xA;&#x9;&#x9;vm_disk_description, &#xD;&#xA;&#x9;&#x9;vm_disk_size_mb,&#xD;&#xA;&#x9;&#x9;vm_disk_type, &#xD;&#xA;&#x9;&#x9;vm_disk_format,  &#xD;&#xA;&#x9;&#x9;vm_disk_interface, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v3_1_latest_vm_disk_configuration_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#x9;history_id, &#xD;&#xA;&#x9;&#x9;vm_disk_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,&#xA;        vm_disk_name,&#xA;        vm_disk_description,&#xA;        image_id,&#xD;&#xA;&#x9;&#x9;storage_domain_id, &#xD;&#xA;&#x9;&#x9;vm_internal_drive_mapping,&#xD;&#xA;&#x9;&#x9;vm_disk_size_mb,&#xD;&#xA;&#x9;&#x9;vm_disk_type, &#xD;&#xA;&#x9;&#x9;vm_disk_format,  &#xD;&#xA;&#x9;&#x9;vm_disk_interface,&#xA;        is_shared,&#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v3_1_latest_vm_disk_configuration_view&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -4341,11 +4380,15 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_join_id"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_name"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_description"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="image_id"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="storage_domain_id"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_internal_drive_mapping"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_description"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_size_mb"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -4354,6 +4397,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_format"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_interface"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_shared"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="create_date"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -4366,18 +4411,21 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="v3_1_latest_vm_disk_configuration_view" name="tJDBCInput_28">
-      <column key="false" length="10" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
+      <column comment="" key="false" length="10" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" name="vm_disk_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
-      <column key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column key="false" length="2147483647" name="vm_internal_drive_mapping" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String"/>
-      <column key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
-      <column key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column key="false" length="5" name="vm_disk_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column key="false" length="5" name="vm_disk_format" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column key="false" length="5" name="vm_disk_interface" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
+      <column comment="" key="false" length="255" name="vm_disk_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="vm_internal_drive_mapping" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="5" name="vm_disk_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="5" name="vm_disk_format" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="5" name="vm_disk_interface" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
+      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
     </metadata>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="2208" posY="512">
@@ -4389,12 +4437,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;images&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;base_disks&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT upper(cast(image_guid as char(36))) as vm_disk_join_id&#xD;&#xA;FROM  images&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT upper(cast(disk_id as char(36))) as vm_disk_join_id&#xD;&#xA;FROM  base_disks&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -4427,23 +4475,26 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_configuration" name="delete_disks">
-      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="5" name="vm_internal_drive_mapping" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="5" name="vm_disk_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_format" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_interface" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
+      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="255" name="vm_disk_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_disks" activateCondensedTool="true" rejectInnerJoin="true">
-        <mapperTableEntries name="vm_disk_id" expression="row27.vm_disk_id" type="id_Object"/>
+        <mapperTableEntries name="image_id" expression="row27.image_id" type="id_Object"/>
         <mapperTableEntries name="storage_domain_id" expression="row27.storage_domain_id " type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_internal_drive_mapping" expression="Short.parseShort(StringHandling.RIGHT(row27.vm_internal_drive_mapping,StringHandling.LEN(row27.vm_internal_drive_mapping)-5)) " type="id_Short" nullable="true"/>
         <mapperTableEntries name="vm_disk_description" expression="row27.vm_disk_description" type="id_String" nullable="true"/>
@@ -4454,18 +4505,24 @@
         <mapperTableEntries name="create_date" expression="row27.create_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="context.runTime" type="id_Date" nullable="true"/>
         <mapperTableEntries name="delete_date" expression="context.runTime" type="id_Date" nullable="true"/>
+        <mapperTableEntries name="vm_disk_id" expression="row27.vm_disk_id" type="id_Object" nullable="true"/>
+        <mapperTableEntries name="vm_disk_name" expression="row27.vm_disk_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="is_shared" expression="row27.is_shared" type="id_Boolean" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row27" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="history_id" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="vm_disk_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_disk_join_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vm_disk_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vm_disk_description" type="id_String" nullable="true"/>
+        <mapperTableEntries name="image_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="storage_domain_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_internal_drive_mapping" type="id_String" nullable="true"/>
-        <mapperTableEntries name="vm_disk_description" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_disk_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="vm_disk_type" type="id_Short" nullable="true"/>
         <mapperTableEntries name="vm_disk_format" type="id_Short" nullable="true"/>
         <mapperTableEntries name="vm_disk_interface" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="is_shared" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="create_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" type="id_Date" nullable="true"/>
       </inputTables>
@@ -4493,7 +4550,7 @@
     <elementParameter field="TABLE" name="ADD_COLS"/>
     <elementParameter field="CHECK" name="USE_FIELD_OPTIONS" value="false"/>
     <elementParameter field="TABLE" name="FIELD_OPTIONS">
-      <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_id"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="image_id"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -4548,6 +4605,21 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_id"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_name"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_shared"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
@@ -4557,30 +4629,36 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_configuration" name="tJDBCOutput_20">
-      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="5" name="vm_internal_drive_mapping" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="5" name="vm_disk_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_format" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_interface" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
+      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="255" name="vm_disk_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
     </metadata>
     <metadata connector="REJECT" label="vm_disk_configuration" name="REJECT">
-      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="5" name="vm_internal_drive_mapping" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="5" name="vm_disk_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_format" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="5" name="vm_disk_interface" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
+      <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date"/>
+      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" length="255" name="vm_disk_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String"/>
     </metadata>
@@ -7640,6 +7718,15 @@
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="vm_disk_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="is_shared"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="image_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -8374,6 +8461,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="vm_disk_join_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="image_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -8444,6 +8534,15 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="guest_disk_size_mb"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="vm_disk_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="is_shared"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="image_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>

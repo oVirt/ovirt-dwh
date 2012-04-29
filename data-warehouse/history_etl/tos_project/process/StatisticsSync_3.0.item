@@ -1605,7 +1605,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT vm_disk_id,&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,&#xA;&#x9;&#x9;vm_disk_status,&#xA;&#x9;&#x9;vm_disk_actual_size_mb,&#xA;&#x9;&#x9;read_rate_bytes_per_second,&#xA;&#x9;&#x9;read_latency_seconds,&#xA;&#x9;&#x9;write_rate_bytes_per_second,&#xA;&#x9;&#x9;write_latency_seconds,&#xA;&#x9;&#x9;flush_latency_seconds&#xA;FROM dwh_vm_disks_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT vm_disk_id,&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,&#xA;        image_id,&#xA;&#x9;&#x9;vm_disk_status,&#xA;&#x9;&#x9;vm_disk_actual_size_mb,&#xA;&#x9;&#x9;read_rate_bytes_per_second,&#xA;&#x9;&#x9;read_latency_seconds,&#xA;&#x9;&#x9;write_rate_bytes_per_second,&#xA;&#x9;&#x9;write_latency_seconds,&#xA;&#x9;&#x9;flush_latency_seconds&#xA;FROM dwh_vm_disks_history_view&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1613,6 +1613,8 @@
     <elementParameter field="CHECK" name="TRIM_ALL_COLUMN" value="false"/>
     <elementParameter field="TABLE" name="TRIM_COLUMN">
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_id"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="image_id"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_join_id"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1638,6 +1640,7 @@
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="dwh_vm_disks_history_view" name="tJDBCInput_18">
       <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object"/>
       <column comment="" key="false" name="vm_disk_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
       <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1664,6 +1667,7 @@
     <metadata connector="FLOW" label="vm_disk_samples_history" name="vm_disk_history">
       <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
       <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object"/>
       <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="7" name="minutes_in_status" nullable="false" pattern="" precision="2" sourceType="NUMERIC" type="id_Double"/>
       <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1675,11 +1679,12 @@
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
         <mapperTableEntries name="vm_disk_id" expression="row1.vm_disk_id" type="id_Object"/>
+        <mapperTableEntries name="image_id" expression="row1.image_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_disk_status" expression="row1.vm_disk_status" type="id_Short" nullable="true"/>
         <mapperTableEntries name="minutes_in_status" expression="context.runInterleave.doubleValue()/60" type="id_Double"/>
         <mapperTableEntries name="vm_disk_actual_size_mb" expression="row1.vm_disk_actual_size_mb" type="id_Integer"/>
@@ -1692,6 +1697,7 @@
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="vm_disk_id" type="id_Object" nullable="true"/>
+        <mapperTableEntries name="image_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_disk_join_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_disk_status" type="id_Short" nullable="true"/>
         <mapperTableEntries name="vm_disk_actual_size_mb" type="id_Integer" nullable="true"/>
@@ -1772,6 +1778,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="image_id"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_status"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1829,6 +1840,7 @@
     <metadata connector="FLOW" label="vm_disk_samples_history" name="tJDBCOutput_7">
       <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
       <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object"/>
       <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="7" name="minutes_in_status" nullable="false" pattern="" precision="2" sourceType="NUMERIC" type="id_Double"/>
       <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1842,6 +1854,7 @@
     <metadata connector="REJECT" label="vm_disk_samples_history" name="REJECT">
       <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
       <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object"/>
       <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="7" name="minutes_in_status" nullable="false" pattern="" precision="2" sourceType="NUMERIC" type="id_Double"/>
       <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -2725,6 +2738,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="storage_domain_join_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="image_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -2802,6 +2818,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="guest_used_disk_size_mb"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="image_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>

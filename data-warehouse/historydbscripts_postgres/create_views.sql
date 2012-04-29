@@ -632,7 +632,7 @@ CREATE OR REPLACE VIEW v3_0_vm_disk_configuration_view
  AS
 SELECT
     history_id as history_id,
-    vm_disk_id as vm_disk_id,
+    image_id as vm_disk_id,
     storage_domain_id as storage_domain_id,
     'disk ' || cast(vm_internal_drive_mapping as varchar) as vm_internal_drive_mapping,
     vm_disk_description as vm_disk_description,
@@ -649,7 +649,7 @@ CREATE OR REPLACE VIEW v3_0_latest_vm_disk_configuration_view
  AS
 SELECT
     history_id as history_id,
-    vm_disk_id as vm_disk_id,
+    image_id as vm_disk_id,
     storage_domain_id as storage_domain_id,
     'disk ' || cast(vm_internal_drive_mapping as varchar) as vm_internal_drive_mapping,
     vm_disk_description as vm_disk_description,
@@ -668,7 +668,7 @@ CREATE OR REPLACE VIEW v3_0_vm_disk_samples_history_view
 SELECT
     history_id as history_id,
     history_datetime as history_datetime,
-    vm_disk_id as vm_disk_id,
+    image_id as vm_disk_id,
     vm_disk_status as vm_disk_status,
     minutes_in_status as minutes_in_status,
     vm_disk_actual_size_mb as vm_disk_actual_size_mb,
@@ -685,7 +685,7 @@ CREATE OR REPLACE VIEW v3_0_vm_disk_hourly_history_view
 SELECT
     history_id as history_id,
     history_datetime as history_datetime,
-    vm_disk_id as vm_disk_id,
+    image_id as vm_disk_id,
     vm_disk_status as vm_disk_status,
     minutes_in_status as minutes_in_status,
     vm_disk_actual_size_mb as vm_disk_actual_size_mb,
@@ -707,7 +707,7 @@ CREATE OR REPLACE VIEW v3_0_vm_disk_daily_history_view
 SELECT
     history_id as history_id,
     cast(history_datetime as TIMESTAMP WITH TIME ZONE) as history_datetime,
-    vm_disk_id as vm_disk_id,
+    image_id as vm_disk_id,
     vm_disk_status as vm_disk_status,
     minutes_in_status as minutes_in_status,
     vm_disk_actual_size_mb as vm_disk_actual_size_mb,
@@ -1436,13 +1436,16 @@ CREATE OR REPLACE VIEW v3_1_vm_disk_configuration_view
 SELECT
     history_id as history_id,
     vm_disk_id as vm_disk_id,
+    vm_disk_name as vm_disk_name,
+    vm_disk_description as vm_disk_description,
+    image_id as image_id,
     storage_domain_id as storage_domain_id,
     'disk ' || cast(vm_internal_drive_mapping as varchar) as vm_internal_drive_mapping,
-    vm_disk_description as vm_disk_description,
     vm_disk_size_mb as vm_disk_size_mb,
     vm_disk_type as vm_disk_type,
     vm_disk_format as vm_disk_format,
     vm_disk_interface as vm_disk_interface,
+    is_shared as is_shared,
     create_date as create_date,
     update_date as update_date,
     delete_date as delete_date
@@ -1453,13 +1456,16 @@ CREATE OR REPLACE VIEW v3_1_latest_vm_disk_configuration_view
 SELECT
     history_id as history_id,
     vm_disk_id as vm_disk_id,
+    vm_disk_name as vm_disk_name,
+    vm_disk_description as vm_disk_description,
+    image_id as image_id,
     storage_domain_id as storage_domain_id,
     'disk ' || cast(vm_internal_drive_mapping as varchar) as vm_internal_drive_mapping,
-    vm_disk_description as vm_disk_description,
     vm_disk_size_mb as vm_disk_size_mb,
     vm_disk_type as vm_disk_type,
     vm_disk_format as vm_disk_format,
     vm_disk_interface as vm_disk_interface,
+    is_shared as is_shared,
     create_date as create_date,
     update_date as update_date
 FROM vm_disk_configuration

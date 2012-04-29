@@ -12242,6 +12242,12 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_disk_id;
 		}
 
+		public Object image_id;
+
+		public Object getImage_id() {
+			return this.image_id;
+		}
+
 		public Short vm_disk_status;
 
 		public Short getVm_disk_status() {
@@ -12353,6 +12359,8 @@ public class StatisticsSync implements TalendJob {
 
 					this.vm_disk_id = (Object) dis.readObject();
 
+					this.image_id = (Object) dis.readObject();
+
 					length = dis.readByte();
 					if (length == -1) {
 						this.vm_disk_status = null;
@@ -12413,6 +12421,10 @@ public class StatisticsSync implements TalendJob {
 				// Object
 
 				dos.writeObject(this.vm_disk_id);
+
+				// Object
+
+				dos.writeObject(this.image_id);
 
 				// Short
 
@@ -12483,6 +12495,7 @@ public class StatisticsSync implements TalendJob {
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",vm_disk_id=" + String.valueOf(vm_disk_id));
+			sb.append(",image_id=" + String.valueOf(image_id));
 			sb.append(",vm_disk_status=" + String.valueOf(vm_disk_status));
 			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",vm_disk_actual_size_mb="
@@ -12549,6 +12562,12 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_disk_id;
 		}
 
+		public Object image_id;
+
+		public Object getImage_id() {
+			return this.image_id;
+		}
+
 		public String vm_disk_join_id;
 
 		public String getVm_disk_join_id() {
@@ -12660,6 +12679,8 @@ public class StatisticsSync implements TalendJob {
 
 					this.vm_disk_id = (Object) dis.readObject();
 
+					this.image_id = (Object) dis.readObject();
+
 					this.vm_disk_join_id = readString(dis);
 
 					length = dis.readByte();
@@ -12714,6 +12735,10 @@ public class StatisticsSync implements TalendJob {
 				// Object
 
 				dos.writeObject(this.vm_disk_id);
+
+				// Object
+
+				dos.writeObject(this.image_id);
 
 				// String
 
@@ -12779,6 +12804,7 @@ public class StatisticsSync implements TalendJob {
 			sb.append(super.toString());
 			sb.append("[");
 			sb.append("vm_disk_id=" + String.valueOf(vm_disk_id));
+			sb.append(",image_id=" + String.valueOf(image_id));
 			sb.append(",vm_disk_join_id=" + vm_disk_join_id);
 			sb.append(",vm_disk_status=" + String.valueOf(vm_disk_status));
 			sb.append(",vm_disk_actual_size_mb="
@@ -12843,6 +12869,12 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_disk_id;
 		}
 
+		public Object image_id;
+
+		public Object getImage_id() {
+			return this.image_id;
+		}
+
 		public String vm_disk_join_id;
 
 		public String getVm_disk_join_id() {
@@ -12954,6 +12986,8 @@ public class StatisticsSync implements TalendJob {
 
 					this.vm_disk_id = (Object) dis.readObject();
 
+					this.image_id = (Object) dis.readObject();
+
 					this.vm_disk_join_id = readString(dis);
 
 					length = dis.readByte();
@@ -13008,6 +13042,10 @@ public class StatisticsSync implements TalendJob {
 				// Object
 
 				dos.writeObject(this.vm_disk_id);
+
+				// Object
+
+				dos.writeObject(this.image_id);
 
 				// String
 
@@ -13073,6 +13111,7 @@ public class StatisticsSync implements TalendJob {
 			sb.append(super.toString());
 			sb.append("[");
 			sb.append("vm_disk_id=" + String.valueOf(vm_disk_id));
+			sb.append(",image_id=" + String.valueOf(image_id));
 			sb.append(",vm_disk_join_id=" + vm_disk_join_id);
 			sb.append(",vm_disk_status=" + String.valueOf(vm_disk_status));
 			sb.append(",vm_disk_actual_size_mb="
@@ -13182,7 +13221,7 @@ public class StatisticsSync implements TalendJob {
 
 				String insert_tJDBCOutput_7 = "INSERT INTO "
 						+ "vm_disk_samples_history"
-						+ " (history_datetime,vm_disk_id,vm_disk_status,minutes_in_status,vm_disk_actual_size_mb,read_rate_bytes_per_second,read_latency_seconds,write_rate_bytes_per_second,write_latency_seconds,flush_latency_seconds,vm_disk_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,vm_disk_id,image_id,vm_disk_status,minutes_in_status,vm_disk_actual_size_mb,read_rate_bytes_per_second,read_latency_seconds,write_rate_bytes_per_second,write_latency_seconds,flush_latency_seconds,vm_disk_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_7 = connection_tJDBCOutput_7
 						.prepareStatement(insert_tJDBCOutput_7);
 
@@ -13244,7 +13283,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_18 = conn_tJDBCInput_18
 						.createStatement();
 
-				String dbquery_tJDBCInput_18 = "SELECT vm_disk_id, 		upper(cast(vm_disk_id as char(36))) as vm_disk_join_id, 		vm_disk_status, 		vm_disk_actual_size_mb, 		read_rate_bytes_per_second, 		read_latency_seconds, 		write_rate_bytes_per_second, 		write_latency_seconds, 		flush_latency_seconds FROM dwh_vm_disks_history_view";
+				String dbquery_tJDBCInput_18 = "SELECT vm_disk_id, 		upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,         image_id, 		vm_disk_status, 		vm_disk_actual_size_mb, 		read_rate_bytes_per_second, 		read_latency_seconds, 		write_rate_bytes_per_second, 		write_latency_seconds, 		flush_latency_seconds FROM dwh_vm_disks_history_view";
 
 				globalMap.put("tJDBCInput_18_QUERY", dbquery_tJDBCInput_18);
 
@@ -13274,11 +13313,25 @@ public class StatisticsSync implements TalendJob {
 						}
 					}
 					if (colQtyInRs_tJDBCInput_18 < 2) {
+						row1.image_id = null;
+					} else {
+
+						if (rs_tJDBCInput_18.getObject(2) != null) {
+							row1.image_id = rs_tJDBCInput_18.getObject(2);
+						} else {
+							row1.image_id = null;
+						}
+
+						if (rs_tJDBCInput_18.wasNull()) {
+							row1.image_id = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_18 < 3) {
 						row1.vm_disk_join_id = null;
 					} else {
 
 						tmpContent_tJDBCInput_18 = rs_tJDBCInput_18
-								.getString(2);
+								.getString(3);
 						if (tmpContent_tJDBCInput_18 != null) {
 							row1.vm_disk_join_id = tmpContent_tJDBCInput_18;
 						} else {
@@ -13289,87 +13342,87 @@ public class StatisticsSync implements TalendJob {
 							row1.vm_disk_join_id = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_18 < 3) {
+					if (colQtyInRs_tJDBCInput_18 < 4) {
 						row1.vm_disk_status = null;
 					} else {
 
-						if (rs_tJDBCInput_18.getObject(3) != null) {
-							row1.vm_disk_status = rs_tJDBCInput_18.getShort(3);
-						} else {
-							row1.vm_disk_status = null;
-						}
-
-						if (rs_tJDBCInput_18.wasNull()) {
-							row1.vm_disk_status = null;
-						}
-					}
-					if (colQtyInRs_tJDBCInput_18 < 4) {
-						row1.vm_disk_actual_size_mb = null;
-					} else {
-
 						if (rs_tJDBCInput_18.getObject(4) != null) {
-							row1.vm_disk_actual_size_mb = rs_tJDBCInput_18
-									.getInt(4);
+							row1.vm_disk_status = rs_tJDBCInput_18.getShort(4);
 						} else {
-							row1.vm_disk_actual_size_mb = null;
+							row1.vm_disk_status = null;
 						}
 
 						if (rs_tJDBCInput_18.wasNull()) {
-							row1.vm_disk_actual_size_mb = null;
+							row1.vm_disk_status = null;
 						}
 					}
 					if (colQtyInRs_tJDBCInput_18 < 5) {
-						row1.read_rate_bytes_per_second = null;
+						row1.vm_disk_actual_size_mb = null;
 					} else {
 
 						if (rs_tJDBCInput_18.getObject(5) != null) {
-							row1.read_rate_bytes_per_second = rs_tJDBCInput_18
+							row1.vm_disk_actual_size_mb = rs_tJDBCInput_18
 									.getInt(5);
 						} else {
-							row1.read_rate_bytes_per_second = null;
+							row1.vm_disk_actual_size_mb = null;
 						}
 
 						if (rs_tJDBCInput_18.wasNull()) {
-							row1.read_rate_bytes_per_second = null;
+							row1.vm_disk_actual_size_mb = null;
 						}
 					}
 					if (colQtyInRs_tJDBCInput_18 < 6) {
-						row1.read_latency_seconds = null;
+						row1.read_rate_bytes_per_second = null;
 					} else {
 
 						if (rs_tJDBCInput_18.getObject(6) != null) {
-							row1.read_latency_seconds = rs_tJDBCInput_18
-									.getDouble(6);
+							row1.read_rate_bytes_per_second = rs_tJDBCInput_18
+									.getInt(6);
 						} else {
-							row1.read_latency_seconds = null;
+							row1.read_rate_bytes_per_second = null;
 						}
 
 						if (rs_tJDBCInput_18.wasNull()) {
-							row1.read_latency_seconds = null;
+							row1.read_rate_bytes_per_second = null;
 						}
 					}
 					if (colQtyInRs_tJDBCInput_18 < 7) {
-						row1.write_rate_bytes_per_second = null;
+						row1.read_latency_seconds = null;
 					} else {
 
 						if (rs_tJDBCInput_18.getObject(7) != null) {
-							row1.write_rate_bytes_per_second = rs_tJDBCInput_18
-									.getInt(7);
+							row1.read_latency_seconds = rs_tJDBCInput_18
+									.getDouble(7);
 						} else {
-							row1.write_rate_bytes_per_second = null;
+							row1.read_latency_seconds = null;
 						}
 
 						if (rs_tJDBCInput_18.wasNull()) {
-							row1.write_rate_bytes_per_second = null;
+							row1.read_latency_seconds = null;
 						}
 					}
 					if (colQtyInRs_tJDBCInput_18 < 8) {
-						row1.write_latency_seconds = null;
+						row1.write_rate_bytes_per_second = null;
 					} else {
 
 						if (rs_tJDBCInput_18.getObject(8) != null) {
+							row1.write_rate_bytes_per_second = rs_tJDBCInput_18
+									.getInt(8);
+						} else {
+							row1.write_rate_bytes_per_second = null;
+						}
+
+						if (rs_tJDBCInput_18.wasNull()) {
+							row1.write_rate_bytes_per_second = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_18 < 9) {
+						row1.write_latency_seconds = null;
+					} else {
+
+						if (rs_tJDBCInput_18.getObject(9) != null) {
 							row1.write_latency_seconds = rs_tJDBCInput_18
-									.getDouble(8);
+									.getDouble(9);
 						} else {
 							row1.write_latency_seconds = null;
 						}
@@ -13378,13 +13431,13 @@ public class StatisticsSync implements TalendJob {
 							row1.write_latency_seconds = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_18 < 9) {
+					if (colQtyInRs_tJDBCInput_18 < 10) {
 						row1.flush_latency_seconds = null;
 					} else {
 
-						if (rs_tJDBCInput_18.getObject(9) != null) {
+						if (rs_tJDBCInput_18.getObject(10) != null) {
 							row1.flush_latency_seconds = rs_tJDBCInput_18
-									.getDouble(9);
+									.getDouble(10);
 						} else {
 							row1.flush_latency_seconds = null;
 						}
@@ -13489,6 +13542,7 @@ public class StatisticsSync implements TalendJob {
 							// # Output table : 'vm_disk_history'
 							vm_disk_history_tmp.history_datetime = context.runTime;
 							vm_disk_history_tmp.vm_disk_id = row1.vm_disk_id;
+							vm_disk_history_tmp.image_id = row1.image_id;
 							vm_disk_history_tmp.vm_disk_status = row1.vm_disk_status;
 							vm_disk_history_tmp.minutes_in_status = context.runInterleave
 									.doubleValue() / 60;
@@ -13539,69 +13593,77 @@ public class StatisticsSync implements TalendJob {
 									vm_disk_history.vm_disk_id);
 						}
 
+						if (vm_disk_history.image_id == null) {
+							pstmt_tJDBCOutput_7
+									.setNull(3, java.sql.Types.OTHER);
+						} else {
+							pstmt_tJDBCOutput_7.setObject(3,
+									vm_disk_history.image_id);
+						}
+
 						if (vm_disk_history.vm_disk_status == null) {
-							pstmt_tJDBCOutput_7.setNull(3,
+							pstmt_tJDBCOutput_7.setNull(4,
 									java.sql.Types.INTEGER);
 						} else {
-							pstmt_tJDBCOutput_7.setShort(3,
+							pstmt_tJDBCOutput_7.setShort(4,
 									vm_disk_history.vm_disk_status);
 						}
 
-						pstmt_tJDBCOutput_7.setDouble(4,
+						pstmt_tJDBCOutput_7.setDouble(5,
 								vm_disk_history.minutes_in_status);
 
-						pstmt_tJDBCOutput_7.setInt(5,
+						pstmt_tJDBCOutput_7.setInt(6,
 								vm_disk_history.vm_disk_actual_size_mb);
 
 						if (vm_disk_history.read_rate_bytes_per_second == null) {
-							pstmt_tJDBCOutput_7.setNull(6,
+							pstmt_tJDBCOutput_7.setNull(7,
 									java.sql.Types.INTEGER);
 						} else {
-							pstmt_tJDBCOutput_7.setInt(6,
+							pstmt_tJDBCOutput_7.setInt(7,
 									vm_disk_history.read_rate_bytes_per_second);
 						}
 
 						if (vm_disk_history.read_latency_seconds == null) {
-							pstmt_tJDBCOutput_7.setNull(7,
+							pstmt_tJDBCOutput_7.setNull(8,
 									java.sql.Types.DOUBLE);
 						} else {
-							pstmt_tJDBCOutput_7.setDouble(7,
+							pstmt_tJDBCOutput_7.setDouble(8,
 									vm_disk_history.read_latency_seconds);
 						}
 
 						if (vm_disk_history.write_rate_bytes_per_second == null) {
-							pstmt_tJDBCOutput_7.setNull(8,
+							pstmt_tJDBCOutput_7.setNull(9,
 									java.sql.Types.INTEGER);
 						} else {
 							pstmt_tJDBCOutput_7
 									.setInt(
-											8,
+											9,
 											vm_disk_history.write_rate_bytes_per_second);
 						}
 
 						if (vm_disk_history.write_latency_seconds == null) {
-							pstmt_tJDBCOutput_7.setNull(9,
-									java.sql.Types.DOUBLE);
-						} else {
-							pstmt_tJDBCOutput_7.setDouble(9,
-									vm_disk_history.write_latency_seconds);
-						}
-
-						if (vm_disk_history.flush_latency_seconds == null) {
 							pstmt_tJDBCOutput_7.setNull(10,
 									java.sql.Types.DOUBLE);
 						} else {
 							pstmt_tJDBCOutput_7.setDouble(10,
+									vm_disk_history.write_latency_seconds);
+						}
+
+						if (vm_disk_history.flush_latency_seconds == null) {
+							pstmt_tJDBCOutput_7.setNull(11,
+									java.sql.Types.DOUBLE);
+						} else {
+							pstmt_tJDBCOutput_7.setDouble(11,
 									vm_disk_history.flush_latency_seconds);
 						}
 
 						if (vm_disk_history.vm_disk_configuration_version == null) {
-							pstmt_tJDBCOutput_7.setNull(11,
+							pstmt_tJDBCOutput_7.setNull(12,
 									java.sql.Types.INTEGER);
 						} else {
 							pstmt_tJDBCOutput_7
 									.setInt(
-											11,
+											12,
 											vm_disk_history.vm_disk_configuration_version);
 						}
 
@@ -16156,6 +16218,6 @@ public class StatisticsSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 443446 characters generated by Talend Open Studio for Data Integration on the
- * March 12, 2012 3:16:11 PM IST
+ * 445043 characters generated by Talend Open Studio for Data Integration on the
+ * April 29, 2012 5:28:42 PM IDT
  ************************************************************************************************/

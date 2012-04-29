@@ -14122,6 +14122,12 @@ public class AggregationToHourly implements TalendJob {
 			return this.vm_disk_id;
 		}
 
+		public Object image_id;
+
+		public Object getImage_id() {
+			return this.image_id;
+		}
+
 		public Short vm_disk_status;
 
 		public Short getVm_disk_status() {
@@ -14263,6 +14269,8 @@ public class AggregationToHourly implements TalendJob {
 
 					this.vm_disk_id = (Object) dis.readObject();
 
+					this.image_id = (Object) dis.readObject();
+
 					length = dis.readByte();
 					if (length == -1) {
 						this.vm_disk_status = null;
@@ -14368,6 +14376,10 @@ public class AggregationToHourly implements TalendJob {
 				// Object
 
 				dos.writeObject(this.vm_disk_id);
+
+				// Object
+
+				dos.writeObject(this.image_id);
 
 				// Short
 
@@ -14493,6 +14505,7 @@ public class AggregationToHourly implements TalendJob {
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",vm_disk_id=" + String.valueOf(vm_disk_id));
+			sb.append(",image_id=" + String.valueOf(image_id));
 			sb.append(",vm_disk_status=" + String.valueOf(vm_disk_status));
 			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",vm_disk_actual_size_mb="
@@ -14575,6 +14588,12 @@ public class AggregationToHourly implements TalendJob {
 			return this.vm_disk_id;
 		}
 
+		public Object image_id;
+
+		public Object getImage_id() {
+			return this.image_id;
+		}
+
 		public Short vm_disk_status;
 
 		public Short getVm_disk_status() {
@@ -14716,6 +14735,8 @@ public class AggregationToHourly implements TalendJob {
 
 					this.vm_disk_id = (Object) dis.readObject();
 
+					this.image_id = (Object) dis.readObject();
+
 					length = dis.readByte();
 					if (length == -1) {
 						this.vm_disk_status = null;
@@ -14821,6 +14842,10 @@ public class AggregationToHourly implements TalendJob {
 				// Object
 
 				dos.writeObject(this.vm_disk_id);
+
+				// Object
+
+				dos.writeObject(this.image_id);
 
 				// Short
 
@@ -14946,6 +14971,7 @@ public class AggregationToHourly implements TalendJob {
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",vm_disk_id=" + String.valueOf(vm_disk_id));
+			sb.append(",image_id=" + String.valueOf(image_id));
 			sb.append(",vm_disk_status=" + String.valueOf(vm_disk_status));
 			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",vm_disk_actual_size_mb="
@@ -15028,6 +15054,12 @@ public class AggregationToHourly implements TalendJob {
 			return this.vm_disk_id;
 		}
 
+		public Object image_id;
+
+		public Object getImage_id() {
+			return this.image_id;
+		}
+
 		public Short vm_disk_status;
 
 		public Short getVm_disk_status() {
@@ -15139,6 +15171,8 @@ public class AggregationToHourly implements TalendJob {
 
 					this.vm_disk_id = (Object) dis.readObject();
 
+					this.image_id = (Object) dis.readObject();
+
 					length = dis.readByte();
 					if (length == -1) {
 						this.vm_disk_status = null;
@@ -15209,6 +15243,10 @@ public class AggregationToHourly implements TalendJob {
 				// Object
 
 				dos.writeObject(this.vm_disk_id);
+
+				// Object
+
+				dos.writeObject(this.image_id);
 
 				// Short
 
@@ -15289,6 +15327,7 @@ public class AggregationToHourly implements TalendJob {
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",vm_disk_id=" + String.valueOf(vm_disk_id));
+			sb.append(",image_id=" + String.valueOf(image_id));
 			sb.append(",vm_disk_status=" + String.valueOf(vm_disk_status));
 			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",vm_disk_actual_size_mb="
@@ -15361,6 +15400,12 @@ public class AggregationToHourly implements TalendJob {
 			return this.vm_disk_id;
 		}
 
+		public Object image_id;
+
+		public Object getImage_id() {
+			return this.image_id;
+		}
+
 		public Short vm_disk_status;
 
 		public Short getVm_disk_status() {
@@ -15472,6 +15517,8 @@ public class AggregationToHourly implements TalendJob {
 
 					this.vm_disk_id = (Object) dis.readObject();
 
+					this.image_id = (Object) dis.readObject();
+
 					length = dis.readByte();
 					if (length == -1) {
 						this.vm_disk_status = null;
@@ -15542,6 +15589,10 @@ public class AggregationToHourly implements TalendJob {
 				// Object
 
 				dos.writeObject(this.vm_disk_id);
+
+				// Object
+
+				dos.writeObject(this.image_id);
 
 				// Short
 
@@ -15622,6 +15673,7 @@ public class AggregationToHourly implements TalendJob {
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",vm_disk_id=" + String.valueOf(vm_disk_id));
+			sb.append(",image_id=" + String.valueOf(image_id));
 			sb.append(",vm_disk_status=" + String.valueOf(vm_disk_status));
 			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",vm_disk_actual_size_mb="
@@ -15889,6 +15941,7 @@ public class AggregationToHourly implements TalendJob {
 
 					Double max_flush_latency_seconds_max;
 					Integer vm_disk_configuration_version_last;
+					Object image_id_last;
 
 					@Override
 					public int hashCode() {
@@ -16008,7 +16061,7 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_13 = conn_tJDBCInput_13
 						.createStatement();
 
-				String dbquery_tJDBCInput_13 = "SELECT history_datetime, 		vm_disk_id, 		vm_disk_status,  		minutes_in_status, 		vm_disk_actual_size_mb, 		read_rate_bytes_per_second, 		read_latency_seconds, 		write_rate_bytes_per_second, 		write_latency_seconds, 		flush_latency_seconds, 		vm_disk_configuration_version  FROM vm_disk_samples_history  WHERE history_datetime > (SELECT var_datetime  						  FROM history_configuration  						  WHERE var_name = 'lastHourAggr')  ORDER BY history_datetime,  		 vm_disk_id,     		 vm_disk_status";
+				String dbquery_tJDBCInput_13 = "SELECT history_datetime, 		vm_disk_id,         image_id, 		vm_disk_status,  		minutes_in_status, 		vm_disk_actual_size_mb, 		read_rate_bytes_per_second, 		read_latency_seconds, 		write_rate_bytes_per_second, 		write_latency_seconds, 		flush_latency_seconds, 		vm_disk_configuration_version  FROM vm_disk_samples_history  WHERE history_datetime > (SELECT var_datetime  						  FROM history_configuration  						  WHERE var_name = 'lastHourAggr')  ORDER BY history_datetime,  		 vm_disk_id,     		 vm_disk_status";
 
 				globalMap.put("tJDBCInput_13_QUERY", dbquery_tJDBCInput_13);
 
@@ -16050,11 +16103,23 @@ public class AggregationToHourly implements TalendJob {
 
 					}
 					if (colQtyInRs_tJDBCInput_13 < 3) {
-						row19.vm_disk_status = null;
+						row19.image_id = null;
 					} else {
 
 						if (rs_tJDBCInput_13.getObject(3) != null) {
-							row19.vm_disk_status = rs_tJDBCInput_13.getShort(3);
+							row19.image_id = rs_tJDBCInput_13.getObject(3);
+						} else {
+							throw new RuntimeException(
+									"Null value in non-Nullable column");
+						}
+
+					}
+					if (colQtyInRs_tJDBCInput_13 < 4) {
+						row19.vm_disk_status = null;
+					} else {
+
+						if (rs_tJDBCInput_13.getObject(4) != null) {
+							row19.vm_disk_status = rs_tJDBCInput_13.getShort(4);
 						} else {
 							row19.vm_disk_status = null;
 						}
@@ -16063,26 +16128,13 @@ public class AggregationToHourly implements TalendJob {
 							row19.vm_disk_status = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_13 < 4) {
+					if (colQtyInRs_tJDBCInput_13 < 5) {
 						row19.minutes_in_status = 0;
 					} else {
 
-						if (rs_tJDBCInput_13.getObject(4) != null) {
-							row19.minutes_in_status = rs_tJDBCInput_13
-									.getDouble(4);
-						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
-						}
-
-					}
-					if (colQtyInRs_tJDBCInput_13 < 5) {
-						row19.vm_disk_actual_size_mb = 0;
-					} else {
-
 						if (rs_tJDBCInput_13.getObject(5) != null) {
-							row19.vm_disk_actual_size_mb = rs_tJDBCInput_13
-									.getInt(5);
+							row19.minutes_in_status = rs_tJDBCInput_13
+									.getDouble(5);
 						} else {
 							throw new RuntimeException(
 									"Null value in non-Nullable column");
@@ -16090,72 +16142,85 @@ public class AggregationToHourly implements TalendJob {
 
 					}
 					if (colQtyInRs_tJDBCInput_13 < 6) {
-						row19.read_rate_bytes_per_second = null;
+						row19.vm_disk_actual_size_mb = 0;
 					} else {
 
 						if (rs_tJDBCInput_13.getObject(6) != null) {
-							row19.read_rate_bytes_per_second = rs_tJDBCInput_13
-									.getLong(6);
+							row19.vm_disk_actual_size_mb = rs_tJDBCInput_13
+									.getInt(6);
 						} else {
-							row19.read_rate_bytes_per_second = null;
+							throw new RuntimeException(
+									"Null value in non-Nullable column");
 						}
 
-						if (rs_tJDBCInput_13.wasNull()) {
-							row19.read_rate_bytes_per_second = null;
-						}
 					}
 					if (colQtyInRs_tJDBCInput_13 < 7) {
-						row19.read_latency_seconds = null;
+						row19.read_rate_bytes_per_second = null;
 					} else {
 
 						if (rs_tJDBCInput_13.getObject(7) != null) {
-							row19.read_latency_seconds = rs_tJDBCInput_13
-									.getDouble(7);
+							row19.read_rate_bytes_per_second = rs_tJDBCInput_13
+									.getLong(7);
 						} else {
-							row19.read_latency_seconds = null;
+							row19.read_rate_bytes_per_second = null;
 						}
 
 						if (rs_tJDBCInput_13.wasNull()) {
-							row19.read_latency_seconds = null;
+							row19.read_rate_bytes_per_second = null;
 						}
 					}
 					if (colQtyInRs_tJDBCInput_13 < 8) {
-						row19.write_rate_bytes_per_second = null;
+						row19.read_latency_seconds = null;
 					} else {
 
 						if (rs_tJDBCInput_13.getObject(8) != null) {
-							row19.write_rate_bytes_per_second = rs_tJDBCInput_13
-									.getLong(8);
+							row19.read_latency_seconds = rs_tJDBCInput_13
+									.getDouble(8);
 						} else {
-							row19.write_rate_bytes_per_second = null;
+							row19.read_latency_seconds = null;
 						}
 
 						if (rs_tJDBCInput_13.wasNull()) {
-							row19.write_rate_bytes_per_second = null;
+							row19.read_latency_seconds = null;
 						}
 					}
 					if (colQtyInRs_tJDBCInput_13 < 9) {
-						row19.write_latency_seconds = null;
+						row19.write_rate_bytes_per_second = null;
 					} else {
 
 						if (rs_tJDBCInput_13.getObject(9) != null) {
-							row19.write_latency_seconds = rs_tJDBCInput_13
-									.getDouble(9);
+							row19.write_rate_bytes_per_second = rs_tJDBCInput_13
+									.getLong(9);
 						} else {
-							row19.write_latency_seconds = null;
+							row19.write_rate_bytes_per_second = null;
 						}
 
 						if (rs_tJDBCInput_13.wasNull()) {
-							row19.write_latency_seconds = null;
+							row19.write_rate_bytes_per_second = null;
 						}
 					}
 					if (colQtyInRs_tJDBCInput_13 < 10) {
-						row19.flush_latency_seconds = null;
+						row19.write_latency_seconds = null;
 					} else {
 
 						if (rs_tJDBCInput_13.getObject(10) != null) {
-							row19.flush_latency_seconds = rs_tJDBCInput_13
+							row19.write_latency_seconds = rs_tJDBCInput_13
 									.getDouble(10);
+						} else {
+							row19.write_latency_seconds = null;
+						}
+
+						if (rs_tJDBCInput_13.wasNull()) {
+							row19.write_latency_seconds = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_13 < 11) {
+						row19.flush_latency_seconds = null;
+					} else {
+
+						if (rs_tJDBCInput_13.getObject(11) != null) {
+							row19.flush_latency_seconds = rs_tJDBCInput_13
+									.getDouble(11);
 						} else {
 							row19.flush_latency_seconds = null;
 						}
@@ -16164,13 +16229,13 @@ public class AggregationToHourly implements TalendJob {
 							row19.flush_latency_seconds = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_13 < 11) {
+					if (colQtyInRs_tJDBCInput_13 < 12) {
 						row19.vm_disk_configuration_version = null;
 					} else {
 
-						if (rs_tJDBCInput_13.getObject(11) != null) {
+						if (rs_tJDBCInput_13.getObject(12) != null) {
 							row19.vm_disk_configuration_version = rs_tJDBCInput_13
-									.getInt(11);
+									.getInt(12);
 						} else {
 							row19.vm_disk_configuration_version = null;
 						}
@@ -16239,6 +16304,7 @@ public class AggregationToHourly implements TalendJob {
 							vm_disk_aggregate_tmp.history_datetime = RoutineHistoryETL
 									.startOfHour(row19.history_datetime);
 							vm_disk_aggregate_tmp.vm_disk_id = row19.vm_disk_id;
+							vm_disk_aggregate_tmp.image_id = row19.image_id;
 							vm_disk_aggregate_tmp.vm_disk_status = row19.vm_disk_status;
 							vm_disk_aggregate_tmp.minutes_in_status = row19.minutes_in_status;
 							vm_disk_aggregate_tmp.vm_disk_actual_size_mb = row19.vm_disk_actual_size_mb;
@@ -16435,6 +16501,12 @@ public class AggregationToHourly implements TalendJob {
 
 							} // G_OutMain_AggR_546
 
+							if (vm_disk_aggregate.image_id != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_7.image_id_last = vm_disk_aggregate.image_id;
+
+							} // G_OutMain_AggR_546
+
 							tos_count_tAggregateRow_7_AGGOUT++;
 
 							/**
@@ -16525,7 +16597,7 @@ public class AggregationToHourly implements TalendJob {
 
 				String insert_tJDBCOutput_13 = "INSERT INTO "
 						+ "vm_disk_hourly_history"
-						+ " (history_datetime,vm_disk_id,vm_disk_status,minutes_in_status,vm_disk_actual_size_mb,read_rate_bytes_per_second,max_read_rate_bytes_per_second,read_latency_seconds,max_read_latency_seconds,write_rate_bytes_per_second,max_write_rate_bytes_per_second,write_latency_seconds,max_write_latency_seconds,flush_latency_seconds,max_flush_latency_seconds,vm_disk_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,vm_disk_id,image_id,vm_disk_status,minutes_in_status,vm_disk_actual_size_mb,read_rate_bytes_per_second,max_read_rate_bytes_per_second,read_latency_seconds,max_read_latency_seconds,write_rate_bytes_per_second,max_write_rate_bytes_per_second,write_latency_seconds,max_write_latency_seconds,flush_latency_seconds,max_flush_latency_seconds,vm_disk_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_13 = connection_tJDBCOutput_13
 						.prepareStatement(insert_tJDBCOutput_13);
 
@@ -16565,6 +16637,7 @@ public class AggregationToHourly implements TalendJob {
 
 					row20.vm_disk_id = aggregated_row_tAggregateRow_7.vm_disk_id;
 
+					row20.image_id = aggregated_row_tAggregateRow_7.image_id_last;
 					row20.vm_disk_status = aggregated_row_tAggregateRow_7.vm_disk_status;
 
 					if (aggregated_row_tAggregateRow_7.minutes_in_status_sum != null) {
@@ -16710,94 +16783,100 @@ public class AggregationToHourly implements TalendJob {
 						pstmt_tJDBCOutput_13.setObject(2, row20.vm_disk_id);
 					}
 
-					if (row20.vm_disk_status == null) {
-						pstmt_tJDBCOutput_13.setNull(3, java.sql.Types.INTEGER);
+					if (row20.image_id == null) {
+						pstmt_tJDBCOutput_13.setNull(3, java.sql.Types.OTHER);
 					} else {
-						pstmt_tJDBCOutput_13.setShort(3, row20.vm_disk_status);
+						pstmt_tJDBCOutput_13.setObject(3, row20.image_id);
 					}
 
-					pstmt_tJDBCOutput_13.setDouble(4, row20.minutes_in_status);
+					if (row20.vm_disk_status == null) {
+						pstmt_tJDBCOutput_13.setNull(4, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_13.setShort(4, row20.vm_disk_status);
+					}
+
+					pstmt_tJDBCOutput_13.setDouble(5, row20.minutes_in_status);
 
 					pstmt_tJDBCOutput_13
-							.setInt(5, row20.vm_disk_actual_size_mb);
+							.setInt(6, row20.vm_disk_actual_size_mb);
 
 					if (row20.read_rate_bytes_per_second == null) {
-						pstmt_tJDBCOutput_13.setNull(6, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_13.setNull(7, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_13.setLong(6,
+						pstmt_tJDBCOutput_13.setLong(7,
 								row20.read_rate_bytes_per_second);
 					}
 
 					if (row20.max_read_rate_bytes_per_second == null) {
-						pstmt_tJDBCOutput_13.setNull(7, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_13.setNull(8, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_13.setLong(7,
+						pstmt_tJDBCOutput_13.setLong(8,
 								row20.max_read_rate_bytes_per_second);
 					}
 
 					if (row20.read_latency_seconds == null) {
-						pstmt_tJDBCOutput_13.setNull(8, java.sql.Types.DOUBLE);
+						pstmt_tJDBCOutput_13.setNull(9, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_13.setDouble(8,
+						pstmt_tJDBCOutput_13.setDouble(9,
 								row20.read_latency_seconds);
 					}
 
 					if (row20.max_read_latency_seconds == null) {
-						pstmt_tJDBCOutput_13.setNull(9, java.sql.Types.DOUBLE);
+						pstmt_tJDBCOutput_13.setNull(10, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_13.setDouble(9,
+						pstmt_tJDBCOutput_13.setDouble(10,
 								row20.max_read_latency_seconds);
 					}
 
 					if (row20.write_rate_bytes_per_second == null) {
 						pstmt_tJDBCOutput_13
-								.setNull(10, java.sql.Types.INTEGER);
+								.setNull(11, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_13.setLong(10,
+						pstmt_tJDBCOutput_13.setLong(11,
 								row20.write_rate_bytes_per_second);
 					}
 
 					if (row20.max_write_rate_bytes_per_second == null) {
 						pstmt_tJDBCOutput_13
-								.setNull(11, java.sql.Types.INTEGER);
+								.setNull(12, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_13.setLong(11,
+						pstmt_tJDBCOutput_13.setLong(12,
 								row20.max_write_rate_bytes_per_second);
 					}
 
 					if (row20.write_latency_seconds == null) {
-						pstmt_tJDBCOutput_13.setNull(12, java.sql.Types.DOUBLE);
+						pstmt_tJDBCOutput_13.setNull(13, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_13.setDouble(12,
+						pstmt_tJDBCOutput_13.setDouble(13,
 								row20.write_latency_seconds);
 					}
 
 					if (row20.max_write_latency_seconds == null) {
-						pstmt_tJDBCOutput_13.setNull(13, java.sql.Types.DOUBLE);
+						pstmt_tJDBCOutput_13.setNull(14, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_13.setDouble(13,
+						pstmt_tJDBCOutput_13.setDouble(14,
 								row20.max_write_latency_seconds);
 					}
 
 					if (row20.flush_latency_seconds == null) {
-						pstmt_tJDBCOutput_13.setNull(14, java.sql.Types.DOUBLE);
+						pstmt_tJDBCOutput_13.setNull(15, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_13.setDouble(14,
+						pstmt_tJDBCOutput_13.setDouble(15,
 								row20.flush_latency_seconds);
 					}
 
 					if (row20.max_flush_latency_seconds == null) {
-						pstmt_tJDBCOutput_13.setNull(15, java.sql.Types.DOUBLE);
+						pstmt_tJDBCOutput_13.setNull(16, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_13.setDouble(15,
+						pstmt_tJDBCOutput_13.setDouble(16,
 								row20.max_flush_latency_seconds);
 					}
 
 					if (row20.vm_disk_configuration_version == null) {
 						pstmt_tJDBCOutput_13
-								.setNull(16, java.sql.Types.INTEGER);
+								.setNull(17, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_13.setInt(16,
+						pstmt_tJDBCOutput_13.setInt(17,
 								row20.vm_disk_configuration_version);
 					}
 
@@ -20488,6 +20567,6 @@ public class AggregationToHourly implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 584283 characters generated by Talend Open Studio for Data Integration on the
- * March 12, 2012 3:16:13 PM IST
+ * 586449 characters generated by Talend Open Studio for Data Integration on the
+ * April 29, 2012 5:28:45 PM IDT
  ************************************************************************************************/
