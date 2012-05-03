@@ -1362,7 +1362,6 @@ SELECT
       history_id as history_id,
       vm_interface_id as vm_interface_id,
       vm_interface_name as vm_interface_name,
-      vm_id as vm_id,
       vm_interface_type as vm_interface_type,
       vm_interface_speed_bps as vm_interface_speed_bps,
       mac_address as mac_address,
@@ -1379,7 +1378,6 @@ SELECT
       history_id as history_id,
       vm_interface_id as vm_interface_id,
       vm_interface_name as vm_interface_name,
-      vm_id as vm_id,
       vm_interface_type as vm_interface_type,
       vm_interface_speed_bps as vm_interface_speed_bps,
       mac_address as mac_address,
@@ -1533,26 +1531,42 @@ SELECT
     vm_disk_configuration_version as vm_disk_configuration_version
 FROM vm_disk_daily_history;
 
-CREATE OR REPLACE VIEW v3_1_disks_vm_map_view
+CREATE OR REPLACE VIEW v3_1_vm_device_history_view
  AS
 SELECT
     history_id as history_id,
-    vm_disk_id as vm_disk_id,
-    vm_id as vm_id,
-    attach_date as attach_date,
-    detach_date as detach_date
-FROM         disks_vm_map;
+    vm_id,
+    device_id,
+    type,
+    address,
+    is_managed,
+    is_plugged,
+    is_readonly,
+    vm_configuration_version,
+    device_configuration_version,
+    create_date,
+    update_date,
+    delete_date
+FROM vm_device_history;
 
-CREATE OR REPLACE VIEW v3_1_latest_disks_vm_map_view
+CREATE OR REPLACE VIEW v3_1_latest_vm_device_history_view
  AS
 SELECT
     history_id as history_id,
-    vm_disk_id as vm_disk_id,
-    vm_id as vm_id,
-    attach_date as attach_date
-FROM         disks_vm_map
-WHERE history_id in (SELECT max(a.history_id) FROM disks_vm_map as a GROUP BY a.vm_disk_id, a.vm_id)
-      and detach_date IS NULL;
+    vm_id,
+    device_id,
+    type,
+    address,
+    is_managed,
+    is_plugged,
+    is_readonly,
+    vm_configuration_version,
+    device_configuration_version,
+    create_date,
+    update_date
+FROM vm_device_history
+WHERE history_id in (SELECT max(a.history_id) FROM vm_device_history as a GROUP BY a.vm_id, a.device_id)
+      and delete_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_1_tag_relations_history_view
  AS
