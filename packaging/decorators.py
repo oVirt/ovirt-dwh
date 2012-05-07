@@ -1,6 +1,6 @@
 #!/usr/bin/python
 '''
-decorators for ovirt-dwh-setup & ovirt-reports-setup
+decorators for ovirt-engine-dwh-setup & ovirt-reports-setup
 '''
 import common_utils as utils
 import sys

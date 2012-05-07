@@ -6,7 +6,7 @@
   <version>${dwh.version}</version>
   <packaging>pom</packaging>
 
-  <name>oVirt DWH Root Project</name>
+  <name>oVirt Engine DWH Root Project</name>
 
   <modules>
     <module>data-warehouse</module>
@@ -15,7 +15,7 @@
   <properties>
    <!--  Version Info -->
     <dwh.version>3.0.0</dwh.version>
-    <dwh.groupId>ovirt_dwh</dwh.groupId>
+    <dwh.groupId>ovirt_engine_dwh</dwh.groupId>
 
     <!-- dependency versions -->
     <version.commons-collections>3.2.1</version.commons-collections>

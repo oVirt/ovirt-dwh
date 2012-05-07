@@ -251,41 +251,41 @@ def startPostgresService():
 
 def stopEtl():
     """
-    stop the ovirt-dwhd service
+    stop the ovirt-engine-dwhd service
     """
-    logging.debug("Stopping ovirt-dwhd")
-    cmd = "service ovirt-dwhd stop"
-    execExternalCmd(cmd, True, "Failed while trying to stop the ovirt-dwhd service")
+    logging.debug("Stopping ovirt-engine-dwhd")
+    cmd = "service ovirt-engine-dwhd stop"
+    execExternalCmd(cmd, True, "Failed while trying to stop the ovirt-engine-dwhd service")
 
 def startEtl():
     '''
-    starts the ovirt-dwhd service
+    starts the ovirt-engine-dwhd service
     '''
     enableEtlService()
     if not isEtlUp():
         startEtlService()
     else:
-        logging.debug("ovirt-dwhd is up. no need to start it")
+        logging.debug("ovirt-engine-dwhd is up. no need to start it")
 
 def enableEtlService():
     """
-    enable the ovirt-dwhd service
+    enable the ovirt-engine-dwhd service
     """
-    cmd = "/sbin/chkconfig ovirt-dwhd on"
-    execExternalCmd(cmd, True, "Failed while attempting to enable the ovirt-dwhd service")
+    cmd = "/sbin/chkconfig ovirt-engine-dwhd on"
+    execExternalCmd(cmd, True, "Failed while attempting to enable the ovirt-engine-dwhd service")
 
 @transactionDisplay("Starting oVirt-ETL")
 def startEtlService():
-    logging.debug("Starting ovirt-dwhd")
-    cmd = "service ovirt-dwhd start"
-    execExternalCmd(cmd, True, "Failed while trying to start the ovirt-dwhd service")
+    logging.debug("Starting ovirt-engine-dwhd")
+    cmd = "service ovirt-engine-dwhd start"
+    execExternalCmd(cmd, True, "Failed while trying to start the ovirt-engine-dwhd service")
 
 def isEtlUp():
     '''
-    checks if ovirt-dwhd is active
+    checks if ovirt-engine-dwhd is active
     '''
-    logging.debug("checking the status of ovirt-dwhd")
-    cmd = "service ovirt-dwhd status"
+    logging.debug("checking the status of ovirt-engine-dwhd")
+    cmd = "service ovirt-engine-dwhd status"
     output, rc = execExternalCmd(cmd)
     if rc == 1:
         return False

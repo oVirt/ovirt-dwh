@@ -18,38 +18,38 @@ set -e
 echo
 echo -- Creating Directories --
 echo
-mkdir -p /var/log/ovirt/ > /dev/null 2>&1
-mkdir -p /etc/logrotate.d/ovirt-dwhd > /dev/null 2>&1
-mkdir -p /etc/ovirt/ovirt-dwh > /dev/null 2>&1
+mkdir -p /var/log/ovirt-engine/ > /dev/null 2>&1
+mkdir -p /etc/logrotate.d/ovirt-engine-dwhd > /dev/null 2>&1
+mkdir -p /etc/ovirt-engine/ovirt-engine-dwh > /dev/null 2>&1
 
 echo
 echo -- Copying history service to /etc/init.d and setting it up --
 echo
-cp -f ../../../../data-warehouse/history_etl/history_service/ovirt-dwhd /etc/init.d
+cp -f ../../../../data-warehouse/history_etl/history_service/ovirt-engine-dwhd /etc/init.d
 if [ ${USER} = "root" ]; then
-    sed -i "s/\/usr\/share/\/${USER}/g" /etc/init.d/ovirt-dwhd
-    sed -i "s/\/usr\/share/\/${USER}/g" /${USER}/ovirt-dwh/etl/history_service.sh
+    sed -i "s/\/usr\/share/\/${USER}/g" /etc/init.d/ovirt-engine-dwhd
+    sed -i "s/\/usr\/share/\/${USER}/g" /${USER}/ovirt-engine-dwh/etl/history_service.sh
 else
-    sed -i "s/\/usr\/share/\/home\/${USER}/g" /etc/init.d/ovirt-dwhd
-    sed -i "s/\/usr\/share/\/home\/${USER}/g" /home/${USER}/ovirt-dwh/etl/history_service.sh
+    sed -i "s/\/usr\/share/\/home\/${USER}/g" /etc/init.d/ovirt-engine-dwhd
+    sed -i "s/\/usr\/share/\/home\/${USER}/g" /home/${USER}/ovirt-engine-dwh/etl/history_service.sh
 fi
 
 echo
-echo -- Copying log rotate config file to /etc/logrotate.d/ovirt-dwhd --
+echo -- Copying log rotate config file to /etc/logrotate.d/ovirt-engine-dwhd --
 echo
-cp -n ../../../../data-warehouse/history_etl/history_service/ovirt-dwhd.logrotate /etc/logrotate.d/ovirt-dwhd
+cp -n ../../../../data-warehouse/history_etl/history_service/ovirt-engine-dwhd.logrotate /etc/logrotate.d/ovirt-engine-dwhd
 
 echo
 echo -- Adding history service to linux --
 echo
 if [ ${USER} = "root" ]; then
-    ln -s -f /${USER}/ovirt-dwh/etl/config/Default.properties /etc/ovirt/ovirt-dwh
+    ln -s -f /${USER}/ovirt-engine-dwh/etl/config/Default.properties /etc/ovirt-engine/ovirt-engine-dwh
 else
-    ln -s -f /home/${USER}/ovirt-dwh/etl/config/Default.properties /etc/ovirt/ovirt-dwh
+    ln -s -f /home/${USER}/ovirt-engine-dwh/etl/config/Default.properties /etc/ovirt-engine/ovirt-engine-dwh
 fi
-chmod 744 /etc/init.d/ovirt-dwhd
-/sbin/chkconfig --add ovirt-dwhd
-/sbin/service ovirt-dwhd stop > /dev/null 2>&1
+chmod 744 /etc/init.d/ovirt-engine-dwhd
+/sbin/chkconfig --add ovirt-engine-dwhd
+/sbin/service ovirt-engine-dwhd stop > /dev/null 2>&1
 /usr/sbin/logrotate /etc/logrotate.conf > /dev/null || /bin/true
 
 echo

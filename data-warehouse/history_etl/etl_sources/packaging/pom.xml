@@ -17,7 +17,7 @@
 
   <dependencies>
     <dependency>
-        <groupId>ovirt_dwh</groupId>
+        <groupId>ovirt_engine_dwh</groupId>
         <artifactId>historyETLProcedure</artifactId>
         <version>${dwh.version}</version>
     </dependency>
@@ -30,8 +30,8 @@
 
   <properties>
         <dwh.rootDir>../../../..</dwh.rootDir>
-        <dwh.deploymentName>ovirt-dwh</dwh.deploymentName>
-        <dwh.deploymentDir>${user.home}/ovirt-dwh</dwh.deploymentDir>
+        <dwh.deploymentName>ovirt-engine-dwh</dwh.deploymentName>
+        <dwh.deploymentDir>${user.home}/ovirt-engine-dwh</dwh.deploymentDir>
   </properties>
 
   <profiles>
@@ -105,7 +105,7 @@
             <!-- Copy to config folder -->
                     <echo>*** Copying etl config file to ${config.dir}${file.separator}...</echo>
                     <copy todir="${config.dir}" verbose="true">
-                      <fileset file="${dwh.rootDir}/data-warehouse/history_etl/context_files/ovirt_dwh/historyetl_3_0/contexts/Default.properties"/>
+                      <fileset file="${dwh.rootDir}/data-warehouse/history_etl/context_files/ovirt_engine_dwh/historyetl_3_0/contexts/Default.properties"/>
                     </copy>
 
             <!-- Change permissions to scripts -->
@@ -181,7 +181,7 @@
                     <property name="deployment.dir" location="${dwh.deploymentDir}"/>
                     <echo>*** Deleting ${deployment.dir}${file.separator}...</echo>
                     <delete dir="${deployment.dir}"/>
-                    <echo>*** To completely remove run root_etl_undeploy.sh. config folders are located in /etc/ovirt/ovirt-dwh and /etc/logrotate.d/ovirt-dwhd and should be removed manually...</echo>
+                    <echo>*** To completely remove run root_etl_undeploy.sh. config folders are located in /etc/ovirt-engine/ovirt-engine-dwh and /etc/logrotate.d/ovirt-engine-dwhd and should be removed manually...</echo>
                   </tasks>
                 </configuration>
 

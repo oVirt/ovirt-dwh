@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:TalendProperties="http://www.talend.org/properties">
-  <TalendProperties:Project xmi:id="_SaiVMUJlEeCWRqOtaF5m-w" label="oVirt DWH" description="" language="java" technicalLabel="OVIRT_DWH" local="true" author="_SapC4EJlEeCWRqOtaF5m-w" productVersion="Talend Open Studio for Data Integration-5.0.2.r78327" itemsRelationVersion="1.2">
+  <TalendProperties:Project xmi:id="_SaiVMUJlEeCWRqOtaF5m-w" label="oVirt Engine DWH" description="" language="java" technicalLabel="OVIRT_ENGINE_DWH" local="true" author="_SapC4EJlEeCWRqOtaF5m-w" productVersion="Talend Open Studio for Data Integration-5.0.2.r78327" itemsRelationVersion="1.2">
     <technicalStatus xmi:id="_S3_GMEJlEeCWRqOtaF5m-w" label="development" code="DEV"/>
     <technicalStatus xmi:id="_S3_GMUJlEeCWRqOtaF5m-w" label="testing" code="TEST"/>
     <technicalStatus xmi:id="_S3_GMkJlEeCWRqOtaF5m-w" label="production" code="PROD"/>

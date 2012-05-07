@@ -11,7 +11,7 @@
   <packaging>pom</packaging>
 
   <name>History ETL</name>
-  <description>parent for oVirt History DB ETL module</description>
+  <description>parent for oVirt Engine History DB ETL module</description>
 
   <modules>
     <module>etl_sources</module>

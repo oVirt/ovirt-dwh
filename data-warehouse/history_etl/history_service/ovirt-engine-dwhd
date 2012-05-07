@@ -1,0 +1,220 @@
+#!/bin/sh
+#
+# This shell script takes care of starting and stopping oVirt Engine History ETL Service
+#
+# chkconfig: 2345 99 00
+# processname: ovirt-engine-dwhd
+# pidfile: /var/run/ovirt-engine/ovirt-engine-dwhd.pid
+#
+### BEGIN INIT INFO
+# Provides: ovirt-engine-dwhd
+# Required-Start: $syslog $network
+# Should-Start: $time
+# Required-Stop: $syslog
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Description: oVirt Engine History ETL Service for Data Warehouse and Reporting
+# Short-Description: oVirt Engine History ETL Service for Data Warehouse and Reporting
+### END INIT INFO
+#
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# ETL functions library.
+. /usr/share/ovirt-engine-dwh/etl/etl-common-functions.sh
+
+prog=ovirt-engine-dwhd
+RETVAL=0
+PID_FOLDER=/var/run/ovirt-engine/
+LOG_FOLDER=/var/log/ovirt-engine/
+
+[ -r /etc/java/java.conf ] && . /etc/java/java.conf
+export JAVA_HOME
+
+#create the log directory
+if [ ! -d LOG_FOLDER ]; then
+    mkdir -p $LOG_FOLDER > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        echo "Error: Please check permissions, can not create log folder: $LOG_FOLDER. "
+        exit 5
+    fi
+fi
+
+# Path to the ovirt-engine-dwhd launch script
+ETL_SCRIPT=/usr/share/ovirt-engine-dwh/etl/history_service.sh
+
+# if oVirt_USER is not set, use root
+if [ -z "$oVirt_USER" ]; then
+    oVirt_USER="root"
+fi
+
+if [ -z "$SHUTDOWN_WAIT" ]; then
+    SHUTDOWN_WAIT=10
+fi
+
+if [ -z "$ETL_PID" ]; then
+    mkdir -p $PID_FOLDER
+    if [ $? -ne 0 ]; then
+        echo "Error: Please check permissions, can not create PID folder: $PID_FOLDER. "
+        exit 5
+    fi
+    ETL_PID=$PID_FOLDER/$prog.pid
+fi
+
+lock_file=/var/lock/subsys/$prog
+
+start() {
+    if [ -f $lock_file ] ; then
+        if [ -f $ETL_PID ]; then
+            read kpid < $ETL_PID
+            if checkpid $kpid 2>&1; then
+                echo "$prog process (pid $kpid) is already running"
+                return 0
+            else
+                echo "lock file found but no process is running for pid $kpid, continuing"
+            fi
+        fi
+    fi
+    rm -f /usr/share/ovirt-engine-dwh/etl/kill > /dev/null 2>&1
+    echo -n $"Starting $prog: at $(date)"
+    daemon --user $oVirt_USER ETL_PID=$ETL_PID $ETL_SCRIPT > /dev/null 2>&1
+    RETVAL=$?
+    sleep 10
+    pid=0
+    procrunning > /dev/null 2>&1
+    [ $RETVAL = 0 ] && [ $pid != '0' ] && touch $lock_file && success || failure
+    echo
+    if [ $RETVAL != 0 ]; then
+        echo > /usr/share/ovirt-engine-dwh/etl/kill
+    fi
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    pid=0
+    procrunning > /dev/null 2>&1
+    if [ $pid = '0' ]; then
+        failure $"$prog shutdown"
+        echo -n -e "\noVirt ETL Service is currently not running\n"
+        if [ -f $lock_file ]; then
+            rm -f $lock_file
+        fi
+        if [ -f $ETL_PID ]; then
+            rm -f $ETL_PID
+        fi
+        return 1
+    fi
+
+    # If process is still running
+
+    # First, try to kill it nicely
+    echo > /usr/share/ovirt-engine-dwh/etl/kill > /dev/null 2>&1
+    sleep 10
+
+    pid=0
+    procrunning > /dev/null 2>&1
+
+    if [ $pid != '0' ]; then
+    sleep 10
+    fi
+
+    pid=0
+    procrunning > /dev/null 2>&1
+
+    if [ $pid != '0' ]; then
+    sleep 10
+    fi
+
+    pid=0
+    procrunning > /dev/null 2>&1
+
+    # Second, try to kill signal it nicely
+    if [ $pid != '0' ]; then
+    killproc -p $ETL_PID -d $SHUTDOWN_WAIT > /dev/null 2>&1
+    fi
+
+    # Still not dead... notify user
+
+    pid=0
+    procrunning > /dev/null 2>&1
+
+    if [ $pid != '0' ] ; then
+    failure $"$prog shutdown"
+    echo -n -e "\nTimeout: Shutdown command was sent, but process is still running with PID $pid\n"
+    return 1
+    else
+    if [ -f $lock_file ]; then
+        rm -f $lock_file
+    fi
+    if [ -f $ETL_PID ]; then
+        rm -f $ETL_PID
+    fi
+    success $"$prog shutdown";echo
+    return 0
+    fi
+}
+
+status() {
+    RETVAL="1"
+    STOPPED="0"
+    if [ -f "$ETL_PID" ]; then
+        read kpid < $ETL_PID
+        if checkpid $kpid 2>&1; then
+            echo "$0 is running (${kpid})"
+            RETVAL="0"
+        else
+            echo "oVirt ETL service is not running for pid $kpid"
+            rm -f $lock_file $ETL_PID
+        fi
+    else
+        pid="$(pgrep -fu $oVirt_USER ovirt_engine_dwh\.historyetl_3_0\.HistoryETL)"
+        if [ -n "$pid" ]; then
+            echo "ETL service $0 running (${pid}) but no PID file exists"
+            RETVAL="0"
+        else
+            echo "$0 is stopped"
+            rm -f $lock_file
+        fi
+    fi
+    return $RETVAL
+}
+
+
+# See how we were called.
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  status)
+        status
+        ;;
+  restart)
+        stop
+        sleep 2
+        start
+        ;;
+  condrestart)
+        if [ -f $ETL_PID ] ; then
+            stop
+            sleep 2
+            start
+    else
+        echo "oVirt ETL Service is currently not running"
+        fi
+        ;;
+  *)
+        echo "Usage: $0 {start|stop|status|restart|condrestart}"
+        RETVAL=3
+esac
+
+exit $RETVAL
+
+#
+#
+# end

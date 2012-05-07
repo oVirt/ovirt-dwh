@@ -8,21 +8,21 @@
           <version>${dwh.version}</version>
   </parent>
 
-  <groupId>ovirt_dwh</groupId>
+  <groupId>ovirt_engine_dwh</groupId>
   <artifactId>historyETLProcedure</artifactId>
   <packaging>jar</packaging>
   <version>${dwh.version}</version>
   <name>History's ETL Procedure</name>
-  <description>The jar that contains the oVirt History DB ETL module</description>
+  <description>The jar that contains the oVirt Engine History DB ETL module</description>
 
   <dependencies>
       <dependency>
-        <groupId>ovirt_dwh</groupId>
+        <groupId>ovirt_engine_dwh</groupId>
         <artifactId>talendRoutines</artifactId>
         <version>${version.talend-routines}</version>
       </dependency>
       <dependency>
-        <groupId>ovirt_dwh</groupId>
+        <groupId>ovirt_engine_dwh</groupId>
         <artifactId>advancedPersistentLookupLib</artifactId>
         <version>${version.advancedPersistentLookupLib}</version>
       </dependency>

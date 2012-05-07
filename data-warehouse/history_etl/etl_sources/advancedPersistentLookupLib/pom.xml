@@ -41,7 +41,7 @@
     </dependency>
 
     <dependency>
-      <groupId>ovirt_dwh</groupId>
+      <groupId>ovirt_engine_dwh</groupId>
       <artifactId>talendRoutines</artifactId>
       <version>${version.talend-routines}</version>
     </dependency>

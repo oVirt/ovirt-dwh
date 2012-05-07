@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <talendfile:ProcessType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" defaultContext="Default">
   <context confirmationNeeded="false" name="Default">
-    <contextParameter comment="" name="ovirtHistoryMinimalETL" prompt="ovirtHistoryMinimalETL?" promptNeeded="false" type="id_String" value="null"/>
+    <contextParameter comment="" name="ovirtEngineHistoryMinimalETL" prompt="ovirtEngineHistoryMinimalETL?" promptNeeded="false" type="id_String" value="null"/>
     <contextParameter comment="" name="ovirtMinimalETL" prompt="ovirtMinimalETL?" promptNeeded="false" type="id_String" value="null"/>
     <contextParameter comment="" name="etlVersion" prompt="etlVersion?" promptNeeded="false" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="3.0.0"/>
     <contextParameter comment="Enter the JDBC driver class for the ovirt database." name="ovirtEngineDbDriverClass" prompt="Enter the JDBC driver class for the ovirt database." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="org.postgresql.Driver"/>
-    <contextParameter comment="Enter the JDBC driver class for the ovirt history database." name="ovirtHistoryDbDriverClass" prompt="Enter the JDBC driver class for the ovirt history database." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="org.postgresql.Driver"/>
-    <contextParameter comment="Enter the ovirt history JDBC connection URL." name="ovirtHistoryDbJdbcConnection" prompt="Enter the ovirt history JDBC connection URL." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="jdbc:postgresql://localhost:5432/ovirt_history?stringtype=unspecified"/>
-    <contextParameter comment="Enter the ovirt history admin user's password." name="ovirtHistoryDbPassword" prompt="Enter the ovirt history admin user's password." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Password" value=""/>
-    <contextParameter comment="Enter the ovirt history admin database user." name="ovirtHistoryDbUser" prompt="Enter the ovirt history admin database user." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="postgres"/>
+    <contextParameter comment="Enter the JDBC driver class for the ovirt engine history database." name="ovirtEngineHistoryDbDriverClass" prompt="Enter the JDBC driver class for the ovirt engine history database." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="org.postgresql.Driver"/>
+    <contextParameter comment="Enter the ovirt engine history JDBC connection URL." name="ovirtEngineHistoryDbJdbcConnection" prompt="Enter the ovirt engine history JDBC connection URL." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="jdbc:postgresql://localhost:5432/ovirt_engine_history?stringtype=unspecified"/>
+    <contextParameter comment="Enter the ovirt engine history admin user's password." name="ovirtEngineHistoryDbPassword" prompt="Enter the ovirt engine history admin user's password." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Password" value=""/>
+    <contextParameter comment="Enter the ovirt engine history admin database user." name="ovirtEngineHistoryDbUser" prompt="Enter the ovirt engine history admin database user." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="postgres"/>
     <contextParameter comment="Enter the ovirt JDBC connection URL." name="ovirtEngineDbJdbcConnection" prompt="Enter the ovirt JDBC connection URL." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="jdbc:postgresql://localhost:5432/engine?stringtype=unspecified"/>
     <contextParameter comment="Enter the ovirt admin user's password." name="ovirtEngineDbPassword" prompt="Enter the ovirt admin user's password." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Password" value=""/>
     <contextParameter comment="Enter the ovirt admin database user." name="ovirtEngineDbUser" prompt="Enter the ovirt admin database user." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="postgres"/>
@@ -68,20 +68,20 @@
   </node>
   <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_2"/>
-    <elementParameter field="TEXT" name="URL" value="context.ovirtHistoryDbJdbcConnection"/>
+    <elementParameter field="TEXT" name="URL" value="context.ovirtEngineHistoryDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
       <elementValue elementRef="JAR_NAME" value="postgresql-8.4-701.jdbc4.jar"/>
     </elementParameter>
-    <elementParameter field="TEXT" name="DRIVER_CLASS" value="context.ovirtHistoryDbDriverClass"/>
-    <elementParameter field="TEXT" name="USER" value="context.ovirtHistoryDbUser"/>
-    <elementParameter field="TEXT" name="PASS" value="context.ovirtHistoryDbPassword"/>
+    <elementParameter field="TEXT" name="DRIVER_CLASS" value="context.ovirtEngineHistoryDbDriverClass"/>
+    <elementParameter field="TEXT" name="USER" value="context.ovirtEngineHistoryDbUser"/>
+    <elementParameter field="TEXT" name="PASS" value="context.ovirtEngineHistoryDbPassword"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_SHARED_CONNECTION" value="true"/>
-    <elementParameter field="TEXT" name="SHARED_CONNECTION_NAME" value="&quot;sample_ovirt_history&quot;"/>
+    <elementParameter field="TEXT" name="SHARED_CONNECTION_NAME" value="&quot;sample_ovirt_engine_history&quot;"/>
     <elementParameter field="CHECK" name="IS_USE_AUTO_COMMIT" value="true"/>
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="false"/>
-    <elementParameter field="TEXT" name="LABEL" value="sample_ovirt_history"/>
+    <elementParameter field="TEXT" name="LABEL" value="sample_ovirt_engine_history"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -155,7 +155,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select distinct 'ovirtHistoryMinimalETL', var_value&#xA; from history_configuration&#xA; where var_name = 'MinimalETLVersion'&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select distinct 'ovirtEngineHistoryMinimalETL', var_value&#xA; from history_configuration&#xA; where var_name = 'MinimalETLVersion'&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -167,7 +167,7 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="value"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
-    <elementParameter field="TEXT" name="LABEL" value="Load ovirt history minimal etl version"/>
+    <elementParameter field="TEXT" name="LABEL" value="Load ovirt engine history minimal etl version"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -197,7 +197,7 @@
   </node>
   <node componentName="tDie" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="640" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDie_1"/>
-    <elementParameter field="TEXT" name="MESSAGE" value="TalendDate.getDate(&quot;YYYY-MM-DD hh:mm:ss&quot;) + &quot;|You have upgraded your oVirt Engine and now require an upgrade of the ovirt-dwh package. Please upgrade using yum and run ovirt-dwh-setup. Service will now exit.&quot;"/>
+    <elementParameter field="TEXT" name="MESSAGE" value="TalendDate.getDate(&quot;YYYY-MM-DD hh:mm:ss&quot;) + &quot;|You have upgraded your oVirt Engine and now require an upgrade of the ovirt-engine-dwh package. Please upgrade using yum and run ovirt-engine-dwh-setup. Service will now exit.&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="4"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="5"/>
     <elementParameter field="CHECK" name="EXIT_JVM" value="false"/>
@@ -210,11 +210,11 @@
   </node>
   <node componentName="tDie" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="1184" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tDie_2"/>
-    <elementParameter field="TEXT" name="MESSAGE" value="TalendDate.getDate(&quot;YYYY-MM-DD hh:mm:ss&quot;) + &quot;|You have upgraded the ovirt-dwh package and now require an upgrade of the oVirt history database. Please run ovirt-dwh-setup. Service will now exit.&quot;"/>
+    <elementParameter field="TEXT" name="MESSAGE" value="TalendDate.getDate(&quot;YYYY-MM-DD hh:mm:ss&quot;) + &quot;|You have upgraded the ovirt-engine-dwh package and now require an upgrade of the oVirt Engine History database. Please run ovirt-engine-dwh-setup. Service will now exit.&quot;"/>
     <elementParameter field="TEXT" name="CODE" value="4"/>
     <elementParameter field="CLOSED_LIST" name="PRIORITY" value="5"/>
     <elementParameter field="CHECK" name="EXIT_JVM" value="false"/>
-    <elementParameter field="TEXT" name="LABEL" value="oVirt History Version Check"/>
+    <elementParameter field="TEXT" name="LABEL" value="oVirt Engine History Version Check"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -278,7 +278,7 @@
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2"/>
   </connection>
   <connection connectorName="RUN_IF" label="If" lineStyle="6" metaname="tJDBCInput_2" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_2" target="tDie_2">
-    <elementParameter field="MEMO_JAVA" name="CONDITION" value="!context.ovirtHistoryMinimalETL.substring(0,3).equals(context.etlVersion.substring(0,3)) || Integer.parseInt(context.ovirtHistoryMinimalETL.substring(4)) > Integer.parseInt(context.etlVersion.substring(4))"/>
+    <elementParameter field="MEMO_JAVA" name="CONDITION" value="!context.ovirtEngineHistoryMinimalETL.substring(0,3).equals(context.etlVersion.substring(0,3)) || Integer.parseInt(context.ovirtEngineHistoryMinimalETL.substring(4)) > Integer.parseInt(context.etlVersion.substring(4))"/>
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="If3"/>
   </connection>

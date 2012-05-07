@@ -13,7 +13,7 @@
   <packaging>pom</packaging>
 
   <name>ETL Sources Dir</name>
-  <description>The contains the sources for oVirt History DB ETL module</description>
+  <description>The contains the sources for oVirt Engine History DB ETL module</description>
 
   <modules>
     <module>talendRoutines</module>

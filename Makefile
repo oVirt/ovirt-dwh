@@ -3,7 +3,7 @@ all: build
 rpmrelease=1
 rpmversion=3.0.0
 RPMTOP=$(shell bash -c "pwd -P")/rpmtop
-NAME=ovirt-dwh
+NAME=ovirt-engine-dwh
 
 
 TARBALL=$(NAME)-$(rpmversion).tar.gz
