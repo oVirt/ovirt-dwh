@@ -32,9 +32,11 @@ OVIRT_ENGINE_HISTORY_DB_CREATE_SCRIPT=create_db.sh
 PGSQL=postgresql
 DB_ADMIN=postgres
 DB_USER=postgres
+DB_PORT=5432
+DB_HOST="localhost"
 TABLE_NAME=vm_configuration
 DB_NAME=ovirt_engine_history
-PGSQL_SERVICE=/etc/init.d/$PGSQL
+LOCAL_DB_SET=1
 
 #auth security file path
 PG_HBA_FILE=/var/lib/pgsql/data/pg_hba.conf
@@ -44,15 +46,49 @@ UUID_SQL=/usr/share/pgsql/contrib/uuid-ossp.sql
 LOG_PATH=/var/log/ovirt
 USER=`/usr/bin/whoami`
 
+usage() {
+    printf "Usage: ${ME} [-h] [-s SERVERNAME [-p PORT]] [-d DATABASE] [-u USERNAME] [-r 'remote'] -l LOGFILE\n"
+    printf "\n"
+    printf "\t-s SERVERNAME - The database servername for the database  (def. ${DB_HOST})\n"
+    printf "\t-p PORT       - The database port for the database        (def. ${DB_PORT})\n"
+    printf "\t-d DATABASE   - The database name                         (def. ${DB_NAME})\n"
+    printf "\t-u USERNAME   - The admin username for the database.\n    (def. ${DB_ADMIN})\n"
+    printf "\t-l LOGFILE    - The logfile for capturing output          (def. ${LOGFILE})\n"
+    printf "\t-r REMOTE_INSTALL - The flag for peforming remote install (def. ${REMOTE_INSTALL})\n"
+    printf "\t-h            - This help text.\n"
+    printf "\n"
+
+    exit 0
+}
+
 #EXTERNAL ARGS
-LOG_FILE=$1
+while getopts :s:p:d:u:w:l:r:h option; do
+    case $option in
+        s) DB_HOST=$OPTARG;;
+        p) DB_PORT=$OPTARG;;
+        d) DB_NAME=$OPTARG;;
+        u) DB_ADMIN=$OPTARG;;
+        l) LOG_FILE=$OPTARG;;
+        r) REMOTE_INSTALL=$OPTARG;;
+        h) usage;;
+    esac
+done
+
 
 # COMMANDS
 CHKCONFIG=/sbin/chkconfig
 COPY=/bin/cp
 SED=/bin/sed
 SHELL=/bin/sh
-PSQL=/usr/bin/psql
+PSQL_BIN=/usr/bin/psql
+
+# Update PSQL BIN to include host and port values
+PSQL="${PSQL_BIN} -h $DB_HOST -p $DB_PORT"
+
+if [[ "x${REMOTE_INSTALL}" == "xremote" ]]
+then
+    LOCAL_DB_SET=0
+fi
 
 verifyArgs()
 {
@@ -115,15 +151,11 @@ verifyPkgIsInstalled()
 
 verifyPostgresService()
 {
-   echo "[$SCRIPT_NAME] verifying postgres service exists." >> $LOG_FILE
-   if [ ! -x $PGSQL_SERVICE ]
+   echo "[$SCRIPT_NAME] verifying postgres binary exists." >> $LOG_FILE
+
+   if [ ! -x $PSQL_BIN ]
    then
-        echo "[$SCRIPT_NAME] postgresql service cannot be executed from $PGSQL_SERVICE"
-        exit 1
-   fi
-   if [ ! -x $PSQL ]
-   then
-        echo "[$SCRIPT_NAME] postgres psql command cannot be executed from $PSQL"
+        echo "[$SCRIPT_NAME] postgres psql command cannot be executed from $PSQL_BIN"
         exit 1
    fi
 }
@@ -136,7 +168,7 @@ initPgsqlDB()
     then
         echo "[$SCRIPT_NAME] psgql db already been initialized." >> $LOG_FILE
     else
-        $PGSQL_SERVICE initdb >> $LOG_FILE 2>&1
+        service $PGSQL initdb >> $LOG_FILE 2>&1
         _verifyRC $? "error, failed initializing postgresql db"
     fi
 }
@@ -146,10 +178,10 @@ startPgsqlService()
     USER=$1
     DB=$2
     echo "[$SCRIPT_NAME] stop postgres service." >> $LOG_FILE
-    $PGSQL_SERVICE stop >> $LOG_FILE 2>&1
+    service $PGSQL stop >> $LOG_FILE 2>&1
 
     echo "[$SCRIPT_NAME] starting postgres service." >> $LOG_FILE
-    $PGSQL_SERVICE start >> $LOG_FILE 2>&1
+    service $PGSQL start >> $LOG_FILE 2>&1
     _verifyRC $? "failed starting postgresql service"
 
     #verify that the postgres service is up before continuing
@@ -212,7 +244,7 @@ createDB()
     then
         pushd $OVIRT_ENGINE_HISTORY_DB_SCRIPTS_DIR >> $LOG_FILE
         #TODO: to we need to verify if the db was already created? (we can create a new file and check if exists..)
-        $SHELL $OVIRT_ENGINE_HISTORY_DB_CREATE_SCRIPT -u $DB_ADMIN >> $LOG_FILE 2>&1
+        $SHELL $OVIRT_ENGINE_HISTORY_DB_CREATE_SCRIPT -s $DB_HOST -p $DB_PORT -u $DB_ADMIN >> $LOG_FILE 2>&1
         _verifyRC $? "error, failed creating ovirt engine history db"
         popd >> $LOG_FILE
 
@@ -228,7 +260,7 @@ checkIfDBExists()
     $PSQL -U $DB_ADMIN -d $DB_NAME -c "select 1">> $LOG_FILE 2>&1
     if [[ $? -eq 0 ]]
     then
-        echo "[$SCRIPT_NAME] $DB_NAME db already exists on $HOST." >> $LOG_FILE
+        echo "[$SCRIPT_NAME] $DB_NAME db already exists on $DB_HOST." >> $LOG_FILE
         echo " [$SCRIPT_NAME] verifying $TABLE_NAME table exists..." >> $LOG_FILE
         RES=`echo "SELECT count(*) FROM pg_tables WHERE tablename='$TABLE_NAME'" | $PSQL -U $DB_ADMIN -d $DB_NAME -t`
         if [[ $RES -eq 1 ]]
@@ -249,7 +281,7 @@ checkIfDBExists()
 
 updateDBUsers()
 {
-    echo "[$SCRIPT_NAME] updating postgres users credentials" >> $LOG_FILE
+    echo "[$SCRIPT_NAME] updating admin user credentials" >> $LOG_FILE
 
     #update user postgres password
     $PSQL -U $DB_ADMIN -c "ALTER ROLE $DB_ADMIN WITH ENCRYPTED PASSWORD '$DB_PASS'" >> /dev/null  2>&1
@@ -280,11 +312,16 @@ turnPgsqlOnStartup()
 verifyArgs
 verifyRunPermissions
 initLogFile
-verifyPostgresPkgAreInstalled
-verifyPostgresService
-initPgsqlDB
-turnPgsqlOnStartup
-startPgsqlService postgres postgres
+# The following should only run during local installation
+if [[ $LOCAL_DB_SET -eq 1 ]]
+then
+    verifyPostgresPkgAreInstalled
+    verifyPostgresService
+    initPgsqlDB
+    turnPgsqlOnStartup
+    startPgsqlService postgres postgres
+fi
+
 checkIfDBExists
 
 #get return value from checkIfDBExists function
@@ -292,7 +329,10 @@ DB_EXISTS=$?
 if [[ $DB_EXISTS -eq 0 ]]
 then
     createDB
-    startPgsqlService postgres ovirt_engine_history
+    if [[ $LOCAL_DB_SET -eq 1 ]]
+    then
+        startPgsqlService postgres ovirt_engine_history
+    fi
 elif [[ $DB_EXISTS -eq 2 ]]
 then
    echo "[$SCRIPT_NAME] error, $TABLE_NAME doesnt exists on DB $DB_NAME" >> $LOG_FILE
@@ -300,5 +340,5 @@ then
 fi
 
 
-echo "[$SCRIPT_NAME] finished installing postgres db on $HOST." >> $LOG_FILE
+echo "[$SCRIPT_NAME] finished installing postgres db on $DB_HOST." >> $LOG_FILE
 exit 0

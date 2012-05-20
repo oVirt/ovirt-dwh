@@ -2,13 +2,13 @@
 
 insert_initial_data() {
     printf "Inserting Period Table Values ...\n"
-    execute_file "insert_period_table_values.sql" ${DATABASE} > /dev/null
+    execute_file "insert_period_table_values.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
     printf "Inserting Timekeeping Values  ...\n"
-    execute_file "insert_timekeeping_values.sql" ${DATABASE} > /dev/null
+    execute_file "insert_timekeeping_values.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
     printf "Inserting ENUM Values ...\n"
-    execute_file "insert_enum_values.sql" ${DATABASE} > /dev/null
+    execute_file "insert_enum_values.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
     printf "Inserting Calendar Table's Values ...\n"
-    execute_file "insert_calendar_table_values.sql" ${DATABASE} > /dev/null
+    execute_file "insert_calendar_table_values.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
 }
 
 set_defaults() {
@@ -20,3 +20,8 @@ set_defaults() {
     LOGFILE="$ME.log"
 }
 
+#refreshes views
+refresh_views() {
+    printf "Creating views...\n"
+    execute_file "create_views.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+}

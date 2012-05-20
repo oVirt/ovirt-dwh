@@ -26,6 +26,13 @@ EXEC_UPGRADE_DB="upgrade.sh"
 FILE_DB_CONN = "/etc/ovirt-engine/ovirt-engine-dwh/Default.properties"
 FILE_PG_PASS="/root/.pgpass"
 DB_USER_NAME = "postgres"
+DB_PORT = "5432"
+DB_HOST = "localhost"
+
+#TODO: Create output messages file with all messages
+#TODO: Move all errors here to make consistent usage
+# ERRORS:
+ERR_DB_CREATE_FAILED = "Error while trying to create ovirt_engine_history db"
 
 log_file = utils.initLogging("ovirt-engine-dwh-setup", "/var/log/ovirt")
 
@@ -47,10 +54,22 @@ def createDB(db_dict):
     dbLogFilename = "ovirt-history-db-install-%s.log" %(utils.getCurrentDateTime())
     logging.debug("ovirt engine history db creation is logged at %s/%s" % ("/var/log/ovirt", dbLogFilename))
 
-    # Set ovirt-engine-history-db-install.sh args - logfile
-    cmd = "/bin/sh %s %s " % (EXEC_CREATE_DB, dbLogFilename)
-    output, rc = utils.execExternalCmd(cmd, True, "Error while trying to create ovirt_engine_history DB")
-    logging.debug('Successfully installed %s ovirt_engine_history')
+    # Set ovirt-history-db-install.sh args - logfile
+    if utils.localHost(db_dict["host"]):
+        install_type = "local"
+    else:
+        install_type = "remote"
+    cmd = [EXEC_CREATE_DB,
+           "-l", dbLogFilename,
+           "-u", db_dict["username"],
+           "-s", db_dict["host"],
+           "-p", db_dict["port"],
+           "-r", install_type,
+          ]
+
+    # Create db using shell command
+    output, rc = utils.execCmd(cmd, None, True, ERR_DB_CREATE_FAILED)
+    logging.debug('Successfully installed %s DB' % db_dict["name"])
 
 @transactionDisplay("Upgrade DB")
 def upgradeDB(db_dict):
@@ -64,37 +83,22 @@ def upgradeDB(db_dict):
     try:
         cmd = "sh ./%s" % EXEC_UPGRADE_DB
         os.chdir(PATH_DB_SCRIPTS)
-        output, rc = utils.execExternalCmd(cmd, True, "Error while trying to upgrade ovirt_engine_history DB") 
+        output, rc = utils.execExternalCmd(cmd, True, "Error while trying to upgrade ovirt_engine_history DB")
     except:
         os.chdir(currDir)
         raise
 
 def getDbDictFromOptions():
-    db_dict = {"name"      : "ovirt_engine_history",
-               "host"      : None,
-               "username"  : "postgres",
-               "password"  : None}
+    db_dict = {"name"      : "ovirt_history",
+               "host"      : utils.getDbHostName(),
+               "port"      : utils.getDbPort(),
+               "username"  : utils.getDbAdminUser(),
+               "password"  : utils.getPassFromFile(utils.getDbAdminUser())}
     return db_dict
 
-def getPassFromFile(username):
-    '''
-    get the password for specified user
-    from /root/.pgpass
-    '''
-    db_pass = None
-    logging.debug("getting DB password for %s" % username)
-    fd = open(FILE_PG_PASS, "r")
-    for line in fd:
-        if line.startswith("#"):
-            continue
-        list = line.split(":")
-        if list[3] == username:
-            logging.debug("found password for username %s" % username)
-            db_pass = list[4].rstrip('\n')
-    fd.close()
-    return db_pass
 
-def setDbPass(password):
+@transactionDisplay("Setting DB connectivity")
+def setDbPass(db_dict):
     '''
     set the password for the user postgres
     '''
@@ -102,15 +106,15 @@ def setDbPass(password):
     logging.debug("editing etl db connectivity file")
     file_handler = utils.TextConfigFileHandler(FILE_DB_CONN)
     file_handler.open()
-    file_handler.editParam("ovirtEngineHistoryDbPassword", password)
-    file_handler.editParam("ovirtEngineDbPassword", password)
+    file_handler.editParam("ovirtEngineHistoryDbPassword", db_dict["password"])
+    file_handler.editParam("ovirtEngineHistoryDbUser", db_dict["username"])
+    file_handler.editParam("ovirtEngineDbPassword", db_dict["password"])
+    file_handler.editParam("ovirtEngineDbUser", db_dict["username"])
+    file_handler.editParam("ovirtEngineDbJdbcConnection",
+                           "jdbc\:postgresql\://%s\:%s/engine?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
+    file_handler.editParam("ovirtEngineHistoryDbJdbcConnection",
+                           "jdbc\:postgresql\://%s\:%s/ovirt_engine_history?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
     file_handler.close()
-
-@transactionDisplay("Setting DB connectivity")
-def setDBConn(dbUserName):
-    db_pass = getPassFromFile(dbUserName)
-    if db_pass:
-        setDbPass(db_pass)
 
 def isVersionSupported(rawMinimalVersion, rawCurrentVersion):
     """
@@ -125,8 +129,8 @@ def isVersionSupported(rawMinimalVersion, rawCurrentVersion):
 
     if (float(currentVersion) < float(minimalVersion)) or (int(currentMinorVersion) < int(minimalMinorVersion)):
         return False
-    
-    return True 
+
+    return True
 
 def setVersion():
     """
@@ -154,7 +158,6 @@ def main():
         # Get minimal supported version from oVirt Engine
         minimalVersion = utils.getVDCOption("MinimalETLVersion")
         currentVersion = utils.getAppVersion("ovirt-engine-dwh")
-        
         if not isVersionSupported(minimalVersion, currentVersion):
             print "Minimal supported version (%s) is higher then installed version (%s), please update the ovirt-engine-dwh package" % (minimalVersion, currentVersion)
             raise Exception("current version not supported by ovirt engine")
@@ -166,7 +169,8 @@ def main():
             utils.stopEtl()
 
             # Set DB connecitivty (user/pass)
-            setDBConn(DB_USER_NAME)
+            if db_dict['password']:
+                setDbPass(db_dict)
             setVersion()
 
             # Create/Upgrade DB
@@ -192,7 +196,7 @@ def main():
         print "Error encountered while installing ovirt-engine-dwh, please consult the log file: %s" % log_file
         rc = 1
     finally:
-         return rc
+        return rc
 
 if __name__ == "__main__":
     rc = main()
