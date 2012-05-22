@@ -21,7 +21,7 @@ log_file = None
 
 PATH_DB_SCRIPTS="/usr/share/ovirt-engine-dwh/db-scripts"
 PATH_WATCHDOG="/usr/share/ovirt-engine-dwh/etl/ovirt_engine_dwh_watchdog.cron"
-EXEC_CREATE_DB="%s/ovirt-history-db-install.sh" % PATH_DB_SCRIPTS
+EXEC_CREATE_DB="%s/ovirt-engine-history-db-install.sh" % PATH_DB_SCRIPTS
 EXEC_UPGRADE_DB="upgrade.sh"
 FILE_DB_CONN = "/etc/ovirt-engine/ovirt-engine-dwh/Default.properties"
 FILE_PG_PASS="/root/.pgpass"
@@ -47,7 +47,7 @@ def createDB(db_dict):
     dbLogFilename = "ovirt-history-db-install-%s.log" %(utils.getCurrentDateTime())
     logging.debug("ovirt engine history db creation is logged at %s/%s" % ("/var/log/ovirt", dbLogFilename))
 
-    # Set ovirt-history-db-install.sh args - logfile
+    # Set ovirt-engine-history-db-install.sh args - logfile
     cmd = "/bin/sh %s %s " % (EXEC_CREATE_DB, dbLogFilename)
     output, rc = utils.execExternalCmd(cmd, True, "Error while trying to create ovirt_engine_history DB")
     logging.debug('Successfully installed %s ovirt_engine_history')
