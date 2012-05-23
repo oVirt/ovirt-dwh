@@ -10,7 +10,6 @@
  ******************************************************************************/
 package routines.system.api;
 
-
 /**
  * A JOB interface for Jobs that are using tESB Components
  */
@@ -25,7 +24,7 @@ public interface TalendESBJob extends TalendJob {
      *
      * @return {@link ESBEndpointInfo} or null if no provider is configured for the Job
      */
-    public ESBEndpointInfo getEndpoint();
+    ESBEndpointInfo getEndpoint();
 
     /**
      * Injecting a {@link ESBEndpointRegistry} to allow
@@ -33,7 +32,7 @@ public interface TalendESBJob extends TalendJob {
      *
      * @param callback
      */
-    public void setEndpointRegistry(ESBEndpointRegistry registry);
+    void setEndpointRegistry(ESBEndpointRegistry registry);
 
     /**
      * Injecting a {@link ESBProviderCallback} to allow
@@ -42,6 +41,6 @@ public interface TalendESBJob extends TalendJob {
      *
      * @param callback
      */
-    public void setProviderCallback(ESBProviderCallback callback);
+    void setProviderCallback(ESBProviderCallback callback);
 
 }

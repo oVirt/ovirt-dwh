@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import routines.system.FastDateParser;
 import routines.system.LocaleProvider;
@@ -357,6 +358,35 @@ public class TalendDate {
      * ->> diffDate(2008/11/24 12:15:25, 2008/10/14 16:10:35, "dd") : return 41 #
      */
     public static long diffDate(Date date1, Date date2, String dateType) {
+        return diffDate(date1, date2, dateType, false);
+    }
+
+    /**
+     * return difference between two dates
+     * 
+     * @param Date1 ( first date )
+     * @param Date1 ( second date )
+     * @param dateType value=("yyyy","MM","dd","HH","mm","ss","SSS") for type of return
+     * @param ignoreDST
+     * @return a number of years, months, days ... date1 - date2
+     * 
+     * {talendTypes} Long
+     * 
+     * {Category} TalendDate
+     * 
+     * {param} date(myDate) date1 : the first date to compare
+     * 
+     * {param} date(myDate2) date2 : the second date to compare
+     * 
+     * {param} String("MM") dateType : the difference on the specified part
+     * 
+     * {examples}
+     * 
+     * ->> diffDate(2012/03/26 00:00:00, 2012/03/24 00:00:00, "dd", true) : return 2 not 1 in GMT+1#
+     * 
+     * ->> diffDate(2012/03/26 00:00:00, 2012/03/24 00:00:00, "dd", false) : return 1 not 2 in GMT+1#
+     */
+    public static long diffDate(Date date1, Date date2, String dateType, boolean ignoreDST) {
 
         if (date1 == null) {
             date1 = new Date(0);
@@ -369,6 +399,20 @@ public class TalendDate {
             dateType = "SSS";
         }
 
+        // ignore DST
+        int addDSTSavings = 0;
+        if (ignoreDST) {
+            boolean d1In = TimeZone.getDefault().inDaylightTime(date1);
+            boolean d2In = TimeZone.getDefault().inDaylightTime(date2);
+            if (d1In != d2In) {
+                if (d1In) {
+                    addDSTSavings = TimeZone.getDefault().getDSTSavings();
+                } else if (d2In) {
+                    addDSTSavings = -TimeZone.getDefault().getDSTSavings();
+                }
+            }
+        }
+
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
         c1.setTime(date1);
@@ -378,19 +422,74 @@ public class TalendDate {
             return c1.get(Calendar.YEAR) - c2.get(Calendar.YEAR);
         } else if (dateType.equals("MM")) { //$NON-NLS-1$
             return (c1.get(Calendar.YEAR) - c2.get(Calendar.YEAR)) * 12 + (c1.get(Calendar.MONTH) - c2.get(Calendar.MONTH));
-        } else if (dateType.equalsIgnoreCase("HH")) { //$NON-NLS-1$
-            return (date1.getTime() - date2.getTime()) / (1000 * 60 * 60);
-        } else if (dateType.equals("mm")) { //$NON-NLS-1$
-            return (date1.getTime() - date2.getTime()) / (1000 * 60);
-        } else if (dateType.equalsIgnoreCase("ss")) { //$NON-NLS-1$
-            return (date1.getTime() - date2.getTime()) / 1000;
-        } else if (dateType.equalsIgnoreCase("SSS")) { //$NON-NLS-1$
-            return date1.getTime() - date2.getTime();
-        } else if (dateType.equalsIgnoreCase("dd")) {
-            return (date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24);
         } else {
-            throw new RuntimeException("Can't support the dateType: " + dateType);
+            long diffTime = date1.getTime() - date2.getTime() + addDSTSavings;
+
+            if (dateType.equalsIgnoreCase("HH")) { //$NON-NLS-1$
+                return diffTime / (1000 * 60 * 60);
+            } else if (dateType.equals("mm")) { //$NON-NLS-1$
+                return diffTime / (1000 * 60);
+            } else if (dateType.equalsIgnoreCase("ss")) { //$NON-NLS-1$
+                return diffTime / 1000;
+            } else if (dateType.equalsIgnoreCase("SSS")) { //$NON-NLS-1$
+                return diffTime;
+            } else if (dateType.equalsIgnoreCase("dd")) {
+                return diffTime / (1000 * 60 * 60 * 24);
+            } else {
+                throw new RuntimeException("Can't support the dateType: " + dateType);
+            }
         }
+    }
+
+    /**
+     * return difference between two dates ignore DST
+     * 
+     * @param Date1 ( first date )
+     * @param Date1 ( second date )
+     * @param dateType value=("yyyy","MM","dd","HH","mm","ss","SSS") for type of return
+     * @return a number of years, months, days ... date1 - date2
+     * 
+     * {talendTypes} Long
+     * 
+     * {Category} TalendDate
+     * 
+     * {param} date(myDate) date1 : the first date to compare
+     * 
+     * {param} date(myDate2) date2 : the second date to compare
+     * 
+     * {param} String("MM") dateType : the difference on the specified part
+     * 
+     * {examples}
+     * 
+     * ->> diffDate(2012/03/26 00:00:00, 2012/03/24 00:00:00, "dd") : return 2 not 1 in GMT+1#
+     */
+    public static long diffDateIgnoreDST(Date date1, Date date2, String dateType) {
+        return diffDate(date1, date2, dateType, true);
+    }
+
+    /**
+     * return difference between two dates ignore DST
+     * 
+     * @param Date1 ( first date )
+     * @param Date1 ( second date )
+     * @return a number of years, months, days ... date1 - date2
+     * 
+     * {talendTypes} Long
+     * 
+     * {Category} TalendDate
+     * 
+     * {param} date(myDate) date1 : the first date to compare
+     * 
+     * {param} date(myDate2) date2 : the second date to compare
+     * 
+     * {param} String("MM") dateType : the difference on the specified part
+     * 
+     * {examples}
+     * 
+     * ->> diffDate(2012/03/26 00:00:00, 2012/03/24 00:00:00) : return 2 not 1 in GMT+1#
+     */
+    public static long diffDateIgnoreDST(Date date1, Date date2) {
+        return diffDateIgnoreDST(date1, date2, "dd");
     }
 
     /**

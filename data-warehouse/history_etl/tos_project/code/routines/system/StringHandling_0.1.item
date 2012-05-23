@@ -48,7 +48,7 @@ public class StringHandling {
         if (input != null) {
             char[] val = input.toCharArray();
 
-            for (int i = 0; i < val.length - 1; i++) {
+            for (int i = 0; i < val.length; i++) {
                 if (!Character.isLetter(val[i])) {
                     return false;
                 }

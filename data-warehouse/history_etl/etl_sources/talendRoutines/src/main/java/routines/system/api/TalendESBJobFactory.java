@@ -11,18 +11,15 @@
 package routines.system.api;
 
 /**
- * Consumer interface for handling calls
- * from ESB Job towards other ESB services
+ * A factory interface to create to create specific kind of {@link TalendESBJob}. The factor allows the
+ * Talend Runtime to create several instances of the job and to enable concurrent access. 
  */
-public interface ESBConsumer {
+public interface TalendESBJobFactory {
 
     /**
-     * A blocking method to invoke a service inside of the Job
-     *
-     * @param request Payload of request
-     * @return Payload of response
-     * @throws Exception In case something goes wrong
+     * Creates a new {@link TalendESBJob}. All instances returned must be different and of the same type.
+     * 
+     * @return a new {@link ESBEndpointInfo} instance,  must not be <code>null</code>.
      */
-    Object invoke(Object payload) throws Exception;
-
+    TalendESBJob newTalendESBJob();
 }

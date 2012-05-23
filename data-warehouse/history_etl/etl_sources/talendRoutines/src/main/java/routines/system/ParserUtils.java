@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2011 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2012 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -146,6 +146,10 @@ public class ParserUtils {
     }
     
     public static routines.system.Document parseTo_Document(String s, boolean ignoreDTD) throws org.dom4j.DocumentException {
+    	return parseTo_Document(s,false,null);
+    }
+    
+    public static routines.system.Document parseTo_Document(String s, boolean ignoreDTD,String encoding) throws org.dom4j.DocumentException {
         if (s == null) {
             return null;
         }
@@ -163,7 +167,9 @@ public class ParserUtils {
         }
         
 		org.dom4j.Document document = reader.read(new java.io.StringReader(s));
-
+		if(encoding!=null && !("".equals(encoding))){
+			document.setXMLEncoding(encoding);
+		}
         theDoc.setDocument(document);
         return theDoc;
     }

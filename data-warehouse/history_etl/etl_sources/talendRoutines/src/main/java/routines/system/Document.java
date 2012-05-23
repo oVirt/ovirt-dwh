@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2011 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2012 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -22,7 +22,7 @@ import org.dom4j.Node;
 /**
  * DOC Administrator class global comment. Detailled comment
  */
-public class Document {
+public class Document implements java.io.Serializable{
 
     private org.dom4j.Document doc = null;
 
@@ -52,7 +52,7 @@ public class Document {
      * @param matchingMode
      * @return
      */
-    public List<Map<String, Object>> LookupDocument(String loopXPath, Map<String, Object> lookupInfo,
+    public List<Map<String, Object>> LookupDocument(String loopXPath,boolean isOptionalLoop, Map<String, Object> lookupInfo,
             Map<String, String> xpathOfResults, Map<String, String> nsMapping,
             Map<String, String> xpathToTypeMap,Map<String, String> xpathToPatternMap,String matchingMode) {
         if (doc == null || lookupInfo == null) {
@@ -60,9 +60,21 @@ public class Document {
         }
         List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
         org.dom4j.Document document = doc.getDocument();
-        org.dom4j.XPath xpathObjectForDoc = document.createXPath(loopXPath);
-        xpathObjectForDoc.setNamespaceURIs(nsMapping);
-        java.util.List<org.dom4j.tree.AbstractNode> nodes = xpathObjectForDoc.selectNodes(document);
+        
+        //init document to flat tool
+        DocumentToFlat docToFlat = new DocumentToFlat(lookupInfo, xpathOfResults, xpathToTypeMap, xpathToPatternMap);
+        docToFlat.setDoc(document);
+        docToFlat.setOriginalLoop(loopXPath);
+        docToFlat.setXmlNameSpaceMap(nsMapping);
+        docToFlat.flatForLookup(isOptionalLoop);
+        if(docToFlat.isLoopChanged()) {//never change the original lookup information object state
+        	lookupInfo = docToFlat.getLookupInfo();
+        	xpathOfResults = docToFlat.getXpathOfResults();
+        	xpathToTypeMap = docToFlat.getXpathToTypeMap();
+        	xpathToPatternMap = docToFlat.getXpathToPatternMap();
+        }
+        java.util.List<org.dom4j.tree.AbstractNode> nodes = docToFlat.getNodes();
+        
         for (org.dom4j.tree.AbstractNode node : nodes) {
             boolean reject = false;
             // lookup action
@@ -120,5 +132,5 @@ public class Document {
 		}
 		return result;
     }
-
+    
 }
