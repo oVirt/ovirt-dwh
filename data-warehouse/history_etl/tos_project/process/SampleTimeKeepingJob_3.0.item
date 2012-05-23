@@ -26,6 +26,8 @@
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="32"/>
     <elementParameter field="TEXT" name="SCHEMA_OPTIONS" value="none"/>
     <elementParameter field="TEXT" name="OEM_CUSTOM_ATTRIBUTE" value=""/>
+    <elementParameter field="TEXT" name="HADOOP_APP_PATH" value=""/>
+    <elementParameter field="TEXT" name="JOBID_FOR_OOZIE" value=""/>
     <elementParameter field="CHECK" name="IMPLICITCONTEXT_USE_PROJECT_SETTINGS" value="true"/>
     <elementParameter field="CHECK" name="STATANDLOG_USE_PROJECT_SETTINGS" value="true"/>
     <elementParameter field="CHECK" name="MULTI_THREAD_EXECATION" value="true"/>
@@ -273,7 +275,7 @@
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="-288" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1"/>
     <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="java.net.URL url_tHttpRequest_1 = new java.net.URL(&#xA;     &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;      context.ovirtEnginePortalConnectionProtocol + &quot;://&quot;&#xA;  &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;      + context.ovirtEnginePortalAddress + &quot;:&quot;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  + context.ovirtEnginePortalPort&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  + &quot;/OvirtEngineWeb/HealthStatus&quot;);&#xA;java.net.HttpURLConnection urlConn_tHttpRequest_1 = (java.net.HttpURLConnection) url_tHttpRequest_1.openConnection();&#xA;urlConn_tHttpRequest_1.setRequestMethod(&quot;GET&quot;);&#xA;urlConn_tHttpRequest_1.setDoOutput(true);&#xA;urlConn_tHttpRequest_1.setDoInput(true);&#xA;urlConn_tHttpRequest_1.setUseCaches(false);&#xA;urlConn_tHttpRequest_1.connect();"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="java.net.URL url_tHttpRequest_1 = new java.net.URL(&#xA;     &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;      context.ovirtEnginePortalConnectionProtocol + &quot;://&quot;&#xA;  &#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;      + context.ovirtEnginePortalAddress + &quot;:&quot;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  + context.ovirtEnginePortalPort&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  + &quot;/OvirtEngineWeb/HealthStatus&quot;);&#xA;java.net.HttpURLConnection urlConn_tHttpRequest_1 = (java.net.HttpURLConnection) url_tHttpRequest_1.openConnection();&#xA;urlConn_tHttpRequest_1.setRequestMethod(&quot;GET&quot;);&#xA;urlConn_tHttpRequest_1.setDoOutput(true);&#xA;urlConn_tHttpRequest_1.setDoInput(true);&#xA;urlConn_tHttpRequest_1.setUseCaches(false);&#xA;urlConn_tHttpRequest_1.connect();&#xA;urlConn_tHttpRequest_1.disconnect();&#xA;"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
