@@ -410,6 +410,132 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 	}
 
+	public void tJDBCInput_4_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCInput_4", System.currentTimeMillis());
+
+		tJDBCInput_4_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tContextLoad_4_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tContextLoad_4", System.currentTimeMillis());
+
+		tJDBCInput_4_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCInput_9_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCInput_9", System.currentTimeMillis());
+
+		tJDBCInput_9_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tContextLoad_9_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tContextLoad_9", System.currentTimeMillis());
+
+		tJDBCInput_9_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCInput_3_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCInput_3", System.currentTimeMillis());
+
+		tJDBCInput_3_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tContextLoad_3_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tContextLoad_3", System.currentTimeMillis());
+
+		tJDBCInput_3_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCInput_8_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCInput_8", System.currentTimeMillis());
+
+		tJDBCInput_8_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tContextLoad_8_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tContextLoad_8", System.currentTimeMillis());
+
+		tJDBCInput_8_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCInput_6_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCInput_6", System.currentTimeMillis());
+
+		tJDBCInput_6_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tContextLoad_6_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tContextLoad_6", System.currentTimeMillis());
+
+		tJDBCInput_6_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCInput_5_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCInput_5", System.currentTimeMillis());
+
+		tJDBCInput_5_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tContextLoad_5_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tContextLoad_5", System.currentTimeMillis());
+
+		tJDBCInput_5_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCInput_7_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCInput_7", System.currentTimeMillis());
+
+		tJDBCInput_7_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tContextLoad_7_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tContextLoad_7", System.currentTimeMillis());
+
+		tJDBCInput_7_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
 	public void tPostjob_2_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -519,6 +645,83 @@ public class DeleteTimeKeepingJob implements TalendJob {
 	}
 
 	public void tJDBCInput_2_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCInput_4_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCInput_9_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCInput_3_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCInput_8_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCInput_6_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCInput_5_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCInput_7_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1720,7 +1923,7 @@ public class DeleteTimeKeepingJob implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
 
-				String dbquery_tJDBCInput_2 = "SELECT 'deleteMore', '1'  FROM vm_disk_samples_history  WHERE history_datetime < '"
+				String dbquery_tJDBCInput_2 = "SELECT 'deleteMore', '1'  FROM datacenter_samples_history  WHERE history_datetime < '"
 						+ routines.RoutineHistoryETL.dateFormat(
 								routines.RoutineHistoryETL.manipulateDate(
 										context.runTime,
@@ -2001,6 +2204,16 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 			}// end the resume
 
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCInput_2:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCInput_4Process(globalMap);
+
 		} catch (Exception e) {
 
 			throw new TalendException(e, currentComponent, globalMap);
@@ -2012,6 +2225,3454 @@ public class DeleteTimeKeepingJob implements TalendJob {
 		}
 
 		globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row4Struct implements
+			routines.system.IPersistableRow<row4Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public String value;
+
+		public String getValue() {
+			return this.value;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// String
+
+				writeString(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row4Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tJDBCInput_4Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row4Struct row4 = new row4Struct();
+
+				/**
+				 * [tContextLoad_4 begin ] start
+				 */
+
+				ok_Hash.put("tContextLoad_4", false);
+				start_Hash.put("tContextLoad_4", System.currentTimeMillis());
+				currentComponent = "tContextLoad_4";
+
+				int tos_count_tContextLoad_4 = 0;
+				java.util.List<String> assignList_tContextLoad_4 = new java.util.ArrayList<String>();
+				java.util.List<String> newPropertyList_tContextLoad_4 = new java.util.ArrayList<String>();
+				java.util.List<String> noAssignList_tContextLoad_4 = new java.util.ArrayList<String>();
+				int nb_line_tContextLoad_4 = 0;
+
+				/**
+				 * [tContextLoad_4 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCInput_4 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCInput_4", false);
+				start_Hash.put("tJDBCInput_4", System.currentTimeMillis());
+				currentComponent = "tJDBCInput_4";
+
+				int tos_count_tJDBCInput_4 = 0;
+
+				int nb_line_tJDBCInput_4 = 0;
+				java.sql.Connection conn_tJDBCInput_4 = null;
+				conn_tJDBCInput_4 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				java.sql.Statement stmt_tJDBCInput_4 = conn_tJDBCInput_4
+						.createStatement();
+
+				String dbquery_tJDBCInput_4 = "SELECT 'deleteMore', '1'  FROM storage_domain_samples_history  WHERE history_datetime < '"
+						+ routines.RoutineHistoryETL.dateFormat(
+								routines.RoutineHistoryETL.manipulateDate(
+										context.runTime,
+										context.hoursToKeepSamples * -1, "HH"),
+								"yyyy-MM-dd HH:mm:ss") + "' LIMIT 1";
+
+				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
+
+				java.sql.ResultSet rs_tJDBCInput_4 = stmt_tJDBCInput_4
+						.executeQuery(dbquery_tJDBCInput_4);
+				java.sql.ResultSetMetaData rsmd_tJDBCInput_4 = rs_tJDBCInput_4
+						.getMetaData();
+				int colQtyInRs_tJDBCInput_4 = rsmd_tJDBCInput_4
+						.getColumnCount();
+
+				String tmpContent_tJDBCInput_4 = null;
+				while (rs_tJDBCInput_4.next()) {
+					nb_line_tJDBCInput_4++;
+
+					if (colQtyInRs_tJDBCInput_4 < 1) {
+						row4.key = null;
+					} else {
+
+						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4.getString(1);
+						if (tmpContent_tJDBCInput_4 != null) {
+							row4.key = tmpContent_tJDBCInput_4;
+						} else {
+							row4.key = null;
+						}
+
+						if (rs_tJDBCInput_4.wasNull()) {
+							row4.key = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_4 < 2) {
+						row4.value = null;
+					} else {
+
+						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4.getString(2);
+						if (tmpContent_tJDBCInput_4 != null) {
+							row4.value = tmpContent_tJDBCInput_4;
+						} else {
+							row4.value = null;
+						}
+
+					}
+
+					/**
+					 * [tJDBCInput_4 begin ] stop
+					 */
+					/**
+					 * [tJDBCInput_4 main ] start
+					 */
+
+					currentComponent = "tJDBCInput_4";
+
+					tos_count_tJDBCInput_4++;
+
+					/**
+					 * [tJDBCInput_4 main ] stop
+					 */
+
+					/**
+					 * [tContextLoad_4 main ] start
+					 */
+
+					currentComponent = "tContextLoad_4";
+
+					// ////////////////////////
+					String tmp_key_tContextLoad_4 = null;
+
+					String key_tContextLoad_4 = null;
+					if (row4.key != null) {
+						tmp_key_tContextLoad_4 = row4.key.trim();
+						if ((tmp_key_tContextLoad_4.startsWith("#") || tmp_key_tContextLoad_4
+								.startsWith("!"))) {
+							tmp_key_tContextLoad_4 = null;
+						} else {
+							row4.key = tmp_key_tContextLoad_4;
+						}
+					}
+					if (row4.key != null) {
+
+						key_tContextLoad_4 =
+
+						row4.key;
+
+					}
+
+					String value_tContextLoad_4 = null;
+					if (row4.value != null) {
+
+						value_tContextLoad_4 =
+
+						row4.value;
+
+					}
+
+					if (tmp_key_tContextLoad_4 != null) {
+						try {
+							if (key_tContextLoad_4 != null
+									&& "deleteMore".equals(key_tContextLoad_4)) {
+
+								context.deleteMore = Integer
+										.parseInt(value_tContextLoad_4);
+
+							}
+
+							if (key_tContextLoad_4 != null
+									&& "hoursToKeepDaily"
+											.equals(key_tContextLoad_4)) {
+
+								context.hoursToKeepDaily = Integer
+										.parseInt(value_tContextLoad_4);
+
+							}
+
+							if (key_tContextLoad_4 != null
+									&& "hoursToKeepHourly"
+											.equals(key_tContextLoad_4)) {
+
+								context.hoursToKeepHourly = Integer
+										.parseInt(value_tContextLoad_4);
+
+							}
+
+							if (key_tContextLoad_4 != null
+									&& "hoursToKeepSamples"
+											.equals(key_tContextLoad_4)) {
+
+								context.hoursToKeepSamples = Integer
+										.parseInt(value_tContextLoad_4);
+
+							}
+
+							if (key_tContextLoad_4 != null
+									&& "ovirtEngineHistoryDbDriverClass"
+											.equals(key_tContextLoad_4)) {
+								context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_4;
+							}
+
+							if (key_tContextLoad_4 != null
+									&& "ovirtEngineHistoryDbJdbcConnection"
+											.equals(key_tContextLoad_4)) {
+								context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_4;
+							}
+
+							if (key_tContextLoad_4 != null
+									&& "ovirtEngineHistoryDbPassword"
+											.equals(key_tContextLoad_4)) {
+								context.ovirtEngineHistoryDbPassword = value_tContextLoad_4;
+							}
+
+							if (key_tContextLoad_4 != null
+									&& "ovirtEngineHistoryDbUser"
+											.equals(key_tContextLoad_4)) {
+								context.ovirtEngineHistoryDbUser = value_tContextLoad_4;
+							}
+
+							if (key_tContextLoad_4 != null
+									&& "runDeleteTime"
+											.equals(key_tContextLoad_4)) {
+
+								context.runDeleteTime = Integer
+										.parseInt(value_tContextLoad_4);
+
+							}
+
+							if (key_tContextLoad_4 != null
+									&& "runTime".equals(key_tContextLoad_4)) {
+								String context_runTime_value = context
+										.getProperty("runTime");
+								if (context_runTime_value == null)
+									context_runTime_value = "";
+								int context_runTime_pos = context_runTime_value
+										.indexOf(";");
+								String context_runTime_pattern = "yyyy-MM-dd HH:mm:ss";
+								if (context_runTime_pos > -1) {
+									context_runTime_pattern = context_runTime_value
+											.substring(0, context_runTime_pos);
+								}
+								context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
+										context_runTime_pattern)
+										.parse(value_tContextLoad_4));
+
+							}
+
+							if (context.getProperty(key_tContextLoad_4) != null) {
+								assignList_tContextLoad_4
+										.add(key_tContextLoad_4);
+							} else {
+								newPropertyList_tContextLoad_4
+										.add(key_tContextLoad_4);
+							}
+							context.setProperty(key_tContextLoad_4,
+									value_tContextLoad_4);
+						} catch (Exception e) {
+							System.err.println("Set value for key: "
+									+ key_tContextLoad_4
+									+ " failed, error message: "
+									+ e.getMessage());
+						}
+						nb_line_tContextLoad_4++;
+					}
+					// ////////////////////////
+
+					tos_count_tContextLoad_4++;
+
+					/**
+					 * [tContextLoad_4 main ] stop
+					 */
+
+					/**
+					 * [tJDBCInput_4 end ] start
+					 */
+
+					currentComponent = "tJDBCInput_4";
+
+				}
+				stmt_tJDBCInput_4.close();
+
+				globalMap.put("tJDBCInput_4_NB_LINE", nb_line_tJDBCInput_4);
+
+				ok_Hash.put("tJDBCInput_4", true);
+				end_Hash.put("tJDBCInput_4", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCInput_4 end ] stop
+				 */
+
+				/**
+				 * [tContextLoad_4 end ] start
+				 */
+
+				currentComponent = "tContextLoad_4";
+
+				java.util.Enumeration<?> enu_tContextLoad_4 = context
+						.propertyNames();
+				while (enu_tContextLoad_4.hasMoreElements()) {
+					String key_tContextLoad_4 = (String) enu_tContextLoad_4
+							.nextElement();
+					if (!assignList_tContextLoad_4.contains(key_tContextLoad_4)
+							&& !newPropertyList_tContextLoad_4
+									.contains(key_tContextLoad_4)) {
+						noAssignList_tContextLoad_4.add(key_tContextLoad_4);
+					}
+				}
+
+				String newPropertyStr_tContextLoad_4 = newPropertyList_tContextLoad_4
+						.toString();
+				String newProperty_tContextLoad_4 = newPropertyStr_tContextLoad_4
+						.substring(1,
+								newPropertyStr_tContextLoad_4.length() - 1);
+
+				String noAssignStr_tContextLoad_4 = noAssignList_tContextLoad_4
+						.toString();
+				String noAssign_tContextLoad_4 = noAssignStr_tContextLoad_4
+						.substring(1, noAssignStr_tContextLoad_4.length() - 1);
+
+				globalMap.put("tContextLoad_4_KEY_NOT_INCONTEXT",
+						newProperty_tContextLoad_4);
+				globalMap.put("tContextLoad_4_KEY_NOT_LOADED",
+						noAssign_tContextLoad_4);
+
+				globalMap.put("tContextLoad_4_NB_LINE", nb_line_tContextLoad_4);
+
+				resumeUtil.addLog("NODE", "NODE:tContextLoad_4", "", Thread
+						.currentThread().getId()
+						+ "", "", "", "", "", resumeUtil
+						.convertToJsonText(context));
+
+				ok_Hash.put("tContextLoad_4", true);
+				end_Hash.put("tContextLoad_4", System.currentTimeMillis());
+
+				/**
+				 * [tContextLoad_4 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCInput_4:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCInput_9Process(globalMap);
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row9Struct implements
+			routines.system.IPersistableRow<row9Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public String value;
+
+		public String getValue() {
+			return this.value;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// String
+
+				writeString(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row9Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tJDBCInput_9Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row9Struct row9 = new row9Struct();
+
+				/**
+				 * [tContextLoad_9 begin ] start
+				 */
+
+				ok_Hash.put("tContextLoad_9", false);
+				start_Hash.put("tContextLoad_9", System.currentTimeMillis());
+				currentComponent = "tContextLoad_9";
+
+				int tos_count_tContextLoad_9 = 0;
+				java.util.List<String> assignList_tContextLoad_9 = new java.util.ArrayList<String>();
+				java.util.List<String> newPropertyList_tContextLoad_9 = new java.util.ArrayList<String>();
+				java.util.List<String> noAssignList_tContextLoad_9 = new java.util.ArrayList<String>();
+				int nb_line_tContextLoad_9 = 0;
+
+				/**
+				 * [tContextLoad_9 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCInput_9 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCInput_9", false);
+				start_Hash.put("tJDBCInput_9", System.currentTimeMillis());
+				currentComponent = "tJDBCInput_9";
+
+				int tos_count_tJDBCInput_9 = 0;
+
+				int nb_line_tJDBCInput_9 = 0;
+				java.sql.Connection conn_tJDBCInput_9 = null;
+				conn_tJDBCInput_9 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				java.sql.Statement stmt_tJDBCInput_9 = conn_tJDBCInput_9
+						.createStatement();
+
+				String dbquery_tJDBCInput_9 = "SELECT 'deleteMore', '1'  FROM host_samples_history  WHERE history_datetime < '"
+						+ routines.RoutineHistoryETL.dateFormat(
+								routines.RoutineHistoryETL.manipulateDate(
+										context.runTime,
+										context.hoursToKeepSamples * -1, "HH"),
+								"yyyy-MM-dd HH:mm:ss") + "' LIMIT 1";
+
+				globalMap.put("tJDBCInput_9_QUERY", dbquery_tJDBCInput_9);
+
+				java.sql.ResultSet rs_tJDBCInput_9 = stmt_tJDBCInput_9
+						.executeQuery(dbquery_tJDBCInput_9);
+				java.sql.ResultSetMetaData rsmd_tJDBCInput_9 = rs_tJDBCInput_9
+						.getMetaData();
+				int colQtyInRs_tJDBCInput_9 = rsmd_tJDBCInput_9
+						.getColumnCount();
+
+				String tmpContent_tJDBCInput_9 = null;
+				while (rs_tJDBCInput_9.next()) {
+					nb_line_tJDBCInput_9++;
+
+					if (colQtyInRs_tJDBCInput_9 < 1) {
+						row9.key = null;
+					} else {
+
+						tmpContent_tJDBCInput_9 = rs_tJDBCInput_9.getString(1);
+						if (tmpContent_tJDBCInput_9 != null) {
+							row9.key = tmpContent_tJDBCInput_9;
+						} else {
+							row9.key = null;
+						}
+
+						if (rs_tJDBCInput_9.wasNull()) {
+							row9.key = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_9 < 2) {
+						row9.value = null;
+					} else {
+
+						tmpContent_tJDBCInput_9 = rs_tJDBCInput_9.getString(2);
+						if (tmpContent_tJDBCInput_9 != null) {
+							row9.value = tmpContent_tJDBCInput_9;
+						} else {
+							row9.value = null;
+						}
+
+					}
+
+					/**
+					 * [tJDBCInput_9 begin ] stop
+					 */
+					/**
+					 * [tJDBCInput_9 main ] start
+					 */
+
+					currentComponent = "tJDBCInput_9";
+
+					tos_count_tJDBCInput_9++;
+
+					/**
+					 * [tJDBCInput_9 main ] stop
+					 */
+
+					/**
+					 * [tContextLoad_9 main ] start
+					 */
+
+					currentComponent = "tContextLoad_9";
+
+					// ////////////////////////
+					String tmp_key_tContextLoad_9 = null;
+
+					String key_tContextLoad_9 = null;
+					if (row9.key != null) {
+						tmp_key_tContextLoad_9 = row9.key.trim();
+						if ((tmp_key_tContextLoad_9.startsWith("#") || tmp_key_tContextLoad_9
+								.startsWith("!"))) {
+							tmp_key_tContextLoad_9 = null;
+						} else {
+							row9.key = tmp_key_tContextLoad_9;
+						}
+					}
+					if (row9.key != null) {
+
+						key_tContextLoad_9 =
+
+						row9.key;
+
+					}
+
+					String value_tContextLoad_9 = null;
+					if (row9.value != null) {
+
+						value_tContextLoad_9 =
+
+						row9.value;
+
+					}
+
+					if (tmp_key_tContextLoad_9 != null) {
+						try {
+							if (key_tContextLoad_9 != null
+									&& "deleteMore".equals(key_tContextLoad_9)) {
+
+								context.deleteMore = Integer
+										.parseInt(value_tContextLoad_9);
+
+							}
+
+							if (key_tContextLoad_9 != null
+									&& "hoursToKeepDaily"
+											.equals(key_tContextLoad_9)) {
+
+								context.hoursToKeepDaily = Integer
+										.parseInt(value_tContextLoad_9);
+
+							}
+
+							if (key_tContextLoad_9 != null
+									&& "hoursToKeepHourly"
+											.equals(key_tContextLoad_9)) {
+
+								context.hoursToKeepHourly = Integer
+										.parseInt(value_tContextLoad_9);
+
+							}
+
+							if (key_tContextLoad_9 != null
+									&& "hoursToKeepSamples"
+											.equals(key_tContextLoad_9)) {
+
+								context.hoursToKeepSamples = Integer
+										.parseInt(value_tContextLoad_9);
+
+							}
+
+							if (key_tContextLoad_9 != null
+									&& "ovirtEngineHistoryDbDriverClass"
+											.equals(key_tContextLoad_9)) {
+								context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_9;
+							}
+
+							if (key_tContextLoad_9 != null
+									&& "ovirtEngineHistoryDbJdbcConnection"
+											.equals(key_tContextLoad_9)) {
+								context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_9;
+							}
+
+							if (key_tContextLoad_9 != null
+									&& "ovirtEngineHistoryDbPassword"
+											.equals(key_tContextLoad_9)) {
+								context.ovirtEngineHistoryDbPassword = value_tContextLoad_9;
+							}
+
+							if (key_tContextLoad_9 != null
+									&& "ovirtEngineHistoryDbUser"
+											.equals(key_tContextLoad_9)) {
+								context.ovirtEngineHistoryDbUser = value_tContextLoad_9;
+							}
+
+							if (key_tContextLoad_9 != null
+									&& "runDeleteTime"
+											.equals(key_tContextLoad_9)) {
+
+								context.runDeleteTime = Integer
+										.parseInt(value_tContextLoad_9);
+
+							}
+
+							if (key_tContextLoad_9 != null
+									&& "runTime".equals(key_tContextLoad_9)) {
+								String context_runTime_value = context
+										.getProperty("runTime");
+								if (context_runTime_value == null)
+									context_runTime_value = "";
+								int context_runTime_pos = context_runTime_value
+										.indexOf(";");
+								String context_runTime_pattern = "yyyy-MM-dd HH:mm:ss";
+								if (context_runTime_pos > -1) {
+									context_runTime_pattern = context_runTime_value
+											.substring(0, context_runTime_pos);
+								}
+								context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
+										context_runTime_pattern)
+										.parse(value_tContextLoad_9));
+
+							}
+
+							if (context.getProperty(key_tContextLoad_9) != null) {
+								assignList_tContextLoad_9
+										.add(key_tContextLoad_9);
+							} else {
+								newPropertyList_tContextLoad_9
+										.add(key_tContextLoad_9);
+							}
+							context.setProperty(key_tContextLoad_9,
+									value_tContextLoad_9);
+						} catch (Exception e) {
+							System.err.println("Set value for key: "
+									+ key_tContextLoad_9
+									+ " failed, error message: "
+									+ e.getMessage());
+						}
+						nb_line_tContextLoad_9++;
+					}
+					// ////////////////////////
+
+					tos_count_tContextLoad_9++;
+
+					/**
+					 * [tContextLoad_9 main ] stop
+					 */
+
+					/**
+					 * [tJDBCInput_9 end ] start
+					 */
+
+					currentComponent = "tJDBCInput_9";
+
+				}
+				stmt_tJDBCInput_9.close();
+
+				globalMap.put("tJDBCInput_9_NB_LINE", nb_line_tJDBCInput_9);
+
+				ok_Hash.put("tJDBCInput_9", true);
+				end_Hash.put("tJDBCInput_9", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCInput_9 end ] stop
+				 */
+
+				/**
+				 * [tContextLoad_9 end ] start
+				 */
+
+				currentComponent = "tContextLoad_9";
+
+				java.util.Enumeration<?> enu_tContextLoad_9 = context
+						.propertyNames();
+				while (enu_tContextLoad_9.hasMoreElements()) {
+					String key_tContextLoad_9 = (String) enu_tContextLoad_9
+							.nextElement();
+					if (!assignList_tContextLoad_9.contains(key_tContextLoad_9)
+							&& !newPropertyList_tContextLoad_9
+									.contains(key_tContextLoad_9)) {
+						noAssignList_tContextLoad_9.add(key_tContextLoad_9);
+					}
+				}
+
+				String newPropertyStr_tContextLoad_9 = newPropertyList_tContextLoad_9
+						.toString();
+				String newProperty_tContextLoad_9 = newPropertyStr_tContextLoad_9
+						.substring(1,
+								newPropertyStr_tContextLoad_9.length() - 1);
+
+				String noAssignStr_tContextLoad_9 = noAssignList_tContextLoad_9
+						.toString();
+				String noAssign_tContextLoad_9 = noAssignStr_tContextLoad_9
+						.substring(1, noAssignStr_tContextLoad_9.length() - 1);
+
+				globalMap.put("tContextLoad_9_KEY_NOT_INCONTEXT",
+						newProperty_tContextLoad_9);
+				globalMap.put("tContextLoad_9_KEY_NOT_LOADED",
+						noAssign_tContextLoad_9);
+
+				globalMap.put("tContextLoad_9_NB_LINE", nb_line_tContextLoad_9);
+
+				resumeUtil.addLog("NODE", "NODE:tContextLoad_9", "", Thread
+						.currentThread().getId()
+						+ "", "", "", "", "", resumeUtil
+						.convertToJsonText(context));
+
+				ok_Hash.put("tContextLoad_9", true);
+				end_Hash.put("tContextLoad_9", System.currentTimeMillis());
+
+				/**
+				 * [tContextLoad_9 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCInput_9:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCInput_3Process(globalMap);
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row3Struct implements
+			routines.system.IPersistableRow<row3Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public String value;
+
+		public String getValue() {
+			return this.value;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// String
+
+				writeString(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row3Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tJDBCInput_3Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row3Struct row3 = new row3Struct();
+
+				/**
+				 * [tContextLoad_3 begin ] start
+				 */
+
+				ok_Hash.put("tContextLoad_3", false);
+				start_Hash.put("tContextLoad_3", System.currentTimeMillis());
+				currentComponent = "tContextLoad_3";
+
+				int tos_count_tContextLoad_3 = 0;
+				java.util.List<String> assignList_tContextLoad_3 = new java.util.ArrayList<String>();
+				java.util.List<String> newPropertyList_tContextLoad_3 = new java.util.ArrayList<String>();
+				java.util.List<String> noAssignList_tContextLoad_3 = new java.util.ArrayList<String>();
+				int nb_line_tContextLoad_3 = 0;
+
+				/**
+				 * [tContextLoad_3 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCInput_3 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCInput_3", false);
+				start_Hash.put("tJDBCInput_3", System.currentTimeMillis());
+				currentComponent = "tJDBCInput_3";
+
+				int tos_count_tJDBCInput_3 = 0;
+
+				int nb_line_tJDBCInput_3 = 0;
+				java.sql.Connection conn_tJDBCInput_3 = null;
+				conn_tJDBCInput_3 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				java.sql.Statement stmt_tJDBCInput_3 = conn_tJDBCInput_3
+						.createStatement();
+
+				String dbquery_tJDBCInput_3 = "SELECT 'deleteMore', '1'  FROM host_interface_samples_history  WHERE history_datetime < '"
+						+ routines.RoutineHistoryETL.dateFormat(
+								routines.RoutineHistoryETL.manipulateDate(
+										context.runTime,
+										context.hoursToKeepSamples * -1, "HH"),
+								"yyyy-MM-dd HH:mm:ss") + "' LIMIT 1";
+
+				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
+
+				java.sql.ResultSet rs_tJDBCInput_3 = stmt_tJDBCInput_3
+						.executeQuery(dbquery_tJDBCInput_3);
+				java.sql.ResultSetMetaData rsmd_tJDBCInput_3 = rs_tJDBCInput_3
+						.getMetaData();
+				int colQtyInRs_tJDBCInput_3 = rsmd_tJDBCInput_3
+						.getColumnCount();
+
+				String tmpContent_tJDBCInput_3 = null;
+				while (rs_tJDBCInput_3.next()) {
+					nb_line_tJDBCInput_3++;
+
+					if (colQtyInRs_tJDBCInput_3 < 1) {
+						row3.key = null;
+					} else {
+
+						tmpContent_tJDBCInput_3 = rs_tJDBCInput_3.getString(1);
+						if (tmpContent_tJDBCInput_3 != null) {
+							row3.key = tmpContent_tJDBCInput_3;
+						} else {
+							row3.key = null;
+						}
+
+						if (rs_tJDBCInput_3.wasNull()) {
+							row3.key = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_3 < 2) {
+						row3.value = null;
+					} else {
+
+						tmpContent_tJDBCInput_3 = rs_tJDBCInput_3.getString(2);
+						if (tmpContent_tJDBCInput_3 != null) {
+							row3.value = tmpContent_tJDBCInput_3;
+						} else {
+							row3.value = null;
+						}
+
+					}
+
+					/**
+					 * [tJDBCInput_3 begin ] stop
+					 */
+					/**
+					 * [tJDBCInput_3 main ] start
+					 */
+
+					currentComponent = "tJDBCInput_3";
+
+					tos_count_tJDBCInput_3++;
+
+					/**
+					 * [tJDBCInput_3 main ] stop
+					 */
+
+					/**
+					 * [tContextLoad_3 main ] start
+					 */
+
+					currentComponent = "tContextLoad_3";
+
+					// ////////////////////////
+					String tmp_key_tContextLoad_3 = null;
+
+					String key_tContextLoad_3 = null;
+					if (row3.key != null) {
+						tmp_key_tContextLoad_3 = row3.key.trim();
+						if ((tmp_key_tContextLoad_3.startsWith("#") || tmp_key_tContextLoad_3
+								.startsWith("!"))) {
+							tmp_key_tContextLoad_3 = null;
+						} else {
+							row3.key = tmp_key_tContextLoad_3;
+						}
+					}
+					if (row3.key != null) {
+
+						key_tContextLoad_3 =
+
+						row3.key;
+
+					}
+
+					String value_tContextLoad_3 = null;
+					if (row3.value != null) {
+
+						value_tContextLoad_3 =
+
+						row3.value;
+
+					}
+
+					if (tmp_key_tContextLoad_3 != null) {
+						try {
+							if (key_tContextLoad_3 != null
+									&& "deleteMore".equals(key_tContextLoad_3)) {
+
+								context.deleteMore = Integer
+										.parseInt(value_tContextLoad_3);
+
+							}
+
+							if (key_tContextLoad_3 != null
+									&& "hoursToKeepDaily"
+											.equals(key_tContextLoad_3)) {
+
+								context.hoursToKeepDaily = Integer
+										.parseInt(value_tContextLoad_3);
+
+							}
+
+							if (key_tContextLoad_3 != null
+									&& "hoursToKeepHourly"
+											.equals(key_tContextLoad_3)) {
+
+								context.hoursToKeepHourly = Integer
+										.parseInt(value_tContextLoad_3);
+
+							}
+
+							if (key_tContextLoad_3 != null
+									&& "hoursToKeepSamples"
+											.equals(key_tContextLoad_3)) {
+
+								context.hoursToKeepSamples = Integer
+										.parseInt(value_tContextLoad_3);
+
+							}
+
+							if (key_tContextLoad_3 != null
+									&& "ovirtEngineHistoryDbDriverClass"
+											.equals(key_tContextLoad_3)) {
+								context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_3;
+							}
+
+							if (key_tContextLoad_3 != null
+									&& "ovirtEngineHistoryDbJdbcConnection"
+											.equals(key_tContextLoad_3)) {
+								context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_3;
+							}
+
+							if (key_tContextLoad_3 != null
+									&& "ovirtEngineHistoryDbPassword"
+											.equals(key_tContextLoad_3)) {
+								context.ovirtEngineHistoryDbPassword = value_tContextLoad_3;
+							}
+
+							if (key_tContextLoad_3 != null
+									&& "ovirtEngineHistoryDbUser"
+											.equals(key_tContextLoad_3)) {
+								context.ovirtEngineHistoryDbUser = value_tContextLoad_3;
+							}
+
+							if (key_tContextLoad_3 != null
+									&& "runDeleteTime"
+											.equals(key_tContextLoad_3)) {
+
+								context.runDeleteTime = Integer
+										.parseInt(value_tContextLoad_3);
+
+							}
+
+							if (key_tContextLoad_3 != null
+									&& "runTime".equals(key_tContextLoad_3)) {
+								String context_runTime_value = context
+										.getProperty("runTime");
+								if (context_runTime_value == null)
+									context_runTime_value = "";
+								int context_runTime_pos = context_runTime_value
+										.indexOf(";");
+								String context_runTime_pattern = "yyyy-MM-dd HH:mm:ss";
+								if (context_runTime_pos > -1) {
+									context_runTime_pattern = context_runTime_value
+											.substring(0, context_runTime_pos);
+								}
+								context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
+										context_runTime_pattern)
+										.parse(value_tContextLoad_3));
+
+							}
+
+							if (context.getProperty(key_tContextLoad_3) != null) {
+								assignList_tContextLoad_3
+										.add(key_tContextLoad_3);
+							} else {
+								newPropertyList_tContextLoad_3
+										.add(key_tContextLoad_3);
+							}
+							context.setProperty(key_tContextLoad_3,
+									value_tContextLoad_3);
+						} catch (Exception e) {
+							System.err.println("Set value for key: "
+									+ key_tContextLoad_3
+									+ " failed, error message: "
+									+ e.getMessage());
+						}
+						nb_line_tContextLoad_3++;
+					}
+					// ////////////////////////
+
+					tos_count_tContextLoad_3++;
+
+					/**
+					 * [tContextLoad_3 main ] stop
+					 */
+
+					/**
+					 * [tJDBCInput_3 end ] start
+					 */
+
+					currentComponent = "tJDBCInput_3";
+
+				}
+				stmt_tJDBCInput_3.close();
+
+				globalMap.put("tJDBCInput_3_NB_LINE", nb_line_tJDBCInput_3);
+
+				ok_Hash.put("tJDBCInput_3", true);
+				end_Hash.put("tJDBCInput_3", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCInput_3 end ] stop
+				 */
+
+				/**
+				 * [tContextLoad_3 end ] start
+				 */
+
+				currentComponent = "tContextLoad_3";
+
+				java.util.Enumeration<?> enu_tContextLoad_3 = context
+						.propertyNames();
+				while (enu_tContextLoad_3.hasMoreElements()) {
+					String key_tContextLoad_3 = (String) enu_tContextLoad_3
+							.nextElement();
+					if (!assignList_tContextLoad_3.contains(key_tContextLoad_3)
+							&& !newPropertyList_tContextLoad_3
+									.contains(key_tContextLoad_3)) {
+						noAssignList_tContextLoad_3.add(key_tContextLoad_3);
+					}
+				}
+
+				String newPropertyStr_tContextLoad_3 = newPropertyList_tContextLoad_3
+						.toString();
+				String newProperty_tContextLoad_3 = newPropertyStr_tContextLoad_3
+						.substring(1,
+								newPropertyStr_tContextLoad_3.length() - 1);
+
+				String noAssignStr_tContextLoad_3 = noAssignList_tContextLoad_3
+						.toString();
+				String noAssign_tContextLoad_3 = noAssignStr_tContextLoad_3
+						.substring(1, noAssignStr_tContextLoad_3.length() - 1);
+
+				globalMap.put("tContextLoad_3_KEY_NOT_INCONTEXT",
+						newProperty_tContextLoad_3);
+				globalMap.put("tContextLoad_3_KEY_NOT_LOADED",
+						noAssign_tContextLoad_3);
+
+				globalMap.put("tContextLoad_3_NB_LINE", nb_line_tContextLoad_3);
+
+				resumeUtil.addLog("NODE", "NODE:tContextLoad_3", "", Thread
+						.currentThread().getId()
+						+ "", "", "", "", "", resumeUtil
+						.convertToJsonText(context));
+
+				ok_Hash.put("tContextLoad_3", true);
+				end_Hash.put("tContextLoad_3", System.currentTimeMillis());
+
+				/**
+				 * [tContextLoad_3 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCInput_3:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCInput_8Process(globalMap);
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row8Struct implements
+			routines.system.IPersistableRow<row8Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public String value;
+
+		public String getValue() {
+			return this.value;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// String
+
+				writeString(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row8Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tJDBCInput_8Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCInput_8_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row8Struct row8 = new row8Struct();
+
+				/**
+				 * [tContextLoad_8 begin ] start
+				 */
+
+				ok_Hash.put("tContextLoad_8", false);
+				start_Hash.put("tContextLoad_8", System.currentTimeMillis());
+				currentComponent = "tContextLoad_8";
+
+				int tos_count_tContextLoad_8 = 0;
+				java.util.List<String> assignList_tContextLoad_8 = new java.util.ArrayList<String>();
+				java.util.List<String> newPropertyList_tContextLoad_8 = new java.util.ArrayList<String>();
+				java.util.List<String> noAssignList_tContextLoad_8 = new java.util.ArrayList<String>();
+				int nb_line_tContextLoad_8 = 0;
+
+				/**
+				 * [tContextLoad_8 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCInput_8 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCInput_8", false);
+				start_Hash.put("tJDBCInput_8", System.currentTimeMillis());
+				currentComponent = "tJDBCInput_8";
+
+				int tos_count_tJDBCInput_8 = 0;
+
+				int nb_line_tJDBCInput_8 = 0;
+				java.sql.Connection conn_tJDBCInput_8 = null;
+				conn_tJDBCInput_8 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				java.sql.Statement stmt_tJDBCInput_8 = conn_tJDBCInput_8
+						.createStatement();
+
+				String dbquery_tJDBCInput_8 = "SELECT 'deleteMore', '1'  FROM vm_samples_history  WHERE history_datetime < '"
+						+ routines.RoutineHistoryETL.dateFormat(
+								routines.RoutineHistoryETL.manipulateDate(
+										context.runTime,
+										context.hoursToKeepSamples * -1, "HH"),
+								"yyyy-MM-dd HH:mm:ss") + "' LIMIT 1";
+
+				globalMap.put("tJDBCInput_8_QUERY", dbquery_tJDBCInput_8);
+
+				java.sql.ResultSet rs_tJDBCInput_8 = stmt_tJDBCInput_8
+						.executeQuery(dbquery_tJDBCInput_8);
+				java.sql.ResultSetMetaData rsmd_tJDBCInput_8 = rs_tJDBCInput_8
+						.getMetaData();
+				int colQtyInRs_tJDBCInput_8 = rsmd_tJDBCInput_8
+						.getColumnCount();
+
+				String tmpContent_tJDBCInput_8 = null;
+				while (rs_tJDBCInput_8.next()) {
+					nb_line_tJDBCInput_8++;
+
+					if (colQtyInRs_tJDBCInput_8 < 1) {
+						row8.key = null;
+					} else {
+
+						tmpContent_tJDBCInput_8 = rs_tJDBCInput_8.getString(1);
+						if (tmpContent_tJDBCInput_8 != null) {
+							row8.key = tmpContent_tJDBCInput_8;
+						} else {
+							row8.key = null;
+						}
+
+						if (rs_tJDBCInput_8.wasNull()) {
+							row8.key = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_8 < 2) {
+						row8.value = null;
+					} else {
+
+						tmpContent_tJDBCInput_8 = rs_tJDBCInput_8.getString(2);
+						if (tmpContent_tJDBCInput_8 != null) {
+							row8.value = tmpContent_tJDBCInput_8;
+						} else {
+							row8.value = null;
+						}
+
+					}
+
+					/**
+					 * [tJDBCInput_8 begin ] stop
+					 */
+					/**
+					 * [tJDBCInput_8 main ] start
+					 */
+
+					currentComponent = "tJDBCInput_8";
+
+					tos_count_tJDBCInput_8++;
+
+					/**
+					 * [tJDBCInput_8 main ] stop
+					 */
+
+					/**
+					 * [tContextLoad_8 main ] start
+					 */
+
+					currentComponent = "tContextLoad_8";
+
+					// ////////////////////////
+					String tmp_key_tContextLoad_8 = null;
+
+					String key_tContextLoad_8 = null;
+					if (row8.key != null) {
+						tmp_key_tContextLoad_8 = row8.key.trim();
+						if ((tmp_key_tContextLoad_8.startsWith("#") || tmp_key_tContextLoad_8
+								.startsWith("!"))) {
+							tmp_key_tContextLoad_8 = null;
+						} else {
+							row8.key = tmp_key_tContextLoad_8;
+						}
+					}
+					if (row8.key != null) {
+
+						key_tContextLoad_8 =
+
+						row8.key;
+
+					}
+
+					String value_tContextLoad_8 = null;
+					if (row8.value != null) {
+
+						value_tContextLoad_8 =
+
+						row8.value;
+
+					}
+
+					if (tmp_key_tContextLoad_8 != null) {
+						try {
+							if (key_tContextLoad_8 != null
+									&& "deleteMore".equals(key_tContextLoad_8)) {
+
+								context.deleteMore = Integer
+										.parseInt(value_tContextLoad_8);
+
+							}
+
+							if (key_tContextLoad_8 != null
+									&& "hoursToKeepDaily"
+											.equals(key_tContextLoad_8)) {
+
+								context.hoursToKeepDaily = Integer
+										.parseInt(value_tContextLoad_8);
+
+							}
+
+							if (key_tContextLoad_8 != null
+									&& "hoursToKeepHourly"
+											.equals(key_tContextLoad_8)) {
+
+								context.hoursToKeepHourly = Integer
+										.parseInt(value_tContextLoad_8);
+
+							}
+
+							if (key_tContextLoad_8 != null
+									&& "hoursToKeepSamples"
+											.equals(key_tContextLoad_8)) {
+
+								context.hoursToKeepSamples = Integer
+										.parseInt(value_tContextLoad_8);
+
+							}
+
+							if (key_tContextLoad_8 != null
+									&& "ovirtEngineHistoryDbDriverClass"
+											.equals(key_tContextLoad_8)) {
+								context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_8;
+							}
+
+							if (key_tContextLoad_8 != null
+									&& "ovirtEngineHistoryDbJdbcConnection"
+											.equals(key_tContextLoad_8)) {
+								context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_8;
+							}
+
+							if (key_tContextLoad_8 != null
+									&& "ovirtEngineHistoryDbPassword"
+											.equals(key_tContextLoad_8)) {
+								context.ovirtEngineHistoryDbPassword = value_tContextLoad_8;
+							}
+
+							if (key_tContextLoad_8 != null
+									&& "ovirtEngineHistoryDbUser"
+											.equals(key_tContextLoad_8)) {
+								context.ovirtEngineHistoryDbUser = value_tContextLoad_8;
+							}
+
+							if (key_tContextLoad_8 != null
+									&& "runDeleteTime"
+											.equals(key_tContextLoad_8)) {
+
+								context.runDeleteTime = Integer
+										.parseInt(value_tContextLoad_8);
+
+							}
+
+							if (key_tContextLoad_8 != null
+									&& "runTime".equals(key_tContextLoad_8)) {
+								String context_runTime_value = context
+										.getProperty("runTime");
+								if (context_runTime_value == null)
+									context_runTime_value = "";
+								int context_runTime_pos = context_runTime_value
+										.indexOf(";");
+								String context_runTime_pattern = "yyyy-MM-dd HH:mm:ss";
+								if (context_runTime_pos > -1) {
+									context_runTime_pattern = context_runTime_value
+											.substring(0, context_runTime_pos);
+								}
+								context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
+										context_runTime_pattern)
+										.parse(value_tContextLoad_8));
+
+							}
+
+							if (context.getProperty(key_tContextLoad_8) != null) {
+								assignList_tContextLoad_8
+										.add(key_tContextLoad_8);
+							} else {
+								newPropertyList_tContextLoad_8
+										.add(key_tContextLoad_8);
+							}
+							context.setProperty(key_tContextLoad_8,
+									value_tContextLoad_8);
+						} catch (Exception e) {
+							System.err.println("Set value for key: "
+									+ key_tContextLoad_8
+									+ " failed, error message: "
+									+ e.getMessage());
+						}
+						nb_line_tContextLoad_8++;
+					}
+					// ////////////////////////
+
+					tos_count_tContextLoad_8++;
+
+					/**
+					 * [tContextLoad_8 main ] stop
+					 */
+
+					/**
+					 * [tJDBCInput_8 end ] start
+					 */
+
+					currentComponent = "tJDBCInput_8";
+
+				}
+				stmt_tJDBCInput_8.close();
+
+				globalMap.put("tJDBCInput_8_NB_LINE", nb_line_tJDBCInput_8);
+
+				ok_Hash.put("tJDBCInput_8", true);
+				end_Hash.put("tJDBCInput_8", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCInput_8 end ] stop
+				 */
+
+				/**
+				 * [tContextLoad_8 end ] start
+				 */
+
+				currentComponent = "tContextLoad_8";
+
+				java.util.Enumeration<?> enu_tContextLoad_8 = context
+						.propertyNames();
+				while (enu_tContextLoad_8.hasMoreElements()) {
+					String key_tContextLoad_8 = (String) enu_tContextLoad_8
+							.nextElement();
+					if (!assignList_tContextLoad_8.contains(key_tContextLoad_8)
+							&& !newPropertyList_tContextLoad_8
+									.contains(key_tContextLoad_8)) {
+						noAssignList_tContextLoad_8.add(key_tContextLoad_8);
+					}
+				}
+
+				String newPropertyStr_tContextLoad_8 = newPropertyList_tContextLoad_8
+						.toString();
+				String newProperty_tContextLoad_8 = newPropertyStr_tContextLoad_8
+						.substring(1,
+								newPropertyStr_tContextLoad_8.length() - 1);
+
+				String noAssignStr_tContextLoad_8 = noAssignList_tContextLoad_8
+						.toString();
+				String noAssign_tContextLoad_8 = noAssignStr_tContextLoad_8
+						.substring(1, noAssignStr_tContextLoad_8.length() - 1);
+
+				globalMap.put("tContextLoad_8_KEY_NOT_INCONTEXT",
+						newProperty_tContextLoad_8);
+				globalMap.put("tContextLoad_8_KEY_NOT_LOADED",
+						noAssign_tContextLoad_8);
+
+				globalMap.put("tContextLoad_8_NB_LINE", nb_line_tContextLoad_8);
+
+				resumeUtil.addLog("NODE", "NODE:tContextLoad_8", "", Thread
+						.currentThread().getId()
+						+ "", "", "", "", "", resumeUtil
+						.convertToJsonText(context));
+
+				ok_Hash.put("tContextLoad_8", true);
+				end_Hash.put("tContextLoad_8", System.currentTimeMillis());
+
+				/**
+				 * [tContextLoad_8 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCInput_8:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCInput_6Process(globalMap);
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJDBCInput_8_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row6Struct implements
+			routines.system.IPersistableRow<row6Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public String value;
+
+		public String getValue() {
+			return this.value;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// String
+
+				writeString(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row6Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tJDBCInput_6Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row6Struct row6 = new row6Struct();
+
+				/**
+				 * [tContextLoad_6 begin ] start
+				 */
+
+				ok_Hash.put("tContextLoad_6", false);
+				start_Hash.put("tContextLoad_6", System.currentTimeMillis());
+				currentComponent = "tContextLoad_6";
+
+				int tos_count_tContextLoad_6 = 0;
+				java.util.List<String> assignList_tContextLoad_6 = new java.util.ArrayList<String>();
+				java.util.List<String> newPropertyList_tContextLoad_6 = new java.util.ArrayList<String>();
+				java.util.List<String> noAssignList_tContextLoad_6 = new java.util.ArrayList<String>();
+				int nb_line_tContextLoad_6 = 0;
+
+				/**
+				 * [tContextLoad_6 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCInput_6 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCInput_6", false);
+				start_Hash.put("tJDBCInput_6", System.currentTimeMillis());
+				currentComponent = "tJDBCInput_6";
+
+				int tos_count_tJDBCInput_6 = 0;
+
+				int nb_line_tJDBCInput_6 = 0;
+				java.sql.Connection conn_tJDBCInput_6 = null;
+				conn_tJDBCInput_6 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				java.sql.Statement stmt_tJDBCInput_6 = conn_tJDBCInput_6
+						.createStatement();
+
+				String dbquery_tJDBCInput_6 = "SELECT 'deleteMore', '1'  FROM vm_interface_samples_history  WHERE history_datetime < '"
+						+ routines.RoutineHistoryETL.dateFormat(
+								routines.RoutineHistoryETL.manipulateDate(
+										context.runTime,
+										context.hoursToKeepSamples * -1, "HH"),
+								"yyyy-MM-dd HH:mm:ss") + "' LIMIT 1";
+
+				globalMap.put("tJDBCInput_6_QUERY", dbquery_tJDBCInput_6);
+
+				java.sql.ResultSet rs_tJDBCInput_6 = stmt_tJDBCInput_6
+						.executeQuery(dbquery_tJDBCInput_6);
+				java.sql.ResultSetMetaData rsmd_tJDBCInput_6 = rs_tJDBCInput_6
+						.getMetaData();
+				int colQtyInRs_tJDBCInput_6 = rsmd_tJDBCInput_6
+						.getColumnCount();
+
+				String tmpContent_tJDBCInput_6 = null;
+				while (rs_tJDBCInput_6.next()) {
+					nb_line_tJDBCInput_6++;
+
+					if (colQtyInRs_tJDBCInput_6 < 1) {
+						row6.key = null;
+					} else {
+
+						tmpContent_tJDBCInput_6 = rs_tJDBCInput_6.getString(1);
+						if (tmpContent_tJDBCInput_6 != null) {
+							row6.key = tmpContent_tJDBCInput_6;
+						} else {
+							row6.key = null;
+						}
+
+						if (rs_tJDBCInput_6.wasNull()) {
+							row6.key = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_6 < 2) {
+						row6.value = null;
+					} else {
+
+						tmpContent_tJDBCInput_6 = rs_tJDBCInput_6.getString(2);
+						if (tmpContent_tJDBCInput_6 != null) {
+							row6.value = tmpContent_tJDBCInput_6;
+						} else {
+							row6.value = null;
+						}
+
+					}
+
+					/**
+					 * [tJDBCInput_6 begin ] stop
+					 */
+					/**
+					 * [tJDBCInput_6 main ] start
+					 */
+
+					currentComponent = "tJDBCInput_6";
+
+					tos_count_tJDBCInput_6++;
+
+					/**
+					 * [tJDBCInput_6 main ] stop
+					 */
+
+					/**
+					 * [tContextLoad_6 main ] start
+					 */
+
+					currentComponent = "tContextLoad_6";
+
+					// ////////////////////////
+					String tmp_key_tContextLoad_6 = null;
+
+					String key_tContextLoad_6 = null;
+					if (row6.key != null) {
+						tmp_key_tContextLoad_6 = row6.key.trim();
+						if ((tmp_key_tContextLoad_6.startsWith("#") || tmp_key_tContextLoad_6
+								.startsWith("!"))) {
+							tmp_key_tContextLoad_6 = null;
+						} else {
+							row6.key = tmp_key_tContextLoad_6;
+						}
+					}
+					if (row6.key != null) {
+
+						key_tContextLoad_6 =
+
+						row6.key;
+
+					}
+
+					String value_tContextLoad_6 = null;
+					if (row6.value != null) {
+
+						value_tContextLoad_6 =
+
+						row6.value;
+
+					}
+
+					if (tmp_key_tContextLoad_6 != null) {
+						try {
+							if (key_tContextLoad_6 != null
+									&& "deleteMore".equals(key_tContextLoad_6)) {
+
+								context.deleteMore = Integer
+										.parseInt(value_tContextLoad_6);
+
+							}
+
+							if (key_tContextLoad_6 != null
+									&& "hoursToKeepDaily"
+											.equals(key_tContextLoad_6)) {
+
+								context.hoursToKeepDaily = Integer
+										.parseInt(value_tContextLoad_6);
+
+							}
+
+							if (key_tContextLoad_6 != null
+									&& "hoursToKeepHourly"
+											.equals(key_tContextLoad_6)) {
+
+								context.hoursToKeepHourly = Integer
+										.parseInt(value_tContextLoad_6);
+
+							}
+
+							if (key_tContextLoad_6 != null
+									&& "hoursToKeepSamples"
+											.equals(key_tContextLoad_6)) {
+
+								context.hoursToKeepSamples = Integer
+										.parseInt(value_tContextLoad_6);
+
+							}
+
+							if (key_tContextLoad_6 != null
+									&& "ovirtEngineHistoryDbDriverClass"
+											.equals(key_tContextLoad_6)) {
+								context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_6;
+							}
+
+							if (key_tContextLoad_6 != null
+									&& "ovirtEngineHistoryDbJdbcConnection"
+											.equals(key_tContextLoad_6)) {
+								context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_6;
+							}
+
+							if (key_tContextLoad_6 != null
+									&& "ovirtEngineHistoryDbPassword"
+											.equals(key_tContextLoad_6)) {
+								context.ovirtEngineHistoryDbPassword = value_tContextLoad_6;
+							}
+
+							if (key_tContextLoad_6 != null
+									&& "ovirtEngineHistoryDbUser"
+											.equals(key_tContextLoad_6)) {
+								context.ovirtEngineHistoryDbUser = value_tContextLoad_6;
+							}
+
+							if (key_tContextLoad_6 != null
+									&& "runDeleteTime"
+											.equals(key_tContextLoad_6)) {
+
+								context.runDeleteTime = Integer
+										.parseInt(value_tContextLoad_6);
+
+							}
+
+							if (key_tContextLoad_6 != null
+									&& "runTime".equals(key_tContextLoad_6)) {
+								String context_runTime_value = context
+										.getProperty("runTime");
+								if (context_runTime_value == null)
+									context_runTime_value = "";
+								int context_runTime_pos = context_runTime_value
+										.indexOf(";");
+								String context_runTime_pattern = "yyyy-MM-dd HH:mm:ss";
+								if (context_runTime_pos > -1) {
+									context_runTime_pattern = context_runTime_value
+											.substring(0, context_runTime_pos);
+								}
+								context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
+										context_runTime_pattern)
+										.parse(value_tContextLoad_6));
+
+							}
+
+							if (context.getProperty(key_tContextLoad_6) != null) {
+								assignList_tContextLoad_6
+										.add(key_tContextLoad_6);
+							} else {
+								newPropertyList_tContextLoad_6
+										.add(key_tContextLoad_6);
+							}
+							context.setProperty(key_tContextLoad_6,
+									value_tContextLoad_6);
+						} catch (Exception e) {
+							System.err.println("Set value for key: "
+									+ key_tContextLoad_6
+									+ " failed, error message: "
+									+ e.getMessage());
+						}
+						nb_line_tContextLoad_6++;
+					}
+					// ////////////////////////
+
+					tos_count_tContextLoad_6++;
+
+					/**
+					 * [tContextLoad_6 main ] stop
+					 */
+
+					/**
+					 * [tJDBCInput_6 end ] start
+					 */
+
+					currentComponent = "tJDBCInput_6";
+
+				}
+				stmt_tJDBCInput_6.close();
+
+				globalMap.put("tJDBCInput_6_NB_LINE", nb_line_tJDBCInput_6);
+
+				ok_Hash.put("tJDBCInput_6", true);
+				end_Hash.put("tJDBCInput_6", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCInput_6 end ] stop
+				 */
+
+				/**
+				 * [tContextLoad_6 end ] start
+				 */
+
+				currentComponent = "tContextLoad_6";
+
+				java.util.Enumeration<?> enu_tContextLoad_6 = context
+						.propertyNames();
+				while (enu_tContextLoad_6.hasMoreElements()) {
+					String key_tContextLoad_6 = (String) enu_tContextLoad_6
+							.nextElement();
+					if (!assignList_tContextLoad_6.contains(key_tContextLoad_6)
+							&& !newPropertyList_tContextLoad_6
+									.contains(key_tContextLoad_6)) {
+						noAssignList_tContextLoad_6.add(key_tContextLoad_6);
+					}
+				}
+
+				String newPropertyStr_tContextLoad_6 = newPropertyList_tContextLoad_6
+						.toString();
+				String newProperty_tContextLoad_6 = newPropertyStr_tContextLoad_6
+						.substring(1,
+								newPropertyStr_tContextLoad_6.length() - 1);
+
+				String noAssignStr_tContextLoad_6 = noAssignList_tContextLoad_6
+						.toString();
+				String noAssign_tContextLoad_6 = noAssignStr_tContextLoad_6
+						.substring(1, noAssignStr_tContextLoad_6.length() - 1);
+
+				globalMap.put("tContextLoad_6_KEY_NOT_INCONTEXT",
+						newProperty_tContextLoad_6);
+				globalMap.put("tContextLoad_6_KEY_NOT_LOADED",
+						noAssign_tContextLoad_6);
+
+				globalMap.put("tContextLoad_6_NB_LINE", nb_line_tContextLoad_6);
+
+				resumeUtil.addLog("NODE", "NODE:tContextLoad_6", "", Thread
+						.currentThread().getId()
+						+ "", "", "", "", "", resumeUtil
+						.convertToJsonText(context));
+
+				ok_Hash.put("tContextLoad_6", true);
+				end_Hash.put("tContextLoad_6", System.currentTimeMillis());
+
+				/**
+				 * [tContextLoad_6 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCInput_6:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCInput_5Process(globalMap);
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row5Struct implements
+			routines.system.IPersistableRow<row5Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public String value;
+
+		public String getValue() {
+			return this.value;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// String
+
+				writeString(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row5Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tJDBCInput_5Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row5Struct row5 = new row5Struct();
+
+				/**
+				 * [tContextLoad_5 begin ] start
+				 */
+
+				ok_Hash.put("tContextLoad_5", false);
+				start_Hash.put("tContextLoad_5", System.currentTimeMillis());
+				currentComponent = "tContextLoad_5";
+
+				int tos_count_tContextLoad_5 = 0;
+				java.util.List<String> assignList_tContextLoad_5 = new java.util.ArrayList<String>();
+				java.util.List<String> newPropertyList_tContextLoad_5 = new java.util.ArrayList<String>();
+				java.util.List<String> noAssignList_tContextLoad_5 = new java.util.ArrayList<String>();
+				int nb_line_tContextLoad_5 = 0;
+
+				/**
+				 * [tContextLoad_5 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCInput_5 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCInput_5", false);
+				start_Hash.put("tJDBCInput_5", System.currentTimeMillis());
+				currentComponent = "tJDBCInput_5";
+
+				int tos_count_tJDBCInput_5 = 0;
+
+				int nb_line_tJDBCInput_5 = 0;
+				java.sql.Connection conn_tJDBCInput_5 = null;
+				conn_tJDBCInput_5 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				java.sql.Statement stmt_tJDBCInput_5 = conn_tJDBCInput_5
+						.createStatement();
+
+				String dbquery_tJDBCInput_5 = "SELECT 'deleteMore', '1'  FROM vm_disk_samples_history  WHERE history_datetime < '"
+						+ routines.RoutineHistoryETL.dateFormat(
+								routines.RoutineHistoryETL.manipulateDate(
+										context.runTime,
+										context.hoursToKeepSamples * -1, "HH"),
+								"yyyy-MM-dd HH:mm:ss") + "' LIMIT 1";
+
+				globalMap.put("tJDBCInput_5_QUERY", dbquery_tJDBCInput_5);
+
+				java.sql.ResultSet rs_tJDBCInput_5 = stmt_tJDBCInput_5
+						.executeQuery(dbquery_tJDBCInput_5);
+				java.sql.ResultSetMetaData rsmd_tJDBCInput_5 = rs_tJDBCInput_5
+						.getMetaData();
+				int colQtyInRs_tJDBCInput_5 = rsmd_tJDBCInput_5
+						.getColumnCount();
+
+				String tmpContent_tJDBCInput_5 = null;
+				while (rs_tJDBCInput_5.next()) {
+					nb_line_tJDBCInput_5++;
+
+					if (colQtyInRs_tJDBCInput_5 < 1) {
+						row5.key = null;
+					} else {
+
+						tmpContent_tJDBCInput_5 = rs_tJDBCInput_5.getString(1);
+						if (tmpContent_tJDBCInput_5 != null) {
+							row5.key = tmpContent_tJDBCInput_5;
+						} else {
+							row5.key = null;
+						}
+
+						if (rs_tJDBCInput_5.wasNull()) {
+							row5.key = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_5 < 2) {
+						row5.value = null;
+					} else {
+
+						tmpContent_tJDBCInput_5 = rs_tJDBCInput_5.getString(2);
+						if (tmpContent_tJDBCInput_5 != null) {
+							row5.value = tmpContent_tJDBCInput_5;
+						} else {
+							row5.value = null;
+						}
+
+					}
+
+					/**
+					 * [tJDBCInput_5 begin ] stop
+					 */
+					/**
+					 * [tJDBCInput_5 main ] start
+					 */
+
+					currentComponent = "tJDBCInput_5";
+
+					tos_count_tJDBCInput_5++;
+
+					/**
+					 * [tJDBCInput_5 main ] stop
+					 */
+
+					/**
+					 * [tContextLoad_5 main ] start
+					 */
+
+					currentComponent = "tContextLoad_5";
+
+					// ////////////////////////
+					String tmp_key_tContextLoad_5 = null;
+
+					String key_tContextLoad_5 = null;
+					if (row5.key != null) {
+						tmp_key_tContextLoad_5 = row5.key.trim();
+						if ((tmp_key_tContextLoad_5.startsWith("#") || tmp_key_tContextLoad_5
+								.startsWith("!"))) {
+							tmp_key_tContextLoad_5 = null;
+						} else {
+							row5.key = tmp_key_tContextLoad_5;
+						}
+					}
+					if (row5.key != null) {
+
+						key_tContextLoad_5 =
+
+						row5.key;
+
+					}
+
+					String value_tContextLoad_5 = null;
+					if (row5.value != null) {
+
+						value_tContextLoad_5 =
+
+						row5.value;
+
+					}
+
+					if (tmp_key_tContextLoad_5 != null) {
+						try {
+							if (key_tContextLoad_5 != null
+									&& "deleteMore".equals(key_tContextLoad_5)) {
+
+								context.deleteMore = Integer
+										.parseInt(value_tContextLoad_5);
+
+							}
+
+							if (key_tContextLoad_5 != null
+									&& "hoursToKeepDaily"
+											.equals(key_tContextLoad_5)) {
+
+								context.hoursToKeepDaily = Integer
+										.parseInt(value_tContextLoad_5);
+
+							}
+
+							if (key_tContextLoad_5 != null
+									&& "hoursToKeepHourly"
+											.equals(key_tContextLoad_5)) {
+
+								context.hoursToKeepHourly = Integer
+										.parseInt(value_tContextLoad_5);
+
+							}
+
+							if (key_tContextLoad_5 != null
+									&& "hoursToKeepSamples"
+											.equals(key_tContextLoad_5)) {
+
+								context.hoursToKeepSamples = Integer
+										.parseInt(value_tContextLoad_5);
+
+							}
+
+							if (key_tContextLoad_5 != null
+									&& "ovirtEngineHistoryDbDriverClass"
+											.equals(key_tContextLoad_5)) {
+								context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_5;
+							}
+
+							if (key_tContextLoad_5 != null
+									&& "ovirtEngineHistoryDbJdbcConnection"
+											.equals(key_tContextLoad_5)) {
+								context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_5;
+							}
+
+							if (key_tContextLoad_5 != null
+									&& "ovirtEngineHistoryDbPassword"
+											.equals(key_tContextLoad_5)) {
+								context.ovirtEngineHistoryDbPassword = value_tContextLoad_5;
+							}
+
+							if (key_tContextLoad_5 != null
+									&& "ovirtEngineHistoryDbUser"
+											.equals(key_tContextLoad_5)) {
+								context.ovirtEngineHistoryDbUser = value_tContextLoad_5;
+							}
+
+							if (key_tContextLoad_5 != null
+									&& "runDeleteTime"
+											.equals(key_tContextLoad_5)) {
+
+								context.runDeleteTime = Integer
+										.parseInt(value_tContextLoad_5);
+
+							}
+
+							if (key_tContextLoad_5 != null
+									&& "runTime".equals(key_tContextLoad_5)) {
+								String context_runTime_value = context
+										.getProperty("runTime");
+								if (context_runTime_value == null)
+									context_runTime_value = "";
+								int context_runTime_pos = context_runTime_value
+										.indexOf(";");
+								String context_runTime_pattern = "yyyy-MM-dd HH:mm:ss";
+								if (context_runTime_pos > -1) {
+									context_runTime_pattern = context_runTime_value
+											.substring(0, context_runTime_pos);
+								}
+								context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
+										context_runTime_pattern)
+										.parse(value_tContextLoad_5));
+
+							}
+
+							if (context.getProperty(key_tContextLoad_5) != null) {
+								assignList_tContextLoad_5
+										.add(key_tContextLoad_5);
+							} else {
+								newPropertyList_tContextLoad_5
+										.add(key_tContextLoad_5);
+							}
+							context.setProperty(key_tContextLoad_5,
+									value_tContextLoad_5);
+						} catch (Exception e) {
+							System.err.println("Set value for key: "
+									+ key_tContextLoad_5
+									+ " failed, error message: "
+									+ e.getMessage());
+						}
+						nb_line_tContextLoad_5++;
+					}
+					// ////////////////////////
+
+					tos_count_tContextLoad_5++;
+
+					/**
+					 * [tContextLoad_5 main ] stop
+					 */
+
+					/**
+					 * [tJDBCInput_5 end ] start
+					 */
+
+					currentComponent = "tJDBCInput_5";
+
+				}
+				stmt_tJDBCInput_5.close();
+
+				globalMap.put("tJDBCInput_5_NB_LINE", nb_line_tJDBCInput_5);
+
+				ok_Hash.put("tJDBCInput_5", true);
+				end_Hash.put("tJDBCInput_5", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCInput_5 end ] stop
+				 */
+
+				/**
+				 * [tContextLoad_5 end ] start
+				 */
+
+				currentComponent = "tContextLoad_5";
+
+				java.util.Enumeration<?> enu_tContextLoad_5 = context
+						.propertyNames();
+				while (enu_tContextLoad_5.hasMoreElements()) {
+					String key_tContextLoad_5 = (String) enu_tContextLoad_5
+							.nextElement();
+					if (!assignList_tContextLoad_5.contains(key_tContextLoad_5)
+							&& !newPropertyList_tContextLoad_5
+									.contains(key_tContextLoad_5)) {
+						noAssignList_tContextLoad_5.add(key_tContextLoad_5);
+					}
+				}
+
+				String newPropertyStr_tContextLoad_5 = newPropertyList_tContextLoad_5
+						.toString();
+				String newProperty_tContextLoad_5 = newPropertyStr_tContextLoad_5
+						.substring(1,
+								newPropertyStr_tContextLoad_5.length() - 1);
+
+				String noAssignStr_tContextLoad_5 = noAssignList_tContextLoad_5
+						.toString();
+				String noAssign_tContextLoad_5 = noAssignStr_tContextLoad_5
+						.substring(1, noAssignStr_tContextLoad_5.length() - 1);
+
+				globalMap.put("tContextLoad_5_KEY_NOT_INCONTEXT",
+						newProperty_tContextLoad_5);
+				globalMap.put("tContextLoad_5_KEY_NOT_LOADED",
+						noAssign_tContextLoad_5);
+
+				globalMap.put("tContextLoad_5_NB_LINE", nb_line_tContextLoad_5);
+
+				resumeUtil.addLog("NODE", "NODE:tContextLoad_5", "", Thread
+						.currentThread().getId()
+						+ "", "", "", "", "", resumeUtil
+						.convertToJsonText(context));
+
+				ok_Hash.put("tContextLoad_5", true);
+				end_Hash.put("tContextLoad_5", System.currentTimeMillis());
+
+				/**
+				 * [tContextLoad_5 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCInput_5:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCInput_7Process(globalMap);
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row7Struct implements
+			routines.system.IPersistableRow<row7Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public String value;
+
+		public String getValue() {
+			return this.value;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// String
+
+				writeString(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row7Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tJDBCInput_7Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCInput_7_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row7Struct row7 = new row7Struct();
+
+				/**
+				 * [tContextLoad_7 begin ] start
+				 */
+
+				ok_Hash.put("tContextLoad_7", false);
+				start_Hash.put("tContextLoad_7", System.currentTimeMillis());
+				currentComponent = "tContextLoad_7";
+
+				int tos_count_tContextLoad_7 = 0;
+				java.util.List<String> assignList_tContextLoad_7 = new java.util.ArrayList<String>();
+				java.util.List<String> newPropertyList_tContextLoad_7 = new java.util.ArrayList<String>();
+				java.util.List<String> noAssignList_tContextLoad_7 = new java.util.ArrayList<String>();
+				int nb_line_tContextLoad_7 = 0;
+
+				/**
+				 * [tContextLoad_7 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCInput_7 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCInput_7", false);
+				start_Hash.put("tJDBCInput_7", System.currentTimeMillis());
+				currentComponent = "tJDBCInput_7";
+
+				int tos_count_tJDBCInput_7 = 0;
+
+				int nb_line_tJDBCInput_7 = 0;
+				java.sql.Connection conn_tJDBCInput_7 = null;
+				conn_tJDBCInput_7 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				java.sql.Statement stmt_tJDBCInput_7 = conn_tJDBCInput_7
+						.createStatement();
+
+				String dbquery_tJDBCInput_7 = "SELECT 'deleteMore', '1'  FROM vm_disks_usage_samples_history  WHERE history_datetime < '"
+						+ routines.RoutineHistoryETL.dateFormat(
+								routines.RoutineHistoryETL.manipulateDate(
+										context.runTime,
+										context.hoursToKeepSamples * -1, "HH"),
+								"yyyy-MM-dd HH:mm:ss") + "' LIMIT 1";
+
+				globalMap.put("tJDBCInput_7_QUERY", dbquery_tJDBCInput_7);
+
+				java.sql.ResultSet rs_tJDBCInput_7 = stmt_tJDBCInput_7
+						.executeQuery(dbquery_tJDBCInput_7);
+				java.sql.ResultSetMetaData rsmd_tJDBCInput_7 = rs_tJDBCInput_7
+						.getMetaData();
+				int colQtyInRs_tJDBCInput_7 = rsmd_tJDBCInput_7
+						.getColumnCount();
+
+				String tmpContent_tJDBCInput_7 = null;
+				while (rs_tJDBCInput_7.next()) {
+					nb_line_tJDBCInput_7++;
+
+					if (colQtyInRs_tJDBCInput_7 < 1) {
+						row7.key = null;
+					} else {
+
+						tmpContent_tJDBCInput_7 = rs_tJDBCInput_7.getString(1);
+						if (tmpContent_tJDBCInput_7 != null) {
+							row7.key = tmpContent_tJDBCInput_7;
+						} else {
+							row7.key = null;
+						}
+
+						if (rs_tJDBCInput_7.wasNull()) {
+							row7.key = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_7 < 2) {
+						row7.value = null;
+					} else {
+
+						tmpContent_tJDBCInput_7 = rs_tJDBCInput_7.getString(2);
+						if (tmpContent_tJDBCInput_7 != null) {
+							row7.value = tmpContent_tJDBCInput_7;
+						} else {
+							row7.value = null;
+						}
+
+					}
+
+					/**
+					 * [tJDBCInput_7 begin ] stop
+					 */
+					/**
+					 * [tJDBCInput_7 main ] start
+					 */
+
+					currentComponent = "tJDBCInput_7";
+
+					tos_count_tJDBCInput_7++;
+
+					/**
+					 * [tJDBCInput_7 main ] stop
+					 */
+
+					/**
+					 * [tContextLoad_7 main ] start
+					 */
+
+					currentComponent = "tContextLoad_7";
+
+					// ////////////////////////
+					String tmp_key_tContextLoad_7 = null;
+
+					String key_tContextLoad_7 = null;
+					if (row7.key != null) {
+						tmp_key_tContextLoad_7 = row7.key.trim();
+						if ((tmp_key_tContextLoad_7.startsWith("#") || tmp_key_tContextLoad_7
+								.startsWith("!"))) {
+							tmp_key_tContextLoad_7 = null;
+						} else {
+							row7.key = tmp_key_tContextLoad_7;
+						}
+					}
+					if (row7.key != null) {
+
+						key_tContextLoad_7 =
+
+						row7.key;
+
+					}
+
+					String value_tContextLoad_7 = null;
+					if (row7.value != null) {
+
+						value_tContextLoad_7 =
+
+						row7.value;
+
+					}
+
+					if (tmp_key_tContextLoad_7 != null) {
+						try {
+							if (key_tContextLoad_7 != null
+									&& "deleteMore".equals(key_tContextLoad_7)) {
+
+								context.deleteMore = Integer
+										.parseInt(value_tContextLoad_7);
+
+							}
+
+							if (key_tContextLoad_7 != null
+									&& "hoursToKeepDaily"
+											.equals(key_tContextLoad_7)) {
+
+								context.hoursToKeepDaily = Integer
+										.parseInt(value_tContextLoad_7);
+
+							}
+
+							if (key_tContextLoad_7 != null
+									&& "hoursToKeepHourly"
+											.equals(key_tContextLoad_7)) {
+
+								context.hoursToKeepHourly = Integer
+										.parseInt(value_tContextLoad_7);
+
+							}
+
+							if (key_tContextLoad_7 != null
+									&& "hoursToKeepSamples"
+											.equals(key_tContextLoad_7)) {
+
+								context.hoursToKeepSamples = Integer
+										.parseInt(value_tContextLoad_7);
+
+							}
+
+							if (key_tContextLoad_7 != null
+									&& "ovirtEngineHistoryDbDriverClass"
+											.equals(key_tContextLoad_7)) {
+								context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_7;
+							}
+
+							if (key_tContextLoad_7 != null
+									&& "ovirtEngineHistoryDbJdbcConnection"
+											.equals(key_tContextLoad_7)) {
+								context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_7;
+							}
+
+							if (key_tContextLoad_7 != null
+									&& "ovirtEngineHistoryDbPassword"
+											.equals(key_tContextLoad_7)) {
+								context.ovirtEngineHistoryDbPassword = value_tContextLoad_7;
+							}
+
+							if (key_tContextLoad_7 != null
+									&& "ovirtEngineHistoryDbUser"
+											.equals(key_tContextLoad_7)) {
+								context.ovirtEngineHistoryDbUser = value_tContextLoad_7;
+							}
+
+							if (key_tContextLoad_7 != null
+									&& "runDeleteTime"
+											.equals(key_tContextLoad_7)) {
+
+								context.runDeleteTime = Integer
+										.parseInt(value_tContextLoad_7);
+
+							}
+
+							if (key_tContextLoad_7 != null
+									&& "runTime".equals(key_tContextLoad_7)) {
+								String context_runTime_value = context
+										.getProperty("runTime");
+								if (context_runTime_value == null)
+									context_runTime_value = "";
+								int context_runTime_pos = context_runTime_value
+										.indexOf(";");
+								String context_runTime_pattern = "yyyy-MM-dd HH:mm:ss";
+								if (context_runTime_pos > -1) {
+									context_runTime_pattern = context_runTime_value
+											.substring(0, context_runTime_pos);
+								}
+								context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
+										context_runTime_pattern)
+										.parse(value_tContextLoad_7));
+
+							}
+
+							if (context.getProperty(key_tContextLoad_7) != null) {
+								assignList_tContextLoad_7
+										.add(key_tContextLoad_7);
+							} else {
+								newPropertyList_tContextLoad_7
+										.add(key_tContextLoad_7);
+							}
+							context.setProperty(key_tContextLoad_7,
+									value_tContextLoad_7);
+						} catch (Exception e) {
+							System.err.println("Set value for key: "
+									+ key_tContextLoad_7
+									+ " failed, error message: "
+									+ e.getMessage());
+						}
+						nb_line_tContextLoad_7++;
+					}
+					// ////////////////////////
+
+					tos_count_tContextLoad_7++;
+
+					/**
+					 * [tContextLoad_7 main ] stop
+					 */
+
+					/**
+					 * [tJDBCInput_7 end ] start
+					 */
+
+					currentComponent = "tJDBCInput_7";
+
+				}
+				stmt_tJDBCInput_7.close();
+
+				globalMap.put("tJDBCInput_7_NB_LINE", nb_line_tJDBCInput_7);
+
+				ok_Hash.put("tJDBCInput_7", true);
+				end_Hash.put("tJDBCInput_7", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCInput_7 end ] stop
+				 */
+
+				/**
+				 * [tContextLoad_7 end ] start
+				 */
+
+				currentComponent = "tContextLoad_7";
+
+				java.util.Enumeration<?> enu_tContextLoad_7 = context
+						.propertyNames();
+				while (enu_tContextLoad_7.hasMoreElements()) {
+					String key_tContextLoad_7 = (String) enu_tContextLoad_7
+							.nextElement();
+					if (!assignList_tContextLoad_7.contains(key_tContextLoad_7)
+							&& !newPropertyList_tContextLoad_7
+									.contains(key_tContextLoad_7)) {
+						noAssignList_tContextLoad_7.add(key_tContextLoad_7);
+					}
+				}
+
+				String newPropertyStr_tContextLoad_7 = newPropertyList_tContextLoad_7
+						.toString();
+				String newProperty_tContextLoad_7 = newPropertyStr_tContextLoad_7
+						.substring(1,
+								newPropertyStr_tContextLoad_7.length() - 1);
+
+				String noAssignStr_tContextLoad_7 = noAssignList_tContextLoad_7
+						.toString();
+				String noAssign_tContextLoad_7 = noAssignStr_tContextLoad_7
+						.substring(1, noAssignStr_tContextLoad_7.length() - 1);
+
+				globalMap.put("tContextLoad_7_KEY_NOT_INCONTEXT",
+						newProperty_tContextLoad_7);
+				globalMap.put("tContextLoad_7_KEY_NOT_LOADED",
+						noAssign_tContextLoad_7);
+
+				globalMap.put("tContextLoad_7_NB_LINE", nb_line_tContextLoad_7);
+
+				resumeUtil.addLog("NODE", "NODE:tContextLoad_7", "", Thread
+						.currentThread().getId()
+						+ "", "", "", "", "", resumeUtil
+						.convertToJsonText(context));
+
+				ok_Hash.put("tContextLoad_7", true);
+				end_Hash.put("tContextLoad_7", System.currentTimeMillis());
+
+				/**
+				 * [tContextLoad_7 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJDBCInput_7_SUBPROCESS_STATE", 1);
 	}
 
 	public void tPostjob_2Process(final java.util.Map<String, Object> globalMap)
@@ -3270,6 +6931,6 @@ public class DeleteTimeKeepingJob implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 87961 characters generated by Talend Open Studio for Data Integration on the
- * May 23, 2012 4:17:20 PM IDT
+ * 188523 characters generated by Talend Open Studio for Data Integration on the
+ * May 23, 2012 5:04:57 PM IDT
  ************************************************************************************************/
