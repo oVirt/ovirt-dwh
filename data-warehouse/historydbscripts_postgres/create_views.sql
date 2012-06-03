@@ -634,7 +634,10 @@ SELECT
     history_id as history_id,
     image_id as vm_disk_id,
     storage_domain_id as storage_domain_id,
-    'disk ' || cast(vm_internal_drive_mapping as varchar) as vm_internal_drive_mapping,
+    CASE
+        WHEN vm_internal_drive_mapping IS NOT NULL THEN 'disk ' || cast(vm_internal_drive_mapping as varchar)
+        ELSE vm_disk_name
+    END as vm_internal_drive_mapping,
     vm_disk_description as vm_disk_description,
     vm_disk_size_mb as vm_disk_size_mb,
     vm_disk_type as vm_disk_type,
@@ -651,7 +654,10 @@ SELECT
     history_id as history_id,
     image_id as vm_disk_id,
     storage_domain_id as storage_domain_id,
-    'disk ' || cast(vm_internal_drive_mapping as varchar) as vm_internal_drive_mapping,
+    CASE
+        WHEN vm_internal_drive_mapping IS NOT NULL THEN 'disk ' || cast(vm_internal_drive_mapping as varchar)
+        ELSE vm_disk_name
+    END as vm_internal_drive_mapping,
     vm_disk_description as vm_disk_description,
     vm_disk_size_mb as vm_disk_size_mb,
     vm_disk_type as vm_disk_type,
@@ -1434,11 +1440,13 @@ CREATE OR REPLACE VIEW v3_1_vm_disk_configuration_view
 SELECT
     history_id as history_id,
     vm_disk_id as vm_disk_id,
-    vm_disk_name as vm_disk_name,
+	CASE
+	      WHEN vm_disk_name IS NOT NULL THEN vm_disk_name
+		  ELSE 'disk ' || cast(vm_internal_drive_mapping as varchar)
+    END as vm_disk_name,
     vm_disk_description as vm_disk_description,
     image_id as image_id,
     storage_domain_id as storage_domain_id,
-    'disk ' || cast(vm_internal_drive_mapping as varchar) as vm_internal_drive_mapping,
     vm_disk_size_mb as vm_disk_size_mb,
     vm_disk_type as vm_disk_type,
     vm_disk_format as vm_disk_format,
@@ -1454,11 +1462,13 @@ CREATE OR REPLACE VIEW v3_1_latest_vm_disk_configuration_view
 SELECT
     history_id as history_id,
     vm_disk_id as vm_disk_id,
-    vm_disk_name as vm_disk_name,
+	CASE
+	      WHEN vm_disk_name IS NOT NULL THEN vm_disk_name
+		  ELSE 'disk ' || cast(vm_internal_drive_mapping as varchar)
+    END as vm_disk_name,
     vm_disk_description as vm_disk_description,
     image_id as image_id,
     storage_domain_id as storage_domain_id,
-    'disk ' || cast(vm_internal_drive_mapping as varchar) as vm_internal_drive_mapping,
     vm_disk_size_mb as vm_disk_size_mb,
     vm_disk_type as vm_disk_type,
     vm_disk_format as vm_disk_format,
