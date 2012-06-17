@@ -20,7 +20,7 @@ GREEN = "\033[92m"
 BLUE = "\033[94m"
 YELLOW = "\033[93m"
 NO_COLOR = "\033[0m"
-JBOSS_SERVICE_NAME = "jboss-as"
+JBOSS_SERVICE_NAME = "ovirt-engine"
 
 # CONST
 EXEC_IP = "/sbin/ip"
