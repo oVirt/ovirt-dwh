@@ -22,6 +22,10 @@ set_defaults() {
 
 #refreshes views
 refresh_views() {
-    printf "Creating views...\n"
-    execute_file "create_views.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+    printf "Creating views API 3.0...\n"
+    execute_file "create_views_3_0.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+    printf "Creating views API 3.1...\n"
+    execute_file "create_views_3_1.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+    printf "Creating ovirt engine reports views...\n"
+    execute_file "create_reports_views.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
 }
