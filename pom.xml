@@ -14,7 +14,7 @@
 
   <properties>
    <!--  Version Info -->
-    <dwh.version>3.0.0</dwh.version>
+    <dwh.version>3.1.0</dwh.version>
     <dwh.groupId>ovirt_engine_dwh</dwh.groupId>
 
     <!-- dependency versions -->
@@ -23,7 +23,7 @@
     <version.trove>1.0.2</version.trove>
     <version.jboss-serialization>1.0.3.GA</version.jboss-serialization>
     <version.dom4j>1.6.1</version.dom4j>
-    <version.talend-routines>5.1.0.r82787</version.talend-routines>
+    <version.talend-routines>5.1.1.r84309</version.talend-routines>
     <version.advancedPersistentLookupLib>1.0</version.advancedPersistentLookupLib>
     <version.postgresql-jdbc>9.1-901-1.jdbc4</version.postgresql-jdbc>
     <version.dependency-plugin>2.4</version.dependency-plugin>

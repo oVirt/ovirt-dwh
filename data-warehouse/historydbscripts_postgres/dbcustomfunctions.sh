@@ -14,6 +14,7 @@ insert_initial_data() {
 set_defaults() {
     ME=$(basename $0)
     SERVERNAME="localhost"
+    PORT=5432
     DATABASE="ovirt_engine_history"
     USERNAME="postgres"
     VERBOSE=false
