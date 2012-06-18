@@ -51,7 +51,7 @@ install -d %{buildroot}%{_sysconfdir}/logrotate.d
 install -p -m 755 packaging/%{name}-setup.py %{buildroot}%{_datadir}/%{name}
 install -p -m 755 packaging/common_utils.py %{buildroot}%{_datadir}/%{name}
 install -p -m 755 packaging/decorators.py %{buildroot}%{_datadir}/%{name}
-install -p -m 660 data-warehouse/history_etl/context_files/ovirt_engine_dwh/historyetl_3_0/contexts/Default.properties %{buildroot}%{_sysconfdir}/ovirt-engine/%{name}
+install -p -m 660 data-warehouse/history_etl/context_files/ovirt_engine_dwh/historyetl_3_1/contexts/Default.properties %{buildroot}%{_sysconfdir}/ovirt-engine/%{name}
 install -p -m 644 packaging/resources/%{name}d.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/%{name}d
 install -p -m 755 data-warehouse/history_etl/etl_sources/historyETLProcedure/target/*.jar %{buildroot}%{_datadir}/%{name}/etl
 install -p -m 644 data-warehouse/history_etl/etl_sources/talendRoutines/target/*.jar %{buildroot}%{_datadir}/%{name}/etl/lib
