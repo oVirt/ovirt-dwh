@@ -23,18 +23,6 @@
     </dependency>
 
     <dependency>
-      <groupId>trove</groupId>
-      <artifactId>trove</artifactId>
-      <version>${version.trove}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>jboss</groupId>
-      <artifactId>jboss-serialization</artifactId>
-      <version>${version.jboss-serialization}</version>
-    </dependency>
-
-    <dependency>
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
       <version>${version.commons-collections}</version>

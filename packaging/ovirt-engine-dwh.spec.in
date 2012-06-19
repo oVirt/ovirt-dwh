@@ -5,18 +5,16 @@ License: GPLv2
 Summary: Data warehouse package for oVirt Virtualization Suite
 Group: Virtualization/Management
 URL: http://www.ovirt.org
-BuildArchitectures: noarch
+BuildArch: noarch
 Source0: %{name}-%{version}.tar.gz
 
 BuildRequires: make
 BuildRequires: maven
 Requires: bash
 Requires: python
-Requires: java-1.6.0-openjdk
+Requires: java-1.7.0-openjdk
 Requires: apache-commons-collections >= 3.2
-#Requires: jboss-serialization >= 1.0.3
 Requires: log4j
-#Requires: gnu-trove >= 1.0.2
 Requires: dom4j >= 1.6.1
 Requires: postgresql-jdbc
 Requires: postgresql-server >= 8.4.7
@@ -66,10 +64,6 @@ echo > %{buildroot}%{_datadir}/%{name}/etl/kill
 cp -r -a  data-warehouse/historydbscripts_postgres/* %{buildroot}%{_datadir}/%{name}/db-scripts
 
 ln -s %{_datadir}/%{name}/%{name}-setup.py %{buildroot}%{_bindir}/%{name}-setup
-
-cp data-warehouse/history_etl/etl_sources/historyETLProcedure/target/dep-jars/jboss-serialization-1.0.3.GA.jar %{buildroot}%{_datadir}/%{name}/etl/lib/jboss-serialization.jar
-cp data-warehouse/history_etl/etl_sources/historyETLProcedure/target/dep-jars/trove-1.0.2.jar %{buildroot}%{_datadir}/%{name}/etl/lib/trove.jar
-cp data-warehouse/history_etl/etl_sources/historyETLProcedure/target/dep-jars/xml-apis-1.0.b2.jar %{buildroot}%{_datadir}/%{name}/etl/lib/xml-apis-1.0.b2.jar
 
 %post
 /sbin/chkconfig --add %{name}d > /dev/null 2>&1

@@ -133,19 +133,11 @@
                     </exec>
                     <exec executable="/bin/bash">
                         <arg value="-c"/>
-                        <arg value="ln -s ${deployment.etl.lib.dir}/trove-${version.trove}.jar ${deployment.etl.lib.dir}/trove.jar"/>
-                    </exec>
-                    <exec executable="/bin/bash">
-                        <arg value="-c"/>
                         <arg value="ln -s ${deployment.etl.lib.dir}/postgresql-${version.postgresql-jdbc}.jar ${deployment.etl.lib.dir}/postgresql-jdbc.jar"/>
                     </exec>
                     <exec executable="/bin/bash">
                         <arg value="-c"/>
                         <arg value="ln -s ${deployment.etl.lib.dir}/log4j-${version.log4j}.jar ${deployment.etl.lib.dir}/log4j.jar"/>
-                    </exec>
-                    <exec executable="/bin/bash">
-                        <arg value="-c"/>
-                        <arg value="ln -s ${deployment.etl.lib.dir}/jboss-serialization-${version.jboss-serialization}.jar ${deployment.etl.lib.dir}/jboss-serialization.jar"/>
                     </exec>
                     <exec executable="/bin/bash">
                         <arg value="-c"/>

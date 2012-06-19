@@ -27,8 +27,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.jboss.serial.io.JBossObjectInputStream;
-import org.jboss.serial.io.JBossObjectOutputStream;
 import org.talend.commons.exception.ExceptionHandler;
 import org.talend.designer.components.persistent.utils.FileUtils;
 
@@ -38,32 +36,6 @@ import routines.system.IPersistableRow;
  * 
  * <code>PersistentRowSorterIterator</code>. Allow to serialize objects sequentially and be able to iterate on them.
  * 
- * JBoss library is used to avoid memory leaks noticed with Sun ObjectInputStream class.
- * 
- * Warning: JBossObjectInputStream may not deserialize any objects such as for example java.io.File, you could encounter
- * the following error:
- * 
- * <pre>
- * Caused by: java.lang.reflect.InvocationTargetException
- *     at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
- *     at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:39)
- *     at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
- *     at java.lang.reflect.Method.invoke(Method.java:597)
- *     at org.jboss.serial.persister.RegularObjectPersister.readSlotWithMethod(RegularObjectPersister.java:103)
- *     ... 32 more
- * Caused by: java.io.EOFException
- *     at java.io.DataInputStream.readFully(DataInputStream.java:180)
- *     at java.io.DataInputStream.readLong(DataInputStream.java:399)
- *     at org.jboss.serial.util.StringUtil.readString(StringUtil.java:212)
- *     at org.jboss.serial.objectmetamodel.DataContainer$DataContainerDirectInput.readUTF(DataContainer.java:757)
- *     at org.jboss.serial.persister.ObjectInputStreamProxy.readUTF(ObjectInputStreamProxy.java:196)
- *     at org.jboss.serial.objectmetamodel.FieldsContainer.readField(FieldsContainer.java:147)
- *     at org.jboss.serial.objectmetamodel.FieldsContainer.readMyself(FieldsContainer.java:218)
- *     at org.jboss.serial.persister.ObjectInputStreamProxy.readFields(ObjectInputStreamProxy.java:224)
- *     at java.io.File.readObject(File.java:1927)
- *     ... 37 more
- *</pre>
- * 
  * @see http://www.talendforge.org/bugs/view.php?id=6780#bugnotes
  * 
  * @param <V> object value to sort
@@ -71,9 +43,6 @@ import routines.system.IPersistableRow;
 public abstract class PersistentRowSorterIterator<V extends IPersistableRow> implements IPersistentRowManager<V>, Iterator<V> {
 
     private static final int INIT_BUFFER_INDEX = -1;
-
-    /** This is 0 when using Sun stream library and 1 when using JBoss implementation */
-    private static final int JBOSS_EOF = 1;
 
     private static final float MARGIN_MAX = 0.35f;
 
@@ -273,8 +242,7 @@ public abstract class PersistentRowSorterIterator<V extends IPersistableRow> imp
 
         File file = new File(buildFilePath());
         count++;
-        // ObjectOutputStream rw = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
-        ObjectOutputStream rw = new JBossObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
+        ObjectOutputStream rw = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
         // System.out.println("Start write buffer ");
         for (int i = 0; i < bufferBeanIndex + 1; i++) {
             buffer[i].writeData(rw);
@@ -345,8 +313,7 @@ public abstract class PersistentRowSorterIterator<V extends IPersistableRow> imp
 
         for (int i = 0; i < numFiles; i++) {
             BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(files.get(i)));
-            // ObjectInputStream ois = new ObjectInputStream(bufferedInputStream);
-            ObjectInputStream ois = new JBossObjectInputStream(bufferedInputStream);
+            ObjectInputStream ois = new ObjectInputStream(bufferedInputStream);
             scList.add(new StreamContainer(ois, bufferedInputStream));
             V bean = createRowInstance();
             bean.readData(ois);
@@ -412,7 +379,7 @@ public abstract class PersistentRowSorterIterator<V extends IPersistableRow> imp
 
             // get another data from the file
             StreamContainer sc = scArray[minIndex];
-            if (sc.objectInputStream.available() > JBOSS_EOF || sc.bufferedInputStream.available() > 0) {
+            if (sc.objectInputStream.available() > 0 || sc.bufferedInputStream.available() > 0) {
                 bean = createRowInstance();
                 bean.readData(sc.objectInputStream);
                 datas[minIndex] = bean;

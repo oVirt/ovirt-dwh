@@ -32,7 +32,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import org.jboss.serial.io.JBossObjectOutputStream;
 import org.talend.designer.components.lookup.common.ILookupManagerUnit;
 import org.talend.designer.components.lookup.common.ICommonLookup.MATCHING_MODE;
 import org.talend.designer.components.persistent.IRowCreator;
@@ -43,8 +42,6 @@ import routines.system.IPersistableLookupRow;
 
 /**
  * Persistent Sorted Lookup Manager.
- * 
- * JBoss library is used to avoid memory leaks noticed with Sun ObjectInputStream class.
  * 
  * @see http://www.talendforge.org/bugs/view.php?id=6780#bugnotes
  * 
@@ -139,8 +136,6 @@ public class PersistentSortedLookupManager<B extends IPersistableComparableLooku
 
     private boolean skipBytesEnabled = true;
 
-    public static final boolean USE_JBOSS_IMPLEMENTATION = true;
-
     // private List<Field> propNameToCheckAtEachLine = new ArrayList<Field>();
     //
     // private List<Field> propNameToCheckWhileValueIsNull = new ArrayList<Field>();
@@ -157,7 +152,6 @@ public class PersistentSortedLookupManager<B extends IPersistableComparableLooku
         FileUtils.createParentFolderIfNotExists(filePath);
 
         // System.out.println("skipBytesEnabled=" + skipBytesEnabled);
-        // System.out.println("USE_JBOSS_IMPLEMENTATION=" + USE_JBOSS_IMPLEMENTATION);
 
     }
 
@@ -355,20 +349,12 @@ public class PersistentSortedLookupManager<B extends IPersistableComparableLooku
 
         BufferedOutputStream keysBufferedOutputStream = new BufferedOutputStream(new FileOutputStream(keysDataFile));
         ObjectOutputStream keysDataOutputStream = null;
-        if (USE_JBOSS_IMPLEMENTATION) {
-            keysDataOutputStream = new JBossObjectOutputStream(keysBufferedOutputStream);
-        } else {
-            keysDataOutputStream = new ObjectOutputStream(keysBufferedOutputStream);
-        }
+        keysDataOutputStream = new ObjectOutputStream(keysBufferedOutputStream);
 
         BufferedOutputStream valuesBufferedOutputStream = new BufferedOutputStream(new FileOutputStream(valuesDataFile));
         DataOutputStream valuesDataOutputStream = new DataOutputStream(valuesBufferedOutputStream);
         ObjectOutputStream valuesObjectOutputStream = null;
-        if (USE_JBOSS_IMPLEMENTATION) {
-            valuesObjectOutputStream = new JBossObjectOutputStream(valuesDataOutputStream);
-        } else {
-            valuesObjectOutputStream = new ObjectOutputStream(valuesDataOutputStream);
-        }
+        valuesObjectOutputStream = new ObjectOutputStream(valuesDataOutputStream);
 
         // System.out.println("Writing LOOKUP buffer " + fileIndex + "... ");
 

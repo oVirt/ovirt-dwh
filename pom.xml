@@ -20,8 +20,6 @@
     <!-- dependency versions -->
     <version.commons-collections>3.2.1</version.commons-collections>
     <version.log4j>1.2.14</version.log4j>
-    <version.trove>1.0.2</version.trove>
-    <version.jboss-serialization>1.0.3.GA</version.jboss-serialization>
     <version.dom4j>1.6.1</version.dom4j>
     <version.talend-routines>5.1.1.r84309</version.talend-routines>
     <version.advancedPersistentLookupLib>1.0</version.advancedPersistentLookupLib>
