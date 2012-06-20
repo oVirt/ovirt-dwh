@@ -105,7 +105,7 @@
             <!-- Copy to config folder -->
                     <echo>*** Copying etl config file to ${config.dir}${file.separator}...</echo>
                     <copy todir="${config.dir}" verbose="true">
-                      <fileset file="${dwh.rootDir}/data-warehouse/history_etl/context_files/ovirt_engine_dwh/historyetl_3_0/contexts/Default.properties"/>
+                      <fileset file="${dwh.rootDir}/data-warehouse/history_etl/context_files/ovirt_engine_dwh/historyetl_3_1/contexts/Default.properties"/>
                     </copy>
 
             <!-- Change permissions to scripts -->

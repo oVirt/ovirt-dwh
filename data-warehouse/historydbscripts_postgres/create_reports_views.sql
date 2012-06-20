@@ -27,6 +27,6 @@ SELECT  value,
     enum_key,
     enum_type,
     0 as sort
-FROM v3_0_enum_translator_view
+FROM v3_1_enum_translator_view
 UNION ALL
 SELECT 'All', -1, null, 1;
