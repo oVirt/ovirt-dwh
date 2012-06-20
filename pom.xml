@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>${dwh.groupId}</groupId>
+  <groupId>ovirt_engine_dwh</groupId>
   <artifactId>root</artifactId>
-  <version>${dwh.version}</version>
+  <version>3.1.0</version>
   <packaging>pom</packaging>
 
   <name>oVirt Engine DWH Root Project</name>
@@ -13,10 +13,6 @@
   </modules>
 
   <properties>
-   <!--  Version Info -->
-    <dwh.version>3.1.0</dwh.version>
-    <dwh.groupId>ovirt_engine_dwh</dwh.groupId>
-
     <!-- dependency versions -->
     <version.commons-collections>3.2.1</version.commons-collections>
     <version.log4j>1.2.14</version.log4j>

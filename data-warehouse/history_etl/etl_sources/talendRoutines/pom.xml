@@ -3,12 +3,12 @@
     <modelVersion>4.0.0</modelVersion>
 
   <parent>
-        <groupId>${dwh.groupId}</groupId>
+        <groupId>ovirt_engine_dwh</groupId>
     <artifactId>etl_sources</artifactId>
-        <version>${dwh.version}</version>
+        <version>3.1.0</version>
   </parent>
 
-  <groupId>${dwh.groupId}</groupId>
+  <groupId>ovirt_engine_dwh</groupId>
   <artifactId>talendRoutines</artifactId>
   <packaging>jar</packaging>
   <version>${version.talend-routines}</version>

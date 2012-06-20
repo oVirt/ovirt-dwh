@@ -3,15 +3,15 @@
     <modelVersion>4.0.0</modelVersion>
 
   <parent>
-          <groupId>${dwh.groupId}</groupId>
+          <groupId>ovirt_engine_dwh</groupId>
           <artifactId>etl_sources</artifactId>
-          <version>${dwh.version}</version>
+          <version>3.1.0</version>
   </parent>
 
-  <groupId>${dwh.groupId}</groupId>
+  <groupId>ovirt_engine_dwh</groupId>
   <artifactId>packaging</artifactId>
   <packaging>pom</packaging>
-  <version>${dwh.version}</version>
+  <version>3.1.0</version>
   <name>History's ETL Packaging</name>
   <description>Packaging</description>
 
@@ -19,7 +19,7 @@
     <dependency>
         <groupId>ovirt_engine_dwh</groupId>
         <artifactId>historyETLProcedure</artifactId>
-        <version>${dwh.version}</version>
+        <version>3.1.0</version>
     </dependency>
     <dependency>
         <groupId>postgresql</groupId>
