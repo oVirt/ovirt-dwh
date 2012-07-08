@@ -982,7 +982,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  cpu_usage_percent,  &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  system_cpu_usage_percent,  &#xD;&#xA;  vm_last_up_time, &#xD;&#xA;  vm_last_boot_time, &#xD;&#xA;  vm_ip, &#xD;&#xA;  current_user_name, &#xD;&#xA;  currently_running_on_host, &#xD;&#xA;  vm_configuration_version, &#xD;&#xA;  current_host_configuration_version&#xD;&#xA;FROM vm_hourly_history&#xD;&#xA;WHERE history_datetime > (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; vm_id,&#xD;&#xA;&#x9;&#x9; vm_status&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  cpu_usage_percent,  &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  system_cpu_usage_percent,&#xD;&#xA;  vm_ip, &#xD;&#xA;  current_user_name, &#xD;&#xA;  currently_running_on_host, &#xD;&#xA;  vm_configuration_version, &#xD;&#xA;  current_host_configuration_version&#xD;&#xA;FROM vm_hourly_history&#xD;&#xA;WHERE history_datetime > (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; vm_id,&#xD;&#xA;&#x9;&#x9; vm_status&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1006,10 +1006,6 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="user_cpu_usage_percent"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="system_cpu_usage_percent"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="vm_last_up_time"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="vm_last_boot_time"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_ip"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1036,8 +1032,6 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="8" name="vm_last_up_time" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="8" name="vm_last_boot_time" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" key="false" length="255" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
@@ -1067,8 +1061,6 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="8" name="vm_last_up_time" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="8" name="vm_last_boot_time" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" key="false" length="255" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
@@ -1076,7 +1068,7 @@
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_aggregate_history">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfDay(row4.history_datetime) " type="id_Date"/>
@@ -1087,8 +1079,6 @@
         <mapperTableEntries name="memory_usage_percent" expression="row4.memory_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="user_cpu_usage_percent" expression="row4.user_cpu_usage_percent " type="id_Short" nullable="true"/>
         <mapperTableEntries name="system_cpu_usage_percent" expression="row4.system_cpu_usage_percent " type="id_Short" nullable="true"/>
-        <mapperTableEntries name="vm_last_up_time" expression="row4.vm_last_up_time" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="vm_last_boot_time" expression="row4.vm_last_boot_time" type="id_Date" nullable="true"/>
         <mapperTableEntries name="vm_ip" expression="row4.vm_ip" type="id_String" nullable="true"/>
         <mapperTableEntries name="current_user_name" expression="row4.current_user_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="currently_running_on_host" expression="row4.currently_running_on_host" type="id_Object" nullable="true"/>
@@ -1105,8 +1095,6 @@
         <mapperTableEntries name="memory_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="user_cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="system_cpu_usage_percent" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="vm_last_up_time" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="vm_last_boot_time" type="id_Date" nullable="true"/>
         <mapperTableEntries name="vm_ip" type="id_String" nullable="true"/>
         <mapperTableEntries name="current_user_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="currently_running_on_host" type="id_Object" nullable="true"/>
@@ -1162,14 +1150,6 @@
       <elementValue elementRef="FUNCTION" value="max"/>
       <elementValue elementRef="INPUT_COLUMN" value="system_cpu_usage_percent"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
-      <elementValue elementRef="OUTPUT_COLUMN" value="vm_last_up_time"/>
-      <elementValue elementRef="FUNCTION" value="last"/>
-      <elementValue elementRef="INPUT_COLUMN" value="vm_last_up_time"/>
-      <elementValue elementRef="IGNORE_NULL" value="true"/>
-      <elementValue elementRef="OUTPUT_COLUMN" value="vm_last_boot_time"/>
-      <elementValue elementRef="FUNCTION" value="last"/>
-      <elementValue elementRef="INPUT_COLUMN" value="vm_last_boot_time"/>
-      <elementValue elementRef="IGNORE_NULL" value="true"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="vm_ip"/>
       <elementValue elementRef="FUNCTION" value="last"/>
       <elementValue elementRef="INPUT_COLUMN" value="vm_ip"/>
@@ -1212,8 +1192,6 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="8" name="vm_last_up_time" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="8" name="vm_last_boot_time" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" key="false" length="255" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
@@ -1300,16 +1278,6 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="vm_last_up_time"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="vm_last_boot_time"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_ip"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1356,8 +1324,6 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="8" name="vm_last_up_time" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="8" name="vm_last_boot_time" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" key="false" length="255" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
@@ -1377,8 +1343,6 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="8" name="vm_last_up_time" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="8" name="vm_last_boot_time" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" key="false" length="255" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
@@ -3005,7 +2969,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="vm_last_up_time"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="vm_last_boot_time"/>
+      <elementValue elementRef="TRACE_COLUMN" value="last_start_time"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="guest_os"/>
@@ -3081,7 +3045,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="vm_last_up_time"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="vm_last_boot_time"/>
+      <elementValue elementRef="TRACE_COLUMN" value="last_start_time"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="vm_ip"/>
@@ -3148,7 +3112,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="vm_last_up_time"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="vm_last_boot_time"/>
+      <elementValue elementRef="TRACE_COLUMN" value="last_start_time"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="vm_ip"/>
