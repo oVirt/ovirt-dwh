@@ -77,7 +77,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  datacenter_id, &#xD;&#xA;  datacenter_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  datacenter_configuration_version&#xD;&#xA;FROM datacenter_hourly_history&#xD;&#xA;WHERE history_datetime > (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; datacenter_id,&#xD;&#xA;      &#x9; datacenter_status&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  datacenter_id, &#xD;&#xA;  datacenter_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  datacenter_configuration_version&#xD;&#xA;FROM datacenter_hourly_history&#xD;&#xA;WHERE history_datetime >= (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; datacenter_id,&#xD;&#xA;      &#x9; datacenter_status&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -131,7 +131,7 @@
       <column comment="" key="false" length="4" name="datacenter_configuration_version" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="dc_history_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfDay(row1.history_datetime)" type="id_Date"/>
@@ -140,7 +140,7 @@
         <mapperTableEntries name="minutes_in_status" expression="row1.minutes_in_status" type="id_Double"/>
         <mapperTableEntries name="datacenter_configuration_version" expression="row1.datacenter_configuration_version" type="id_Integer"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row1" expressionFilter="routines.RoutineHistoryETL.dateCompare(row1.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt;= 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row1" expressionFilter="routines.RoutineHistoryETL.dateCompare(row1.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt; 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="history_id" type="id_Integer"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="datacenter_id" type="id_Object"/>
@@ -270,7 +270,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  host_id, &#xD;&#xA;  host_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  ksm_cpu_percent,  &#xD;&#xA;  active_vms,  &#xD;&#xA;  total_vms, &#xD;&#xA;  total_vms_vcpus, &#xD;&#xA;  cpu_load, &#xD;&#xA;  system_cpu_usage_percent,  &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  swap_used_mb,  &#xD;&#xA;  host_configuration_version&#xD;&#xA;FROM host_hourly_history&#xD;&#xA;WHERE history_datetime > (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;&#x9;&#x9; host_id,&#xD;&#xA;      &#x9; host_status&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  host_id, &#xD;&#xA;  host_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  ksm_cpu_percent,  &#xD;&#xA;  active_vms,  &#xD;&#xA;  total_vms, &#xD;&#xA;  total_vms_vcpus, &#xD;&#xA;  cpu_load, &#xD;&#xA;  system_cpu_usage_percent,  &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  swap_used_mb,  &#xD;&#xA;  host_configuration_version&#xD;&#xA;FROM host_hourly_history&#xD;&#xA;WHERE history_datetime >= (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;&#x9;&#x9; host_id,&#xD;&#xA;      &#x9; host_status&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -364,7 +364,7 @@
       <column comment="" key="false" length="4" name="host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="host_aggregation">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfDay(row2.history_datetime) " type="id_Date"/>
@@ -383,7 +383,7 @@
         <mapperTableEntries name="swap_used_mb" expression="row2.swap_used_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="host_configuration_version" expression="row2.host_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row2" expressionFilter="routines.RoutineHistoryETL.dateCompare(row2.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt;= 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row2" expressionFilter="routines.RoutineHistoryETL.dateCompare(row2.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt; 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="history_id" type="id_Integer"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="host_id" type="id_Object"/>
@@ -763,7 +763,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA; history_id, &#xD;&#xA; history_datetime, &#xD;&#xA; host_interface_id, &#xD;&#xA; receive_rate_percent,  &#xD;&#xA; transmit_rate_percent,  &#xD;&#xA; host_interface_configuration_version&#xD;&#xA;FROM host_interface_hourly_history&#xD;&#xA;WHERE history_datetime > (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; host_interface_id&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA; history_id, &#xD;&#xA; history_datetime, &#xD;&#xA; host_interface_id, &#xD;&#xA; receive_rate_percent,  &#xD;&#xA; transmit_rate_percent,  &#xD;&#xA; host_interface_configuration_version&#xD;&#xA;FROM host_interface_hourly_history&#xD;&#xA;WHERE history_datetime >= (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; host_interface_id&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -817,7 +817,7 @@
       <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="host_history_history_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfDay(row3.history_datetime) " type="id_Date"/>
@@ -826,7 +826,7 @@
         <mapperTableEntries name="transmit_rate_percent" expression="row3.transmit_rate_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="host_interface_configuration_version" expression="row3.host_interface_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row3" expressionFilter="routines.RoutineHistoryETL.dateCompare(row3.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt;= 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row3" expressionFilter="routines.RoutineHistoryETL.dateCompare(row3.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt; 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="history_id" type="id_Integer"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="host_interface_id" type="id_Object"/>
@@ -982,7 +982,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  cpu_usage_percent,  &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  system_cpu_usage_percent,&#xD;&#xA;  vm_ip, &#xD;&#xA;  current_user_name, &#xD;&#xA;  currently_running_on_host, &#xD;&#xA;  vm_configuration_version, &#xD;&#xA;  current_host_configuration_version&#xD;&#xA;FROM vm_hourly_history&#xD;&#xA;WHERE history_datetime > (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; vm_id,&#xD;&#xA;&#x9;&#x9; vm_status&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  cpu_usage_percent,  &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  system_cpu_usage_percent,&#xD;&#xA;  vm_ip, &#xD;&#xA;  current_user_name, &#xD;&#xA;  currently_running_on_host, &#xD;&#xA;  vm_configuration_version, &#xD;&#xA;  current_host_configuration_version&#xD;&#xA;FROM vm_hourly_history&#xD;&#xA;WHERE history_datetime >= (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; vm_id,&#xD;&#xA;&#x9;&#x9; vm_status&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1085,7 +1085,7 @@
         <mapperTableEntries name="vm_configuration_version" expression="row4.vm_configuration_version" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="current_host_configuration_version" expression="row4.current_host_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row4" expressionFilter="routines.RoutineHistoryETL.dateCompare(row4.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt;= 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row4" expressionFilter="routines.RoutineHistoryETL.dateCompare(row4.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt; 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="history_id" type="id_Integer"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="vm_id" type="id_Object"/>
@@ -1367,7 +1367,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  vm_interface_id, &#xD;&#xA;  receive_rate_percent,  &#xD;&#xA;  transmit_rate_percent,  &#xD;&#xA;  vm_interface_configuration_version&#xD;&#xA;FROM vm_interface_hourly_history&#xD;&#xA;WHERE history_datetime > (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;&#x9;&#x9; vm_interface_id&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  vm_interface_id, &#xD;&#xA;  receive_rate_percent,  &#xD;&#xA;  transmit_rate_percent,  &#xD;&#xA;  vm_interface_configuration_version&#xD;&#xA;FROM vm_interface_hourly_history&#xD;&#xA;WHERE history_datetime >= (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;&#x9;&#x9; vm_interface_id&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1421,7 +1421,7 @@
       <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_interface_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfDay(row5.history_datetime) " type="id_Date"/>
@@ -1430,7 +1430,7 @@
         <mapperTableEntries name="transmit_rate_percent" expression="row5.transmit_rate_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="vm_interface_configuration_version" expression="row5.vm_interface_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row5" expressionFilter="routines.RoutineHistoryETL.dateCompare(row5.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt;= 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row5" expressionFilter="routines.RoutineHistoryETL.dateCompare(row5.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt; 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="history_id" type="id_Integer"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="vm_interface_id" type="id_Object"/>
@@ -1628,7 +1628,7 @@
       <column comment="" key="false" length="8" name="var_datetime" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="dc_aggregate_date">
         <mapperTableEntries name="var_name" expression="row11.var_name " type="id_String"/>
@@ -1712,7 +1712,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  storage_domain_id, &#xD;&#xA;  available_disk_size_gb, &#xD;&#xA;  used_disk_size_gb, &#xD;&#xA;  storage_configuration_version&#xD;&#xA;FROM storage_domain_hourly_history&#xD;&#xA;WHERE history_datetime > (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; storage_domain_id&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  storage_domain_id, &#xD;&#xA;  available_disk_size_gb, &#xD;&#xA;  used_disk_size_gb, &#xD;&#xA;  storage_configuration_version&#xD;&#xA;FROM storage_domain_hourly_history&#xD;&#xA;WHERE history_datetime >= (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; storage_domain_id&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1766,7 +1766,7 @@
       <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="storage_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfDay(row16.history_datetime)" type="id_Date"/>
@@ -1775,7 +1775,7 @@
         <mapperTableEntries name="used_disk_size_gb" expression="row16.used_disk_size_gb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="storage_configuration_version" expression="row16.storage_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row16" expressionFilter="routines.RoutineHistoryETL.dateCompare(row16.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt;= 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row16" expressionFilter="routines.RoutineHistoryETL.dateCompare(row16.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt; 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="history_id" type="id_Integer"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="storage_domain_id" type="id_Object"/>
@@ -1907,7 +1907,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_datetime,&#xA;&#x9;&#x9;vm_disk_id,&#xA;        image_id,&#xA;&#x9;&#x9;vm_disk_status, &#xA;&#x9;&#x9;minutes_in_status,&#xA;&#x9;&#x9;vm_disk_actual_size_mb,&#xA;&#x9;&#x9;read_rate_bytes_per_second,&#xA;&#x9;&#x9;read_latency_seconds,&#xA;&#x9;&#x9;write_rate_bytes_per_second,&#xA;&#x9;&#x9;write_latency_seconds,&#xA;&#x9;&#x9;flush_latency_seconds,&#xA;&#x9;&#x9;vm_disk_configuration_version &#xA;FROM vm_disk_hourly_history&#xA;WHERE history_datetime > (SELECT var_datetime&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  FROM history_configuration&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  WHERE var_name = 'lastDayAggr')&#xA;ORDER BY history_datetime,&#xA;&#x9;&#x9; vm_disk_id, &#xA;  &#x9;&#x9; vm_disk_status&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_datetime,&#xA;&#x9;&#x9;vm_disk_id,&#xA;        image_id,&#xA;&#x9;&#x9;vm_disk_status, &#xA;&#x9;&#x9;minutes_in_status,&#xA;&#x9;&#x9;vm_disk_actual_size_mb,&#xA;&#x9;&#x9;read_rate_bytes_per_second,&#xA;&#x9;&#x9;read_latency_seconds,&#xA;&#x9;&#x9;write_rate_bytes_per_second,&#xA;&#x9;&#x9;write_latency_seconds,&#xA;&#x9;&#x9;flush_latency_seconds,&#xA;&#x9;&#x9;vm_disk_configuration_version &#xA;FROM vm_disk_hourly_history&#xA;WHERE history_datetime >= (SELECT var_datetime&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   FROM history_configuration&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   WHERE var_name = 'lastDayAggr')&#xA;ORDER BY history_datetime,&#xA;&#x9;&#x9; vm_disk_id, &#xA;  &#x9;&#x9; vm_disk_status&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1986,7 +1986,7 @@
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfDay(row19.history_datetime)" type="id_Date"/>
@@ -2002,7 +2002,7 @@
         <mapperTableEntries name="flush_latency_seconds" expression="row19.flush_latency_seconds" type="id_Double" nullable="true"/>
         <mapperTableEntries name="vm_disk_configuration_version" expression="row19.vm_disk_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row19" expressionFilter="routines.RoutineHistoryETL.dateCompare(row19.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt;= 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row19" expressionFilter="routines.RoutineHistoryETL.dateCompare(row19.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt; 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="vm_disk_id" type="id_Object"/>
         <mapperTableEntries name="image_id" type="id_Object"/>
@@ -2298,7 +2298,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_datetime, &#xD;&#xA;  vm_id,  &#xD;&#xA;  disks_usage&#xD;&#xA;FROM vm_disks_usage_hourly_history&#xD;&#xA;WHERE history_datetime > (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; vm_id&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_datetime, &#xD;&#xA;  vm_id,  &#xD;&#xA;  disks_usage&#xD;&#xA;FROM vm_disks_usage_hourly_history&#xD;&#xA;WHERE history_datetime >= (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; vm_id&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -2341,14 +2341,14 @@
       <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disks_usage_aggregate_history">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfDay(row12.history_datetime) " type="id_Date"/>
         <mapperTableEntries name="vm_id" expression="row12.vm_id" type="id_Object"/>
         <mapperTableEntries name="disks_usage" expression="row12.disks_usage" type="id_String" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row12" expressionFilter="routines.RoutineHistoryETL.dateCompare(row12.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt;= 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row12" expressionFilter="routines.RoutineHistoryETL.dateCompare(row12.history_datetime,routines.RoutineHistoryETL.manipulateDate(routines.RoutineHistoryETL.startOfDay(context.runTime),-1,&quot;dd&quot;)) &lt; 0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="vm_id" type="id_Object"/>
         <mapperTableEntries name="disks_usage" type="id_String" nullable="true"/>

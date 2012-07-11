@@ -1903,7 +1903,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_1 = conn_tJDBCInput_1
 						.createStatement();
 
-				String dbquery_tJDBCInput_1 = "SELECT     history_id,     history_datetime,     datacenter_id,     datacenter_status,     minutes_in_status,     datacenter_configuration_version  FROM datacenter_hourly_history  WHERE history_datetime > (SELECT var_datetime  						  FROM history_configuration  						  WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 datacenter_id,        	 datacenter_status";
+				String dbquery_tJDBCInput_1 = "SELECT     history_id,     history_datetime,     datacenter_id,     datacenter_status,     minutes_in_status,     datacenter_configuration_version  FROM datacenter_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 datacenter_id,        	 datacenter_status";
 
 				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
 
@@ -2031,7 +2031,7 @@ public class AggregationToDaily implements TalendJob {
 							row1.history_datetime, routines.RoutineHistoryETL
 									.manipulateDate(routines.RoutineHistoryETL
 											.startOfDay(context.runTime), -1,
-											"dd")) <= 0
+											"dd")) < 0
 
 					)
 
@@ -4771,7 +4771,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
 
-				String dbquery_tJDBCInput_2 = "SELECT     history_id,     history_datetime,     host_id,     host_status,     minutes_in_status,     memory_usage_percent,     cpu_usage_percent,     ksm_cpu_percent,      active_vms,      total_vms,     total_vms_vcpus,     cpu_load,     system_cpu_usage_percent,      user_cpu_usage_percent,     swap_used_mb,      host_configuration_version  FROM host_hourly_history  WHERE history_datetime > (SELECT var_datetime  						  FROM history_configuration  						  WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,  		 host_id,        	 host_status";
+				String dbquery_tJDBCInput_2 = "SELECT     history_id,     history_datetime,     host_id,     host_status,     minutes_in_status,     memory_usage_percent,     cpu_usage_percent,     ksm_cpu_percent,      active_vms,      total_vms,     total_vms_vcpus,     cpu_load,     system_cpu_usage_percent,      user_cpu_usage_percent,     swap_used_mb,      host_configuration_version  FROM host_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,  		 host_id,        	 host_status";
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
 
@@ -5044,7 +5044,7 @@ public class AggregationToDaily implements TalendJob {
 							row2.history_datetime, routines.RoutineHistoryETL
 									.manipulateDate(routines.RoutineHistoryETL
 											.startOfDay(context.runTime), -1,
-											"dd")) <= 0
+											"dd")) < 0
 
 					)
 
@@ -7237,7 +7237,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_3 = conn_tJDBCInput_3
 						.createStatement();
 
-				String dbquery_tJDBCInput_3 = "SELECT    history_id,    history_datetime,    host_interface_id,    receive_rate_percent,     transmit_rate_percent,     host_interface_configuration_version  FROM host_interface_hourly_history  WHERE history_datetime > (SELECT var_datetime  						  FROM history_configuration  						  WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 host_interface_id";
+				String dbquery_tJDBCInput_3 = "SELECT    history_id,    history_datetime,    host_interface_id,    receive_rate_percent,     transmit_rate_percent,     host_interface_configuration_version  FROM host_interface_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 host_interface_id";
 
 				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
 
@@ -7372,7 +7372,7 @@ public class AggregationToDaily implements TalendJob {
 							row3.history_datetime, routines.RoutineHistoryETL
 									.manipulateDate(routines.RoutineHistoryETL
 											.startOfDay(context.runTime), -1,
-											"dd")) <= 0
+											"dd")) < 0
 
 					)
 
@@ -9869,7 +9869,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_4 = conn_tJDBCInput_4
 						.createStatement();
 
-				String dbquery_tJDBCInput_4 = "SELECT     history_id,     history_datetime,     vm_id,     vm_status,     minutes_in_status,     cpu_usage_percent,      memory_usage_percent,     user_cpu_usage_percent,     system_cpu_usage_percent,    vm_ip,     current_user_name,     currently_running_on_host,     vm_configuration_version,     current_host_configuration_version  FROM vm_hourly_history  WHERE history_datetime > (SELECT var_datetime  						  FROM history_configuration  						  WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 vm_id,  		 vm_status";
+				String dbquery_tJDBCInput_4 = "SELECT     history_id,     history_datetime,     vm_id,     vm_status,     minutes_in_status,     cpu_usage_percent,      memory_usage_percent,     user_cpu_usage_percent,     system_cpu_usage_percent,    vm_ip,     current_user_name,     currently_running_on_host,     vm_configuration_version,     current_host_configuration_version  FROM vm_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 vm_id,  		 vm_status";
 
 				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
 
@@ -10118,7 +10118,7 @@ public class AggregationToDaily implements TalendJob {
 							row4.history_datetime, routines.RoutineHistoryETL
 									.manipulateDate(routines.RoutineHistoryETL
 											.startOfDay(context.runTime), -1,
-											"dd")) <= 0
+											"dd")) < 0
 
 					)
 
@@ -12063,7 +12063,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_5 = conn_tJDBCInput_5
 						.createStatement();
 
-				String dbquery_tJDBCInput_5 = "SELECT     history_id,     history_datetime,     vm_interface_id,     receive_rate_percent,      transmit_rate_percent,      vm_interface_configuration_version  FROM vm_interface_hourly_history  WHERE history_datetime > (SELECT var_datetime  						  FROM history_configuration  						  WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,  		 vm_interface_id";
+				String dbquery_tJDBCInput_5 = "SELECT     history_id,     history_datetime,     vm_interface_id,     receive_rate_percent,      transmit_rate_percent,      vm_interface_configuration_version  FROM vm_interface_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,  		 vm_interface_id";
 
 				globalMap.put("tJDBCInput_5_QUERY", dbquery_tJDBCInput_5);
 
@@ -12197,7 +12197,7 @@ public class AggregationToDaily implements TalendJob {
 							row5.history_datetime, routines.RoutineHistoryETL
 									.manipulateDate(routines.RoutineHistoryETL
 											.startOfDay(context.runTime), -1,
-											"dd")) <= 0
+											"dd")) < 0
 
 					)
 
@@ -13768,7 +13768,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_11 = conn_tJDBCInput_11
 						.createStatement();
 
-				String dbquery_tJDBCInput_11 = "SELECT     history_id,     history_datetime,     storage_domain_id,     available_disk_size_gb,     used_disk_size_gb,     storage_configuration_version  FROM storage_domain_hourly_history  WHERE history_datetime > (SELECT var_datetime  						  FROM history_configuration  						  WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 storage_domain_id";
+				String dbquery_tJDBCInput_11 = "SELECT     history_id,     history_datetime,     storage_domain_id,     available_disk_size_gb,     used_disk_size_gb,     storage_configuration_version  FROM storage_domain_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 storage_domain_id";
 
 				globalMap.put("tJDBCInput_11_QUERY", dbquery_tJDBCInput_11);
 
@@ -13904,7 +13904,7 @@ public class AggregationToDaily implements TalendJob {
 							row16.history_datetime, routines.RoutineHistoryETL
 									.manipulateDate(routines.RoutineHistoryETL
 											.startOfDay(context.runTime), -1,
-											"dd")) <= 0
+											"dd")) < 0
 
 					)
 
@@ -16317,7 +16317,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_13 = conn_tJDBCInput_13
 						.createStatement();
 
-				String dbquery_tJDBCInput_13 = "SELECT history_datetime, 		vm_disk_id,         image_id, 		vm_disk_status,  		minutes_in_status, 		vm_disk_actual_size_mb, 		read_rate_bytes_per_second, 		read_latency_seconds, 		write_rate_bytes_per_second, 		write_latency_seconds, 		flush_latency_seconds, 		vm_disk_configuration_version  FROM vm_disk_hourly_history WHERE history_datetime > (SELECT var_datetime 						  FROM history_configuration 						  WHERE var_name = 'lastDayAggr') ORDER BY history_datetime, 		 vm_disk_id,    		 vm_disk_status";
+				String dbquery_tJDBCInput_13 = "SELECT history_datetime, 		vm_disk_id,         image_id, 		vm_disk_status,  		minutes_in_status, 		vm_disk_actual_size_mb, 		read_rate_bytes_per_second, 		read_latency_seconds, 		write_rate_bytes_per_second, 		write_latency_seconds, 		flush_latency_seconds, 		vm_disk_configuration_version  FROM vm_disk_hourly_history WHERE history_datetime >= (SELECT var_datetime 						   FROM history_configuration 						   WHERE var_name = 'lastDayAggr') ORDER BY history_datetime, 		 vm_disk_id,    		 vm_disk_status";
 
 				globalMap.put("tJDBCInput_13_QUERY", dbquery_tJDBCInput_13);
 
@@ -16537,7 +16537,7 @@ public class AggregationToDaily implements TalendJob {
 							row19.history_datetime, routines.RoutineHistoryETL
 									.manipulateDate(routines.RoutineHistoryETL
 											.startOfDay(context.runTime), -1,
-											"dd")) <= 0
+											"dd")) < 0
 
 					)
 
@@ -19227,7 +19227,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_9 = conn_tJDBCInput_9
 						.createStatement();
 
-				String dbquery_tJDBCInput_9 = "SELECT     history_datetime,     vm_id,      disks_usage  FROM vm_disks_usage_hourly_history  WHERE history_datetime > (SELECT var_datetime  						  FROM history_configuration  						  WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 vm_id";
+				String dbquery_tJDBCInput_9 = "SELECT     history_datetime,     vm_id,      disks_usage  FROM vm_disks_usage_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 vm_id";
 
 				globalMap.put("tJDBCInput_9_QUERY", dbquery_tJDBCInput_9);
 
@@ -19319,7 +19319,7 @@ public class AggregationToDaily implements TalendJob {
 							row12.history_datetime, routines.RoutineHistoryETL
 									.manipulateDate(routines.RoutineHistoryETL
 											.startOfDay(context.runTime), -1,
-											"dd")) <= 0
+											"dd")) < 0
 
 					)
 
@@ -20900,6 +20900,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 595494 characters generated by Talend Open Studio for Data Integration on the
- * July 9, 2012 1:12:32 PM IDT
+ * 595510 characters generated by Talend Open Studio for Data Integration on the
+ * July 11, 2012 4:01:13 PM IDT
  ************************************************************************************************/
