@@ -25,6 +25,8 @@ JBOSS_SERVICE_NAME = "ovirt-engine"
 # CONST
 EXEC_IP = "/sbin/ip"
 FILE_PG_PASS="/root/.pgpass"
+PGPASS_FILE_USER_LINE = "DB USER credentials"
+PGPASS_FILE_ADMIN_LINE = "DB ADMIN credentials"
 
 # ERRORS
 # TODO: Move all errors here and make them consistent
@@ -372,25 +374,40 @@ def getDbConfig(dbconf_param):
     """
     Generic function to retrieve values from admin line in .pgpass
     """
-    field = {'host' : 0, 'port' : 1, 'admin' : 3}
+    # 'user' and 'admin' are the same fields, just different lines
+    # and for different cases
+    field = {'user' : 3, 'admin' : 3, 'host' : 0, 'port' : 1}
     if dbconf_param not in field.keys():
         raise Exception(ERR_WRONG_PGPASS_VALUE % dbconf_param)
 
-    inDbConfigSection = False
+    inDbAdminSection = False
+    inDbUserSection = False
     if (os.path.exists(FILE_PG_PASS)):
         logging.debug("found existing pgpass file, fetching DB %s value" % dbconf_param)
         with open (FILE_PG_PASS) as pgPassFile:
-            for line in pgPassFile.readlines():
-                if "DB ADMIN settings section" in line:
-                    inDbConfigSection = True
+            for line in pgPassFile:
+
+                # find the line with "DB ADMIN"
+                if PGPASS_FILE_ADMIN_LINE in line:
+                    inDbAdminSection = True
                     continue
 
-                if inDbConfigSection:
-                    # Means we're on DB ADMIN user line, as it's for all DBs
+                if inDbAdminSection and dbconf_param == "admin" and \
+                   not line.startswith("#"):
+                    # Means we're on DB ADMIN line, as it's for all DBs
                     dbcreds = line.split(":", 4)
-                    dbconf_value = dbcreds[field[dbconf_param]]
-                    if dbconf_value and dbconf_value != '*':
-                        return dbconf_value
+                    return dbcreds[field[dbconf_param]]
+
+                # find the line with "DB USER"
+                if PGPASS_FILE_USER_LINE in line:
+                    inDbUserSection = True
+                    continue
+
+                # fetch the values
+                if inDbUserSection:
+                    # Means we're on DB USER line, as it's for all DBs
+                    dbcreds = line.split(":", 4)
+                    return dbcreds[field[dbconf_param]]
 
     raise Exception(ERR_PGPASS_VALUE_NOT_FOUND % (dbconf_param, FILE_PG_PASS))
 
