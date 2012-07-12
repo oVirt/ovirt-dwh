@@ -89,7 +89,7 @@ def upgradeDB(db_dict):
         raise
 
 def getDbDictFromOptions():
-    db_dict = {"name"      : "ovirt_history",
+    db_dict = {"name"      : "ovirt_engine_history",
                "host"      : utils.getDbHostName(),
                "port"      : utils.getDbPort(),
                "username"  : utils.getDbAdminUser(),
