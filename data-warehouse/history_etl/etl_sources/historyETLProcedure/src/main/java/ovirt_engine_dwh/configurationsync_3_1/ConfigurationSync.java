@@ -35089,783 +35089,1024 @@ public class ConfigurationSync implements TalendJob {
 
 	}
 
-	public void tJDBCInput_53Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCInput_53_SUBPROCESS_STATE", 0);
+	public void tJDBCInput_53Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+	globalMap.put("tJDBCInput_53_SUBPROCESS_STATE", 0);
 
-		final boolean execStat = this.execStat;
+ final boolean execStat = this.execStat;
 
-		String iterateId = "";
-		String currentComponent = "";
-
-		try {
-
-			String currentMethodName = new Exception().getStackTrace()[0]
-					.getMethodName();
+	String iterateId = "";
+	String currentComponent = "";
+				
+	try {
+	
+			String currentMethodName = new Exception().getStackTrace()[0].getMethodName();
 			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
+			if( resumeEntryMethodName == null || resumeIt || globalResumeTicket){//start the resume
 				globalResumeTicket = true;
 
-				tJDBCInput_54Process(globalMap);
-				tJDBCInput_65Process(globalMap);
-				tJDBCInput_66Process(globalMap);
+					
+		tJDBCInput_54Process(globalMap);
+		tJDBCInput_65Process(globalMap);
+		tJDBCInput_66Process(globalMap);
 
-				row45Struct row45 = new row45Struct();
-				insert_new_vm_device_connectionStruct insert_new_vm_device_connection = new insert_new_vm_device_connectionStruct();
+		row45Struct row45 = new row45Struct();
+insert_new_vm_device_connectionStruct insert_new_vm_device_connection = new insert_new_vm_device_connectionStruct();
 
-				/**
-				 * [tJDBCOutput_31 begin ] start
-				 */
 
-				ok_Hash.put("tJDBCOutput_31", false);
-				start_Hash.put("tJDBCOutput_31", System.currentTimeMillis());
-				currentComponent = "tJDBCOutput_31";
 
-				int tos_count_tJDBCOutput_31 = 0;
 
-				int nb_line_tJDBCOutput_31 = 0;
-				int nb_line_update_tJDBCOutput_31 = 0;
-				int nb_line_inserted_tJDBCOutput_31 = 0;
-				int nb_line_deleted_tJDBCOutput_31 = 0;
-				int nb_line_rejected_tJDBCOutput_31 = 0;
 
-				int deletedCount_tJDBCOutput_31 = 0;
-				int updatedCount_tJDBCOutput_31 = 0;
-				int insertedCount_tJDBCOutput_31 = 0;
-				int rejectedCount_tJDBCOutput_31 = 0;
+/**
+ * [tJDBCOutput_31 begin ] start
+ */
 
-				boolean whetherReject_tJDBCOutput_31 = false;
 
-				java.sql.Connection connection_tJDBCOutput_31 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_2");
+ok_Hash.put("tJDBCOutput_31", false);
+start_Hash.put("tJDBCOutput_31", System.currentTimeMillis());
+currentComponent="tJDBCOutput_31";
 
-				int batchSize_tJDBCOutput_31 = 10000;
-				int batchSizeCounter_tJDBCOutput_31 = 0;
 
-				String insert_tJDBCOutput_31 = "INSERT INTO "
-						+ "vm_device_history"
-						+ " (vm_id,device_id,type,address,is_managed,is_plugged,is_readonly,vm_configuration_version,device_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-				java.sql.PreparedStatement pstmt_tJDBCOutput_31 = connection_tJDBCOutput_31
-						.prepareStatement(insert_tJDBCOutput_31);
+	int tos_count_tJDBCOutput_31 = 0;
 
-				/**
-				 * [tJDBCOutput_31 begin ] stop
-				 */
 
-				/**
-				 * [tMap_31 begin ] start
-				 */
+int nb_line_tJDBCOutput_31 = 0;
+int nb_line_update_tJDBCOutput_31 = 0;
+int nb_line_inserted_tJDBCOutput_31 = 0;
+int nb_line_deleted_tJDBCOutput_31 = 0;
+int nb_line_rejected_tJDBCOutput_31 = 0;
 
-				ok_Hash.put("tMap_31", false);
-				start_Hash.put("tMap_31", System.currentTimeMillis());
-				currentComponent = "tMap_31";
+int deletedCount_tJDBCOutput_31 = 0;
+int updatedCount_tJDBCOutput_31 = 0;
+int insertedCount_tJDBCOutput_31 = 0;
+int rejectedCount_tJDBCOutput_31 = 0;
 
-				int tos_count_tMap_31 = 0;
+boolean whetherReject_tJDBCOutput_31 = false;
 
-				// ###############################
-				// # Lookup's keys initialization
+	java.sql.Connection connection_tJDBCOutput_31 = (java.sql.Connection)globalMap.get("conn_tJDBCConnection_2");
+	
+   int batchSize_tJDBCOutput_31 = 10000;
+   int batchSizeCounter_tJDBCOutput_31=0; 
 
-				org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row46Struct> tHash_Lookup_row46 = (org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row46Struct>) ((org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row46Struct>) globalMap
-						.get("tHash_Lookup_row46"));
+		String insert_tJDBCOutput_31 = "INSERT INTO " + "vm_device_history" + " (vm_id,device_id,type,address,is_managed,is_plugged,is_readonly,vm_configuration_version,device_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+		java.sql.PreparedStatement pstmt_tJDBCOutput_31 = connection_tJDBCOutput_31.prepareStatement(insert_tJDBCOutput_31);
+		
 
-				row46Struct row46HashKey = new row46Struct();
-				row46Struct row46Default = new row46Struct();
 
-				org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row53Struct> tHash_Lookup_row53 = (org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row53Struct>) ((org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row53Struct>) globalMap
-						.get("tHash_Lookup_row53"));
+ 
 
-				row53Struct row53HashKey = new row53Struct();
-				row53Struct row53Default = new row53Struct();
 
-				org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row54Struct> tHash_Lookup_row54 = (org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row54Struct>) ((org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row54Struct>) globalMap
-						.get("tHash_Lookup_row54"));
 
-				row54Struct row54HashKey = new row54Struct();
-				row54Struct row54Default = new row54Struct();
-				// ###############################
+/**
+ * [tJDBCOutput_31 begin ] stop
+ */
 
-				// ###############################
-				// # Vars initialization
-				class Var__tMap_31__Struct {
+
+
+/**
+ * [tMap_31 begin ] start
+ */
+
+
+ok_Hash.put("tMap_31", false);
+start_Hash.put("tMap_31", System.currentTimeMillis());
+currentComponent="tMap_31";
+
+
+	int tos_count_tMap_31 = 0;
+
+
+
+
+
+
+// ###############################
+// # Lookup's keys initialization
+	
+		org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row46Struct> tHash_Lookup_row46 = (org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row46Struct>) 
+				((org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row46Struct>) 
+					globalMap.get( "tHash_Lookup_row46" ))
+					;					
+					
+	
+
+row46Struct row46HashKey = new row46Struct();
+row46Struct row46Default = new row46Struct();
+	
+		org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row53Struct> tHash_Lookup_row53 = (org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row53Struct>) 
+				((org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row53Struct>) 
+					globalMap.get( "tHash_Lookup_row53" ))
+					;					
+					
+	
+
+row53Struct row53HashKey = new row53Struct();
+row53Struct row53Default = new row53Struct();
+	
+		org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row54Struct> tHash_Lookup_row54 = (org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row54Struct>) 
+				((org.talend.designer.components.lookup.memory.AdvancedMemoryLookup<row54Struct>) 
+					globalMap.get( "tHash_Lookup_row54" ))
+					;					
+					
+	
+
+row54Struct row54HashKey = new row54Struct();
+row54Struct row54Default = new row54Struct();
+// ###############################        
+
+// ###############################
+// # Vars initialization
+class  Var__tMap_31__Struct  {
+}
+Var__tMap_31__Struct Var__tMap_31 = new Var__tMap_31__Struct();
+// ###############################
+
+// ###############################
+// # Outputs initialization
+insert_new_vm_device_connectionStruct insert_new_vm_device_connection_tmp = new insert_new_vm_device_connectionStruct();
+// ###############################
+
+
+
+        
+        
+
+
+
+        
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+/**
+ * [tMap_31 begin ] stop
+ */
+
+
+
+/**
+ * [tJDBCInput_53 begin ] start
+ */
+
+
+ok_Hash.put("tJDBCInput_53", false);
+start_Hash.put("tJDBCInput_53", System.currentTimeMillis());
+currentComponent="tJDBCInput_53";
+
+
+	int tos_count_tJDBCInput_53 = 0;
+	
+    
+	
+		    int nb_line_tJDBCInput_53 = 0;
+		    java.sql.Connection conn_tJDBCInput_53 = null;
+		        conn_tJDBCInput_53 = (java.sql.Connection)globalMap.get("conn_tJDBCConnection_1");
+
+		    
+			java.sql.Statement stmt_tJDBCInput_53 = conn_tJDBCInput_53.createStatement();
+		    
+		    String dbquery_tJDBCInput_53 = "SELECT    device_id,   upper(cast(device_id as char(36))) as device_join_id,   vm_id,   upper(cast(vm_id as char(36))) as vm_join_id,   type,    address,    is_managed,    is_plugged,    is_readonly,   create_date,   update_date FROM dwh_vm_device_history_view";
+		    
+		    globalMap.put("tJDBCInput_53_QUERY",dbquery_tJDBCInput_53);
+		    
+		    java.sql.ResultSet rs_tJDBCInput_53 = stmt_tJDBCInput_53.executeQuery(dbquery_tJDBCInput_53);
+		    java.sql.ResultSetMetaData rsmd_tJDBCInput_53 = rs_tJDBCInput_53.getMetaData();
+		    int colQtyInRs_tJDBCInput_53 = rsmd_tJDBCInput_53.getColumnCount();
+
+		    String tmpContent_tJDBCInput_53 = null;
+		    while (rs_tJDBCInput_53.next()) {
+		        nb_line_tJDBCInput_53++;
+		         	
+		                    if(colQtyInRs_tJDBCInput_53 < 1) { 		
+		                        row45.device_id = null; 			
+		                    } else {
+		                          
+            if(rs_tJDBCInput_53.getObject(1) != null) {
+                row45.device_id = rs_tJDBCInput_53.getObject(1);
+            } else {
+                    row45.device_id = null;
+            }
+								
+				if (rs_tJDBCInput_53.wasNull()) {
+					row45.device_id = null;
 				}
-				Var__tMap_31__Struct Var__tMap_31 = new Var__tMap_31__Struct();
-				// ###############################
-
-				// ###############################
-				// # Outputs initialization
-				insert_new_vm_device_connectionStruct insert_new_vm_device_connection_tmp = new insert_new_vm_device_connectionStruct();
-				// ###############################
-
-				/**
-				 * [tMap_31 begin ] stop
-				 */
-
-				/**
-				 * [tJDBCInput_53 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCInput_53", false);
-				start_Hash.put("tJDBCInput_53", System.currentTimeMillis());
-				currentComponent = "tJDBCInput_53";
-
-				int tos_count_tJDBCInput_53 = 0;
-
-				int nb_line_tJDBCInput_53 = 0;
-				java.sql.Connection conn_tJDBCInput_53 = null;
-				conn_tJDBCInput_53 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_1");
-
-				java.sql.Statement stmt_tJDBCInput_53 = conn_tJDBCInput_53
-						.createStatement();
-
-				String dbquery_tJDBCInput_53 = "SELECT    device_id,   upper(cast(device_id as char(36))) as device_join_id,   vm_id,   upper(cast(vm_id as char(36))) as vm_join_id,   type,    address,    is_managed,    is_plugged,    is_readonly,   create_date,   update_date FROM dwh_vm_device_history_view";
-
-				globalMap.put("tJDBCInput_53_QUERY", dbquery_tJDBCInput_53);
-
-				java.sql.ResultSet rs_tJDBCInput_53 = stmt_tJDBCInput_53
-						.executeQuery(dbquery_tJDBCInput_53);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_53 = rs_tJDBCInput_53
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_53 = rsmd_tJDBCInput_53
-						.getColumnCount();
-
-				String tmpContent_tJDBCInput_53 = null;
-				while (rs_tJDBCInput_53.next()) {
-					nb_line_tJDBCInput_53++;
-
-					if (colQtyInRs_tJDBCInput_53 < 1) {
-						row45.device_id = null;
-					} else {
-
-						if (rs_tJDBCInput_53.getObject(1) != null) {
-							row45.device_id = rs_tJDBCInput_53.getObject(1);
-						} else {
-							row45.device_id = null;
-						}
-
-						if (rs_tJDBCInput_53.wasNull()) {
-							row45.device_id = null;
-						}
-					}
-					if (colQtyInRs_tJDBCInput_53 < 2) {
-						row45.device_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_53 = rs_tJDBCInput_53
-								.getString(2);
-						if (tmpContent_tJDBCInput_53 != null) {
-							row45.device_join_id = tmpContent_tJDBCInput_53;
-						} else {
-							row45.device_join_id = null;
-						}
-
-						if (rs_tJDBCInput_53.wasNull()) {
-							row45.device_join_id = null;
-						}
-					}
-					if (colQtyInRs_tJDBCInput_53 < 3) {
-						row45.vm_id = null;
-					} else {
-
-						if (rs_tJDBCInput_53.getObject(3) != null) {
-							row45.vm_id = rs_tJDBCInput_53.getObject(3);
-						} else {
-							row45.vm_id = null;
-						}
-
-						if (rs_tJDBCInput_53.wasNull()) {
-							row45.vm_id = null;
-						}
-					}
-					if (colQtyInRs_tJDBCInput_53 < 4) {
-						row45.vm_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_53 = rs_tJDBCInput_53
-								.getString(4);
-						if (tmpContent_tJDBCInput_53 != null) {
-							row45.vm_join_id = tmpContent_tJDBCInput_53;
-						} else {
-							row45.vm_join_id = null;
-						}
-
-						if (rs_tJDBCInput_53.wasNull()) {
-							row45.vm_join_id = null;
-						}
-					}
-					if (colQtyInRs_tJDBCInput_53 < 5) {
-						row45.type = null;
-					} else {
-
-						tmpContent_tJDBCInput_53 = rs_tJDBCInput_53
-								.getString(5);
-						if (tmpContent_tJDBCInput_53 != null) {
-							row45.type = tmpContent_tJDBCInput_53;
-						} else {
-							row45.type = null;
-						}
-
-						if (rs_tJDBCInput_53.wasNull()) {
-							row45.type = null;
-						}
-					}
-					if (colQtyInRs_tJDBCInput_53 < 6) {
-						row45.address = null;
-					} else {
-
-						tmpContent_tJDBCInput_53 = rs_tJDBCInput_53
-								.getString(6);
-						if (tmpContent_tJDBCInput_53 != null) {
-							row45.address = tmpContent_tJDBCInput_53;
-						} else {
-							row45.address = null;
-						}
-
-						if (rs_tJDBCInput_53.wasNull()) {
-							row45.address = null;
-						}
-					}
-					if (colQtyInRs_tJDBCInput_53 < 7) {
-						row45.is_managed = null;
-					} else {
-
-						if (rs_tJDBCInput_53.getObject(7) != null) {
-							row45.is_managed = rs_tJDBCInput_53.getBoolean(7);
-						} else {
-							row45.is_managed = null;
-						}
-
-						if (rs_tJDBCInput_53.wasNull()) {
-							row45.is_managed = null;
-						}
-					}
-					if (colQtyInRs_tJDBCInput_53 < 8) {
-						row45.is_plugged = null;
-					} else {
-
-						if (rs_tJDBCInput_53.getObject(8) != null) {
-							row45.is_plugged = rs_tJDBCInput_53.getBoolean(8);
-						} else {
-							row45.is_plugged = null;
-						}
-
-						if (rs_tJDBCInput_53.wasNull()) {
-							row45.is_plugged = null;
-						}
-					}
-					if (colQtyInRs_tJDBCInput_53 < 9) {
-						row45.is_readonly = null;
-					} else {
-
-						if (rs_tJDBCInput_53.getObject(9) != null) {
-							row45.is_readonly = rs_tJDBCInput_53.getBoolean(9);
-						} else {
-							row45.is_readonly = null;
-						}
-
-						if (rs_tJDBCInput_53.wasNull()) {
-							row45.is_readonly = null;
-						}
-					}
-					if (colQtyInRs_tJDBCInput_53 < 10) {
-						row45.create_date = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_53 = null;
-						try {
-							date_tJDBCInput_53 = rs_tJDBCInput_53
-									.getTimestamp(10);
-						} catch (Exception e) {
-							date_tJDBCInput_53 = rs_tJDBCInput_53.getDate(10);
-						}
-						row45.create_date = date_tJDBCInput_53;
-
-						if (rs_tJDBCInput_53.wasNull()) {
-							row45.create_date = null;
-						}
-					}
-					if (colQtyInRs_tJDBCInput_53 < 11) {
-						row45.update_date = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_53 = null;
-						try {
-							date_tJDBCInput_53 = rs_tJDBCInput_53
-									.getTimestamp(11);
-						} catch (Exception e) {
-							date_tJDBCInput_53 = rs_tJDBCInput_53.getDate(11);
-						}
-						row45.update_date = date_tJDBCInput_53;
-
-						if (rs_tJDBCInput_53.wasNull()) {
-							row45.update_date = null;
-						}
-					}
-
-					/**
-					 * [tJDBCInput_53 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_53 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_53";
-
-					tos_count_tJDBCInput_53++;
-
-					/**
-					 * [tJDBCInput_53 main ] stop
-					 */
-
-					/**
-					 * [tMap_31 main ] start
-					 */
-
-					currentComponent = "tMap_31";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_31 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_31 = false;
-					boolean mainRowRejected_tMap_31 = false;
-
-					if (
-
-					(
-
-					row45.update_date == null ? TalendDate.compareDate(
-							row45.create_date, context.runTime) <= 0
-							: TalendDate.compareDate(row45.update_date,
-									context.runTime) <= 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row45'
-
-						// /////////////////////////////////////////////
-						// Starting Lookup Table "row46"
-						// /////////////////////////////////////////////
-
-						boolean forceLooprow46 = false;
-
-						row46Struct row46ObjectFromLookup = null;
-
-						if (!rejectedInnerJoin_tMap_31) { // G_TM_M_020
-
-							hasCasePrimitiveKeyWithNull_tMap_31 = false;
-
-							row46HashKey.vm_join_id = row45.vm_join_id;
-
-							row46HashKey.hashCodeDirty = true;
-
-							tHash_Lookup_row46.lookup(row46HashKey);
-
-						} // G_TM_M_020
-
-						if (tHash_Lookup_row46 != null
-								&& tHash_Lookup_row46.getCount(row46HashKey) > 1) { // G
-																					// 071
-
-							// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row46' and it contains more one result from keys :  row46.vm_join_id = '"
-							// + row46HashKey.vm_join_id + "'");
-						} // G 071
-
-						row46Struct row46 = null;
-
-						row46Struct fromLookup_row46 = null;
-						row46 = row46Default;
-
-						if (tHash_Lookup_row46 != null
-								&& tHash_Lookup_row46.hasNext()) { // G 099
-
-							fromLookup_row46 = tHash_Lookup_row46.next();
-
-						} // G 099
-
-						if (fromLookup_row46 != null) {
-							row46 = fromLookup_row46;
-						}
-
-						// /////////////////////////////////////////////
-						// Starting Lookup Table "row53"
-						// /////////////////////////////////////////////
-
-						boolean forceLooprow53 = false;
-
-						row53Struct row53ObjectFromLookup = null;
-
-						if (!rejectedInnerJoin_tMap_31) { // G_TM_M_020
-
-							hasCasePrimitiveKeyWithNull_tMap_31 = false;
-
-							row53HashKey.vm_interface_join_id = row45.device_join_id;
-
-							row53HashKey.hashCodeDirty = true;
-
-							tHash_Lookup_row53.lookup(row53HashKey);
-
-						} // G_TM_M_020
-
-						if (tHash_Lookup_row53 != null
-								&& tHash_Lookup_row53.getCount(row53HashKey) > 1) { // G
-																					// 071
-
-							// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row53' and it contains more one result from keys :  row53.vm_interface_join_id = '"
-							// + row53HashKey.vm_interface_join_id + "'");
-						} // G 071
-
-						row53Struct row53 = null;
-
-						row53Struct fromLookup_row53 = null;
-						row53 = row53Default;
-
-						if (tHash_Lookup_row53 != null
-								&& tHash_Lookup_row53.hasNext()) { // G 099
-
-							fromLookup_row53 = tHash_Lookup_row53.next();
-
-						} // G 099
-
-						if (fromLookup_row53 != null) {
-							row53 = fromLookup_row53;
-						}
-
-						// /////////////////////////////////////////////
-						// Starting Lookup Table "row54"
-						// /////////////////////////////////////////////
-
-						boolean forceLooprow54 = false;
-
-						row54Struct row54ObjectFromLookup = null;
-
-						if (!rejectedInnerJoin_tMap_31) { // G_TM_M_020
-
-							hasCasePrimitiveKeyWithNull_tMap_31 = false;
-
-							row54HashKey.vm_disk_join_id = row45.device_join_id;
-
-							row54HashKey.hashCodeDirty = true;
-
-							tHash_Lookup_row54.lookup(row54HashKey);
-
-						} // G_TM_M_020
-
-						if (tHash_Lookup_row54 != null
-								&& tHash_Lookup_row54.getCount(row54HashKey) > 1) { // G
-																					// 071
-
-							// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row54' and it contains more one result from keys :  row54.vm_disk_join_id = '"
-							// + row54HashKey.vm_disk_join_id + "'");
-						} // G 071
-
-						row54Struct row54 = null;
-
-						row54Struct fromLookup_row54 = null;
-						row54 = row54Default;
-
-						if (tHash_Lookup_row54 != null
-								&& tHash_Lookup_row54.hasNext()) { // G 099
-
-							fromLookup_row54 = tHash_Lookup_row54.next();
-
-						} // G 099
-
-						if (fromLookup_row54 != null) {
-							row54 = fromLookup_row54;
-						}
-
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_31__Struct Var = Var__tMap_31;// ###############################
-							// ###############################
-							// # Output tables
-
-							insert_new_vm_device_connection = null;
-
-							// ###### START REJECTS #####
-							// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_31 = false;
-
-						tos_count_tMap_31++;
-
-						/**
-						 * [tMap_31 main ] stop
-						 */
-						// Start of branch "insert_new_vm_device_connection"
-						if (insert_new_vm_device_connection != null) {
-
-							/**
-							 * [tJDBCOutput_31 main ] start
-							 */
-
-							currentComponent = "tJDBCOutput_31";
-
-							whetherReject_tJDBCOutput_31 = false;
-							if (insert_new_vm_device_connection.vm_id == null) {
-								pstmt_tJDBCOutput_31.setNull(1,
-										java.sql.Types.OTHER);
-							} else {
-								pstmt_tJDBCOutput_31.setObject(1,
-										insert_new_vm_device_connection.vm_id);
-							}
-
-							if (insert_new_vm_device_connection.device_id == null) {
-								pstmt_tJDBCOutput_31.setNull(2,
-										java.sql.Types.OTHER);
-							} else {
-								pstmt_tJDBCOutput_31
-										.setObject(
-												2,
-												insert_new_vm_device_connection.device_id);
-							}
-
-							if (insert_new_vm_device_connection.type == null) {
-								pstmt_tJDBCOutput_31.setNull(3,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_31.setString(3,
-										insert_new_vm_device_connection.type);
-							}
-
-							if (insert_new_vm_device_connection.address == null) {
-								pstmt_tJDBCOutput_31.setNull(4,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_31
-										.setString(
-												4,
-												insert_new_vm_device_connection.address);
-							}
-
-							pstmt_tJDBCOutput_31.setBoolean(5,
-									insert_new_vm_device_connection.is_managed);
-
-							if (insert_new_vm_device_connection.is_plugged == null) {
-								pstmt_tJDBCOutput_31.setNull(6,
-										java.sql.Types.BOOLEAN);
-							} else {
-								pstmt_tJDBCOutput_31
-										.setBoolean(
-												6,
-												insert_new_vm_device_connection.is_plugged);
-							}
-
-							pstmt_tJDBCOutput_31
-									.setBoolean(
-											7,
-											insert_new_vm_device_connection.is_readonly);
-
-							if (insert_new_vm_device_connection.vm_configuration_version == null) {
-								pstmt_tJDBCOutput_31.setNull(8,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_31
-										.setInt(
-												8,
-												insert_new_vm_device_connection.vm_configuration_version);
-							}
-
-							if (insert_new_vm_device_connection.device_configuration_version == null) {
-								pstmt_tJDBCOutput_31.setNull(9,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_31
-										.setInt(
-												9,
-												insert_new_vm_device_connection.device_configuration_version);
-							}
-
-							if (insert_new_vm_device_connection.create_date != null) {
-								pstmt_tJDBCOutput_31
-										.setTimestamp(
-												10,
-												new java.sql.Timestamp(
-														insert_new_vm_device_connection.create_date
-																.getTime()));
-							} else {
-								pstmt_tJDBCOutput_31.setNull(10,
-										java.sql.Types.DATE);
-							}
-
-							if (insert_new_vm_device_connection.update_date != null) {
-								pstmt_tJDBCOutput_31
-										.setTimestamp(
-												11,
-												new java.sql.Timestamp(
-														insert_new_vm_device_connection.update_date
-																.getTime()));
-							} else {
-								pstmt_tJDBCOutput_31.setNull(11,
-										java.sql.Types.DATE);
-							}
-
-							if (insert_new_vm_device_connection.delete_date != null) {
-								pstmt_tJDBCOutput_31
-										.setTimestamp(
-												12,
-												new java.sql.Timestamp(
-														insert_new_vm_device_connection.delete_date
-																.getTime()));
-							} else {
-								pstmt_tJDBCOutput_31.setNull(12,
-										java.sql.Types.DATE);
-							}
-
-							try {
-								insertedCount_tJDBCOutput_31 = insertedCount_tJDBCOutput_31
-										+ pstmt_tJDBCOutput_31.executeUpdate();
-								nb_line_tJDBCOutput_31++;
-							} catch (Exception e) {
-								whetherReject_tJDBCOutput_31 = true;
-								throw (e);
-							}
-
-							tos_count_tJDBCOutput_31++;
-
-							/**
-							 * [tJDBCOutput_31 main ] stop
-							 */
-
-						} // End of branch "insert_new_vm_device_connection"
-
-					} // G_TM_M_280 close main tMap filter for table 'row45'
-
-					/**
-					 * [tJDBCInput_53 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_53";
-
+		                    } 	
+		                    if(colQtyInRs_tJDBCInput_53 < 2) { 		
+		                        row45.device_join_id = null; 			
+		                    } else {
+		                         
+            tmpContent_tJDBCInput_53 = rs_tJDBCInput_53.getString(2);
+            if(tmpContent_tJDBCInput_53 != null) {
+                row45.device_join_id = tmpContent_tJDBCInput_53;
+            } else {
+                row45.device_join_id = null;
+            }
+								
+				if (rs_tJDBCInput_53.wasNull()) {
+					row45.device_join_id = null;
 				}
-				stmt_tJDBCInput_53.close();
-
-				globalMap.put("tJDBCInput_53_NB_LINE", nb_line_tJDBCInput_53);
-
-				ok_Hash.put("tJDBCInput_53", true);
-				end_Hash.put("tJDBCInput_53", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCInput_53 end ] stop
-				 */
-
-				/**
-				 * [tMap_31 end ] start
-				 */
-
-				currentComponent = "tMap_31";
-
-				// ###############################
-				// # Lookup hashes releasing
-				if (tHash_Lookup_row46 != null) {
-					tHash_Lookup_row46.endGet();
+		                    } 	
+		                    if(colQtyInRs_tJDBCInput_53 < 3) { 		
+		                        row45.vm_id = null; 			
+		                    } else {
+		                          
+            if(rs_tJDBCInput_53.getObject(3) != null) {
+                row45.vm_id = rs_tJDBCInput_53.getObject(3);
+            } else {
+                    row45.vm_id = null;
+            }
+								
+				if (rs_tJDBCInput_53.wasNull()) {
+					row45.vm_id = null;
 				}
-				globalMap.remove("tHash_Lookup_row46");
-
-				if (tHash_Lookup_row53 != null) {
-					tHash_Lookup_row53.endGet();
+		                    } 	
+		                    if(colQtyInRs_tJDBCInput_53 < 4) { 		
+		                        row45.vm_join_id = null; 			
+		                    } else {
+		                         
+            tmpContent_tJDBCInput_53 = rs_tJDBCInput_53.getString(4);
+            if(tmpContent_tJDBCInput_53 != null) {
+                row45.vm_join_id = tmpContent_tJDBCInput_53;
+            } else {
+                row45.vm_join_id = null;
+            }
+								
+				if (rs_tJDBCInput_53.wasNull()) {
+					row45.vm_join_id = null;
 				}
-				globalMap.remove("tHash_Lookup_row53");
-
-				if (tHash_Lookup_row54 != null) {
-					tHash_Lookup_row54.endGet();
+		                    } 	
+		                    if(colQtyInRs_tJDBCInput_53 < 5) { 		
+		                        row45.type = null; 			
+		                    } else {
+		                         
+            tmpContent_tJDBCInput_53 = rs_tJDBCInput_53.getString(5);
+            if(tmpContent_tJDBCInput_53 != null) {
+                row45.type = tmpContent_tJDBCInput_53;
+            } else {
+                row45.type = null;
+            }
+								
+				if (rs_tJDBCInput_53.wasNull()) {
+					row45.type = null;
 				}
-				globalMap.remove("tHash_Lookup_row54");
-
-				// ###############################
-
-				ok_Hash.put("tMap_31", true);
-				end_Hash.put("tMap_31", System.currentTimeMillis());
-
-				/**
-				 * [tMap_31 end ] stop
-				 */
-
-				/**
-				 * [tJDBCOutput_31 end ] start
-				 */
-
-				currentComponent = "tJDBCOutput_31";
-
-				if (pstmt_tJDBCOutput_31 != null) {
-
-					pstmt_tJDBCOutput_31.close();
-
+		                    } 	
+		                    if(colQtyInRs_tJDBCInput_53 < 6) { 		
+		                        row45.address = null; 			
+		                    } else {
+		                         
+            tmpContent_tJDBCInput_53 = rs_tJDBCInput_53.getString(6);
+            if(tmpContent_tJDBCInput_53 != null) {
+                row45.address = tmpContent_tJDBCInput_53;
+            } else {
+                row45.address = null;
+            }
+								
+				if (rs_tJDBCInput_53.wasNull()) {
+					row45.address = null;
 				}
+		                    } 	
+		                    if(colQtyInRs_tJDBCInput_53 < 7) { 		
+		                        row45.is_managed = null; 			
+		                    } else {
+		                          
+            if(rs_tJDBCInput_53.getObject(7) != null) {
+                row45.is_managed = rs_tJDBCInput_53.getBoolean(7);
+            } else {
+                    row45.is_managed = null;
+            }
+								
+				if (rs_tJDBCInput_53.wasNull()) {
+					row45.is_managed = null;
+				}
+		                    } 	
+		                    if(colQtyInRs_tJDBCInput_53 < 8) { 		
+		                        row45.is_plugged = null; 			
+		                    } else {
+		                          
+            if(rs_tJDBCInput_53.getObject(8) != null) {
+                row45.is_plugged = rs_tJDBCInput_53.getBoolean(8);
+            } else {
+                    row45.is_plugged = null;
+            }
+								
+				if (rs_tJDBCInput_53.wasNull()) {
+					row45.is_plugged = null;
+				}
+		                    } 	
+		                    if(colQtyInRs_tJDBCInput_53 < 9) { 		
+		                        row45.is_readonly = null; 			
+		                    } else {
+		                          
+            if(rs_tJDBCInput_53.getObject(9) != null) {
+                row45.is_readonly = rs_tJDBCInput_53.getBoolean(9);
+            } else {
+                    row45.is_readonly = null;
+            }
+								
+				if (rs_tJDBCInput_53.wasNull()) {
+					row45.is_readonly = null;
+				}
+		                    } 	
+		                    if(colQtyInRs_tJDBCInput_53 < 10) { 		
+		                        row45.create_date = null; 			
+		                    } else {
+									
+            java.util.Date date_tJDBCInput_53 = null;
+            try{
+            	date_tJDBCInput_53 = rs_tJDBCInput_53.getTimestamp(10);
+            }catch(Exception e){
+            	date_tJDBCInput_53 = rs_tJDBCInput_53.getDate(10);
+            }
+            row45.create_date = date_tJDBCInput_53;
+								
+				if (rs_tJDBCInput_53.wasNull()) {
+					row45.create_date = null;
+				}
+		                    } 	
+		                    if(colQtyInRs_tJDBCInput_53 < 11) { 		
+		                        row45.update_date = null; 			
+		                    } else {
+									
+            java.util.Date date_tJDBCInput_53 = null;
+            try{
+            	date_tJDBCInput_53 = rs_tJDBCInput_53.getTimestamp(11);
+            }catch(Exception e){
+            	date_tJDBCInput_53 = rs_tJDBCInput_53.getDate(11);
+            }
+            row45.update_date = date_tJDBCInput_53;
+								
+				if (rs_tJDBCInput_53.wasNull()) {
+					row45.update_date = null;
+				}
+		                    }
 
-				nb_line_deleted_tJDBCOutput_31 = nb_line_deleted_tJDBCOutput_31
-						+ deletedCount_tJDBCOutput_31;
-				nb_line_update_tJDBCOutput_31 = nb_line_update_tJDBCOutput_31
-						+ updatedCount_tJDBCOutput_31;
-				nb_line_inserted_tJDBCOutput_31 = nb_line_inserted_tJDBCOutput_31
-						+ insertedCount_tJDBCOutput_31;
-				nb_line_rejected_tJDBCOutput_31 = nb_line_rejected_tJDBCOutput_31
-						+ rejectedCount_tJDBCOutput_31;
 
-				globalMap.put("tJDBCOutput_31_NB_LINE", nb_line_tJDBCOutput_31);
-				globalMap.put("tJDBCOutput_31_NB_LINE_UPDATED",
-						nb_line_update_tJDBCOutput_31);
-				globalMap.put("tJDBCOutput_31_NB_LINE_INSERTED",
-						nb_line_inserted_tJDBCOutput_31);
-				globalMap.put("tJDBCOutput_31_NB_LINE_DELETED",
-						nb_line_deleted_tJDBCOutput_31);
-				globalMap.put("tJDBCOutput_31_NB_LINE_REJECTED",
-						nb_line_rejected_tJDBCOutput_31);
 
-				ok_Hash.put("tJDBCOutput_31", true);
-				end_Hash.put("tJDBCOutput_31", System.currentTimeMillis());
 
-				/**
-				 * [tJDBCOutput_31 end ] stop
-				 */
+ 
 
-			}// end the resume
 
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog(
-								"CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tJDBCInput_53:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
 
-			tJDBCInput_56Process(globalMap);
+/**
+ * [tJDBCInput_53 begin ] stop
+ */
+/**
+ * [tJDBCInput_53 main ] start
+ */
 
-		} catch (Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+currentComponent="tJDBCInput_53";
 
-		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
 
-		} finally {
-			// free memory for "tMap_31"
-			globalMap.put("tHash_Lookup_row46", null);
+ 
 
-			// free memory for "tMap_31"
-			globalMap.put("tHash_Lookup_row53", null);
 
-			// free memory for "tMap_31"
-			globalMap.put("tHash_Lookup_row54", null);
+	tos_count_tJDBCInput_53++;
 
-		}
+/**
+ * [tJDBCInput_53 main ] stop
+ */
 
-		globalMap.put("tJDBCInput_53_SUBPROCESS_STATE", 1);
+/**
+ * [tMap_31 main ] start
+ */
+
+
+currentComponent="tMap_31";
+
+
+
+		
+		
+		boolean hasCasePrimitiveKeyWithNull_tMap_31 = false;
+		
+        // ###############################
+        // # Input tables (lookups)
+		  boolean rejectedInnerJoin_tMap_31 = false;
+		  boolean mainRowRejected_tMap_31 = false;
+            				    								  
+		
+		              
+			   	  		  if(
+ 				  		  			
+ 				  		  			(
+ 				  		  			
+ 				  		  			row45.update_date == null ? TalendDate.compareDate(row45.create_date,context.runTime) <=0 : TalendDate.compareDate(row45.update_date,context.runTime) <=0
+ 				  		  			
+ 				  		  			)
+  				  		  			
+	  	  		  				) { // G_TM_M_280
+
+							 // CALL close main tMap filter for table 'row45'
+							
+
+				///////////////////////////////////////////////
+				// Starting Lookup Table "row46" 
+				///////////////////////////////////////////////
+
+
+				
+				
+                            
+ 					    boolean forceLooprow46 = false;
+       		  	    	
+       		  	    	
+ 							row46Struct row46ObjectFromLookup = null;
+                          
+		           		  	if(!rejectedInnerJoin_tMap_31) { // G_TM_M_020
+
+								
+								hasCasePrimitiveKeyWithNull_tMap_31 = false;
+								
+                        		    		row46HashKey.vm_join_id = row45.vm_join_id ;
+                        		    		
+
+								
+		                        	row46HashKey.hashCodeDirty = true;
+                        		
+	  					
+	  							
+			  					
+			  					
+	  					
+		  							tHash_Lookup_row46.lookup( row46HashKey );
+
+	  							
+
+	  							
+
+ 								
+		  				
+	  								
+						
+									
+  									  		
+ 								
+
+
+
+							} // G_TM_M_020
+			           		  	  
+							
+				           		if(tHash_Lookup_row46 != null && tHash_Lookup_row46.getCount(row46HashKey) > 1) { // G 071
+			  							
+			  						
+									 		
+									//System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row46' and it contains more one result from keys :  row46.vm_join_id = '" + row46HashKey.vm_join_id + "'");
+								} // G 071
+							
+
+							row46Struct row46 = null;
+                    		  	 
+							   
+                    		  	 
+	       		  	    	row46Struct fromLookup_row46 = null;
+							row46 = row46Default;
+										 
+							
+								 
+							
+							
+								if (tHash_Lookup_row46 !=null && tHash_Lookup_row46.hasNext()) { // G 099
+								
+							
+								
+								fromLookup_row46 = tHash_Lookup_row46.next();
+
+							
+							
+								} // G 099
+							
+							
+
+							if(fromLookup_row46 != null) {
+								row46 = fromLookup_row46;
+							}
+							
+							
+							
+			  							
+								
+	                    		  	
+		                    
+	            	
+	           	
+	            	
+	            	
+	            
+
+				///////////////////////////////////////////////
+				// Starting Lookup Table "row53" 
+				///////////////////////////////////////////////
+
+
+				
+				
+                            
+ 					    boolean forceLooprow53 = false;
+       		  	    	
+       		  	    	
+ 							row53Struct row53ObjectFromLookup = null;
+                          
+		           		  	if(!rejectedInnerJoin_tMap_31) { // G_TM_M_020
+
+								
+								hasCasePrimitiveKeyWithNull_tMap_31 = false;
+								
+                        		    		row53HashKey.vm_interface_join_id = row45.device_join_id ;
+                        		    		
+
+								
+		                        	row53HashKey.hashCodeDirty = true;
+                        		
+	  					
+	  							
+			  					
+			  					
+	  					
+		  							tHash_Lookup_row53.lookup( row53HashKey );
+
+	  							
+
+	  							
+
+ 								
+		  				
+	  								
+						
+									
+  									  		
+ 								
+
+
+
+							} // G_TM_M_020
+			           		  	  
+							
+				           		if(tHash_Lookup_row53 != null && tHash_Lookup_row53.getCount(row53HashKey) > 1) { // G 071
+			  							
+			  						
+									 		
+									//System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row53' and it contains more one result from keys :  row53.vm_interface_join_id = '" + row53HashKey.vm_interface_join_id + "'");
+								} // G 071
+							
+
+							row53Struct row53 = null;
+                    		  	 
+							   
+                    		  	 
+	       		  	    	row53Struct fromLookup_row53 = null;
+							row53 = row53Default;
+										 
+							
+								 
+							
+							
+								if (tHash_Lookup_row53 !=null && tHash_Lookup_row53.hasNext()) { // G 099
+								
+							
+								
+								fromLookup_row53 = tHash_Lookup_row53.next();
+
+							
+							
+								} // G 099
+							
+							
+
+							if(fromLookup_row53 != null) {
+								row53 = fromLookup_row53;
+							}
+							
+							
+							
+			  							
+								
+	                    		  	
+		                    
+	            	
+	           	
+	            	
+	            	
+	            
+
+				///////////////////////////////////////////////
+				// Starting Lookup Table "row54" 
+				///////////////////////////////////////////////
+
+
+				
+				
+                            
+ 					    boolean forceLooprow54 = false;
+       		  	    	
+       		  	    	
+ 							row54Struct row54ObjectFromLookup = null;
+                          
+		           		  	if(!rejectedInnerJoin_tMap_31) { // G_TM_M_020
+
+								
+								hasCasePrimitiveKeyWithNull_tMap_31 = false;
+								
+                        		    		row54HashKey.vm_disk_join_id = row45.device_join_id ;
+                        		    		
+
+								
+		                        	row54HashKey.hashCodeDirty = true;
+                        		
+	  					
+	  							
+			  					
+			  					
+	  					
+		  							tHash_Lookup_row54.lookup( row54HashKey );
+
+	  							
+
+	  							
+
+ 								
+		  				
+	  								
+						
+									
+  									  		
+ 								
+
+
+
+							} // G_TM_M_020
+			           		  	  
+							
+				           		if(tHash_Lookup_row54 != null && tHash_Lookup_row54.getCount(row54HashKey) > 1) { // G 071
+			  							
+			  						
+									 		
+									//System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row54' and it contains more one result from keys :  row54.vm_disk_join_id = '" + row54HashKey.vm_disk_join_id + "'");
+								} // G 071
+							
+
+							row54Struct row54 = null;
+                    		  	 
+							   
+                    		  	 
+	       		  	    	row54Struct fromLookup_row54 = null;
+							row54 = row54Default;
+										 
+							
+								 
+							
+							
+								if (tHash_Lookup_row54 !=null && tHash_Lookup_row54.hasNext()) { // G 099
+								
+							
+								
+								fromLookup_row54 = tHash_Lookup_row54.next();
+
+							
+							
+								} // G 099
+							
+							
+
+							if(fromLookup_row54 != null) {
+								row54 = fromLookup_row54;
+							}
+							
+							
+							
+			  							
+								
+	                    		  	
+		                    
+	            	
+	            	
+	            // ###############################
+        { // start of Var scope
+        
+	        // ###############################
+        	// # Vars tables
+        
+Var__tMap_31__Struct Var = Var__tMap_31;// ###############################
+        // ###############################
+        // # Output tables
+
+insert_new_vm_device_connection = null;
+
+
+// # Output table : 'insert_new_vm_device_connection'
+insert_new_vm_device_connection_tmp.vm_id = row45.vm_id ;
+insert_new_vm_device_connection_tmp.device_id = row45.device_id;
+insert_new_vm_device_connection_tmp.type = row45.type;
+insert_new_vm_device_connection_tmp.address = row45.address;
+insert_new_vm_device_connection_tmp.is_managed = row45.is_managed;
+insert_new_vm_device_connection_tmp.is_plugged = row45.is_plugged;
+insert_new_vm_device_connection_tmp.is_readonly = row45.is_readonly;
+insert_new_vm_device_connection_tmp.vm_configuration_version = row46.history_id ;
+insert_new_vm_device_connection_tmp.device_configuration_version = row53.history_id != null ? row53.history_id ?row54.history_id ;
+insert_new_vm_device_connection_tmp.create_date = row45.create_date;
+insert_new_vm_device_connection_tmp.update_date = row45.update_date;
+insert_new_vm_device_connection_tmp.delete_date = null;
+insert_new_vm_device_connection = insert_new_vm_device_connection_tmp;
+// ###############################
+
+} // end of Var scope
+
+rejectedInnerJoin_tMap_31 = false;
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+	tos_count_tMap_31++;
+
+/**
+ * [tMap_31 main ] stop
+ */
+// Start of branch "insert_new_vm_device_connection"
+if(insert_new_vm_device_connection != null) { 
+
+
+
+/**
+ * [tJDBCOutput_31 main ] start
+ */
+
+
+currentComponent="tJDBCOutput_31";
+
+
+
+        whetherReject_tJDBCOutput_31 = false;
+                    if(insert_new_vm_device_connection.vm_id == null) {
+pstmt_tJDBCOutput_31.setNull(1, java.sql.Types.OTHER);
+} else {pstmt_tJDBCOutput_31.setObject(1, insert_new_vm_device_connection.vm_id);
+}
+
+                    if(insert_new_vm_device_connection.device_id == null) {
+pstmt_tJDBCOutput_31.setNull(2, java.sql.Types.OTHER);
+} else {pstmt_tJDBCOutput_31.setObject(2, insert_new_vm_device_connection.device_id);
+}
+
+                    if(insert_new_vm_device_connection.type == null) {
+pstmt_tJDBCOutput_31.setNull(3, java.sql.Types.VARCHAR);
+} else {pstmt_tJDBCOutput_31.setString(3, insert_new_vm_device_connection.type);
+}
+
+                    if(insert_new_vm_device_connection.address == null) {
+pstmt_tJDBCOutput_31.setNull(4, java.sql.Types.VARCHAR);
+} else {pstmt_tJDBCOutput_31.setString(4, insert_new_vm_device_connection.address);
+}
+
+                    pstmt_tJDBCOutput_31.setBoolean(5, insert_new_vm_device_connection.is_managed);
+
+                    if(insert_new_vm_device_connection.is_plugged == null) {
+pstmt_tJDBCOutput_31.setNull(6, java.sql.Types.BOOLEAN);
+} else {pstmt_tJDBCOutput_31.setBoolean(6, insert_new_vm_device_connection.is_plugged);
+}
+
+                    pstmt_tJDBCOutput_31.setBoolean(7, insert_new_vm_device_connection.is_readonly);
+
+                    if(insert_new_vm_device_connection.vm_configuration_version == null) {
+pstmt_tJDBCOutput_31.setNull(8, java.sql.Types.INTEGER);
+} else {pstmt_tJDBCOutput_31.setInt(8, insert_new_vm_device_connection.vm_configuration_version);
+}
+
+                    if(insert_new_vm_device_connection.device_configuration_version == null) {
+pstmt_tJDBCOutput_31.setNull(9, java.sql.Types.INTEGER);
+} else {pstmt_tJDBCOutput_31.setInt(9, insert_new_vm_device_connection.device_configuration_version);
+}
+
+                    if(insert_new_vm_device_connection.create_date != null) {
+pstmt_tJDBCOutput_31.setTimestamp(10, new java.sql.Timestamp(insert_new_vm_device_connection.create_date.getTime()));
+} else {
+pstmt_tJDBCOutput_31.setNull(10, java.sql.Types.DATE);
+}
+
+                    if(insert_new_vm_device_connection.update_date != null) {
+pstmt_tJDBCOutput_31.setTimestamp(11, new java.sql.Timestamp(insert_new_vm_device_connection.update_date.getTime()));
+} else {
+pstmt_tJDBCOutput_31.setNull(11, java.sql.Types.DATE);
+}
+
+                    if(insert_new_vm_device_connection.delete_date != null) {
+pstmt_tJDBCOutput_31.setTimestamp(12, new java.sql.Timestamp(insert_new_vm_device_connection.delete_date.getTime()));
+} else {
+pstmt_tJDBCOutput_31.setNull(12, java.sql.Types.DATE);
+}
+
+            try {
+                insertedCount_tJDBCOutput_31 = insertedCount_tJDBCOutput_31 + pstmt_tJDBCOutput_31.executeUpdate();
+                nb_line_tJDBCOutput_31++;
+            } catch(Exception e) {
+                whetherReject_tJDBCOutput_31 = true;
+                    throw(e);
+            }
+		
+
+ 
+
+
+	tos_count_tJDBCOutput_31++;
+
+/**
+ * [tJDBCOutput_31 main ] stop
+ */
+
+} // End of branch "insert_new_vm_device_connection"
+
+
+
+	
+		} // G_TM_M_280 close main tMap filter for table 'row45'
+	
+
+
+
+/**
+ * [tJDBCInput_53 end ] start
+ */
+
+
+currentComponent="tJDBCInput_53";
+
+
+
+}
+stmt_tJDBCInput_53.close();
+
+
+globalMap.put("tJDBCInput_53_NB_LINE", nb_line_tJDBCInput_53);
+
+
+
+ 
+
+ok_Hash.put("tJDBCInput_53", true);
+end_Hash.put("tJDBCInput_53", System.currentTimeMillis());
+
+
+
+
+/**
+ * [tJDBCInput_53 end ] stop
+ */
+
+/**
+ * [tMap_31 end ] start
+ */
+
+
+currentComponent="tMap_31";
+
+
+
+
+
+// ###############################
+// # Lookup hashes releasing
+					if(tHash_Lookup_row46 != null) {
+						tHash_Lookup_row46.endGet();
+					}
+					globalMap.remove( "tHash_Lookup_row46" );
+
+					
+					
+				
+					if(tHash_Lookup_row53 != null) {
+						tHash_Lookup_row53.endGet();
+					}
+					globalMap.remove( "tHash_Lookup_row53" );
+
+					
+					
+				
+					if(tHash_Lookup_row54 != null) {
+						tHash_Lookup_row54.endGet();
+					}
+					globalMap.remove( "tHash_Lookup_row54" );
+
+					
+					
+				
+// ###############################        
+
+
+
+
+
+ 
+
+ok_Hash.put("tMap_31", true);
+end_Hash.put("tMap_31", System.currentTimeMillis());
+
+
+
+
+/**
+ * [tMap_31 end ] stop
+ */
+
+/**
+ * [tJDBCOutput_31 end ] start
+ */
+
+
+currentComponent="tJDBCOutput_31";
+
+
+    
+    if(pstmt_tJDBCOutput_31 != null) {
+
+        pstmt_tJDBCOutput_31.close();
+        
+    }        
+
+
+nb_line_deleted_tJDBCOutput_31=nb_line_deleted_tJDBCOutput_31 + deletedCount_tJDBCOutput_31;
+nb_line_update_tJDBCOutput_31=nb_line_update_tJDBCOutput_31 + updatedCount_tJDBCOutput_31;
+nb_line_inserted_tJDBCOutput_31=nb_line_inserted_tJDBCOutput_31 + insertedCount_tJDBCOutput_31;
+nb_line_rejected_tJDBCOutput_31=nb_line_rejected_tJDBCOutput_31 + rejectedCount_tJDBCOutput_31;
+
+globalMap.put("tJDBCOutput_31_NB_LINE", nb_line_tJDBCOutput_31);
+globalMap.put("tJDBCOutput_31_NB_LINE_UPDATED", nb_line_update_tJDBCOutput_31);
+globalMap.put("tJDBCOutput_31_NB_LINE_INSERTED", nb_line_inserted_tJDBCOutput_31);
+globalMap.put("tJDBCOutput_31_NB_LINE_DELETED", nb_line_deleted_tJDBCOutput_31);
+globalMap.put("tJDBCOutput_31_NB_LINE_REJECTED", nb_line_rejected_tJDBCOutput_31);
+
+ 
+
+ok_Hash.put("tJDBCOutput_31", true);
+end_Hash.put("tJDBCOutput_31", System.currentTimeMillis());
+
+
+
+
+/**
+ * [tJDBCOutput_31 end ] stop
+ */
+
+
+
+
+
+
+
+
+
+}//end the resume
+
+	    			if( resumeEntryMethodName == null || globalResumeTicket){
+	    				resumeUtil.addLog("CHECKPOINT", "CONNECTION:SUBJOB_OK:tJDBCInput_53:OnSubjobOk", "", Thread.currentThread().getId() + "", "", "", "", "", "");
+					}	    				    			
+	    		
+    		
+			tJDBCInput_56Process(globalMap); 
+
+
+	
+	} catch(Exception e) {	
+
+		throw new TalendException(e, currentComponent, globalMap);
+	
+	} catch(java.lang.Error error) {
+	
+		throw new java.lang.Error(error);
+
 	}
+     			 finally{ 
+     			//free memory for "tMap_31"
+     			globalMap.put("tHash_Lookup_row46", null); 
+     			
+     			//free memory for "tMap_31"
+     			globalMap.put("tHash_Lookup_row53", null); 
+     			
+     			//free memory for "tMap_31"
+     			globalMap.put("tHash_Lookup_row54", null); 		
+				
+		}		
+	
+	
+	globalMap.put("tJDBCInput_53_SUBPROCESS_STATE", 1);
+}
 
 	public static class delete_vm_device_connectionStruct implements
 			routines.system.IPersistableRow<delete_vm_device_connectionStruct> {
@@ -56163,6 +56404,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1505598 characters generated by Talend Open Studio for Data Integration on
- * the June 17, 2012 6:23:19 PM IDT
+ * 1506542 characters generated by Talend Open Studio for Data Integration on
+ * the July 16, 2012 11:44:21 AM IDT
  ************************************************************************************************/

@@ -2014,7 +2014,7 @@
       <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_configuration">
         <mapperTableEntries name="image_id" expression="row6.image_id " type="id_Object"/>
@@ -2260,7 +2260,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_interface_configuration">
         <mapperTableEntries name="vm_interface_id" expression="row8.vm_interface_id" type="id_Object"/>
@@ -4476,7 +4476,7 @@
       <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_disks" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="image_id" expression="row27.image_id" type="id_Object"/>
@@ -5335,7 +5335,7 @@
       <column comment="" key="false" length="8" name="detach_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="new_tag_relations" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="entity_id" expression="row9.entity_id" type="id_Object"/>
@@ -7139,9 +7139,9 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
-      <outputTables sizeState="INTERMEDIATE" name="insert_new_vm_device_connection" activateExpressionFilter="true" activateCondensedTool="true" rejectInnerJoin="true">
+      <outputTables sizeState="INTERMEDIATE" name="insert_new_vm_device_connection">
         <mapperTableEntries name="vm_id" expression="row45.vm_id " type="id_Object"/>
         <mapperTableEntries name="device_id" expression="row45.device_id" type="id_Object"/>
         <mapperTableEntries name="type" expression="row45.type" type="id_String"/>
