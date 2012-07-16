@@ -1033,7 +1033,7 @@
       <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -1590,9 +1590,9 @@
     <elementParameter field="TABLE" name="TRIM_COLUMN">
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_id"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="image_id"/>
-      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_join_id"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="image_id"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_status"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1616,8 +1616,8 @@
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="dwh_vm_disks_history_view" name="tJDBCInput_18">
       <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object"/>
       <column comment="" key="false" name="vm_disk_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object"/>
       <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="10" name="read_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1655,7 +1655,7 @@
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -1673,8 +1673,8 @@
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="vm_disk_id" type="id_Object" nullable="true"/>
-        <mapperTableEntries name="image_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_disk_join_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="image_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_disk_status" type="id_Short" nullable="true"/>
         <mapperTableEntries name="vm_disk_actual_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="read_rate_bytes_per_second" type="id_Integer" nullable="true"/>
