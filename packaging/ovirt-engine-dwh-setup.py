@@ -14,6 +14,7 @@ TODO:
 import logging
 import sys
 import os
+import re
 import traceback
 import common_utils as utils
 from decorators import transactionDisplay
@@ -24,6 +25,7 @@ PATH_WATCHDOG="/usr/share/ovirt-engine-dwh/etl/ovirt_engine_dwh_watchdog.cron"
 EXEC_CREATE_DB="%s/ovirt-engine-history-db-install.sh" % PATH_DB_SCRIPTS
 EXEC_UPGRADE_DB="upgrade.sh"
 FILE_DB_CONN = "/etc/ovirt-engine/ovirt-engine-dwh/Default.properties"
+FILE_WEB_CONF = "/etc/ovirt-engine/web-conf.js"
 FILE_PG_PASS="/root/.pgpass"
 DB_USER_NAME = "postgres"
 DB_PORT = "5432"
@@ -104,6 +106,9 @@ def setDbPass(db_dict):
     '''
     logging.debug("Setting DB pass")
     logging.debug("editing etl db connectivity file")
+
+    (fqdn, port) = getHostParams()
+
     file_handler = utils.TextConfigFileHandler(FILE_DB_CONN)
     file_handler.open()
     file_handler.editParam("ovirtEngineHistoryDbPassword", db_dict["password"])
@@ -114,7 +119,55 @@ def setDbPass(db_dict):
                            "jdbc\:postgresql\://%s\:%s/engine?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
     file_handler.editParam("ovirtEngineHistoryDbJdbcConnection",
                            "jdbc\:postgresql\://%s\:%s/ovirt_engine_history?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
+    file_handler.editParam("ovirtEnginePortalPort", port)
     file_handler.close()
+
+def getHostParams(secure=False):
+    """
+    get hostname & secured port from /etc/ovirt-engine/web-conf.js
+    """
+
+    pattern = "var\shttp_port\s\=\s\"(\d+)\""
+    if secure:
+        pattern = "var\shttps_port\s\=\s\"(\d+)\""
+
+    logging.debug("looking for configuration from %s", FILE_WEB_CONF)
+    if not os.path.exists(FILE_WEB_CONF):
+        raise Exception("Could not find %s" % FILE_WEB_CONF)
+
+    logging.debug("reading %s", FILE_WEB_CONF)
+    fileObj = open(FILE_WEB_CONF, "r")
+    hostFqdn = None
+    port = None
+
+    logging.debug("Itterating over file")
+    for line in fileObj.readlines():
+        # var host_fqdn = "vm-18-12.eng.lab.tlv.redhat.com";
+        line = line.strip()
+        found = re.search("var\shost_fqdn\s\=\s\"(\S+)\"", line)
+        if found:
+            hostFqdn = found.group(1)
+            logging.debug("host fqdn is: %s", hostFqdn)
+        # var http/https_port = "9443";
+        found = re.search(pattern, line)
+        if found:
+            port = found.group(1)
+            if secure:
+                logging.debug("Secure web port is: %s", port)
+            else:
+                logging.debug("Web port is: %s", port)
+
+
+    fileObj.close()
+
+    if not hostFqdn:
+        logging.error("Could not find the HOST FQDN from %s", FILE_WEB_CONF)
+        raise Exception("Cannot find host fqdn from configuration, please verify that ovirt-engine is configured")
+    if not port:
+        logging.error("Could not find the web port from %s", FILE_WEB_CONF)
+        raise Exception("Cannot find the web port from configuration, please verify that ovirt-engine is configured")
+
+    return (hostFqdn, port)
 
 def isVersionSupported(rawMinimalVersion, rawCurrentVersion):
     """
