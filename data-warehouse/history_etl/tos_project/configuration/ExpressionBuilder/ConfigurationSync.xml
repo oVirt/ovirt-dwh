@@ -184,7 +184,7 @@
     <variables name="row7.physical_memory" value="null" talendType="id_Integer" nullable="true"/>
     <variables name="ring&quot; nullable=&quot;true" value="&lt;var" talendType="ow7.cpu_mo" nullable="true"/>
     <variables name="row7.create_date" value="null" talendType="id_Date" nullable="true"/>
-    <variables name="row7.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="/>&#xA;    &lt;variable" value="null" talendType="id_Date" nullable="true"/>
     <variables name="row36.history_id" value="null" talendType="id_Integer" nullable="true"/>
     <variables name="row36.cluster_join_id" value="null" talendType="id_String"/>
   </expression:EMFExpression>
@@ -454,7 +454,7 @@
     <variables name="row4.auto_startup" value="null" talendType="id_Boolean" nullable="true"/>
     <variables name="row4.auto_suspend" value="null" talendType="id_Boolean" nullable="true"/>
     <variables name="row4.usb_policy" value="null" talendType="id_Integer" nullable="true"/>
-    <variables name="row4.time_zone" value="null" talendType="id_String" nullable="true"/>
+    <variables name="&quot; talendType=&quot;" value="r&quot; n" talendType="/>&#xA;    &lt;v" nullable="true"/>
     <variables name="row4.create_date" value="null" talendType="id_Date" nullable="true"/>
     <variables name="row4.update_date" value="null" talendType="id_Date" nullable="true"/>
     <variables name="row38.history_id" value="null" talendType="id_Integer" nullable="true"/>
@@ -608,6 +608,25 @@
     <variables name="row42._update_date" value="null" talendType="id_Date" nullable="true"/>
   </expression:EMFExpression>
   <expression:EMFExpression id="null=>insert_new_vm_disk_connection=>device_configuration_version" expression="row53.history_id != null ? row53.history_id ?row54.history_id">
+    <variables name="row45.device_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row45.device_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row45.vm_id" value="null" talendType="id_Object" nullable="true"/>
+    <variables name="row45.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row45.type" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row45.address" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row45.is_managed" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row45.is_plugged" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row45.is_readonly" value="null" talendType="id_Boolean" nullable="true"/>
+    <variables name="row45.create_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row45.update_date" value="null" talendType="id_Date" nullable="true"/>
+    <variables name="row46.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row46.vm_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row53.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row53.vm_interface_join_id" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row54.history_id" value="null" talendType="id_Integer" nullable="true"/>
+    <variables name="row54.vm_disk_join_id" value="null" talendType="id_String" nullable="true"/>
+  </expression:EMFExpression>
+  <expression:EMFExpression id="null=>insert_new_vm_device_connection=>device_configuration_version" expression="row53.history_id != null ? row53.history_id : row54.history_id">
     <variables name="row45.device_id" value="null" talendType="id_Object" nullable="true"/>
     <variables name="row45.device_join_id" value="null" talendType="id_String" nullable="true"/>
     <variables name="row45.vm_id" value="null" talendType="id_Object" nullable="true"/>

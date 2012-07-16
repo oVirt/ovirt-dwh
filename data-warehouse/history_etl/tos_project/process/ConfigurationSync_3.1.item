@@ -2260,7 +2260,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_interface_configuration">
         <mapperTableEntries name="vm_interface_id" expression="row8.vm_interface_id" type="id_Object"/>
@@ -5335,7 +5335,7 @@
       <column comment="" key="false" length="8" name="detach_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="new_tag_relations" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="entity_id" expression="row9.entity_id" type="id_Object"/>
@@ -7150,7 +7150,7 @@
         <mapperTableEntries name="is_plugged" expression="row45.is_plugged" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="is_readonly" expression="row45.is_readonly" type="id_Boolean"/>
         <mapperTableEntries name="vm_configuration_version" expression="row46.history_id " type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="device_configuration_version" expression="row53.history_id != null ? row53.history_id ?row54.history_id " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="device_configuration_version" expression="row53.history_id != null ? row53.history_id : row54.history_id " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="create_date" expression="row45.create_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="row45.update_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="delete_date" type="id_Date" nullable="true"/>
