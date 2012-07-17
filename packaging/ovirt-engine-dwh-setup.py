@@ -36,7 +36,7 @@ DB_HOST = "localhost"
 # ERRORS:
 ERR_DB_CREATE_FAILED = "Error while trying to create ovirt_engine_history db"
 
-log_file = utils.initLogging("ovirt-engine-dwh-setup", "/var/log/ovirt")
+log_file = utils.initLogging("ovirt-engine-dwh-setup", "/var/log/ovirt-engine")
 
 def dbExists(db_dict):
     logging.debug("checking if %s db already exists" % db_dict["name"])
