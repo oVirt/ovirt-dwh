@@ -54,7 +54,7 @@ def createDB(db_dict):
     logging.debug("installing ovirt_engine_history db")
 
     dbLogFilename = "ovirt-history-db-install-%s.log" %(utils.getCurrentDateTime())
-    logging.debug("ovirt engine history db creation is logged at %s/%s" % ("/var/log/ovirt", dbLogFilename))
+    logging.debug("ovirt engine history db creation is logged at %s/%s" % ("/var/log/ovirt-engine", dbLogFilename))
 
     # Set ovirt-history-db-install.sh args - logfile
     if utils.localHost(db_dict["host"]):
