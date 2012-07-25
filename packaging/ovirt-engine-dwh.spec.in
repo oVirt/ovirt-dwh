@@ -67,6 +67,7 @@ ln -s %{_datadir}/%{name}/%{name}-setup.py %{buildroot}%{_bindir}/%{name}-setup
 
 %post
 /sbin/chkconfig --add %{name}d > /dev/null 2>&1
+/sbin/chkconfig %{name}d off > /dev/null 2>&1
 /sbin/service %{name}d stop > /dev/null 2>&1
 /usr/sbin/logrotate /etc/logrotate.conf > /dev/null || /bin/true
 
