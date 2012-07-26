@@ -79,11 +79,21 @@ def upgradeDB(db_dict):
     upgrade existing ovirt_engine_history db
     """
     logging.debug("upgrading ovirt_engine_history db")
+    dbLogFilename = "ovirt-history-db-upgrade-%s.log" %(utils.getCurrentDateTime())
+    logging.debug("ovirt engine history db upgrade is logged at %s/%s" % ("/var/log/ovirt-engine", dbLogFilename))
 
     # Try/Except so we'll be able to return to our current directory
     currDir = os.getcwd()
     try:
         cmd = "sh ./%s" % EXEC_UPGRADE_DB
+        cmd = [
+                cmd,
+                "-s", db_dict["host"],
+                "-p", db_dict["port"],
+                "-u", db_dict["username"],
+                "-d", db_dict["name"],
+                "-l", "/var/log/ovirt-engine/%s" % dbLogFilename,
+              ]
         os.chdir(PATH_DB_SCRIPTS)
         output, rc = utils.execExternalCmd(cmd, True, "Error while trying to upgrade ovirt_engine_history DB")
     except:
