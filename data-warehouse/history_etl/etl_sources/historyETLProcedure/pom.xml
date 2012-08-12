@@ -32,9 +32,15 @@
 
     <plugins>
       <plugin>
-            <artifactId>maven-compiler-plugin</artifactId> <configuration>
-                <source>1.6</source> <target>1.6</target> <includes>
-                    <include>**/*.txt</include> <include>**/*.java</include> <include>**/*.properties</include>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <encoding>${project.build.sourceEncoding}</encoding>
+                <source>1.6</source>
+                <target>1.6</target>
+                <includes>
+                    <include>**/*.txt</include>
+                    <include>**/*.java</include>
+                    <include>**/*.properties</include>
                 </includes>
             </configuration>
       </plugin>

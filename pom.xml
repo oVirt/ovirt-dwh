@@ -14,6 +14,7 @@
 
   <properties>
     <!-- dependency versions -->
+    <ovirt-dwh.version>3.1.0</ovirt-dwh.version>
     <version.commons-collections>3.2.1</version.commons-collections>
     <version.log4j>1.2.14</version.log4j>
     <version.dom4j>1.6.1</version.dom4j>
@@ -21,6 +22,7 @@
     <version.advancedPersistentLookupLib>1.0</version.advancedPersistentLookupLib>
     <version.postgresql-jdbc>9.1-901-1.jdbc4</version.postgresql-jdbc>
     <version.dependency-plugin>2.4</version.dependency-plugin>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
   <repositories>
