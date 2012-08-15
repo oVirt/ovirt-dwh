@@ -20,6 +20,7 @@ import common_utils as utils
 from decorators import transactionDisplay
 log_file = None
 
+DWH_PACKAGE_NAME="ovirt-engine-dwh"
 PATH_DB_SCRIPTS="/usr/share/ovirt-engine-dwh/db-scripts"
 PATH_WATCHDOG="/usr/share/ovirt-engine-dwh/etl/ovirt_engine_dwh_watchdog.cron"
 EXEC_CREATE_DB="%s/ovirt-engine-history-db-install.sh" % PATH_DB_SCRIPTS
@@ -36,7 +37,7 @@ DB_HOST = "localhost"
 # ERRORS:
 ERR_DB_CREATE_FAILED = "Error while trying to create ovirt_engine_history db"
 
-log_file = utils.initLogging("ovirt-engine-dwh-setup", "/var/log/ovirt-engine")
+log_file = utils.initLogging("%s-setup" % DWH_PACKAGE_NAME, "/var/log/ovirt-engine")
 
 def dbExists(db_dict):
     logging.debug("checking if %s db already exists" % db_dict["name"])
@@ -199,7 +200,7 @@ def setVersion():
     """
     set the etlVersion option to current version
     """
-    versionString = utils.getAppVersion("ovirt-engine-dwh")
+    versionString = utils.getAppVersion(DWH_PACKAGE_NAME)
     (currentVersion, currentMinorVersion, currentRelease) = utils.parseVersionString(versionString)
     logging.debug("Setting etlVersion")
     logging.debug("editing etl connectivity file")
@@ -220,9 +221,9 @@ def main():
 
         # Get minimal supported version from oVirt Engine
         minimalVersion = utils.getVDCOption("MinimalETLVersion")
-        currentVersion = utils.getAppVersion("ovirt-engine-dwh")
+        currentVersion = utils.getAppVersion(DWH_PACKAGE_NAME)
         if not isVersionSupported(minimalVersion, currentVersion):
-            print "Minimal supported version (%s) is higher then installed version (%s), please update the ovirt-engine-dwh package" % (minimalVersion, currentVersion)
+            print "Minimal supported version (%s) is higher then installed version (%s), please update the %s package" % (minimalVersion, currentVersion, DWH_PACKAGE_NAME)
             raise Exception("current version not supported by ovirt engine")
 
         # Stop JBOSSAS
@@ -246,7 +247,7 @@ def main():
             utils.startJboss()
             utils.startEtl()
 
-            print "Successfully installed ovirt-engine-dwh."
+            print "Successfully installed %s." % DWH_PACKAGE_NAME
             print "The installation log file is available at: %s" % log_file
         else:
             logging.debug("user chose not to stop jboss")
@@ -256,7 +257,7 @@ def main():
     except:
         logging.error("Exception caught!")
         logging.error(traceback.format_exc())
-        print "Error encountered while installing ovirt-engine-dwh, please consult the log file: %s" % log_file
+        print "Error encountered while installing %s, please consult the log file: %s" % (DWH_PACKAGE_NAME,log_file)
         rc = 1
     finally:
         return rc
