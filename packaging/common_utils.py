@@ -41,10 +41,17 @@ def getVDCOption(key):
     """
     Get option_value from vdc_options per given key
     """
-    cmd = "/bin/sh %s -g %s --cver=%s -p %s" % ("/usr/share/ovirt-engine/engine-config/engine-config", key, "general", "/usr/share/ovirt-engine/conf/engine-config-install.properties")
+    cmd = [
+        "/usr/share/ovirt-engine/engine-config/engine-config",
+        "-g",
+        key,
+        "--cver=general",
+        "-p",
+        "/usr/share/ovirt-engine/conf/engine-config-install.properties",
+    ]
     logging.debug("getting vdc option %s" % key)
 
-    output, rc = execExternalCmd(cmd, True, "Error: failed fetching configuration field %s" % key)
+    output, rc = execCmd(cmdList=cmd, failOnError=True, msg="Error: failed fetching configuration field %s" % key)
     logging.debug("Value of %s is %s" % (key, output))
 
     return output.rstrip()
@@ -156,32 +163,6 @@ def askYesNo(question=None):
     else:
         return askYesNo(question)
 
-def execExternalCmd(command, fail_on_error=False, msg="Return code differs from 0"):
-    '''
-    executes a shell command, if fail_on_error is True, raises an exception
-    '''
-    logging.debug("cmd = %s" % (command))
-    pi = subprocess.Popen(command, shell=True,
-        stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE)
-    out, err = pi.communicate()
-    logging.debug("output = %s" % out)
-    logging.debug("stderr = %s" % err)
-    logging.debug("retcode = %s" % pi.returncode)
-    output = out + err
-    if fail_on_error and pi.returncode != 0:
-        raise Exception(msg)
-    return ("".join(output.splitlines(True)), pi.returncode)
-
-def addPsqlParams(cmd, db_dict):
-    if db_dict["host"]:
-        cmd = cmd + " --host %s" % db_dict["host"]
-    if db_dict["port"]:
-        cmd = cmd + " --port %s" % db_dict["port"]
-    if db_dict["username"]:
-        cmd = cmd + " --username %s" % db_dict["username"]
-    return cmd
-
 def execSqlCmd(db_dict, sql_query, fail_on_error=False, err_msg="Failed running sql query"):
     logging.debug("running sql query on host: %s, port: %s, db: %s, user: %s, query: \'%s\'." %
                   (db_dict["host"],
@@ -189,18 +170,26 @@ def execSqlCmd(db_dict, sql_query, fail_on_error=False, err_msg="Failed running 
                    db_dict["name"],
                    db_dict["username"],
                    sql_query))
-    cmd = "/usr/bin/psql --pset=tuples_only=on --set ON_ERROR_STOP=1 --dbname %s" % db_dict["name"]
-    cmd = addPsqlParams(cmd, db_dict)
-    cmd = cmd + " -c \"%s\"" % (sql_query)
-    return execExternalCmd(cmd, fail_on_error, err_msg)
+    cmd = [
+        "/usr/bin/psql",
+        "--pset=tuples_only=on",
+        "--set",
+        "ON_ERROR_STOP=1",
+        "--dbname", db_dict["name"],
+        "--host", db_dict["host"],
+        "--port", db_dict["port"],
+        "--username", db_dict["username"],
+        "-c", sql_query,
+    ]
+    return execCmd(cmdList=cmd, failOnError=fail_on_error, msg=err_msg)
 
 def isJbossUp():
     '''
     checks if jboss-as is active
     '''
     logging.debug("checking the status of jboss-as")
-    cmd = "service %s status" % JBOSS_SERVICE_NAME
-    output, rc = execExternalCmd(cmd, False, "Failed while checking for jboss-as service status")
+    cmd = ["service", JBOSS_SERVICE_NAME, "status"]
+    output, rc = execCmd(cmdList=cmd, msg="Failed while checking for jboss-as service status")
     if " is running" in output:
         return True
     else:
@@ -224,9 +213,9 @@ def stopJboss():
 
 @transactionDisplay("Stopping Jboss")
 def stopJbossService():
-    cmd = "service %s stop" % JBOSS_SERVICE_NAME
     logging.debug("Stopping jboss")
-    execExternalCmd(cmd, True, "Failed while trying to stop the jboss-as service")
+    cmd = ["service", JBOSS_SERVICE_NAME, "stop"]
+    execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to stop the jboss-as service")
 
 def startJboss():
     '''
@@ -239,17 +228,17 @@ def startJboss():
 
 @transactionDisplay("Starting Jboss")
 def startJbossService():
-    cmd = "service %s start" % JBOSS_SERVICE_NAME
     logging.debug("Starting jboss")
-    execExternalCmd(cmd, True, "Failed while trying to start the jboss-as service")
+    cmd = ["service", JBOSS_SERVICE_NAME, "start"]
+    execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to start the jboss-as service")
 
 def isPostgresUp():
     '''
     checks if the postgresql service is up and running
     '''
     logging.debug("checking the status of postgresql")
-    cmd = "service postgresql status"
-    output, rc = execExternalCmd(cmd, False)
+    cmd = ["service", "postgresql", "status"]
+    output, rc = execCmd(cmd)
     if rc == 0:
         return True
     else:
@@ -265,16 +254,16 @@ def startPostgres():
 @transactionDisplay("Starting PostgresSql")
 def startPostgresService():
     logging.debug("starting postgresql")
-    cmd = "service postgresql start"
-    execExternalCmd(cmd, True, "Failed while trying to start the postgresql service")
+    cmd = ["service", "postgresql", "start"]
+    execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to start the postgresql service")
 
 def stopEtl():
     """
     stop the ovirt-engine-dwhd service
     """
     logging.debug("Stopping ovirt-engine-dwhd")
-    cmd = "service ovirt-engine-dwhd stop"
-    execExternalCmd(cmd, True, "Failed while trying to stop the ovirt-engine-dwhd service")
+    cmd = ["service", "ovirt-engine-dwhd", "stop"]
+    execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to stop the ovirt-engine-dwhd service")
 
 def startEtl():
     '''
@@ -290,22 +279,22 @@ def enableEtlService():
     """
     enable the ovirt-engine-dwhd service
     """
-    cmd = "/sbin/chkconfig ovirt-engine-dwhd on"
-    execExternalCmd(cmd, True, "Failed while attempting to enable the ovirt-engine-dwhd service")
+    cmd = ["/sbin/chkconfig", "ovirt-engine-dwhd", "on"]
+    execCmd(cmdList=cmd, failOnError=True, msg="Failed while attempting to enable the ovirt-engine-dwhd service")
 
 @transactionDisplay("Starting oVirt-ETL")
 def startEtlService():
     logging.debug("Starting ovirt-engine-dwhd")
-    cmd = "service ovirt-engine-dwhd start"
-    execExternalCmd(cmd, True, "Failed while trying to start the ovirt-engine-dwhd service")
+    cmd = ["service", "ovirt-engine-dwhd", "start"]
+    execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to start the ovirt-engine-dwhd service")
 
 def isEtlUp():
     '''
     checks if ovirt-engine-dwhd is active
     '''
     logging.debug("checking the status of ovirt-engine-dwhd")
-    cmd = "service ovirt-engine-dwhd status"
-    output, rc = execExternalCmd(cmd)
+    cmd = ["service", "ovirt-engine-dwhd", "status"]
+    output, rc = execCmd(cmd)
     if rc == 1:
         return False
     else:
@@ -337,8 +326,13 @@ def getAppVersion(package):
     '''
     get the installed package version
     '''
-    cmd = "rpm -q --queryformat %{VERSION}-%{RELEASE} " + package
-    output, rc = execExternalCmd(cmd, True, "Failed to get package version & release")
+    cmd = [
+        "rpm",
+        "-q",
+        "--queryformat", "%{VERSION}-%{RELEASE}",
+        package,
+    ]
+    output, rc = execCmd(cmdList=cmd, failOnError=True, msg="Failed to get package version & release")
     return output.rstrip()
 
 def dbExists(db_dict):
@@ -436,14 +430,18 @@ def dropDB(db_dict):
     drops the given DB
     """
     logging.debug("dropping db %s" % db_dict["name"])
-    cmd = "/usr/bin/dropdb -U %s %s" %(db_dict["username"], db_dict["name"])
-    (output, rc) = execExternalCmd(cmd, True, "Error while removing database %s" % db_dict["name"])
+    cmd = [
+        "/usr/bin/dropdb",
+        "-U", db_dict["username"],
+        db_dict["name"],
+    ]
+    (output, rc) = execCmd(cmdList=cmd, failOnError=True, msg="Error while removing database %s" % db_dict["name"])
 
 def getConfiguredIps():
     try:
         iplist=set()
-        cmd = EXEC_IP + " addr"
-        output, rc = execExternalCmd(cmd, True, ERR_EXP_GET_CFG_IPS_CODES)
+        cmd = [EXEC_IP, "addr"]
+        output, rc = execCmd(cmdList=cmd, failOnError=True, msg=ERR_EXP_GET_CFG_IPS_CODES)
         ipaddrPattern=re.compile('\s+inet (\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}).+')
         list=output.splitlines()
         for line in list:

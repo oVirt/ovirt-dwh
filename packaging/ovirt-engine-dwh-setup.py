@@ -86,9 +86,8 @@ def upgradeDB(db_dict):
     # Try/Except so we'll be able to return to our current directory
     currDir = os.getcwd()
     try:
-        cmd = "sh ./%s" % EXEC_UPGRADE_DB
         cmd = [
-                cmd,
+                os.path.join(PATH_DB_SCRIPTS, EXEC_UPGRADE_DB),
                 "-s", db_dict["host"],
                 "-p", db_dict["port"],
                 "-u", db_dict["username"],
@@ -96,7 +95,7 @@ def upgradeDB(db_dict):
                 "-l", "/var/log/ovirt-engine/%s" % dbLogFilename,
               ]
         os.chdir(PATH_DB_SCRIPTS)
-        output, rc = utils.execExternalCmd(cmd, True, "Error while trying to upgrade ovirt_engine_history DB")
+        output, rc = utils.execCmd(cmdList=cmd, failOnError=True, msg="Error while trying to upgrade ovirt_engine_history DB")
     except:
         os.chdir(currDir)
         raise
