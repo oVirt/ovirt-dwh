@@ -126,12 +126,12 @@ fi
 %{_mavenpomdir}/JPP.%{name}-*
 %endif
 
-%dir %{_sysconfdir}/ovirt-engine/%{name}
+%dir %{_sysconfdir}/ovirt-engine/%{dwh_name}
 %{_initddir}/%{dwh_name}d
-%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}d
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{dwh_name}d
 %{_bindir}/%{dwh_name}-setup
 %{_sysconfdir}/cron.hourly/ovirt_engine_dwh_watchdog.cron
-%config(noreplace) %{_sysconfdir}/ovirt-engine/%{name}/Default.properties
+%config(noreplace) %{_sysconfdir}/ovirt-engine/%{dwh_name}/Default.properties
 
 %changelog
 * Thu Apr 19 2012 Yaniv Dary <ydary@redhat.com> - 3.0.0-1.fc16
