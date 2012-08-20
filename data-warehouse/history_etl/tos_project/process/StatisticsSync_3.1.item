@@ -2187,7 +2187,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="host_type"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="fqn_or_ip"/>
+      <elementValue elementRef="TRACE_COLUMN" value="fqdn_or_ip"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="physical_memory_mb"/>

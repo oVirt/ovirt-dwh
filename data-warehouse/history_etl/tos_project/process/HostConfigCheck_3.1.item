@@ -100,7 +100,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_id, &#xD;&#xA;  upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;  host_unique_id, &#xD;&#xA;  host_name, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  host_type, &#xD;&#xA;  fqn_or_ip, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  swap_size_mb, &#xD;&#xA;  cpu_model, &#xD;&#xA;  number_of_cores,&#xA;  number_of_sockets,&#xA;  cpu_speed_mh,&#xD;&#xA;  host_os, &#xD;&#xA;  pm_ip_address, &#xD;&#xA;  kernel_version, &#xD;&#xA;  kvm_version, &#xD;&#xA;  vdsm_version, &#xD;&#xA;  vdsm_port, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_host_configuration_full_check_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_id, &#xD;&#xA;  upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;  host_unique_id, &#xD;&#xA;  host_name, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  host_type, &#xD;&#xA;  fqdn_or_ip, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  swap_size_mb, &#xD;&#xA;  cpu_model, &#xD;&#xA;  number_of_cores,&#xA;  number_of_sockets,&#xA;  cpu_speed_mh,&#xD;&#xA;  host_os, &#xD;&#xA;  pm_ip_address, &#xD;&#xA;  kernel_version, &#xD;&#xA;  kvm_version, &#xD;&#xA;  vdsm_version, &#xD;&#xA;  vdsm_port, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_host_configuration_full_check_view&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -121,7 +121,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="host_type"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="fqn_or_ip"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="fqdn_or_ip"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="memory_size_mb"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -165,7 +165,7 @@
       <column comment="" key="false" length="2147483647" name="cluster_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
       <column comment="" key="false" name="cluster_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
       <column comment="" key="false" length="5" name="host_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="255" name="fqn_or_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="255" name="fqdn_or_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="10" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="10" name="swap_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="255" name="cpu_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -264,7 +264,7 @@
       <column comment="" key="false" length="255" name="host_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="cluster_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="host_type" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="255" name="fqn_or_ip" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="255" name="fqdn_or_ip" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="4" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="swap_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="255" name="cpu_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -291,7 +291,7 @@
         <mapperTableEntries name="host_name" expression="StringHandling.TRIM(row2.host_name)" type="id_String"/>
         <mapperTableEntries name="cluster_id" expression="row2.cluster_id" type="id_Object"/>
         <mapperTableEntries name="host_type" expression="row2.host_type" type="id_Short"/>
-        <mapperTableEntries name="fqn_or_ip" expression="StringHandling.TRIM(row2.fqn_or_ip)" type="id_String"/>
+        <mapperTableEntries name="fqdn_or_ip" expression="StringHandling.TRIM(row2.fqdn_or_ip)" type="id_String"/>
         <mapperTableEntries name="memory_size_mb" expression="row2.memory_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="swap_size_mb" expression="row2.swap_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="cpu_model" expression="StringHandling.TRIM(row2.cpu_model)" type="id_String" nullable="true"/>
@@ -317,7 +317,7 @@
         <mapperTableEntries name="cluster_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="cluster_join_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="host_type" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="fqn_or_ip" type="id_String" nullable="true"/>
+        <mapperTableEntries name="fqdn_or_ip" type="id_String" nullable="true"/>
         <mapperTableEntries name="memory_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="swap_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="cpu_model" type="id_String" nullable="true"/>
@@ -396,7 +396,7 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="fqn_or_ip"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="fqdn_or_ip"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -495,7 +495,7 @@
       <column comment="" key="false" length="255" name="host_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="cluster_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="host_type" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="255" name="fqn_or_ip" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="255" name="fqdn_or_ip" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="4" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="swap_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="255" name="cpu_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -519,7 +519,7 @@
       <column comment="" key="false" length="255" name="host_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="cluster_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="host_type" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="255" name="fqn_or_ip" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="255" name="fqdn_or_ip" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="4" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="swap_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="255" name="cpu_model" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -787,7 +787,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="host_type"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="fqn_or_ip"/>
+      <elementValue elementRef="TRACE_COLUMN" value="fqdn_or_ip"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="memory_size_mb"/>
@@ -895,7 +895,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="host_name"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="fqn_or_ip"/>
+      <elementValue elementRef="TRACE_COLUMN" value="fqdn_or_ip"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="host_type"/>

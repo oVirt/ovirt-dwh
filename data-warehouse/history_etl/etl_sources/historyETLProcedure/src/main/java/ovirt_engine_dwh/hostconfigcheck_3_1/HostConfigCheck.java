@@ -1341,10 +1341,10 @@ public class HostConfigCheck implements TalendJob {
 			return this.host_type;
 		}
 
-		public String fqn_or_ip;
+		public String fqdn_or_ip;
 
-		public String getFqn_or_ip() {
-			return this.fqn_or_ip;
+		public String getFqdn_or_ip() {
+			return this.fqdn_or_ip;
 		}
 
 		public Integer memory_size_mb;
@@ -1537,7 +1537,7 @@ public class HostConfigCheck implements TalendJob {
 
 					this.host_type = dis.readShort();
 
-					this.fqn_or_ip = readString(dis);
+					this.fqdn_or_ip = readString(dis);
 
 					this.memory_size_mb = readInteger(dis);
 
@@ -1623,7 +1623,7 @@ public class HostConfigCheck implements TalendJob {
 
 				// String
 
-				writeString(this.fqn_or_ip, dos);
+				writeString(this.fqdn_or_ip, dos);
 
 				// Integer
 
@@ -1720,7 +1720,7 @@ public class HostConfigCheck implements TalendJob {
 			sb.append(",host_name=" + host_name);
 			sb.append(",cluster_id=" + String.valueOf(cluster_id));
 			sb.append(",host_type=" + String.valueOf(host_type));
-			sb.append(",fqn_or_ip=" + fqn_or_ip);
+			sb.append(",fqdn_or_ip=" + fqdn_or_ip);
 			sb.append(",memory_size_mb=" + String.valueOf(memory_size_mb));
 			sb.append(",swap_size_mb=" + String.valueOf(swap_size_mb));
 			sb.append(",cpu_model=" + cpu_model);
@@ -1824,10 +1824,10 @@ public class HostConfigCheck implements TalendJob {
 			return this.host_type;
 		}
 
-		public String fqn_or_ip;
+		public String fqdn_or_ip;
 
-		public String getFqn_or_ip() {
-			return this.fqn_or_ip;
+		public String getFqdn_or_ip() {
+			return this.fqdn_or_ip;
 		}
 
 		public Integer memory_size_mb;
@@ -2017,7 +2017,7 @@ public class HostConfigCheck implements TalendJob {
 						this.host_type = dis.readShort();
 					}
 
-					this.fqn_or_ip = readString(dis);
+					this.fqdn_or_ip = readString(dis);
 
 					this.memory_size_mb = readInteger(dis);
 
@@ -2112,7 +2112,7 @@ public class HostConfigCheck implements TalendJob {
 
 				// String
 
-				writeString(this.fqn_or_ip, dos);
+				writeString(this.fqdn_or_ip, dos);
 
 				// Integer
 
@@ -2203,7 +2203,7 @@ public class HostConfigCheck implements TalendJob {
 			sb.append(",cluster_id=" + String.valueOf(cluster_id));
 			sb.append(",cluster_join_id=" + cluster_join_id);
 			sb.append(",host_type=" + String.valueOf(host_type));
-			sb.append(",fqn_or_ip=" + fqn_or_ip);
+			sb.append(",fqdn_or_ip=" + fqdn_or_ip);
 			sb.append(",memory_size_mb=" + String.valueOf(memory_size_mb));
 			sb.append(",swap_size_mb=" + String.valueOf(swap_size_mb));
 			sb.append(",cpu_model=" + cpu_model);
@@ -2304,10 +2304,10 @@ public class HostConfigCheck implements TalendJob {
 			return this.host_type;
 		}
 
-		public String fqn_or_ip;
+		public String fqdn_or_ip;
 
-		public String getFqn_or_ip() {
-			return this.fqn_or_ip;
+		public String getFqdn_or_ip() {
+			return this.fqdn_or_ip;
 		}
 
 		public Integer memory_size_mb;
@@ -2497,7 +2497,7 @@ public class HostConfigCheck implements TalendJob {
 						this.host_type = dis.readShort();
 					}
 
-					this.fqn_or_ip = readString(dis);
+					this.fqdn_or_ip = readString(dis);
 
 					this.memory_size_mb = readInteger(dis);
 
@@ -2592,7 +2592,7 @@ public class HostConfigCheck implements TalendJob {
 
 				// String
 
-				writeString(this.fqn_or_ip, dos);
+				writeString(this.fqdn_or_ip, dos);
 
 				// Integer
 
@@ -2683,7 +2683,7 @@ public class HostConfigCheck implements TalendJob {
 			sb.append(",cluster_id=" + String.valueOf(cluster_id));
 			sb.append(",cluster_join_id=" + cluster_join_id);
 			sb.append(",host_type=" + String.valueOf(host_type));
-			sb.append(",fqn_or_ip=" + fqn_or_ip);
+			sb.append(",fqdn_or_ip=" + fqdn_or_ip);
 			sb.append(",memory_size_mb=" + String.valueOf(memory_size_mb));
 			sb.append(",swap_size_mb=" + String.valueOf(swap_size_mb));
 			sb.append(",cpu_model=" + cpu_model);
@@ -2794,7 +2794,7 @@ public class HostConfigCheck implements TalendJob {
 
 				String insert_tJDBCOutput_1 = "INSERT INTO "
 						+ "host_configuration"
-						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,number_of_sockets,cpu_speed_mh,host_os,pm_ip_address,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqdn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,number_of_sockets,cpu_speed_mh,host_os,pm_ip_address,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_1 = connection_tJDBCOutput_1
 						.prepareStatement(insert_tJDBCOutput_1);
 
@@ -2862,7 +2862,7 @@ public class HostConfigCheck implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
 
-				String dbquery_tJDBCInput_2 = "SELECT     host_id,     upper(cast(host_id as char(36))) as host_join_id,    host_unique_id,     host_name,     cluster_id,    upper(cast(cluster_id as char(36))) as cluster_join_id,      host_type,     fqn_or_ip,     memory_size_mb,     swap_size_mb,     cpu_model,     number_of_cores,   number_of_sockets,   cpu_speed_mh,    host_os,     pm_ip_address,     kernel_version,     kvm_version,     vdsm_version,     vdsm_port,     create_date,     update_date  FROM dwh_host_configuration_full_check_view";
+				String dbquery_tJDBCInput_2 = "SELECT     host_id,     upper(cast(host_id as char(36))) as host_join_id,    host_unique_id,     host_name,     cluster_id,    upper(cast(cluster_id as char(36))) as cluster_join_id,      host_type,     fqdn_or_ip,     memory_size_mb,     swap_size_mb,     cpu_model,     number_of_cores,   number_of_sockets,   cpu_speed_mh,    host_os,     pm_ip_address,     kernel_version,     kvm_version,     vdsm_version,     vdsm_port,     create_date,     update_date  FROM dwh_host_configuration_full_check_view";
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
 
@@ -2980,18 +2980,18 @@ public class HostConfigCheck implements TalendJob {
 						}
 					}
 					if (colQtyInRs_tJDBCInput_2 < 8) {
-						row2.fqn_or_ip = null;
+						row2.fqdn_or_ip = null;
 					} else {
 
 						tmpContent_tJDBCInput_2 = rs_tJDBCInput_2.getString(8);
 						if (tmpContent_tJDBCInput_2 != null) {
-							row2.fqn_or_ip = tmpContent_tJDBCInput_2;
+							row2.fqdn_or_ip = tmpContent_tJDBCInput_2;
 						} else {
-							row2.fqn_or_ip = null;
+							row2.fqdn_or_ip = null;
 						}
 
 						if (rs_tJDBCInput_2.wasNull()) {
-							row2.fqn_or_ip = null;
+							row2.fqdn_or_ip = null;
 						}
 					}
 					if (colQtyInRs_tJDBCInput_2 < 9) {
@@ -3393,8 +3393,8 @@ public class HostConfigCheck implements TalendJob {
 									.TRIM(row2.host_name);
 							host_changes_tmp.cluster_id = row2.cluster_id;
 							host_changes_tmp.host_type = row2.host_type;
-							host_changes_tmp.fqn_or_ip = StringHandling
-									.TRIM(row2.fqn_or_ip);
+							host_changes_tmp.fqdn_or_ip = StringHandling
+									.TRIM(row2.fqdn_or_ip);
 							host_changes_tmp.memory_size_mb = row2.memory_size_mb;
 							host_changes_tmp.swap_size_mb = row2.swap_size_mb;
 							host_changes_tmp.cpu_model = StringHandling
@@ -3474,12 +3474,12 @@ public class HostConfigCheck implements TalendJob {
 
 						pstmt_tJDBCOutput_1.setShort(5, host_changes.host_type);
 
-						if (host_changes.fqn_or_ip == null) {
+						if (host_changes.fqdn_or_ip == null) {
 							pstmt_tJDBCOutput_1.setNull(6,
 									java.sql.Types.VARCHAR);
 						} else {
 							pstmt_tJDBCOutput_1.setString(6,
-									host_changes.fqn_or_ip);
+									host_changes.fqdn_or_ip);
 						}
 
 						if (host_changes.memory_size_mb == null) {

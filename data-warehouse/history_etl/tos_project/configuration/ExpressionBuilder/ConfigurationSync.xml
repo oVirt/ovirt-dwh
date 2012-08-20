@@ -140,12 +140,12 @@
     <variables name="row5.create_date" value="null" talendType="id_Date" nullable="true"/>
     <variables name="row5.update_date" value="null" talendType="id_Date" nullable="true"/>
   </expression:EMFExpression>
-  <expression:EMFExpression id="null=>host_configuration=>fqn_or_ip" expression="StringHandling.TRIM(row7.fqn_or_ip) == &quot;''&quot; ? null : StringHandling.TRIM(row7.fqn_or_ip)">
+  <expression:EMFExpression id="null=>host_configuration=>fqdn_or_ip" expression="StringHandling.TRIM(row7.fqdn_or_ip) == &quot;''&quot; ? null : StringHandling.TRIM(row7.fqdn_or_ip)">
     <variables name="row7.host_id" value="null" talendType="id_Object"/>
     <variables name="row7.host_name" value="null" talendType="id_String"/>
     <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
     <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.fqn_or_ip" value="null" talendType="id_String"/>
+    <variables name="row7.fqdn_or_ip" value="null" talendType="id_String"/>
     <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
     <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
     <variables name="row7.host_type" value="0" talendType="id_Integer"/>
@@ -169,7 +169,7 @@
     <variables name="id&quot; value=&quot;nul" value="Type" talendType="id_String"/>
     <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
     <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.fqn_or_ip" value="null" talendType="id_String"/>
+    <variables name="row7.fqdn_or_ip" value="null" talendType="id_String"/>
     <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
     <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
     <variables name="row7.host_type" value="0" talendType="id_Integer"/>
@@ -193,7 +193,7 @@
     <variables name="row7.host_name" value="null" talendType="id_String"/>
     <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
     <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.fqn_or_ip" value="null" talendType="id_String"/>
+    <variables name="row7.fqdn_or_ip" value="null" talendType="id_String"/>
     <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
     <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
     <variables name="row7.host_type" value="0" talendType="id_Integer"/>
@@ -217,7 +217,7 @@
     <variables name="row7.host_name" value="null" talendType="id_String"/>
     <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
     <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.fqn_or_ip" value="null" talendType="id_String"/>
+    <variables name="row7.fqdn_or_ip" value="null" talendType="id_String"/>
     <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
     <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
     <variables name="row7.host_type" value="0" talendType="id_Integer"/>
@@ -241,7 +241,7 @@
     <variables name="row7.host_name" value="null" talendType="id_String"/>
     <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
     <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.fqn_or_ip" value="null" talendType="id_String"/>
+    <variables name="row7.fqdn_or_ip" value="null" talendType="id_String"/>
     <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
     <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
     <variables name="row7.host_type" value="0" talendType="id_Integer"/>
@@ -265,7 +265,7 @@
     <variables name="row7.host_name" value="null" talendType="id_String"/>
     <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
     <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.fqn_or_ip" value="null" talendType="id_String"/>
+    <variables name="row7.fqdn_or_ip" value="null" talendType="id_String"/>
     <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
     <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
     <variables name="row7.host_type" value="0" talendType="id_Integer"/>
@@ -415,7 +415,7 @@
     <variables name="row7.cluster_id" value="null" talendType="id_Object" nullable="true"/>
     <variables name="row7.cluster_join_id" value="null" talendType="id_String" nullable="true"/>
     <variables name="row7.host_type" value="null" talendType="id_Integer" nullable="true"/>
-    <variables name="row7.fqn_or_ip" value="null" talendType="id_String" nullable="true"/>
+    <variables name="row7.fqdn_or_ip" value="null" talendType="id_String" nullable="true"/>
     <variables name="row7.memory_size_mb" value="null" talendType="id_Integer" nullable="true"/>
     <variables name="row7.swap_size_mb" value="null" talendType="id_Long" nullable="true"/>
     <variables name="row7.cpu_model" value="null" talendType="id_String" nullable="true"/>
