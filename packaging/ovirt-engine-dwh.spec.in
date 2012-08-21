@@ -23,8 +23,8 @@
         %{?EXTRA_BUILD_FLAGS:EXTRA_BUILD_FLAGS="%{EXTRA_BUILD_FLAGS}"}
 
 Name: ovirt-engine-dwh
-Version: 3.1.0
-Release: 1%{?dist}
+Version: @PACKAGE_VERSION@
+Release: @PACKAGE_RELEASE@%{?dist}
 License: GPLv2
 Summary: %{product_name}
 Group: Virtualization/Management
