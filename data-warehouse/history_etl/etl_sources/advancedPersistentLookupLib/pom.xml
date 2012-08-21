@@ -11,7 +11,7 @@
   <groupId>ovirt_engine_dwh</groupId>
   <artifactId>advancedPersistentLookupLib</artifactId>
   <packaging>jar</packaging>
-  <version>${version.advancedPersistentLookupLib}</version>
+  <version>1.0</version>
   <name>Advanced Persistent Lookup Library</name>
   <description>The jar that contains the advanced persistent lookup library</description>
 
@@ -31,7 +31,7 @@
     <dependency>
       <groupId>ovirt_engine_dwh</groupId>
       <artifactId>talendRoutines</artifactId>
-      <version>${version.talend-routines}</version>
+      <version>5.1.1.r84309</version>
     </dependency>
 
   </dependencies>
