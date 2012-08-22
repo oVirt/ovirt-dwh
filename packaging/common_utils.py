@@ -114,9 +114,10 @@ class ConfigFileHandler:
         pass
 
 class TextConfigFileHandler(ConfigFileHandler):
-    def __init__(self, filepath):
+    def __init__(self, filepath, sep="="):
         ConfigFileHandler.__init__(self, filepath)
         self.data = []
+        self.sep = sep
 
     def open(self):
         fd = file(self.filepath)
@@ -129,16 +130,25 @@ class TextConfigFileHandler(ConfigFileHandler):
             fd.write(line)
         fd.close()
 
+    def getParam(self, param):
+        value = None
+        for line in self.data:
+            if not re.match("\s*#", line):
+                found = re.match("\s*%s\s*\%s\s*(.+)$" % (param, self.sep), line)
+                if found:
+                    value = found.group(1)
+        return value
+
     def editParam(self, param, value):
         changed = False
         for i, line in enumerate(self.data[:]):
             if not re.match("\s*#", line):
                 if re.match("\s*%s"%(param), line):
-                    self.data[i] = "%s=%s\n"%(param, value)
+                    self.data[i] = "%s%s%s\n"%(param, self.sep, value)
                     changed = True
                     break
         if not changed:
-            self.data.append("%s=%s\n"%(param, value))
+            self.data.append("%s%s%s\n"%(param, self.sep, value))
 
     def delParams(self, paramsDict):
         pass

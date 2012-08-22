@@ -26,7 +26,7 @@ PATH_WATCHDOG="/usr/share/ovirt-engine-dwh/etl/ovirt_engine_dwh_watchdog.cron"
 EXEC_CREATE_DB="%s/ovirt-engine-history-db-install.sh" % PATH_DB_SCRIPTS
 EXEC_UPGRADE_DB="upgrade.sh"
 FILE_DB_CONN = "/etc/ovirt-engine/ovirt-engine-dwh/Default.properties"
-FILE_WEB_CONF = "/etc/ovirt-engine/web-conf.js"
+FILE_WEB_CONF = "/etc/sysconfig/ovirt-engine"
 FILE_PG_PASS="/root/.pgpass"
 DB_USER_NAME = "postgres"
 DB_PORT = "5432"
@@ -132,43 +132,38 @@ def setDbPass(db_dict):
     file_handler.editParam("ovirtEnginePortalPort", port)
     file_handler.close()
 
-def getHostParams(secure=False):
+def getHostParams(secure=True):
     """
-    get hostname & secured port from /etc/ovirt-engine/web-conf.js
+    get hostname & secured port from /etc/sysconfig/ovirt-engine
     """
 
-    pattern = "var\shttp_port\s\=\s\"(\d+)\""
-    if secure:
-        pattern = "var\shttps_port\s\=\s\"(\d+)\""
+    hostFqdn = None
+    port = None
 
-    logging.debug("looking for configuration from %s", FILE_WEB_CONF)
     if not os.path.exists(FILE_WEB_CONF):
         raise Exception("Could not find %s" % FILE_WEB_CONF)
 
     logging.debug("reading %s", FILE_WEB_CONF)
-    fileObj = open(FILE_WEB_CONF, "r")
-    hostFqdn = None
-    port = None
-
-    logging.debug("Itterating over file")
-    for line in fileObj.readlines():
-        # var host_fqdn = "vm-18-12.eng.lab.tlv.redhat.com";
-        line = line.strip()
-        found = re.search("var\shost_fqdn\s\=\s\"(\S+)\"", line)
-        if found:
-            hostFqdn = found.group(1)
-            logging.debug("host fqdn is: %s", hostFqdn)
-        # var http/https_port = "9443";
-        found = re.search(pattern, line)
-        if found:
-            port = found.group(1)
-            if secure:
-                logging.debug("Secure web port is: %s", port)
-            else:
-                logging.debug("Web port is: %s", port)
-
-
-    fileObj.close()
+    file_handler = utils.TextConfigFileHandler(FILE_WEB_CONF)
+    file_handler.open()
+    if file_handler.getParam("ENGINE_PROXY_ENABLED"):
+        if secure:
+            port = file_handler.getParam("ENGINE_PROXY_HTTPS_PORT")
+        else:
+            port = file_handler.getParam("ENGINE_PROXY_HTTP_PORT")
+    elif file_handler.getParam("ENGINE_HTTPS_ENABLED"):
+        if secure:
+            port = file_handler.getParam("ENGINE_HTTPS_PORT")
+        else:
+            port = file_handler.getParam("ENGINE_HTTP_PORT")
+    hostFqdn = file_handler.getParam("ENGINE_FQDN")
+    file_handler.close()
+    if port and secure:
+        logging.debug("Secure web port is: %s", port)
+    elif port and not secure:
+        logging.debug("Web port is: %s", port)
+    if hostFqdn:
+        logging.debug("Host's FQDN: %s", hostFqdn)
 
     if not hostFqdn:
         logging.error("Could not find the HOST FQDN from %s", FILE_WEB_CONF)
