@@ -129,8 +129,19 @@ def setDbPass(db_dict):
                            "jdbc\:postgresql\://%s\:%s/engine?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
     file_handler.editParam("ovirtEngineHistoryDbJdbcConnection",
                            "jdbc\:postgresql\://%s\:%s/ovirt_engine_history?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
+    file_handler.editParam("ovirtEnginePortalAddress", fqdn)
     file_handler.editParam("ovirtEnginePortalPort", port)
     file_handler.close()
+
+    # Updating run properties
+    handler = utils.TextConfigFileHandler("/usr/share/ovirt-engine-dwh/etl/history_service.sh")
+    handler.open()
+    properties = handler.getParam("RUN_PROPERTIES")
+    if properties and "trustStore" not in properties:
+        newlist = properties.replace('"', '')
+        newlist = '"' + newlist + ' -Djavax.net.ssl.trustStore=' + utils.getVDCOption("TruststoreUrl") + ' -Djavax.net.ssl.trustStorePassword=' + utils.getVDCOption("TruststorePass")  + '"'
+        handler.editParam("RUN_PROPERTIES", newlist)
+    handler.close()
 
 def getHostParams(secure=True):
     """
