@@ -117,7 +117,7 @@ def setDbPass(db_dict):
     logging.debug("Setting DB pass")
     logging.debug("editing etl db connectivity file")
 
-    (fqdn, port) = getHostParams()
+    (protocol, fqdn, port) = getHostParams()
 
     file_handler = utils.TextConfigFileHandler(FILE_DB_CONN)
     file_handler.open()
@@ -129,6 +129,7 @@ def setDbPass(db_dict):
                            "jdbc\:postgresql\://%s\:%s/engine?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
     file_handler.editParam("ovirtEngineHistoryDbJdbcConnection",
                            "jdbc\:postgresql\://%s\:%s/ovirt_engine_history?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
+    file_handler.editParam("ovirtEnginePortalConnectionProtocol", protocol)
     file_handler.editParam("ovirtEnginePortalAddress", fqdn)
     file_handler.editParam("ovirtEnginePortalPort", port)
     file_handler.close()
@@ -145,9 +146,10 @@ def setDbPass(db_dict):
 
 def getHostParams(secure=True):
     """
-    get hostname & secured port from /etc/sysconfig/ovirt-engine
+    get protocol, hostname & secured port from /etc/sysconfig/ovirt-engine
     """
 
+    protocol = "https" if secure else "http"
     hostFqdn = None
     port = None
 
@@ -157,7 +159,8 @@ def getHostParams(secure=True):
     logging.debug("reading %s", FILE_WEB_CONF)
     file_handler = utils.TextConfigFileHandler(FILE_WEB_CONF)
     file_handler.open()
-    if file_handler.getParam("ENGINE_PROXY_ENABLED"):
+    proxyEnabled = file_handler.getParam("ENGINE_PROXY_ENABLED")
+    if proxyEnabled != None and proxyEnabled.lower() in ["true", "t", "yes", "y", "1"]:
         if secure:
             port = file_handler.getParam("ENGINE_PROXY_HTTPS_PORT")
         else:
@@ -183,7 +186,7 @@ def getHostParams(secure=True):
         logging.error("Could not find the web port from %s", FILE_WEB_CONF)
         raise Exception("Cannot find the web port from configuration, please verify that ovirt-engine is configured")
 
-    return (hostFqdn, port)
+    return (protocol, hostFqdn, port)
 
 def isVersionSupported(rawMinimalVersion, rawCurrentVersion):
     """
