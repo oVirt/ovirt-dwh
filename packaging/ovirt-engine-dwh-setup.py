@@ -14,7 +14,6 @@ TODO:
 import logging
 import sys
 import os
-import re
 import traceback
 import common_utils as utils
 from decorators import transactionDisplay
@@ -27,7 +26,6 @@ EXEC_CREATE_DB="%s/ovirt-engine-history-db-install.sh" % PATH_DB_SCRIPTS
 EXEC_UPGRADE_DB="upgrade.sh"
 FILE_DB_CONN = "/etc/ovirt-engine/ovirt-engine-dwh/Default.properties"
 FILE_WEB_CONF = "/etc/sysconfig/ovirt-engine"
-FILE_PG_PASS="/root/.pgpass"
 DB_USER_NAME = "postgres"
 DB_PORT = "5432"
 DB_HOST = "localhost"

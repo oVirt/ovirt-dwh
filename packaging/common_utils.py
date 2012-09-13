@@ -24,9 +24,10 @@ JBOSS_SERVICE_NAME = "ovirt-engine"
 
 # CONST
 EXEC_IP = "/sbin/ip"
-FILE_PG_PASS="/root/.pgpass"
+FILE_PG_PASS="/etc/ovirt-engine/.pgpass"
 PGPASS_FILE_USER_LINE = "DB USER credentials"
 PGPASS_FILE_ADMIN_LINE = "DB ADMIN credentials"
+FILE_ENGINE_CONFIG_BIN="/usr/bin/engine-config"
 
 # ERRORS
 # TODO: Move all errors here and make them consistent
@@ -42,7 +43,7 @@ def getVDCOption(key):
     Get option_value from vdc_options per given key
     """
     cmd = [
-        "/usr/share/ovirt-engine/engine-config/engine-config",
+        FILE_ENGINE_CONFIG_BIN,
         "-g",
         key,
         "--cver=general",
@@ -114,7 +115,7 @@ class ConfigFileHandler:
         pass
 
 class TextConfigFileHandler(ConfigFileHandler):
-    def __init__(self, filepath, sep="="):
+    def __init__(self, filepath, sep='='):
         ConfigFileHandler.__init__(self, filepath)
         self.data = []
         self.sep = sep
@@ -476,7 +477,7 @@ def localHost(hostname):
     return False
 
 #TODO: Move all execution commands to execCmd
-def execCmd(cmdList, cwd=None, failOnError=False, msg=ERR_RC_CODE, maskList=[], useShell=False, usePipeFiles=False):
+def execCmd(cmdList, cwd=None, failOnError=False, msg=ERR_RC_CODE, maskList=[], useShell=False, usePipeFiles=False, envDict={}):
     """
     Run external shell command with 'shell=false'
     receives a list of arguments for command line execution
@@ -495,10 +496,23 @@ def execCmd(cmdList, cwd=None, failOnError=False, msg=ERR_RC_CODE, maskList=[], 
         (stdOutFD, stdOutFile) = tempfile.mkstemp(dir="/tmp")
         (stdInFD, stdInFile) = tempfile.mkstemp(dir="/tmp")
 
-    # We use close_fds to close any file descriptors we have so it won't be copied to forked childs
-    proc = subprocess.Popen(cmd, stdout=stdOutFD,
-            stderr=stdErrFD, stdin=stdInFD, cwd=cwd, shell=useShell, close_fds=True)
+    # Update os.environ with env if provided
+    env = os.environ.copy()
+    if not "PGPASSFILE" in env.keys():
+        env["PGPASSFILE"] = FILE_PG_PASS
+    env.update(envDict)
 
+    # We use close_fds to close any file descriptors we have so it won't be copied to forked childs
+    proc = subprocess.Popen(
+        cmd,
+        stdout=stdOutFD,
+        stderr=stdErrFD,
+        stdin=stdInFD,
+        cwd=cwd,
+        shell=useShell,
+        close_fds=True,
+        env=env,
+    )
     out, err = proc.communicate()
     if usePipeFiles:
         with open(stdErrFile, 'r') as f:

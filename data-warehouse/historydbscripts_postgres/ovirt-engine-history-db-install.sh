@@ -22,6 +22,7 @@ CUR_DATE=`date +"%Y_%m_%d_%H_%M_%S"`
 REQUIRED_RPMS=(postgresql-server postgresql postgresql-libs postgresql-contrib uuid)
 
 #postgresql data dir
+ENGINE_PGPASS=/etc/ovirt-engine/.pgpass
 PGDATA=/var/lib/pgsql/data
 
 #location of ovirt db scripts
@@ -189,7 +190,7 @@ startPgsqlService()
     for i in {1..20}
     do
        echo "[$SCRIPT_NAME] validating that postgres service is running...retry $i" >> $LOG_FILE
-       $PSQL -U $USER -d $DB -c "select 1">> $LOG_FILE 2>&1
+       PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $USER -d $DB -c "select 1">> $LOG_FILE 2>&1
        if [[ $? == 0 ]]
        then
             SERVICE_UP=1
@@ -257,12 +258,12 @@ createDB()
 checkIfDBExists()
 {
     echo "[$SCRIPT_NAME] checking if $DB_NAME db exists already.." >> $LOG_FILE
-    $PSQL -U $DB_ADMIN -d $DB_NAME -c "select 1">> $LOG_FILE 2>&1
+    PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $DB_ADMIN -d $DB_NAME -c "select 1">> $LOG_FILE 2>&1
     if [[ $? -eq 0 ]]
     then
         echo "[$SCRIPT_NAME] $DB_NAME db already exists on $DB_HOST." >> $LOG_FILE
         echo " [$SCRIPT_NAME] verifying $TABLE_NAME table exists..." >> $LOG_FILE
-        RES=`echo "SELECT count(*) FROM pg_tables WHERE tablename='$TABLE_NAME'" | $PSQL -U $DB_ADMIN -d $DB_NAME -t`
+        RES=`echo "SELECT count(*) FROM pg_tables WHERE tablename='$TABLE_NAME'" | PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $DB_ADMIN -d $DB_NAME -t`
         if [[ $RES -eq 1 ]]
         then
             echo "[$SCRIPT_NAME] $TABLE_NAME table exists in $DB_NAME" >> $LOG_FILE
@@ -284,19 +285,19 @@ updateDBUsers()
     echo "[$SCRIPT_NAME] updating admin user credentials" >> $LOG_FILE
 
     #update user postgres password
-    $PSQL -U $DB_ADMIN -c "ALTER ROLE $DB_ADMIN WITH ENCRYPTED PASSWORD '$DB_PASS'" >> /dev/null  2>&1
+    PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $DB_ADMIN -c "ALTER ROLE $DB_ADMIN WITH ENCRYPTED PASSWORD '$DB_PASS'" >> /dev/null  2>&1
     _verifyRC $? "failed updating user $DB_ADMIN password"
 
     #drop ovirt ROLE if exists
-    $PSQL -U $DB_ADMIN -c "DROP ROLE IF EXISTS $DB_USER" >> $LOG_FILE 2>&1
+    PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $DB_ADMIN -c "DROP ROLE IF EXISTS $DB_USER" >> $LOG_FILE 2>&1
     _verifyRC $? "failed updating user $DB_USER password"
 
     #create user ovirt + password
-    $PSQL -U $DB_ADMIN -c "CREATE ROLE $DB_USER WITH LOGIN SUPERUSER ENCRYPTED PASSWORD '$DB_PASS'" >> /dev/null 2>&1
+    PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $DB_ADMIN -c "CREATE ROLE $DB_USER WITH LOGIN SUPERUSER ENCRYPTED PASSWORD '$DB_PASS'" >> /dev/null 2>&1
     _verifyRC $? "failed updating user $DB_USER password"
 
     #grant all permissions to user ovirt to db ovirt
-    $PSQL -U $DB_ADMIN -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME to $DB_USER " >> $LOG_FILE 2>&1
+    PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $DB_ADMIN -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME to $DB_USER " >> $LOG_FILE 2>&1
     _verifyRC $? "failed updating user $DB_USER privileges"
 }
 
