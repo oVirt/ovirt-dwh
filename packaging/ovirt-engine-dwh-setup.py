@@ -26,6 +26,7 @@ EXEC_CREATE_DB="%s/ovirt-engine-history-db-install.sh" % PATH_DB_SCRIPTS
 EXEC_UPGRADE_DB="upgrade.sh"
 FILE_DB_CONN = "/etc/ovirt-engine/ovirt-engine-dwh/Default.properties"
 FILE_WEB_CONF = "/etc/sysconfig/ovirt-engine"
+DB_NAME = "ovirt_engine_history"
 DB_USER_NAME = "postgres"
 DB_PORT = "5432"
 DB_HOST = "localhost"
@@ -33,7 +34,7 @@ DB_HOST = "localhost"
 #TODO: Create output messages file with all messages
 #TODO: Move all errors here to make consistent usage
 # ERRORS:
-ERR_DB_CREATE_FAILED = "Error while trying to create ovirt_engine_history db"
+ERR_DB_CREATE_FAILED = "Error while trying to create %s db" % DB_NAME
 
 log_file = utils.initLogging("%s-setup" % DWH_PACKAGE_NAME, "/var/log/ovirt-engine")
 
@@ -50,7 +51,7 @@ def createDB(db_dict):
     """
     create fresh ovirt_engine_history db
     """
-    logging.debug("installing ovirt_engine_history db")
+    logging.debug("installing %s db", DB_NAME)
 
     dbLogFilename = "ovirt-history-db-install-%s.log" %(utils.getCurrentDateTime())
     logging.debug("ovirt engine history db creation is logged at %s/%s" % ("/var/log/ovirt-engine", dbLogFilename))
@@ -77,7 +78,7 @@ def upgradeDB(db_dict):
     """
     upgrade existing ovirt_engine_history db
     """
-    logging.debug("upgrading ovirt_engine_history db")
+    logging.debug("upgrading %s db", DB_NAME)
     dbLogFilename = "ovirt-history-db-upgrade-%s.log" %(utils.getCurrentDateTime())
     logging.debug("ovirt engine history db upgrade is logged at %s/%s" % ("/var/log/ovirt-engine", dbLogFilename))
 
@@ -93,13 +94,13 @@ def upgradeDB(db_dict):
                 "-l", "/var/log/ovirt-engine/%s" % dbLogFilename,
               ]
         os.chdir(PATH_DB_SCRIPTS)
-        output, rc = utils.execCmd(cmdList=cmd, failOnError=True, msg="Error while trying to upgrade ovirt_engine_history DB")
+        output, rc = utils.execCmd(cmdList=cmd, failOnError=True, msg="Error while trying to upgrade %s DB" % DB_NAME)
     except:
         os.chdir(currDir)
         raise
 
 def getDbDictFromOptions():
-    db_dict = {"name"      : "ovirt_engine_history",
+    db_dict = {"name"      : DB_NAME,
                "host"      : utils.getDbHostName(),
                "port"      : utils.getDbPort(),
                "username"  : utils.getDbAdminUser(),
@@ -126,7 +127,7 @@ def setDbPass(db_dict):
     file_handler.editParam("ovirtEngineDbJdbcConnection",
                            "jdbc\:postgresql\://%s\:%s/engine?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
     file_handler.editParam("ovirtEngineHistoryDbJdbcConnection",
-                           "jdbc\:postgresql\://%s\:%s/ovirt_engine_history?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
+                           "jdbc\:postgresql\://%s\:%s/%s?stringtype\=unspecified" % (db_dict["host"], db_dict["port"], db_dict["name"]))
     file_handler.editParam("ovirtEnginePortalConnectionProtocol", protocol)
     file_handler.editParam("ovirtEnginePortalAddress", fqdn)
     file_handler.editParam("ovirtEnginePortalPort", port)
