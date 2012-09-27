@@ -20,7 +20,7 @@ GREEN = "\033[92m"
 BLUE = "\033[94m"
 YELLOW = "\033[93m"
 NO_COLOR = "\033[0m"
-JBOSS_SERVICE_NAME = "ovirt-engine"
+ENGINE_SERVICE_NAME = "ovirt-engine"
 
 # CONST
 EXEC_IP = "/sbin/ip"
@@ -194,54 +194,54 @@ def execSqlCmd(db_dict, sql_query, fail_on_error=False, err_msg="Failed running 
     ]
     return execCmd(cmdList=cmd, failOnError=fail_on_error, msg=err_msg)
 
-def isJbossUp():
+def isEngineUp():
     '''
-    checks if jboss-as is active
+    checks if ovirt-engine is active
     '''
-    logging.debug("checking the status of jboss-as")
-    cmd = ["service", JBOSS_SERVICE_NAME, "status"]
-    output, rc = execCmd(cmdList=cmd, msg="Failed while checking for jboss-as service status")
+    logging.debug("checking the status of ovirt-engine")
+    cmd = ["service", ENGINE_SERVICE_NAME, "status"]
+    output, rc = execCmd(cmdList=cmd, msg="Failed while checking for ovirt-engine service status")
     if " is running" in output:
         return True
     else:
         return False
 
-def stopJboss():
+def stopEngine():
     '''
-    stops the jboss-as service
+    stops the ovirt-engine service
     '''
-    logging.debug("checking jboss-as service")
-    if isJbossUp():
-        logging.debug("jboss-as is up and running")
-        print "In order to proceed the installer must stop the JBoss service"
-        answer = askYesNo("Would you like to stop the JBoss service")
+    logging.debug("checking ovirt-engine service")
+    if isEngineUp():
+        logging.debug("ovirt-engine is up and running")
+        print "In order to proceed the installer must stop the ovirt-engine service"
+        answer = askYesNo("Would you like to stop the ovirt-engine service")
         if answer:
-            stopJbossService()
+            stopEngineService()
         else:
-            logging.debug("User chose not to stop jboss")
+            logging.debug("User chose not to stop ovirt-engine")
             return False
     return True
 
-@transactionDisplay("Stopping Jboss")
-def stopJbossService():
-    logging.debug("Stopping jboss")
-    cmd = ["service", JBOSS_SERVICE_NAME, "stop"]
-    execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to stop the jboss-as service")
+@transactionDisplay("Stopping ovirt-engine")
+def stopEngineService():
+    logging.debug("Stopping ovirt-engine")
+    cmd = ["service", ENGINE_SERVICE_NAME, "stop"]
+    execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to stop the ovirt-engine service")
 
-def startJboss():
+def startEngine():
     '''
-    starts the jboss-as service
+    starts the ovirt-engine service
     '''
-    if not isJbossUp():
-        startJbossService()
+    if not isEngineUp():
+        startEngineService()
     else:
         logging.debug("jobss is up. nothing to start")
 
-@transactionDisplay("Starting Jboss")
-def startJbossService():
-    logging.debug("Starting jboss")
-    cmd = ["service", JBOSS_SERVICE_NAME, "start"]
-    execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to start the jboss-as service")
+@transactionDisplay("Starting ovirt-engine")
+def startEngineService():
+    logging.debug("Starting ovirt-engine")
+    cmd = ["service", ENGINE_SERVICE_NAME, "start"]
+    execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to start the ovirt-engine service")
 
 def isPostgresUp():
     '''

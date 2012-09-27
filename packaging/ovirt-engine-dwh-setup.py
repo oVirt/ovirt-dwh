@@ -232,8 +232,8 @@ def main():
             print "Minimal supported version (%s) is higher then installed version (%s), please update the %s package" % (minimalVersion, currentVersion, DWH_PACKAGE_NAME)
             raise Exception("current version not supported by ovirt engine")
 
-        # Stop JBOSSAS
-        if utils.stopJboss():
+        # Stop engine
+        if utils.stopEngine():
 
             # Stop ETL before doing anything
             utils.stopEtl()
@@ -250,13 +250,13 @@ def main():
                 createDB(db_dict)
 
             # Start Services
-            utils.startJboss()
+            utils.startEngine()
             utils.startEtl()
 
             print "Successfully installed %s." % DWH_PACKAGE_NAME
             print "The installation log file is available at: %s" % log_file
         else:
-            logging.debug("user chose not to stop jboss")
+            logging.debug("user chose not to stop engine")
             print "Installation stopped, Goodbye."
 
         logging.debug("main() ended")
