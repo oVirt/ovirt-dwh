@@ -1161,7 +1161,7 @@
       <column comment="" key="false" name="host_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
       <column comment="" key="false" length="2" name="host_interface_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4" name="host_interface_speed_bps" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="20" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="59" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="50" name="network_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="gateway" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -1191,7 +1191,7 @@
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="2" name="host_interface_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4" name="host_interface_speed_bps" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="20" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="59" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="50" name="network_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="gateway" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -1361,7 +1361,7 @@
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="2" name="host_interface_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4" name="host_interface_speed_bps" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="20" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="59" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="50" name="network_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="gateway" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -1379,7 +1379,7 @@
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="2" name="host_interface_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4" name="host_interface_speed_bps" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="20" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="59" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="50" name="network_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="gateway" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -3622,7 +3622,7 @@
       <column comment="" key="false" length="16" name="host_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="2" name="host_interface_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4" name="host_interface_speed_bps" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="20" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="59" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="50" name="network_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="gateway" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -3653,7 +3653,7 @@
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="2" name="host_interface_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4" name="host_interface_speed_bps" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="20" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="59" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="50" name="network_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="gateway" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -3856,7 +3856,7 @@
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="2" name="host_interface_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4" name="host_interface_speed_bps" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="20" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="59" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="50" name="network_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="gateway" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
@@ -3874,7 +3874,7 @@
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="2" name="host_interface_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="4" name="host_interface_speed_bps" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="20" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" length="59" name="mac_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="50" name="network_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="20" name="gateway" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
