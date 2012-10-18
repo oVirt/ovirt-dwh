@@ -36,6 +36,18 @@ import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.util.Comparator;
 
+//the import part of tJava_2
+//import java.util.List;
+
+//the import part of tJava_3
+//import java.util.List;
+
+//the import part of tJava_4
+//import java.util.List;
+
+//the import part of tJava_5
+//import java.util.List;
+
 @SuppressWarnings("unused")
 /**
  * Job: ParallelRun Purpose: <br>
@@ -513,66 +525,12 @@ public class ParallelRun implements TalendJob {
 
 	}
 
-	public void tSleep_1_error(Exception exception, String errorComponent,
+	public void tJava_2_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		end_Hash.put("tSleep_1", System.currentTimeMillis());
+		end_Hash.put("tJava_2", System.currentTimeMillis());
 
-		tSleep_1_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
-	public void tInfiniteLoop_6_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tInfiniteLoop_6", System.currentTimeMillis());
-
-		tInfiniteLoop_6_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
-	public void tRunJob_6_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tRunJob_6", System.currentTimeMillis());
-
-		tInfiniteLoop_6_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
-	public void tSleep_2_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tSleep_2", System.currentTimeMillis());
-
-		tSleep_2_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
-	public void tInfiniteLoop_3_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tInfiniteLoop_3", System.currentTimeMillis());
-
-		tInfiniteLoop_3_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
-	public void tRunJob_3_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tRunJob_3", System.currentTimeMillis());
-
-		tInfiniteLoop_3_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
-	public void tSleep_3_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tSleep_3", System.currentTimeMillis());
-
-		tSleep_3_onSubJobError(exception, errorComponent, globalMap);
+		tJava_2_onSubJobError(exception, errorComponent, globalMap);
 
 	}
 
@@ -594,12 +552,12 @@ public class ParallelRun implements TalendJob {
 
 	}
 
-	public void tSleep_4_error(Exception exception, String errorComponent,
+	public void tJava_3_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		end_Hash.put("tSleep_4", System.currentTimeMillis());
+		end_Hash.put("tJava_3", System.currentTimeMillis());
 
-		tSleep_4_onSubJobError(exception, errorComponent, globalMap);
+		tJava_3_onSubJobError(exception, errorComponent, globalMap);
 
 	}
 
@@ -618,6 +576,60 @@ public class ParallelRun implements TalendJob {
 		end_Hash.put("tRunJob_2", System.currentTimeMillis());
 
 		tInfiniteLoop_2_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJava_4_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJava_4", System.currentTimeMillis());
+
+		tJava_4_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tInfiniteLoop_3_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tInfiniteLoop_3", System.currentTimeMillis());
+
+		tInfiniteLoop_3_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tRunJob_3_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tRunJob_3", System.currentTimeMillis());
+
+		tInfiniteLoop_3_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJava_5_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJava_5", System.currentTimeMillis());
+
+		tJava_5_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tInfiniteLoop_6_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tInfiniteLoop_6", System.currentTimeMillis());
+
+		tInfiniteLoop_6_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tRunJob_6_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tRunJob_6", System.currentTimeMillis());
+
+		tInfiniteLoop_6_onSubJobError(exception, errorComponent, globalMap);
 
 	}
 
@@ -716,51 +728,7 @@ public class ParallelRun implements TalendJob {
 
 	}
 
-	public void tSleep_1_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId()
-				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
-				.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tInfiniteLoop_6_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId()
-				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
-				.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tSleep_2_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId()
-				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
-				.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tInfiniteLoop_3_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId()
-				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
-				.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tSleep_3_onSubJobError(Exception exception,
+	public void tJava_2_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -782,7 +750,7 @@ public class ParallelRun implements TalendJob {
 
 	}
 
-	public void tSleep_4_onSubJobError(Exception exception,
+	public void tJava_3_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -794,6 +762,50 @@ public class ParallelRun implements TalendJob {
 	}
 
 	public void tInfiniteLoop_2_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJava_4_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tInfiniteLoop_3_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJava_5_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tInfiniteLoop_6_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1949,9 +1961,9 @@ public class ParallelRun implements TalendJob {
 		globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", 1);
 	}
 
-	public void tSleep_1Process(final java.util.Map<String, Object> globalMap)
+	public void tJava_2Process(final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		globalMap.put("tSleep_1_SUBPROCESS_STATE", 0);
+		globalMap.put("tJava_2_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -1969,675 +1981,57 @@ public class ParallelRun implements TalendJob {
 				globalResumeTicket = true;
 
 				/**
-				 * [tSleep_1 begin ] start
+				 * [tJava_2 begin ] start
 				 */
 
-				ok_Hash.put("tSleep_1", false);
-				start_Hash.put("tSleep_1", System.currentTimeMillis());
-				currentComponent = "tSleep_1";
+				ok_Hash.put("tJava_2", false);
+				start_Hash.put("tJava_2", System.currentTimeMillis());
+				currentComponent = "tJava_2";
 
-				int tos_count_tSleep_1 = 0;
+				int tos_count_tJava_2 = 0;
 
-				/**
-				 * [tSleep_1 begin ] stop
-				 */
-				/**
-				 * [tSleep_1 main ] start
-				 */
-
-				currentComponent = "tSleep_1";
-
-				Thread.sleep((TalendDate.diffDate(RoutineHistoryETL
-						.manipulateDate(RoutineHistoryETL.manipulateDate(
-								RoutineHistoryETL.startOfDay(context.runTime),
-								1, "dd"), context.runDeleteTime, "HH"),
-						context.runTime, "ss")) * 1000);
-
-				tos_count_tSleep_1++;
-
-				/**
-				 * [tSleep_1 main ] stop
-				 */
-				/**
-				 * [tSleep_1 end ] start
-				 */
-
-				currentComponent = "tSleep_1";
-
-				ok_Hash.put("tSleep_1", true);
-				end_Hash.put("tSleep_1", System.currentTimeMillis());
-
-				tInfiniteLoop_6Process(globalMap);
-
-				/**
-				 * [tSleep_1 end ] stop
-				 */
-
-			}// end the resume
-
-		} catch (Exception e) {
-
-			throw new TalendException(e, currentComponent, globalMap);
-
-		} catch (java.lang.Error error) {
-
-			throw new java.lang.Error(error);
-
-		}
-
-		globalMap.put("tSleep_1_SUBPROCESS_STATE", 1);
-	}
-
-	public void tInfiniteLoop_6Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tInfiniteLoop_6_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		String currentComponent = "";
-
-		try {
-
-			String currentMethodName = new Exception().getStackTrace()[0]
-					.getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tInfiniteLoop_6 begin ] start
-				 */
-
-				int NB_ITERATE_tRunJob_6 = 0; // for statistics
-
-				ok_Hash.put("tInfiniteLoop_6", false);
-				start_Hash.put("tInfiniteLoop_6", System.currentTimeMillis());
-				currentComponent = "tInfiniteLoop_6";
-
-				int tos_count_tInfiniteLoop_6 = 0;
-
-				int counter_tInfiniteLoop_6 = 0;
-				globalMap.put("tInfiniteLoop_6_CURRENT_ITERATION",
-						counter_tInfiniteLoop_6);
-
-				while (counter_tInfiniteLoop_6 > -1) {
-					counter_tInfiniteLoop_6++;
-					globalMap.put("tInfiniteLoop_6_CURRENT_ITERATION",
-							counter_tInfiniteLoop_6);
-
-					/**
-					 * [tInfiniteLoop_6 begin ] stop
-					 */
-					/**
-					 * [tInfiniteLoop_6 main ] start
-					 */
-
-					currentComponent = "tInfiniteLoop_6";
-
-					tos_count_tInfiniteLoop_6++;
-
-					/**
-					 * [tInfiniteLoop_6 main ] stop
-					 */
-					NB_ITERATE_tRunJob_6++;
-
-					/**
-					 * [tRunJob_6 begin ] start
-					 */
-
-					ok_Hash.put("tRunJob_6", false);
-					start_Hash.put("tRunJob_6", System.currentTimeMillis());
-					currentComponent = "tRunJob_6";
-
-					int tos_count_tRunJob_6 = 0;
-
-					/**
-					 * [tRunJob_6 begin ] stop
-					 */
-					/**
-					 * [tRunJob_6 main ] start
-					 */
-
-					currentComponent = "tRunJob_6";
-
-					java.util.List<String> paraList_tRunJob_6 = new java.util.ArrayList<String>();
-					paraList_tRunJob_6.add("--father_pid=" + pid);
-
-					paraList_tRunJob_6.add("--root_pid=" + rootPid);
-
-					paraList_tRunJob_6.add("--father_node=tRunJob_6");
-
-					paraList_tRunJob_6.add("--context=Default");
-
-					// for feature:10589
-					paraList_tRunJob_6.add("--stat_port=" + portStats);
-
-					if (resuming_logs_dir_path != null) {
-						paraList_tRunJob_6.add("--resuming_logs_dir_path="
-								+ resuming_logs_dir_path);
-					}
-					String childResumePath_tRunJob_6 = ResumeUtil
-							.getChildJobCheckPointPath(resuming_checkpoint_path);
-					String tRunJobName_tRunJob_6 = ResumeUtil
-							.getRighttRunJob(resuming_checkpoint_path);
-					if ("tRunJob_6".equals(tRunJobName_tRunJob_6)
-							&& childResumePath_tRunJob_6 != null) {
-						paraList_tRunJob_6
-								.add("--resuming_checkpoint_path="
-										+ ResumeUtil
-												.getChildJobCheckPointPath(resuming_checkpoint_path));
-					}
-					paraList_tRunJob_6.add("--parent_part_launcher=JOB:"
-							+ jobName + "/NODE:tRunJob_6");
-
-					java.util.Map<String, Object> parentContextMap_tRunJob_6 = new java.util.HashMap<String, Object>();
-
-					context.synchronizeContext();
-					java.util.Enumeration<?> propertyNames_tRunJob_6 = context
-							.propertyNames();
-					while (propertyNames_tRunJob_6.hasMoreElements()) {
-						String key_tRunJob_6 = (String) propertyNames_tRunJob_6
-								.nextElement();
-						Object value_tRunJob_6 = (Object) context
-								.get(key_tRunJob_6);
-						paraList_tRunJob_6.add("--context_param "
-								+ key_tRunJob_6 + "=" + value_tRunJob_6);
-					}
-
-					parentContextMap_tRunJob_6.put("etlVersion",
-							context.etlVersion);
-					parentContextMap_tRunJob_6.put("hoursToKeepDaily",
-							context.hoursToKeepDaily);
-					parentContextMap_tRunJob_6.put("hoursToKeepHourly",
-							context.hoursToKeepHourly);
-					parentContextMap_tRunJob_6.put("hoursToKeepSamples",
-							context.hoursToKeepSamples);
-					parentContextMap_tRunJob_6.put("ovirtEngineDbDriverClass",
-							context.ovirtEngineDbDriverClass);
-					parentContextMap_tRunJob_6.put(
-							"ovirtEngineDbJdbcConnection",
-							context.ovirtEngineDbJdbcConnection);
-					parentContextMap_tRunJob_6.put("ovirtEngineDbPassword",
-							context.ovirtEngineDbPassword);
-					parentContextMap_tRunJob_6.put("ovirtEngineDbUser",
-							context.ovirtEngineDbUser);
-					parentContextMap_tRunJob_6.put("ovirtEnginePortalAddress",
-							context.ovirtEnginePortalAddress);
-					parentContextMap_tRunJob_6.put(
-							"ovirtEnginePortalConnectionProtocol",
-							context.ovirtEnginePortalConnectionProtocol);
-					parentContextMap_tRunJob_6.put("ovirtEnginePortalPort",
-							context.ovirtEnginePortalPort);
-					parentContextMap_tRunJob_6.put(
-							"ovirtEngineHistoryDbDriverClass",
-							context.ovirtEngineHistoryDbDriverClass);
-					parentContextMap_tRunJob_6.put(
-							"ovirtEngineHistoryDbJdbcConnection",
-							context.ovirtEngineHistoryDbJdbcConnection);
-					parentContextMap_tRunJob_6.put(
-							"ovirtEngineHistoryDbPassword",
-							context.ovirtEngineHistoryDbPassword);
-					parentContextMap_tRunJob_6.put("ovirtEngineHistoryDbUser",
-							context.ovirtEngineHistoryDbUser);
-					parentContextMap_tRunJob_6.put("runDeleteTime",
-							context.runDeleteTime);
-					parentContextMap_tRunJob_6.put("runInterleave",
-							context.runInterleave);
-					parentContextMap_tRunJob_6.put("runTime", context.runTime);
-
-					Object obj_tRunJob_6 = null;
-
-					ovirt_engine_dwh.deletetimekeepingjob_3_1.DeleteTimeKeepingJob childJob_tRunJob_6 = new ovirt_engine_dwh.deletetimekeepingjob_3_1.DeleteTimeKeepingJob();
-					childJob_tRunJob_6.parentContextMap = parentContextMap_tRunJob_6;
-					String[][] childReturn_tRunJob_6 = childJob_tRunJob_6
-							.runJob((String[]) paraList_tRunJob_6
-									.toArray(new String[paraList_tRunJob_6
-											.size()]));
-					((java.util.Map) threadLocal.get()).put("errorCode",
-							childJob_tRunJob_6.getErrorCode());
-
-					if (childJob_tRunJob_6.getErrorCode() == null) {
-						globalMap.put("tRunJob_6_CHILD_RETURN_CODE",
-								childJob_tRunJob_6.getStatus() != null
-										&& ("failure")
-												.equals(childJob_tRunJob_6
-														.getStatus()) ? 1 : 0);
-					} else {
-						globalMap.put("tRunJob_6_CHILD_RETURN_CODE",
-								childJob_tRunJob_6.getErrorCode());
-					}
-					globalMap.put("tRunJob_6_CHILD_EXCEPTION_STACKTRACE",
-							childJob_tRunJob_6.getExceptionStackTrace());
-
-					tos_count_tRunJob_6++;
-
-					/**
-					 * [tRunJob_6 main ] stop
-					 */
-					/**
-					 * [tRunJob_6 end ] start
-					 */
-
-					currentComponent = "tRunJob_6";
-
-					ok_Hash.put("tRunJob_6", true);
-					end_Hash.put("tRunJob_6", System.currentTimeMillis());
-
-					/**
-					 * [tRunJob_6 end ] stop
-					 */
-
-					/**
-					 * [tInfiniteLoop_6 end ] start
-					 */
-
-					currentComponent = "tInfiniteLoop_6";
-
-					Thread.sleep(0);
-				}
-
-				ok_Hash.put("tInfiniteLoop_6", true);
-				end_Hash.put("tInfiniteLoop_6", System.currentTimeMillis());
-
-				/**
-				 * [tInfiniteLoop_6 end ] stop
-				 */
-
-			}// end the resume
-
-		} catch (Exception e) {
-
-			throw new TalendException(e, currentComponent, globalMap);
-
-		} catch (java.lang.Error error) {
-
-			throw new java.lang.Error(error);
-
-		}
-
-		globalMap.put("tInfiniteLoop_6_SUBPROCESS_STATE", 1);
-	}
-
-	public void tSleep_2Process(final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tSleep_2_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		String currentComponent = "";
-
-		try {
-
-			String currentMethodName = new Exception().getStackTrace()[0]
-					.getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tSleep_2 begin ] start
-				 */
-
-				ok_Hash.put("tSleep_2", false);
-				start_Hash.put("tSleep_2", System.currentTimeMillis());
-				currentComponent = "tSleep_2";
-
-				int tos_count_tSleep_2 = 0;
-
-				/**
-				 * [tSleep_2 begin ] stop
-				 */
-				/**
-				 * [tSleep_2 main ] start
-				 */
-
-				currentComponent = "tSleep_2";
-
-				Thread.sleep((TalendDate.diffDate(RoutineHistoryETL
-						.manipulateDate(RoutineHistoryETL
-								.startOfDay(context.runTime), 1, "dd"),
-						context.runTime, "ss")) * 1000);
-
-				tos_count_tSleep_2++;
-
-				/**
-				 * [tSleep_2 main ] stop
-				 */
-				/**
-				 * [tSleep_2 end ] start
-				 */
-
-				currentComponent = "tSleep_2";
-
-				ok_Hash.put("tSleep_2", true);
-				end_Hash.put("tSleep_2", System.currentTimeMillis());
-
-				tInfiniteLoop_3Process(globalMap);
-
-				/**
-				 * [tSleep_2 end ] stop
-				 */
-
-			}// end the resume
-
-		} catch (Exception e) {
-
-			throw new TalendException(e, currentComponent, globalMap);
-
-		} catch (java.lang.Error error) {
-
-			throw new java.lang.Error(error);
-
-		}
-
-		globalMap.put("tSleep_2_SUBPROCESS_STATE", 1);
-	}
-
-	public void tInfiniteLoop_3Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tInfiniteLoop_3_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		String currentComponent = "";
-
-		try {
-
-			String currentMethodName = new Exception().getStackTrace()[0]
-					.getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tInfiniteLoop_3 begin ] start
-				 */
-
-				int NB_ITERATE_tRunJob_3 = 0; // for statistics
-
-				ok_Hash.put("tInfiniteLoop_3", false);
-				start_Hash.put("tInfiniteLoop_3", System.currentTimeMillis());
-				currentComponent = "tInfiniteLoop_3";
-
-				int tos_count_tInfiniteLoop_3 = 0;
-
-				int counter_tInfiniteLoop_3 = 0;
-				globalMap.put("tInfiniteLoop_3_CURRENT_ITERATION",
-						counter_tInfiniteLoop_3);
-
-				while (counter_tInfiniteLoop_3 > -1) {
-					counter_tInfiniteLoop_3++;
-					globalMap.put("tInfiniteLoop_3_CURRENT_ITERATION",
-							counter_tInfiniteLoop_3);
-
-					/**
-					 * [tInfiniteLoop_3 begin ] stop
-					 */
-					/**
-					 * [tInfiniteLoop_3 main ] start
-					 */
-
-					currentComponent = "tInfiniteLoop_3";
-
-					tos_count_tInfiniteLoop_3++;
-
-					/**
-					 * [tInfiniteLoop_3 main ] stop
-					 */
-					NB_ITERATE_tRunJob_3++;
-
-					/**
-					 * [tRunJob_3 begin ] start
-					 */
-
-					ok_Hash.put("tRunJob_3", false);
-					start_Hash.put("tRunJob_3", System.currentTimeMillis());
-					currentComponent = "tRunJob_3";
-
-					int tos_count_tRunJob_3 = 0;
-
-					/**
-					 * [tRunJob_3 begin ] stop
-					 */
-					/**
-					 * [tRunJob_3 main ] start
-					 */
-
-					currentComponent = "tRunJob_3";
-
-					java.util.List<String> paraList_tRunJob_3 = new java.util.ArrayList<String>();
-					paraList_tRunJob_3.add("--father_pid=" + pid);
-
-					paraList_tRunJob_3.add("--root_pid=" + rootPid);
-
-					paraList_tRunJob_3.add("--father_node=tRunJob_3");
-
-					paraList_tRunJob_3.add("--context=Default");
-
-					// for feature:10589
-					paraList_tRunJob_3.add("--stat_port=" + portStats);
-
-					if (resuming_logs_dir_path != null) {
-						paraList_tRunJob_3.add("--resuming_logs_dir_path="
-								+ resuming_logs_dir_path);
-					}
-					String childResumePath_tRunJob_3 = ResumeUtil
-							.getChildJobCheckPointPath(resuming_checkpoint_path);
-					String tRunJobName_tRunJob_3 = ResumeUtil
-							.getRighttRunJob(resuming_checkpoint_path);
-					if ("tRunJob_3".equals(tRunJobName_tRunJob_3)
-							&& childResumePath_tRunJob_3 != null) {
-						paraList_tRunJob_3
-								.add("--resuming_checkpoint_path="
-										+ ResumeUtil
-												.getChildJobCheckPointPath(resuming_checkpoint_path));
-					}
-					paraList_tRunJob_3.add("--parent_part_launcher=JOB:"
-							+ jobName + "/NODE:tRunJob_3");
-
-					java.util.Map<String, Object> parentContextMap_tRunJob_3 = new java.util.HashMap<String, Object>();
-
-					context.synchronizeContext();
-					java.util.Enumeration<?> propertyNames_tRunJob_3 = context
-							.propertyNames();
-					while (propertyNames_tRunJob_3.hasMoreElements()) {
-						String key_tRunJob_3 = (String) propertyNames_tRunJob_3
-								.nextElement();
-						Object value_tRunJob_3 = (Object) context
-								.get(key_tRunJob_3);
-						paraList_tRunJob_3.add("--context_param "
-								+ key_tRunJob_3 + "=" + value_tRunJob_3);
-					}
-
-					parentContextMap_tRunJob_3.put("etlVersion",
-							context.etlVersion);
-					parentContextMap_tRunJob_3.put("hoursToKeepDaily",
-							context.hoursToKeepDaily);
-					parentContextMap_tRunJob_3.put("hoursToKeepHourly",
-							context.hoursToKeepHourly);
-					parentContextMap_tRunJob_3.put("hoursToKeepSamples",
-							context.hoursToKeepSamples);
-					parentContextMap_tRunJob_3.put("ovirtEngineDbDriverClass",
-							context.ovirtEngineDbDriverClass);
-					parentContextMap_tRunJob_3.put(
-							"ovirtEngineDbJdbcConnection",
-							context.ovirtEngineDbJdbcConnection);
-					parentContextMap_tRunJob_3.put("ovirtEngineDbPassword",
-							context.ovirtEngineDbPassword);
-					parentContextMap_tRunJob_3.put("ovirtEngineDbUser",
-							context.ovirtEngineDbUser);
-					parentContextMap_tRunJob_3.put("ovirtEnginePortalAddress",
-							context.ovirtEnginePortalAddress);
-					parentContextMap_tRunJob_3.put(
-							"ovirtEnginePortalConnectionProtocol",
-							context.ovirtEnginePortalConnectionProtocol);
-					parentContextMap_tRunJob_3.put("ovirtEnginePortalPort",
-							context.ovirtEnginePortalPort);
-					parentContextMap_tRunJob_3.put(
-							"ovirtEngineHistoryDbDriverClass",
-							context.ovirtEngineHistoryDbDriverClass);
-					parentContextMap_tRunJob_3.put(
-							"ovirtEngineHistoryDbJdbcConnection",
-							context.ovirtEngineHistoryDbJdbcConnection);
-					parentContextMap_tRunJob_3.put(
-							"ovirtEngineHistoryDbPassword",
-							context.ovirtEngineHistoryDbPassword);
-					parentContextMap_tRunJob_3.put("ovirtEngineHistoryDbUser",
-							context.ovirtEngineHistoryDbUser);
-					parentContextMap_tRunJob_3.put("runDeleteTime",
-							context.runDeleteTime);
-					parentContextMap_tRunJob_3.put("runInterleave",
-							context.runInterleave);
-					parentContextMap_tRunJob_3.put("runTime", context.runTime);
-
-					Object obj_tRunJob_3 = null;
-
-					ovirt_engine_dwh.dailytimekeepingjob_3_1.DailyTimeKeepingJob childJob_tRunJob_3 = new ovirt_engine_dwh.dailytimekeepingjob_3_1.DailyTimeKeepingJob();
-					childJob_tRunJob_3.parentContextMap = parentContextMap_tRunJob_3;
-					String[][] childReturn_tRunJob_3 = childJob_tRunJob_3
-							.runJob((String[]) paraList_tRunJob_3
-									.toArray(new String[paraList_tRunJob_3
-											.size()]));
-					((java.util.Map) threadLocal.get()).put("errorCode",
-							childJob_tRunJob_3.getErrorCode());
-
-					if (childJob_tRunJob_3.getErrorCode() == null) {
-						globalMap.put("tRunJob_3_CHILD_RETURN_CODE",
-								childJob_tRunJob_3.getStatus() != null
-										&& ("failure")
-												.equals(childJob_tRunJob_3
-														.getStatus()) ? 1 : 0);
-					} else {
-						globalMap.put("tRunJob_3_CHILD_RETURN_CODE",
-								childJob_tRunJob_3.getErrorCode());
-					}
-					globalMap.put("tRunJob_3_CHILD_EXCEPTION_STACKTRACE",
-							childJob_tRunJob_3.getExceptionStackTrace());
-
-					tos_count_tRunJob_3++;
-
-					/**
-					 * [tRunJob_3 main ] stop
-					 */
-					/**
-					 * [tRunJob_3 end ] start
-					 */
-
-					currentComponent = "tRunJob_3";
-
-					ok_Hash.put("tRunJob_3", true);
-					end_Hash.put("tRunJob_3", System.currentTimeMillis());
-
-					/**
-					 * [tRunJob_3 end ] stop
-					 */
-
-					/**
-					 * [tInfiniteLoop_3 end ] start
-					 */
-
-					currentComponent = "tInfiniteLoop_3";
-
-					Thread.sleep(0);
-				}
-
-				ok_Hash.put("tInfiniteLoop_3", true);
-				end_Hash.put("tInfiniteLoop_3", System.currentTimeMillis());
-
-				/**
-				 * [tInfiniteLoop_3 end ] stop
-				 */
-
-			}// end the resume
-
-		} catch (Exception e) {
-
-			throw new TalendException(e, currentComponent, globalMap);
-
-		} catch (java.lang.Error error) {
-
-			throw new java.lang.Error(error);
-
-		}
-
-		globalMap.put("tInfiniteLoop_3_SUBPROCESS_STATE", 1);
-	}
-
-	public void tSleep_3Process(final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tSleep_3_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		String currentComponent = "";
-
-		try {
-
-			String currentMethodName = new Exception().getStackTrace()[0]
-					.getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tSleep_3 begin ] start
-				 */
-
-				ok_Hash.put("tSleep_3", false);
-				start_Hash.put("tSleep_3", System.currentTimeMillis());
-				currentComponent = "tSleep_3";
-
-				int tos_count_tSleep_3 = 0;
-
-				/**
-				 * [tSleep_3 begin ] stop
-				 */
-				/**
-				 * [tSleep_3 main ] start
-				 */
-
-				currentComponent = "tSleep_3";
-
-				Thread.sleep((TalendDate.diffDate(RoutineHistoryETL
+				Thread.sleep(TalendDate.diffDate(RoutineHistoryETL
 						.manipulateDate(RoutineHistoryETL
 								.startOfMinute(context.runTime), 1, "mm"),
-						context.runTime, "ss")) * 1000);
-
-				tos_count_tSleep_3++;
+						context.runTime, "SSS"));
 
 				/**
-				 * [tSleep_3 main ] stop
+				 * [tJava_2 begin ] stop
 				 */
 				/**
-				 * [tSleep_3 end ] start
+				 * [tJava_2 main ] start
 				 */
 
-				currentComponent = "tSleep_3";
+				currentComponent = "tJava_2";
 
-				ok_Hash.put("tSleep_3", true);
-				end_Hash.put("tSleep_3", System.currentTimeMillis());
-
-				tInfiniteLoop_1Process(globalMap);
+				tos_count_tJava_2++;
 
 				/**
-				 * [tSleep_3 end ] stop
+				 * [tJava_2 main ] stop
+				 */
+				/**
+				 * [tJava_2 end ] start
+				 */
+
+				currentComponent = "tJava_2";
+
+				ok_Hash.put("tJava_2", true);
+				end_Hash.put("tJava_2", System.currentTimeMillis());
+
+				/**
+				 * [tJava_2 end ] stop
 				 */
 
 			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil.addLog("CHECKPOINT",
+						"CONNECTION:SUBJOB_OK:tJava_2:OnSubjobOk", "", Thread
+								.currentThread().getId()
+								+ "", "", "", "", "", "");
+			}
+
+			tInfiniteLoop_1Process(globalMap);
 
 		} catch (Exception e) {
 
@@ -2649,7 +2043,7 @@ public class ParallelRun implements TalendJob {
 
 		}
 
-		globalMap.put("tSleep_3_SUBPROCESS_STATE", 1);
+		globalMap.put("tJava_2_SUBPROCESS_STATE", 1);
 	}
 
 	public void tInfiniteLoop_1Process(
@@ -2886,9 +2280,9 @@ public class ParallelRun implements TalendJob {
 		globalMap.put("tInfiniteLoop_1_SUBPROCESS_STATE", 1);
 	}
 
-	public void tSleep_4Process(final java.util.Map<String, Object> globalMap)
+	public void tJava_3Process(final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		globalMap.put("tSleep_4_SUBPROCESS_STATE", 0);
+		globalMap.put("tJava_3_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -2906,50 +2300,57 @@ public class ParallelRun implements TalendJob {
 				globalResumeTicket = true;
 
 				/**
-				 * [tSleep_4 begin ] start
+				 * [tJava_3 begin ] start
 				 */
 
-				ok_Hash.put("tSleep_4", false);
-				start_Hash.put("tSleep_4", System.currentTimeMillis());
-				currentComponent = "tSleep_4";
+				ok_Hash.put("tJava_3", false);
+				start_Hash.put("tJava_3", System.currentTimeMillis());
+				currentComponent = "tJava_3";
 
-				int tos_count_tSleep_4 = 0;
+				int tos_count_tJava_3 = 0;
 
-				/**
-				 * [tSleep_4 begin ] stop
-				 */
-				/**
-				 * [tSleep_4 main ] start
-				 */
-
-				currentComponent = "tSleep_4";
-
-				Thread.sleep((TalendDate.diffDate(RoutineHistoryETL
+				Thread.sleep(TalendDate.diffDate(RoutineHistoryETL
 						.manipulateDate(RoutineHistoryETL
 								.startOfHour(context.runTime), 1, "HH"),
-						context.runTime, "ss")) * 1000);
-
-				tos_count_tSleep_4++;
+						context.runTime, "SSS"));
 
 				/**
-				 * [tSleep_4 main ] stop
+				 * [tJava_3 begin ] stop
 				 */
 				/**
-				 * [tSleep_4 end ] start
+				 * [tJava_3 main ] start
 				 */
 
-				currentComponent = "tSleep_4";
+				currentComponent = "tJava_3";
 
-				ok_Hash.put("tSleep_4", true);
-				end_Hash.put("tSleep_4", System.currentTimeMillis());
-
-				tInfiniteLoop_2Process(globalMap);
+				tos_count_tJava_3++;
 
 				/**
-				 * [tSleep_4 end ] stop
+				 * [tJava_3 main ] stop
+				 */
+				/**
+				 * [tJava_3 end ] start
+				 */
+
+				currentComponent = "tJava_3";
+
+				ok_Hash.put("tJava_3", true);
+				end_Hash.put("tJava_3", System.currentTimeMillis());
+
+				/**
+				 * [tJava_3 end ] stop
 				 */
 
 			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil.addLog("CHECKPOINT",
+						"CONNECTION:SUBJOB_OK:tJava_3:OnSubjobOk", "", Thread
+								.currentThread().getId()
+								+ "", "", "", "", "", "");
+			}
+
+			tInfiniteLoop_2Process(globalMap);
 
 		} catch (Exception e) {
 
@@ -2961,7 +2362,7 @@ public class ParallelRun implements TalendJob {
 
 		}
 
-		globalMap.put("tSleep_4_SUBPROCESS_STATE", 1);
+		globalMap.put("tJava_3_SUBPROCESS_STATE", 1);
 	}
 
 	public void tInfiniteLoop_2Process(
@@ -3196,6 +2597,645 @@ public class ParallelRun implements TalendJob {
 		}
 
 		globalMap.put("tInfiniteLoop_2_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJava_4Process(final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJava_4_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJava_4 begin ] start
+				 */
+
+				ok_Hash.put("tJava_4", false);
+				start_Hash.put("tJava_4", System.currentTimeMillis());
+				currentComponent = "tJava_4";
+
+				int tos_count_tJava_4 = 0;
+
+				Thread.sleep(TalendDate.diffDate(RoutineHistoryETL
+						.manipulateDate(RoutineHistoryETL
+								.startOfDay(context.runTime), 1, "dd"),
+						context.runTime, "SSS"));
+
+				/**
+				 * [tJava_4 begin ] stop
+				 */
+				/**
+				 * [tJava_4 main ] start
+				 */
+
+				currentComponent = "tJava_4";
+
+				tos_count_tJava_4++;
+
+				/**
+				 * [tJava_4 main ] stop
+				 */
+				/**
+				 * [tJava_4 end ] start
+				 */
+
+				currentComponent = "tJava_4";
+
+				ok_Hash.put("tJava_4", true);
+				end_Hash.put("tJava_4", System.currentTimeMillis());
+
+				/**
+				 * [tJava_4 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil.addLog("CHECKPOINT",
+						"CONNECTION:SUBJOB_OK:tJava_4:OnSubjobOk", "", Thread
+								.currentThread().getId()
+								+ "", "", "", "", "", "");
+			}
+
+			tInfiniteLoop_3Process(globalMap);
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJava_4_SUBPROCESS_STATE", 1);
+	}
+
+	public void tInfiniteLoop_3Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tInfiniteLoop_3_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tInfiniteLoop_3 begin ] start
+				 */
+
+				int NB_ITERATE_tRunJob_3 = 0; // for statistics
+
+				ok_Hash.put("tInfiniteLoop_3", false);
+				start_Hash.put("tInfiniteLoop_3", System.currentTimeMillis());
+				currentComponent = "tInfiniteLoop_3";
+
+				int tos_count_tInfiniteLoop_3 = 0;
+
+				int counter_tInfiniteLoop_3 = 0;
+				globalMap.put("tInfiniteLoop_3_CURRENT_ITERATION",
+						counter_tInfiniteLoop_3);
+
+				while (counter_tInfiniteLoop_3 > -1) {
+					counter_tInfiniteLoop_3++;
+					globalMap.put("tInfiniteLoop_3_CURRENT_ITERATION",
+							counter_tInfiniteLoop_3);
+
+					/**
+					 * [tInfiniteLoop_3 begin ] stop
+					 */
+					/**
+					 * [tInfiniteLoop_3 main ] start
+					 */
+
+					currentComponent = "tInfiniteLoop_3";
+
+					tos_count_tInfiniteLoop_3++;
+
+					/**
+					 * [tInfiniteLoop_3 main ] stop
+					 */
+					NB_ITERATE_tRunJob_3++;
+
+					/**
+					 * [tRunJob_3 begin ] start
+					 */
+
+					ok_Hash.put("tRunJob_3", false);
+					start_Hash.put("tRunJob_3", System.currentTimeMillis());
+					currentComponent = "tRunJob_3";
+
+					int tos_count_tRunJob_3 = 0;
+
+					/**
+					 * [tRunJob_3 begin ] stop
+					 */
+					/**
+					 * [tRunJob_3 main ] start
+					 */
+
+					currentComponent = "tRunJob_3";
+
+					java.util.List<String> paraList_tRunJob_3 = new java.util.ArrayList<String>();
+					paraList_tRunJob_3.add("--father_pid=" + pid);
+
+					paraList_tRunJob_3.add("--root_pid=" + rootPid);
+
+					paraList_tRunJob_3.add("--father_node=tRunJob_3");
+
+					paraList_tRunJob_3.add("--context=Default");
+
+					// for feature:10589
+					paraList_tRunJob_3.add("--stat_port=" + portStats);
+
+					if (resuming_logs_dir_path != null) {
+						paraList_tRunJob_3.add("--resuming_logs_dir_path="
+								+ resuming_logs_dir_path);
+					}
+					String childResumePath_tRunJob_3 = ResumeUtil
+							.getChildJobCheckPointPath(resuming_checkpoint_path);
+					String tRunJobName_tRunJob_3 = ResumeUtil
+							.getRighttRunJob(resuming_checkpoint_path);
+					if ("tRunJob_3".equals(tRunJobName_tRunJob_3)
+							&& childResumePath_tRunJob_3 != null) {
+						paraList_tRunJob_3
+								.add("--resuming_checkpoint_path="
+										+ ResumeUtil
+												.getChildJobCheckPointPath(resuming_checkpoint_path));
+					}
+					paraList_tRunJob_3.add("--parent_part_launcher=JOB:"
+							+ jobName + "/NODE:tRunJob_3");
+
+					java.util.Map<String, Object> parentContextMap_tRunJob_3 = new java.util.HashMap<String, Object>();
+
+					context.synchronizeContext();
+					java.util.Enumeration<?> propertyNames_tRunJob_3 = context
+							.propertyNames();
+					while (propertyNames_tRunJob_3.hasMoreElements()) {
+						String key_tRunJob_3 = (String) propertyNames_tRunJob_3
+								.nextElement();
+						Object value_tRunJob_3 = (Object) context
+								.get(key_tRunJob_3);
+						paraList_tRunJob_3.add("--context_param "
+								+ key_tRunJob_3 + "=" + value_tRunJob_3);
+					}
+
+					parentContextMap_tRunJob_3.put("etlVersion",
+							context.etlVersion);
+					parentContextMap_tRunJob_3.put("hoursToKeepDaily",
+							context.hoursToKeepDaily);
+					parentContextMap_tRunJob_3.put("hoursToKeepHourly",
+							context.hoursToKeepHourly);
+					parentContextMap_tRunJob_3.put("hoursToKeepSamples",
+							context.hoursToKeepSamples);
+					parentContextMap_tRunJob_3.put("ovirtEngineDbDriverClass",
+							context.ovirtEngineDbDriverClass);
+					parentContextMap_tRunJob_3.put(
+							"ovirtEngineDbJdbcConnection",
+							context.ovirtEngineDbJdbcConnection);
+					parentContextMap_tRunJob_3.put("ovirtEngineDbPassword",
+							context.ovirtEngineDbPassword);
+					parentContextMap_tRunJob_3.put("ovirtEngineDbUser",
+							context.ovirtEngineDbUser);
+					parentContextMap_tRunJob_3.put("ovirtEnginePortalAddress",
+							context.ovirtEnginePortalAddress);
+					parentContextMap_tRunJob_3.put(
+							"ovirtEnginePortalConnectionProtocol",
+							context.ovirtEnginePortalConnectionProtocol);
+					parentContextMap_tRunJob_3.put("ovirtEnginePortalPort",
+							context.ovirtEnginePortalPort);
+					parentContextMap_tRunJob_3.put(
+							"ovirtEngineHistoryDbDriverClass",
+							context.ovirtEngineHistoryDbDriverClass);
+					parentContextMap_tRunJob_3.put(
+							"ovirtEngineHistoryDbJdbcConnection",
+							context.ovirtEngineHistoryDbJdbcConnection);
+					parentContextMap_tRunJob_3.put(
+							"ovirtEngineHistoryDbPassword",
+							context.ovirtEngineHistoryDbPassword);
+					parentContextMap_tRunJob_3.put("ovirtEngineHistoryDbUser",
+							context.ovirtEngineHistoryDbUser);
+					parentContextMap_tRunJob_3.put("runDeleteTime",
+							context.runDeleteTime);
+					parentContextMap_tRunJob_3.put("runInterleave",
+							context.runInterleave);
+					parentContextMap_tRunJob_3.put("runTime", context.runTime);
+
+					Object obj_tRunJob_3 = null;
+
+					ovirt_engine_dwh.dailytimekeepingjob_3_1.DailyTimeKeepingJob childJob_tRunJob_3 = new ovirt_engine_dwh.dailytimekeepingjob_3_1.DailyTimeKeepingJob();
+					childJob_tRunJob_3.parentContextMap = parentContextMap_tRunJob_3;
+					String[][] childReturn_tRunJob_3 = childJob_tRunJob_3
+							.runJob((String[]) paraList_tRunJob_3
+									.toArray(new String[paraList_tRunJob_3
+											.size()]));
+					((java.util.Map) threadLocal.get()).put("errorCode",
+							childJob_tRunJob_3.getErrorCode());
+
+					if (childJob_tRunJob_3.getErrorCode() == null) {
+						globalMap.put("tRunJob_3_CHILD_RETURN_CODE",
+								childJob_tRunJob_3.getStatus() != null
+										&& ("failure")
+												.equals(childJob_tRunJob_3
+														.getStatus()) ? 1 : 0);
+					} else {
+						globalMap.put("tRunJob_3_CHILD_RETURN_CODE",
+								childJob_tRunJob_3.getErrorCode());
+					}
+					globalMap.put("tRunJob_3_CHILD_EXCEPTION_STACKTRACE",
+							childJob_tRunJob_3.getExceptionStackTrace());
+
+					tos_count_tRunJob_3++;
+
+					/**
+					 * [tRunJob_3 main ] stop
+					 */
+					/**
+					 * [tRunJob_3 end ] start
+					 */
+
+					currentComponent = "tRunJob_3";
+
+					ok_Hash.put("tRunJob_3", true);
+					end_Hash.put("tRunJob_3", System.currentTimeMillis());
+
+					/**
+					 * [tRunJob_3 end ] stop
+					 */
+
+					/**
+					 * [tInfiniteLoop_3 end ] start
+					 */
+
+					currentComponent = "tInfiniteLoop_3";
+
+					Thread.sleep(0);
+				}
+
+				ok_Hash.put("tInfiniteLoop_3", true);
+				end_Hash.put("tInfiniteLoop_3", System.currentTimeMillis());
+
+				/**
+				 * [tInfiniteLoop_3 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tInfiniteLoop_3_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJava_5Process(final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJava_5_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJava_5 begin ] start
+				 */
+
+				ok_Hash.put("tJava_5", false);
+				start_Hash.put("tJava_5", System.currentTimeMillis());
+				currentComponent = "tJava_5";
+
+				int tos_count_tJava_5 = 0;
+
+				Thread.sleep(TalendDate.diffDate(RoutineHistoryETL
+						.manipulateDate(RoutineHistoryETL.manipulateDate(
+								RoutineHistoryETL.startOfDay(context.runTime),
+								1, "dd"), context.runDeleteTime, "HH"),
+						context.runTime, "SSS"));
+
+				/**
+				 * [tJava_5 begin ] stop
+				 */
+				/**
+				 * [tJava_5 main ] start
+				 */
+
+				currentComponent = "tJava_5";
+
+				tos_count_tJava_5++;
+
+				/**
+				 * [tJava_5 main ] stop
+				 */
+				/**
+				 * [tJava_5 end ] start
+				 */
+
+				currentComponent = "tJava_5";
+
+				ok_Hash.put("tJava_5", true);
+				end_Hash.put("tJava_5", System.currentTimeMillis());
+
+				/**
+				 * [tJava_5 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil.addLog("CHECKPOINT",
+						"CONNECTION:SUBJOB_OK:tJava_5:OnSubjobOk", "", Thread
+								.currentThread().getId()
+								+ "", "", "", "", "", "");
+			}
+
+			tInfiniteLoop_6Process(globalMap);
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJava_5_SUBPROCESS_STATE", 1);
+	}
+
+	public void tInfiniteLoop_6Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tInfiniteLoop_6_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tInfiniteLoop_6 begin ] start
+				 */
+
+				int NB_ITERATE_tRunJob_6 = 0; // for statistics
+
+				ok_Hash.put("tInfiniteLoop_6", false);
+				start_Hash.put("tInfiniteLoop_6", System.currentTimeMillis());
+				currentComponent = "tInfiniteLoop_6";
+
+				int tos_count_tInfiniteLoop_6 = 0;
+
+				int counter_tInfiniteLoop_6 = 0;
+				globalMap.put("tInfiniteLoop_6_CURRENT_ITERATION",
+						counter_tInfiniteLoop_6);
+
+				while (counter_tInfiniteLoop_6 > -1) {
+					counter_tInfiniteLoop_6++;
+					globalMap.put("tInfiniteLoop_6_CURRENT_ITERATION",
+							counter_tInfiniteLoop_6);
+
+					/**
+					 * [tInfiniteLoop_6 begin ] stop
+					 */
+					/**
+					 * [tInfiniteLoop_6 main ] start
+					 */
+
+					currentComponent = "tInfiniteLoop_6";
+
+					tos_count_tInfiniteLoop_6++;
+
+					/**
+					 * [tInfiniteLoop_6 main ] stop
+					 */
+					NB_ITERATE_tRunJob_6++;
+
+					/**
+					 * [tRunJob_6 begin ] start
+					 */
+
+					ok_Hash.put("tRunJob_6", false);
+					start_Hash.put("tRunJob_6", System.currentTimeMillis());
+					currentComponent = "tRunJob_6";
+
+					int tos_count_tRunJob_6 = 0;
+
+					/**
+					 * [tRunJob_6 begin ] stop
+					 */
+					/**
+					 * [tRunJob_6 main ] start
+					 */
+
+					currentComponent = "tRunJob_6";
+
+					java.util.List<String> paraList_tRunJob_6 = new java.util.ArrayList<String>();
+					paraList_tRunJob_6.add("--father_pid=" + pid);
+
+					paraList_tRunJob_6.add("--root_pid=" + rootPid);
+
+					paraList_tRunJob_6.add("--father_node=tRunJob_6");
+
+					paraList_tRunJob_6.add("--context=Default");
+
+					// for feature:10589
+					paraList_tRunJob_6.add("--stat_port=" + portStats);
+
+					if (resuming_logs_dir_path != null) {
+						paraList_tRunJob_6.add("--resuming_logs_dir_path="
+								+ resuming_logs_dir_path);
+					}
+					String childResumePath_tRunJob_6 = ResumeUtil
+							.getChildJobCheckPointPath(resuming_checkpoint_path);
+					String tRunJobName_tRunJob_6 = ResumeUtil
+							.getRighttRunJob(resuming_checkpoint_path);
+					if ("tRunJob_6".equals(tRunJobName_tRunJob_6)
+							&& childResumePath_tRunJob_6 != null) {
+						paraList_tRunJob_6
+								.add("--resuming_checkpoint_path="
+										+ ResumeUtil
+												.getChildJobCheckPointPath(resuming_checkpoint_path));
+					}
+					paraList_tRunJob_6.add("--parent_part_launcher=JOB:"
+							+ jobName + "/NODE:tRunJob_6");
+
+					java.util.Map<String, Object> parentContextMap_tRunJob_6 = new java.util.HashMap<String, Object>();
+
+					context.synchronizeContext();
+					java.util.Enumeration<?> propertyNames_tRunJob_6 = context
+							.propertyNames();
+					while (propertyNames_tRunJob_6.hasMoreElements()) {
+						String key_tRunJob_6 = (String) propertyNames_tRunJob_6
+								.nextElement();
+						Object value_tRunJob_6 = (Object) context
+								.get(key_tRunJob_6);
+						paraList_tRunJob_6.add("--context_param "
+								+ key_tRunJob_6 + "=" + value_tRunJob_6);
+					}
+
+					parentContextMap_tRunJob_6.put("etlVersion",
+							context.etlVersion);
+					parentContextMap_tRunJob_6.put("hoursToKeepDaily",
+							context.hoursToKeepDaily);
+					parentContextMap_tRunJob_6.put("hoursToKeepHourly",
+							context.hoursToKeepHourly);
+					parentContextMap_tRunJob_6.put("hoursToKeepSamples",
+							context.hoursToKeepSamples);
+					parentContextMap_tRunJob_6.put("ovirtEngineDbDriverClass",
+							context.ovirtEngineDbDriverClass);
+					parentContextMap_tRunJob_6.put(
+							"ovirtEngineDbJdbcConnection",
+							context.ovirtEngineDbJdbcConnection);
+					parentContextMap_tRunJob_6.put("ovirtEngineDbPassword",
+							context.ovirtEngineDbPassword);
+					parentContextMap_tRunJob_6.put("ovirtEngineDbUser",
+							context.ovirtEngineDbUser);
+					parentContextMap_tRunJob_6.put("ovirtEnginePortalAddress",
+							context.ovirtEnginePortalAddress);
+					parentContextMap_tRunJob_6.put(
+							"ovirtEnginePortalConnectionProtocol",
+							context.ovirtEnginePortalConnectionProtocol);
+					parentContextMap_tRunJob_6.put("ovirtEnginePortalPort",
+							context.ovirtEnginePortalPort);
+					parentContextMap_tRunJob_6.put(
+							"ovirtEngineHistoryDbDriverClass",
+							context.ovirtEngineHistoryDbDriverClass);
+					parentContextMap_tRunJob_6.put(
+							"ovirtEngineHistoryDbJdbcConnection",
+							context.ovirtEngineHistoryDbJdbcConnection);
+					parentContextMap_tRunJob_6.put(
+							"ovirtEngineHistoryDbPassword",
+							context.ovirtEngineHistoryDbPassword);
+					parentContextMap_tRunJob_6.put("ovirtEngineHistoryDbUser",
+							context.ovirtEngineHistoryDbUser);
+					parentContextMap_tRunJob_6.put("runDeleteTime",
+							context.runDeleteTime);
+					parentContextMap_tRunJob_6.put("runInterleave",
+							context.runInterleave);
+					parentContextMap_tRunJob_6.put("runTime", context.runTime);
+
+					Object obj_tRunJob_6 = null;
+
+					ovirt_engine_dwh.deletetimekeepingjob_3_1.DeleteTimeKeepingJob childJob_tRunJob_6 = new ovirt_engine_dwh.deletetimekeepingjob_3_1.DeleteTimeKeepingJob();
+					childJob_tRunJob_6.parentContextMap = parentContextMap_tRunJob_6;
+					String[][] childReturn_tRunJob_6 = childJob_tRunJob_6
+							.runJob((String[]) paraList_tRunJob_6
+									.toArray(new String[paraList_tRunJob_6
+											.size()]));
+					((java.util.Map) threadLocal.get()).put("errorCode",
+							childJob_tRunJob_6.getErrorCode());
+
+					if (childJob_tRunJob_6.getErrorCode() == null) {
+						globalMap.put("tRunJob_6_CHILD_RETURN_CODE",
+								childJob_tRunJob_6.getStatus() != null
+										&& ("failure")
+												.equals(childJob_tRunJob_6
+														.getStatus()) ? 1 : 0);
+					} else {
+						globalMap.put("tRunJob_6_CHILD_RETURN_CODE",
+								childJob_tRunJob_6.getErrorCode());
+					}
+					globalMap.put("tRunJob_6_CHILD_EXCEPTION_STACKTRACE",
+							childJob_tRunJob_6.getExceptionStackTrace());
+
+					tos_count_tRunJob_6++;
+
+					/**
+					 * [tRunJob_6 main ] stop
+					 */
+					/**
+					 * [tRunJob_6 end ] start
+					 */
+
+					currentComponent = "tRunJob_6";
+
+					ok_Hash.put("tRunJob_6", true);
+					end_Hash.put("tRunJob_6", System.currentTimeMillis());
+
+					/**
+					 * [tRunJob_6 end ] stop
+					 */
+
+					/**
+					 * [tInfiniteLoop_6 end ] start
+					 */
+
+					currentComponent = "tInfiniteLoop_6";
+
+					Thread.sleep(0);
+				}
+
+				ok_Hash.put("tInfiniteLoop_6", true);
+				end_Hash.put("tInfiniteLoop_6", System.currentTimeMillis());
+
+				/**
+				 * [tInfiniteLoop_6 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tInfiniteLoop_6_SUBPROCESS_STATE", 1);
 	}
 
 	public static class row_talendLogs_LOGSStruct implements
@@ -4139,13 +4179,13 @@ public class ParallelRun implements TalendJob {
 
 				try {
 					((java.util.Map) threadLocal.get()).put("errorCode", null);
-					tSleep_1Process(globalMap);
+					tJava_2Process(globalMap);
 					((java.util.Map) threadLocal.get()).put("status", "end");
-				} catch (TalendException e_tSleep_1) {
+				} catch (TalendException e_tJava_2) {
 					((java.util.Map) threadLocal.get())
 							.put("status", "failure");
-					e_tSleep_1.printStackTrace();
-					globalMap.put("tSleep_1_SUBPROCESS_STATE", -1);
+					e_tJava_2.printStackTrace();
+					globalMap.put("tJava_2_SUBPROCESS_STATE", -1);
 
 				} finally {
 				}
@@ -4178,13 +4218,13 @@ public class ParallelRun implements TalendJob {
 
 				try {
 					((java.util.Map) threadLocal.get()).put("errorCode", null);
-					tSleep_2Process(globalMap);
+					tJava_3Process(globalMap);
 					((java.util.Map) threadLocal.get()).put("status", "end");
-				} catch (TalendException e_tSleep_2) {
+				} catch (TalendException e_tJava_3) {
 					((java.util.Map) threadLocal.get())
 							.put("status", "failure");
-					e_tSleep_2.printStackTrace();
-					globalMap.put("tSleep_2_SUBPROCESS_STATE", -1);
+					e_tJava_3.printStackTrace();
+					globalMap.put("tJava_3_SUBPROCESS_STATE", -1);
 
 				} finally {
 				}
@@ -4217,13 +4257,13 @@ public class ParallelRun implements TalendJob {
 
 				try {
 					((java.util.Map) threadLocal.get()).put("errorCode", null);
-					tSleep_3Process(globalMap);
+					tJava_4Process(globalMap);
 					((java.util.Map) threadLocal.get()).put("status", "end");
-				} catch (TalendException e_tSleep_3) {
+				} catch (TalendException e_tJava_4) {
 					((java.util.Map) threadLocal.get())
 							.put("status", "failure");
-					e_tSleep_3.printStackTrace();
-					globalMap.put("tSleep_3_SUBPROCESS_STATE", -1);
+					e_tJava_4.printStackTrace();
+					globalMap.put("tJava_4_SUBPROCESS_STATE", -1);
 
 				} finally {
 				}
@@ -4256,13 +4296,13 @@ public class ParallelRun implements TalendJob {
 
 				try {
 					((java.util.Map) threadLocal.get()).put("errorCode", null);
-					tSleep_4Process(globalMap);
+					tJava_5Process(globalMap);
 					((java.util.Map) threadLocal.get()).put("status", "end");
-				} catch (TalendException e_tSleep_4) {
+				} catch (TalendException e_tJava_5) {
 					((java.util.Map) threadLocal.get())
 							.put("status", "failure");
-					e_tSleep_4.printStackTrace();
-					globalMap.put("tSleep_4_SUBPROCESS_STATE", -1);
+					e_tJava_5.printStackTrace();
+					globalMap.put("tJava_5_SUBPROCESS_STATE", -1);
 
 				} finally {
 				}
@@ -4392,6 +4432,6 @@ public class ParallelRun implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 119477 characters generated by Talend Open Studio for Data Integration on the
- * June 17, 2012 6:23:25 PM IDT
+ * 120557 characters generated by Talend Open Studio for Data Integration on the
+ * October 18, 2012 6:06:24 PM IST
  ************************************************************************************************/
