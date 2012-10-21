@@ -527,15 +527,6 @@ public class AggregationToDaily implements TalendJob {
 
 	}
 
-	public void tMap_9_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tMap_9", System.currentTimeMillis());
-
-		tJDBCInput_9_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
 	public void tJDBCOutput_9_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -668,24 +659,6 @@ public class AggregationToDaily implements TalendJob {
 		end_Hash.put("tAggregateRow_7_AGGIN", System.currentTimeMillis());
 
 		tJDBCInput_13_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
-	public void tAggregateRow_8_AGGOUT_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tAggregateRow_8_AGGOUT", System.currentTimeMillis());
-
-		tJDBCInput_9_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
-	public void tAggregateRow_8_AGGIN_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tAggregateRow_8_AGGIN", System.currentTimeMillis());
-
-		tJDBCInput_9_onSubJobError(exception, errorComponent, globalMap);
 
 	}
 
@@ -18189,520 +18162,6 @@ public class AggregationToDaily implements TalendJob {
 		globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", 1);
 	}
 
-	public static class row13Struct implements
-			routines.system.IPersistableRow<row13Struct> {
-		final static byte[] commonByteArrayLock = new byte[0];
-		static byte[] commonByteArray = new byte[0];
-
-		public java.util.Date history_datetime;
-
-		public java.util.Date getHistory_datetime() {
-			return this.history_datetime;
-		}
-
-		public Object vm_id;
-
-		public Object getVm_id() {
-			return this.vm_id;
-		}
-
-		public String disks_usage;
-
-		public String getDisks_usage() {
-			return this.disks_usage;
-		}
-
-		private java.util.Date readDate(ObjectInputStream dis)
-				throws IOException {
-			java.util.Date dateReturn = null;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				dateReturn = null;
-			} else {
-				dateReturn = new Date(dis.readLong());
-			}
-			return dateReturn;
-		}
-
-		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
-				throws IOException {
-			if (date1 == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeLong(date1.getTime());
-			}
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray.length) {
-					if (length < 1024 && commonByteArray.length == 0) {
-						commonByteArray = new byte[1024];
-					} else {
-						commonByteArray = new byte[2 * length];
-					}
-				}
-				dis.readFully(commonByteArray, 0, length);
-				strReturn = new String(commonByteArray, 0, length, utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock) {
-
-				try {
-
-					int length = 0;
-
-					this.history_datetime = readDate(dis);
-
-					this.vm_id = (Object) dis.readObject();
-
-					this.disks_usage = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				} catch (ClassNotFoundException eCNFE) {
-					throw new RuntimeException(eCNFE);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// java.util.Date
-
-				writeDate(this.history_datetime, dos);
-
-				// Object
-
-				dos.writeObject(this.vm_id);
-
-				// String
-
-				writeString(this.disks_usage, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("history_datetime=" + String.valueOf(history_datetime));
-			sb.append(",vm_id=" + String.valueOf(vm_id));
-			sb.append(",disks_usage=" + disks_usage);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(row13Struct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(), object2
-						.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
-	public static class OnRowsEndStructtAggregateRow_8 implements
-			routines.system.IPersistableRow<OnRowsEndStructtAggregateRow_8> {
-		final static byte[] commonByteArrayLock = new byte[0];
-		static byte[] commonByteArray = new byte[0];
-
-		public java.util.Date history_datetime;
-
-		public java.util.Date getHistory_datetime() {
-			return this.history_datetime;
-		}
-
-		public Object vm_id;
-
-		public Object getVm_id() {
-			return this.vm_id;
-		}
-
-		public String disks_usage;
-
-		public String getDisks_usage() {
-			return this.disks_usage;
-		}
-
-		private java.util.Date readDate(ObjectInputStream dis)
-				throws IOException {
-			java.util.Date dateReturn = null;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				dateReturn = null;
-			} else {
-				dateReturn = new Date(dis.readLong());
-			}
-			return dateReturn;
-		}
-
-		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
-				throws IOException {
-			if (date1 == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeLong(date1.getTime());
-			}
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray.length) {
-					if (length < 1024 && commonByteArray.length == 0) {
-						commonByteArray = new byte[1024];
-					} else {
-						commonByteArray = new byte[2 * length];
-					}
-				}
-				dis.readFully(commonByteArray, 0, length);
-				strReturn = new String(commonByteArray, 0, length, utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock) {
-
-				try {
-
-					int length = 0;
-
-					this.history_datetime = readDate(dis);
-
-					this.vm_id = (Object) dis.readObject();
-
-					this.disks_usage = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				} catch (ClassNotFoundException eCNFE) {
-					throw new RuntimeException(eCNFE);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// java.util.Date
-
-				writeDate(this.history_datetime, dos);
-
-				// Object
-
-				dos.writeObject(this.vm_id);
-
-				// String
-
-				writeString(this.disks_usage, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("history_datetime=" + String.valueOf(history_datetime));
-			sb.append(",vm_id=" + String.valueOf(vm_id));
-			sb.append(",disks_usage=" + disks_usage);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(OnRowsEndStructtAggregateRow_8 other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(), object2
-						.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
-	public static class vm_disks_usage_aggregate_historyStruct
-			implements
-			routines.system.IPersistableRow<vm_disks_usage_aggregate_historyStruct> {
-		final static byte[] commonByteArrayLock = new byte[0];
-		static byte[] commonByteArray = new byte[0];
-
-		public java.util.Date history_datetime;
-
-		public java.util.Date getHistory_datetime() {
-			return this.history_datetime;
-		}
-
-		public Object vm_id;
-
-		public Object getVm_id() {
-			return this.vm_id;
-		}
-
-		public String disks_usage;
-
-		public String getDisks_usage() {
-			return this.disks_usage;
-		}
-
-		private java.util.Date readDate(ObjectInputStream dis)
-				throws IOException {
-			java.util.Date dateReturn = null;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				dateReturn = null;
-			} else {
-				dateReturn = new Date(dis.readLong());
-			}
-			return dateReturn;
-		}
-
-		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
-				throws IOException {
-			if (date1 == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeLong(date1.getTime());
-			}
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray.length) {
-					if (length < 1024 && commonByteArray.length == 0) {
-						commonByteArray = new byte[1024];
-					} else {
-						commonByteArray = new byte[2 * length];
-					}
-				}
-				dis.readFully(commonByteArray, 0, length);
-				strReturn = new String(commonByteArray, 0, length, utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock) {
-
-				try {
-
-					int length = 0;
-
-					this.history_datetime = readDate(dis);
-
-					this.vm_id = (Object) dis.readObject();
-
-					this.disks_usage = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				} catch (ClassNotFoundException eCNFE) {
-					throw new RuntimeException(eCNFE);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// java.util.Date
-
-				writeDate(this.history_datetime, dos);
-
-				// Object
-
-				dos.writeObject(this.vm_id);
-
-				// String
-
-				writeString(this.disks_usage, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("history_datetime=" + String.valueOf(history_datetime));
-			sb.append(",vm_id=" + String.valueOf(vm_id));
-			sb.append(",disks_usage=" + disks_usage);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(vm_disks_usage_aggregate_historyStruct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(), object2
-						.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
 	public static class row12Struct implements
 			routines.system.IPersistableRow<row12Struct> {
 		final static byte[] commonByteArrayLock = new byte[0];
@@ -18895,318 +18354,44 @@ public class AggregationToDaily implements TalendJob {
 				globalResumeTicket = true;
 
 				row12Struct row12 = new row12Struct();
-				vm_disks_usage_aggregate_historyStruct vm_disks_usage_aggregate_history = new vm_disks_usage_aggregate_historyStruct();
-				row13Struct row13 = new row13Struct();
 
 				/**
-				 * [tAggregateRow_8_AGGOUT begin ] start
+				 * [tJDBCOutput_9 begin ] start
 				 */
 
-				ok_Hash.put("tAggregateRow_8_AGGOUT", false);
-				start_Hash.put("tAggregateRow_8_AGGOUT", System
-						.currentTimeMillis());
-				currentComponent = "tAggregateRow_8_AGGOUT";
+				ok_Hash.put("tJDBCOutput_9", false);
+				start_Hash.put("tJDBCOutput_9", System.currentTimeMillis());
+				currentComponent = "tJDBCOutput_9";
 
-				int tos_count_tAggregateRow_8_AGGOUT = 0;
+				int tos_count_tJDBCOutput_9 = 0;
 
-				// ------------
+				int nb_line_tJDBCOutput_9 = 0;
+				int nb_line_update_tJDBCOutput_9 = 0;
+				int nb_line_inserted_tJDBCOutput_9 = 0;
+				int nb_line_deleted_tJDBCOutput_9 = 0;
+				int nb_line_rejected_tJDBCOutput_9 = 0;
 
-				java.util.Map hashAggreg_tAggregateRow_8 = new java.util.HashMap();
+				int deletedCount_tJDBCOutput_9 = 0;
+				int updatedCount_tJDBCOutput_9 = 0;
+				int insertedCount_tJDBCOutput_9 = 0;
+				int rejectedCount_tJDBCOutput_9 = 0;
 
-				// ------------
+				boolean whetherReject_tJDBCOutput_9 = false;
 
-				class UtilClass_tAggregateRow_8 { // G_OutBegin_AggR_144
+				java.sql.Connection connection_tJDBCOutput_9 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
 
-					public double sd(Double[] data) {
-						final int n = data.length;
-						if (n < 2) {
-							return Double.NaN;
-						}
-						double d1 = 0d;
-						double d2 = 0d;
+				int batchSize_tJDBCOutput_9 = 10000;
+				int batchSizeCounter_tJDBCOutput_9 = 0;
 
-						for (int i = 0; i < data.length; i++) {
-							d1 += (data[i] * data[i]);
-							d2 += data[i];
-						}
-
-						return Math.sqrt((n * d1 - d2 * d2) / n / (n - 1));
-					}
-
-					public void checkedIADD(byte a, byte b,
-							boolean checkTypeOverFlow, boolean checkUlp) {
-						byte r = (byte) (a + b);
-						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
-							throw new RuntimeException(buildOverflowMessage(
-									String.valueOf(a), String.valueOf(b),
-									"'short/Short'", "'int/Integer'"));
-						}
-					}
-
-					public void checkedIADD(short a, short b,
-							boolean checkTypeOverFlow, boolean checkUlp) {
-						short r = (short) (a + b);
-						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
-							throw new RuntimeException(buildOverflowMessage(
-									String.valueOf(a), String.valueOf(b),
-									"'int/Integer'", "'short/Short'"));
-						}
-					}
-
-					public void checkedIADD(int a, int b,
-							boolean checkTypeOverFlow, boolean checkUlp) {
-						int r = a + b;
-						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
-							throw new RuntimeException(buildOverflowMessage(
-									String.valueOf(a), String.valueOf(b),
-									"'long/Long'", "'int/Integer'"));
-						}
-					}
-
-					public void checkedIADD(long a, long b,
-							boolean checkTypeOverFlow, boolean checkUlp) {
-						long r = a + b;
-						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
-							throw new RuntimeException(buildOverflowMessage(
-									String.valueOf(a), String.valueOf(b),
-									"'BigDecimal'", "'long/Long'"));
-						}
-					}
-
-					public void checkedIADD(float a, float b,
-							boolean checkTypeOverFlow, boolean checkUlp) {
-
-						if (checkUlp) {
-							float minAddedValue = Math.ulp(a);
-							if (minAddedValue > Math.abs(b)) {
-								throw new RuntimeException(
-										buildPrecisionMessage(
-												String.valueOf(a), String
-														.valueOf(b),
-												"'double' or 'BigDecimal'",
-												"'float/Float'"));
-							}
-						}
-
-						if (checkTypeOverFlow
-								&& ((double) a + (double) b > (double) Float.MAX_VALUE)
-								|| ((double) a + (double) b < (double) -Float.MAX_VALUE)) {
-							throw new RuntimeException(
-									buildOverflowMessage(String.valueOf(a),
-											String.valueOf(b),
-											"'double' or 'BigDecimal'",
-											"'float/Float'"));
-						}
-					}
-
-					public void checkedIADD(double a, double b,
-							boolean checkTypeOverFlow, boolean checkUlp) {
-
-						if (checkUlp) {
-							double minAddedValue = Math.ulp(a);
-							if (minAddedValue > Math.abs(b)) {
-								throw new RuntimeException(
-										buildPrecisionMessage(
-												String.valueOf(a), String
-														.valueOf(a),
-												"'BigDecimal'",
-												"'double/Double'"));
-							}
-						}
-
-						if (checkTypeOverFlow
-								&& (a + b > (double) Double.MAX_VALUE)
-								|| (a + b < -Double.MAX_VALUE)) {
-							throw new RuntimeException(buildOverflowMessage(
-									String.valueOf(a), String.valueOf(b),
-									"'BigDecimal'", "'double/Double'"));
-						}
-					}
-
-					public void checkedIADD(double a, byte b,
-							boolean checkTypeOverFlow, boolean checkUlp) {
-
-						if (checkTypeOverFlow
-								&& (a + b > (double) Double.MAX_VALUE)
-								|| (a + b < -Double.MAX_VALUE)) {
-							throw new RuntimeException(buildOverflowMessage(
-									String.valueOf(a), String.valueOf(b),
-									"'BigDecimal'", "'double/Double'"));
-						}
-					}
-
-					public void checkedIADD(double a, short b,
-							boolean checkTypeOverFlow, boolean checkUlp) {
-
-						if (checkTypeOverFlow
-								&& (a + b > (double) Double.MAX_VALUE)
-								|| (a + b < -Double.MAX_VALUE)) {
-							throw new RuntimeException(buildOverflowMessage(
-									String.valueOf(a), String.valueOf(b),
-									"'BigDecimal'", "'double/Double'"));
-						}
-					}
-
-					public void checkedIADD(double a, int b,
-							boolean checkTypeOverFlow, boolean checkUlp) {
-
-						if (checkTypeOverFlow
-								&& (a + b > (double) Double.MAX_VALUE)
-								|| (a + b < -Double.MAX_VALUE)) {
-							throw new RuntimeException(buildOverflowMessage(
-									String.valueOf(a), String.valueOf(b),
-									"'BigDecimal'", "'double/Double'"));
-						}
-					}
-
-					public void checkedIADD(double a, float b,
-							boolean checkTypeOverFlow, boolean checkUlp) {
-
-						if (checkUlp) {
-							double minAddedValue = Math.ulp(a);
-							if (minAddedValue > Math.abs(b)) {
-								throw new RuntimeException(
-										buildPrecisionMessage(
-												String.valueOf(a), String
-														.valueOf(a),
-												"'BigDecimal'",
-												"'double/Double'"));
-							}
-						}
-
-						if (checkTypeOverFlow
-								&& (a + b > (double) Double.MAX_VALUE)
-								|| (a + b < -Double.MAX_VALUE)) {
-							throw new RuntimeException(buildOverflowMessage(
-									String.valueOf(a), String.valueOf(b),
-									"'BigDecimal'", "'double/Double'"));
-						}
-					}
-
-					private String buildOverflowMessage(String a, String b,
-							String advicedTypes, String originalType) {
-						return "Type overflow when adding "
-								+ b
-								+ " to "
-								+ a
-								+ ", to resolve this problem, increase the precision by using "
-								+ advicedTypes + " type in place of "
-								+ originalType + ".";
-					}
-
-					private String buildPrecisionMessage(String a, String b,
-							String advicedTypes, String originalType) {
-						return "The double precision is unsufficient to add the value "
-								+ b
-								+ " to "
-								+ a
-								+ ", to resolve this problem, increase the precision by using "
-								+ advicedTypes
-								+ " type in place of "
-								+ originalType + ".";
-					}
-
-				} // G_OutBegin_AggR_144
-
-				UtilClass_tAggregateRow_8 utilClass_tAggregateRow_8 = new UtilClass_tAggregateRow_8();
-
-				class AggOperationStruct_tAggregateRow_8 { // G_OutBegin_AggR_100
-
-					private static final int DEFAULT_HASHCODE = 1;
-					private static final int PRIME = 31;
-					private int hashCode = DEFAULT_HASHCODE;
-					public boolean hashCodeDirty = true;
-
-					java.util.Date history_datetime;
-					Object vm_id;
-					String disks_usage_last;
-
-					@Override
-					public int hashCode() {
-						if (this.hashCodeDirty) {
-							final int prime = PRIME;
-							int result = DEFAULT_HASHCODE;
-
-							result = prime
-									* result
-									+ ((this.history_datetime == null) ? 0
-											: this.history_datetime.hashCode());
-
-							result = prime
-									* result
-									+ ((this.vm_id == null) ? 0 : this.vm_id
-											.hashCode());
-
-							this.hashCode = result;
-							this.hashCodeDirty = false;
-						}
-						return this.hashCode;
-					}
-
-					@Override
-					public boolean equals(Object obj) {
-						if (this == obj)
-							return true;
-						if (obj == null)
-							return false;
-						if (getClass() != obj.getClass())
-							return false;
-						final AggOperationStruct_tAggregateRow_8 other = (AggOperationStruct_tAggregateRow_8) obj;
-
-						if (this.history_datetime == null) {
-							if (other.history_datetime != null)
-								return false;
-						} else if (!this.history_datetime
-								.equals(other.history_datetime))
-							return false;
-
-						if (this.vm_id == null) {
-							if (other.vm_id != null)
-								return false;
-						} else if (!this.vm_id.equals(other.vm_id))
-							return false;
-
-						return true;
-					}
-
-				} // G_OutBegin_AggR_100
-
-				AggOperationStruct_tAggregateRow_8 operation_result_tAggregateRow_8 = null;
-				AggOperationStruct_tAggregateRow_8 operation_finder_tAggregateRow_8 = new AggOperationStruct_tAggregateRow_8();
-				java.util.Map<AggOperationStruct_tAggregateRow_8, AggOperationStruct_tAggregateRow_8> hash_tAggregateRow_8 = new java.util.HashMap<AggOperationStruct_tAggregateRow_8, AggOperationStruct_tAggregateRow_8>();
+				String insert_tJDBCOutput_9 = "INSERT INTO "
+						+ "vm_disks_usage_daily_history"
+						+ " (history_datetime,vm_id,disks_usage) VALUES (?,?,?)";
+				java.sql.PreparedStatement pstmt_tJDBCOutput_9 = connection_tJDBCOutput_9
+						.prepareStatement(insert_tJDBCOutput_9);
 
 				/**
-				 * [tAggregateRow_8_AGGOUT begin ] stop
-				 */
-
-				/**
-				 * [tMap_9 begin ] start
-				 */
-
-				ok_Hash.put("tMap_9", false);
-				start_Hash.put("tMap_9", System.currentTimeMillis());
-				currentComponent = "tMap_9";
-
-				int tos_count_tMap_9 = 0;
-
-				// ###############################
-				// # Lookup's keys initialization
-				// ###############################
-
-				// ###############################
-				// # Vars initialization
-				class Var__tMap_9__Struct {
-				}
-				Var__tMap_9__Struct Var__tMap_9 = new Var__tMap_9__Struct();
-				// ###############################
-
-				// ###############################
-				// # Outputs initialization
-				vm_disks_usage_aggregate_historyStruct vm_disks_usage_aggregate_history_tmp = new vm_disks_usage_aggregate_historyStruct();
-				// ###############################
-
-				/**
-				 * [tMap_9 begin ] stop
+				 * [tJDBCOutput_9 begin ] stop
 				 */
 
 				/**
@@ -19227,7 +18412,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_9 = conn_tJDBCInput_9
 						.createStatement();
 
-				String dbquery_tJDBCInput_9 = "SELECT     history_datetime,     vm_id,      disks_usage  FROM vm_disks_usage_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 vm_id";
+				String dbquery_tJDBCInput_9 = "SELECT date_trunc('day', history_datetime), vm_id, disks_usage  FROM vm_disks_usage_hourly_history  WHERE history_id in (SELECT max(history_id)                       FROM vm_disks_usage_hourly_history                       GROUP BY vm_id, date_trunc('day', history_datetime))         AND history_datetime >= (SELECT var_datetime                                 FROM history_configuration                                 WHERE var_name = 'lastDayAggr')";
 
 				globalMap.put("tJDBCInput_9_QUERY", dbquery_tJDBCInput_9);
 
@@ -19299,266 +18484,30 @@ public class AggregationToDaily implements TalendJob {
 					 */
 
 					/**
-					 * [tMap_9 main ] start
-					 */
-
-					currentComponent = "tMap_9";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_9 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_9 = false;
-					boolean mainRowRejected_tMap_9 = false;
-
-					if (
-
-					(
-
-					routines.RoutineHistoryETL.dateCompare(
-							row12.history_datetime, routines.RoutineHistoryETL
-									.manipulateDate(routines.RoutineHistoryETL
-											.startOfDay(context.runTime), -1,
-											"dd")) < 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row12'
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_9__Struct Var = Var__tMap_9;// ###############################
-							// ###############################
-							// # Output tables
-
-							vm_disks_usage_aggregate_history = null;
-
-							// # Output table :
-							// 'vm_disks_usage_aggregate_history'
-							vm_disks_usage_aggregate_history_tmp.history_datetime = RoutineHistoryETL
-									.startOfDay(row12.history_datetime);
-							vm_disks_usage_aggregate_history_tmp.vm_id = row12.vm_id;
-							vm_disks_usage_aggregate_history_tmp.disks_usage = row12.disks_usage;
-							vm_disks_usage_aggregate_history = vm_disks_usage_aggregate_history_tmp;
-							// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_9 = false;
-
-						tos_count_tMap_9++;
-
-						/**
-						 * [tMap_9 main ] stop
-						 */
-						// Start of branch "vm_disks_usage_aggregate_history"
-						if (vm_disks_usage_aggregate_history != null) {
-
-							/**
-							 * [tAggregateRow_8_AGGOUT main ] start
-							 */
-
-							currentComponent = "tAggregateRow_8_AGGOUT";
-
-							operation_finder_tAggregateRow_8.history_datetime = vm_disks_usage_aggregate_history.history_datetime;
-							operation_finder_tAggregateRow_8.vm_id = vm_disks_usage_aggregate_history.vm_id;
-
-							operation_finder_tAggregateRow_8.hashCodeDirty = true;
-
-							operation_result_tAggregateRow_8 = hash_tAggregateRow_8
-									.get(operation_finder_tAggregateRow_8);
-
-							boolean isFirstAdd_tAggregateRow_8 = false;
-
-							if (operation_result_tAggregateRow_8 == null) { // G_OutMain_AggR_001
-
-								operation_result_tAggregateRow_8 = new AggOperationStruct_tAggregateRow_8();
-
-								operation_result_tAggregateRow_8.history_datetime = operation_finder_tAggregateRow_8.history_datetime;
-								operation_result_tAggregateRow_8.vm_id = operation_finder_tAggregateRow_8.vm_id;
-
-								isFirstAdd_tAggregateRow_8 = true;
-
-								hash_tAggregateRow_8.put(
-										operation_result_tAggregateRow_8,
-										operation_result_tAggregateRow_8);
-
-							} // G_OutMain_AggR_001
-
-							if (vm_disks_usage_aggregate_history.disks_usage != null) { // G_OutMain_AggR_546
-
-								operation_result_tAggregateRow_8.disks_usage_last = vm_disks_usage_aggregate_history.disks_usage;
-
-							} // G_OutMain_AggR_546
-
-							tos_count_tAggregateRow_8_AGGOUT++;
-
-							/**
-							 * [tAggregateRow_8_AGGOUT main ] stop
-							 */
-
-						} // End of branch "vm_disks_usage_aggregate_history"
-
-					} // G_TM_M_280 close main tMap filter for table 'row12'
-
-					/**
-					 * [tJDBCInput_9 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_9";
-
-				}
-				stmt_tJDBCInput_9.close();
-
-				globalMap.put("tJDBCInput_9_NB_LINE", nb_line_tJDBCInput_9);
-
-				ok_Hash.put("tJDBCInput_9", true);
-				end_Hash.put("tJDBCInput_9", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCInput_9 end ] stop
-				 */
-
-				/**
-				 * [tMap_9 end ] start
-				 */
-
-				currentComponent = "tMap_9";
-
-				// ###############################
-				// # Lookup hashes releasing
-				// ###############################
-
-				ok_Hash.put("tMap_9", true);
-				end_Hash.put("tMap_9", System.currentTimeMillis());
-
-				/**
-				 * [tMap_9 end ] stop
-				 */
-
-				/**
-				 * [tAggregateRow_8_AGGOUT end ] start
-				 */
-
-				currentComponent = "tAggregateRow_8_AGGOUT";
-
-				ok_Hash.put("tAggregateRow_8_AGGOUT", true);
-				end_Hash.put("tAggregateRow_8_AGGOUT", System
-						.currentTimeMillis());
-
-				/**
-				 * [tAggregateRow_8_AGGOUT end ] stop
-				 */
-
-				/**
-				 * [tJDBCOutput_9 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCOutput_9", false);
-				start_Hash.put("tJDBCOutput_9", System.currentTimeMillis());
-				currentComponent = "tJDBCOutput_9";
-
-				int tos_count_tJDBCOutput_9 = 0;
-
-				int nb_line_tJDBCOutput_9 = 0;
-				int nb_line_update_tJDBCOutput_9 = 0;
-				int nb_line_inserted_tJDBCOutput_9 = 0;
-				int nb_line_deleted_tJDBCOutput_9 = 0;
-				int nb_line_rejected_tJDBCOutput_9 = 0;
-
-				int deletedCount_tJDBCOutput_9 = 0;
-				int updatedCount_tJDBCOutput_9 = 0;
-				int insertedCount_tJDBCOutput_9 = 0;
-				int rejectedCount_tJDBCOutput_9 = 0;
-
-				boolean whetherReject_tJDBCOutput_9 = false;
-
-				java.sql.Connection connection_tJDBCOutput_9 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_1");
-
-				int batchSize_tJDBCOutput_9 = 10000;
-				int batchSizeCounter_tJDBCOutput_9 = 0;
-
-				String insert_tJDBCOutput_9 = "INSERT INTO "
-						+ "vm_disks_usage_daily_history"
-						+ " (history_datetime,vm_id,disks_usage) VALUES (?,?,?)";
-				java.sql.PreparedStatement pstmt_tJDBCOutput_9 = connection_tJDBCOutput_9
-						.prepareStatement(insert_tJDBCOutput_9);
-
-				/**
-				 * [tJDBCOutput_9 begin ] stop
-				 */
-
-				/**
-				 * [tAggregateRow_8_AGGIN begin ] start
-				 */
-
-				ok_Hash.put("tAggregateRow_8_AGGIN", false);
-				start_Hash.put("tAggregateRow_8_AGGIN", System
-						.currentTimeMillis());
-				currentComponent = "tAggregateRow_8_AGGIN";
-
-				int tos_count_tAggregateRow_8_AGGIN = 0;
-
-				java.util.Collection<AggOperationStruct_tAggregateRow_8> values_tAggregateRow_8 = hash_tAggregateRow_8
-						.values();
-
-				globalMap.put("tAggregateRow_8_NB_LINE", values_tAggregateRow_8
-						.size());
-
-				for (AggOperationStruct_tAggregateRow_8 aggregated_row_tAggregateRow_8 : values_tAggregateRow_8) { // G_AggR_600
-
-					/**
-					 * [tAggregateRow_8_AGGIN begin ] stop
-					 */
-					/**
-					 * [tAggregateRow_8_AGGIN main ] start
-					 */
-
-					currentComponent = "tAggregateRow_8_AGGIN";
-
-					row13.history_datetime = aggregated_row_tAggregateRow_8.history_datetime;
-
-					row13.vm_id = aggregated_row_tAggregateRow_8.vm_id;
-
-					row13.disks_usage = aggregated_row_tAggregateRow_8.disks_usage_last;
-
-					tos_count_tAggregateRow_8_AGGIN++;
-
-					/**
-					 * [tAggregateRow_8_AGGIN main ] stop
-					 */
-
-					/**
 					 * [tJDBCOutput_9 main ] start
 					 */
 
 					currentComponent = "tJDBCOutput_9";
 
 					whetherReject_tJDBCOutput_9 = false;
-					if (row13.history_datetime != null) {
+					if (row12.history_datetime != null) {
 						pstmt_tJDBCOutput_9.setTimestamp(1,
-								new java.sql.Timestamp(row13.history_datetime
+								new java.sql.Timestamp(row12.history_datetime
 										.getTime()));
 					} else {
 						pstmt_tJDBCOutput_9.setNull(1, java.sql.Types.DATE);
 					}
 
-					if (row13.vm_id == null) {
+					if (row12.vm_id == null) {
 						pstmt_tJDBCOutput_9.setNull(2, java.sql.Types.OTHER);
 					} else {
-						pstmt_tJDBCOutput_9.setObject(2, row13.vm_id);
+						pstmt_tJDBCOutput_9.setObject(2, row12.vm_id);
 					}
 
-					if (row13.disks_usage == null) {
+					if (row12.disks_usage == null) {
 						pstmt_tJDBCOutput_9.setNull(3, java.sql.Types.VARCHAR);
 					} else {
-						pstmt_tJDBCOutput_9.setString(3, row13.disks_usage);
+						pstmt_tJDBCOutput_9.setString(3, row12.disks_usage);
 					}
 
 					try {
@@ -19577,19 +18526,21 @@ public class AggregationToDaily implements TalendJob {
 					 */
 
 					/**
-					 * [tAggregateRow_8_AGGIN end ] start
+					 * [tJDBCInput_9 end ] start
 					 */
 
-					currentComponent = "tAggregateRow_8_AGGIN";
+					currentComponent = "tJDBCInput_9";
 
-				} // G_AggR_600
+				}
+				stmt_tJDBCInput_9.close();
 
-				ok_Hash.put("tAggregateRow_8_AGGIN", true);
-				end_Hash.put("tAggregateRow_8_AGGIN", System
-						.currentTimeMillis());
+				globalMap.put("tJDBCInput_9_NB_LINE", nb_line_tJDBCInput_9);
+
+				ok_Hash.put("tJDBCInput_9", true);
+				end_Hash.put("tJDBCInput_9", System.currentTimeMillis());
 
 				/**
-				 * [tAggregateRow_8_AGGIN end ] stop
+				 * [tJDBCInput_9 end ] stop
 				 */
 
 				/**
@@ -19639,10 +18590,6 @@ public class AggregationToDaily implements TalendJob {
 		} catch (java.lang.Error error) {
 
 			throw new java.lang.Error(error);
-
-		} finally {
-			// free memory for "tAggregateRow_8_AGGIN"
-			globalMap.put("tAggregateRow_8", null);
 
 		}
 
@@ -20900,6 +19847,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 595510 characters generated by Talend Open Studio for Data Integration on the
- * July 11, 2012 4:01:13 PM IDT
+ * 568283 characters generated by Talend Open Studio for Data Integration on the
+ * October 21, 2012 3:59:48 PM IST
  ************************************************************************************************/
