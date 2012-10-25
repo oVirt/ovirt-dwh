@@ -527,6 +527,15 @@ public class AggregationToHourly implements TalendJob {
 
 	}
 
+	public void tMap_9_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tMap_9", System.currentTimeMillis());
+
+		tJDBCInput_9_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
 	public void tJDBCOutput_9_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -18162,6 +18171,177 @@ public class AggregationToHourly implements TalendJob {
 		globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", 1);
 	}
 
+	public static class disks_usage_hourlyStruct implements
+			routines.system.IPersistableRow<disks_usage_hourlyStruct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public java.util.Date history_datetime;
+
+		public java.util.Date getHistory_datetime() {
+			return this.history_datetime;
+		}
+
+		public Object vm_id;
+
+		public Object getVm_id() {
+			return this.vm_id;
+		}
+
+		public String disks_usage;
+
+		public String getDisks_usage() {
+			return this.disks_usage;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.history_datetime = readDate(dis);
+
+					this.vm_id = (Object) dis.readObject();
+
+					this.disks_usage = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				} catch (ClassNotFoundException eCNFE) {
+					throw new RuntimeException(eCNFE);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.history_datetime, dos);
+
+				// Object
+
+				dos.writeObject(this.vm_id);
+
+				// String
+
+				writeString(this.disks_usage, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("history_datetime=" + String.valueOf(history_datetime));
+			sb.append(",vm_id=" + String.valueOf(vm_id));
+			sb.append(",disks_usage=" + disks_usage);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(disks_usage_hourlyStruct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
 	public static class row12Struct implements
 			routines.system.IPersistableRow<row12Struct> {
 		final static byte[] commonByteArrayLock = new byte[0];
@@ -18354,6 +18534,7 @@ public class AggregationToHourly implements TalendJob {
 				globalResumeTicket = true;
 
 				row12Struct row12 = new row12Struct();
+				disks_usage_hourlyStruct disks_usage_hourly = new disks_usage_hourlyStruct();
 
 				/**
 				 * [tJDBCOutput_9 begin ] start
@@ -18392,6 +18573,36 @@ public class AggregationToHourly implements TalendJob {
 
 				/**
 				 * [tJDBCOutput_9 begin ] stop
+				 */
+
+				/**
+				 * [tMap_9 begin ] start
+				 */
+
+				ok_Hash.put("tMap_9", false);
+				start_Hash.put("tMap_9", System.currentTimeMillis());
+				currentComponent = "tMap_9";
+
+				int tos_count_tMap_9 = 0;
+
+				// ###############################
+				// # Lookup's keys initialization
+				// ###############################
+
+				// ###############################
+				// # Vars initialization
+				class Var__tMap_9__Struct {
+				}
+				Var__tMap_9__Struct Var__tMap_9 = new Var__tMap_9__Struct();
+				// ###############################
+
+				// ###############################
+				// # Outputs initialization
+				disks_usage_hourlyStruct disks_usage_hourly_tmp = new disks_usage_hourlyStruct();
+				// ###############################
+
+				/**
+				 * [tMap_9 begin ] stop
 				 */
 
 				/**
@@ -18484,46 +18695,117 @@ public class AggregationToHourly implements TalendJob {
 					 */
 
 					/**
-					 * [tJDBCOutput_9 main ] start
+					 * [tMap_9 main ] start
 					 */
 
-					currentComponent = "tJDBCOutput_9";
+					currentComponent = "tMap_9";
 
-					whetherReject_tJDBCOutput_9 = false;
-					if (row12.history_datetime != null) {
-						pstmt_tJDBCOutput_9.setTimestamp(1,
-								new java.sql.Timestamp(row12.history_datetime
-										.getTime()));
-					} else {
-						pstmt_tJDBCOutput_9.setNull(1, java.sql.Types.DATE);
-					}
+					boolean hasCasePrimitiveKeyWithNull_tMap_9 = false;
 
-					if (row12.vm_id == null) {
-						pstmt_tJDBCOutput_9.setNull(2, java.sql.Types.OTHER);
-					} else {
-						pstmt_tJDBCOutput_9.setObject(2, row12.vm_id);
-					}
+					// ###############################
+					// # Input tables (lookups)
+					boolean rejectedInnerJoin_tMap_9 = false;
+					boolean mainRowRejected_tMap_9 = false;
 
-					if (row12.disks_usage == null) {
-						pstmt_tJDBCOutput_9.setNull(3, java.sql.Types.VARCHAR);
-					} else {
-						pstmt_tJDBCOutput_9.setString(3, row12.disks_usage);
-					}
+					if (
 
-					try {
-						insertedCount_tJDBCOutput_9 = insertedCount_tJDBCOutput_9
-								+ pstmt_tJDBCOutput_9.executeUpdate();
-						nb_line_tJDBCOutput_9++;
-					} catch (Exception e) {
-						whetherReject_tJDBCOutput_9 = true;
-						throw (e);
-					}
+					(
 
-					tos_count_tJDBCOutput_9++;
+					routines.RoutineHistoryETL.dateCompare(
+							row12.history_datetime, routines.RoutineHistoryETL
+									.manipulateDate(routines.RoutineHistoryETL
+											.startOfHour(context.runTime), -1,
+											"HH")) < 0
 
-					/**
-					 * [tJDBCOutput_9 main ] stop
-					 */
+					)
+
+					) { // G_TM_M_280
+
+						// CALL close main tMap filter for table 'row12'
+						// ###############################
+						{ // start of Var scope
+
+							// ###############################
+							// # Vars tables
+
+							Var__tMap_9__Struct Var = Var__tMap_9;// ###############################
+							// ###############################
+							// # Output tables
+
+							disks_usage_hourly = null;
+
+							// # Output table : 'disks_usage_hourly'
+							disks_usage_hourly_tmp.history_datetime = row12.history_datetime;
+							disks_usage_hourly_tmp.vm_id = row12.vm_id;
+							disks_usage_hourly_tmp.disks_usage = row12.disks_usage;
+							disks_usage_hourly = disks_usage_hourly_tmp;
+							// ###############################
+
+						} // end of Var scope
+
+						rejectedInnerJoin_tMap_9 = false;
+
+						tos_count_tMap_9++;
+
+						/**
+						 * [tMap_9 main ] stop
+						 */
+						// Start of branch "disks_usage_hourly"
+						if (disks_usage_hourly != null) {
+
+							/**
+							 * [tJDBCOutput_9 main ] start
+							 */
+
+							currentComponent = "tJDBCOutput_9";
+
+							whetherReject_tJDBCOutput_9 = false;
+							if (disks_usage_hourly.history_datetime != null) {
+								pstmt_tJDBCOutput_9
+										.setTimestamp(
+												1,
+												new java.sql.Timestamp(
+														disks_usage_hourly.history_datetime
+																.getTime()));
+							} else {
+								pstmt_tJDBCOutput_9.setNull(1,
+										java.sql.Types.DATE);
+							}
+
+							if (disks_usage_hourly.vm_id == null) {
+								pstmt_tJDBCOutput_9.setNull(2,
+										java.sql.Types.OTHER);
+							} else {
+								pstmt_tJDBCOutput_9.setObject(2,
+										disks_usage_hourly.vm_id);
+							}
+
+							if (disks_usage_hourly.disks_usage == null) {
+								pstmt_tJDBCOutput_9.setNull(3,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_9.setString(3,
+										disks_usage_hourly.disks_usage);
+							}
+
+							try {
+								insertedCount_tJDBCOutput_9 = insertedCount_tJDBCOutput_9
+										+ pstmt_tJDBCOutput_9.executeUpdate();
+								nb_line_tJDBCOutput_9++;
+							} catch (Exception e) {
+								whetherReject_tJDBCOutput_9 = true;
+								throw (e);
+							}
+
+							tos_count_tJDBCOutput_9++;
+
+							/**
+							 * [tJDBCOutput_9 main ] stop
+							 */
+
+						} // End of branch "disks_usage_hourly"
+
+					} // G_TM_M_280 close main tMap filter for table 'row12'
 
 					/**
 					 * [tJDBCInput_9 end ] start
@@ -18541,6 +18823,23 @@ public class AggregationToHourly implements TalendJob {
 
 				/**
 				 * [tJDBCInput_9 end ] stop
+				 */
+
+				/**
+				 * [tMap_9 end ] start
+				 */
+
+				currentComponent = "tMap_9";
+
+				// ###############################
+				// # Lookup hashes releasing
+				// ###############################
+
+				ok_Hash.put("tMap_9", true);
+				end_Hash.put("tMap_9", System.currentTimeMillis());
+
+				/**
+				 * [tMap_9 end ] stop
 				 */
 
 				/**
@@ -19847,6 +20146,6 @@ public class AggregationToHourly implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 568340 characters generated by Talend Open Studio for Data Integration on the
- * October 21, 2012 3:59:47 PM IST
+ * 575684 characters generated by Talend Open Studio for Data Integration on the
+ * October 25, 2012 3:54:03 PM IST
  ************************************************************************************************/
