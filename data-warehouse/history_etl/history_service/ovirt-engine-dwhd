@@ -85,6 +85,7 @@ start() {
     pid=0
     procrunning > /dev/null 2>&1
     [ $RETVAL = 0 ] && [ $pid != '0' ] && touch $lock_file && success || failure
+    RETVAL=$?
     echo
     if [ $RETVAL != 0 ]; then
         echo > /usr/share/ovirt-engine-dwh/etl/kill

@@ -14,6 +14,7 @@ TODO:
 import logging
 import sys
 import os
+import time
 import traceback
 import common_utils as utils
 from decorators import transactionDisplay
@@ -252,6 +253,8 @@ def main():
 
             # Start Services
             utils.startEngine()
+            # Sleep for 20 secs to allow health applet to start
+            time.sleep(20)
             utils.startEtl()
 
             print "Successfully installed %s." % DWH_PACKAGE_NAME
