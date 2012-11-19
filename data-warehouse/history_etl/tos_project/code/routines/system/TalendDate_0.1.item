@@ -676,6 +676,8 @@ public class TalendDate {
             c.set(Calendar.DATE, nb);
         } else if (dateType.equalsIgnoreCase("HH")) { //$NON-NLS-1$
             c.set(Calendar.HOUR_OF_DAY, nb);
+        } else if (dateType.equals("mm")) { //$NON-NLS-1$
+            c.set(Calendar.MINUTE, nb);
         } else {
             throw new RuntimeException("Can't support the dateType: " + dateType);
         }

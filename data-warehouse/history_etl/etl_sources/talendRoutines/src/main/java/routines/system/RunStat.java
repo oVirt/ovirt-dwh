@@ -8,7 +8,7 @@
 // You should have received a copy of the agreement
 // along with this program; if not, write to Talend SA
 // 9 rue Pages 92150 Suresnes, France
-//   
+//
 // ============================================================================
 package routines.system;
 
@@ -166,21 +166,22 @@ public class RunStat implements Runnable {
             // if go here, it means it is a childJob, it should share the socket opened in parentJob.
             Socket s = null;
             Object object = GlobalResource.resourceMap.get(portStats);
+            OutputStream output = null;
             if (object == null || !(object instanceof Socket)) {
                 // Here throw an Exception directly, because the ServerSocket only support one client to connect it.
                 String lastCallerJobName = new Exception().getStackTrace()[1].getClassName();
-                throw new RuntimeException(
-                        "The socket for statistics function is unavailable in job "
+                System.err
+                        .println("The socket for statistics function is unavailable in job "
                                 + lastCallerJobName
                                 + "."
                                 + "\nUsually, please check the tRunJob, it should uncheck the option \"Use an independent process to run child job\".");
                 // todo: if here open another new Socket in childJob, need to close it in the API: stopThreadStat()
                 // s = new Socket(clientHost, portStats);
+                output = System.out;
             } else {
                 s = (Socket) object;
+                output = s.getOutputStream();
             }
-
-            OutputStream output = s.getOutputStream();
             if (debug) {
                 output = System.out;
             }
@@ -192,14 +193,26 @@ public class RunStat implements Runnable {
         }
 
         System.out.println("[statistics] connecting to socket on port " + portStats); //$NON-NLS-1$
-        s = new Socket(clientHost, portStats);
-        GlobalResource.resourceMap.put(portStats, s);
-        OutputStream output = s.getOutputStream();
+        boolean isConnect = false;
+        OutputStream output = null;
+        try {
+            s = new Socket(clientHost, portStats);
+            isConnect = true;
+        } catch (Exception e) {
+            System.err.println("Unable to connect to " + clientHost + " on the port " + portStats);
+        }
+        if (isConnect) {
+            GlobalResource.resourceMap.put(portStats, s);
+            output = s.getOutputStream();
+            System.out.println("[statistics] connected"); //$NON-NLS-1$
+        } else {
+            output = System.out;
+            System.out.println("[statistics] connection refused"); //$NON-NLS-1$
+        }
         if (debug) {
             output = System.out;
         }
         pred = new java.io.PrintWriter(new java.io.BufferedWriter(new java.io.OutputStreamWriter(output)), true);
-        System.out.println("[statistics] connected"); //$NON-NLS-1$
         Thread t = new Thread(this);
         t.start();
     }
@@ -220,7 +233,7 @@ public class RunStat implements Runnable {
     }
 
     public void stopThreadStat() {
-    	jobIsFinished = true;      
+        jobIsFinished = true;
         try {
             sendMessages();
             if (!openSocket) {
