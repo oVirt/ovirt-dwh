@@ -171,7 +171,7 @@ status() {
             rm -f $lock_file $ETL_PID
         fi
     else
-        pid="$(pgrep -fu $oVirt_USER ovirt_engine_dwh\.historyetl_3_1\.HistoryETL)"
+        pid="$(pgrep -fu $oVirt_USER ovirt_engine_dwh\.historyetl_3_2\.HistoryETL)"
         if [ -n "$pid" ]; then
             echo "ETL service $0 running (${pid}) but no PID file exists"
             RETVAL="0"
