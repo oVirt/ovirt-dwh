@@ -545,6 +545,33 @@ public class AggregationToDaily implements TalendJob {
 
 	}
 
+	public void tJDBCInput_10_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCInput_10", System.currentTimeMillis());
+
+		tJDBCInput_10_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tMap_10_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tMap_10", System.currentTimeMillis());
+
+		tJDBCInput_10_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCOutput_10_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCOutput_10", System.currentTimeMillis());
+
+		tJDBCInput_10_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
 	public void tAggregateRow_1_AGGOUT_error(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -668,6 +695,24 @@ public class AggregationToDaily implements TalendJob {
 		end_Hash.put("tAggregateRow_7_AGGIN", System.currentTimeMillis());
 
 		tJDBCInput_13_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tAggregateRow_8_AGGOUT_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tAggregateRow_8_AGGOUT", System.currentTimeMillis());
+
+		tJDBCInput_10_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tAggregateRow_8_AGGIN_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tAggregateRow_8_AGGIN", System.currentTimeMillis());
+
+		tJDBCInput_10_onSubJobError(exception, errorComponent, globalMap);
 
 	}
 
@@ -811,6 +856,17 @@ public class AggregationToDaily implements TalendJob {
 	}
 
 	public void tJDBCInput_9_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCInput_10_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -18895,6 +18951,2889 @@ public class AggregationToDaily implements TalendJob {
 		globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", 1);
 	}
 
+	public static class row14Struct implements
+			routines.system.IPersistableRow<row14Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public java.util.Date history_datetime;
+
+		public java.util.Date getHistory_datetime() {
+			return this.history_datetime;
+		}
+
+		public String user_name;
+
+		public String getUser_name() {
+			return this.user_name;
+		}
+
+		public Object vm_id;
+
+		public Object getVm_id() {
+			return this.vm_id;
+		}
+
+		public double session_time_in_minutes;
+
+		public double getSession_time_in_minutes() {
+			return this.session_time_in_minutes;
+		}
+
+		public Short cpu_usage_percent;
+
+		public Short getCpu_usage_percent() {
+			return this.cpu_usage_percent;
+		}
+
+		public Short max_cpu_usage;
+
+		public Short getMax_cpu_usage() {
+			return this.max_cpu_usage;
+		}
+
+		public Short memory_usage_percent;
+
+		public Short getMemory_usage_percent() {
+			return this.memory_usage_percent;
+		}
+
+		public Short max_memory_usage;
+
+		public Short getMax_memory_usage() {
+			return this.max_memory_usage;
+		}
+
+		public Short user_cpu_usage_percent;
+
+		public Short getUser_cpu_usage_percent() {
+			return this.user_cpu_usage_percent;
+		}
+
+		public Short max_user_cpu_usage_percent;
+
+		public Short getMax_user_cpu_usage_percent() {
+			return this.max_user_cpu_usage_percent;
+		}
+
+		public Short system_cpu_usage_percent;
+
+		public Short getSystem_cpu_usage_percent() {
+			return this.system_cpu_usage_percent;
+		}
+
+		public Short max_system_cpu_usage_percent;
+
+		public Short getMax_system_cpu_usage_percent() {
+			return this.max_system_cpu_usage_percent;
+		}
+
+		public String vm_ip;
+
+		public String getVm_ip() {
+			return this.vm_ip;
+		}
+
+		public Object currently_running_on_host;
+
+		public Object getCurrently_running_on_host() {
+			return this.currently_running_on_host;
+		}
+
+		public Integer vm_configuration_version;
+
+		public Integer getVm_configuration_version() {
+			return this.vm_configuration_version;
+		}
+
+		public Integer current_host_configuration_version;
+
+		public Integer getCurrent_host_configuration_version() {
+			return this.current_host_configuration_version;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		private Integer readInteger(ObjectInputStream dis) throws IOException {
+			Integer intReturn;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				intReturn = null;
+			} else {
+				intReturn = dis.readInt();
+			}
+			return intReturn;
+		}
+
+		private void writeInteger(Integer intNum, ObjectOutputStream dos)
+				throws IOException {
+			if (intNum == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeInt(intNum);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.history_datetime = readDate(dis);
+
+					this.user_name = readString(dis);
+
+					this.vm_id = (Object) dis.readObject();
+
+					this.session_time_in_minutes = dis.readDouble();
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.cpu_usage_percent = null;
+					} else {
+						this.cpu_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_cpu_usage = null;
+					} else {
+						this.max_cpu_usage = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_usage_percent = null;
+					} else {
+						this.memory_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_memory_usage = null;
+					} else {
+						this.max_memory_usage = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.user_cpu_usage_percent = null;
+					} else {
+						this.user_cpu_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_user_cpu_usage_percent = null;
+					} else {
+						this.max_user_cpu_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.system_cpu_usage_percent = null;
+					} else {
+						this.system_cpu_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_system_cpu_usage_percent = null;
+					} else {
+						this.max_system_cpu_usage_percent = dis.readShort();
+					}
+
+					this.vm_ip = readString(dis);
+
+					this.currently_running_on_host = (Object) dis.readObject();
+
+					this.vm_configuration_version = readInteger(dis);
+
+					this.current_host_configuration_version = readInteger(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				} catch (ClassNotFoundException eCNFE) {
+					throw new RuntimeException(eCNFE);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.history_datetime, dos);
+
+				// String
+
+				writeString(this.user_name, dos);
+
+				// Object
+
+				dos.writeObject(this.vm_id);
+
+				// double
+
+				dos.writeDouble(this.session_time_in_minutes);
+
+				// Short
+
+				if (this.cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.cpu_usage_percent);
+				}
+
+				// Short
+
+				if (this.max_cpu_usage == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.max_cpu_usage);
+				}
+
+				// Short
+
+				if (this.memory_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.memory_usage_percent);
+				}
+
+				// Short
+
+				if (this.max_memory_usage == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.max_memory_usage);
+				}
+
+				// Short
+
+				if (this.user_cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.user_cpu_usage_percent);
+				}
+
+				// Short
+
+				if (this.max_user_cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.max_user_cpu_usage_percent);
+				}
+
+				// Short
+
+				if (this.system_cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.system_cpu_usage_percent);
+				}
+
+				// Short
+
+				if (this.max_system_cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.max_system_cpu_usage_percent);
+				}
+
+				// String
+
+				writeString(this.vm_ip, dos);
+
+				// Object
+
+				dos.writeObject(this.currently_running_on_host);
+
+				// Integer
+
+				writeInteger(this.vm_configuration_version, dos);
+
+				// Integer
+
+				writeInteger(this.current_host_configuration_version, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("history_datetime=" + String.valueOf(history_datetime));
+			sb.append(",user_name=" + user_name);
+			sb.append(",vm_id=" + String.valueOf(vm_id));
+			sb.append(",session_time_in_minutes="
+					+ String.valueOf(session_time_in_minutes));
+			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
+			sb.append(",max_cpu_usage=" + String.valueOf(max_cpu_usage));
+			sb.append(",memory_usage_percent="
+					+ String.valueOf(memory_usage_percent));
+			sb.append(",max_memory_usage=" + String.valueOf(max_memory_usage));
+			sb.append(",user_cpu_usage_percent="
+					+ String.valueOf(user_cpu_usage_percent));
+			sb.append(",max_user_cpu_usage_percent="
+					+ String.valueOf(max_user_cpu_usage_percent));
+			sb.append(",system_cpu_usage_percent="
+					+ String.valueOf(system_cpu_usage_percent));
+			sb.append(",max_system_cpu_usage_percent="
+					+ String.valueOf(max_system_cpu_usage_percent));
+			sb.append(",vm_ip=" + vm_ip);
+			sb.append(",currently_running_on_host="
+					+ String.valueOf(currently_running_on_host));
+			sb.append(",vm_configuration_version="
+					+ String.valueOf(vm_configuration_version));
+			sb.append(",current_host_configuration_version="
+					+ String.valueOf(current_host_configuration_version));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row14Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class OnRowsEndStructtAggregateRow_8 implements
+			routines.system.IPersistableRow<OnRowsEndStructtAggregateRow_8> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public java.util.Date history_datetime;
+
+		public java.util.Date getHistory_datetime() {
+			return this.history_datetime;
+		}
+
+		public String user_name;
+
+		public String getUser_name() {
+			return this.user_name;
+		}
+
+		public Object vm_id;
+
+		public Object getVm_id() {
+			return this.vm_id;
+		}
+
+		public double session_time_in_minutes;
+
+		public double getSession_time_in_minutes() {
+			return this.session_time_in_minutes;
+		}
+
+		public Short cpu_usage_percent;
+
+		public Short getCpu_usage_percent() {
+			return this.cpu_usage_percent;
+		}
+
+		public Short max_cpu_usage;
+
+		public Short getMax_cpu_usage() {
+			return this.max_cpu_usage;
+		}
+
+		public Short memory_usage_percent;
+
+		public Short getMemory_usage_percent() {
+			return this.memory_usage_percent;
+		}
+
+		public Short max_memory_usage;
+
+		public Short getMax_memory_usage() {
+			return this.max_memory_usage;
+		}
+
+		public Short user_cpu_usage_percent;
+
+		public Short getUser_cpu_usage_percent() {
+			return this.user_cpu_usage_percent;
+		}
+
+		public Short max_user_cpu_usage_percent;
+
+		public Short getMax_user_cpu_usage_percent() {
+			return this.max_user_cpu_usage_percent;
+		}
+
+		public Short system_cpu_usage_percent;
+
+		public Short getSystem_cpu_usage_percent() {
+			return this.system_cpu_usage_percent;
+		}
+
+		public Short max_system_cpu_usage_percent;
+
+		public Short getMax_system_cpu_usage_percent() {
+			return this.max_system_cpu_usage_percent;
+		}
+
+		public String vm_ip;
+
+		public String getVm_ip() {
+			return this.vm_ip;
+		}
+
+		public Object currently_running_on_host;
+
+		public Object getCurrently_running_on_host() {
+			return this.currently_running_on_host;
+		}
+
+		public Integer vm_configuration_version;
+
+		public Integer getVm_configuration_version() {
+			return this.vm_configuration_version;
+		}
+
+		public Integer current_host_configuration_version;
+
+		public Integer getCurrent_host_configuration_version() {
+			return this.current_host_configuration_version;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		private Integer readInteger(ObjectInputStream dis) throws IOException {
+			Integer intReturn;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				intReturn = null;
+			} else {
+				intReturn = dis.readInt();
+			}
+			return intReturn;
+		}
+
+		private void writeInteger(Integer intNum, ObjectOutputStream dos)
+				throws IOException {
+			if (intNum == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeInt(intNum);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.history_datetime = readDate(dis);
+
+					this.user_name = readString(dis);
+
+					this.vm_id = (Object) dis.readObject();
+
+					this.session_time_in_minutes = dis.readDouble();
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.cpu_usage_percent = null;
+					} else {
+						this.cpu_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_cpu_usage = null;
+					} else {
+						this.max_cpu_usage = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_usage_percent = null;
+					} else {
+						this.memory_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_memory_usage = null;
+					} else {
+						this.max_memory_usage = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.user_cpu_usage_percent = null;
+					} else {
+						this.user_cpu_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_user_cpu_usage_percent = null;
+					} else {
+						this.max_user_cpu_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.system_cpu_usage_percent = null;
+					} else {
+						this.system_cpu_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_system_cpu_usage_percent = null;
+					} else {
+						this.max_system_cpu_usage_percent = dis.readShort();
+					}
+
+					this.vm_ip = readString(dis);
+
+					this.currently_running_on_host = (Object) dis.readObject();
+
+					this.vm_configuration_version = readInteger(dis);
+
+					this.current_host_configuration_version = readInteger(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				} catch (ClassNotFoundException eCNFE) {
+					throw new RuntimeException(eCNFE);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.history_datetime, dos);
+
+				// String
+
+				writeString(this.user_name, dos);
+
+				// Object
+
+				dos.writeObject(this.vm_id);
+
+				// double
+
+				dos.writeDouble(this.session_time_in_minutes);
+
+				// Short
+
+				if (this.cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.cpu_usage_percent);
+				}
+
+				// Short
+
+				if (this.max_cpu_usage == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.max_cpu_usage);
+				}
+
+				// Short
+
+				if (this.memory_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.memory_usage_percent);
+				}
+
+				// Short
+
+				if (this.max_memory_usage == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.max_memory_usage);
+				}
+
+				// Short
+
+				if (this.user_cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.user_cpu_usage_percent);
+				}
+
+				// Short
+
+				if (this.max_user_cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.max_user_cpu_usage_percent);
+				}
+
+				// Short
+
+				if (this.system_cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.system_cpu_usage_percent);
+				}
+
+				// Short
+
+				if (this.max_system_cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.max_system_cpu_usage_percent);
+				}
+
+				// String
+
+				writeString(this.vm_ip, dos);
+
+				// Object
+
+				dos.writeObject(this.currently_running_on_host);
+
+				// Integer
+
+				writeInteger(this.vm_configuration_version, dos);
+
+				// Integer
+
+				writeInteger(this.current_host_configuration_version, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("history_datetime=" + String.valueOf(history_datetime));
+			sb.append(",user_name=" + user_name);
+			sb.append(",vm_id=" + String.valueOf(vm_id));
+			sb.append(",session_time_in_minutes="
+					+ String.valueOf(session_time_in_minutes));
+			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
+			sb.append(",max_cpu_usage=" + String.valueOf(max_cpu_usage));
+			sb.append(",memory_usage_percent="
+					+ String.valueOf(memory_usage_percent));
+			sb.append(",max_memory_usage=" + String.valueOf(max_memory_usage));
+			sb.append(",user_cpu_usage_percent="
+					+ String.valueOf(user_cpu_usage_percent));
+			sb.append(",max_user_cpu_usage_percent="
+					+ String.valueOf(max_user_cpu_usage_percent));
+			sb.append(",system_cpu_usage_percent="
+					+ String.valueOf(system_cpu_usage_percent));
+			sb.append(",max_system_cpu_usage_percent="
+					+ String.valueOf(max_system_cpu_usage_percent));
+			sb.append(",vm_ip=" + vm_ip);
+			sb.append(",currently_running_on_host="
+					+ String.valueOf(currently_running_on_host));
+			sb.append(",vm_configuration_version="
+					+ String.valueOf(vm_configuration_version));
+			sb.append(",current_host_configuration_version="
+					+ String.valueOf(current_host_configuration_version));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(OnRowsEndStructtAggregateRow_8 other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class copyOfvm_aggregate_historyStruct implements
+			routines.system.IPersistableRow<copyOfvm_aggregate_historyStruct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public java.util.Date history_datetime;
+
+		public java.util.Date getHistory_datetime() {
+			return this.history_datetime;
+		}
+
+		public String user_name;
+
+		public String getUser_name() {
+			return this.user_name;
+		}
+
+		public Object vm_id;
+
+		public Object getVm_id() {
+			return this.vm_id;
+		}
+
+		public double session_time_in_minutes;
+
+		public double getSession_time_in_minutes() {
+			return this.session_time_in_minutes;
+		}
+
+		public Short cpu_usage_percent;
+
+		public Short getCpu_usage_percent() {
+			return this.cpu_usage_percent;
+		}
+
+		public Short memory_usage_percent;
+
+		public Short getMemory_usage_percent() {
+			return this.memory_usage_percent;
+		}
+
+		public Short user_cpu_usage_percent;
+
+		public Short getUser_cpu_usage_percent() {
+			return this.user_cpu_usage_percent;
+		}
+
+		public Short system_cpu_usage_percent;
+
+		public Short getSystem_cpu_usage_percent() {
+			return this.system_cpu_usage_percent;
+		}
+
+		public String vm_ip;
+
+		public String getVm_ip() {
+			return this.vm_ip;
+		}
+
+		public Object currently_running_on_host;
+
+		public Object getCurrently_running_on_host() {
+			return this.currently_running_on_host;
+		}
+
+		public Integer vm_configuration_version;
+
+		public Integer getVm_configuration_version() {
+			return this.vm_configuration_version;
+		}
+
+		public Integer current_host_configuration_version;
+
+		public Integer getCurrent_host_configuration_version() {
+			return this.current_host_configuration_version;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		private Integer readInteger(ObjectInputStream dis) throws IOException {
+			Integer intReturn;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				intReturn = null;
+			} else {
+				intReturn = dis.readInt();
+			}
+			return intReturn;
+		}
+
+		private void writeInteger(Integer intNum, ObjectOutputStream dos)
+				throws IOException {
+			if (intNum == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeInt(intNum);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.history_datetime = readDate(dis);
+
+					this.user_name = readString(dis);
+
+					this.vm_id = (Object) dis.readObject();
+
+					this.session_time_in_minutes = dis.readDouble();
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.cpu_usage_percent = null;
+					} else {
+						this.cpu_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_usage_percent = null;
+					} else {
+						this.memory_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.user_cpu_usage_percent = null;
+					} else {
+						this.user_cpu_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.system_cpu_usage_percent = null;
+					} else {
+						this.system_cpu_usage_percent = dis.readShort();
+					}
+
+					this.vm_ip = readString(dis);
+
+					this.currently_running_on_host = (Object) dis.readObject();
+
+					this.vm_configuration_version = readInteger(dis);
+
+					this.current_host_configuration_version = readInteger(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				} catch (ClassNotFoundException eCNFE) {
+					throw new RuntimeException(eCNFE);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.history_datetime, dos);
+
+				// String
+
+				writeString(this.user_name, dos);
+
+				// Object
+
+				dos.writeObject(this.vm_id);
+
+				// double
+
+				dos.writeDouble(this.session_time_in_minutes);
+
+				// Short
+
+				if (this.cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.cpu_usage_percent);
+				}
+
+				// Short
+
+				if (this.memory_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.memory_usage_percent);
+				}
+
+				// Short
+
+				if (this.user_cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.user_cpu_usage_percent);
+				}
+
+				// Short
+
+				if (this.system_cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.system_cpu_usage_percent);
+				}
+
+				// String
+
+				writeString(this.vm_ip, dos);
+
+				// Object
+
+				dos.writeObject(this.currently_running_on_host);
+
+				// Integer
+
+				writeInteger(this.vm_configuration_version, dos);
+
+				// Integer
+
+				writeInteger(this.current_host_configuration_version, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("history_datetime=" + String.valueOf(history_datetime));
+			sb.append(",user_name=" + user_name);
+			sb.append(",vm_id=" + String.valueOf(vm_id));
+			sb.append(",session_time_in_minutes="
+					+ String.valueOf(session_time_in_minutes));
+			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
+			sb.append(",memory_usage_percent="
+					+ String.valueOf(memory_usage_percent));
+			sb.append(",user_cpu_usage_percent="
+					+ String.valueOf(user_cpu_usage_percent));
+			sb.append(",system_cpu_usage_percent="
+					+ String.valueOf(system_cpu_usage_percent));
+			sb.append(",vm_ip=" + vm_ip);
+			sb.append(",currently_running_on_host="
+					+ String.valueOf(currently_running_on_host));
+			sb.append(",vm_configuration_version="
+					+ String.valueOf(vm_configuration_version));
+			sb.append(",current_host_configuration_version="
+					+ String.valueOf(current_host_configuration_version));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(copyOfvm_aggregate_historyStruct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class row13Struct implements
+			routines.system.IPersistableRow<row13Struct> {
+		final static byte[] commonByteArrayLock = new byte[0];
+		static byte[] commonByteArray = new byte[0];
+
+		public int history_id;
+
+		public int getHistory_id() {
+			return this.history_id;
+		}
+
+		public java.util.Date history_datetime;
+
+		public java.util.Date getHistory_datetime() {
+			return this.history_datetime;
+		}
+
+		public String user_name;
+
+		public String getUser_name() {
+			return this.user_name;
+		}
+
+		public Object vm_id;
+
+		public Object getVm_id() {
+			return this.vm_id;
+		}
+
+		public double session_time_in_minutes;
+
+		public double getSession_time_in_minutes() {
+			return this.session_time_in_minutes;
+		}
+
+		public Short cpu_usage_percent;
+
+		public Short getCpu_usage_percent() {
+			return this.cpu_usage_percent;
+		}
+
+		public Short memory_usage_percent;
+
+		public Short getMemory_usage_percent() {
+			return this.memory_usage_percent;
+		}
+
+		public Short user_cpu_usage_percent;
+
+		public Short getUser_cpu_usage_percent() {
+			return this.user_cpu_usage_percent;
+		}
+
+		public Short system_cpu_usage_percent;
+
+		public Short getSystem_cpu_usage_percent() {
+			return this.system_cpu_usage_percent;
+		}
+
+		public String vm_ip;
+
+		public String getVm_ip() {
+			return this.vm_ip;
+		}
+
+		public Object currently_running_on_host;
+
+		public Object getCurrently_running_on_host() {
+			return this.currently_running_on_host;
+		}
+
+		public Integer vm_configuration_version;
+
+		public Integer getVm_configuration_version() {
+			return this.vm_configuration_version;
+		}
+
+		public Integer current_host_configuration_version;
+
+		public Integer getCurrent_host_configuration_version() {
+			return this.current_host_configuration_version;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray.length) {
+					if (length < 1024 && commonByteArray.length == 0) {
+						commonByteArray = new byte[1024];
+					} else {
+						commonByteArray = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray, 0, length);
+				strReturn = new String(commonByteArray, 0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		private Integer readInteger(ObjectInputStream dis) throws IOException {
+			Integer intReturn;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				intReturn = null;
+			} else {
+				intReturn = dis.readInt();
+			}
+			return intReturn;
+		}
+
+		private void writeInteger(Integer intNum, ObjectOutputStream dos)
+				throws IOException {
+			if (intNum == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeInt(intNum);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock) {
+
+				try {
+
+					int length = 0;
+
+					this.history_id = dis.readInt();
+
+					this.history_datetime = readDate(dis);
+
+					this.user_name = readString(dis);
+
+					this.vm_id = (Object) dis.readObject();
+
+					this.session_time_in_minutes = dis.readDouble();
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.cpu_usage_percent = null;
+					} else {
+						this.cpu_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_usage_percent = null;
+					} else {
+						this.memory_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.user_cpu_usage_percent = null;
+					} else {
+						this.user_cpu_usage_percent = dis.readShort();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.system_cpu_usage_percent = null;
+					} else {
+						this.system_cpu_usage_percent = dis.readShort();
+					}
+
+					this.vm_ip = readString(dis);
+
+					this.currently_running_on_host = (Object) dis.readObject();
+
+					this.vm_configuration_version = readInteger(dis);
+
+					this.current_host_configuration_version = readInteger(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				} catch (ClassNotFoundException eCNFE) {
+					throw new RuntimeException(eCNFE);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// int
+
+				dos.writeInt(this.history_id);
+
+				// java.util.Date
+
+				writeDate(this.history_datetime, dos);
+
+				// String
+
+				writeString(this.user_name, dos);
+
+				// Object
+
+				dos.writeObject(this.vm_id);
+
+				// double
+
+				dos.writeDouble(this.session_time_in_minutes);
+
+				// Short
+
+				if (this.cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.cpu_usage_percent);
+				}
+
+				// Short
+
+				if (this.memory_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.memory_usage_percent);
+				}
+
+				// Short
+
+				if (this.user_cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.user_cpu_usage_percent);
+				}
+
+				// Short
+
+				if (this.system_cpu_usage_percent == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.system_cpu_usage_percent);
+				}
+
+				// String
+
+				writeString(this.vm_ip, dos);
+
+				// Object
+
+				dos.writeObject(this.currently_running_on_host);
+
+				// Integer
+
+				writeInteger(this.vm_configuration_version, dos);
+
+				// Integer
+
+				writeInteger(this.current_host_configuration_version, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("history_id=" + String.valueOf(history_id));
+			sb.append(",history_datetime=" + String.valueOf(history_datetime));
+			sb.append(",user_name=" + user_name);
+			sb.append(",vm_id=" + String.valueOf(vm_id));
+			sb.append(",session_time_in_minutes="
+					+ String.valueOf(session_time_in_minutes));
+			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
+			sb.append(",memory_usage_percent="
+					+ String.valueOf(memory_usage_percent));
+			sb.append(",user_cpu_usage_percent="
+					+ String.valueOf(user_cpu_usage_percent));
+			sb.append(",system_cpu_usage_percent="
+					+ String.valueOf(system_cpu_usage_percent));
+			sb.append(",vm_ip=" + vm_ip);
+			sb.append(",currently_running_on_host="
+					+ String.valueOf(currently_running_on_host));
+			sb.append(",vm_configuration_version="
+					+ String.valueOf(vm_configuration_version));
+			sb.append(",current_host_configuration_version="
+					+ String.valueOf(current_host_configuration_version));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row13Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tJDBCInput_10Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row13Struct row13 = new row13Struct();
+				copyOfvm_aggregate_historyStruct copyOfvm_aggregate_history = new copyOfvm_aggregate_historyStruct();
+				row14Struct row14 = new row14Struct();
+
+				/**
+				 * [tAggregateRow_8_AGGOUT begin ] start
+				 */
+
+				ok_Hash.put("tAggregateRow_8_AGGOUT", false);
+				start_Hash.put("tAggregateRow_8_AGGOUT", System
+						.currentTimeMillis());
+				currentComponent = "tAggregateRow_8_AGGOUT";
+
+				int tos_count_tAggregateRow_8_AGGOUT = 0;
+
+				// ------------
+
+				java.util.Map hashAggreg_tAggregateRow_8 = new java.util.HashMap();
+
+				// ------------
+
+				class UtilClass_tAggregateRow_8 { // G_OutBegin_AggR_144
+
+					public double sd(Double[] data) {
+						final int n = data.length;
+						if (n < 2) {
+							return Double.NaN;
+						}
+						double d1 = 0d;
+						double d2 = 0d;
+
+						for (int i = 0; i < data.length; i++) {
+							d1 += (data[i] * data[i]);
+							d2 += data[i];
+						}
+
+						return Math.sqrt((n * d1 - d2 * d2) / n / (n - 1));
+					}
+
+					public void checkedIADD(byte a, byte b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+						byte r = (byte) (a + b);
+						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'short/Short'", "'int/Integer'"));
+						}
+					}
+
+					public void checkedIADD(short a, short b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+						short r = (short) (a + b);
+						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'int/Integer'", "'short/Short'"));
+						}
+					}
+
+					public void checkedIADD(int a, int b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+						int r = a + b;
+						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'long/Long'", "'int/Integer'"));
+						}
+					}
+
+					public void checkedIADD(long a, long b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+						long r = a + b;
+						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'BigDecimal'", "'long/Long'"));
+						}
+					}
+
+					public void checkedIADD(float a, float b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+
+						if (checkUlp) {
+							float minAddedValue = Math.ulp(a);
+							if (minAddedValue > Math.abs(b)) {
+								throw new RuntimeException(
+										buildPrecisionMessage(
+												String.valueOf(a), String
+														.valueOf(b),
+												"'double' or 'BigDecimal'",
+												"'float/Float'"));
+							}
+						}
+
+						if (checkTypeOverFlow
+								&& ((double) a + (double) b > (double) Float.MAX_VALUE)
+								|| ((double) a + (double) b < (double) -Float.MAX_VALUE)) {
+							throw new RuntimeException(
+									buildOverflowMessage(String.valueOf(a),
+											String.valueOf(b),
+											"'double' or 'BigDecimal'",
+											"'float/Float'"));
+						}
+					}
+
+					public void checkedIADD(double a, double b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+
+						if (checkUlp) {
+							double minAddedValue = Math.ulp(a);
+							if (minAddedValue > Math.abs(b)) {
+								throw new RuntimeException(
+										buildPrecisionMessage(
+												String.valueOf(a), String
+														.valueOf(a),
+												"'BigDecimal'",
+												"'double/Double'"));
+							}
+						}
+
+						if (checkTypeOverFlow
+								&& (a + b > (double) Double.MAX_VALUE)
+								|| (a + b < -Double.MAX_VALUE)) {
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'BigDecimal'", "'double/Double'"));
+						}
+					}
+
+					public void checkedIADD(double a, byte b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+
+						if (checkTypeOverFlow
+								&& (a + b > (double) Double.MAX_VALUE)
+								|| (a + b < -Double.MAX_VALUE)) {
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'BigDecimal'", "'double/Double'"));
+						}
+					}
+
+					public void checkedIADD(double a, short b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+
+						if (checkTypeOverFlow
+								&& (a + b > (double) Double.MAX_VALUE)
+								|| (a + b < -Double.MAX_VALUE)) {
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'BigDecimal'", "'double/Double'"));
+						}
+					}
+
+					public void checkedIADD(double a, int b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+
+						if (checkTypeOverFlow
+								&& (a + b > (double) Double.MAX_VALUE)
+								|| (a + b < -Double.MAX_VALUE)) {
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'BigDecimal'", "'double/Double'"));
+						}
+					}
+
+					public void checkedIADD(double a, float b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+
+						if (checkUlp) {
+							double minAddedValue = Math.ulp(a);
+							if (minAddedValue > Math.abs(b)) {
+								throw new RuntimeException(
+										buildPrecisionMessage(
+												String.valueOf(a), String
+														.valueOf(a),
+												"'BigDecimal'",
+												"'double/Double'"));
+							}
+						}
+
+						if (checkTypeOverFlow
+								&& (a + b > (double) Double.MAX_VALUE)
+								|| (a + b < -Double.MAX_VALUE)) {
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'BigDecimal'", "'double/Double'"));
+						}
+					}
+
+					private String buildOverflowMessage(String a, String b,
+							String advicedTypes, String originalType) {
+						return "Type overflow when adding "
+								+ b
+								+ " to "
+								+ a
+								+ ", to resolve this problem, increase the precision by using "
+								+ advicedTypes + " type in place of "
+								+ originalType + ".";
+					}
+
+					private String buildPrecisionMessage(String a, String b,
+							String advicedTypes, String originalType) {
+						return "The double precision is unsufficient to add the value "
+								+ b
+								+ " to "
+								+ a
+								+ ", to resolve this problem, increase the precision by using "
+								+ advicedTypes
+								+ " type in place of "
+								+ originalType + ".";
+					}
+
+				} // G_OutBegin_AggR_144
+
+				UtilClass_tAggregateRow_8 utilClass_tAggregateRow_8 = new UtilClass_tAggregateRow_8();
+
+				class AggOperationStruct_tAggregateRow_8 { // G_OutBegin_AggR_100
+
+					private static final int DEFAULT_HASHCODE = 1;
+					private static final int PRIME = 31;
+					private int hashCode = DEFAULT_HASHCODE;
+					public boolean hashCodeDirty = true;
+
+					java.util.Date history_datetime;
+					String user_name;
+					Object vm_id;
+					BigDecimal session_time_in_minutes_sum;
+
+					Double cpu_usage_percent_sum;
+					int cpu_usage_percent_count = 0;
+
+					Short max_cpu_usage_max;
+					Double memory_usage_percent_sum;
+					int memory_usage_percent_count = 0;
+
+					Short max_memory_usage_max;
+					Double user_cpu_usage_percent_sum;
+					int user_cpu_usage_percent_count = 0;
+
+					Short max_user_cpu_usage_percent_max;
+					Double system_cpu_usage_percent_sum;
+					int system_cpu_usage_percent_count = 0;
+
+					Short max_system_cpu_usage_percent_max;
+					String vm_ip_last;
+					Object currently_running_on_host_last;
+					Integer vm_configuration_version_last;
+					Integer current_host_configuration_version_last;
+
+					@Override
+					public int hashCode() {
+						if (this.hashCodeDirty) {
+							final int prime = PRIME;
+							int result = DEFAULT_HASHCODE;
+
+							result = prime
+									* result
+									+ ((this.history_datetime == null) ? 0
+											: this.history_datetime.hashCode());
+
+							result = prime
+									* result
+									+ ((this.user_name == null) ? 0
+											: this.user_name.hashCode());
+
+							result = prime
+									* result
+									+ ((this.vm_id == null) ? 0 : this.vm_id
+											.hashCode());
+
+							this.hashCode = result;
+							this.hashCodeDirty = false;
+						}
+						return this.hashCode;
+					}
+
+					@Override
+					public boolean equals(Object obj) {
+						if (this == obj)
+							return true;
+						if (obj == null)
+							return false;
+						if (getClass() != obj.getClass())
+							return false;
+						final AggOperationStruct_tAggregateRow_8 other = (AggOperationStruct_tAggregateRow_8) obj;
+
+						if (this.history_datetime == null) {
+							if (other.history_datetime != null)
+								return false;
+						} else if (!this.history_datetime
+								.equals(other.history_datetime))
+							return false;
+
+						if (this.user_name == null) {
+							if (other.user_name != null)
+								return false;
+						} else if (!this.user_name.equals(other.user_name))
+							return false;
+
+						if (this.vm_id == null) {
+							if (other.vm_id != null)
+								return false;
+						} else if (!this.vm_id.equals(other.vm_id))
+							return false;
+
+						return true;
+					}
+
+				} // G_OutBegin_AggR_100
+
+				AggOperationStruct_tAggregateRow_8 operation_result_tAggregateRow_8 = null;
+				AggOperationStruct_tAggregateRow_8 operation_finder_tAggregateRow_8 = new AggOperationStruct_tAggregateRow_8();
+				java.util.Map<AggOperationStruct_tAggregateRow_8, AggOperationStruct_tAggregateRow_8> hash_tAggregateRow_8 = new java.util.HashMap<AggOperationStruct_tAggregateRow_8, AggOperationStruct_tAggregateRow_8>();
+
+				/**
+				 * [tAggregateRow_8_AGGOUT begin ] stop
+				 */
+
+				/**
+				 * [tMap_10 begin ] start
+				 */
+
+				ok_Hash.put("tMap_10", false);
+				start_Hash.put("tMap_10", System.currentTimeMillis());
+				currentComponent = "tMap_10";
+
+				int tos_count_tMap_10 = 0;
+
+				// ###############################
+				// # Lookup's keys initialization
+				// ###############################
+
+				// ###############################
+				// # Vars initialization
+				class Var__tMap_10__Struct {
+				}
+				Var__tMap_10__Struct Var__tMap_10 = new Var__tMap_10__Struct();
+				// ###############################
+
+				// ###############################
+				// # Outputs initialization
+				copyOfvm_aggregate_historyStruct copyOfvm_aggregate_history_tmp = new copyOfvm_aggregate_historyStruct();
+				// ###############################
+
+				/**
+				 * [tMap_10 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCInput_10 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCInput_10", false);
+				start_Hash.put("tJDBCInput_10", System.currentTimeMillis());
+				currentComponent = "tJDBCInput_10";
+
+				int tos_count_tJDBCInput_10 = 0;
+
+				int nb_line_tJDBCInput_10 = 0;
+				java.sql.Connection conn_tJDBCInput_10 = null;
+				conn_tJDBCInput_10 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				java.sql.Statement stmt_tJDBCInput_10 = conn_tJDBCInput_10
+						.createStatement();
+
+				String dbquery_tJDBCInput_10 = "SELECT    history_id,    history_datetime,   user_name,    vm_id,    session_time_in_minutes,    cpu_usage_percent,    memory_usage_percent,    user_cpu_usage_percent,    system_cpu_usage_percent,    vm_ip,    currently_running_on_host,    vm_configuration_version,    current_host_configuration_version  FROM statistics_vms_users_usage_hourly  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 user_name,  		 vm_id";
+
+				globalMap.put("tJDBCInput_10_QUERY", dbquery_tJDBCInput_10);
+
+				java.sql.ResultSet rs_tJDBCInput_10 = stmt_tJDBCInput_10
+						.executeQuery(dbquery_tJDBCInput_10);
+				java.sql.ResultSetMetaData rsmd_tJDBCInput_10 = rs_tJDBCInput_10
+						.getMetaData();
+				int colQtyInRs_tJDBCInput_10 = rsmd_tJDBCInput_10
+						.getColumnCount();
+
+				String tmpContent_tJDBCInput_10 = null;
+				while (rs_tJDBCInput_10.next()) {
+					nb_line_tJDBCInput_10++;
+
+					if (colQtyInRs_tJDBCInput_10 < 1) {
+						row13.history_id = 0;
+					} else {
+
+						if (rs_tJDBCInput_10.getObject(1) != null) {
+							row13.history_id = rs_tJDBCInput_10.getInt(1);
+						} else {
+							throw new RuntimeException(
+									"Null value in non-Nullable column");
+						}
+
+					}
+					if (colQtyInRs_tJDBCInput_10 < 2) {
+						row13.history_datetime = null;
+					} else {
+
+						java.util.Date date_tJDBCInput_10 = null;
+						try {
+							date_tJDBCInput_10 = rs_tJDBCInput_10
+									.getTimestamp(2);
+						} catch (Exception e) {
+							date_tJDBCInput_10 = rs_tJDBCInput_10.getDate(2);
+						}
+						row13.history_datetime = date_tJDBCInput_10;
+
+					}
+					if (colQtyInRs_tJDBCInput_10 < 3) {
+						row13.user_name = null;
+					} else {
+
+						tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
+								.getString(3);
+						if (tmpContent_tJDBCInput_10 != null) {
+							row13.user_name = tmpContent_tJDBCInput_10;
+						} else {
+							row13.user_name = null;
+						}
+
+						if (rs_tJDBCInput_10.wasNull()) {
+							row13.user_name = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_10 < 4) {
+						row13.vm_id = null;
+					} else {
+
+						if (rs_tJDBCInput_10.getObject(4) != null) {
+							row13.vm_id = rs_tJDBCInput_10.getObject(4);
+						} else {
+							throw new RuntimeException(
+									"Null value in non-Nullable column");
+						}
+
+					}
+					if (colQtyInRs_tJDBCInput_10 < 5) {
+						row13.session_time_in_minutes = 0;
+					} else {
+
+						if (rs_tJDBCInput_10.getObject(5) != null) {
+							row13.session_time_in_minutes = rs_tJDBCInput_10
+									.getDouble(5);
+						} else {
+							throw new RuntimeException(
+									"Null value in non-Nullable column");
+						}
+
+					}
+					if (colQtyInRs_tJDBCInput_10 < 6) {
+						row13.cpu_usage_percent = null;
+					} else {
+
+						if (rs_tJDBCInput_10.getObject(6) != null) {
+							row13.cpu_usage_percent = rs_tJDBCInput_10
+									.getShort(6);
+						} else {
+							row13.cpu_usage_percent = null;
+						}
+
+						if (rs_tJDBCInput_10.wasNull()) {
+							row13.cpu_usage_percent = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_10 < 7) {
+						row13.memory_usage_percent = null;
+					} else {
+
+						if (rs_tJDBCInput_10.getObject(7) != null) {
+							row13.memory_usage_percent = rs_tJDBCInput_10
+									.getShort(7);
+						} else {
+							row13.memory_usage_percent = null;
+						}
+
+						if (rs_tJDBCInput_10.wasNull()) {
+							row13.memory_usage_percent = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_10 < 8) {
+						row13.user_cpu_usage_percent = null;
+					} else {
+
+						if (rs_tJDBCInput_10.getObject(8) != null) {
+							row13.user_cpu_usage_percent = rs_tJDBCInput_10
+									.getShort(8);
+						} else {
+							row13.user_cpu_usage_percent = null;
+						}
+
+						if (rs_tJDBCInput_10.wasNull()) {
+							row13.user_cpu_usage_percent = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_10 < 9) {
+						row13.system_cpu_usage_percent = null;
+					} else {
+
+						if (rs_tJDBCInput_10.getObject(9) != null) {
+							row13.system_cpu_usage_percent = rs_tJDBCInput_10
+									.getShort(9);
+						} else {
+							row13.system_cpu_usage_percent = null;
+						}
+
+						if (rs_tJDBCInput_10.wasNull()) {
+							row13.system_cpu_usage_percent = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_10 < 10) {
+						row13.vm_ip = null;
+					} else {
+
+						tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
+								.getString(10);
+						if (tmpContent_tJDBCInput_10 != null) {
+							row13.vm_ip = tmpContent_tJDBCInput_10;
+						} else {
+							row13.vm_ip = null;
+						}
+
+						if (rs_tJDBCInput_10.wasNull()) {
+							row13.vm_ip = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_10 < 11) {
+						row13.currently_running_on_host = null;
+					} else {
+
+						if (rs_tJDBCInput_10.getObject(11) != null) {
+							row13.currently_running_on_host = rs_tJDBCInput_10
+									.getObject(11);
+						} else {
+							row13.currently_running_on_host = null;
+						}
+
+						if (rs_tJDBCInput_10.wasNull()) {
+							row13.currently_running_on_host = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_10 < 12) {
+						row13.vm_configuration_version = null;
+					} else {
+
+						if (rs_tJDBCInput_10.getObject(12) != null) {
+							row13.vm_configuration_version = rs_tJDBCInput_10
+									.getInt(12);
+						} else {
+							row13.vm_configuration_version = null;
+						}
+
+						if (rs_tJDBCInput_10.wasNull()) {
+							row13.vm_configuration_version = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_10 < 13) {
+						row13.current_host_configuration_version = null;
+					} else {
+
+						if (rs_tJDBCInput_10.getObject(13) != null) {
+							row13.current_host_configuration_version = rs_tJDBCInput_10
+									.getInt(13);
+						} else {
+							row13.current_host_configuration_version = null;
+						}
+
+						if (rs_tJDBCInput_10.wasNull()) {
+							row13.current_host_configuration_version = null;
+						}
+					}
+
+					/**
+					 * [tJDBCInput_10 begin ] stop
+					 */
+					/**
+					 * [tJDBCInput_10 main ] start
+					 */
+
+					currentComponent = "tJDBCInput_10";
+
+					tos_count_tJDBCInput_10++;
+
+					/**
+					 * [tJDBCInput_10 main ] stop
+					 */
+
+					/**
+					 * [tMap_10 main ] start
+					 */
+
+					currentComponent = "tMap_10";
+
+					boolean hasCasePrimitiveKeyWithNull_tMap_10 = false;
+
+					// ###############################
+					// # Input tables (lookups)
+					boolean rejectedInnerJoin_tMap_10 = false;
+					boolean mainRowRejected_tMap_10 = false;
+
+					if (
+
+					(
+
+					routines.RoutineHistoryETL.dateCompare(
+							row13.history_datetime, routines.RoutineHistoryETL
+									.manipulateDate(routines.RoutineHistoryETL
+											.startOfDay(context.runTime), -1,
+											"dd")) < 0
+
+					)
+
+					) { // G_TM_M_280
+
+						// CALL close main tMap filter for table 'row13'
+						// ###############################
+						{ // start of Var scope
+
+							// ###############################
+							// # Vars tables
+
+							Var__tMap_10__Struct Var = Var__tMap_10;// ###############################
+							// ###############################
+							// # Output tables
+
+							copyOfvm_aggregate_history = null;
+
+							// # Output table : 'copyOfvm_aggregate_history'
+							copyOfvm_aggregate_history_tmp.history_datetime = RoutineHistoryETL
+									.startOfDay(row13.history_datetime);
+							copyOfvm_aggregate_history_tmp.user_name = row13.user_name;
+							copyOfvm_aggregate_history_tmp.vm_id = row13.vm_id;
+							copyOfvm_aggregate_history_tmp.session_time_in_minutes = row13.session_time_in_minutes;
+							copyOfvm_aggregate_history_tmp.cpu_usage_percent = row13.cpu_usage_percent;
+							copyOfvm_aggregate_history_tmp.memory_usage_percent = row13.memory_usage_percent;
+							copyOfvm_aggregate_history_tmp.user_cpu_usage_percent = row13.user_cpu_usage_percent;
+							copyOfvm_aggregate_history_tmp.system_cpu_usage_percent = row13.system_cpu_usage_percent;
+							copyOfvm_aggregate_history_tmp.vm_ip = row13.vm_ip;
+							copyOfvm_aggregate_history_tmp.currently_running_on_host = row13.currently_running_on_host;
+							copyOfvm_aggregate_history_tmp.vm_configuration_version = row13.vm_configuration_version;
+							copyOfvm_aggregate_history_tmp.current_host_configuration_version = row13.current_host_configuration_version;
+							copyOfvm_aggregate_history = copyOfvm_aggregate_history_tmp;
+							// ###############################
+
+						} // end of Var scope
+
+						rejectedInnerJoin_tMap_10 = false;
+
+						tos_count_tMap_10++;
+
+						/**
+						 * [tMap_10 main ] stop
+						 */
+						// Start of branch "copyOfvm_aggregate_history"
+						if (copyOfvm_aggregate_history != null) {
+
+							/**
+							 * [tAggregateRow_8_AGGOUT main ] start
+							 */
+
+							currentComponent = "tAggregateRow_8_AGGOUT";
+
+							operation_finder_tAggregateRow_8.history_datetime = copyOfvm_aggregate_history.history_datetime;
+							operation_finder_tAggregateRow_8.user_name = copyOfvm_aggregate_history.user_name;
+							operation_finder_tAggregateRow_8.vm_id = copyOfvm_aggregate_history.vm_id;
+
+							operation_finder_tAggregateRow_8.hashCodeDirty = true;
+
+							operation_result_tAggregateRow_8 = hash_tAggregateRow_8
+									.get(operation_finder_tAggregateRow_8);
+
+							boolean isFirstAdd_tAggregateRow_8 = false;
+
+							if (operation_result_tAggregateRow_8 == null) { // G_OutMain_AggR_001
+
+								operation_result_tAggregateRow_8 = new AggOperationStruct_tAggregateRow_8();
+
+								operation_result_tAggregateRow_8.history_datetime = operation_finder_tAggregateRow_8.history_datetime;
+								operation_result_tAggregateRow_8.user_name = operation_finder_tAggregateRow_8.user_name;
+								operation_result_tAggregateRow_8.vm_id = operation_finder_tAggregateRow_8.vm_id;
+
+								isFirstAdd_tAggregateRow_8 = true;
+
+								hash_tAggregateRow_8.put(
+										operation_result_tAggregateRow_8,
+										operation_result_tAggregateRow_8);
+
+							} // G_OutMain_AggR_001
+
+							if (operation_result_tAggregateRow_8.session_time_in_minutes_sum == null) {
+								operation_result_tAggregateRow_8.session_time_in_minutes_sum = new BigDecimal(
+										0).setScale(0);
+							}
+							operation_result_tAggregateRow_8.session_time_in_minutes_sum = operation_result_tAggregateRow_8.session_time_in_minutes_sum
+									.add(new BigDecimal(
+											String.valueOf(copyOfvm_aggregate_history.session_time_in_minutes)));
+
+							if (copyOfvm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.cpu_usage_percent_count++;
+
+								if (operation_result_tAggregateRow_8.cpu_usage_percent_sum == null) {
+									operation_result_tAggregateRow_8.cpu_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_8.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.cpu_usage_percent_sum
+										.doubleValue() + copyOfvm_aggregate_history.cpu_usage_percent
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_8.max_cpu_usage_max == null
+										|| copyOfvm_aggregate_history.cpu_usage_percent > operation_result_tAggregateRow_8.max_cpu_usage_max
+
+								) {
+									operation_result_tAggregateRow_8.max_cpu_usage_max = copyOfvm_aggregate_history.cpu_usage_percent;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.memory_usage_percent_count++;
+
+								if (operation_result_tAggregateRow_8.memory_usage_percent_sum == null) {
+									operation_result_tAggregateRow_8.memory_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_8.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_8.memory_usage_percent_sum
+										.doubleValue() + copyOfvm_aggregate_history.memory_usage_percent
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_8.max_memory_usage_max == null
+										|| copyOfvm_aggregate_history.memory_usage_percent > operation_result_tAggregateRow_8.max_memory_usage_max
+
+								) {
+									operation_result_tAggregateRow_8.max_memory_usage_max = copyOfvm_aggregate_history.memory_usage_percent;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.user_cpu_usage_percent_count++;
+
+								if (operation_result_tAggregateRow_8.user_cpu_usage_percent_sum == null) {
+									operation_result_tAggregateRow_8.user_cpu_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_8.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.user_cpu_usage_percent_sum
+										.doubleValue() + copyOfvm_aggregate_history.user_cpu_usage_percent
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max == null
+										|| copyOfvm_aggregate_history.user_cpu_usage_percent > operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max
+
+								) {
+									operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max = copyOfvm_aggregate_history.user_cpu_usage_percent;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.system_cpu_usage_percent_count++;
+
+								if (operation_result_tAggregateRow_8.system_cpu_usage_percent_sum == null) {
+									operation_result_tAggregateRow_8.system_cpu_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_8.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.system_cpu_usage_percent_sum
+										.doubleValue() + copyOfvm_aggregate_history.system_cpu_usage_percent
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max == null
+										|| copyOfvm_aggregate_history.system_cpu_usage_percent > operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max
+
+								) {
+									operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max = copyOfvm_aggregate_history.system_cpu_usage_percent;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.vm_ip != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.vm_ip_last = copyOfvm_aggregate_history.vm_ip;
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.currently_running_on_host != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.currently_running_on_host_last = copyOfvm_aggregate_history.currently_running_on_host;
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.vm_configuration_version != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.vm_configuration_version_last = copyOfvm_aggregate_history.vm_configuration_version;
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.current_host_configuration_version != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.current_host_configuration_version_last = copyOfvm_aggregate_history.current_host_configuration_version;
+
+							} // G_OutMain_AggR_546
+
+							tos_count_tAggregateRow_8_AGGOUT++;
+
+							/**
+							 * [tAggregateRow_8_AGGOUT main ] stop
+							 */
+
+						} // End of branch "copyOfvm_aggregate_history"
+
+					} // G_TM_M_280 close main tMap filter for table 'row13'
+
+					/**
+					 * [tJDBCInput_10 end ] start
+					 */
+
+					currentComponent = "tJDBCInput_10";
+
+				}
+				stmt_tJDBCInput_10.close();
+
+				globalMap.put("tJDBCInput_10_NB_LINE", nb_line_tJDBCInput_10);
+
+				ok_Hash.put("tJDBCInput_10", true);
+				end_Hash.put("tJDBCInput_10", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCInput_10 end ] stop
+				 */
+
+				/**
+				 * [tMap_10 end ] start
+				 */
+
+				currentComponent = "tMap_10";
+
+				// ###############################
+				// # Lookup hashes releasing
+				// ###############################
+
+				ok_Hash.put("tMap_10", true);
+				end_Hash.put("tMap_10", System.currentTimeMillis());
+
+				/**
+				 * [tMap_10 end ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_8_AGGOUT end ] start
+				 */
+
+				currentComponent = "tAggregateRow_8_AGGOUT";
+
+				ok_Hash.put("tAggregateRow_8_AGGOUT", true);
+				end_Hash.put("tAggregateRow_8_AGGOUT", System
+						.currentTimeMillis());
+
+				/**
+				 * [tAggregateRow_8_AGGOUT end ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_10 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCOutput_10", false);
+				start_Hash.put("tJDBCOutput_10", System.currentTimeMillis());
+				currentComponent = "tJDBCOutput_10";
+
+				int tos_count_tJDBCOutput_10 = 0;
+
+				int nb_line_tJDBCOutput_10 = 0;
+				int nb_line_update_tJDBCOutput_10 = 0;
+				int nb_line_inserted_tJDBCOutput_10 = 0;
+				int nb_line_deleted_tJDBCOutput_10 = 0;
+				int nb_line_rejected_tJDBCOutput_10 = 0;
+
+				int deletedCount_tJDBCOutput_10 = 0;
+				int updatedCount_tJDBCOutput_10 = 0;
+				int insertedCount_tJDBCOutput_10 = 0;
+				int rejectedCount_tJDBCOutput_10 = 0;
+
+				boolean whetherReject_tJDBCOutput_10 = false;
+
+				java.sql.Connection connection_tJDBCOutput_10 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				int batchSize_tJDBCOutput_10 = 10000;
+				int batchSizeCounter_tJDBCOutput_10 = 0;
+
+				String insert_tJDBCOutput_10 = "INSERT INTO "
+						+ "vm_users_daily_history"
+						+ " (history_datetime,user_name,vm_id,session_time_in_minutes,cpu_usage_percent,max_cpu_usage,memory_usage_percent,max_memory_usage,user_cpu_usage_percent,max_user_cpu_usage_percent,system_cpu_usage_percent,max_system_cpu_usage_percent,vm_ip,currently_running_on_host,vm_configuration_version,current_host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				java.sql.PreparedStatement pstmt_tJDBCOutput_10 = connection_tJDBCOutput_10
+						.prepareStatement(insert_tJDBCOutput_10);
+
+				/**
+				 * [tJDBCOutput_10 begin ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_8_AGGIN begin ] start
+				 */
+
+				ok_Hash.put("tAggregateRow_8_AGGIN", false);
+				start_Hash.put("tAggregateRow_8_AGGIN", System
+						.currentTimeMillis());
+				currentComponent = "tAggregateRow_8_AGGIN";
+
+				int tos_count_tAggregateRow_8_AGGIN = 0;
+
+				java.util.Collection<AggOperationStruct_tAggregateRow_8> values_tAggregateRow_8 = hash_tAggregateRow_8
+						.values();
+
+				globalMap.put("tAggregateRow_8_NB_LINE", values_tAggregateRow_8
+						.size());
+
+				for (AggOperationStruct_tAggregateRow_8 aggregated_row_tAggregateRow_8 : values_tAggregateRow_8) { // G_AggR_600
+
+					/**
+					 * [tAggregateRow_8_AGGIN begin ] stop
+					 */
+					/**
+					 * [tAggregateRow_8_AGGIN main ] start
+					 */
+
+					currentComponent = "tAggregateRow_8_AGGIN";
+
+					row14.history_datetime = aggregated_row_tAggregateRow_8.history_datetime;
+
+					row14.user_name = aggregated_row_tAggregateRow_8.user_name;
+
+					row14.vm_id = aggregated_row_tAggregateRow_8.vm_id;
+
+					if (aggregated_row_tAggregateRow_8.session_time_in_minutes_sum != null) {
+						row14.session_time_in_minutes = aggregated_row_tAggregateRow_8.session_time_in_minutes_sum
+								.doubleValue();
+
+					} else {
+
+						row14.session_time_in_minutes = 0;
+
+					}
+
+					if (aggregated_row_tAggregateRow_8.cpu_usage_percent_count > 0) {
+
+						double row14_cpu_usage_percent_temp = (double) aggregated_row_tAggregateRow_8.cpu_usage_percent_sum
+								/ (double) aggregated_row_tAggregateRow_8.cpu_usage_percent_count;
+
+						row14.cpu_usage_percent = (short) row14_cpu_usage_percent_temp;
+
+					} else {
+						String count = "0";
+
+						row14.cpu_usage_percent = ParserUtils
+								.parseTo_Short(count);
+
+					}
+					row14.max_cpu_usage = aggregated_row_tAggregateRow_8.max_cpu_usage_max;
+					if (aggregated_row_tAggregateRow_8.memory_usage_percent_count > 0) {
+
+						double row14_memory_usage_percent_temp = (double) aggregated_row_tAggregateRow_8.memory_usage_percent_sum
+								/ (double) aggregated_row_tAggregateRow_8.memory_usage_percent_count;
+
+						row14.memory_usage_percent = (short) row14_memory_usage_percent_temp;
+
+					} else {
+						String count = "0";
+
+						row14.memory_usage_percent = ParserUtils
+								.parseTo_Short(count);
+
+					}
+					row14.max_memory_usage = aggregated_row_tAggregateRow_8.max_memory_usage_max;
+					if (aggregated_row_tAggregateRow_8.user_cpu_usage_percent_count > 0) {
+
+						double row14_user_cpu_usage_percent_temp = (double) aggregated_row_tAggregateRow_8.user_cpu_usage_percent_sum
+								/ (double) aggregated_row_tAggregateRow_8.user_cpu_usage_percent_count;
+
+						row14.user_cpu_usage_percent = (short) row14_user_cpu_usage_percent_temp;
+
+					} else {
+						String count = "0";
+
+						row14.user_cpu_usage_percent = ParserUtils
+								.parseTo_Short(count);
+
+					}
+					row14.max_user_cpu_usage_percent = aggregated_row_tAggregateRow_8.max_user_cpu_usage_percent_max;
+					if (aggregated_row_tAggregateRow_8.system_cpu_usage_percent_count > 0) {
+
+						double row14_system_cpu_usage_percent_temp = (double) aggregated_row_tAggregateRow_8.system_cpu_usage_percent_sum
+								/ (double) aggregated_row_tAggregateRow_8.system_cpu_usage_percent_count;
+
+						row14.system_cpu_usage_percent = (short) row14_system_cpu_usage_percent_temp;
+
+					} else {
+						String count = "0";
+
+						row14.system_cpu_usage_percent = ParserUtils
+								.parseTo_Short(count);
+
+					}
+					row14.max_system_cpu_usage_percent = aggregated_row_tAggregateRow_8.max_system_cpu_usage_percent_max;
+					row14.vm_ip = aggregated_row_tAggregateRow_8.vm_ip_last;
+					row14.currently_running_on_host = aggregated_row_tAggregateRow_8.currently_running_on_host_last;
+					row14.vm_configuration_version = aggregated_row_tAggregateRow_8.vm_configuration_version_last;
+					row14.current_host_configuration_version = aggregated_row_tAggregateRow_8.current_host_configuration_version_last;
+
+					tos_count_tAggregateRow_8_AGGIN++;
+
+					/**
+					 * [tAggregateRow_8_AGGIN main ] stop
+					 */
+
+					/**
+					 * [tJDBCOutput_10 main ] start
+					 */
+
+					currentComponent = "tJDBCOutput_10";
+
+					whetherReject_tJDBCOutput_10 = false;
+					if (row14.history_datetime != null) {
+						pstmt_tJDBCOutput_10.setTimestamp(1,
+								new java.sql.Timestamp(row14.history_datetime
+										.getTime()));
+					} else {
+						pstmt_tJDBCOutput_10.setNull(1, java.sql.Types.DATE);
+					}
+
+					if (row14.user_name == null) {
+						pstmt_tJDBCOutput_10.setNull(2, java.sql.Types.VARCHAR);
+					} else {
+						pstmt_tJDBCOutput_10.setString(2, row14.user_name);
+					}
+
+					if (row14.vm_id == null) {
+						pstmt_tJDBCOutput_10.setNull(3, java.sql.Types.OTHER);
+					} else {
+						pstmt_tJDBCOutput_10.setObject(3, row14.vm_id);
+					}
+
+					pstmt_tJDBCOutput_10.setDouble(4,
+							row14.session_time_in_minutes);
+
+					if (row14.cpu_usage_percent == null) {
+						pstmt_tJDBCOutput_10.setNull(5, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_10.setShort(5,
+								row14.cpu_usage_percent);
+					}
+
+					if (row14.max_cpu_usage == null) {
+						pstmt_tJDBCOutput_10.setNull(6, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_10.setShort(6, row14.max_cpu_usage);
+					}
+
+					if (row14.memory_usage_percent == null) {
+						pstmt_tJDBCOutput_10.setNull(7, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_10.setShort(7,
+								row14.memory_usage_percent);
+					}
+
+					if (row14.max_memory_usage == null) {
+						pstmt_tJDBCOutput_10.setNull(8, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_10
+								.setShort(8, row14.max_memory_usage);
+					}
+
+					if (row14.user_cpu_usage_percent == null) {
+						pstmt_tJDBCOutput_10.setNull(9, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_10.setShort(9,
+								row14.user_cpu_usage_percent);
+					}
+
+					if (row14.max_user_cpu_usage_percent == null) {
+						pstmt_tJDBCOutput_10
+								.setNull(10, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_10.setShort(10,
+								row14.max_user_cpu_usage_percent);
+					}
+
+					if (row14.system_cpu_usage_percent == null) {
+						pstmt_tJDBCOutput_10
+								.setNull(11, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_10.setShort(11,
+								row14.system_cpu_usage_percent);
+					}
+
+					if (row14.max_system_cpu_usage_percent == null) {
+						pstmt_tJDBCOutput_10
+								.setNull(12, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_10.setShort(12,
+								row14.max_system_cpu_usage_percent);
+					}
+
+					if (row14.vm_ip == null) {
+						pstmt_tJDBCOutput_10
+								.setNull(13, java.sql.Types.VARCHAR);
+					} else {
+						pstmt_tJDBCOutput_10.setString(13, row14.vm_ip);
+					}
+
+					if (row14.currently_running_on_host == null) {
+						pstmt_tJDBCOutput_10.setNull(14, java.sql.Types.OTHER);
+					} else {
+						pstmt_tJDBCOutput_10.setObject(14,
+								row14.currently_running_on_host);
+					}
+
+					if (row14.vm_configuration_version == null) {
+						pstmt_tJDBCOutput_10
+								.setNull(15, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_10.setInt(15,
+								row14.vm_configuration_version);
+					}
+
+					if (row14.current_host_configuration_version == null) {
+						pstmt_tJDBCOutput_10
+								.setNull(16, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_10.setInt(16,
+								row14.current_host_configuration_version);
+					}
+
+					try {
+						insertedCount_tJDBCOutput_10 = insertedCount_tJDBCOutput_10
+								+ pstmt_tJDBCOutput_10.executeUpdate();
+						nb_line_tJDBCOutput_10++;
+					} catch (Exception e) {
+						whetherReject_tJDBCOutput_10 = true;
+						throw (e);
+					}
+
+					tos_count_tJDBCOutput_10++;
+
+					/**
+					 * [tJDBCOutput_10 main ] stop
+					 */
+
+					/**
+					 * [tAggregateRow_8_AGGIN end ] start
+					 */
+
+					currentComponent = "tAggregateRow_8_AGGIN";
+
+				} // G_AggR_600
+
+				ok_Hash.put("tAggregateRow_8_AGGIN", true);
+				end_Hash.put("tAggregateRow_8_AGGIN", System
+						.currentTimeMillis());
+
+				/**
+				 * [tAggregateRow_8_AGGIN end ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_10 end ] start
+				 */
+
+				currentComponent = "tJDBCOutput_10";
+
+				if (pstmt_tJDBCOutput_10 != null) {
+
+					pstmt_tJDBCOutput_10.close();
+
+				}
+
+				nb_line_deleted_tJDBCOutput_10 = nb_line_deleted_tJDBCOutput_10
+						+ deletedCount_tJDBCOutput_10;
+				nb_line_update_tJDBCOutput_10 = nb_line_update_tJDBCOutput_10
+						+ updatedCount_tJDBCOutput_10;
+				nb_line_inserted_tJDBCOutput_10 = nb_line_inserted_tJDBCOutput_10
+						+ insertedCount_tJDBCOutput_10;
+				nb_line_rejected_tJDBCOutput_10 = nb_line_rejected_tJDBCOutput_10
+						+ rejectedCount_tJDBCOutput_10;
+
+				globalMap.put("tJDBCOutput_10_NB_LINE", nb_line_tJDBCOutput_10);
+				globalMap.put("tJDBCOutput_10_NB_LINE_UPDATED",
+						nb_line_update_tJDBCOutput_10);
+				globalMap.put("tJDBCOutput_10_NB_LINE_INSERTED",
+						nb_line_inserted_tJDBCOutput_10);
+				globalMap.put("tJDBCOutput_10_NB_LINE_DELETED",
+						nb_line_deleted_tJDBCOutput_10);
+				globalMap.put("tJDBCOutput_10_NB_LINE_REJECTED",
+						nb_line_rejected_tJDBCOutput_10);
+
+				ok_Hash.put("tJDBCOutput_10", true);
+				end_Hash.put("tJDBCOutput_10", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCOutput_10 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		} finally {
+			// free memory for "tAggregateRow_8_AGGIN"
+			globalMap.put("tAggregateRow_8", null);
+
+		}
+
+		globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", 1);
+	}
+
 	public static class row_talendLogs_LOGSStruct implements
 			routines.system.IPersistableRow<row_talendLogs_LOGSStruct> {
 		final static byte[] commonByteArrayLock = new byte[0];
@@ -20024,6 +22963,45 @@ public class AggregationToDaily implements TalendJob {
 			}
 		}.start();
 
+		runningThreadCount.add(1);
+		new Thread() {
+			public void run() {
+				java.util.Map threadRunResultMap = new java.util.HashMap();
+				threadRunResultMap.put("errorCode", null);
+				threadRunResultMap.put("status", "");
+				threadLocal.set(threadRunResultMap);
+
+				try {
+					((java.util.Map) threadLocal.get()).put("errorCode", null);
+					tJDBCInput_10Process(globalMap);
+					((java.util.Map) threadLocal.get()).put("status", "end");
+				} catch (TalendException e_tJDBCInput_10) {
+					((java.util.Map) threadLocal.get())
+							.put("status", "failure");
+					e_tJDBCInput_10.printStackTrace();
+					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
+
+				} finally {
+				}
+
+				Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
+						.get()).get("errorCode"));
+				String localStatus = (String) (((java.util.Map) threadLocal
+						.get()).get("status"));
+				if (localErrorCode != null) {
+					if (errorCode == null
+							|| localErrorCode.compareTo(errorCode) > 0) {
+						errorCode = localErrorCode;
+					}
+				}
+				if (!status.equals("failure")) {
+					status = localStatus;
+				}
+
+				runningThreadCount.add(-1);
+			}
+		}.start();
+
 		while (runningThreadCount.getCount() > 0) {
 			try {
 				Thread.sleep(10);
@@ -20146,6 +23124,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 575601 characters generated by Talend Open Studio for Data Integration on the
- * October 25, 2012 3:54:04 PM IST
+ * 663004 characters generated by Talend Open Studio for Data Integration on the
+ * November 19, 2012 1:54:39 PM IST
  ************************************************************************************************/
