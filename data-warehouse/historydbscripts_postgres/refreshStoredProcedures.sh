@@ -17,7 +17,7 @@ usage() {
     printf "\t-h            - This help text.\n"
     printf "\n"
 
-    exit 0
+    exit $ret
 }
 
 DEBUG () {
@@ -33,7 +33,8 @@ while getopts hs:d:u:p:l:v option; do
         u) USERNAME=$OPTARG;;
         l) LOGFILE=$OPTARG;;
         v) VERBOSE=true;;
-        h) usage;;
+        h) ret=0 && usage;;
+       \?) ret=1 && usage;;
     esac
 done
 

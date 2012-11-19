@@ -14,6 +14,8 @@ execute_command () {
     printf "${command}\n" > $filename
 
     execute_file $filename $dbname $dbhost $dbport
+
+    rm $filename
 }
 
 # $1 - the file to execute
@@ -52,7 +54,7 @@ execute_file () {
     fi
 
     if [[ -n "${LOGFILE}" ]]; then
-	cmdline="${cmdline} --log-file=${LOGFILE} "
+    cmdline="${cmdline} --log-file=${LOGFILE} "
     fi
 
     eval $cmdline
@@ -113,10 +115,7 @@ run_pre_upgrade() {
     drop_sps
     install_common_func
     #run pre upgrade scripts
-    for file in $(ls -1 upgrade/pre_upgrade/*.sql); do
-       echo "Running pre-upgrade script $file ..."
-       execute_file $file ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
-    done
+    execute_commands_in_dir 'pre_upgrade' 'pre-upgrade'
     if [[ -n "${CLEAN_TASKS}" ]]; then
        echo "Cleaning tasks metadata..."
        delete_async_tasks_and_compensation_data
@@ -124,9 +123,55 @@ run_pre_upgrade() {
 }
 
 run_post_upgrade() {
-    #Refreshing  all views & sps
+    #Refreshing  all views & sps & run post-upgrade scripts
     refresh_views
     refresh_sps
+    #Running post-upgrade scripts
+    execute_commands_in_dir 'post_upgrade' 'post-upgrade'
+}
+
+# Runs all the SQL scripts in directory upgrade/$1/
+# The second argument is the label to use while notifying
+# the user about the running of the script
+execute_commands_in_dir() {
+    files=$(get_files "upgrade/${1}" 1)
+    for execFile in $(ls $files | sort); do
+       run_file $execFile
+    done
+}
+
+run_required_scripts() {
+local script=${1}
+# check for helper functions that the script needs
+# source scripts must be defined in the first lines of the script
+while read line; do
+expr=$(echo $line | cut -d " " -f1 |grep "\-\-#source")
+if [[ -z "${expr}" ]] ; then
+   break;
+else
+   sql=$(echo $line | cut -d " " -f2)
+   valid=$(echo $sql | grep "_sp.sql")
+   if [[ -z "${valid}" ]]; then
+      echo "invalid source file $sql in $file , source files must end with '_sp.sql'"
+      exit 1
+   fi
+   echo "Running helper functions from $sql for $file "
+   execute_file $sql ${DATABASE} ${SERVERNAME} ${PORT}  > /dev/null
+fi
+done < "$script"
+}
+
+run_file() {
+   local execFile=${1}
+   isShellScript=$(file $execFile | grep "shell" | wc -l)
+   if [ $isShellScript -gt 0 ]; then
+       echo "Running $2 upgrade shell script $execFile ..."
+       export  DATABASE="${DATABASE}" SERVERNAME="${SERVERNAME}" PORT="${PORT}" USERNAME="${USERNAME}"
+      ./$execFile
+   else
+      echo "Running $2 upgrade sql script $execFile ..."
+      execute_file $execFile ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+   fi
 }
 
 set_version() {
@@ -161,25 +206,36 @@ get_db_time(){
     echo "select now();" | psql -U ${USERNAME} --pset=tuples_only=on ${DATABASE} -h ${SERVERNAME} -p ${PORT}
 }
 
+# gets a directory and required depth and return all sql & sh files
+get_files() {
+    sqlFiles=$(find ${1} -maxdepth ${2} -name "*.sql" -print)
+    shFiles=$(find ${1} -maxdepth ${2} -name "*.sh" -print)
+    echo ${sqlFiles} " " ${shFiles}
+}
+
 is_view_or_sp_changed() {
-    md5sum create_*views.sql *_sp.sql upgrade/*.sql upgrade/pre_upgrade/*.sql > .scripts.md5.tmp
-    diff -s -q .scripts.md5 .scripts.md5.tmp >& /dev/null
+    files=$(get_files "upgrade" 3)
+    md5sum_file=.${DATABASE}.scripts.md5
+    md5sum_tmp_file=${md5sum_file}.tmp
+    md5sum $files create_*views.sql *_sp.sql > ${md5sum_tmp_file}
+    diff -s -q ${md5sum_file} ${md5sum_tmp_file} >& /dev/null
     result=$?
 
     #  0 - identical , 1 - differ , 2 - error
     if [ $result -eq 0 ] ; then
-        rm -f .scripts.md5.tmp
+        rm -f ${md5sum_tmp_file}
     else
 
         # there is a diff or md5 file does not exist
-        mv -f .scripts.md5.tmp .scripts.md5
+        mv -f ${md5sum_tmp_file} ${md5sum_file}
     fi
     return $result
 }
 
 validate_version_uniqueness() {
     prev=""
-    for file in upgrade/??_??_????*.sql; do
+    files=$(get_files "upgrade" 1)
+    for file in $(ls -1 $files) ; do
         ver="${file:8:2}${file:11:2}${file:14:4}"
         if [ "$ver" = "$prev" ]; then
             echo "Operation aborted, found duplicate version : $ver"
@@ -191,7 +247,7 @@ validate_version_uniqueness() {
 
 run_upgrade_files() {
     set_version
-    res=$(find upgrade/ -name "*.sql" | wc -l)
+    res=$(find upgrade/ -name "*" | grep -E ".sql|.sh" | wc -l)
     if [ $res -gt 0 ]; then
         state="FAILED"
         comment=""
@@ -211,21 +267,29 @@ run_upgrade_files() {
         # we should remove leading blank (from select result) and zero in order not to treat number as octal
         last="${current:2:7}"
         disable_gaps_from="3010910"
-        for file in upgrade/??_??_????*.sql; do
+        files=$(get_files "upgrade" 1)
+        for file in $(ls -1 $files); do
             before=$(get_db_time)
             checksum=$(md5sum $file | cut -d " " -f1)
             # upgrade/dd_dd_dddd* => dddddddd
-	    ver="${file:8:2}${file:11:2}${file:14:4}"
+        ver="${file:8:2}${file:11:2}${file:14:4}"
             if [ "$ver" -gt "$current" ] ; then
                 # we should remove leading zero in order not to treat number as octal
                 xver="${ver:1:7}"
+                # taking major revision , i.e 03010000=>301
+                xverMajor="${xver:0:3}"
+                lastMajor="${last:0:3}"
+
                 # check for gaps in upgrade
                 if [ "$ver" -gt "$disable_gaps_from" ]; then
-                    if [ $(($xver - $last)) -gt 10 ]; then
-                        set_last_version
-                        echo "Illegal script version number ${ver},version should be in max 10 gap from last installed version: 0${last}"
-                        echo "Please fix numbering to interval 0$(( $last + 1)) to 0$(( $last + 10)) and run the upgrade script."
-                    exit 1
+                    # check gaps only for identical major revisions
+                    if [ ${xverMajor} -eq ${lastMajor} ]; then
+                        if [ $(($xver - $last)) -gt 10 ]; then
+                           set_last_version
+                           echo "Illegal script version number ${ver},version should be in max 10 gap from last installed version: 0${last}"
+                           echo "Please fix numbering to interval 0$(( $last + 1)) to 0$(( $last + 10)) and run the upgrade script."
+                           exit 1
+                        fi
                     fi
                 fi
                 # check if script was already installed with other version name.
@@ -237,8 +301,14 @@ run_upgrade_files() {
                     last=$xver
                     comment="Installed already by ${installed_version}"
                 else
-                    echo "Running upgrade script $file "
-                    execute_file $file ${DATABASE} ${SERVERNAME} ${PORT} 1 > /dev/null
+                    # force pre upgrade to run in case no md5 change was
+                    # found but we still upgrade, like in db restore.
+                    if [ $updated -eq 0 ]; then
+                       run_pre_upgrade
+                       updated=1
+                    fi
+                    run_required_scripts $file
+                    run_file $file
                     code=$?
                     if [ $code -eq 0 ]; then
                         state="INSTALLED"
@@ -264,7 +334,7 @@ run_upgrade_files() {
             # auto generate .schema file
             pg_dump -f .schema -F p -n public -s -U ${USERNAME} ${DATABASE} -h ${SERVERNAME} -p ${PORT}  >& /dev/null
         else
-	    echo "database is up to date."
+        echo "database is up to date."
         fi
     fi
 }
@@ -273,57 +343,97 @@ pg_version() {
     echo $(psql --version | head -1 | awk '{print $3}')
 }
 
-check_and_install_uuid_osspa_pg8() {
-    if [ $1 ]; then
-        psql -d ${DATABASE} -U ${USERNAME} -h ${SERVERNAME} -p ${PORT} -f "$1"
-        return $?
-    elif [ ! -f /usr/share/pgsql/contrib/uuid-ossp.sql ] ; then
-        return 1
-    else
-        psql -d ${DATABASE} -U ${USERNAME} -h ${SERVERNAME} -p ${PORT} -f /usr/share/pgsql/contrib/uuid-ossp.sql
-        return $?
-    fi
+# gets the configuration value of the given option name and version.
+# usage: <some variable>=get_config_value <name> <version>
+get_config_value() {
+   local option_name=${1}
+   local version=${2}
+   cmd="select option_value from vdc_options where option_name ='${option_name}' and version = '${version}';"
+   # remove leading/trailing spaces from the result
+   # current implementation of execute_command use --echo-all flag of psql that outputs the query in 1st line
+   echo $(execute_command "${cmd}" ${DATABASE} ${SERVERNAME} ${PORT} | sed 's/^ *//g' | head -2 | tail -1 | tr -d ' ')
 }
 
-check_and_install_uuid_osspa_pg9() {
-    # Checks that the extension is installed
-    CMD_CHECK_INSTALLED="SELECT COUNT(extname) FROM pg_extension WHERE extname='uuid-ossp';"
-    UUID_INSTALLED=$(expr `execute_command "${CMD_CHECK_INSTALLED}" ${DATABASE} ${SERVERNAME} ${PORT}`)
-    # Checks that the extension can be installed
-    CMD_CHECK_AVAILABLE="SELECT COUNT(name) FROM pg_available_extensions WHERE name='uuid-ossp';"
-    UUID_AVAILABLE=$(expr `execute_command "${CMD_CHECK_AVAILABLE}" ${DATABASE} ${SERVERNAME} ${PORT}`)
-
-    # If uuid is not installed, check whether it's available and install
-    if [ $UUID_INSTALLED -eq 1 ]; then
-        return 0
-    else
-        if [ $UUID_AVAILABLE -eq 0 ]; then
-            return 1
-        else
-            CMD="CREATE EXTENSION \"uuid-ossp\";"
-            execute_command "${CMD}"  ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
-            return $?
-        fi
-    fi
+#adds a record to audit_log in case of calling unlock_entity
+log_unlock_entity() {
+   local object_type=${1}
+   local id=${2}
+   local user=${3}
+   msg="System user ${user} run unlock_entity script on ${object_type} ${id} with db user ${USERNAME}"
+   CMD="insert into audit_log(log_time,log_type_name,log_type,severity,message)
+        values(now(), 'USER_RUN_UNLOCK_ENTITY_SCRIPT', 2024, 10, '${msg}')"
+   execute_command "${CMD}" "${DATABASE}" "${SERVERNAME}" "${PORT}"
 }
 
-check_and_install_uuid_osspa() {
 
-    if [ $(pg_version | egrep "^9.1") ]; then
-        echo "Creating uuid-ossp extension..."
-        check_and_install_uuid_osspa_pg9 $1
-    else
-        echo "adding uuid-ossp.sql from contrib..."
-        check_and_install_uuid_osspa_pg8 $1
-    fi
+#unlocks the given VM/Template and its disks or a given disk
+#in case of VM/Template the id is the name, in case of a disk, the id is the disk UUID
+unlock_entity() {
+   local object_type=${1}
+   local id=${2}
+   local user=${3}
+   local recursive=${4}
+   if [ ! -n "$recursive" ]; then
+       recursive=false
+   fi
+   CMD=""
+   if [ "${object_type}" = "vm" -o "${object_type}" = "template" ]; then
+      CMD="select fn_db_unlock_entity('${object_type}', '${id}', ${recursive});"
+   elif [ "${object_type}" = "disk" ]; then
+      CMD="select fn_db_unlock_disk('${id}');"
+   else
+      printf "Error : $* "
+   fi
 
-    if [ $? -ne 0 ]; then
-        printf "\nThe uuid-ossp extension is not available."
-        printf "\nIt is possible the 'postgresql-contrib' package was not installed.\n"
-        printf "In order to install the package in Fedora please perform: "
-        printf "yum install postgresql-contrib\n"
-        printf "After installation is done, please run create_db.sh script again.\n"
-        printf "\nAlternatively, specify the location of the file with -f parameter\n"
-        exit 1
-    fi
+   if [ "${CMD}" != "" ]; then
+       echo "${CMD}"
+       execute_command "${CMD}" "${DATABASE}" "${SERVERNAME}" "${PORT}"
+       if [ $? -eq 0 ]; then
+           log_unlock_entity ${object_type} ${id} ${user}
+           printf "unlock ${object_type} ${id} completed successfully."
+       else
+           printf "unlock ${object_type} ${id} completed with errors.."
+       fi
+   fi
+}
+
+#Displays locked entities
+query_locked_entities() {
+   local object_type=${1}
+   LOCKED=2
+   TEMPLATE_LOCKED=1
+   IMAGE_LOCKED=15;
+   if [ "${object_type}" = "vm" ]; then
+       CMD="select vm_name as vm_name from vm_static a ,vm_dynamic b
+            where a.vm_guid = b.vm_guid and status = ${IMAGE_LOCKED};"
+       psql -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
+       CMD="select vm_name as vm_name , image_group_id as disk_id
+            from images a,vm_static b,vm_device c
+            where a.image_group_id = c.device_id and b.vm_guid = c.vm_id and
+            imagestatus = ${LOCKED} and
+            entity_type ilike 'VM' and
+            image_group_id in
+            (select device_id from vm_device where is_plugged);"
+       psql -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
+   elif [ "${object_type}" = "template" ]; then
+       CMD="select vm_name as template_name from vm_static a ,vm_dynamic b
+            where a.vm_guid = b.vm_guid and
+                  template_status = ${TEMPLATE_LOCKED};"
+       psql -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
+       CMD="select vm_name as template_name, image_group_id as disk_id
+            from images a,vm_static b,vm_device c
+            where a.image_group_id = c.device_id and b.vm_guid = c.vm_id and
+            imagestatus = ${LOCKED} and
+            entity_type ilike 'TEMPLATE' and
+            image_group_id in
+            (select device_id from vm_device where is_plugged);"
+       psql -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
+   elif [ "${object_type}" = "disk" ]; then
+       CMD="select vm_id as entity_id,disk_id
+            from base_disks a ,images b, vm_device c
+            where a.disk_id = b.image_group_id and
+                  b.image_group_id = c.device_id and
+                  imagestatus = ${LOCKED} and is_plugged;"
+       psql -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
+   fi
 }
