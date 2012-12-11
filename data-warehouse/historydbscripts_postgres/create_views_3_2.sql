@@ -635,9 +635,9 @@ CREATE OR REPLACE VIEW v3_2_configuration_history_vms_disks
 SELECT
     history_id as history_id,
     vm_disk_id as vm_disk_id,
-	CASE
-	      WHEN vm_disk_name IS NOT NULL THEN vm_disk_name
-		  ELSE 'disk ' || cast(vm_internal_drive_mapping as varchar)
+    CASE
+          WHEN vm_disk_name IS NOT NULL THEN vm_disk_name
+          ELSE 'disk ' || cast(vm_internal_drive_mapping as varchar)
     END as vm_disk_name,
     vm_disk_description as vm_disk_description,
     image_id as image_id,
@@ -657,9 +657,9 @@ CREATE OR REPLACE VIEW v3_2_latest_configuration_vms_disks
 SELECT
     history_id as history_id,
     vm_disk_id as vm_disk_id,
-	CASE
-	      WHEN vm_disk_name IS NOT NULL THEN vm_disk_name
-		  ELSE 'disk ' || cast(vm_internal_drive_mapping as varchar)
+    CASE
+          WHEN vm_disk_name IS NOT NULL THEN vm_disk_name
+          ELSE 'disk ' || cast(vm_internal_drive_mapping as varchar)
     END as vm_disk_name,
     vm_disk_description as vm_disk_description,
     image_id as image_id,

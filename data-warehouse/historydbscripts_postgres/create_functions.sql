@@ -40,8 +40,8 @@ BEGIN
       RETURN NULL;
    end if;
    select parent_id INTO ParentID FROM tag_relations_history WHERE entity_id = currentTagID and history_id in  (SELECT max(a.history_id)
-                                        				FROM tag_relations_history a
-                                        				WHERE a.entity_id = currentTagID);
+                                                        FROM tag_relations_history a
+                                                        WHERE a.entity_id = currentTagID);
     IF runNumber = 0 then
         RETURN coalesce(GetPathIDs(ParentID, runNumber + 1),'/');
     ELSE
