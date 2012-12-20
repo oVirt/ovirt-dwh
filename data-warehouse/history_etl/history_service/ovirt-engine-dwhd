@@ -30,9 +30,6 @@ RETVAL=0
 PID_FOLDER=/var/run/ovirt-engine/
 LOG_FOLDER=/var/log/ovirt-engine/
 
-[ -r /etc/java/java.conf ] && . /etc/java/java.conf
-export JAVA_HOME
-
 #create the log directory
 if [ ! -d LOG_FOLDER ]; then
     mkdir -p $LOG_FOLDER > /dev/null 2>&1
