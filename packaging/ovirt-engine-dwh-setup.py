@@ -199,9 +199,8 @@ def isVersionSupported(rawMinimalVersion, rawCurrentVersion):
     # it in order not to break the parseVersionString interface
     (minimalVersion, minimalMinorVersion, minimalRelease) = utils.parseVersionString("%s-0" % rawMinimalVersion)
 
-    if (float(currentVersion) < float(minimalVersion)) or (int(currentMinorVersion) < int(minimalMinorVersion)):
+    if (float(currentVersion) != float(minimalVersion)) or (int(currentMinorVersion) < int(minimalMinorVersion)):
         return False
-
     return True
 
 def setVersion():
