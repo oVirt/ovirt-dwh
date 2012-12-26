@@ -38,6 +38,11 @@ ERR_WRONG_PGPASS_VALUE = "Error: unknown value type '%s' was requested"
 ERR_PGPASS_VALUE_NOT_FOUND = "Error: requested value '%s' was not found \
 in %s. Check oVirt Engine installation and that wildcards '*' are not used."
 
+# DB defaults
+DB_HOST = "localhost"
+DB_PORT = "5432"
+DB_ADMIN = "postgres"
+
 def getVDCOption(key):
     """
     Get option_value from vdc_options per given key
@@ -150,6 +155,22 @@ class TextConfigFileHandler(ConfigFileHandler):
                     break
         if not changed:
             self.data.append("%s%s%s\n"%(param, self.sep, value))
+
+    def renameParam(self, current_param_name, new_param_name):
+        if current_param_name == new_param_name:
+            return
+        changed = False
+        for i, line in enumerate(self.data[:]):
+            if not re.match("\s*#", line):
+                if re.match("\s*%s"%(new_param_name), line):
+                    changed = True
+                    break
+                if re.match("\s*%s"%(current_param_name), line):
+                    self.data[i] = line.replace(current_param_name, new_param_name)
+                    changed = True
+                    break
+        if not changed:
+            self.data.append("%s%s\n"%(new_param_name, self.sep))
 
     def delParams(self, paramsDict):
         pass
@@ -328,8 +349,11 @@ def parseVersionString(string):
     if not found:
         raise Exception("Cannot parse version string, please report this error")
     version = found.group(1)
+    logging.debug("found version, %s", version)
     minorVersion= found.group(2)
+    logging.debug("found minorVersion %s", minorVersion)
     release = found.group(3)
+    logging.debug("found release %s", release)
 
     return (version, minorVersion, release)
 
@@ -359,7 +383,7 @@ def getDbAdminUser():
     Retrieve Admin user from .pgpass file on the system.
     Use default settings if file is not found.
     """
-    return getDbConfig("admin")
+    return getDbConfig("admin") or DB_ADMIN
 
 def getDbHostName():
     """
@@ -367,13 +391,13 @@ def getDbHostName():
     Use default settings if file is not found, or '*' was used.
     """
 
-    return getDbConfig("host")
+    return getDbConfig("host") or DB_HOST
 
 def getDbPort():
     """
     Retrieve DB port number from .pgpass file on the system.
     """
-    return getDbConfig("port")
+    return getDbConfig("port") or DB_PORT
 
 def getDbConfig(dbconf_param):
     """
@@ -414,7 +438,7 @@ def getDbConfig(dbconf_param):
                     dbcreds = line.split(":", 4)
                     return dbcreds[field[dbconf_param]]
 
-    raise Exception(ERR_PGPASS_VALUE_NOT_FOUND % (dbconf_param, FILE_PG_PASS))
+    return False
 
 def getPassFromFile(username):
     '''
