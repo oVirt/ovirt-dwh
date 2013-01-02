@@ -11,7 +11,7 @@
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx1024M"/>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="32"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="64"/>
     <elementParameter field="TEXT" name="SCHEMA_OPTIONS" value="none"/>
     <elementParameter field="TEXT" name="OEM_CUSTOM_ATTRIBUTE" value=""/>
     <elementParameter field="TEXT" name="HADOOP_APP_PATH" value=""/>
@@ -1712,7 +1712,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id,&#xA;  history_datetime, &#xA;  storage_domain_id, &#xA;  available_disk_size_gb, &#xA;  used_disk_size_gb, &#xA;  storage_configuration_version&#xA;FROM storage_domain_samples_history&#xD;&#xA;WHERE history_datetime >= (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   WHERE var_name = 'lastHourAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; storage_domain_id&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id,&#xA;  history_datetime, &#xA;  storage_domain_id, &#xA;  storage_domain_status,&#xA;  minutes_in_status,&#xA;  available_disk_size_gb, &#xA;  used_disk_size_gb, &#xA;  storage_configuration_version&#xA;FROM storage_domain_samples_history&#xD;&#xA;WHERE history_datetime >= (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   WHERE var_name = 'lastHourAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; storage_domain_id&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1724,6 +1724,10 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="storage_domain_id"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="storage_domain_status"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="minutes_in_status"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="available_disk_size_gb"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1740,6 +1744,8 @@
       <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" name="storage_domain_status" nullable="false" pattern="" sourceType="" type="id_Short"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
       <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1761,16 +1767,20 @@
     <metadata connector="FLOW" label="storage_domain_samples_history" name="storage_aggregate">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" name="storage_domain_status" nullable="false" pattern="" sourceType="" type="id_Short"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
       <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="storage_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row16.history_datetime)" type="id_Date"/>
         <mapperTableEntries name="storage_domain_id" expression="row16.storage_domain_id" type="id_Object"/>
+        <mapperTableEntries name="storage_domain_status" expression="row16.storage_domain_status" type="id_Short"/>
+        <mapperTableEntries name="minutes_in_status" expression="row16.minutes_in_status" type="id_Double"/>
         <mapperTableEntries name="available_disk_size_gb" expression="row16.available_disk_size_gb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="used_disk_size_gb" expression="row16.used_disk_size_gb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="storage_configuration_version" expression="row16.storage_configuration_version" type="id_Integer" nullable="true"/>
@@ -1779,6 +1789,8 @@
         <mapperTableEntries name="history_id" type="id_Integer"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="storage_domain_id" type="id_Object"/>
+        <mapperTableEntries name="storage_domain_status" type="id_Short"/>
+        <mapperTableEntries name="minutes_in_status" type="id_Double"/>
         <mapperTableEntries name="available_disk_size_gb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="used_disk_size_gb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="storage_configuration_version" type="id_Integer" nullable="true"/>
@@ -1792,14 +1804,20 @@
       <elementValue elementRef="INPUT_COLUMN" value="history_datetime"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="storage_domain_id"/>
       <elementValue elementRef="INPUT_COLUMN" value="storage_domain_id"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="storage_domain_status"/>
+      <elementValue elementRef="INPUT_COLUMN" value="storage_domain_status"/>
     </elementParameter>
     <elementParameter field="TABLE" name="OPERATIONS">
+      <elementValue elementRef="OUTPUT_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="FUNCTION" value="sum"/>
+      <elementValue elementRef="INPUT_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="IGNORE_NULL" value="false"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="available_disk_size_gb"/>
-      <elementValue elementRef="FUNCTION" value="avg"/>
+      <elementValue elementRef="FUNCTION" value="max"/>
       <elementValue elementRef="INPUT_COLUMN" value="available_disk_size_gb"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="used_disk_size_gb"/>
-      <elementValue elementRef="FUNCTION" value="avg"/>
+      <elementValue elementRef="FUNCTION" value="max"/>
       <elementValue elementRef="INPUT_COLUMN" value="used_disk_size_gb"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="storage_configuration_version"/>
@@ -1818,6 +1836,8 @@
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tAggregateRow_6">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" name="storage_domain_status" nullable="false" pattern="" sourceType="" type="id_Short"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
       <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1852,6 +1872,16 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="storage_domain_status"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="available_disk_size_gb"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1878,6 +1908,8 @@
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCOutput_11">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" name="storage_domain_status" nullable="false" pattern="" sourceType="" type="id_Short"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
       <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1885,6 +1917,8 @@
     <metadata connector="REJECT" label="storage_domain_hourly_history" name="REJECT">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
+      <column comment="" key="false" name="storage_domain_status" nullable="false" pattern="" sourceType="" type="id_Short"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
       <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
       <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -2507,7 +2541,7 @@
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_users_aggregate_history">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row13.history_datetime) " type="id_Date"/>
@@ -3733,6 +3767,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="available_disk_size_gb"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="storage_domain_status"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -3764,6 +3804,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="available_disk_size_gb"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="storage_domain_status"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -3790,6 +3836,12 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="storage_configuration_version"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="storage_domain_status"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="minutes_in_status"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>

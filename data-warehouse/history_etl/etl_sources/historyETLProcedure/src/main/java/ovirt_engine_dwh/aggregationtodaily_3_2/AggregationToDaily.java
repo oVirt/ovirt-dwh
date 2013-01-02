@@ -12816,6 +12816,18 @@ public class AggregationToDaily implements TalendJob {
 			return this.storage_domain_id;
 		}
 
+		public short storage_domain_status;
+
+		public short getStorage_domain_status() {
+			return this.storage_domain_status;
+		}
+
+		public double minutes_in_status;
+
+		public double getMinutes_in_status() {
+			return this.minutes_in_status;
+		}
+
 		public Integer available_disk_size_gb;
 
 		public Integer getAvailable_disk_size_gb() {
@@ -12891,6 +12903,10 @@ public class AggregationToDaily implements TalendJob {
 
 					this.storage_domain_id = (Object) dis.readObject();
 
+					this.storage_domain_status = dis.readShort();
+
+					this.minutes_in_status = dis.readDouble();
+
 					this.available_disk_size_gb = readInteger(dis);
 
 					this.used_disk_size_gb = readInteger(dis);
@@ -12920,6 +12936,14 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeObject(this.storage_domain_id);
 
+				// short
+
+				dos.writeShort(this.storage_domain_status);
+
+				// double
+
+				dos.writeDouble(this.minutes_in_status);
+
 				// Integer
 
 				writeInteger(this.available_disk_size_gb, dos);
@@ -12945,6 +12969,9 @@ public class AggregationToDaily implements TalendJob {
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",storage_domain_id=" + String.valueOf(storage_domain_id));
+			sb.append(",storage_domain_status="
+					+ String.valueOf(storage_domain_status));
+			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",available_disk_size_gb="
 					+ String.valueOf(available_disk_size_gb));
 			sb.append(",used_disk_size_gb=" + String.valueOf(used_disk_size_gb));
@@ -13006,6 +13033,18 @@ public class AggregationToDaily implements TalendJob {
 			return this.storage_domain_id;
 		}
 
+		public short storage_domain_status;
+
+		public short getStorage_domain_status() {
+			return this.storage_domain_status;
+		}
+
+		public double minutes_in_status;
+
+		public double getMinutes_in_status() {
+			return this.minutes_in_status;
+		}
+
 		public Integer available_disk_size_gb;
 
 		public Integer getAvailable_disk_size_gb() {
@@ -13081,6 +13120,10 @@ public class AggregationToDaily implements TalendJob {
 
 					this.storage_domain_id = (Object) dis.readObject();
 
+					this.storage_domain_status = dis.readShort();
+
+					this.minutes_in_status = dis.readDouble();
+
 					this.available_disk_size_gb = readInteger(dis);
 
 					this.used_disk_size_gb = readInteger(dis);
@@ -13110,6 +13153,14 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeObject(this.storage_domain_id);
 
+				// short
+
+				dos.writeShort(this.storage_domain_status);
+
+				// double
+
+				dos.writeDouble(this.minutes_in_status);
+
 				// Integer
 
 				writeInteger(this.available_disk_size_gb, dos);
@@ -13135,6 +13186,9 @@ public class AggregationToDaily implements TalendJob {
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",storage_domain_id=" + String.valueOf(storage_domain_id));
+			sb.append(",storage_domain_status="
+					+ String.valueOf(storage_domain_status));
+			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",available_disk_size_gb="
 					+ String.valueOf(available_disk_size_gb));
 			sb.append(",used_disk_size_gb=" + String.valueOf(used_disk_size_gb));
@@ -13196,6 +13250,18 @@ public class AggregationToDaily implements TalendJob {
 			return this.storage_domain_id;
 		}
 
+		public short storage_domain_status;
+
+		public short getStorage_domain_status() {
+			return this.storage_domain_status;
+		}
+
+		public double minutes_in_status;
+
+		public double getMinutes_in_status() {
+			return this.minutes_in_status;
+		}
+
 		public Integer available_disk_size_gb;
 
 		public Integer getAvailable_disk_size_gb() {
@@ -13271,6 +13337,10 @@ public class AggregationToDaily implements TalendJob {
 
 					this.storage_domain_id = (Object) dis.readObject();
 
+					this.storage_domain_status = dis.readShort();
+
+					this.minutes_in_status = dis.readDouble();
+
 					this.available_disk_size_gb = readInteger(dis);
 
 					this.used_disk_size_gb = readInteger(dis);
@@ -13300,6 +13370,14 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeObject(this.storage_domain_id);
 
+				// short
+
+				dos.writeShort(this.storage_domain_status);
+
+				// double
+
+				dos.writeDouble(this.minutes_in_status);
+
 				// Integer
 
 				writeInteger(this.available_disk_size_gb, dos);
@@ -13325,6 +13403,9 @@ public class AggregationToDaily implements TalendJob {
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",storage_domain_id=" + String.valueOf(storage_domain_id));
+			sb.append(",storage_domain_status="
+					+ String.valueOf(storage_domain_status));
+			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",available_disk_size_gb="
 					+ String.valueOf(available_disk_size_gb));
 			sb.append(",used_disk_size_gb=" + String.valueOf(used_disk_size_gb));
@@ -13390,6 +13471,18 @@ public class AggregationToDaily implements TalendJob {
 
 		public Object getStorage_domain_id() {
 			return this.storage_domain_id;
+		}
+
+		public short storage_domain_status;
+
+		public short getStorage_domain_status() {
+			return this.storage_domain_status;
+		}
+
+		public double minutes_in_status;
+
+		public double getMinutes_in_status() {
+			return this.minutes_in_status;
 		}
 
 		public Integer available_disk_size_gb;
@@ -13469,6 +13562,10 @@ public class AggregationToDaily implements TalendJob {
 
 					this.storage_domain_id = (Object) dis.readObject();
 
+					this.storage_domain_status = dis.readShort();
+
+					this.minutes_in_status = dis.readDouble();
+
 					this.available_disk_size_gb = readInteger(dis);
 
 					this.used_disk_size_gb = readInteger(dis);
@@ -13502,6 +13599,14 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeObject(this.storage_domain_id);
 
+				// short
+
+				dos.writeShort(this.storage_domain_status);
+
+				// double
+
+				dos.writeDouble(this.minutes_in_status);
+
 				// Integer
 
 				writeInteger(this.available_disk_size_gb, dos);
@@ -13528,6 +13633,9 @@ public class AggregationToDaily implements TalendJob {
 			sb.append("history_id=" + String.valueOf(history_id));
 			sb.append(",history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",storage_domain_id=" + String.valueOf(storage_domain_id));
+			sb.append(",storage_domain_status="
+					+ String.valueOf(storage_domain_status));
+			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",available_disk_size_gb="
 					+ String.valueOf(available_disk_size_gb));
 			sb.append(",used_disk_size_gb=" + String.valueOf(used_disk_size_gb));
@@ -13817,12 +13925,11 @@ public class AggregationToDaily implements TalendJob {
 
 					java.util.Date history_datetime;
 					Object storage_domain_id;
-					Double available_disk_size_gb_sum;
-					int available_disk_size_gb_count = 0;
+					short storage_domain_status;
+					BigDecimal minutes_in_status_sum;
 
-					Double used_disk_size_gb_sum;
-					int used_disk_size_gb_count = 0;
-
+					Integer available_disk_size_gb_max;
+					Integer used_disk_size_gb_max;
 					Integer storage_configuration_version_last;
 
 					@Override
@@ -13840,6 +13947,9 @@ public class AggregationToDaily implements TalendJob {
 									* result
 									+ ((this.storage_domain_id == null) ? 0
 											: this.storage_domain_id.hashCode());
+
+							result = prime * result
+									+ (int) this.storage_domain_status;
 
 							this.hashCode = result;
 							this.hashCodeDirty = false;
@@ -13869,6 +13979,9 @@ public class AggregationToDaily implements TalendJob {
 								return false;
 						} else if (!this.storage_domain_id
 								.equals(other.storage_domain_id))
+							return false;
+
+						if (this.storage_domain_status != other.storage_domain_status)
 							return false;
 
 						return true;
@@ -13932,7 +14045,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_11 = conn_tJDBCInput_11
 						.createStatement();
 
-				String dbquery_tJDBCInput_11 = "SELECT     history_id,     history_datetime,     storage_domain_id,     available_disk_size_gb,     used_disk_size_gb,     storage_configuration_version  FROM storage_domain_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 storage_domain_id";
+				String dbquery_tJDBCInput_11 = "SELECT     history_id,     history_datetime,     storage_domain_id,    storage_domain_status,   minutes_in_status,    available_disk_size_gb,     used_disk_size_gb,     storage_configuration_version  FROM storage_domain_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 storage_domain_id";
 
 				globalMap.put("tJDBCInput_11_QUERY", dbquery_tJDBCInput_11);
 
@@ -13987,27 +14100,53 @@ public class AggregationToDaily implements TalendJob {
 
 					}
 					if (colQtyInRs_tJDBCInput_11 < 4) {
-						row16.available_disk_size_gb = null;
+						row16.storage_domain_status = 0;
 					} else {
 
 						if (rs_tJDBCInput_11.getObject(4) != null) {
-							row16.available_disk_size_gb = rs_tJDBCInput_11
-									.getInt(4);
+							row16.storage_domain_status = rs_tJDBCInput_11
+									.getShort(4);
 						} else {
-							row16.available_disk_size_gb = null;
+							throw new RuntimeException(
+									"Null value in non-Nullable column");
 						}
 
-						if (rs_tJDBCInput_11.wasNull()) {
-							row16.available_disk_size_gb = null;
-						}
 					}
 					if (colQtyInRs_tJDBCInput_11 < 5) {
-						row16.used_disk_size_gb = null;
+						row16.minutes_in_status = 0;
 					} else {
 
 						if (rs_tJDBCInput_11.getObject(5) != null) {
+							row16.minutes_in_status = rs_tJDBCInput_11
+									.getDouble(5);
+						} else {
+							throw new RuntimeException(
+									"Null value in non-Nullable column");
+						}
+
+					}
+					if (colQtyInRs_tJDBCInput_11 < 6) {
+						row16.available_disk_size_gb = null;
+					} else {
+
+						if (rs_tJDBCInput_11.getObject(6) != null) {
+							row16.available_disk_size_gb = rs_tJDBCInput_11
+									.getInt(6);
+						} else {
+							row16.available_disk_size_gb = null;
+						}
+
+						if (rs_tJDBCInput_11.wasNull()) {
+							row16.available_disk_size_gb = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_11 < 7) {
+						row16.used_disk_size_gb = null;
+					} else {
+
+						if (rs_tJDBCInput_11.getObject(7) != null) {
 							row16.used_disk_size_gb = rs_tJDBCInput_11
-									.getInt(5);
+									.getInt(7);
 						} else {
 							row16.used_disk_size_gb = null;
 						}
@@ -14016,13 +14155,13 @@ public class AggregationToDaily implements TalendJob {
 							row16.used_disk_size_gb = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_11 < 6) {
+					if (colQtyInRs_tJDBCInput_11 < 8) {
 						row16.storage_configuration_version = null;
 					} else {
 
-						if (rs_tJDBCInput_11.getObject(6) != null) {
+						if (rs_tJDBCInput_11.getObject(8) != null) {
 							row16.storage_configuration_version = rs_tJDBCInput_11
-									.getInt(6);
+									.getInt(8);
 						} else {
 							row16.storage_configuration_version = null;
 						}
@@ -14091,6 +14230,8 @@ public class AggregationToDaily implements TalendJob {
 							storage_aggregate_tmp.history_datetime = RoutineHistoryETL
 									.startOfDay(row16.history_datetime);
 							storage_aggregate_tmp.storage_domain_id = row16.storage_domain_id;
+							storage_aggregate_tmp.storage_domain_status = row16.storage_domain_status;
+							storage_aggregate_tmp.minutes_in_status = row16.minutes_in_status;
 							storage_aggregate_tmp.available_disk_size_gb = row16.available_disk_size_gb;
 							storage_aggregate_tmp.used_disk_size_gb = row16.used_disk_size_gb;
 							storage_aggregate_tmp.storage_configuration_version = row16.storage_configuration_version;
@@ -14117,6 +14258,7 @@ public class AggregationToDaily implements TalendJob {
 
 							operation_finder_tAggregateRow_6.history_datetime = storage_aggregate.history_datetime;
 							operation_finder_tAggregateRow_6.storage_domain_id = storage_aggregate.storage_domain_id;
+							operation_finder_tAggregateRow_6.storage_domain_status = storage_aggregate.storage_domain_status;
 
 							operation_finder_tAggregateRow_6.hashCodeDirty = true;
 
@@ -14131,6 +14273,7 @@ public class AggregationToDaily implements TalendJob {
 
 								operation_result_tAggregateRow_6.history_datetime = operation_finder_tAggregateRow_6.history_datetime;
 								operation_result_tAggregateRow_6.storage_domain_id = operation_finder_tAggregateRow_6.storage_domain_id;
+								operation_result_tAggregateRow_6.storage_domain_status = operation_finder_tAggregateRow_6.storage_domain_status;
 
 								isFirstAdd_tAggregateRow_6 = true;
 
@@ -14140,28 +14283,34 @@ public class AggregationToDaily implements TalendJob {
 
 							} // G_OutMain_AggR_001
 
+							if (operation_result_tAggregateRow_6.minutes_in_status_sum == null) {
+								operation_result_tAggregateRow_6.minutes_in_status_sum = new BigDecimal(
+										0).setScale(0);
+							}
+							operation_result_tAggregateRow_6.minutes_in_status_sum = operation_result_tAggregateRow_6.minutes_in_status_sum
+									.add(new BigDecimal(
+											String.valueOf(storage_aggregate.minutes_in_status)));
+
 							if (storage_aggregate.available_disk_size_gb != null) { // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_6.available_disk_size_gb_count++;
+								if (operation_result_tAggregateRow_6.available_disk_size_gb_max == null
+										|| storage_aggregate.available_disk_size_gb > operation_result_tAggregateRow_6.available_disk_size_gb_max
 
-								if (operation_result_tAggregateRow_6.available_disk_size_gb_sum == null) {
-									operation_result_tAggregateRow_6.available_disk_size_gb_sum = (double) 0;
+								) {
+									operation_result_tAggregateRow_6.available_disk_size_gb_max = storage_aggregate.available_disk_size_gb;
 								}
 
-								if (storage_aggregate.available_disk_size_gb != null)
-									operation_result_tAggregateRow_6.available_disk_size_gb_sum += storage_aggregate.available_disk_size_gb;
 							} // G_OutMain_AggR_546
 
 							if (storage_aggregate.used_disk_size_gb != null) { // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_6.used_disk_size_gb_count++;
+								if (operation_result_tAggregateRow_6.used_disk_size_gb_max == null
+										|| storage_aggregate.used_disk_size_gb > operation_result_tAggregateRow_6.used_disk_size_gb_max
 
-								if (operation_result_tAggregateRow_6.used_disk_size_gb_sum == null) {
-									operation_result_tAggregateRow_6.used_disk_size_gb_sum = (double) 0;
+								) {
+									operation_result_tAggregateRow_6.used_disk_size_gb_max = storage_aggregate.used_disk_size_gb;
 								}
 
-								if (storage_aggregate.used_disk_size_gb != null)
-									operation_result_tAggregateRow_6.used_disk_size_gb_sum += storage_aggregate.used_disk_size_gb;
 							} // G_OutMain_AggR_546
 
 							if (storage_aggregate.storage_configuration_version != null) { // G_OutMain_AggR_546
@@ -14260,7 +14409,7 @@ public class AggregationToDaily implements TalendJob {
 
 				String insert_tJDBCOutput_11 = "INSERT INTO "
 						+ "storage_domain_daily_history"
-						+ " (history_datetime,storage_domain_id,available_disk_size_gb,used_disk_size_gb,storage_configuration_version) VALUES (?,?,?,?,?)";
+						+ " (history_datetime,storage_domain_id,storage_domain_status,minutes_in_status,available_disk_size_gb,used_disk_size_gb,storage_configuration_version) VALUES (?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_11 = connection_tJDBCOutput_11
 						.prepareStatement(insert_tJDBCOutput_11);
 
@@ -14300,34 +14449,20 @@ public class AggregationToDaily implements TalendJob {
 
 					row17.storage_domain_id = aggregated_row_tAggregateRow_6.storage_domain_id;
 
-					if (aggregated_row_tAggregateRow_6.available_disk_size_gb_count > 0) {
+					row17.storage_domain_status = aggregated_row_tAggregateRow_6.storage_domain_status;
 
-						double row17_available_disk_size_gb_temp = (double) aggregated_row_tAggregateRow_6.available_disk_size_gb_sum
-								/ (double) aggregated_row_tAggregateRow_6.available_disk_size_gb_count;
-
-						row17.available_disk_size_gb = (int) row17_available_disk_size_gb_temp;
-
-					} else {
-						String count = "0";
-
-						row17.available_disk_size_gb = ParserUtils
-								.parseTo_Integer(count);
-
-					}
-					if (aggregated_row_tAggregateRow_6.used_disk_size_gb_count > 0) {
-
-						double row17_used_disk_size_gb_temp = (double) aggregated_row_tAggregateRow_6.used_disk_size_gb_sum
-								/ (double) aggregated_row_tAggregateRow_6.used_disk_size_gb_count;
-
-						row17.used_disk_size_gb = (int) row17_used_disk_size_gb_temp;
+					if (aggregated_row_tAggregateRow_6.minutes_in_status_sum != null) {
+						row17.minutes_in_status = aggregated_row_tAggregateRow_6.minutes_in_status_sum
+								.doubleValue();
 
 					} else {
-						String count = "0";
 
-						row17.used_disk_size_gb = ParserUtils
-								.parseTo_Integer(count);
+						row17.minutes_in_status = 0;
 
 					}
+
+					row17.available_disk_size_gb = aggregated_row_tAggregateRow_6.available_disk_size_gb_max;
+					row17.used_disk_size_gb = aggregated_row_tAggregateRow_6.used_disk_size_gb_max;
 					row17.storage_configuration_version = aggregated_row_tAggregateRow_6.storage_configuration_version_last;
 
 					tos_count_tAggregateRow_6_AGGIN++;
@@ -14358,23 +14493,28 @@ public class AggregationToDaily implements TalendJob {
 								row17.storage_domain_id);
 					}
 
+					pstmt_tJDBCOutput_11.setShort(3,
+							row17.storage_domain_status);
+
+					pstmt_tJDBCOutput_11.setDouble(4, row17.minutes_in_status);
+
 					if (row17.available_disk_size_gb == null) {
-						pstmt_tJDBCOutput_11.setNull(3, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_11.setNull(5, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_11.setInt(3,
+						pstmt_tJDBCOutput_11.setInt(5,
 								row17.available_disk_size_gb);
 					}
 
 					if (row17.used_disk_size_gb == null) {
-						pstmt_tJDBCOutput_11.setNull(4, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_11.setNull(6, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_11.setInt(4, row17.used_disk_size_gb);
+						pstmt_tJDBCOutput_11.setInt(6, row17.used_disk_size_gb);
 					}
 
 					if (row17.storage_configuration_version == null) {
-						pstmt_tJDBCOutput_11.setNull(5, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_11.setNull(7, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_11.setInt(5,
+						pstmt_tJDBCOutput_11.setInt(7,
 								row17.storage_configuration_version);
 					}
 
@@ -23383,6 +23523,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 675053 characters generated by Talend Open Studio for Data Integration on the
- * November 19, 2012 6:19:07 PM IST
+ * 679174 characters generated by Talend Open Studio for Data Integration on the
+ * January 2, 2013 1:56:57 PM IST
  ************************************************************************************************/

@@ -2503,6 +2503,18 @@ public class StatisticsSync implements TalendJob {
 			return this.storage_domain_id;
 		}
 
+		public Short storage_domain_status;
+
+		public Short getStorage_domain_status() {
+			return this.storage_domain_status;
+		}
+
+		public double minutes_in_status;
+
+		public double getMinutes_in_status() {
+			return this.minutes_in_status;
+		}
+
 		public Integer available_disk_size_gb;
 
 		public Integer getAvailable_disk_size_gb() {
@@ -2578,6 +2590,15 @@ public class StatisticsSync implements TalendJob {
 
 					this.storage_domain_id = (Object) dis.readObject();
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.storage_domain_status = null;
+					} else {
+						this.storage_domain_status = dis.readShort();
+					}
+
+					this.minutes_in_status = dis.readDouble();
+
 					this.available_disk_size_gb = readInteger(dis);
 
 					this.used_disk_size_gb = readInteger(dis);
@@ -2607,6 +2628,19 @@ public class StatisticsSync implements TalendJob {
 
 				dos.writeObject(this.storage_domain_id);
 
+				// Short
+
+				if (this.storage_domain_status == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.storage_domain_status);
+				}
+
+				// double
+
+				dos.writeDouble(this.minutes_in_status);
+
 				// Integer
 
 				writeInteger(this.available_disk_size_gb, dos);
@@ -2632,6 +2666,9 @@ public class StatisticsSync implements TalendJob {
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",storage_domain_id=" + String.valueOf(storage_domain_id));
+			sb.append(",storage_domain_status="
+					+ String.valueOf(storage_domain_status));
+			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",available_disk_size_gb="
 					+ String.valueOf(available_disk_size_gb));
 			sb.append(",used_disk_size_gb=" + String.valueOf(used_disk_size_gb));
@@ -2693,6 +2730,12 @@ public class StatisticsSync implements TalendJob {
 			return this.storage_domain_join_id;
 		}
 
+		public Short storage_domain_status;
+
+		public Short getStorage_domain_status() {
+			return this.storage_domain_status;
+		}
+
 		public Integer available_disk_size_gb;
 
 		public Integer getAvailable_disk_size_gb() {
@@ -2774,6 +2817,13 @@ public class StatisticsSync implements TalendJob {
 
 					this.storage_domain_join_id = readString(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.storage_domain_status = null;
+					} else {
+						this.storage_domain_status = dis.readShort();
+					}
+
 					this.available_disk_size_gb = readInteger(dis);
 
 					this.used_disk_size_gb = readInteger(dis);
@@ -2801,6 +2851,15 @@ public class StatisticsSync implements TalendJob {
 
 				writeString(this.storage_domain_join_id, dos);
 
+				// Short
+
+				if (this.storage_domain_status == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.storage_domain_status);
+				}
+
 				// Integer
 
 				writeInteger(this.available_disk_size_gb, dos);
@@ -2822,6 +2881,8 @@ public class StatisticsSync implements TalendJob {
 			sb.append("[");
 			sb.append("storage_domain_id=" + String.valueOf(storage_domain_id));
 			sb.append(",storage_domain_join_id=" + storage_domain_join_id);
+			sb.append(",storage_domain_status="
+					+ String.valueOf(storage_domain_status));
 			sb.append(",available_disk_size_gb="
 					+ String.valueOf(available_disk_size_gb));
 			sb.append(",used_disk_size_gb=" + String.valueOf(used_disk_size_gb));
@@ -2881,6 +2942,12 @@ public class StatisticsSync implements TalendJob {
 			return this.storage_domain_join_id;
 		}
 
+		public Short storage_domain_status;
+
+		public Short getStorage_domain_status() {
+			return this.storage_domain_status;
+		}
+
 		public Integer available_disk_size_gb;
 
 		public Integer getAvailable_disk_size_gb() {
@@ -2962,6 +3029,13 @@ public class StatisticsSync implements TalendJob {
 
 					this.storage_domain_join_id = readString(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.storage_domain_status = null;
+					} else {
+						this.storage_domain_status = dis.readShort();
+					}
+
 					this.available_disk_size_gb = readInteger(dis);
 
 					this.used_disk_size_gb = readInteger(dis);
@@ -2989,6 +3063,15 @@ public class StatisticsSync implements TalendJob {
 
 				writeString(this.storage_domain_join_id, dos);
 
+				// Short
+
+				if (this.storage_domain_status == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.storage_domain_status);
+				}
+
 				// Integer
 
 				writeInteger(this.available_disk_size_gb, dos);
@@ -3010,6 +3093,8 @@ public class StatisticsSync implements TalendJob {
 			sb.append("[");
 			sb.append("storage_domain_id=" + String.valueOf(storage_domain_id));
 			sb.append(",storage_domain_join_id=" + storage_domain_join_id);
+			sb.append(",storage_domain_status="
+					+ String.valueOf(storage_domain_status));
 			sb.append(",available_disk_size_gb="
 					+ String.valueOf(available_disk_size_gb));
 			sb.append(",used_disk_size_gb=" + String.valueOf(used_disk_size_gb));
@@ -3108,7 +3193,7 @@ public class StatisticsSync implements TalendJob {
 
 				String insert_tJDBCOutput_2 = "INSERT INTO "
 						+ "storage_domain_samples_history"
-						+ " (history_datetime,storage_domain_id,available_disk_size_gb,used_disk_size_gb,storage_configuration_version) VALUES (?,?,?,?,?)";
+						+ " (history_datetime,storage_domain_id,storage_domain_status,minutes_in_status,available_disk_size_gb,used_disk_size_gb,storage_configuration_version) VALUES (?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_2 = connection_tJDBCOutput_2
 						.prepareStatement(insert_tJDBCOutput_2);
 
@@ -3170,7 +3255,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_4 = conn_tJDBCInput_4
 						.createStatement();
 
-				String dbquery_tJDBCInput_4 = "SELECT     storage_domain_id,     upper(cast(storage_domain_id as char(36))) as storage_domain_join_id,    available_disk_size_gb,     used_disk_size_gb  FROM dwh_storage_domain_history_view";
+				String dbquery_tJDBCInput_4 = "SELECT     storage_domain_id,     upper(cast(storage_domain_id as char(36))) as storage_domain_join_id,   storage_domain_status,    available_disk_size_gb,     used_disk_size_gb  FROM dwh_storage_domain_history_view";
 
 				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
 
@@ -3216,12 +3301,27 @@ public class StatisticsSync implements TalendJob {
 						}
 					}
 					if (colQtyInRs_tJDBCInput_4 < 3) {
-						row44.available_disk_size_gb = null;
+						row44.storage_domain_status = null;
 					} else {
 
 						if (rs_tJDBCInput_4.getObject(3) != null) {
+							row44.storage_domain_status = rs_tJDBCInput_4
+									.getShort(3);
+						} else {
+							row44.storage_domain_status = null;
+						}
+
+						if (rs_tJDBCInput_4.wasNull()) {
+							row44.storage_domain_status = null;
+						}
+					}
+					if (colQtyInRs_tJDBCInput_4 < 4) {
+						row44.available_disk_size_gb = null;
+					} else {
+
+						if (rs_tJDBCInput_4.getObject(4) != null) {
 							row44.available_disk_size_gb = rs_tJDBCInput_4
-									.getInt(3);
+									.getInt(4);
 						} else {
 							row44.available_disk_size_gb = null;
 						}
@@ -3230,12 +3330,12 @@ public class StatisticsSync implements TalendJob {
 							row44.available_disk_size_gb = null;
 						}
 					}
-					if (colQtyInRs_tJDBCInput_4 < 4) {
+					if (colQtyInRs_tJDBCInput_4 < 5) {
 						row44.used_disk_size_gb = null;
 					} else {
 
-						if (rs_tJDBCInput_4.getObject(4) != null) {
-							row44.used_disk_size_gb = rs_tJDBCInput_4.getInt(4);
+						if (rs_tJDBCInput_4.getObject(5) != null) {
+							row44.used_disk_size_gb = rs_tJDBCInput_4.getInt(5);
 						} else {
 							row44.used_disk_size_gb = null;
 						}
@@ -3340,6 +3440,9 @@ public class StatisticsSync implements TalendJob {
 							// # Output table : 'storage_history'
 							storage_history_tmp.history_datetime = context.runTime;
 							storage_history_tmp.storage_domain_id = row44.storage_domain_id;
+							storage_history_tmp.storage_domain_status = row44.storage_domain_status;
+							storage_history_tmp.minutes_in_status = context.runInterleave
+									.doubleValue() / 60;
 							storage_history_tmp.available_disk_size_gb = row44.available_disk_size_gb;
 							storage_history_tmp.used_disk_size_gb = row44.used_disk_size_gb;
 							storage_history_tmp.storage_configuration_version = row43.history_id;
@@ -3383,29 +3486,40 @@ public class StatisticsSync implements TalendJob {
 									storage_history.storage_domain_id);
 						}
 
-						if (storage_history.available_disk_size_gb == null) {
+						if (storage_history.storage_domain_status == null) {
 							pstmt_tJDBCOutput_2.setNull(3,
 									java.sql.Types.INTEGER);
 						} else {
-							pstmt_tJDBCOutput_2.setInt(3,
+							pstmt_tJDBCOutput_2.setShort(3,
+									storage_history.storage_domain_status);
+						}
+
+						pstmt_tJDBCOutput_2.setDouble(4,
+								storage_history.minutes_in_status);
+
+						if (storage_history.available_disk_size_gb == null) {
+							pstmt_tJDBCOutput_2.setNull(5,
+									java.sql.Types.INTEGER);
+						} else {
+							pstmt_tJDBCOutput_2.setInt(5,
 									storage_history.available_disk_size_gb);
 						}
 
 						if (storage_history.used_disk_size_gb == null) {
-							pstmt_tJDBCOutput_2.setNull(4,
+							pstmt_tJDBCOutput_2.setNull(6,
 									java.sql.Types.INTEGER);
 						} else {
-							pstmt_tJDBCOutput_2.setInt(4,
+							pstmt_tJDBCOutput_2.setInt(6,
 									storage_history.used_disk_size_gb);
 						}
 
 						if (storage_history.storage_configuration_version == null) {
-							pstmt_tJDBCOutput_2.setNull(5,
+							pstmt_tJDBCOutput_2.setNull(7,
 									java.sql.Types.INTEGER);
 						} else {
 							pstmt_tJDBCOutput_2
 									.setInt(
-											5,
+											7,
 											storage_history.storage_configuration_version);
 						}
 
@@ -16285,6 +16399,6 @@ public class StatisticsSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 452569 characters generated by Talend Open Studio for Data Integration on the
- * November 19, 2012 6:19:01 PM IST
+ * 456076 characters generated by Talend Open Studio for Data Integration on the
+ * January 2, 2013 1:56:52 PM IST
  ************************************************************************************************/
