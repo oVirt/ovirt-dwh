@@ -1444,7 +1444,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_name, &#xD;&#xA;  vm_description, &#xD;&#xA;  vm_type, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  template_id, &#xD;&#xA;  template_name, &#xD;&#xA;  cpu_per_socket, &#xD;&#xA;  number_of_sockets, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  operating_system, &#xD;&#xA;  ad_domain, &#xD;&#xA;  default_host,&#xD;&#xA;  upper(cast(default_host as char(36))) as default_host_join_id,  &#xD;&#xA;  high_availability, &#xD;&#xA;  initialized, &#xD;&#xA;  stateless, &#xD;&#xA;  fail_back,  &#xD;&#xA;  auto_suspend, &#xD;&#xA;  usb_policy, &#xD;&#xA;  time_zone, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_vm_configuration_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_name, &#xD;&#xA;  vm_description, &#xD;&#xA;  vm_type, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  template_id, &#xD;&#xA;  template_name, &#xD;&#xA;  cpu_per_socket, &#xD;&#xA;  number_of_sockets, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  operating_system, &#xD;&#xA;  ad_domain, &#xD;&#xA;  default_host,&#xD;&#xA;  upper(cast(default_host as char(36))) as default_host_join_id,  &#xD;&#xA;  high_availability, &#xD;&#xA;  initialized, &#xD;&#xA;  stateless, &#xD;&#xA;  fail_back,  &#xD;&#xA;  usb_policy, &#xD;&#xA;  time_zone, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_vm_configuration_history_view&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1489,13 +1489,11 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="fail_back"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="auto_suspend"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="usb_policy"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="time_zone"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="create_date"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1525,7 +1523,6 @@
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="stateless" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="fail_back" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
-      <column comment="" key="false" length="1" name="auto_suspend" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="2" name="usb_policy" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
@@ -1563,7 +1560,6 @@
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="stateless" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="fail_back" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
-      <column comment="" defaultValue="&quot;false&quot;" key="false" length="1" name="auto_suspend" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="2" name="usb_policy" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1573,7 +1569,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_configuration">
         <mapperTableEntries name="vm_id" expression="row4.vm_id" type="id_Object"/>
@@ -1593,7 +1589,6 @@
         <mapperTableEntries name="initialized" expression="row4.initialized" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="stateless" expression="row4.stateless" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="fail_back" expression="row4.fail_back" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="auto_suspend" expression="row4.auto_suspend" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="usb_policy" expression="row4.usb_policy" type="id_Short" nullable="true"/>
         <mapperTableEntries name="time_zone" expression="StringHandling.TRIM(row4.time_zone)" type="id_String" nullable="true"/>
         <mapperTableEntries name="cluster_configuration_version" expression="row39.history_id " type="id_Integer" nullable="true"/>
@@ -1622,7 +1617,6 @@
         <mapperTableEntries name="initialized" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="stateless" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="fail_back" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="auto_suspend" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="usb_policy" type="id_Short" nullable="true"/>
         <mapperTableEntries name="time_zone" type="id_String" nullable="true"/>
         <mapperTableEntries name="create_date" type="id_Date" nullable="true"/>
@@ -1814,11 +1808,6 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="auto_suspend"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="usb_policy"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1880,7 +1869,6 @@
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="stateless" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="fail_back" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
-      <column comment="" defaultValue="&quot;false&quot;" key="false" length="1" name="auto_suspend" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="2" name="usb_policy" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1907,7 +1895,6 @@
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="stateless" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="fail_back" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
-      <column comment="" defaultValue="&quot;false&quot;" key="false" length="1" name="auto_suspend" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="2" name="usb_policy" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -3903,7 +3890,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;vm_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;&#x9;&#x9;vm_name, &#xD;&#xA;&#x9;&#x9;vm_description, &#xD;&#xA;&#x9;&#x9;vm_type, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;template_id, &#xD;&#xA;&#x9;&#x9;template_name, &#xD;&#xA;&#x9;&#x9;cpu_per_socket, &#xD;&#xA;&#x9;&#x9;number_of_sockets, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;operating_system, &#xD;&#xA;&#x9;&#x9;ad_domain, &#xD;&#xA;&#x9;&#x9;default_host, &#xD;&#xA;&#x9;&#x9;high_availability, &#xD;&#xA;&#x9;&#x9;initialized, &#xD;&#xA;&#x9;&#x9;stateless, &#xD;&#xA;&#x9;&#x9;fail_back, &#xD;&#xA;&#x9;&#x9;auto_suspend, &#xD;&#xA;&#x9;&#x9;usb_policy, &#xD;&#xA;&#x9;&#x9;time_zone, &#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;default_host_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v3_2_latest_configuration_vms&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;vm_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;&#x9;&#x9;vm_name, &#xD;&#xA;&#x9;&#x9;vm_description, &#xD;&#xA;&#x9;&#x9;vm_type, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;template_id, &#xD;&#xA;&#x9;&#x9;template_name, &#xD;&#xA;&#x9;&#x9;cpu_per_socket, &#xD;&#xA;&#x9;&#x9;number_of_sockets, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;operating_system, &#xD;&#xA;&#x9;&#x9;ad_domain, &#xD;&#xA;&#x9;&#x9;default_host, &#xD;&#xA;&#x9;&#x9;high_availability, &#xD;&#xA;&#x9;&#x9;initialized, &#xD;&#xA;&#x9;&#x9;stateless, &#xD;&#xA;&#x9;&#x9;fail_back, &#xD;&#xA;&#x9;&#x9;usb_policy, &#xD;&#xA;&#x9;&#x9;time_zone, &#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;default_host_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v3_2_latest_configuration_vms&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -3948,17 +3935,15 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="fail_back"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="auto_suspend"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="usb_policy"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="time_zone"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="cluster_configuration_version"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="default_host_configuration_version"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="create_date"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -3988,7 +3973,6 @@
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="stateless" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="fail_back" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
-      <column comment="" key="false" length="1" name="auto_suspend" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="2" name="usb_policy" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -4061,7 +4045,6 @@
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="stateless" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="fail_back" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
-      <column comment="" defaultValue="&quot;false&quot;" key="false" length="1" name="auto_suspend" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="2" name="usb_policy" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -4071,7 +4054,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_vms" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="vm_id" expression="row25.vm_id" type="id_Object"/>
@@ -4091,7 +4074,6 @@
         <mapperTableEntries name="initialized" expression="row25.initialized" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="stateless" expression="row25.stateless" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="fail_back" expression="row25.fail_back" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="auto_suspend" expression="row25.auto_suspend" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="usb_policy" expression="row25.usb_policy" type="id_Short" nullable="true"/>
         <mapperTableEntries name="time_zone" expression="row25.time_zone" type="id_String" nullable="true"/>
         <mapperTableEntries name="cluster_configuration_version" expression="row25.cluster_configuration_version" type="id_Integer" nullable="true"/>
@@ -4120,7 +4102,6 @@
         <mapperTableEntries name="initialized" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="stateless" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="fail_back" type="id_Boolean" nullable="true"/>
-        <mapperTableEntries name="auto_suspend" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="usb_policy" type="id_Short" nullable="true"/>
         <mapperTableEntries name="time_zone" type="id_String" nullable="true"/>
         <mapperTableEntries name="cluster_configuration_version" type="id_Integer" nullable="true"/>
@@ -4237,11 +4218,6 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="auto_suspend"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="usb_policy"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -4303,7 +4279,6 @@
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="stateless" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="fail_back" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
-      <column comment="" defaultValue="&quot;false&quot;" key="false" length="1" name="auto_suspend" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="2" name="usb_policy" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -4330,7 +4305,6 @@
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="stateless" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="1" name="fail_back" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
-      <column comment="" defaultValue="&quot;false&quot;" key="false" length="1" name="auto_suspend" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean"/>
       <column comment="" key="false" length="2" name="usb_policy" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -6650,6 +6624,7 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
@@ -7139,7 +7114,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="insert_new_vm_device_connection">
         <mapperTableEntries name="vm_id" expression="row45.vm_id " type="id_Object"/>
