@@ -880,6 +880,50 @@ public class HistoryDelete implements TalendJob {
 
 	}
 
+	public void tJDBCInput_25_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCInput_25", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCInput_25_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCOutput_25_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCOutput_25", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCInput_25_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCInput_26_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCInput_26", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCInput_26_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCOutput_26_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCOutput_26", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCInput_26_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
 	public void talendLogs_LOGS_error(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1178,6 +1222,28 @@ public class HistoryDelete implements TalendJob {
 	}
 
 	public void tJDBCInput_24_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCInput_25_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCInput_26_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -10318,6 +10384,752 @@ public class HistoryDelete implements TalendJob {
 		globalMap.put("tJDBCInput_24_SUBPROCESS_STATE", 1);
 	}
 
+	public static class row25Struct implements
+			routines.system.IPersistableRow<row25Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryDelete = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_HistoryDelete = new byte[0];
+		protected static final int DEFAULT_HASHCODE = 1;
+		protected static final int PRIME = 31;
+		protected int hashCode = DEFAULT_HASHCODE;
+		public boolean hashCodeDirty = true;
+
+		public String loopKey;
+
+		public int history_id;
+
+		public int getHistory_id() {
+			return this.history_id;
+		}
+
+		@Override
+		public int hashCode() {
+			if (this.hashCodeDirty) {
+				final int prime = PRIME;
+				int result = DEFAULT_HASHCODE;
+
+				result = prime * result + (int) this.history_id;
+
+				this.hashCode = result;
+				this.hashCodeDirty = false;
+			}
+			return this.hashCode;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			final row25Struct other = (row25Struct) obj;
+
+			if (this.history_id != other.history_id)
+				return false;
+
+			return true;
+		}
+
+		public void copyDataTo(row25Struct other) {
+
+			other.history_id = this.history_id;
+
+		}
+
+		public void copyKeysDataTo(row25Struct other) {
+
+			other.history_id = this.history_id;
+
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryDelete) {
+
+				try {
+
+					int length = 0;
+
+					this.history_id = dis.readInt();
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// int
+
+				dos.writeInt(this.history_id);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("history_id=" + String.valueOf(history_id));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row25Struct other) {
+
+			int returnValue = -1;
+
+			returnValue = checkNullsAndCompare(this.history_id,
+					other.history_id);
+			if (returnValue != 0) {
+				return returnValue;
+			}
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tJDBCInput_25Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCInput_25_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row25Struct row25 = new row25Struct();
+
+				/**
+				 * [tJDBCOutput_25 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCOutput_25", false);
+				start_Hash.put("tJDBCOutput_25", System.currentTimeMillis());
+				currentComponent = "tJDBCOutput_25";
+
+				int tos_count_tJDBCOutput_25 = 0;
+
+				int deleteKeyCount_tJDBCOutput_25 = 1;
+				if (deleteKeyCount_tJDBCOutput_25 < 1) {
+					throw new RuntimeException(
+							"For delete, Schema must have a key");
+				}
+
+				int nb_line_tJDBCOutput_25 = 0;
+				int nb_line_update_tJDBCOutput_25 = 0;
+				int nb_line_inserted_tJDBCOutput_25 = 0;
+				int nb_line_deleted_tJDBCOutput_25 = 0;
+				int nb_line_rejected_tJDBCOutput_25 = 0;
+
+				int deletedCount_tJDBCOutput_25 = 0;
+				int updatedCount_tJDBCOutput_25 = 0;
+				int insertedCount_tJDBCOutput_25 = 0;
+				int rejectedCount_tJDBCOutput_25 = 0;
+
+				boolean whetherReject_tJDBCOutput_25 = false;
+
+				java.sql.Connection connection_tJDBCOutput_25 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				int batchSize_tJDBCOutput_25 = 10000;
+				int batchSizeCounter_tJDBCOutput_25 = 0;
+
+				String delete_tJDBCOutput_25 = "DELETE  FROM "
+						+ "statistics_vms_users_usage_hourly"
+						+ " WHERE history_id = ?";
+				java.sql.PreparedStatement pstmt_tJDBCOutput_25 = connection_tJDBCOutput_25
+						.prepareStatement(delete_tJDBCOutput_25);
+
+				/**
+				 * [tJDBCOutput_25 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCInput_25 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCInput_25", false);
+				start_Hash.put("tJDBCInput_25", System.currentTimeMillis());
+				currentComponent = "tJDBCInput_25";
+
+				int tos_count_tJDBCInput_25 = 0;
+
+				int nb_line_tJDBCInput_25 = 0;
+				java.sql.Connection conn_tJDBCInput_25 = null;
+				conn_tJDBCInput_25 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				java.sql.Statement stmt_tJDBCInput_25 = conn_tJDBCInput_25
+						.createStatement();
+
+				String dbquery_tJDBCInput_25 = "SELECT history_id  FROM statistics_vms_users_usage_hourly  WHERE history_datetime < '"
+						+ routines.RoutineHistoryETL.dateFormat(
+								routines.RoutineHistoryETL.manipulateDate(
+										context.runTime,
+										context.hoursToKeepHourly * -1, "HH"),
+								"yyyy-MM-dd HH:mm:ss")
+						+ "'"
+						+ context.limitRows;
+
+				globalMap.put("tJDBCInput_25_QUERY", dbquery_tJDBCInput_25);
+
+				java.sql.ResultSet rs_tJDBCInput_25 = stmt_tJDBCInput_25
+						.executeQuery(dbquery_tJDBCInput_25);
+				java.sql.ResultSetMetaData rsmd_tJDBCInput_25 = rs_tJDBCInput_25
+						.getMetaData();
+				int colQtyInRs_tJDBCInput_25 = rsmd_tJDBCInput_25
+						.getColumnCount();
+
+				String tmpContent_tJDBCInput_25 = null;
+				while (rs_tJDBCInput_25.next()) {
+					nb_line_tJDBCInput_25++;
+
+					if (colQtyInRs_tJDBCInput_25 < 1) {
+						row25.history_id = 0;
+					} else {
+
+						if (rs_tJDBCInput_25.getObject(1) != null) {
+							row25.history_id = rs_tJDBCInput_25.getInt(1);
+						} else {
+							throw new RuntimeException(
+									"Null value in non-Nullable column");
+						}
+
+					}
+
+					/**
+					 * [tJDBCInput_25 begin ] stop
+					 */
+					/**
+					 * [tJDBCInput_25 main ] start
+					 */
+
+					currentComponent = "tJDBCInput_25";
+
+					tos_count_tJDBCInput_25++;
+
+					/**
+					 * [tJDBCInput_25 main ] stop
+					 */
+
+					/**
+					 * [tJDBCOutput_25 main ] start
+					 */
+
+					currentComponent = "tJDBCOutput_25";
+
+					whetherReject_tJDBCOutput_25 = false;
+					pstmt_tJDBCOutput_25.setInt(1, row25.history_id);
+
+					try {
+						deletedCount_tJDBCOutput_25 = deletedCount_tJDBCOutput_25
+								+ pstmt_tJDBCOutput_25.executeUpdate();
+					} catch (Exception e) {
+						whetherReject_tJDBCOutput_25 = true;
+						throw (e);
+					}
+
+					nb_line_tJDBCOutput_25++;
+
+					tos_count_tJDBCOutput_25++;
+
+					/**
+					 * [tJDBCOutput_25 main ] stop
+					 */
+
+					/**
+					 * [tJDBCInput_25 end ] start
+					 */
+
+					currentComponent = "tJDBCInput_25";
+
+				}
+				stmt_tJDBCInput_25.close();
+
+				globalMap.put("tJDBCInput_25_NB_LINE", nb_line_tJDBCInput_25);
+
+				ok_Hash.put("tJDBCInput_25", true);
+				end_Hash.put("tJDBCInput_25", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCInput_25 end ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_25 end ] start
+				 */
+
+				currentComponent = "tJDBCOutput_25";
+
+				if (pstmt_tJDBCOutput_25 != null) {
+
+					pstmt_tJDBCOutput_25.close();
+
+				}
+
+				nb_line_deleted_tJDBCOutput_25 = nb_line_deleted_tJDBCOutput_25
+						+ deletedCount_tJDBCOutput_25;
+				nb_line_update_tJDBCOutput_25 = nb_line_update_tJDBCOutput_25
+						+ updatedCount_tJDBCOutput_25;
+				nb_line_inserted_tJDBCOutput_25 = nb_line_inserted_tJDBCOutput_25
+						+ insertedCount_tJDBCOutput_25;
+				nb_line_rejected_tJDBCOutput_25 = nb_line_rejected_tJDBCOutput_25
+						+ rejectedCount_tJDBCOutput_25;
+
+				globalMap.put("tJDBCOutput_25_NB_LINE", nb_line_tJDBCOutput_25);
+				globalMap.put("tJDBCOutput_25_NB_LINE_UPDATED",
+						nb_line_update_tJDBCOutput_25);
+				globalMap.put("tJDBCOutput_25_NB_LINE_INSERTED",
+						nb_line_inserted_tJDBCOutput_25);
+				globalMap.put("tJDBCOutput_25_NB_LINE_DELETED",
+						nb_line_deleted_tJDBCOutput_25);
+				globalMap.put("tJDBCOutput_25_NB_LINE_REJECTED",
+						nb_line_rejected_tJDBCOutput_25);
+
+				ok_Hash.put("tJDBCOutput_25", true);
+				end_Hash.put("tJDBCOutput_25", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCOutput_25 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJDBCInput_25_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row26Struct implements
+			routines.system.IPersistableRow<row26Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryDelete = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_HistoryDelete = new byte[0];
+		protected static final int DEFAULT_HASHCODE = 1;
+		protected static final int PRIME = 31;
+		protected int hashCode = DEFAULT_HASHCODE;
+		public boolean hashCodeDirty = true;
+
+		public String loopKey;
+
+		public int history_id;
+
+		public int getHistory_id() {
+			return this.history_id;
+		}
+
+		@Override
+		public int hashCode() {
+			if (this.hashCodeDirty) {
+				final int prime = PRIME;
+				int result = DEFAULT_HASHCODE;
+
+				result = prime * result + (int) this.history_id;
+
+				this.hashCode = result;
+				this.hashCodeDirty = false;
+			}
+			return this.hashCode;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			final row26Struct other = (row26Struct) obj;
+
+			if (this.history_id != other.history_id)
+				return false;
+
+			return true;
+		}
+
+		public void copyDataTo(row26Struct other) {
+
+			other.history_id = this.history_id;
+
+		}
+
+		public void copyKeysDataTo(row26Struct other) {
+
+			other.history_id = this.history_id;
+
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryDelete) {
+
+				try {
+
+					int length = 0;
+
+					this.history_id = dis.readInt();
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// int
+
+				dos.writeInt(this.history_id);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("history_id=" + String.valueOf(history_id));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row26Struct other) {
+
+			int returnValue = -1;
+
+			returnValue = checkNullsAndCompare(this.history_id,
+					other.history_id);
+			if (returnValue != 0) {
+				return returnValue;
+			}
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(), object2
+						.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tJDBCInput_26Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCInput_26_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row26Struct row26 = new row26Struct();
+
+				/**
+				 * [tJDBCOutput_26 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCOutput_26", false);
+				start_Hash.put("tJDBCOutput_26", System.currentTimeMillis());
+				currentComponent = "tJDBCOutput_26";
+
+				int tos_count_tJDBCOutput_26 = 0;
+
+				int deleteKeyCount_tJDBCOutput_26 = 1;
+				if (deleteKeyCount_tJDBCOutput_26 < 1) {
+					throw new RuntimeException(
+							"For delete, Schema must have a key");
+				}
+
+				int nb_line_tJDBCOutput_26 = 0;
+				int nb_line_update_tJDBCOutput_26 = 0;
+				int nb_line_inserted_tJDBCOutput_26 = 0;
+				int nb_line_deleted_tJDBCOutput_26 = 0;
+				int nb_line_rejected_tJDBCOutput_26 = 0;
+
+				int deletedCount_tJDBCOutput_26 = 0;
+				int updatedCount_tJDBCOutput_26 = 0;
+				int insertedCount_tJDBCOutput_26 = 0;
+				int rejectedCount_tJDBCOutput_26 = 0;
+
+				boolean whetherReject_tJDBCOutput_26 = false;
+
+				java.sql.Connection connection_tJDBCOutput_26 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				int batchSize_tJDBCOutput_26 = 10000;
+				int batchSizeCounter_tJDBCOutput_26 = 0;
+
+				String delete_tJDBCOutput_26 = "DELETE  FROM "
+						+ "statistics_vms_users_usage_daily"
+						+ " WHERE history_id = ?";
+				java.sql.PreparedStatement pstmt_tJDBCOutput_26 = connection_tJDBCOutput_26
+						.prepareStatement(delete_tJDBCOutput_26);
+
+				/**
+				 * [tJDBCOutput_26 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCInput_26 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCInput_26", false);
+				start_Hash.put("tJDBCInput_26", System.currentTimeMillis());
+				currentComponent = "tJDBCInput_26";
+
+				int tos_count_tJDBCInput_26 = 0;
+
+				int nb_line_tJDBCInput_26 = 0;
+				java.sql.Connection conn_tJDBCInput_26 = null;
+				conn_tJDBCInput_26 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				java.sql.Statement stmt_tJDBCInput_26 = conn_tJDBCInput_26
+						.createStatement();
+
+				String dbquery_tJDBCInput_26 = "SELECT history_id  FROM statistics_vms_users_usage_daily  WHERE history_datetime < '"
+						+ routines.RoutineHistoryETL.dateFormat(
+								routines.RoutineHistoryETL.manipulateDate(
+										context.runTime,
+										context.hoursToKeepDaily * -1, "HH"),
+								"yyyy-MM-dd HH:mm:ss")
+						+ "'"
+						+ context.limitRows;
+
+				globalMap.put("tJDBCInput_26_QUERY", dbquery_tJDBCInput_26);
+
+				java.sql.ResultSet rs_tJDBCInput_26 = stmt_tJDBCInput_26
+						.executeQuery(dbquery_tJDBCInput_26);
+				java.sql.ResultSetMetaData rsmd_tJDBCInput_26 = rs_tJDBCInput_26
+						.getMetaData();
+				int colQtyInRs_tJDBCInput_26 = rsmd_tJDBCInput_26
+						.getColumnCount();
+
+				String tmpContent_tJDBCInput_26 = null;
+				while (rs_tJDBCInput_26.next()) {
+					nb_line_tJDBCInput_26++;
+
+					if (colQtyInRs_tJDBCInput_26 < 1) {
+						row26.history_id = 0;
+					} else {
+
+						if (rs_tJDBCInput_26.getObject(1) != null) {
+							row26.history_id = rs_tJDBCInput_26.getInt(1);
+						} else {
+							throw new RuntimeException(
+									"Null value in non-Nullable column");
+						}
+
+					}
+
+					/**
+					 * [tJDBCInput_26 begin ] stop
+					 */
+					/**
+					 * [tJDBCInput_26 main ] start
+					 */
+
+					currentComponent = "tJDBCInput_26";
+
+					tos_count_tJDBCInput_26++;
+
+					/**
+					 * [tJDBCInput_26 main ] stop
+					 */
+
+					/**
+					 * [tJDBCOutput_26 main ] start
+					 */
+
+					currentComponent = "tJDBCOutput_26";
+
+					whetherReject_tJDBCOutput_26 = false;
+					pstmt_tJDBCOutput_26.setInt(1, row26.history_id);
+
+					try {
+						deletedCount_tJDBCOutput_26 = deletedCount_tJDBCOutput_26
+								+ pstmt_tJDBCOutput_26.executeUpdate();
+					} catch (Exception e) {
+						whetherReject_tJDBCOutput_26 = true;
+						throw (e);
+					}
+
+					nb_line_tJDBCOutput_26++;
+
+					tos_count_tJDBCOutput_26++;
+
+					/**
+					 * [tJDBCOutput_26 main ] stop
+					 */
+
+					/**
+					 * [tJDBCInput_26 end ] start
+					 */
+
+					currentComponent = "tJDBCInput_26";
+
+				}
+				stmt_tJDBCInput_26.close();
+
+				globalMap.put("tJDBCInput_26_NB_LINE", nb_line_tJDBCInput_26);
+
+				ok_Hash.put("tJDBCInput_26", true);
+				end_Hash.put("tJDBCInput_26", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCInput_26 end ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_26 end ] start
+				 */
+
+				currentComponent = "tJDBCOutput_26";
+
+				if (pstmt_tJDBCOutput_26 != null) {
+
+					pstmt_tJDBCOutput_26.close();
+
+				}
+
+				nb_line_deleted_tJDBCOutput_26 = nb_line_deleted_tJDBCOutput_26
+						+ deletedCount_tJDBCOutput_26;
+				nb_line_update_tJDBCOutput_26 = nb_line_update_tJDBCOutput_26
+						+ updatedCount_tJDBCOutput_26;
+				nb_line_inserted_tJDBCOutput_26 = nb_line_inserted_tJDBCOutput_26
+						+ insertedCount_tJDBCOutput_26;
+				nb_line_rejected_tJDBCOutput_26 = nb_line_rejected_tJDBCOutput_26
+						+ rejectedCount_tJDBCOutput_26;
+
+				globalMap.put("tJDBCOutput_26_NB_LINE", nb_line_tJDBCOutput_26);
+				globalMap.put("tJDBCOutput_26_NB_LINE_UPDATED",
+						nb_line_update_tJDBCOutput_26);
+				globalMap.put("tJDBCOutput_26_NB_LINE_INSERTED",
+						nb_line_inserted_tJDBCOutput_26);
+				globalMap.put("tJDBCOutput_26_NB_LINE_DELETED",
+						nb_line_deleted_tJDBCOutput_26);
+				globalMap.put("tJDBCOutput_26_NB_LINE_REJECTED",
+						nb_line_rejected_tJDBCOutput_26);
+
+				ok_Hash.put("tJDBCOutput_26", true);
+				end_Hash.put("tJDBCOutput_26", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCOutput_26 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJDBCInput_26_SUBPROCESS_STATE", 1);
+	}
+
 	public static class row_talendLogs_LOGSStruct implements
 			routines.system.IPersistableRow<row_talendLogs_LOGSStruct> {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryDelete = new byte[0];
@@ -12188,6 +13000,90 @@ public class HistoryDelete implements TalendJob {
 			}
 		}.start();
 
+		runningThreadCount.add(1);
+		new Thread() {
+			public void run() {
+				java.util.Map threadRunResultMap = new java.util.HashMap();
+				threadRunResultMap.put("errorCode", null);
+				threadRunResultMap.put("status", "");
+				threadLocal.set(threadRunResultMap);
+
+				try {
+					((java.util.Map) threadLocal.get()).put("errorCode", null);
+					tJDBCInput_25Process(globalMap);
+					if (!"failure".equals(((java.util.Map) threadLocal.get())
+							.get("status"))) {
+						((java.util.Map) threadLocal.get())
+								.put("status", "end");
+					}
+				} catch (TalendException e_tJDBCInput_25) {
+
+					e_tJDBCInput_25.printStackTrace();
+					globalMap.put("tJDBCInput_25_SUBPROCESS_STATE", -1);
+
+				} finally {
+				}
+
+				Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
+						.get()).get("errorCode"));
+				String localStatus = (String) (((java.util.Map) threadLocal
+						.get()).get("status"));
+				if (localErrorCode != null) {
+					if (errorCode == null
+							|| localErrorCode.compareTo(errorCode) > 0) {
+						errorCode = localErrorCode;
+					}
+				}
+				if (!status.equals("failure")) {
+					status = localStatus;
+				}
+
+				runningThreadCount.add(-1);
+			}
+		}.start();
+
+		runningThreadCount.add(1);
+		new Thread() {
+			public void run() {
+				java.util.Map threadRunResultMap = new java.util.HashMap();
+				threadRunResultMap.put("errorCode", null);
+				threadRunResultMap.put("status", "");
+				threadLocal.set(threadRunResultMap);
+
+				try {
+					((java.util.Map) threadLocal.get()).put("errorCode", null);
+					tJDBCInput_26Process(globalMap);
+					if (!"failure".equals(((java.util.Map) threadLocal.get())
+							.get("status"))) {
+						((java.util.Map) threadLocal.get())
+								.put("status", "end");
+					}
+				} catch (TalendException e_tJDBCInput_26) {
+
+					e_tJDBCInput_26.printStackTrace();
+					globalMap.put("tJDBCInput_26_SUBPROCESS_STATE", -1);
+
+				} finally {
+				}
+
+				Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
+						.get()).get("errorCode"));
+				String localStatus = (String) (((java.util.Map) threadLocal
+						.get()).get("status"));
+				if (localErrorCode != null) {
+					if (errorCode == null
+							|| localErrorCode.compareTo(errorCode) > 0) {
+						errorCode = localErrorCode;
+					}
+				}
+				if (!status.equals("failure")) {
+					status = localStatus;
+				}
+
+				runningThreadCount.add(-1);
+			}
+		}.start();
+
 		while (runningThreadCount.getCount() > 0) {
 			try {
 				Thread.sleep(10);
@@ -12295,6 +13191,6 @@ public class HistoryDelete implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 325796 characters generated by Talend Open Studio for Data Integration on the
- * November 19, 2012 6:19:08 PM IST
+ * 349575 characters generated by Talend Open Studio for Data Integration on the
+ * January 2, 2013 2:34:45 PM IST
  ************************************************************************************************/
