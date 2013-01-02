@@ -164,7 +164,7 @@ status() {
     if [ -f "$ETL_PID" ]; then
         read kpid < $ETL_PID
         if checkpid $kpid 2>&1; then
-            echo "$0 is running (${kpid})"
+            echo "$0 is running (pid ${kpid})"
             RETVAL="0"
         else
             echo "oVirt ETL service is not running for pid $kpid"
