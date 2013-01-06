@@ -1,1 +1,1 @@
-ALTER TABLE vm_configuration DROP COLUMN IF EXISTS auto_suspend;
+SELECT fn_db_drop_column('vm_configuration', 'auto_suspend');
