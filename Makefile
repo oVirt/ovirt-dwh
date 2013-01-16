@@ -36,7 +36,7 @@ JAVA_DIR=$(DATAROOT_DIR)/java
 PKG_JAVA_DIR=$(JAVA_DIR)/$(OVIRT_DWH_NAME)
 RPMBUILD=rpmbuild
 PYTHON=python
-PYTHON_DIR:=$(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib as f;print f()")
+PYTHON_DIR:=$(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib as f;print(f())")
 
 # RPM version
 APP_VERSION:=$(shell cat pom.xml | grep '<ovirt-dwh.version>' | awk -F\> '{print $$2}' | awk -F\< '{print $$1}')
@@ -60,7 +60,8 @@ MAVEN_OUTPUT_DIR=$(MAVEN_OUTPUT_DIR_DEFAULT)
 ARTIFACTS = \
 	historyETLProcedure \
 	talendRoutines \
-	advancedPersistentLookupLib
+	advancedPersistentLookupLib \
+	$(NULL)
 
 all: $(BUILD_FILE)
 
@@ -88,11 +89,9 @@ test:
 
 install: \
 	all \
-	install_without_maven
-
-install_without_maven: \
 	install_artifacts \
-	install_files
+	install_files \
+	$(NULL)
 
 tarball:
 	sed -e 's/@PACKAGE_VERSION@/$(RPM_VERSION)/g' \
