@@ -9,22 +9,23 @@
     <contextParameter comment="Enter the ovirt JDBC connection URL." name="ovirtEngineDbJdbcConnection" prompt="Enter the ovirt JDBC connection URL." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="jdbc:postgresql://localhost:5432/engine?stringtype=unspecified"/>
     <contextParameter comment="Enter the ovirt admin user's password." name="ovirtEngineDbPassword" prompt="Enter the ovirt admin user's password." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Password" value=""/>
     <contextParameter comment="Enter the ovirt admin database user." name="ovirtEngineDbUser" prompt="Enter the ovirt admin database user." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="postgres"/>
-    <contextParameter comment="Enter the oVirt Engine Portal address." name="ovirtEnginePortalAddress" prompt="ovirtEnginePortalAddress?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="localhost"/>
-    <contextParameter comment="Enter the oVirt Engine Portal connection protocol." name="ovirtEnginePortalConnectionProtocol" prompt="ovirtEnginePortalConnectionProtocol?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="http"/>
-    <contextParameter comment="Enter the oVirt Engine Portal port." name="ovirtEnginePortalPort" prompt="ovirtEnginePortalPort?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="8080"/>
     <contextParameter comment="Enter the JDBC driver class for the ovirt engine history database." name="ovirtEngineHistoryDbDriverClass" prompt="Enter the JDBC driver class for the ovirt engine history database." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="org.postgresql.Driver"/>
     <contextParameter comment="Enter the ovirt engine history JDBC connection URL." name="ovirtEngineHistoryDbJdbcConnection" prompt="Enter the ovirt engine history JDBC connection URL." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="jdbc:postgresql://localhost:5432/ovirt_engine_history?stringtype=unspecified"/>
     <contextParameter comment="Enter the ovirt engine history admin user's password." name="ovirtEngineHistoryDbPassword" prompt="Enter the ovirt engine history admin user's password." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Password" value=""/>
     <contextParameter comment="Enter the ovirt engine history admin database user." name="ovirtEngineHistoryDbUser" prompt="Enter the ovirt engine history admin database user." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="postgres"/>
+    <contextParameter comment="Enter the oVirt Engine Portal address." name="ovirtEnginePortalAddress" prompt="ovirtEnginePortalAddress?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="localhost"/>
+    <contextParameter comment="Enter the oVirt Engine Portal connection protocol." name="ovirtEnginePortalConnectionProtocol" prompt="ovirtEnginePortalConnectionProtocol?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="http"/>
+    <contextParameter comment="Enter the oVirt Engine Portal port." name="ovirtEnginePortalPort" prompt="ovirtEnginePortalPort?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="8080"/>
     <contextParameter comment="Enter the time to run the delete job. Can only run on round hour 24 hours clock." name="runDeleteTime" prompt="runDeleteTime?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="3"/>
     <contextParameter comment="Enter the run interleave in seconds" name="runInterleave" prompt="Enter the run interleave in seconds?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="60"/>
     <contextParameter comment="Start run time." name="runTime" prompt="runTime?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Date" value="yyyy-MM-dd HH:mm:ss.SSSSSS;2011-07-03 12:46:47.000000"/>
+    <contextParameter comment="Enter the amout of to wait between sending error events to audit log" name="timeBetweenErrorEvents" prompt="timeBetweenErrorEvents?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Long" value="300000"/>
   </context>
   <parameters>
     <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx1024M"/>
     <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="false"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="256"/>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="32"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="224"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="64"/>
     <elementParameter field="TEXT" name="SCHEMA_OPTIONS" value="none"/>
     <elementParameter field="TEXT" name="OEM_CUSTOM_ATTRIBUTE" value=""/>
     <elementParameter field="TEXT" name="HADOOP_APP_PATH" value=""/>
@@ -385,6 +386,27 @@
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tJava_5"/>
   </node>
+  <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-32" posY="288">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_6"/>
+    <elementParameter field="TEXT" name="URL" value="context.ovirtEngineDbJdbcConnection"/>
+    <elementParameter field="TABLE" name="DRIVER_JAR">
+      <elementValue elementRef="JAR_NAME" value="postgresql-8.4-701.jdbc4.jar"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="DRIVER_CLASS" value="context.ovirtEngineDbDriverClass"/>
+    <elementParameter field="TEXT" name="USER" value="context.ovirtEngineDbUser"/>
+    <elementParameter field="TEXT" name="PASS" value="context.ovirtEngineDbPassword"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
+    <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
+    <elementParameter field="CHECK" name="USE_SHARED_CONNECTION" value="true"/>
+    <elementParameter field="TEXT" name="SHARED_CONNECTION_NAME" value="&quot;engine-events&quot;"/>
+    <elementParameter field="CHECK" name="IS_USE_AUTO_COMMIT" value="true"/>
+    <elementParameter field="CHECK" name="AUTO_COMMIT" value="true"/>
+    <elementParameter field="TEXT" name="LABEL" value="engine-events"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter field="MEMO" name="COMMENT" value=""/>
+    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
+  </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_1" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_1" target="tJDBCConnection_2">
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2"/>
@@ -419,7 +441,7 @@
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk4"/>
   </connection>
-  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_5" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_5" target="tJDBCInput_1">
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_5" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_5" target="tJDBCConnection_6">
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk5"/>
   </connection>
@@ -467,6 +489,10 @@
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tJava_5" offsetLabelX="0" offsetLabelY="0" source="tJava_5" target="tInfiniteLoop_6">
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk5"/>
+  </connection>
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_6" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_6" target="tJDBCInput_1">
+    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk6"/>
   </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_1"/>
@@ -541,6 +567,11 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_5"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_6"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
   </subjob>

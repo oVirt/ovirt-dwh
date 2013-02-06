@@ -151,27 +151,6 @@ public class ParallelRun implements TalendJob {
 
 			}
 
-			if (ovirtEnginePortalAddress != null) {
-
-				this.setProperty("ovirtEnginePortalAddress",
-						ovirtEnginePortalAddress.toString());
-
-			}
-
-			if (ovirtEnginePortalConnectionProtocol != null) {
-
-				this.setProperty("ovirtEnginePortalConnectionProtocol",
-						ovirtEnginePortalConnectionProtocol.toString());
-
-			}
-
-			if (ovirtEnginePortalPort != null) {
-
-				this.setProperty("ovirtEnginePortalPort", ovirtEnginePortalPort
-						.toString());
-
-			}
-
 			if (ovirtEngineHistoryDbDriverClass != null) {
 
 				this.setProperty("ovirtEngineHistoryDbDriverClass",
@@ -197,6 +176,27 @@ public class ParallelRun implements TalendJob {
 
 				this.setProperty("ovirtEngineHistoryDbUser",
 						ovirtEngineHistoryDbUser.toString());
+
+			}
+
+			if (ovirtEnginePortalAddress != null) {
+
+				this.setProperty("ovirtEnginePortalAddress",
+						ovirtEnginePortalAddress.toString());
+
+			}
+
+			if (ovirtEnginePortalConnectionProtocol != null) {
+
+				this.setProperty("ovirtEnginePortalConnectionProtocol",
+						ovirtEnginePortalConnectionProtocol.toString());
+
+			}
+
+			if (ovirtEnginePortalPort != null) {
+
+				this.setProperty("ovirtEnginePortalPort", ovirtEnginePortalPort
+						.toString());
 
 			}
 
@@ -227,6 +227,13 @@ public class ParallelRun implements TalendJob {
 					this.setProperty("runTime", FormatterUtils.format_Date(
 							runTime, pattern_runTime));
 				}
+
+			}
+
+			if (timeBetweenErrorEvents != null) {
+
+				this.setProperty("timeBetweenErrorEvents",
+						timeBetweenErrorEvents.toString());
 
 			}
 
@@ -280,24 +287,6 @@ public class ParallelRun implements TalendJob {
 			return this.ovirtEngineDbUser;
 		}
 
-		public String ovirtEnginePortalAddress;
-
-		public String getOvirtEnginePortalAddress() {
-			return this.ovirtEnginePortalAddress;
-		}
-
-		public String ovirtEnginePortalConnectionProtocol;
-
-		public String getOvirtEnginePortalConnectionProtocol() {
-			return this.ovirtEnginePortalConnectionProtocol;
-		}
-
-		public String ovirtEnginePortalPort;
-
-		public String getOvirtEnginePortalPort() {
-			return this.ovirtEnginePortalPort;
-		}
-
 		public String ovirtEngineHistoryDbDriverClass;
 
 		public String getOvirtEngineHistoryDbDriverClass() {
@@ -322,6 +311,24 @@ public class ParallelRun implements TalendJob {
 			return this.ovirtEngineHistoryDbUser;
 		}
 
+		public String ovirtEnginePortalAddress;
+
+		public String getOvirtEnginePortalAddress() {
+			return this.ovirtEnginePortalAddress;
+		}
+
+		public String ovirtEnginePortalConnectionProtocol;
+
+		public String getOvirtEnginePortalConnectionProtocol() {
+			return this.ovirtEnginePortalConnectionProtocol;
+		}
+
+		public String ovirtEnginePortalPort;
+
+		public String getOvirtEnginePortalPort() {
+			return this.ovirtEnginePortalPort;
+		}
+
 		public Integer runDeleteTime;
 
 		public Integer getRunDeleteTime() {
@@ -338,6 +345,12 @@ public class ParallelRun implements TalendJob {
 
 		public java.util.Date getRunTime() {
 			return this.runTime;
+		}
+
+		public Long timeBetweenErrorEvents;
+
+		public Long getTimeBetweenErrorEvents() {
+			return this.timeBetweenErrorEvents;
 		}
 	}
 
@@ -520,6 +533,17 @@ public class ParallelRun implements TalendJob {
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
 		tJDBCConnection_5_onSubJobError(exception, errorComponent, globalMap);
+
+	}
+
+	public void tJDBCConnection_6_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCConnection_6", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCConnection_6_onSubJobError(exception, errorComponent, globalMap);
 
 	}
 
@@ -755,6 +779,17 @@ public class ParallelRun implements TalendJob {
 	}
 
 	public void tJDBCConnection_5_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId()
+				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
+				.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCConnection_6_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1433,7 +1468,7 @@ public class ParallelRun implements TalendJob {
 				ok_Hash.put("tJDBCConnection_5", true);
 				end_Hash.put("tJDBCConnection_5", System.currentTimeMillis());
 
-				tJDBCInput_1Process(globalMap);
+				tJDBCConnection_6Process(globalMap);
 
 				/**
 				 * [tJDBCConnection_5 end ] stop
@@ -1452,6 +1487,104 @@ public class ParallelRun implements TalendJob {
 		}
 
 		globalMap.put("tJDBCConnection_5_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCConnection_6Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCConnection_6_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new Exception().getStackTrace()[0]
+					.getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCConnection_6 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCConnection_6", false);
+				start_Hash.put("tJDBCConnection_6", System.currentTimeMillis());
+				currentComponent = "tJDBCConnection_6";
+
+				int tos_count_tJDBCConnection_6 = 0;
+
+				String url_tJDBCConnection_6 = context.ovirtEngineDbJdbcConnection;
+
+				String userName_tJDBCConnection_6 = context.ovirtEngineDbUser;
+
+				String password_tJDBCConnection_6 = context.ovirtEngineDbPassword;
+
+				java.sql.Connection conn_tJDBCConnection_6 = null;
+
+				String sharedConnectionName_tJDBCConnection_6 = "engine-events";
+				conn_tJDBCConnection_6 = SharedDBConnection.getDBConnection(
+						context.ovirtEngineDbDriverClass,
+						url_tJDBCConnection_6, userName_tJDBCConnection_6,
+						password_tJDBCConnection_6,
+						sharedConnectionName_tJDBCConnection_6);
+
+				conn_tJDBCConnection_6.setAutoCommit(true);
+
+				globalMap.put("conn_tJDBCConnection_6", conn_tJDBCConnection_6);
+				globalMap.put("url_tJDBCConnection_6", url_tJDBCConnection_6);
+				// globalMap.put("user_tJDBCConnection_6",
+				// userName_tJDBCConnection_6);
+				// globalMap.put("pass_tJDBCConnection_6",
+				// password_tJDBCConnection_6);
+
+				/**
+				 * [tJDBCConnection_6 begin ] stop
+				 */
+				/**
+				 * [tJDBCConnection_6 main ] start
+				 */
+
+				currentComponent = "tJDBCConnection_6";
+
+				tos_count_tJDBCConnection_6++;
+
+				/**
+				 * [tJDBCConnection_6 main ] stop
+				 */
+				/**
+				 * [tJDBCConnection_6 end ] start
+				 */
+
+				currentComponent = "tJDBCConnection_6";
+
+				ok_Hash.put("tJDBCConnection_6", true);
+				end_Hash.put("tJDBCConnection_6", System.currentTimeMillis());
+
+				tJDBCInput_1Process(globalMap);
+
+				/**
+				 * [tJDBCConnection_6 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJDBCConnection_6_SUBPROCESS_STATE", 1);
 	}
 
 	public static class row1Struct implements
@@ -1829,24 +1962,6 @@ public class ParallelRun implements TalendJob {
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtEnginePortalAddress"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEnginePortalAddress = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEnginePortalConnectionProtocol"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEnginePortalConnectionProtocol = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEnginePortalPort"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEnginePortalPort = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
 									&& "ovirtEngineHistoryDbDriverClass"
 											.equals(key_tContextLoad_1)) {
 								context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_1;
@@ -1868,6 +1983,24 @@ public class ParallelRun implements TalendJob {
 									&& "ovirtEngineHistoryDbUser"
 											.equals(key_tContextLoad_1)) {
 								context.ovirtEngineHistoryDbUser = value_tContextLoad_1;
+							}
+
+							if (key_tContextLoad_1 != null
+									&& "ovirtEnginePortalAddress"
+											.equals(key_tContextLoad_1)) {
+								context.ovirtEnginePortalAddress = value_tContextLoad_1;
+							}
+
+							if (key_tContextLoad_1 != null
+									&& "ovirtEnginePortalConnectionProtocol"
+											.equals(key_tContextLoad_1)) {
+								context.ovirtEnginePortalConnectionProtocol = value_tContextLoad_1;
+							}
+
+							if (key_tContextLoad_1 != null
+									&& "ovirtEnginePortalPort"
+											.equals(key_tContextLoad_1)) {
+								context.ovirtEnginePortalPort = value_tContextLoad_1;
 							}
 
 							if (key_tContextLoad_1 != null
@@ -1904,6 +2037,15 @@ public class ParallelRun implements TalendJob {
 								context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
 										context_runTime_pattern)
 										.parse(value_tContextLoad_1));
+
+							}
+
+							if (key_tContextLoad_1 != null
+									&& "timeBetweenErrorEvents"
+											.equals(key_tContextLoad_1)) {
+
+								context.timeBetweenErrorEvents = Long
+										.parseLong(value_tContextLoad_1);
 
 							}
 
@@ -2235,13 +2377,6 @@ public class ParallelRun implements TalendJob {
 							context.ovirtEngineDbPassword);
 					parentContextMap_tRunJob_1.put("ovirtEngineDbUser",
 							context.ovirtEngineDbUser);
-					parentContextMap_tRunJob_1.put("ovirtEnginePortalAddress",
-							context.ovirtEnginePortalAddress);
-					parentContextMap_tRunJob_1.put(
-							"ovirtEnginePortalConnectionProtocol",
-							context.ovirtEnginePortalConnectionProtocol);
-					parentContextMap_tRunJob_1.put("ovirtEnginePortalPort",
-							context.ovirtEnginePortalPort);
 					parentContextMap_tRunJob_1.put(
 							"ovirtEngineHistoryDbDriverClass",
 							context.ovirtEngineHistoryDbDriverClass);
@@ -2253,11 +2388,20 @@ public class ParallelRun implements TalendJob {
 							context.ovirtEngineHistoryDbPassword);
 					parentContextMap_tRunJob_1.put("ovirtEngineHistoryDbUser",
 							context.ovirtEngineHistoryDbUser);
+					parentContextMap_tRunJob_1.put("ovirtEnginePortalAddress",
+							context.ovirtEnginePortalAddress);
+					parentContextMap_tRunJob_1.put(
+							"ovirtEnginePortalConnectionProtocol",
+							context.ovirtEnginePortalConnectionProtocol);
+					parentContextMap_tRunJob_1.put("ovirtEnginePortalPort",
+							context.ovirtEnginePortalPort);
 					parentContextMap_tRunJob_1.put("runDeleteTime",
 							context.runDeleteTime);
 					parentContextMap_tRunJob_1.put("runInterleave",
 							context.runInterleave);
 					parentContextMap_tRunJob_1.put("runTime", context.runTime);
+					parentContextMap_tRunJob_1.put("timeBetweenErrorEvents",
+							context.timeBetweenErrorEvents);
 
 					Object obj_tRunJob_1 = null;
 
@@ -2554,13 +2698,6 @@ public class ParallelRun implements TalendJob {
 							context.ovirtEngineDbPassword);
 					parentContextMap_tRunJob_2.put("ovirtEngineDbUser",
 							context.ovirtEngineDbUser);
-					parentContextMap_tRunJob_2.put("ovirtEnginePortalAddress",
-							context.ovirtEnginePortalAddress);
-					parentContextMap_tRunJob_2.put(
-							"ovirtEnginePortalConnectionProtocol",
-							context.ovirtEnginePortalConnectionProtocol);
-					parentContextMap_tRunJob_2.put("ovirtEnginePortalPort",
-							context.ovirtEnginePortalPort);
 					parentContextMap_tRunJob_2.put(
 							"ovirtEngineHistoryDbDriverClass",
 							context.ovirtEngineHistoryDbDriverClass);
@@ -2572,11 +2709,20 @@ public class ParallelRun implements TalendJob {
 							context.ovirtEngineHistoryDbPassword);
 					parentContextMap_tRunJob_2.put("ovirtEngineHistoryDbUser",
 							context.ovirtEngineHistoryDbUser);
+					parentContextMap_tRunJob_2.put("ovirtEnginePortalAddress",
+							context.ovirtEnginePortalAddress);
+					parentContextMap_tRunJob_2.put(
+							"ovirtEnginePortalConnectionProtocol",
+							context.ovirtEnginePortalConnectionProtocol);
+					parentContextMap_tRunJob_2.put("ovirtEnginePortalPort",
+							context.ovirtEnginePortalPort);
 					parentContextMap_tRunJob_2.put("runDeleteTime",
 							context.runDeleteTime);
 					parentContextMap_tRunJob_2.put("runInterleave",
 							context.runInterleave);
 					parentContextMap_tRunJob_2.put("runTime", context.runTime);
+					parentContextMap_tRunJob_2.put("timeBetweenErrorEvents",
+							context.timeBetweenErrorEvents);
 
 					Object obj_tRunJob_2 = null;
 
@@ -2873,13 +3019,6 @@ public class ParallelRun implements TalendJob {
 							context.ovirtEngineDbPassword);
 					parentContextMap_tRunJob_3.put("ovirtEngineDbUser",
 							context.ovirtEngineDbUser);
-					parentContextMap_tRunJob_3.put("ovirtEnginePortalAddress",
-							context.ovirtEnginePortalAddress);
-					parentContextMap_tRunJob_3.put(
-							"ovirtEnginePortalConnectionProtocol",
-							context.ovirtEnginePortalConnectionProtocol);
-					parentContextMap_tRunJob_3.put("ovirtEnginePortalPort",
-							context.ovirtEnginePortalPort);
 					parentContextMap_tRunJob_3.put(
 							"ovirtEngineHistoryDbDriverClass",
 							context.ovirtEngineHistoryDbDriverClass);
@@ -2891,11 +3030,20 @@ public class ParallelRun implements TalendJob {
 							context.ovirtEngineHistoryDbPassword);
 					parentContextMap_tRunJob_3.put("ovirtEngineHistoryDbUser",
 							context.ovirtEngineHistoryDbUser);
+					parentContextMap_tRunJob_3.put("ovirtEnginePortalAddress",
+							context.ovirtEnginePortalAddress);
+					parentContextMap_tRunJob_3.put(
+							"ovirtEnginePortalConnectionProtocol",
+							context.ovirtEnginePortalConnectionProtocol);
+					parentContextMap_tRunJob_3.put("ovirtEnginePortalPort",
+							context.ovirtEnginePortalPort);
 					parentContextMap_tRunJob_3.put("runDeleteTime",
 							context.runDeleteTime);
 					parentContextMap_tRunJob_3.put("runInterleave",
 							context.runInterleave);
 					parentContextMap_tRunJob_3.put("runTime", context.runTime);
+					parentContextMap_tRunJob_3.put("timeBetweenErrorEvents",
+							context.timeBetweenErrorEvents);
 
 					Object obj_tRunJob_3 = null;
 
@@ -3193,13 +3341,6 @@ public class ParallelRun implements TalendJob {
 							context.ovirtEngineDbPassword);
 					parentContextMap_tRunJob_6.put("ovirtEngineDbUser",
 							context.ovirtEngineDbUser);
-					parentContextMap_tRunJob_6.put("ovirtEnginePortalAddress",
-							context.ovirtEnginePortalAddress);
-					parentContextMap_tRunJob_6.put(
-							"ovirtEnginePortalConnectionProtocol",
-							context.ovirtEnginePortalConnectionProtocol);
-					parentContextMap_tRunJob_6.put("ovirtEnginePortalPort",
-							context.ovirtEnginePortalPort);
 					parentContextMap_tRunJob_6.put(
 							"ovirtEngineHistoryDbDriverClass",
 							context.ovirtEngineHistoryDbDriverClass);
@@ -3211,11 +3352,20 @@ public class ParallelRun implements TalendJob {
 							context.ovirtEngineHistoryDbPassword);
 					parentContextMap_tRunJob_6.put("ovirtEngineHistoryDbUser",
 							context.ovirtEngineHistoryDbUser);
+					parentContextMap_tRunJob_6.put("ovirtEnginePortalAddress",
+							context.ovirtEnginePortalAddress);
+					parentContextMap_tRunJob_6.put(
+							"ovirtEnginePortalConnectionProtocol",
+							context.ovirtEnginePortalConnectionProtocol);
+					parentContextMap_tRunJob_6.put("ovirtEnginePortalPort",
+							context.ovirtEnginePortalPort);
 					parentContextMap_tRunJob_6.put("runDeleteTime",
 							context.runDeleteTime);
 					parentContextMap_tRunJob_6.put("runInterleave",
 							context.runInterleave);
 					parentContextMap_tRunJob_6.put("runTime", context.runTime);
+					parentContextMap_tRunJob_6.put("timeBetweenErrorEvents",
+							context.timeBetweenErrorEvents);
 
 					Object obj_tRunJob_6 = null;
 
@@ -4049,15 +4199,6 @@ public class ParallelRun implements TalendJob {
 			context.ovirtEngineDbUser = (String) context
 					.getProperty("ovirtEngineDbUser");
 
-			context.ovirtEnginePortalAddress = (String) context
-					.getProperty("ovirtEnginePortalAddress");
-
-			context.ovirtEnginePortalConnectionProtocol = (String) context
-					.getProperty("ovirtEnginePortalConnectionProtocol");
-
-			context.ovirtEnginePortalPort = (String) context
-					.getProperty("ovirtEnginePortalPort");
-
 			context.ovirtEngineHistoryDbDriverClass = (String) context
 					.getProperty("ovirtEngineHistoryDbDriverClass");
 
@@ -4069,6 +4210,15 @@ public class ParallelRun implements TalendJob {
 
 			context.ovirtEngineHistoryDbUser = (String) context
 					.getProperty("ovirtEngineHistoryDbUser");
+
+			context.ovirtEnginePortalAddress = (String) context
+					.getProperty("ovirtEnginePortalAddress");
+
+			context.ovirtEnginePortalConnectionProtocol = (String) context
+					.getProperty("ovirtEnginePortalConnectionProtocol");
+
+			context.ovirtEnginePortalPort = (String) context
+					.getProperty("ovirtEnginePortalPort");
 
 			try {
 				context.runDeleteTime = routines.system.ParserUtils
@@ -4103,6 +4253,14 @@ public class ParallelRun implements TalendJob {
 
 			} catch (ParseException e) {
 				context.runTime = null;
+			}
+
+			try {
+				context.timeBetweenErrorEvents = routines.system.ParserUtils
+						.parseTo_Long(context
+								.getProperty("timeBetweenErrorEvents"));
+			} catch (NumberFormatException e) {
+				context.timeBetweenErrorEvents = null;
 			}
 
 		} catch (java.io.IOException ie) {
@@ -4144,19 +4302,6 @@ public class ParallelRun implements TalendJob {
 				context.ovirtEngineDbUser = (String) parentContextMap
 						.get("ovirtEngineDbUser");
 			}
-			if (parentContextMap.containsKey("ovirtEnginePortalAddress")) {
-				context.ovirtEnginePortalAddress = (String) parentContextMap
-						.get("ovirtEnginePortalAddress");
-			}
-			if (parentContextMap
-					.containsKey("ovirtEnginePortalConnectionProtocol")) {
-				context.ovirtEnginePortalConnectionProtocol = (String) parentContextMap
-						.get("ovirtEnginePortalConnectionProtocol");
-			}
-			if (parentContextMap.containsKey("ovirtEnginePortalPort")) {
-				context.ovirtEnginePortalPort = (String) parentContextMap
-						.get("ovirtEnginePortalPort");
-			}
 			if (parentContextMap.containsKey("ovirtEngineHistoryDbDriverClass")) {
 				context.ovirtEngineHistoryDbDriverClass = (String) parentContextMap
 						.get("ovirtEngineHistoryDbDriverClass");
@@ -4174,6 +4319,19 @@ public class ParallelRun implements TalendJob {
 				context.ovirtEngineHistoryDbUser = (String) parentContextMap
 						.get("ovirtEngineHistoryDbUser");
 			}
+			if (parentContextMap.containsKey("ovirtEnginePortalAddress")) {
+				context.ovirtEnginePortalAddress = (String) parentContextMap
+						.get("ovirtEnginePortalAddress");
+			}
+			if (parentContextMap
+					.containsKey("ovirtEnginePortalConnectionProtocol")) {
+				context.ovirtEnginePortalConnectionProtocol = (String) parentContextMap
+						.get("ovirtEnginePortalConnectionProtocol");
+			}
+			if (parentContextMap.containsKey("ovirtEnginePortalPort")) {
+				context.ovirtEnginePortalPort = (String) parentContextMap
+						.get("ovirtEnginePortalPort");
+			}
 			if (parentContextMap.containsKey("runDeleteTime")) {
 				context.runDeleteTime = (Integer) parentContextMap
 						.get("runDeleteTime");
@@ -4185,6 +4343,10 @@ public class ParallelRun implements TalendJob {
 			if (parentContextMap.containsKey("runTime")) {
 				context.runTime = (java.util.Date) parentContextMap
 						.get("runTime");
+			}
+			if (parentContextMap.containsKey("timeBetweenErrorEvents")) {
+				context.timeBetweenErrorEvents = (Long) parentContextMap
+						.get("timeBetweenErrorEvents");
 			}
 		}
 
@@ -4500,6 +4662,6 @@ public class ParallelRun implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 122752 characters generated by Talend Open Studio for Data Integration on the
- * November 19, 2012 6:19:10 PM IST
+ * 127181 characters generated by Talend Open Studio for Data Integration on the
+ * February 6, 2013 2:16:30 PM IST
  ************************************************************************************************/
