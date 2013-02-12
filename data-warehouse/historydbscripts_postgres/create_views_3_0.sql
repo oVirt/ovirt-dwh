@@ -124,35 +124,38 @@ WHERE history_id in (SELECT max(a.history_id) FROM storage_domain_configuration 
 CREATE OR REPLACE VIEW v3_0_storage_domain_samples_history_view
  AS
 SELECT
-      history_id as history_id,
+      min(history_id) as history_id,
       history_datetime as history_datetime,
       storage_domain_id as storage_domain_id,
-      available_disk_size_gb as available_disk_size_gb,
-      used_disk_size_gb as used_disk_size_gb,
-      storage_configuration_version as storage_configuration_version
-FROM storage_domain_samples_history;
+      max(available_disk_size_gb) as available_disk_size_gb,
+      max(used_disk_size_gb) as used_disk_size_gb,
+      max(storage_configuration_version) as storage_configuration_version
+FROM storage_domain_samples_history
+GROUP BY history_datetime, storage_domain_id;
 
 CREATE OR REPLACE VIEW v3_0_storage_domain_hourly_history_view
  AS
 SELECT
-      history_id as history_id,
+      min(history_id) as history_id,
       history_datetime as history_datetime,
       storage_domain_id as storage_domain_id,
-      available_disk_size_gb as available_disk_size_gb,
-      used_disk_size_gb as used_disk_size_gb,
-      storage_configuration_version as storage_configuration_version
-FROM storage_domain_hourly_history;
+      max(available_disk_size_gb) as available_disk_size_gb,
+      max(used_disk_size_gb) as used_disk_size_gb,
+      max(storage_configuration_version) as storage_configuration_version
+FROM storage_domain_hourly_history
+GROUP BY history_datetime, storage_domain_id;
 
 CREATE OR REPLACE VIEW v3_0_storage_domain_daily_history_view
  AS
 SELECT
-      history_id as history_id,
+      min(history_id) as history_id,
       cast(history_datetime as TIMESTAMP WITH TIME ZONE) as history_datetime,
       storage_domain_id as storage_domain_id,
-      available_disk_size_gb as available_disk_size_gb,
-      used_disk_size_gb as used_disk_size_gb,
-      storage_configuration_version as storage_configuration_version
-FROM storage_domain_daily_history;
+      max(available_disk_size_gb) as available_disk_size_gb,
+      max(used_disk_size_gb) as used_disk_size_gb,
+      max(storage_configuration_version) as storage_configuration_version
+FROM storage_domain_daily_history
+GROUP BY history_datetime, storage_domain_id;
 
 CREATE OR REPLACE VIEW v3_0_cluster_configuration_view
  AS

@@ -127,6 +127,8 @@ SELECT
       history_id as history_id,
       history_datetime as history_datetime,
       storage_domain_id as storage_domain_id,
+      storage_domain_status,
+      minutes_in_status,
       available_disk_size_gb as available_disk_size_gb,
       used_disk_size_gb as used_disk_size_gb,
       storage_configuration_version as storage_configuration_version
@@ -138,6 +140,8 @@ SELECT
       history_id as history_id,
       history_datetime as history_datetime,
       storage_domain_id as storage_domain_id,
+      storage_domain_status,
+      minutes_in_status,
       available_disk_size_gb as available_disk_size_gb,
       used_disk_size_gb as used_disk_size_gb,
       storage_configuration_version as storage_configuration_version
@@ -149,6 +153,8 @@ SELECT
       history_id as history_id,
       history_datetime as history_datetime,
       storage_domain_id as storage_domain_id,
+      storage_domain_status,
+      minutes_in_status,
       available_disk_size_gb as available_disk_size_gb,
       used_disk_size_gb as used_disk_size_gb,
       storage_configuration_version as storage_configuration_version
