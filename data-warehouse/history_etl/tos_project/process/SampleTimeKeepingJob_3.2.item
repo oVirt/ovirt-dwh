@@ -278,7 +278,7 @@
   </node>
   <node componentName="tSleep" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-352" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tSleep_2"/>
-    <elementParameter field="TEXT" name="PAUSE" value="(Integer)globalMap.get(&quot;timesFailed&quot;) &lt;= 30 ? (Integer)globalMap.get(&quot;timesFailed&quot;) * 5 : 900"/>
+    <elementParameter field="TEXT" name="PAUSE" value="context.timesFailed &lt;= 30 ? context.timesFailed * 5 : 900"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
