@@ -1,7 +1,11 @@
 #!/bin/bash -x
 #
 
-. /etc/ovirt-engine/engine.conf
+ENGINE_DEFAULTS="${ENGINE_DEFAULTS:-/usr/share/ovirt-engine/conf/engine.conf.defaults}"
+ENGINE_VARS="${ENGINE_VARS:-/etc/ovirt-engine/engine.conf}"
+for f in "${ENGINE_DEFAULTS}" "${ENGINE_VARS}" $(find "${ENGINE_VARS}.d" -name '*.conf' | sort); do
+    [ -r "${f}" ] && . "${f}"
+done
 
 LOGFILE="/var/log/ovirt-engine/ovirt-engine-dwhd.log"
 ETL_HOME=/usr/share/ovirt-engine-dwh/etl

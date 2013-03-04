@@ -16,6 +16,7 @@ import sys
 import os
 import time
 import traceback
+import glob
 import common_utils as utils
 from decorators import transactionDisplay
 log_file = None
@@ -26,7 +27,8 @@ PATH_WATCHDOG="/usr/share/ovirt-engine-dwh/etl/ovirt_engine_dwh_watchdog.cron"
 EXEC_CREATE_DB="%s/ovirt-engine-history-db-install.sh" % PATH_DB_SCRIPTS
 EXEC_UPGRADE_DB="upgrade.sh"
 FILE_DB_CONN = "/etc/ovirt-engine/ovirt-engine-dwh/Default.properties"
-FILE_WEB_CONF = "/etc/ovirt-engine/engine.conf"
+FILE_ENGINE_CONF_DEFAULTS = "/usr/share/ovirt-engine/conf/engine.conf.defaults"
+FILE_ENGINE_CONF = "/etc/ovirt-engine/engine.conf"
 DB_NAME = "ovirt_engine_history"
 DB_USER_NAME = "postgres"
 DB_PORT = "5432"
