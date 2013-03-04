@@ -1,7 +1,7 @@
 #!/bin/bash -x
 #
 
-. /etc/sysconfig/ovirt-engine
+. /etc/ovirt-engine/engine.conf
 
 LOGFILE="/var/log/ovirt-engine/ovirt-engine-dwhd.log"
 ETL_HOME=/usr/share/ovirt-engine-dwh/etl
