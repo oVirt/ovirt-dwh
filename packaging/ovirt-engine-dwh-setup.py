@@ -134,16 +134,6 @@ def setDbPass(db_dict):
     file_handler.editParam("ovirtEnginePortalPort", port)
     file_handler.close()
 
-    # Updating run properties
-    handler = utils.TextConfigFileHandler("/usr/share/ovirt-engine-dwh/etl/history_service.sh")
-    handler.open()
-    properties = handler.getParam("RUN_PROPERTIES")
-    if properties and "trustStore" not in properties:
-        newlist = properties.replace('"', '')
-        newlist = '"' + newlist + ' -Djavax.net.ssl.trustStore=' + utils.getVDCOption("TruststoreUrl") + ' -Djavax.net.ssl.trustStorePassword=' + utils.getVDCOption("TruststorePass")  + '"'
-        handler.editParam("RUN_PROPERTIES", newlist)
-    handler.close()
-
 def getHostParams(secure=True):
     """
     get protocol, hostname & secured port from /etc/ovirt-engine/engine.conf

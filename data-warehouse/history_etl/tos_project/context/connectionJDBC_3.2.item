@@ -22,4 +22,8 @@
   <contextParameter comment="" name="lastErrorSent" prompt="lastErrorSent?" promptNeeded="true" type="id_Date" value="yyyy-MM-dd HH:mm:ss.SSSSSS;2011-07-03 12:46:47.000000"/>
   <contextParameter comment="Enter the amout of to wait between sending error events to audit log" name="timeBetweenErrorEvents" prompt="timeBetweenErrorEvents?" promptNeeded="true" type="id_Long" value="300000"/>
   <contextParameter comment="" name="timesFailed" prompt="timesFailed?" promptNeeded="false" type="id_Integer" value="0"/>
+  <contextParameter comment="" name="TruststoreUrl" prompt="TruststoreUrl?" promptNeeded="false" type="id_String" value="/etc/pki/ovirt-engine/.keystore"/>
+  <contextParameter comment="" name="TruststorePass" prompt="TruststorePass?" promptNeeded="false" type="id_String" value="mypass"/>
+  <contextParameter comment="" name="keystorePass" prompt="keystorePass?" promptNeeded="false" type="id_String" value="mypass"/>
+  <contextParameter comment="" name="keystoreUrl" prompt="keystoreUrl?" promptNeeded="false" type="id_String" value="/etc/pki/ovirt-engine/keys/engine.p12"/>
 </talendfile:ContextType>
