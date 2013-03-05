@@ -21,10 +21,19 @@
 # information on the Apache Software Foundation, please see
 # <http://www.apache.org/>.
 
+include version.mak
+# major, minor, seq
+POM_VERSION:=$(shell cat pom.xml | grep '<ovirt-dwh.version>' | sed -e 's/.*>\(.*\)<.*/\1/' -e 's/-SNAPSHOT//')
+# major, minor from pom and fix
+APP_VERSION=$(shell echo $(POM_VERSION) | sed 's/\([^.]*\.[^.]\)\..*/\1/').$(FIX_RELEASE)
+RPM_VERSION=$(APP_VERSION)
+PACKAGE_VERSION=$(APP_VERSION)$(if $(MILESTONE),_$(MILESTONE))
+PACKAGE_NAME=ovirt-engine-dwh
+DISPLAY_VERSION=$(PACKAGE_VERSION)
+
 MVN=mvn
 EXTRA_BUILD_FLAGS=
 BUILD_FLAGS=
-PACKAGE_NAME=ovirt-engine-dwh
 OVIRT_DWH_NAME=$(PACKAGE_NAME)
 PREFIX=/usr/local
 BIN_DIR=$(PREFIX)/bin
@@ -38,19 +47,11 @@ RPMBUILD=rpmbuild
 PYTHON=python
 PYTHON_DIR:=$(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib as f;print(f())")
 
-# RPM version
-APP_VERSION:=$(shell cat pom.xml | grep '<ovirt-dwh.version>' | awk -F\> '{print $$2}' | awk -F\< '{print $$1}')
-RPM_VERSION:=$(shell echo $(APP_VERSION) | sed "s/-/_/")
-
-# Release Version; used to create y in <x.x.x-y> numbering.
-# Should be used to create releases.
-RPM_RELEASE_VERSION=1
-
 SPEC_FILE_IN=packaging/ovirt-engine-dwh.spec.in
 SPEC_FILE=$(PACKAGE_NAME).spec
 OUTPUT_RPMBUILD=$(shell pwd -P)/tmp.rpmbuild
 OUTPUT_DIR=output
-TARBALL=$(PACKAGE_NAME)-$(RPM_VERSION).tar.gz
+TARBALL=$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
 SRPM=$(OUTPUT_DIR)/$(PACKAGE_NAME)-$(RPM_VERSION)*.src.rpm
 ARCH=noarch
 BUILD_FILE=tmp.built
@@ -93,16 +94,22 @@ install: \
 	install_files \
 	$(NULL)
 
-tarball:
-	sed -e 's/@PACKAGE_VERSION@/$(RPM_VERSION)/g' \
-            -e 's/@PACKAGE_RELEASE@/$(RPM_RELEASE_VERSION)/g' $(SPEC_FILE_IN) > $(SPEC_FILE)
+# legacy
+tarball:	dist
+dist:
+	sed \
+	    -e 's/@PACKAGE_NAME@/$(PACKAGE_NAME)/g' \
+	    -e 's/@PACKAGE_VERSION@/$(PACKAGE_VERSION)/g' \
+	    -e 's/@RPM_VERSION@/$(RPM_VERSION)/g' \
+            -e 's/@RPM_RELEASE@/$(RPM_RELEASE)/g' \
+	    $(SPEC_FILE_IN) > $(SPEC_FILE)
 	git ls-files | tar --files-from /proc/self/fd/0 -czf $(TARBALL) $(SPEC_FILE)
 	rm -f $(SPEC_FILE)
 	@echo
 	@echo You can use $(RPMBUILD) -tb $(TARBALL) to produce rpms
 	@echo
 
-srpm:	tarball
+srpm:	dist
 	rm -rf $(OUTPUT_RPMBUILD)
 	mkdir -p $(OUTPUT_RPMBUILD)/{SPECS,RPMS,SRPMS,SOURCES,BUILD,BUILDROOT}
 	mkdir -p $(OUTPUT_DIR)

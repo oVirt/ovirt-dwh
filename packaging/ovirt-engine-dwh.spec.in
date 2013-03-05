@@ -9,6 +9,8 @@
 %global make_common_opts \\\
         -j1 \\\
         PACKAGE_NAME=%{name} \\\
+        RPM_VERSION=%{version} \\\
+        RPM_RELEASE=%{release} \\\
         OVIRT_DWH_NAME=%{dwh_name} \\\
         PREFIX=%{_prefix} \\\
         SYSCONF_DIR=%{_sysconfdir} \\\
@@ -22,15 +24,15 @@
         %{?BUILD_FLAGS:BUILD_FLAGS="%{BUILD_FLAGS}"} \\\
         %{?EXTRA_BUILD_FLAGS:EXTRA_BUILD_FLAGS="%{EXTRA_BUILD_FLAGS}"}
 
-Name: ovirt-engine-dwh
-Version: @PACKAGE_VERSION@
-Release: @PACKAGE_RELEASE@%{?dist}
+Name: @PACKAGE_NAME@
+Version: @RPM_VERSION@
+Release: @RPM_RELEASE@%{?release_suffix}%{dist}
 License: GPLv2
 Summary: %{product_name}
 Group: Virtualization/Management
 URL: http://www.ovirt.org
 BuildArch: noarch
-Source: %{name}-%{version}.tar.gz
+Source: @PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
 
 BuildRequires: jpackage-utils
 BuildRequires: make
