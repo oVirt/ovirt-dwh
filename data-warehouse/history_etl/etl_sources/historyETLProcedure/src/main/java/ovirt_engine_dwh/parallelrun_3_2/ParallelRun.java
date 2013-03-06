@@ -179,27 +179,6 @@ public class ParallelRun implements TalendJob {
 
 			}
 
-			if (ovirtEnginePortalAddress != null) {
-
-				this.setProperty("ovirtEnginePortalAddress",
-						ovirtEnginePortalAddress.toString());
-
-			}
-
-			if (ovirtEnginePortalConnectionProtocol != null) {
-
-				this.setProperty("ovirtEnginePortalConnectionProtocol",
-						ovirtEnginePortalConnectionProtocol.toString());
-
-			}
-
-			if (ovirtEnginePortalPort != null) {
-
-				this.setProperty("ovirtEnginePortalPort", ovirtEnginePortalPort
-						.toString());
-
-			}
-
 			if (runDeleteTime != null) {
 
 				this.setProperty("runDeleteTime", runDeleteTime.toString());
@@ -309,24 +288,6 @@ public class ParallelRun implements TalendJob {
 
 		public String getOvirtEngineHistoryDbUser() {
 			return this.ovirtEngineHistoryDbUser;
-		}
-
-		public String ovirtEnginePortalAddress;
-
-		public String getOvirtEnginePortalAddress() {
-			return this.ovirtEnginePortalAddress;
-		}
-
-		public String ovirtEnginePortalConnectionProtocol;
-
-		public String getOvirtEnginePortalConnectionProtocol() {
-			return this.ovirtEnginePortalConnectionProtocol;
-		}
-
-		public String ovirtEnginePortalPort;
-
-		public String getOvirtEnginePortalPort() {
-			return this.ovirtEnginePortalPort;
 		}
 
 		public Integer runDeleteTime;
@@ -1986,24 +1947,6 @@ public class ParallelRun implements TalendJob {
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtEnginePortalAddress"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEnginePortalAddress = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEnginePortalConnectionProtocol"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEnginePortalConnectionProtocol = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEnginePortalPort"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEnginePortalPort = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
 									&& "runDeleteTime"
 											.equals(key_tContextLoad_1)) {
 
@@ -2388,13 +2331,6 @@ public class ParallelRun implements TalendJob {
 							context.ovirtEngineHistoryDbPassword);
 					parentContextMap_tRunJob_1.put("ovirtEngineHistoryDbUser",
 							context.ovirtEngineHistoryDbUser);
-					parentContextMap_tRunJob_1.put("ovirtEnginePortalAddress",
-							context.ovirtEnginePortalAddress);
-					parentContextMap_tRunJob_1.put(
-							"ovirtEnginePortalConnectionProtocol",
-							context.ovirtEnginePortalConnectionProtocol);
-					parentContextMap_tRunJob_1.put("ovirtEnginePortalPort",
-							context.ovirtEnginePortalPort);
 					parentContextMap_tRunJob_1.put("runDeleteTime",
 							context.runDeleteTime);
 					parentContextMap_tRunJob_1.put("runInterleave",
@@ -2709,13 +2645,6 @@ public class ParallelRun implements TalendJob {
 							context.ovirtEngineHistoryDbPassword);
 					parentContextMap_tRunJob_2.put("ovirtEngineHistoryDbUser",
 							context.ovirtEngineHistoryDbUser);
-					parentContextMap_tRunJob_2.put("ovirtEnginePortalAddress",
-							context.ovirtEnginePortalAddress);
-					parentContextMap_tRunJob_2.put(
-							"ovirtEnginePortalConnectionProtocol",
-							context.ovirtEnginePortalConnectionProtocol);
-					parentContextMap_tRunJob_2.put("ovirtEnginePortalPort",
-							context.ovirtEnginePortalPort);
 					parentContextMap_tRunJob_2.put("runDeleteTime",
 							context.runDeleteTime);
 					parentContextMap_tRunJob_2.put("runInterleave",
@@ -3030,13 +2959,6 @@ public class ParallelRun implements TalendJob {
 							context.ovirtEngineHistoryDbPassword);
 					parentContextMap_tRunJob_3.put("ovirtEngineHistoryDbUser",
 							context.ovirtEngineHistoryDbUser);
-					parentContextMap_tRunJob_3.put("ovirtEnginePortalAddress",
-							context.ovirtEnginePortalAddress);
-					parentContextMap_tRunJob_3.put(
-							"ovirtEnginePortalConnectionProtocol",
-							context.ovirtEnginePortalConnectionProtocol);
-					parentContextMap_tRunJob_3.put("ovirtEnginePortalPort",
-							context.ovirtEnginePortalPort);
 					parentContextMap_tRunJob_3.put("runDeleteTime",
 							context.runDeleteTime);
 					parentContextMap_tRunJob_3.put("runInterleave",
@@ -3352,13 +3274,6 @@ public class ParallelRun implements TalendJob {
 							context.ovirtEngineHistoryDbPassword);
 					parentContextMap_tRunJob_6.put("ovirtEngineHistoryDbUser",
 							context.ovirtEngineHistoryDbUser);
-					parentContextMap_tRunJob_6.put("ovirtEnginePortalAddress",
-							context.ovirtEnginePortalAddress);
-					parentContextMap_tRunJob_6.put(
-							"ovirtEnginePortalConnectionProtocol",
-							context.ovirtEnginePortalConnectionProtocol);
-					parentContextMap_tRunJob_6.put("ovirtEnginePortalPort",
-							context.ovirtEnginePortalPort);
 					parentContextMap_tRunJob_6.put("runDeleteTime",
 							context.runDeleteTime);
 					parentContextMap_tRunJob_6.put("runInterleave",
@@ -4211,15 +4126,6 @@ public class ParallelRun implements TalendJob {
 			context.ovirtEngineHistoryDbUser = (String) context
 					.getProperty("ovirtEngineHistoryDbUser");
 
-			context.ovirtEnginePortalAddress = (String) context
-					.getProperty("ovirtEnginePortalAddress");
-
-			context.ovirtEnginePortalConnectionProtocol = (String) context
-					.getProperty("ovirtEnginePortalConnectionProtocol");
-
-			context.ovirtEnginePortalPort = (String) context
-					.getProperty("ovirtEnginePortalPort");
-
 			try {
 				context.runDeleteTime = routines.system.ParserUtils
 						.parseTo_Integer(context.getProperty("runDeleteTime"));
@@ -4318,19 +4224,6 @@ public class ParallelRun implements TalendJob {
 			if (parentContextMap.containsKey("ovirtEngineHistoryDbUser")) {
 				context.ovirtEngineHistoryDbUser = (String) parentContextMap
 						.get("ovirtEngineHistoryDbUser");
-			}
-			if (parentContextMap.containsKey("ovirtEnginePortalAddress")) {
-				context.ovirtEnginePortalAddress = (String) parentContextMap
-						.get("ovirtEnginePortalAddress");
-			}
-			if (parentContextMap
-					.containsKey("ovirtEnginePortalConnectionProtocol")) {
-				context.ovirtEnginePortalConnectionProtocol = (String) parentContextMap
-						.get("ovirtEnginePortalConnectionProtocol");
-			}
-			if (parentContextMap.containsKey("ovirtEnginePortalPort")) {
-				context.ovirtEnginePortalPort = (String) parentContextMap
-						.get("ovirtEnginePortalPort");
 			}
 			if (parentContextMap.containsKey("runDeleteTime")) {
 				context.runDeleteTime = (Integer) parentContextMap
@@ -4662,6 +4555,6 @@ public class ParallelRun implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 127181 characters generated by Talend Open Studio for Data Integration on the
- * February 6, 2013 2:16:30 PM IST
+ * 123494 characters generated by Talend Open Studio for Data Integration on the
+ * March 6, 2013 10:56:35 AM IST
  ************************************************************************************************/

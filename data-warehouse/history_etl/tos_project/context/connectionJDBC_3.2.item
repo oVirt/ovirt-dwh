@@ -16,14 +16,9 @@
   <contextParameter comment="End run time." name="endTime" prompt="endTime?" promptNeeded="false" type="id_Date" value=""/>
   <contextParameter comment="" name="etlVersion" prompt="etlVersion?" promptNeeded="false" type="id_String" value="3.2.0"/>
   <contextParameter comment="Enter the time to run the delete job. Can only run on round hour 24 hours clock." name="runDeleteTime" prompt="runDeleteTime?" promptNeeded="true" type="id_Integer" value="3"/>
-  <contextParameter comment="Enter the oVirt Engine Portal connection protocol." name="ovirtEnginePortalConnectionProtocol" prompt="ovirtEnginePortalConnectionProtocol?" promptNeeded="true" type="id_String" value="http"/>
-  <contextParameter comment="Enter the oVirt Engine Portal address." name="ovirtEnginePortalAddress" prompt="ovirtEnginePortalAddress?" promptNeeded="true" type="id_String" value="localhost"/>
-  <contextParameter comment="Enter the oVirt Engine Portal port." name="ovirtEnginePortalPort" prompt="ovirtEnginePortalPort?" promptNeeded="true" type="id_String" value="8080"/>
   <contextParameter comment="" name="lastErrorSent" prompt="lastErrorSent?" promptNeeded="true" type="id_Date" value="yyyy-MM-dd HH:mm:ss.SSSSSS;2011-07-03 12:46:47.000000"/>
   <contextParameter comment="Enter the amout of to wait between sending error events to audit log" name="timeBetweenErrorEvents" prompt="timeBetweenErrorEvents?" promptNeeded="true" type="id_Long" value="300000"/>
   <contextParameter comment="" name="timesFailed" prompt="timesFailed?" promptNeeded="false" type="id_Integer" value="0"/>
-  <contextParameter comment="" name="TruststoreUrl" prompt="TruststoreUrl?" promptNeeded="false" type="id_String" value="/etc/pki/ovirt-engine/.keystore"/>
-  <contextParameter comment="" name="TruststorePass" prompt="TruststorePass?" promptNeeded="false" type="id_String" value="mypass"/>
-  <contextParameter comment="" name="keystorePass" prompt="keystorePass?" promptNeeded="false" type="id_String" value="mypass"/>
-  <contextParameter comment="" name="keystoreUrl" prompt="keystoreUrl?" promptNeeded="false" type="id_String" value="/etc/pki/ovirt-engine/keys/engine.p12"/>
+  <contextParameter comment="" name="lastStatisticsUpdate" prompt="lastStatisticsUpdate?" promptNeeded="false" type="id_Date" value="yyyy-MM-dd HH:mm:ss;2013-03-05 18:14:53"/>
+  <contextParameter comment="" name="lastSampling" prompt="lastSampling?" promptNeeded="false" type="id_Date" value="yyyy-MM-dd HH:mm:ss;2000-01-01 00:00:00"/>
 </talendfile:ContextType>

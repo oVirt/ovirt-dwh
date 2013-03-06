@@ -117,8 +117,6 @@ def setDbPass(db_dict):
     logging.debug("Setting DB pass")
     logging.debug("editing etl db connectivity file")
 
-    (protocol, fqdn, port) = getHostParams()
-
     file_handler = utils.TextConfigFileHandler(FILE_DB_CONN)
     file_handler.open()
     file_handler.editParam("ovirtEngineHistoryDbPassword", db_dict["password"])
@@ -129,54 +127,7 @@ def setDbPass(db_dict):
                            "jdbc\:postgresql\://%s\:%s/engine?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
     file_handler.editParam("ovirtEngineHistoryDbJdbcConnection",
                            "jdbc\:postgresql\://%s\:%s/%s?stringtype\=unspecified" % (db_dict["host"], db_dict["port"], db_dict["name"]))
-    file_handler.editParam("ovirtEnginePortalConnectionProtocol", protocol)
-    file_handler.editParam("ovirtEnginePortalAddress", fqdn)
-    file_handler.editParam("ovirtEnginePortalPort", port)
     file_handler.close()
-
-def getHostParams(secure=True):
-    """
-    get protocol, hostname & secured port from /etc/ovirt-engine/engine.conf
-    """
-
-    protocol = "https" if secure else "http"
-    hostFqdn = None
-    port = None
-
-    if not os.path.exists(FILE_WEB_CONF):
-        raise Exception("Could not find %s" % FILE_WEB_CONF)
-
-    logging.debug("reading %s", FILE_WEB_CONF)
-    file_handler = utils.TextConfigFileHandler(FILE_WEB_CONF)
-    file_handler.open()
-    proxyEnabled = file_handler.getParam("ENGINE_PROXY_ENABLED")
-    if proxyEnabled != None and proxyEnabled.lower() in ["true", "t", "yes", "y", "1"]:
-        if secure:
-            port = file_handler.getParam("ENGINE_PROXY_HTTPS_PORT")
-        else:
-            port = file_handler.getParam("ENGINE_PROXY_HTTP_PORT")
-    elif file_handler.getParam("ENGINE_HTTPS_ENABLED"):
-        if secure:
-            port = file_handler.getParam("ENGINE_HTTPS_PORT")
-        else:
-            port = file_handler.getParam("ENGINE_HTTP_PORT")
-    hostFqdn = file_handler.getParam("ENGINE_FQDN")
-    file_handler.close()
-    if port and secure:
-        logging.debug("Secure web port is: %s", port)
-    elif port and not secure:
-        logging.debug("Web port is: %s", port)
-    if hostFqdn:
-        logging.debug("Host's FQDN: %s", hostFqdn)
-
-    if not hostFqdn:
-        logging.error("Could not find the HOST FQDN from %s", FILE_WEB_CONF)
-        raise Exception("Cannot find host fqdn from configuration, please verify that ovirt-engine is configured")
-    if not port:
-        logging.error("Could not find the web port from %s", FILE_WEB_CONF)
-        raise Exception("Cannot find the web port from configuration, please verify that ovirt-engine is configured")
-
-    return (protocol, hostFqdn, port)
 
 def isVersionSupported(rawMinimalVersion, rawCurrentVersion):
     """

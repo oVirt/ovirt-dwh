@@ -111,18 +111,6 @@ public class HistoryETL implements TalendJob {
 
 			}
 
-			if (keystorePass != null) {
-
-				this.setProperty("keystorePass", keystorePass.toString());
-
-			}
-
-			if (keystoreUrl != null) {
-
-				this.setProperty("keystoreUrl", keystoreUrl.toString());
-
-			}
-
 			if (lastErrorSent != null) {
 
 				String pattern_lastErrorSent = "yyyy-MM-dd HH:mm:ss";
@@ -197,27 +185,6 @@ public class HistoryETL implements TalendJob {
 
 			}
 
-			if (ovirtEnginePortalAddress != null) {
-
-				this.setProperty("ovirtEnginePortalAddress",
-						ovirtEnginePortalAddress.toString());
-
-			}
-
-			if (ovirtEnginePortalConnectionProtocol != null) {
-
-				this.setProperty("ovirtEnginePortalConnectionProtocol",
-						ovirtEnginePortalConnectionProtocol.toString());
-
-			}
-
-			if (ovirtEnginePortalPort != null) {
-
-				this.setProperty("ovirtEnginePortalPort", ovirtEnginePortalPort
-						.toString());
-
-			}
-
 			if (runDeleteTime != null) {
 
 				this.setProperty("runDeleteTime", runDeleteTime.toString());
@@ -234,18 +201,6 @@ public class HistoryETL implements TalendJob {
 
 				this.setProperty("timeBetweenErrorEvents",
 						timeBetweenErrorEvents.toString());
-
-			}
-
-			if (TruststorePass != null) {
-
-				this.setProperty("TruststorePass", TruststorePass.toString());
-
-			}
-
-			if (TruststoreUrl != null) {
-
-				this.setProperty("TruststoreUrl", TruststoreUrl.toString());
 
 			}
 
@@ -267,18 +222,6 @@ public class HistoryETL implements TalendJob {
 
 		public Integer getHoursToKeepSamples() {
 			return this.hoursToKeepSamples;
-		}
-
-		public String keystorePass;
-
-		public String getKeystorePass() {
-			return this.keystorePass;
-		}
-
-		public String keystoreUrl;
-
-		public String getKeystoreUrl() {
-			return this.keystoreUrl;
 		}
 
 		public java.util.Date lastErrorSent;
@@ -335,24 +278,6 @@ public class HistoryETL implements TalendJob {
 			return this.ovirtEngineHistoryDbUser;
 		}
 
-		public String ovirtEnginePortalAddress;
-
-		public String getOvirtEnginePortalAddress() {
-			return this.ovirtEnginePortalAddress;
-		}
-
-		public String ovirtEnginePortalConnectionProtocol;
-
-		public String getOvirtEnginePortalConnectionProtocol() {
-			return this.ovirtEnginePortalConnectionProtocol;
-		}
-
-		public String ovirtEnginePortalPort;
-
-		public String getOvirtEnginePortalPort() {
-			return this.ovirtEnginePortalPort;
-		}
-
 		public Integer runDeleteTime;
 
 		public Integer getRunDeleteTime() {
@@ -369,18 +294,6 @@ public class HistoryETL implements TalendJob {
 
 		public Long getTimeBetweenErrorEvents() {
 			return this.timeBetweenErrorEvents;
-		}
-
-		public String TruststorePass;
-
-		public String getTruststorePass() {
-			return this.TruststorePass;
-		}
-
-		public String TruststoreUrl;
-
-		public String getTruststoreUrl() {
-			return this.TruststoreUrl;
 		}
 	}
 
@@ -818,39 +731,6 @@ public class HistoryETL implements TalendJob {
 
 	}
 
-	public void tJDBCInput_1_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tJDBCInput_1", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCInput_1_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
-	public void tContextLoad_2_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tContextLoad_2", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCInput_1_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
-	public void tSetKeystore_1_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tSetKeystore_1", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tSetKeystore_1_onSubJobError(exception, errorComponent, globalMap);
-
-	}
-
 	public void tWaitForFile_1_error(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1181,28 +1061,6 @@ public class HistoryETL implements TalendJob {
 
 	}
 
-	public void tJDBCInput_1_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId()
-				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
-				.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tSetKeystore_1_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId()
-				+ "", "FATAL", "", exception.getMessage(), ResumeUtil
-				.getExceptionStackTrace(exception), "");
-
-	}
-
 	public void tWaitForFile_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1355,10 +1213,6 @@ public class HistoryETL implements TalendJob {
 						context.hoursToKeepHourly);
 				parentContextMap_tRunJob_4.put("hoursToKeepSamples",
 						context.hoursToKeepSamples);
-				parentContextMap_tRunJob_4.put("keystorePass",
-						context.keystorePass);
-				parentContextMap_tRunJob_4.put("keystoreUrl",
-						context.keystoreUrl);
 				parentContextMap_tRunJob_4.put("lastErrorSent",
 						context.lastErrorSent);
 				parentContextMap_tRunJob_4.put("ovirtEngineDbDriverClass",
@@ -1379,23 +1233,12 @@ public class HistoryETL implements TalendJob {
 						context.ovirtEngineHistoryDbPassword);
 				parentContextMap_tRunJob_4.put("ovirtEngineHistoryDbUser",
 						context.ovirtEngineHistoryDbUser);
-				parentContextMap_tRunJob_4.put("ovirtEnginePortalAddress",
-						context.ovirtEnginePortalAddress);
-				parentContextMap_tRunJob_4.put(
-						"ovirtEnginePortalConnectionProtocol",
-						context.ovirtEnginePortalConnectionProtocol);
-				parentContextMap_tRunJob_4.put("ovirtEnginePortalPort",
-						context.ovirtEnginePortalPort);
 				parentContextMap_tRunJob_4.put("runDeleteTime",
 						context.runDeleteTime);
 				parentContextMap_tRunJob_4.put("runInterleave",
 						context.runInterleave);
 				parentContextMap_tRunJob_4.put("timeBetweenErrorEvents",
 						context.timeBetweenErrorEvents);
-				parentContextMap_tRunJob_4.put("TruststorePass",
-						context.TruststorePass);
-				parentContextMap_tRunJob_4.put("TruststoreUrl",
-						context.TruststoreUrl);
 
 				Object obj_tRunJob_4 = null;
 
@@ -3932,17 +3775,6 @@ public class HistoryETL implements TalendJob {
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "keystorePass"
-											.equals(key_tContextLoad_1)) {
-								context.keystorePass = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "keystoreUrl".equals(key_tContextLoad_1)) {
-								context.keystoreUrl = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
 									&& "lastErrorSent"
 											.equals(key_tContextLoad_1)) {
 								String context_lastErrorSent_value = context
@@ -4012,24 +3844,6 @@ public class HistoryETL implements TalendJob {
 							}
 
 							if (key_tContextLoad_1 != null
-									&& "ovirtEnginePortalAddress"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEnginePortalAddress = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEnginePortalConnectionProtocol"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEnginePortalConnectionProtocol = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEnginePortalPort"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEnginePortalPort = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
 									&& "runDeleteTime"
 											.equals(key_tContextLoad_1)) {
 
@@ -4054,18 +3868,6 @@ public class HistoryETL implements TalendJob {
 								context.timeBetweenErrorEvents = Long
 										.parseLong(value_tContextLoad_1);
 
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "TruststorePass"
-											.equals(key_tContextLoad_1)) {
-								context.TruststorePass = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "TruststoreUrl"
-											.equals(key_tContextLoad_1)) {
-								context.TruststoreUrl = value_tContextLoad_1;
 							}
 
 							if (context.getProperty(key_tContextLoad_1) != null) {
@@ -5449,8 +5251,6 @@ public class HistoryETL implements TalendJob {
 				ok_Hash.put("tJDBCConnection_5", true);
 				end_Hash.put("tJDBCConnection_5", System.currentTimeMillis());
 
-				tJDBCInput_1Process(globalMap);
-
 				/**
 				 * [tJDBCConnection_5 end ] stop
 				 */
@@ -5468,662 +5268,6 @@ public class HistoryETL implements TalendJob {
 		}
 
 		globalMap.put("tJDBCConnection_5_SUBPROCESS_STATE", 1);
-	}
-
-	public static class row4Struct implements
-			routines.system.IPersistableRow<row4Struct> {
-		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
-		static byte[] commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
-
-		public String key;
-
-		public String getKey() {
-			return this.key;
-		}
-
-		public String value;
-
-		public String getValue() {
-			return this.value;
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length) {
-					if (length < 1024
-							&& commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length == 0) {
-						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[1024];
-					} else {
-						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[2 * length];
-					}
-				}
-				dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0,
-						length);
-				strReturn = new String(
-						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0, length,
-						utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL) {
-
-				try {
-
-					int length = 0;
-
-					this.key = readString(dis);
-
-					this.value = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// String
-
-				writeString(this.key, dos);
-
-				// String
-
-				writeString(this.value, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("key=" + key);
-			sb.append(",value=" + value);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(row4Struct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(), object2
-						.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
-	public void tJDBCInput_1Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		String currentComponent = "";
-
-		try {
-
-			String currentMethodName = new Exception().getStackTrace()[0]
-					.getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				row4Struct row4 = new row4Struct();
-
-				/**
-				 * [tContextLoad_2 begin ] start
-				 */
-
-				ok_Hash.put("tContextLoad_2", false);
-				start_Hash.put("tContextLoad_2", System.currentTimeMillis());
-				currentComponent = "tContextLoad_2";
-
-				int tos_count_tContextLoad_2 = 0;
-				java.util.List<String> assignList_tContextLoad_2 = new java.util.ArrayList<String>();
-				java.util.List<String> newPropertyList_tContextLoad_2 = new java.util.ArrayList<String>();
-				java.util.List<String> noAssignList_tContextLoad_2 = new java.util.ArrayList<String>();
-				int nb_line_tContextLoad_2 = 0;
-
-				/**
-				 * [tContextLoad_2 begin ] stop
-				 */
-
-				/**
-				 * [tJDBCInput_1 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCInput_1", false);
-				start_Hash.put("tJDBCInput_1", System.currentTimeMillis());
-				currentComponent = "tJDBCInput_1";
-
-				int tos_count_tJDBCInput_1 = 0;
-
-				int nb_line_tJDBCInput_1 = 0;
-				java.sql.Connection conn_tJDBCInput_1 = null;
-				conn_tJDBCInput_1 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_6");
-
-				java.sql.Statement stmt_tJDBCInput_1 = conn_tJDBCInput_1
-						.createStatement();
-
-				String dbquery_tJDBCInput_1 = "SELECT option_name, option_value  FROM vdc_options  WHERE option_name = 'TruststoreUrl' OR        option_name = 'TruststorePass' OR        option_name = 'keystoreUrl' OR        option_name = 'keystorePass'";
-
-				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
-
-				java.sql.ResultSet rs_tJDBCInput_1 = stmt_tJDBCInput_1
-						.executeQuery(dbquery_tJDBCInput_1);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_1 = rs_tJDBCInput_1
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_1 = rsmd_tJDBCInput_1
-						.getColumnCount();
-
-				String tmpContent_tJDBCInput_1 = null;
-				while (rs_tJDBCInput_1.next()) {
-					nb_line_tJDBCInput_1++;
-
-					if (colQtyInRs_tJDBCInput_1 < 1) {
-						row4.key = null;
-					} else {
-
-						tmpContent_tJDBCInput_1 = rs_tJDBCInput_1.getString(1);
-						if (tmpContent_tJDBCInput_1 != null) {
-							row4.key = tmpContent_tJDBCInput_1;
-						} else {
-							row4.key = null;
-						}
-
-						if (rs_tJDBCInput_1.wasNull()) {
-							row4.key = null;
-						}
-					}
-					if (colQtyInRs_tJDBCInput_1 < 2) {
-						row4.value = null;
-					} else {
-
-						tmpContent_tJDBCInput_1 = rs_tJDBCInput_1.getString(2);
-						if (tmpContent_tJDBCInput_1 != null) {
-							row4.value = tmpContent_tJDBCInput_1;
-						} else {
-							row4.value = null;
-						}
-
-						if (rs_tJDBCInput_1.wasNull()) {
-							row4.value = null;
-						}
-					}
-
-					/**
-					 * [tJDBCInput_1 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_1 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_1";
-
-					tos_count_tJDBCInput_1++;
-
-					/**
-					 * [tJDBCInput_1 main ] stop
-					 */
-
-					/**
-					 * [tContextLoad_2 main ] start
-					 */
-
-					currentComponent = "tContextLoad_2";
-
-					// ////////////////////////
-					String tmp_key_tContextLoad_2 = null;
-
-					String key_tContextLoad_2 = null;
-					if (row4.key != null) {
-						tmp_key_tContextLoad_2 = row4.key.trim();
-						if ((tmp_key_tContextLoad_2.startsWith("#") || tmp_key_tContextLoad_2
-								.startsWith("!"))) {
-							tmp_key_tContextLoad_2 = null;
-						} else {
-							row4.key = tmp_key_tContextLoad_2;
-						}
-					}
-					if (row4.key != null) {
-
-						key_tContextLoad_2 =
-
-						row4.key;
-
-					}
-
-					String value_tContextLoad_2 = null;
-					if (row4.value != null) {
-
-						value_tContextLoad_2 =
-
-						row4.value;
-
-					}
-
-					if (tmp_key_tContextLoad_2 != null) {
-						try {
-							if (key_tContextLoad_2 != null
-									&& "hoursToKeepDaily"
-											.equals(key_tContextLoad_2)) {
-
-								context.hoursToKeepDaily = Integer
-										.parseInt(value_tContextLoad_2);
-
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "hoursToKeepHourly"
-											.equals(key_tContextLoad_2)) {
-
-								context.hoursToKeepHourly = Integer
-										.parseInt(value_tContextLoad_2);
-
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "hoursToKeepSamples"
-											.equals(key_tContextLoad_2)) {
-
-								context.hoursToKeepSamples = Integer
-										.parseInt(value_tContextLoad_2);
-
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "keystorePass"
-											.equals(key_tContextLoad_2)) {
-								context.keystorePass = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "keystoreUrl".equals(key_tContextLoad_2)) {
-								context.keystoreUrl = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "lastErrorSent"
-											.equals(key_tContextLoad_2)) {
-								String context_lastErrorSent_value = context
-										.getProperty("lastErrorSent");
-								if (context_lastErrorSent_value == null)
-									context_lastErrorSent_value = "";
-								int context_lastErrorSent_pos = context_lastErrorSent_value
-										.indexOf(";");
-								String context_lastErrorSent_pattern = "yyyy-MM-dd HH:mm:ss";
-								if (context_lastErrorSent_pos > -1) {
-									context_lastErrorSent_pattern = context_lastErrorSent_value
-											.substring(0,
-													context_lastErrorSent_pos);
-								}
-								context.lastErrorSent = (java.util.Date) (new java.text.SimpleDateFormat(
-										context_lastErrorSent_pattern)
-										.parse(value_tContextLoad_2));
-
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineDbDriverClass"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineDbDriverClass = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineDbJdbcConnection"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineDbJdbcConnection = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineDbPassword"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineDbPassword = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineDbUser"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineDbUser = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineHistoryDbDriverClass"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineHistoryDbJdbcConnection"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineHistoryDbPassword"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineHistoryDbPassword = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineHistoryDbUser"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineHistoryDbUser = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEnginePortalAddress"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEnginePortalAddress = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEnginePortalConnectionProtocol"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEnginePortalConnectionProtocol = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEnginePortalPort"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEnginePortalPort = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "runDeleteTime"
-											.equals(key_tContextLoad_2)) {
-
-								context.runDeleteTime = Integer
-										.parseInt(value_tContextLoad_2);
-
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "runInterleave"
-											.equals(key_tContextLoad_2)) {
-
-								context.runInterleave = Integer
-										.parseInt(value_tContextLoad_2);
-
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "timeBetweenErrorEvents"
-											.equals(key_tContextLoad_2)) {
-
-								context.timeBetweenErrorEvents = Long
-										.parseLong(value_tContextLoad_2);
-
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "TruststorePass"
-											.equals(key_tContextLoad_2)) {
-								context.TruststorePass = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "TruststoreUrl"
-											.equals(key_tContextLoad_2)) {
-								context.TruststoreUrl = value_tContextLoad_2;
-							}
-
-							if (context.getProperty(key_tContextLoad_2) != null) {
-								assignList_tContextLoad_2
-										.add(key_tContextLoad_2);
-							} else {
-								newPropertyList_tContextLoad_2
-										.add(key_tContextLoad_2);
-							}
-							context.setProperty(key_tContextLoad_2,
-									value_tContextLoad_2);
-						} catch (Exception e) {
-							System.err.println("Set value for key: "
-									+ key_tContextLoad_2
-									+ " failed, error message: "
-									+ e.getMessage());
-						}
-						nb_line_tContextLoad_2++;
-					}
-					// ////////////////////////
-
-					tos_count_tContextLoad_2++;
-
-					/**
-					 * [tContextLoad_2 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_1 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_1";
-
-				}
-				stmt_tJDBCInput_1.close();
-
-				globalMap.put("tJDBCInput_1_NB_LINE", nb_line_tJDBCInput_1);
-
-				ok_Hash.put("tJDBCInput_1", true);
-				end_Hash.put("tJDBCInput_1", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCInput_1 end ] stop
-				 */
-
-				/**
-				 * [tContextLoad_2 end ] start
-				 */
-
-				currentComponent = "tContextLoad_2";
-
-				java.util.Enumeration<?> enu_tContextLoad_2 = context
-						.propertyNames();
-				while (enu_tContextLoad_2.hasMoreElements()) {
-					String key_tContextLoad_2 = (String) enu_tContextLoad_2
-							.nextElement();
-					if (!assignList_tContextLoad_2.contains(key_tContextLoad_2)
-							&& !newPropertyList_tContextLoad_2
-									.contains(key_tContextLoad_2)) {
-						noAssignList_tContextLoad_2.add(key_tContextLoad_2);
-					}
-				}
-
-				String newPropertyStr_tContextLoad_2 = newPropertyList_tContextLoad_2
-						.toString();
-				String newProperty_tContextLoad_2 = newPropertyStr_tContextLoad_2
-						.substring(1,
-								newPropertyStr_tContextLoad_2.length() - 1);
-
-				String noAssignStr_tContextLoad_2 = noAssignList_tContextLoad_2
-						.toString();
-				String noAssign_tContextLoad_2 = noAssignStr_tContextLoad_2
-						.substring(1, noAssignStr_tContextLoad_2.length() - 1);
-
-				globalMap.put("tContextLoad_2_KEY_NOT_INCONTEXT",
-						newProperty_tContextLoad_2);
-				globalMap.put("tContextLoad_2_KEY_NOT_LOADED",
-						noAssign_tContextLoad_2);
-
-				globalMap.put("tContextLoad_2_NB_LINE", nb_line_tContextLoad_2);
-
-				resumeUtil.addLog("NODE", "NODE:tContextLoad_2", "", Thread
-						.currentThread().getId()
-						+ "", "", "", "", "", resumeUtil
-						.convertToJsonText(context));
-
-				ok_Hash.put("tContextLoad_2", true);
-				end_Hash.put("tContextLoad_2", System.currentTimeMillis());
-
-				/**
-				 * [tContextLoad_2 end ] stop
-				 */
-
-			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tJDBCInput_1:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			tSetKeystore_1Process(globalMap);
-
-		} catch (Exception e) {
-
-			throw new TalendException(e, currentComponent, globalMap);
-
-		} catch (java.lang.Error error) {
-
-			throw new java.lang.Error(error);
-
-		}
-
-		globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", 1);
-	}
-
-	public void tSetKeystore_1Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tSetKeystore_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		String currentComponent = "";
-
-		try {
-
-			String currentMethodName = new Exception().getStackTrace()[0]
-					.getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tSetKeystore_1 begin ] start
-				 */
-
-				ok_Hash.put("tSetKeystore_1", false);
-				start_Hash.put("tSetKeystore_1", System.currentTimeMillis());
-				currentComponent = "tSetKeystore_1";
-
-				int tos_count_tSetKeystore_1 = 0;
-
-				/**
-				 * [tSetKeystore_1 begin ] stop
-				 */
-				/**
-				 * [tSetKeystore_1 main ] start
-				 */
-
-				currentComponent = "tSetKeystore_1";
-
-				System.setProperty("javax.net.ssl.trustStore",
-						context.TruststoreUrl);
-				System.setProperty("javax.net.ssl.trustStoreType", "JKS");
-				System.setProperty("javax.net.ssl.trustStorePassword",
-						context.TruststorePass);
-				System.setProperty("javax.net.ssl.keyStore",
-						context.keystoreUrl);
-				System.setProperty("javax.net.ssl.keyStoreType", "PKCS12");
-				System.setProperty("javax.net.ssl.keyStorePassword",
-						context.keystorePass);
-
-				tos_count_tSetKeystore_1++;
-
-				/**
-				 * [tSetKeystore_1 main ] stop
-				 */
-				/**
-				 * [tSetKeystore_1 end ] start
-				 */
-
-				currentComponent = "tSetKeystore_1";
-
-				ok_Hash.put("tSetKeystore_1", true);
-				end_Hash.put("tSetKeystore_1", System.currentTimeMillis());
-
-				/**
-				 * [tSetKeystore_1 end ] stop
-				 */
-
-			}// end the resume
-
-		} catch (Exception e) {
-
-			throw new TalendException(e, currentComponent, globalMap);
-
-		} catch (java.lang.Error error) {
-
-			throw new java.lang.Error(error);
-
-		}
-
-		globalMap.put("tSetKeystore_1_SUBPROCESS_STATE", 1);
 	}
 
 	public void tWaitForFile_1Process(
@@ -6462,10 +5606,6 @@ public class HistoryETL implements TalendJob {
 						context.hoursToKeepHourly);
 				parentContextMap_tRunJob_2.put("hoursToKeepSamples",
 						context.hoursToKeepSamples);
-				parentContextMap_tRunJob_2.put("keystorePass",
-						context.keystorePass);
-				parentContextMap_tRunJob_2.put("keystoreUrl",
-						context.keystoreUrl);
 				parentContextMap_tRunJob_2.put("lastErrorSent",
 						context.lastErrorSent);
 				parentContextMap_tRunJob_2.put("ovirtEngineDbDriverClass",
@@ -6486,23 +5626,12 @@ public class HistoryETL implements TalendJob {
 						context.ovirtEngineHistoryDbPassword);
 				parentContextMap_tRunJob_2.put("ovirtEngineHistoryDbUser",
 						context.ovirtEngineHistoryDbUser);
-				parentContextMap_tRunJob_2.put("ovirtEnginePortalAddress",
-						context.ovirtEnginePortalAddress);
-				parentContextMap_tRunJob_2.put(
-						"ovirtEnginePortalConnectionProtocol",
-						context.ovirtEnginePortalConnectionProtocol);
-				parentContextMap_tRunJob_2.put("ovirtEnginePortalPort",
-						context.ovirtEnginePortalPort);
 				parentContextMap_tRunJob_2.put("runDeleteTime",
 						context.runDeleteTime);
 				parentContextMap_tRunJob_2.put("runInterleave",
 						context.runInterleave);
 				parentContextMap_tRunJob_2.put("timeBetweenErrorEvents",
 						context.timeBetweenErrorEvents);
-				parentContextMap_tRunJob_2.put("TruststorePass",
-						context.TruststorePass);
-				parentContextMap_tRunJob_2.put("TruststoreUrl",
-						context.TruststoreUrl);
 
 				Object obj_tRunJob_2 = null;
 
@@ -8224,10 +7353,6 @@ public class HistoryETL implements TalendJob {
 				context.hoursToKeepSamples = null;
 			}
 
-			context.keystorePass = (String) context.getProperty("keystorePass");
-
-			context.keystoreUrl = (String) context.getProperty("keystoreUrl");
-
 			try {
 				String context_lastErrorSent_value = context
 						.getProperty("lastErrorSent");
@@ -8276,15 +7401,6 @@ public class HistoryETL implements TalendJob {
 			context.ovirtEngineHistoryDbUser = (String) context
 					.getProperty("ovirtEngineHistoryDbUser");
 
-			context.ovirtEnginePortalAddress = (String) context
-					.getProperty("ovirtEnginePortalAddress");
-
-			context.ovirtEnginePortalConnectionProtocol = (String) context
-					.getProperty("ovirtEnginePortalConnectionProtocol");
-
-			context.ovirtEnginePortalPort = (String) context
-					.getProperty("ovirtEnginePortalPort");
-
 			try {
 				context.runDeleteTime = routines.system.ParserUtils
 						.parseTo_Integer(context.getProperty("runDeleteTime"));
@@ -8307,12 +7423,6 @@ public class HistoryETL implements TalendJob {
 				context.timeBetweenErrorEvents = null;
 			}
 
-			context.TruststorePass = (String) context
-					.getProperty("TruststorePass");
-
-			context.TruststoreUrl = (String) context
-					.getProperty("TruststoreUrl");
-
 		} catch (java.io.IOException ie) {
 			System.err.println("Could not load context " + contextStr);
 			ie.printStackTrace();
@@ -8331,14 +7441,6 @@ public class HistoryETL implements TalendJob {
 			if (parentContextMap.containsKey("hoursToKeepSamples")) {
 				context.hoursToKeepSamples = (Integer) parentContextMap
 						.get("hoursToKeepSamples");
-			}
-			if (parentContextMap.containsKey("keystorePass")) {
-				context.keystorePass = (String) parentContextMap
-						.get("keystorePass");
-			}
-			if (parentContextMap.containsKey("keystoreUrl")) {
-				context.keystoreUrl = (String) parentContextMap
-						.get("keystoreUrl");
 			}
 			if (parentContextMap.containsKey("lastErrorSent")) {
 				context.lastErrorSent = (java.util.Date) parentContextMap
@@ -8377,19 +7479,6 @@ public class HistoryETL implements TalendJob {
 				context.ovirtEngineHistoryDbUser = (String) parentContextMap
 						.get("ovirtEngineHistoryDbUser");
 			}
-			if (parentContextMap.containsKey("ovirtEnginePortalAddress")) {
-				context.ovirtEnginePortalAddress = (String) parentContextMap
-						.get("ovirtEnginePortalAddress");
-			}
-			if (parentContextMap
-					.containsKey("ovirtEnginePortalConnectionProtocol")) {
-				context.ovirtEnginePortalConnectionProtocol = (String) parentContextMap
-						.get("ovirtEnginePortalConnectionProtocol");
-			}
-			if (parentContextMap.containsKey("ovirtEnginePortalPort")) {
-				context.ovirtEnginePortalPort = (String) parentContextMap
-						.get("ovirtEnginePortalPort");
-			}
 			if (parentContextMap.containsKey("runDeleteTime")) {
 				context.runDeleteTime = (Integer) parentContextMap
 						.get("runDeleteTime");
@@ -8401,14 +7490,6 @@ public class HistoryETL implements TalendJob {
 			if (parentContextMap.containsKey("timeBetweenErrorEvents")) {
 				context.timeBetweenErrorEvents = (Long) parentContextMap
 						.get("timeBetweenErrorEvents");
-			}
-			if (parentContextMap.containsKey("TruststorePass")) {
-				context.TruststorePass = (String) parentContextMap
-						.get("TruststorePass");
-			}
-			if (parentContextMap.containsKey("TruststoreUrl")) {
-				context.TruststoreUrl = (String) parentContextMap
-						.get("TruststoreUrl");
 			}
 		}
 
@@ -8696,6 +7777,6 @@ public class HistoryETL implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 228006 characters generated by Talend Open Studio for Data Integration on the
- * March 5, 2013 12:36:30 PM IST
+ * 201794 characters generated by Talend Open Studio for Data Integration on the
+ * March 6, 2013 10:56:36 AM IST
  ************************************************************************************************/
