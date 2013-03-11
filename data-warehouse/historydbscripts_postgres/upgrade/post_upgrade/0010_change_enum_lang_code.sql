@@ -1,11 +1,8 @@
-UPDATE enum_translator
-SET language_code = 'en_US'
+DELETE FROM enum_translator
 WHERE language_code = 'us-en';
 
-UPDATE enum_translator
-SET language_code = 'zh_CN'
+DELETE FROM enum_translator
 WHERE language_code = 'zh-CN';
 
-UPDATE enum_translator
-SET language_code = 'pt_BR'
+DELETE FROM enum_translator
 WHERE language_code = 'pt-BR';
