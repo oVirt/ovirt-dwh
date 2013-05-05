@@ -1032,7 +1032,7 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="255" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1061,7 +1061,7 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="255" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1192,7 +1192,7 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="255" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1324,7 +1324,7 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="255" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
@@ -1343,7 +1343,7 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="255" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
+      <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
