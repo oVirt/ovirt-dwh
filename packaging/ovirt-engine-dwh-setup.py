@@ -29,10 +29,20 @@ EXEC_UPGRADE_DB="upgrade.sh"
 FILE_DB_CONN = "/etc/ovirt-engine/ovirt-engine-dwh/Default.properties"
 FILE_ENGINE_CONF_DEFAULTS = "/usr/share/ovirt-engine/conf/engine.conf.defaults"
 FILE_ENGINE_CONF = "/etc/ovirt-engine/engine.conf"
+DB_BACKUPS_DIR = "/var/lib/ovirt-engine/backups"
 DB_NAME = "ovirt_engine_history"
 DB_USER_NAME = "postgres"
 DB_PORT = "5432"
 DB_HOST = "localhost"
+
+# DB messages
+DB_FILE = (
+    "The DB was backed up as '{dbfile}'"
+)
+DB_RESTORE = (
+    'The DB backup was created with compression. You must use "pg_restore" '
+    'command if you need to recover the DB from the backup.'
+)
 
 #TODO: Create output messages file with all messages
 #TODO: Move all errors here to make consistent usage
@@ -164,6 +174,8 @@ def main():
     main
     '''
     rc = 0
+    doBackup = None
+    backupFile = None
     try:
         logging.debug("starting main()")
 
@@ -189,6 +201,29 @@ def main():
 
             # Create/Upgrade DB
             if dbExists(db_dict):
+                try:
+                    doBackup = utils.performBackup(db_dict, DB_BACKUPS_DIR)
+                    backupFile = os.path.join(
+                        DB_BACKUPS_DIR,
+                        'ovirt-engine-history.backup.{date}'.format(
+                            date=utils.getCurrentDateTime(),
+                        )
+                    )
+                    if doBackup:
+                        utils.backupDB(
+                            backupFile,
+                            db_dict,
+                        )
+                except UserWarning:
+                    print 'User decided to stop setup. Exiting.'
+                    # Start Services
+                    utils.startEngine()
+                    # Sleep for 20 secs to allow health applet to start
+                    time.sleep(20)
+                    utils.startEtl()
+                    sys.exit(0)
+
+                # Backup went ok, so upgrade
                 upgradeDB(db_dict)
             else:
                 createDB(db_dict)
@@ -201,6 +236,11 @@ def main():
 
             print "Successfully installed %s." % DWH_PACKAGE_NAME
             print "The installation log file is available at: %s" % log_file
+            if doBackup:
+                print DB_FILE.format(
+                    dbfile=backupFile
+                )
+                print DB_RESTORE
         else:
             logging.debug("user chose not to stop engine")
             print "Installation stopped, Goodbye."

@@ -3,6 +3,7 @@
 common utils for rhev-dwh-setup
 '''
 
+import csv
 import logging
 import os
 import traceback
@@ -24,6 +25,8 @@ ENGINE_SERVICE_NAME = "ovirt-engine"
 
 # CONST
 EXEC_IP = "/sbin/ip"
+EXEC_PSQL = '/usr/bin/psql'
+EXEC_PGDUMP = '/usr/bin/pg_dump'
 FILE_PG_PASS="/etc/ovirt-engine/.pgpass"
 PGPASS_FILE_USER_LINE = "DB USER credentials"
 PGPASS_FILE_ADMIN_LINE = "DB ADMIN credentials"
@@ -37,11 +40,59 @@ ERR_RC_CODE = "Error: return Code is not zero"
 ERR_WRONG_PGPASS_VALUE = "Error: unknown value type '%s' was requested"
 ERR_PGPASS_VALUE_NOT_FOUND = "Error: requested value '%s' was not found \
 in %s. Check oVirt Engine installation and that wildcards '*' are not used."
+ERR_DB_GET_SPACE = "Error: Failed to get %s database size."
 
 # DB defaults
 DB_HOST = "localhost"
 DB_PORT = "5432"
 DB_ADMIN = "postgres"
+
+# DB related messages
+DB_BACKUP_HEADER = (
+    '\nExisting DB was found on the system. The size of the detected DB '
+    'is {dbsize} Mb, free space in the backup folder {backup} '
+    'is {foldersize} Mb. \n'
+)
+
+DB_BACKUP_SHOW_STOP = (
+    '\nThere is not enough free space in the backup folder {backup} to backup '
+    'the existing database. Would you like to proceed without backup?\n'
+    'Answering "no" will stop the upgrade'
+)
+DB_BACKUP_SHOW_CONTINUE = (
+    '\nThe upgrade utility can backup the existing database. The time and '
+    'space required for the database backup depend on its size. The detected '
+    'DB size is {dbsize} Mb. This process can take a considerable time, and in '
+    'some cases may take few hours to complete. Would you like to continue '
+    'and backup the existing database?\n'
+    'Answering "no" will skip the backup step and continue the upgrade '
+    'without backing up the database'
+)
+DB_BACKUP_CONTINUE_WITH = (
+    'Are you sure you would like to continue '
+    'and backup database {db}?\n'
+    'Answering "no" will stop the upgrade'
+)
+DB_BACKUP_CONTINUE_WITHOUT = (
+    'Are you sure you would like to continue '
+    'and SKIP the backup of the database {db}?\n'
+    'Answering "no" will stop the upgrade'
+)
+DB_RESTORE = (
+    'The DB backup was created with compression. You must use "pg_restore" '
+    'command if you need to recover the DB from the backup.\n'
+)
+
+def _maskString(string, maskList=[]):
+    """
+    private func to mask passwords
+    in utils
+    """
+    maskedStr = string
+    for maskItem in maskList:
+        maskedStr = maskedStr.replace(maskItem, "*"*8)
+
+    return maskedStr
 
 def getVDCOption(key):
     """
@@ -195,6 +246,21 @@ def askYesNo(question=None):
     else:
         return askYesNo(question)
 
+def parseRemoteSqlCommand(db_dict, sqlQuery, failOnError=False, errMsg='Failed running sql query'):
+    ret = []
+    sqlQuery = "copy (%s) to stdout with csv header;" % sqlQuery.replace(";", "")
+    out, rc = execSqlCmd(
+        db_dict,
+        sqlQuery,
+        failOnError,
+        errMsg
+    )
+    if rc == 0:
+        # we want reusable list, so load all into memory
+        ret = [x for x in csv.DictReader(out.splitlines(True))]
+
+    return ret, rc
+
 def execSqlCmd(db_dict, sql_query, fail_on_error=False, err_msg="Failed running sql query"):
     logging.debug("running sql query on host: %s, port: %s, db: %s, user: %s, query: \'%s\'." %
                   (db_dict["host"],
@@ -203,7 +269,7 @@ def execSqlCmd(db_dict, sql_query, fail_on_error=False, err_msg="Failed running 
                    db_dict["username"],
                    sql_query))
     cmd = [
-        "/usr/bin/psql",
+        EXEC_PSQL,
         "--pset=tuples_only=on",
         "--set",
         "ON_ERROR_STOP=1",
@@ -501,7 +567,16 @@ def localHost(hostname):
     return False
 
 #TODO: Move all execution commands to execCmd
-def execCmd(cmdList, cwd=None, failOnError=False, msg=ERR_RC_CODE, maskList=[], useShell=False, usePipeFiles=False, envDict={}):
+def execCmd(
+        cmdList,
+        cwd=None,
+        failOnError=False,
+        msg='Return Code is not zero',
+        maskList=[],
+        useShell=False,
+        usePipeFiles=False,
+        envDict=None
+    ):
     """
     Run external shell command with 'shell=false'
     receives a list of arguments for command line execution
@@ -509,7 +584,10 @@ def execCmd(cmdList, cwd=None, failOnError=False, msg=ERR_RC_CODE, maskList=[], 
     # All items in the list needs to be strings, otherwise the subprocess will fail
     cmd = [str(item) for item in cmdList]
 
-    logging.debug("Executing command --> '%s'"%(cmd))
+    # We need to join cmd list into one string so we can look for passwords in it and mask them
+    logCmd = _maskString((' '.join(cmd)), maskList)
+
+    logging.debug("Executing command --> '%s' in working directory '%s'" % (logCmd, cwd or os.getcwd()))
 
     stdErrFD = subprocess.PIPE
     stdOutFD = subprocess.PIPE
@@ -520,11 +598,11 @@ def execCmd(cmdList, cwd=None, failOnError=False, msg=ERR_RC_CODE, maskList=[], 
         (stdOutFD, stdOutFile) = tempfile.mkstemp(dir="/tmp")
         (stdInFD, stdInFile) = tempfile.mkstemp(dir="/tmp")
 
-    # Update os.environ with env if provided
+    # Copy os.environ and update with envDict if provided
     env = os.environ.copy()
     if not "PGPASSFILE" in env.keys():
         env["PGPASSFILE"] = FILE_PG_PASS
-    env.update(envDict)
+    env.update(envDict or {})
 
     # We use close_fds to close any file descriptors we have so it won't be copied to forked childs
     proc = subprocess.Popen(
@@ -537,6 +615,7 @@ def execCmd(cmdList, cwd=None, failOnError=False, msg=ERR_RC_CODE, maskList=[], 
         close_fds=True,
         env=env,
     )
+
     out, err = proc.communicate()
     if usePipeFiles:
         with open(stdErrFile, 'r') as f:
@@ -555,3 +634,112 @@ def execCmd(cmdList, cwd=None, failOnError=False, msg=ERR_RC_CODE, maskList=[], 
     if failOnError and proc.returncode != 0:
         raise Exception(msg)
     return ("".join(output.splitlines(True)), proc.returncode)
+
+def getAvailableSpace(path):
+    logging.debug("Checking available space on %s" % (path))
+    stat = os.statvfs(path)
+    #block size * available blocks = available space in bytes, we devide by
+    #1024 ^ 2 in order to get the size in megabytes
+    availableSpace = (stat.f_bsize * stat.f_bavail) / pow(20, 2)
+    logging.debug("Available space on %s is %s" % (path, availableSpace))
+    return int(availableSpace)
+
+def getDbSize(db_dict):
+    # Returns db size in MB
+    sql = "SELECT pg_database_size(\'%s\')" % db_dict['name']
+
+    # Work with db credentials copy, rename db name to template1
+    db_copy = db_dict.copy()
+    db_copy['name'] = 'template1'
+    out, rc = parseRemoteSqlCommand(
+        db_dict=db_copy,
+        sqlQuery=sql,
+        failOnError=True,
+        errMsg=ERR_DB_GET_SPACE % db_dict['name']
+    )
+    size = int(out[0]['pg_database_size'])
+    size = size / pow(20,2) # Get size in MB
+    return size
+
+def performBackup(db_dict, backupPath):
+    # Check abvailable space
+    dbSize = getDbSize(db_dict)
+    backupPathFree = getAvailableSpace(backupPath)
+    doBackup = None
+    proceed = None
+
+    if (dbSize * 1.1) < backupPathFree :
+        # allow upgrade, ask for backup
+        msg = '{header}{cont}'.format(
+            header=DB_BACKUP_HEADER,
+            cont=DB_BACKUP_SHOW_CONTINUE,
+        ).format(
+            dbsize=dbSize,
+            backup=backupPath,
+            foldersize=backupPathFree,
+        )
+        if askYesNo(msg):
+            proceed = DB_BACKUP_CONTINUE_WITH
+            doBackup = True
+        else:
+            proceed = DB_BACKUP_CONTINUE_WITHOUT
+            doBackup = False
+
+    else:
+        # ask to continue without backup, stop if no.
+        msg = '{header}{stop}'.format(
+            header=DB_BACKUP_HEADER,
+            stop=DB_BACKUP_SHOW_STOP,
+        ).format(
+            dbsize=dbSize,
+            backup=backupPath,
+            foldersize=backupPathFree,
+        )
+
+        if askYesNo(msg):
+            proceed = DB_BACKUP_CONTINUE_WITHOUT
+            doBackup = False
+
+    if not proceed or not askYesNo(
+        proceed.format(
+            db=db_dict['name']
+        )
+    ):
+        raise UserWarning(
+            'User decided to stop setup. Exiting'
+        )
+
+    return doBackup
+
+@transactionDisplay("Backing up the DB")
+def backupDB(backup_file, db_dict):
+    """
+    Backup postgres db
+    Args:  file - a target file to backup to
+           db_dict = DB connection object
+
+    """
+    logging.debug("%s DB Backup started", db_dict['name'])
+
+    # Run backup
+    cmd = [
+        EXEC_PGDUMP,
+        '-C',
+        '-E',
+        'UTF8',
+        '--disable-dollar-quoting',
+        '--disable-triggers',
+        '--format=p',
+        '-U', db_dict['username'],
+        '-h', db_dict['host'],
+        '-p', db_dict['port'],
+        '-Fc',
+        '-f', backup_file,
+        db_dict['name'],
+    ]
+    execCmd(
+        cmdList=cmd,
+        failOnError=True,
+        msg='Error during DB backup.',
+    )
+    logging.debug("%s DB Backup completed successfully", db_dict['name'])
