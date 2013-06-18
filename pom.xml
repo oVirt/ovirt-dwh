@@ -3,7 +3,7 @@
 
   <groupId>ovirt_engine_dwh</groupId>
   <artifactId>root</artifactId>
-  <version>3.2.0</version>
+  <version>3.3.0</version>
   <packaging>pom</packaging>
 
   <name>oVirt Engine DWH Root Project</name>
@@ -14,7 +14,7 @@
 
   <properties>
     <!-- dependency versions -->
-    <ovirt-dwh.version>3.2.0</ovirt-dwh.version>
+    <ovirt-dwh.version>3.3.0</ovirt-dwh.version>
     <version.commons-collections>3.2.1</version.commons-collections>
     <version.log4j>1.2.14</version.log4j>
     <version.dom4j>1.6.1</version.dom4j>
