@@ -4,12 +4,14 @@ common utils for rhev-dwh-setup
 '''
 
 import csv
+import getpass
 import logging
 import os
 import pwd
 import grp
 import traceback
 import datetime
+import time
 import re
 from StringIO import StringIO
 import subprocess
@@ -32,11 +34,13 @@ EXEC_IP = "/sbin/ip"
 EXEC_PSQL = '/usr/bin/psql'
 EXEC_PGDUMP = '/usr/bin/pg_dump'
 FILE_PG_PASS="/etc/ovirt-engine/.pgpass"
+EXEC_SERVICE="/sbin/service"
+
+FILE_DB_CONN="/etc/ovirt-engine/engine.conf.d/10-setup-database.conf"
 PGPASS_FILE_USER_LINE = "DB USER credentials"
 PGPASS_FILE_ADMIN_LINE = "DB ADMIN credentials"
 FILE_ENGINE_CONFIG_BIN="/usr/bin/engine-config"
 FILE_DATABASE_CONFIG = "/etc/ovirt-engine/engine.conf.d/10-setup-database.conf"
-FILE_PGHBA = '/var/lib/pgsql/data/pg_hba.conf'
 
 # ERRORS
 # TODO: Move all errors here and make them consistent
@@ -88,6 +92,27 @@ DB_RESTORE = (
     'The DB backup was created with compression. You must use "pg_restore" '
     'command if you need to recover the DB from the backup.\n'
 )
+
+# File locations
+DIR_PGSQL_DATA = '/var/lib/pgsql/data'
+FILE_POSTGRES_CONF = os.path.join(
+    DIR_PGSQL_DATA,
+    'postgresql.conf'
+)
+FILE_PG_HBA = os.path.join(
+    DIR_PGSQL_DATA,
+    'pg_hba.conf'
+)
+FILE_SERVER_KEY = os.path.join(
+    DIR_PGSQL_DATA,
+    'server.key'
+)
+FILE_SERVER_CERTIFICATE = os.path.join(
+    DIR_PGSQL_DATA,
+    'server.crt'
+)
+FILE_ENGINE_CERT = '/etc/pki/ovirt-engine/ca.pem'
+FILE_ENGINE_PRIVATE = '/etc/pki/ovirt-engine/private/ca.pem'
 
 def _maskString(string, maskList=[]):
     """
@@ -232,25 +257,41 @@ class TextConfigFileHandler(ConfigFileHandler):
     def delParams(self, paramsDict):
         pass
 
-def askYesNo(question=None):
+def askQuestion(question=None, yesNo=False, options=''):
     '''
     provides an interface that prompts the user
     to answer "yes/no" to a given question
     '''
     message = StringIO()
-    ask_string = "%s? (yes|no): " % question
+    if yesNo:
+        options = '(yes|no)'
+    ask_string = "{question} {options}: ".format(
+        question=question,
+        options=options,
+    )
     logging.debug("asking user: %s" % ask_string)
     message.write(ask_string)
     message.seek(0)
     raw_answer = raw_input(message.read())
     logging.debug("user answered: %s"%(raw_answer))
     answer = raw_answer.lower()
-    if answer == "yes" or answer == "y":
-        return True
-    elif answer == "no" or answer == "n":
-        return False
+    if yesNo:
+        if answer == "yes" or answer == "y":
+            return True
+        elif answer == "no" or answer == "n":
+            return False
+        else:
+            return askQuestion(question, yesNo=True)
     else:
-        return askYesNo(question)
+        return answer or askQuestion(question, options)
+
+def askYesNo(question=None):
+    '''
+    provides an interface that prompts the user
+    to answer "yes/no" to a given question
+    '''
+    return askQuestion(question, yesNo=True)
+
 
 def parseRemoteSqlCommand(db_dict, sqlQuery, failOnError=False, errMsg='Failed running sql query', envDict={}):
     ret = []
@@ -294,7 +335,11 @@ def isEngineUp():
     checks if ovirt-engine is active
     '''
     logging.debug("checking the status of ovirt-engine")
-    cmd = ["service", ENGINE_SERVICE_NAME, "status"]
+    cmd = [
+        EXEC_SERVICE,
+        ENGINE_SERVICE_NAME,
+        'status',
+    ]
     output, rc = execCmd(cmdList=cmd, msg="Failed while checking for ovirt-engine service status")
     if " is running" in output:
         return True
@@ -320,7 +365,7 @@ def stopEngine():
 @transactionDisplay("Stopping ovirt-engine")
 def stopEngineService():
     logging.debug("Stopping ovirt-engine")
-    cmd = ["service", ENGINE_SERVICE_NAME, "stop"]
+    cmd = [EXEC_SERVICE, ENGINE_SERVICE_NAME, "stop"]
     execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to stop the ovirt-engine service")
 
 def startEngine():
@@ -335,7 +380,7 @@ def startEngine():
 @transactionDisplay("Starting ovirt-engine")
 def startEngineService():
     logging.debug("Starting ovirt-engine")
-    cmd = ["service", ENGINE_SERVICE_NAME, "start"]
+    cmd = [EXEC_SERVICE, ENGINE_SERVICE_NAME, "start"]
     execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to start the ovirt-engine service")
 
 def isPostgresUp():
@@ -343,7 +388,7 @@ def isPostgresUp():
     checks if the postgresql service is up and running
     '''
     logging.debug("checking the status of postgresql")
-    cmd = ["service", "postgresql", "status"]
+    cmd = [EXEC_SERVICE, "postgresql", "status"]
     output, rc = execCmd(cmd)
     if rc == 0:
         return True
@@ -366,12 +411,12 @@ def stopPostgres():
 
 def startPostgresService():
     logging.debug("starting postgresql")
-    cmd = ["service", "postgresql", "start"]
+    cmd = [EXEC_SERVICE, "postgresql", "start"]
     execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to start the postgresql service")
 
 def stopPostgresService():
     logging.debug("stopping postgresql")
-    cmd = ["service", "postgresql", "stop"]
+    cmd = [EXEC_SERVICE, "postgresql", "stop"]
     execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to stop the postgresql service")
 
 def stopEtl():
@@ -379,7 +424,7 @@ def stopEtl():
     stop the ovirt-engine-dwhd service
     """
     logging.debug("Stopping ovirt-engine-dwhd")
-    cmd = ["service", "ovirt-engine-dwhd", "stop"]
+    cmd = [EXEC_SERVICE, "ovirt-engine-dwhd", "stop"]
     execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to stop the ovirt-engine-dwhd service")
 
 def startEtl():
@@ -402,7 +447,7 @@ def enableEtlService():
 @transactionDisplay("Starting oVirt-ETL")
 def startEtlService():
     logging.debug("Starting ovirt-engine-dwhd")
-    cmd = ["service", "ovirt-engine-dwhd", "start"]
+    cmd = [EXEC_SERVICE, "ovirt-engine-dwhd", "start"]
     execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to start the ovirt-engine-dwhd service")
 
 def isEtlUp():
@@ -410,7 +455,7 @@ def isEtlUp():
     checks if ovirt-engine-dwhd is active
     '''
     logging.debug("checking the status of ovirt-engine-dwhd")
-    cmd = ["service", "ovirt-engine-dwhd", "status"]
+    cmd = [EXEC_SERVICE, "ovirt-engine-dwhd", "status"]
     output, rc = execCmd(cmd)
     if rc == 1:
         return False
@@ -465,85 +510,37 @@ def dbExists(db_dict):
 
 def getDbAdminUser():
     """
-    Retrieve Admin user from .pgpass file on the system.
+    Retrieve Admin user from config file on the system.
     Use default settings if file is not found.
     """
-    return getDbConfig("admin") or DB_ADMIN
+    file_handler = TextConfigFileHandler(FILE_DB_CONN)
+    file_handler.open()
+    return file_handler.getParam('ENGINE_DB_USER') or DB_ADMIN
 
 def getDbHostName():
     """
     Retrieve DB Host name from .pgpass file on the system.
     Use default settings if file is not found, or '*' was used.
     """
-
-    return getDbConfig("host") or DB_HOST
+    file_handler = TextConfigFileHandler(FILE_DB_CONN)
+    file_handler.open()
+    return file_handler.getParam('ENGINE_DB_HOST') or DB_HOST
 
 def getDbPort():
     """
     Retrieve DB port number from .pgpass file on the system.
     """
-    return getDbConfig("port") or DB_PORT
+    file_handler = TextConfigFileHandler(FILE_DB_CONN)
+    file_handler.open()
+    return file_handler.getParam('ENGINE_DB_PORT') or DB_PORT
 
-def getDbConfig(dbconf_param):
-    """
-    Generic function to retrieve values from admin line in .pgpass
-    """
-    # 'user' and 'admin' are the same fields, just different lines
-    # and for different cases
-    field = {'user' : 3, 'admin' : 3, 'host' : 0, 'port' : 1}
-    if dbconf_param not in field.keys():
-        raise Exception(ERR_WRONG_PGPASS_VALUE % dbconf_param)
-
-    inDbAdminSection = False
-    inDbUserSection = False
-    if (os.path.exists(FILE_PG_PASS)):
-        logging.debug("found existing pgpass file, fetching DB %s value" % dbconf_param)
-        with open (FILE_PG_PASS) as pgPassFile:
-            for line in pgPassFile:
-
-                # find the line with "DB ADMIN"
-                if PGPASS_FILE_ADMIN_LINE in line:
-                    inDbAdminSection = True
-                    continue
-
-                if inDbAdminSection and dbconf_param == "admin" and \
-                   not line.startswith("#"):
-                    # Means we're on DB ADMIN line, as it's for all DBs
-                    dbcreds = line.split(":", 4)
-                    return dbcreds[field[dbconf_param]]
-
-                # find the line with "DB USER"
-                if PGPASS_FILE_USER_LINE in line:
-                    inDbUserSection = True
-                    continue
-
-                # fetch the values
-                if inDbUserSection:
-                    # Means we're on DB USER line, as it's for all DBs
-                    dbcreds = line.split(":", 4)
-                    return dbcreds[field[dbconf_param]]
-
-    return False
-
-def getPassFromFile(username):
+def getPassFromFile():
     '''
-    get the password for specified user
-    from /root/.pgpass
+    get the DB password
     '''
-    logging.debug("getting DB password for %s" % username)
-    with open(FILE_PG_PASS, "r") as fd:
-        for line in fd.readlines():
-            if line.startswith("#"):
-                continue
-            # Max 4 splits, so if password includes ':' character, it
-            # would still work fine.
-            list = line.split(":", 4)
-            if list[3] == username:
-                logging.debug("found password for username %s" % username)
-                return list[4].rstrip('\n')
-
-    # If no pass was found, return None
-    return None
+    file_handler = TextConfigFileHandler(FILE_DB_CONN)
+    file_handler.open()
+    return file_handler.getParam('ENGINE_DB_PASSWORD')
 
 def dropDB(db_dict):
     """
@@ -584,6 +581,136 @@ def localHost(hostname):
     if hostname in ipset:
         return True
     return False
+
+def createReadOnlyUser(db_dict, PGPASS_FILE):
+
+    # Check whether we can create DB:
+    global DB_ADMIN
+    canCreateDb = False
+    errorMsg = None
+
+    canCreateDb = testLocalDb()
+
+    if not canCreateDb:
+        return (False, errorMsg)
+
+    # Ask user how would the user be created
+    createReadUser = askYesNo(
+        question=(
+            '\nThis utility can configure a read only user for DB access. '
+            'Would you like to do so?'
+        )
+    )
+
+    if not createReadUser:
+        logging.debug('Skipping creation of read only DB user.')
+        print 'Skipping creationg of read only DB user.'
+        return (True, '')
+
+    user = askQuestion(
+        question='Provide a username for read-only user'
+    )
+
+    password = getpass.getpass(
+        prompt='Provide a password for read-only user'
+    )
+
+    secured = askYesNo(
+        question=(
+            'Should postgresql be setup with secure connection?'
+        )
+    )
+
+    updatePgHba(db_dict['name'], user)
+    configurePostgres(user, secured)
+    if secured:
+        createCertificate()
+    restartPostgres()
+    createUser(
+        user=user,
+        password=password,
+    )
+    return (True, '')
+
+
+def configurePostgres(user, secured):
+    with open(FILE_POSTGRES_CONF, 'r') as f:
+        configured_network = False
+        configured_ssl = False
+        content = []
+        for line in f.read().splitlines():
+            if (
+                not configured_network and
+                line.startswith('#listen_addresses')
+            ):
+                content.append("listen_addresses = '*'")
+                configured_network = True
+
+            if (
+                secured and
+                not configured_ssl and
+                line.startswith('#ssl')
+            ):
+                content.append("ssl = on")
+                configured_ssl = True
+
+            if line.startswith('listen_addresses'):
+                if '*' in line:
+                    break
+                else:
+                    line = '#' + line
+
+            content.append(line)
+
+    # TODO: backup!!!
+    with open(FILE_POSTGRES_CONF, 'w') as f:
+        f.write('\n'.join(content))
+
+
+def createCertificate():
+    cmds =(
+        [
+            'openssl',
+            'x509',
+            '-in', FILE_ENGINE_CERT,
+            '-out', FILE_SERVER_CERTIFICATE,
+        ],
+        [
+            'openssl',
+            'rsa',
+            '-in', FILE_ENGINE_PRIVATE,
+            '-out', FILE_SERVER_KEY,
+        ],
+    )
+    for cmd in cmds:
+        execCmd(
+            cmdList=cmd,
+            cwd=DIR_PGSQL_DATA,
+            failOnError=True,
+            msg='Failed to create self-signed certificate for postgresql server'
+        )
+
+    for f in (
+        FILE_SERVER_KEY,
+        FILE_SERVER_CERTIFICATE,
+    ):
+        if os.path.exists(f):
+            os.chown(
+                f,
+                getUsernameId('postgres'),
+                getGroupId('postgres')
+            )
+
+            if f == FILE_SERVER_KEY:
+                os.chmod(
+                    FILE_SERVER_KEY,
+                    0o600
+                )
+
+
+def restartPostgres():
+    stopPostgres()
+    startPostgres()
 
 #TODO: Move all execution commands to execCmd
 def execCmd(
@@ -656,6 +783,7 @@ def execCmd(
         raise Exception(msg)
     return ("".join(output.splitlines(True)), proc.returncode)
 
+
 def getAvailableSpace(path):
     logging.debug("Checking available space on %s" % (path))
     stat = os.statvfs(path)
@@ -664,6 +792,7 @@ def getAvailableSpace(path):
     availableSpace = (stat.f_bsize * stat.f_bavail) / pow(20, 2)
     logging.debug("Available space on %s is %s" % (path, availableSpace))
     return int(availableSpace)
+
 
 def getDbSize(db_dict, PGPASS_FILE):
     # Returns db size in MB
@@ -683,6 +812,7 @@ def getDbSize(db_dict, PGPASS_FILE):
     size = size / pow(20,2) # Get size in MB
     return size
 
+
 def performBackup(db_dict, backupPath, PGPASS_FILE):
     # Check abvailable space
     dbSize = getDbSize(db_dict, PGPASS_FILE)
@@ -690,7 +820,7 @@ def performBackup(db_dict, backupPath, PGPASS_FILE):
     doBackup = None
     proceed = None
 
-    if (dbSize * 1.1) < backupPathFree :
+    if (dbSize * 1.1) < backupPathFree:
         # allow upgrade, ask for backup
         msg = '{header}{cont}'.format(
             header=DB_BACKUP_HEADER,
@@ -807,8 +937,8 @@ def generatePassword():
     )
 
 
-def createUser(user, password, option='createdb'):
-    sql_query_set =(
+def createUser(user, password, option=''):
+    sql_query_set = [
         (
             '"DROP ROLE if exists {user};"'
         ),
@@ -816,7 +946,15 @@ def createUser(user, password, option='createdb'):
             '"CREATE ROLE {user} with '
             '{option} login encrypted password \'{password}\';"'
         ),
-    )
+    ]
+    if option is '':
+        sql_query_set.append(
+            (
+                '"alter user {user} set default_transaction_read_only to true;"'
+            ).format(
+                user=user
+            )
+        )
 
     for sql_query in sql_query_set:
         sql_command = [
@@ -844,10 +982,45 @@ def createUser(user, password, option='createdb'):
             failOnError=True
         )
 
+
+def testLocalDb():
+    sql_query_set = [
+        (
+            '"create database engine_test;"'
+        ),
+        (
+            '"drop database engine_test;"'
+        ),
+    ]
+    for sql_query in sql_query_set:
+        sql_command = [
+            EXEC_PSQL,
+            '-U', 'postgres',
+            '-c',
+            sql_query,
+        ]
+        cmd = [
+            '/usr/bin/su',
+            '-l',
+            'postgres',
+            '-c',
+            '{command}'.format(
+                command=' '.join(sql_command),
+            )
+        ]
+
+        execCmd(
+            cmdList=cmd,
+            failOnError=True
+        )
+
+    return True
+
+
 def updatePgHba(database, user):
     content = []
     logging.debug('Updating pghba')
-    with open(FILE_PGHBA, 'r') as pghba:
+    with open(FILE_PG_HBA, 'r') as pghba:
         for line in pghba.read().splitlines():
             if user in line:
                 return
@@ -872,5 +1045,5 @@ def updatePgHba(database, user):
 
             content.append(line)
 
-    with open(FILE_PGHBA, 'w') as pghba:
+    with open(FILE_PG_HBA, 'w') as pghba:
         pghba.write('\n'.join(content))

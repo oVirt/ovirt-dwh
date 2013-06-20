@@ -80,10 +80,13 @@ def createDB(db_dict):
 
     # Set ovirt-history-db-install.sh args - logfile
     if utils.localHost(db_dict["host"]):
-        utils.createUser(db_dict['username'], db_dict['password'])
+        utils.createUser(
+            user=db_dict['username'],
+            password=db_dict['password'],
+            option='createdb',
+        )
         utils.updatePgHba(db_dict['name'], db_dict['username'])
-        utils.stopPostgres()
-        utils.startPostgres()
+        utils.restartPostgres()
         install = 'local'
     else:
         install = 'remote'
@@ -309,9 +312,13 @@ def main():
             else:
                 createDB(db_dict)
 
-            if os.path.exists(PGPASS_TEMP):
-                os.remove(PGPASS_TEMP)
+            # Handle postgres configuration for the read-only user
+            # on local installations only
 
+            readUserCreated = False
+            errMsg = ''
+            if utils.localHost(db_dict["host"]):
+                readUserCreated, errMsg = utils.createReadOnlyUser(db_dict, PGPASS_TEMP)
 
             # Start Services
             utils.startEngine()
@@ -326,6 +333,15 @@ def main():
                     dbfile=backupFile
                 )
                 print DB_RESTORE
+
+            if not readUserCreated:
+                print (
+                    'While trying to create a read-only DB user, the '
+                    'following error received: {error}'
+                ).format(
+                    error=errMsg
+                )
+
         else:
             logging.debug("user chose not to stop engine")
             print "Installation stopped, Goodbye."
@@ -337,6 +353,9 @@ def main():
         print "Error encountered while installing %s, please consult the log file: %s" % (DWH_PACKAGE_NAME,log_file)
         rc = 1
     finally:
+        if os.path.exists(PGPASS_TEMP):
+            os.remove(PGPASS_TEMP)
+
         return rc
 
 if __name__ == "__main__":
