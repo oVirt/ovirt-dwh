@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2012 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2013 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -203,7 +203,7 @@ public class StringUtils {
             } else {
                 // case 3:
                 if (replacement == null) {
-                    if (src.equals(search)) {
+                    if ( (caseSensitive && src.equals(search)) || (!caseSensitive && src.equalsIgnoreCase(search))) {
                         // regex != null && src != null && replacement != null, and match the whole src
                         return replacement;
                     } else {

@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2012 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2013 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -353,9 +353,10 @@ public class RunStat implements Runnable {
             // since Iterate can be fast, we try to update the UI often.
             long newStatsUpdate = System.currentTimeMillis();
             if (lastStatsUpdate == 0 || lastStatsUpdate + 250 < newStatsUpdate) {
-                sendMessages();
-                lastStatsUpdate = newStatsUpdate;
+            sendMessages();
+            lastStatsUpdate = newStatsUpdate;
             }
+            bean.setStartTime(System.currentTimeMillis());
         }
 
         if (debug) {

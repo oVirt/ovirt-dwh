@@ -31,7 +31,7 @@
     <dependency>
       <groupId>ovirt_engine_dwh</groupId>
       <artifactId>talendRoutines</artifactId>
-      <version>5.1.2.r90681</version>
+      <version>5.3.0</version>
     </dependency>
 
   </dependencies>

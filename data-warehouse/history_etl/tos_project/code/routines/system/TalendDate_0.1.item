@@ -5,8 +5,10 @@
 // ============================================================================
 package routines;
 
+import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -15,6 +17,7 @@ import java.util.TimeZone;
 
 import routines.system.FastDateParser;
 import routines.system.LocaleProvider;
+import routines.system.TalendTimestampWithTZ;
 
 public class TalendDate {
 
@@ -37,8 +40,9 @@ public class TalendDate {
      */
     public static int getPartOfDate(String partName, Date date) {
 
-        if (partName == null || date == null)
+        if (partName == null || date == null) {
             return 0;
+        }
         int ret = 0;
         String[] fieldsName = { "YEAR", "MONTH", "HOUR", "MINUTE", "SECOND", "DAY_OF_WEEK", "DAY_OF_MONTH", "DAY_OF_YEAR",
                 "WEEK_OF_MONTH", "DAY_OF_WEEK_IN_MONTH", "WEEK_OF_YEAR", "TIMEZONE" };
@@ -111,7 +115,13 @@ public class TalendDate {
      */
 
     public synchronized static String formatDate(String pattern, java.util.Date date) {
-        return FastDateParser.getInstance(pattern).format(date);
+        DateFormat format = FastDateParser.getInstance(pattern);
+        if (date instanceof TalendTimestampWithTZ) {
+            format.setTimeZone(((TalendTimestampWithTZ) date).getTimeZone());
+        } else {
+            format.setTimeZone(TimeZone.getDefault());
+        }
+        return format.format(date);
     }
 
     /**
@@ -160,6 +170,58 @@ public class TalendDate {
         }
 
         return true;
+    }
+    /**
+     * test string value as a date with right pattern.
+     * </br>examples:
+     * </br>TimeZone:+0100
+     * </br>2011/03/27 01:00:00 begin to carry out the daylight saving time. So parse dateString "20110327 021711"
+     * with TimeZone is wrong
+     * </br> <code>isDate("20110327 021711", "yyyyMMdd HHmmss",false)</code> return <code>false</code>
+     * 
+     * </br> <code>isDate("20110327 021711", "yyyyMMdd HHmmss",true)</code> return <code>true</code>
+     * 
+     * </br> <code>isDate("2008-11-32 12:15:25", "yyyy-MM-dd HH:mm:ss",true)</code> return <code>false</code> 
+     * 
+     * </br> <code>isDate("2008-11-32 12:15:25", "yyyy-MM-dd HH:mm:ss",false)</code> return <code>false</code>
+     * @param stringDate (A <code>String</code> whose beginning should be parsed)
+     * @param pattern (the pattern to format, like: "yyyy-MM-dd HH:mm:ss")
+     * @param ignoreTimeZone (if true ignore TimeZone when pare date with pattern)
+     * @return the result whether the stringDate is a date string that with a right pattern
+     * 
+     */
+    public static boolean isDate(String stringDate, String pattern, boolean ignoreTimeZone) {
+        TimeZone tz = TimeZone.getDefault();
+        if(ignoreTimeZone) {
+            tz = TimeZone.getTimeZone("UTC");
+        }
+        
+        if (stringDate == null) {
+            return false;
+        }
+        if (pattern == null) {
+            pattern = "yyyy-MM-dd HH:mm:ss";
+        }
+
+        java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(pattern);
+        sdf.setTimeZone(tz);
+        sdf.setLenient(false);
+        
+        java.util.Date testDate = null;
+        ParsePosition pos = new ParsePosition(0);
+
+        testDate = sdf.parse(stringDate,pos);
+        
+        if(testDate == null) {
+            return false;
+        }
+        
+        String formatDate = sdf.format(testDate);
+        if(formatDate.equalsIgnoreCase(stringDate) || pos.getIndex() == stringDate.length()) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -733,7 +795,31 @@ public class TalendDate {
      */
     public synchronized static Date parseDate(String pattern, String stringDate) {
         try {
-            return FastDateParser.getInstance(pattern).parse(stringDate);
+            boolean hasZone = false;
+            boolean inQuote = false;
+            char[] ps = pattern.toCharArray();
+            for (char p : ps) {
+                if (p == '\'') {
+                    inQuote = !inQuote;
+                } else if (!inQuote && (p == 'Z' || p == 'z')) {
+                    hasZone = true;
+                    break;
+                }
+            }
+            DateFormat df = FastDateParser.getInstance(pattern);
+            Date d = df.parse(stringDate);
+            if (hasZone) {
+                int offset = df.getCalendar().get(Calendar.ZONE_OFFSET);
+                char sign = offset >= 0 ? '+' : '-';
+                int hour = Math.abs(offset) / 1000 / 60 / 60;
+                int min = Math.abs(offset) / 1000 / 60 % 60;
+                String minStr = min < 10 ? "0" + min : min + "";
+                TalendTimestampWithTZ tstz = new TalendTimestampWithTZ(new java.sql.Timestamp(d.getTime()),
+                        TimeZone.getTimeZone("GMT" + sign + hour + ":" + minStr));
+                return tstz;
+            } else {
+                return d;
+            }
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -925,6 +1011,18 @@ public class TalendDate {
      */
     public static void test_isDate() {
         System.out.println("isDate: " + Boolean.toString(TalendDate.isDate("2008-11-35 12:15:25", "yyyy-MM-dd HH:mm") == false)); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$       
+    }
+    
+    /**
+     * format date to mssql 2008 type datetimeoffset ISO 8601 string with local time zone
+     * format string : yyyy-MM-dd HH:mm:ss.SSSXXX(JDK7 support it)
+     */
+    public static String formatDatetimeoffset(Date date) {
+        String dateString = formatDate("yyyy-MM-dd HH:mm:ss.SSSZ", date);//keep the max precision in java
+        StringBuilder sb = new StringBuilder(30);
+        sb.append(dateString);
+        sb.insert(dateString.length()-2,':');
+        return sb.toString();
     }
 
     /**

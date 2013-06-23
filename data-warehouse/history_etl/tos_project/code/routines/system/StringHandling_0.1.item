@@ -168,10 +168,7 @@ public class StringHandling {
      * {example} EREPLACE("hello world!","world","guy") # hello world
      */
     public static String EREPLACE(String oldStr, String newStr, String replacement) {
-        if (oldStr == null || newStr == null || replacement == null)
-        	return oldStr;
-        else
-        	return oldStr.replaceAll(newStr, replacement);
+        return CHANGE(oldStr, newStr, replacement);
     }
 
     /**

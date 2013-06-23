@@ -6,4 +6,4 @@
 "dom4j:dom4j:jar:1.6.1","http://dom4j.sourceforge.net","dom4j","BSD style license","Yaniv Dary","3rd Party","Jboss RPM","http://dom4j.sourceforge.net/license.html",-0,,"compile\deploy"
 ,,,,,,,,,,
 "HistoryETLProcedure:1.0",,"oVirt Engine History ETL Procedure","LGPL","Yaniv Dary","Self Jar","Us",,"?",,"compile\deploy"
-"TalendRoutines:4.2.2.r63143","http://www.talend.com/","Talend Java Required Routines","LGPL\GPL v2","Yaniv Dary","Self Jar","Us",,,,"compile\deploy"
+"TalendRoutines:5.3.0","http://www.talend.com/","Talend Java Required Routines","LGPL\GPL v2","Yaniv Dary","Self Jar","Us",,,,"compile\deploy"
