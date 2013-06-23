@@ -8162,6 +8162,12 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_ip;
 		}
 
+		public String vm_client_ip;
+
+		public String getVm_client_ip() {
+			return this.vm_client_ip;
+		}
+
 		public String current_user_name;
 
 		public String getCurrent_user_name() {
@@ -8312,6 +8318,8 @@ public class StatisticsSync implements TalendJob {
 
 					this.vm_ip = readString(dis);
 
+					this.vm_client_ip = readString(dis);
+
 					this.current_user_name = readString(dis);
 
 					this.currently_running_on_host = (Object) dis.readObject();
@@ -8393,6 +8401,10 @@ public class StatisticsSync implements TalendJob {
 
 				// String
 
+				writeString(this.vm_client_ip, dos);
+
+				// String
+
 				writeString(this.current_user_name, dos);
 
 				// Object
@@ -8430,6 +8442,7 @@ public class StatisticsSync implements TalendJob {
 			sb.append(",system_cpu_usage_percent="
 					+ String.valueOf(system_cpu_usage_percent));
 			sb.append(",vm_ip=" + vm_ip);
+			sb.append(",vm_client_ip=" + vm_client_ip);
 			sb.append(",current_user_name=" + current_user_name);
 			sb.append(",currently_running_on_host="
 					+ String.valueOf(currently_running_on_host));
@@ -8710,6 +8723,12 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_ip;
 		}
 
+		public String vm_client_ip;
+
+		public String getVm_client_ip() {
+			return this.vm_client_ip;
+		}
+
 		public String current_user_name;
 
 		public String getCurrent_user_name() {
@@ -8814,6 +8833,8 @@ public class StatisticsSync implements TalendJob {
 
 					this.vm_ip = readString(dis);
 
+					this.vm_client_ip = readString(dis);
+
 					this.current_user_name = readString(dis);
 
 					this.currently_running_on_host = (Object) dis.readObject();
@@ -8898,6 +8919,10 @@ public class StatisticsSync implements TalendJob {
 
 				// String
 
+				writeString(this.vm_client_ip, dos);
+
+				// String
+
 				writeString(this.current_user_name, dos);
 
 				// Object
@@ -8931,6 +8956,7 @@ public class StatisticsSync implements TalendJob {
 					+ String.valueOf(user_cpu_usage_percent));
 			sb.append(",disks_usage=" + disks_usage);
 			sb.append(",vm_ip=" + vm_ip);
+			sb.append(",vm_client_ip=" + vm_client_ip);
 			sb.append(",current_user_name=" + current_user_name);
 			sb.append(",currently_running_on_host="
 					+ String.valueOf(currently_running_on_host));
@@ -9033,6 +9059,12 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_ip;
 		}
 
+		public String vm_client_ip;
+
+		public String getVm_client_ip() {
+			return this.vm_client_ip;
+		}
+
 		public String current_user_name;
 
 		public String getCurrent_user_name() {
@@ -9137,6 +9169,8 @@ public class StatisticsSync implements TalendJob {
 
 					this.vm_ip = readString(dis);
 
+					this.vm_client_ip = readString(dis);
+
 					this.current_user_name = readString(dis);
 
 					this.currently_running_on_host = (Object) dis.readObject();
@@ -9221,6 +9255,10 @@ public class StatisticsSync implements TalendJob {
 
 				// String
 
+				writeString(this.vm_client_ip, dos);
+
+				// String
+
 				writeString(this.current_user_name, dos);
 
 				// Object
@@ -9254,6 +9292,7 @@ public class StatisticsSync implements TalendJob {
 					+ String.valueOf(user_cpu_usage_percent));
 			sb.append(",disks_usage=" + disks_usage);
 			sb.append(",vm_ip=" + vm_ip);
+			sb.append(",vm_client_ip=" + vm_client_ip);
 			sb.append(",current_user_name=" + current_user_name);
 			sb.append(",currently_running_on_host="
 					+ String.valueOf(currently_running_on_host));
@@ -9364,7 +9403,7 @@ public class StatisticsSync implements TalendJob {
 
 				String insert_tJDBCOutput_5 = "INSERT INTO "
 						+ "vm_samples_history"
-						+ " (history_datetime,vm_id,vm_status,minutes_in_status,cpu_usage_percent,memory_usage_percent,user_cpu_usage_percent,system_cpu_usage_percent,vm_ip,current_user_name,currently_running_on_host,vm_configuration_version,current_host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,vm_id,vm_status,minutes_in_status,cpu_usage_percent,memory_usage_percent,user_cpu_usage_percent,system_cpu_usage_percent,vm_ip,vm_client_ip,current_user_name,currently_running_on_host,vm_configuration_version,current_host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_5 = connection_tJDBCOutput_5
 						.prepareStatement(insert_tJDBCOutput_5);
 
@@ -9488,7 +9527,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_10 = conn_tJDBCInput_10
 						.createStatement();
 
-				String dbquery_tJDBCInput_10 = "SELECT     vm_id,     upper(cast(vm_id as char(36))) as vm_join_id,    vm_status,     cpu_usage_percent,     memory_usage_percent,     system_cpu_usage_percent,     user_cpu_usage_percent,    disks_usage,    vm_ip,     current_user_name,     currently_running_on_host,    upper(cast(currently_running_on_host as char(36))) as running_on_host_join_id  FROM dwh_vm_history_view";
+				String dbquery_tJDBCInput_10 = "SELECT     vm_id,     upper(cast(vm_id as char(36))) as vm_join_id,    vm_status,     cpu_usage_percent,     memory_usage_percent,     system_cpu_usage_percent,     user_cpu_usage_percent,    disks_usage,    vm_ip,    vm_client_ip,    current_user_name,     currently_running_on_host,    upper(cast(currently_running_on_host as char(36))) as running_on_host_join_id  FROM dwh_vm_history_view";
 
 				globalMap.put("tJDBCInput_10_QUERY", dbquery_tJDBCInput_10);
 
@@ -9669,6 +9708,24 @@ public class StatisticsSync implements TalendJob {
 					column_index_tJDBCInput_10 = 10;
 
 					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
+						row12.vm_client_ip = null;
+					} else {
+
+						tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
+								.getString(column_index_tJDBCInput_10);
+						if (tmpContent_tJDBCInput_10 != null) {
+							row12.vm_client_ip = tmpContent_tJDBCInput_10;
+						} else {
+							row12.vm_client_ip = null;
+						}
+
+						if (rs_tJDBCInput_10.wasNull()) {
+							row12.vm_client_ip = null;
+						}
+					}
+					column_index_tJDBCInput_10 = 11;
+
+					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 						row12.current_user_name = null;
 					} else {
 
@@ -9684,7 +9741,7 @@ public class StatisticsSync implements TalendJob {
 							row12.current_user_name = null;
 						}
 					}
-					column_index_tJDBCInput_10 = 11;
+					column_index_tJDBCInput_10 = 12;
 
 					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 						row12.currently_running_on_host = null;
@@ -9702,7 +9759,7 @@ public class StatisticsSync implements TalendJob {
 							row12.currently_running_on_host = null;
 						}
 					}
-					column_index_tJDBCInput_10 = 12;
+					column_index_tJDBCInput_10 = 13;
 
 					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 						row12.running_on_host_join_id = null;
@@ -9893,6 +9950,7 @@ public class StatisticsSync implements TalendJob {
 								vm_history_tmp.user_cpu_usage_percent = row12.user_cpu_usage_percent;
 								vm_history_tmp.system_cpu_usage_percent = row12.system_cpu_usage_percent;
 								vm_history_tmp.vm_ip = row12.vm_ip;
+								vm_history_tmp.vm_client_ip = row12.vm_client_ip;
 								vm_history_tmp.current_user_name = row12.current_user_name;
 								vm_history_tmp.currently_running_on_host = row12.currently_running_on_host;
 								vm_history_tmp.vm_configuration_version = row47.history_id;
@@ -9991,36 +10049,44 @@ public class StatisticsSync implements TalendJob {
 										vm_history.vm_ip);
 							}
 
-							if (vm_history.current_user_name == null) {
+							if (vm_history.vm_client_ip == null) {
 								pstmt_tJDBCOutput_5.setNull(10,
 										java.sql.Types.VARCHAR);
 							} else {
 								pstmt_tJDBCOutput_5.setString(10,
+										vm_history.vm_client_ip);
+							}
+
+							if (vm_history.current_user_name == null) {
+								pstmt_tJDBCOutput_5.setNull(11,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_5.setString(11,
 										vm_history.current_user_name);
 							}
 
 							if (vm_history.currently_running_on_host == null) {
-								pstmt_tJDBCOutput_5.setNull(11,
+								pstmt_tJDBCOutput_5.setNull(12,
 										java.sql.Types.OTHER);
 							} else {
-								pstmt_tJDBCOutput_5.setObject(11,
+								pstmt_tJDBCOutput_5.setObject(12,
 										vm_history.currently_running_on_host);
 							}
 
 							if (vm_history.vm_configuration_version == null) {
-								pstmt_tJDBCOutput_5.setNull(12,
+								pstmt_tJDBCOutput_5.setNull(13,
 										java.sql.Types.INTEGER);
 							} else {
-								pstmt_tJDBCOutput_5.setInt(12,
+								pstmt_tJDBCOutput_5.setInt(13,
 										vm_history.vm_configuration_version);
 							}
 
 							if (vm_history.current_host_configuration_version == null) {
-								pstmt_tJDBCOutput_5.setNull(13,
+								pstmt_tJDBCOutput_5.setNull(14,
 										java.sql.Types.INTEGER);
 							} else {
 								pstmt_tJDBCOutput_5
-										.setInt(13,
+										.setInt(14,
 												vm_history.current_host_configuration_version);
 							}
 
@@ -16867,6 +16933,6 @@ public class StatisticsSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 481096 characters generated by Talend Open Studio for Data Integration on the
- * June 23, 2013 12:08:07 PM IDT
+ * 482875 characters generated by Talend Open Studio for Data Integration on the
+ * June 23, 2013 5:47:20 PM IDT
  ************************************************************************************************/

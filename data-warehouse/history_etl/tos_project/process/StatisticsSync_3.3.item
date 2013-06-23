@@ -21,6 +21,8 @@
     <elementParameter field="TEXT" name="OEM_CUSTOM_ATTRIBUTE" value=""/>
     <elementParameter field="TEXT" name="HADOOP_APP_PATH" value=""/>
     <elementParameter field="TEXT" name="JOBID_FOR_OOZIE" value=""/>
+    <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value=""/>
+    <elementParameter field="TABLE" name="HADOOP_ADVANCED_PROPERTIES"/>
     <elementParameter field="CHECK" name="IMPLICITCONTEXT_USE_PROJECT_SETTINGS" value="true"/>
     <elementParameter field="CHECK" name="STATANDLOG_USE_PROJECT_SETTINGS" value="true"/>
     <elementParameter field="CHECK" name="MULTI_THREAD_EXECATION" value="true"/>
@@ -49,6 +51,7 @@
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-1440" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_2"/>
     <elementParameter field="CHECK" name="START" value="true"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -62,6 +65,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA; datacenter_id, &#xD;&#xA; upper(cast(datacenter_id as char(36))) as datacenter_join_id,&#xD;&#xA; datacenter_status&#xD;&#xA;FROM dwh_datacenter_history_view&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -81,13 +87,15 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="dwh_datacenter_history_view" name="tJDBCInput_2">
-      <column comment="" key="false" length="16" name="datacenter_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="36" name="datacenter_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
-      <column comment="" key="false" length="4" name="datacenter_status" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="16" name="datacenter_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="36" name="datacenter_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="datacenter_status" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-1568" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_1"/>
+    <elementParameter field="CHECK" name="SUBTREE_START" value="false"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -101,6 +109,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(datacenter_id as char(36))) as datacenter_join_id&#xD;&#xA;FROM  v3_3_latest_configuration_datacenters&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -118,8 +129,8 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="v3_3_latest_configuration_vms_interfaces" name="tJDBCInput_1">
-      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="36" name="datacenter_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String"/>
+      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="36" name="datacenter_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="-1440" posY="384">
@@ -136,14 +147,14 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="datacenter_samples_history" name="datacenter_history">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="datacenter_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
-      <column comment="" key="false" length="4" name="datacenter_configuration_version" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="datacenter_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="datacenter_configuration_version" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="datacenter_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -165,6 +176,7 @@
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-1440" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_1"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -176,6 +188,9 @@
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="TEXT" name="COMMIT_EVERY" value="10000"/>
@@ -217,25 +232,26 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="datacenter_samples_history" name="tJDBCOutput_1">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="datacenter_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
-      <column comment="" key="false" length="4" name="datacenter_configuration_version" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="datacenter_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="datacenter_configuration_version" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="datacenter_samples_history" name="REJECT">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="datacenter_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
-      <column comment="" key="false" length="4" name="datacenter_configuration_version" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String"/>
-      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="datacenter_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="datacenter_configuration_version" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-1024" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_4"/>
     <elementParameter field="CHECK" name="START" value="true"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -249,6 +265,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  storage_domain_id, &#xD;&#xA;  upper(cast(storage_domain_id as char(36))) as storage_domain_join_id,&#xA;  storage_domain_status,&#xD;&#xA;  available_disk_size_gb, &#xD;&#xA;  used_disk_size_gb&#xD;&#xA;FROM dwh_storage_domain_history_view&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -272,11 +291,11 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="dwh_storage_domain_history_view" name="tJDBCInput_4">
-      <column comment="" key="false" length="16" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="36" name="storage_domain_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
-      <column comment="" key="false" name="storage_domain_status" nullable="true" pattern="" sourceType="" type="id_Short"/>
-      <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="16" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="36" name="storage_domain_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" name="storage_domain_status" nullable="true" pattern="" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="-1024" posY="384">
@@ -293,16 +312,16 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_samples_history" name="storage_history">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" name="storage_domain_status" nullable="true" pattern="" sourceType="" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
-      <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" name="storage_domain_status" nullable="true" pattern="" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="storage_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -328,6 +347,8 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-1184" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_3"/>
+    <elementParameter field="CHECK" name="SUBTREE_START" value="false"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -341,6 +362,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(storage_domain_id as char(36))) as storage_domain_join_id&#xD;&#xA;FROM  v3_3_latest_configuration_storage_domains&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -358,12 +382,13 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="v3_3_latest_configuration_vms_interfaces" name="tJDBCInput_3">
-      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="36" name="storage_domain_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String"/>
+      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="36" name="storage_domain_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-1024" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_2"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -375,6 +400,9 @@
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="TEXT" name="COMMIT_EVERY" value="10000"/>
@@ -426,29 +454,30 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_samples_history" name="tJDBCOutput_2">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" name="storage_domain_status" nullable="true" pattern="" sourceType="" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
-      <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" name="storage_domain_status" nullable="true" pattern="" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="storage_domain_samples_history" name="REJECT">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" name="storage_domain_status" nullable="true" pattern="" sourceType="" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
-      <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String"/>
-      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" name="storage_domain_status" nullable="true" pattern="" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-640" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_5"/>
     <elementParameter field="CHECK" name="START" value="true"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -462,6 +491,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_id,&#xD;&#xA;  upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;  host_status, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  ksm_cpu_percent, &#xD;&#xA;  cpu_load, &#xD;&#xA;  system_cpu_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  swap_used_mb, &#xD;&#xA;  vm_active, &#xD;&#xA;  total_vms, &#xD;&#xA;  total_vms_vcpus&#xD;&#xA;FROM dwh_host_history_view&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -501,19 +533,19 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="dwh_host_history_view" name="tJDBCInput_5">
-      <column comment="" key="false" length="16" name="host_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" name="host_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
-      <column comment="" key="false" length="2" name="host_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4" name="cpu_load" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4" name="swap_used_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="2" name="vm_active" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="total_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4" name="total_vms_vcpus" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="16" name="host_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" name="host_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="host_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="cpu_load" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="swap_used_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="vm_active" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="total_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="total_vms_vcpus" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="-640" posY="384">
@@ -530,21 +562,21 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_samples_history" name="host_history">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="active_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="total_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="4" name="total_vms_vcpus" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="4" name="cpu_load" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4" name="swap_used_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="active_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="total_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="4" name="total_vms_vcpus" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="4" name="cpu_load" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="swap_used_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties/>
@@ -589,6 +621,8 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-768" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_6"/>
+    <elementParameter field="CHECK" name="SUBTREE_START" value="false"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -602,6 +636,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(host_id as char(36))) as host_join_id&#xD;&#xA;FROM v3_3_latest_configuration_hosts&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -619,12 +656,13 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="v3_3_latest_configuration_vms_interfaces" name="tJDBCInput_6">
-      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="36" name="host_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String"/>
+      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="36" name="host_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-640" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_3"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -636,6 +674,9 @@
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="TEXT" name="COMMIT_EVERY" value="10000"/>
@@ -727,45 +768,46 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_samples_history" name="tJDBCOutput_3">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="active_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="total_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="4" name="total_vms_vcpus" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="4" name="cpu_load" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4" name="swap_used_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="active_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="total_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="4" name="total_vms_vcpus" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="4" name="cpu_load" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="swap_used_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="host_samples_history" name="REJECT">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="active_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="total_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="4" name="total_vms_vcpus" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="4" name="cpu_load" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4" name="swap_used_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String"/>
-      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="active_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="total_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="4" name="total_vms_vcpus" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="4" name="cpu_load" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="swap_used_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-256" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_8"/>
     <elementParameter field="CHECK" name="START" value="true"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -779,6 +821,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_interface_id, &#xD;&#xA;  upper(cast(host_interface_id as char(36))) as host_interface_join_id,&#xD;&#xA;  receive_rate_percent, &#xD;&#xA;  transmit_rate_percent&#xD;&#xA;FROM dwh_host_interface_history_view&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -800,10 +845,10 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="dwh_host_interface_history_view" name="tJDBCInput_8">
-      <column comment="" key="false" length="16" name="host_interface_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" name="host_interface_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="16" name="host_interface_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" name="host_interface_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="-256" posY="384">
@@ -820,11 +865,11 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_samples_history" name="hinterface_history">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties/>
@@ -850,6 +895,8 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-384" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_13"/>
+    <elementParameter field="CHECK" name="SUBTREE_START" value="false"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -863,6 +910,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(host_interface_id as char(36))) as host_interface_join_id&#xD;&#xA;FROM v3_3_latest_configuration_hosts_interfaces&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -880,12 +930,13 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="v3_3_latest_configuration_vms_interfaces" name="tJDBCInput_13">
-      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="36" name="host_interface_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String"/>
+      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="36" name="host_interface_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-256" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_4"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -897,6 +948,9 @@
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="TEXT" name="COMMIT_EVERY" value="10000"/>
@@ -938,25 +992,26 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_samples_history" name="tJDBCOutput_4">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="host_interface_samples_history" name="REJECT">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String"/>
-      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="160" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_10"/>
     <elementParameter field="CHECK" name="START" value="true"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -969,7 +1024,10 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_id, &#xD;&#xA;  upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;  vm_status, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  system_cpu_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xA;  disks_usage,&#xD;&#xA;  vm_ip, &#xD;&#xA;  current_user_name, &#xD;&#xA;  currently_running_on_host,&#xD;&#xA;  upper(cast(currently_running_on_host as char(36))) as running_on_host_join_id&#xD;&#xA;FROM dwh_vm_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_id, &#xD;&#xA;  upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;  vm_status, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  system_cpu_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xA;  disks_usage,&#xD;&#xA;  vm_ip, &#xA;  vm_client_ip,&#xD;&#xA;  current_user_name, &#xD;&#xA;  currently_running_on_host,&#xD;&#xA;  upper(cast(currently_running_on_host as char(36))) as running_on_host_join_id&#xD;&#xA;FROM dwh_vm_history_view&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -994,6 +1052,8 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_ip"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_client_ip"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="current_user_name"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="currently_running_on_host"/>
@@ -1007,18 +1067,19 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="dwh_vm_history_view" name="tJDBCInput_10">
-      <column comment="" key="false" length="2147483647" name="vm_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" name="vm_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
-      <column comment="" key="false" length="5" name="vm_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="5" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="5" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="5" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="5" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String"/>
-      <column comment="" key="false" length="2147483647" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String"/>
-      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
-      <column comment="" key="false" length="2147483647" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" name="running_on_host_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
+      <column comment="" key="false" length="2147483647" name="vm_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" name="vm_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="5" name="vm_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="5" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="5" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="5" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="5" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="vm_client_ip" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" name="running_on_host_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="160" posY="384">
@@ -1035,27 +1096,28 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_samples_history" name="vm_history">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="vm_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
-      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
-      <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="vm_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="vm_client_ip" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" label="vm_disks_usage_samples_history" name="disk_usage_history">
-      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="2147483647" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String"/>
+      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -1067,6 +1129,7 @@
         <mapperTableEntries name="user_cpu_usage_percent" expression="row12.user_cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="system_cpu_usage_percent" expression="row12.system_cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="vm_ip" expression="row12.vm_ip" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vm_client_ip" expression="row12.vm_client_ip " type="id_String" nullable="true"/>
         <mapperTableEntries name="current_user_name" expression="row12.current_user_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="currently_running_on_host" expression="row12.currently_running_on_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_configuration_version" expression="row47.history_id " type="id_Integer" nullable="true"/>
@@ -1087,6 +1150,7 @@
         <mapperTableEntries name="user_cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="disks_usage" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_ip" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vm_client_ip" type="id_String" nullable="true"/>
         <mapperTableEntries name="current_user_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="currently_running_on_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="running_on_host_join_id" type="id_String" nullable="true"/>
@@ -1103,6 +1167,8 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="0" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_9"/>
+    <elementParameter field="CHECK" name="SUBTREE_START" value="false"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1116,6 +1182,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(vm_id as char(36))) as vm_join_id&#xD;&#xA;FROM  v3_3_latest_configuration_vms&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1133,12 +1202,14 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="v3_3_latest_configuration_vms_interfaces" name="tJDBCInput_9">
-      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="36" name="vm_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String"/>
+      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="36" name="vm_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="0" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_14"/>
+    <elementParameter field="CHECK" name="SUBTREE_START" value="false"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1152,6 +1223,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(host_id as char(36))) as host_join_id&#xD;&#xA;FROM v3_3_latest_configuration_hosts&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1169,12 +1243,13 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="v3_3_latest_configuration_vms_interfaces" name="tJDBCInput_14">
-      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="36" name="host_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String"/>
+      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="36" name="host_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="160" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_5"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1186,6 +1261,9 @@
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="TEXT" name="COMMIT_EVERY" value="10000"/>
@@ -1237,6 +1315,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_client_ip"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="current_user_name"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1267,40 +1350,43 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_samples_history" name="tJDBCOutput_5">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="vm_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
-      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
-      <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="vm_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="vm_client_ip" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="vm_samples_history" name="REJECT">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="vm_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
-      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String"/>
-      <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String"/>
-      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="vm_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="vm_client_ip" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="32" posY="512">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_8"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1312,6 +1398,9 @@
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="TEXT" name="COMMIT_EVERY" value="10000"/>
@@ -1343,21 +1432,22 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disks_usage_samples_history" name="tJDBCOutput_8">
-      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="2147483647" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String"/>
+      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="vm_disks_usage_samples_history" name="REJECT">
-      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="2147483647" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String"/>
-      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String"/>
-      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String"/>
+      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="544" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_12"/>
     <elementParameter field="CHECK" name="START" value="true"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1371,6 +1461,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_interface_id, &#xD;&#xA;  upper(cast(vm_interface_id as char(36))) as vm_interface_join_id,&#xD;&#xA;  receive_rate_percent, &#xD;&#xA;  transmit_rate_percent&#xD;&#xA;FROM dwh_vm_interface_history_view&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1392,10 +1485,10 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="dwh_vm_interface_history_view" name="tJDBCInput_12">
-      <column comment="" key="false" length="16" name="vm_interface_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" name="vm_interface_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
+      <column comment="" key="false" length="16" name="vm_interface_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" name="vm_interface_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="544" posY="384">
@@ -1412,11 +1505,11 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_interface_samples_history" name="vinterface_history">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties/>
@@ -1442,6 +1535,8 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="416" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_15"/>
+    <elementParameter field="CHECK" name="SUBTREE_START" value="false"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1455,6 +1550,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(vm_interface_id as char(36))) as vm_interface_join_id&#xD;&#xA;FROM  v3_3_latest_configuration_vms_interfaces&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1472,12 +1570,13 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="v3_3_latest_configuration_vms_disks" name="tJDBCInput_15">
-      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="36" name="vm_interface_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String"/>
+      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="36" name="vm_interface_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="544" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_6"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1489,6 +1588,9 @@
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="TEXT" name="COMMIT_EVERY" value="10000"/>
@@ -1530,20 +1632,20 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_interface_samples_history" name="tJDBCOutput_6">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="vm_interface_samples_history" name="REJECT">
-      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date"/>
-      <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String"/>
-      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-864" posY="32">
@@ -1559,6 +1661,9 @@
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_SHARED_CONNECTION" value="true"/>
     <elementParameter field="TEXT" name="SHARED_CONNECTION_NAME" value="&quot;engine&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="CHECK" name="IS_USE_AUTO_COMMIT" value="true"/>
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="engine"/>
@@ -1580,6 +1685,9 @@
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_SHARED_CONNECTION" value="true"/>
     <elementParameter field="TEXT" name="SHARED_CONNECTION_NAME" value="&quot;sample_ovirt_engine_history&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="CHECK" name="IS_USE_AUTO_COMMIT" value="true"/>
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="sample_ovirt_engine_history"/>
@@ -1591,6 +1699,7 @@
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="960" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_18"/>
     <elementParameter field="CHECK" name="START" value="true"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1604,6 +1713,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT vm_disk_id,&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,&#xA;        image_id,&#xA;&#x9;&#x9;vm_disk_status,&#xA;&#x9;&#x9;vm_disk_actual_size_mb,&#xA;&#x9;&#x9;read_rate_bytes_per_second,&#xA;&#x9;&#x9;read_latency_seconds,&#xA;&#x9;&#x9;write_rate_bytes_per_second,&#xA;&#x9;&#x9;write_latency_seconds,&#xA;&#x9;&#x9;flush_latency_seconds&#xA;FROM dwh_vm_disks_history_view&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1637,16 +1749,16 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="dwh_vm_disks_history_view" name="tJDBCInput_18">
-      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" name="vm_disk_join_id" nullable="true" pattern="" sourceType="" type="id_String"/>
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object"/>
-      <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="10" name="read_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="10" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double"/>
+      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" name="vm_disk_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="read_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="960" posY="384">
@@ -1663,18 +1775,18 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_samples_history" name="vm_disk_history">
-      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object"/>
-      <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="7" name="minutes_in_status" nullable="false" pattern="" precision="2" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="10" name="read_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="10" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="7" name="minutes_in_status" nullable="false" pattern="" precision="2" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="read_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
       <uiProperties/>
@@ -1713,6 +1825,8 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="832" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_20"/>
+    <elementParameter field="CHECK" name="SUBTREE_START" value="false"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1726,6 +1840,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(vm_disk_id as char(36))) as vm_disk_join_id&#xD;&#xA;FROM  v3_3_latest_configuration_vms_disks&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1743,12 +1860,13 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="v3_3_latest_configuration_vms_disks" name="tJDBCInput_20">
-      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="36" name="vm_disk_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String"/>
+      <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="36" name="vm_disk_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="960" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_7"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1760,6 +1878,9 @@
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="TEXT" name="COMMIT_EVERY" value="10000"/>
@@ -1836,34 +1957,34 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_samples_history" name="tJDBCOutput_7">
-      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object"/>
-      <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="7" name="minutes_in_status" nullable="false" pattern="" precision="2" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="10" name="read_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="10" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
+      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="7" name="minutes_in_status" nullable="false" pattern="" precision="2" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="read_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="vm_disk_samples_history" name="REJECT">
-      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date"/>
-      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object"/>
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object"/>
-      <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="7" name="minutes_in_status" nullable="false" pattern="" precision="2" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="10" name="read_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="10" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double"/>
-      <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer"/>
-      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String"/>
-      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String"/>
+      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" sourceType="" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;1&quot;" key="false" length="7" name="minutes_in_status" nullable="false" pattern="" precision="2" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="read_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-1024" posY="32">
@@ -1876,6 +1997,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-480" posY="32">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_21"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1889,6 +2011,9 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
     <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select distinct 'runTime', CURRENT_TIMESTAMP(6)&quot;"/>
+    <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
+    <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
+    <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_CURSOR" value="false"/>
@@ -1906,12 +2031,13 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tJDBCInput_21">
-      <column key="false" length="255" name="key" nullable="true" precision="0" sourceType="" type="id_String"/>
-      <column comment="" key="false" length="35" name="value" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="DATETIME" type="id_Date"/>
+      <column key="false" length="255" name="key" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="35" name="value" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="DATETIME" type="id_Date" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tContextLoad" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="-480" posY="128">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tContextLoad_1"/>
+    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
     <elementParameter field="CLOSED_LIST" name="LOAD_NEW_VARIABLE" value="Warning"/>
     <elementParameter field="CLOSED_LIST" name="NOT_LOAD_OLD_VARIABLE" value="Warning"/>
     <elementParameter field="CHECK" name="PRINT_OPERATIONS" value="false"/>
@@ -1924,8 +2050,8 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tContextLoad_1">
-      <column defaultValue="" key="false" length="255" name="key" nullable="true" precision="0" sourceType="" type="id_String"/>
-      <column defaultValue="" key="false" length="35" name="value" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="DATETIME" type="id_Date"/>
+      <column defaultValue="" key="false" length="255" name="key" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column defaultValue="" key="false" length="35" name="value" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="DATETIME" type="id_Date" usefulColumn="true"/>
     </metadata>
   </node>
   <connection connectorName="FLOW" label="row9" lineStyle="0" metaname="tJDBCInput_2" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_2" target="tMap_1">
@@ -2444,6 +2570,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="running_on_host_join_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="vm_client_ip"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -2506,6 +2635,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="system_cpu_usage_percent"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="vm_client_ip"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
