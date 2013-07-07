@@ -17,6 +17,7 @@ import os
 import time
 import traceback
 import glob
+import argparse
 import common_utils as utils
 from decorators import transactionDisplay
 log_file = None
@@ -176,6 +177,11 @@ def main():
     rc = 0
     doBackup = None
     backupFile = None
+
+    parser = argparse.ArgumentParser(description='Installs or upgrades your oVirt Engine DWH')
+    # Catch when calling ovirt-engine-dwh-setup --help
+    args = parser.parse_args()
+
     try:
         logging.debug("starting main()")
 
