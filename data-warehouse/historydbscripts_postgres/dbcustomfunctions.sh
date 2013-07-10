@@ -19,7 +19,11 @@ set_defaults() {
     USERNAME="postgres"
     VERBOSE=false
     LOGFILE="$ME.log"
-    export PGPASSFILE="/etc/ovirt-engine/.pgpass"
+    if [ -n "${ENGINE_PGPASS}"  ]; then
+        export PGPASSFILE="${ENGINE_PGPASS}"
+    else
+        export PGPASSFILE="/etc/ovirt-engine/.pgpass"
+    fi
 }
 
 #refreshes views

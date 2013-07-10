@@ -6,6 +6,8 @@ common utils for rhev-dwh-setup
 import csv
 import logging
 import os
+import pwd
+import grp
 import traceback
 import datetime
 import re
@@ -14,6 +16,8 @@ import subprocess
 import shutil
 from decorators import transactionDisplay
 import tempfile
+import random
+import string
 
 #text colors
 RED = "\033[0;31m"
@@ -31,6 +35,8 @@ FILE_PG_PASS="/etc/ovirt-engine/.pgpass"
 PGPASS_FILE_USER_LINE = "DB USER credentials"
 PGPASS_FILE_ADMIN_LINE = "DB ADMIN credentials"
 FILE_ENGINE_CONFIG_BIN="/usr/bin/engine-config"
+FILE_DATABASE_CONFIG = "/etc/ovirt-engine/engine.conf.d/10-setup-database.conf"
+FILE_PGHBA = '/var/lib/pgsql/data/pg_hba.conf'
 
 # ERRORS
 # TODO: Move all errors here and make them consistent
@@ -246,14 +252,15 @@ def askYesNo(question=None):
     else:
         return askYesNo(question)
 
-def parseRemoteSqlCommand(db_dict, sqlQuery, failOnError=False, errMsg='Failed running sql query'):
+def parseRemoteSqlCommand(db_dict, sqlQuery, failOnError=False, errMsg='Failed running sql query', envDict={}):
     ret = []
     sqlQuery = "copy (%s) to stdout with csv header;" % sqlQuery.replace(";", "")
     out, rc = execSqlCmd(
         db_dict,
         sqlQuery,
         failOnError,
-        errMsg
+        errMsg,
+        envDict,
     )
     if rc == 0:
         # we want reusable list, so load all into memory
@@ -261,7 +268,7 @@ def parseRemoteSqlCommand(db_dict, sqlQuery, failOnError=False, errMsg='Failed r
 
     return ret, rc
 
-def execSqlCmd(db_dict, sql_query, fail_on_error=False, err_msg="Failed running sql query"):
+def execSqlCmd(db_dict, sql_query, fail_on_error=False, err_msg="Failed running sql query", envDict={}):
     logging.debug("running sql query on host: %s, port: %s, db: %s, user: %s, query: \'%s\'." %
                   (db_dict["host"],
                    db_dict["port"],
@@ -277,9 +284,10 @@ def execSqlCmd(db_dict, sql_query, fail_on_error=False, err_msg="Failed running 
         "--host", db_dict["host"],
         "--port", db_dict["port"],
         "--username", db_dict["username"],
+        "-w",
         "-c", sql_query,
     ]
-    return execCmd(cmdList=cmd, failOnError=fail_on_error, msg=err_msg)
+    return execCmd(cmdList=cmd, failOnError=fail_on_error, msg=err_msg, envDict=envDict)
 
 def isEngineUp():
     '''
@@ -349,11 +357,22 @@ def startPostgres():
     if not isPostgresUp():
         startPostgresService()
 
-@transactionDisplay("Starting PostgresSql")
+def stopPostgres():
+    '''
+    stops the postgresql service
+    '''
+    if isPostgresUp():
+        stopPostgresService()
+
 def startPostgresService():
     logging.debug("starting postgresql")
     cmd = ["service", "postgresql", "start"]
     execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to start the postgresql service")
+
+def stopPostgresService():
+    logging.debug("stopping postgresql")
+    cmd = ["service", "postgresql", "stop"]
+    execCmd(cmdList=cmd, failOnError=True, msg="Failed while trying to stop the postgresql service")
 
 def stopEtl():
     """
@@ -600,9 +619,11 @@ def execCmd(
 
     # Copy os.environ and update with envDict if provided
     env = os.environ.copy()
-    if not "PGPASSFILE" in env.keys():
-        env["PGPASSFILE"] = FILE_PG_PASS
     env.update(envDict or {})
+    if "ENGINE_PGPASS" in env.keys():
+        env["PGPASSFILE"] = env["ENGINE_PGPASS"]
+    else:
+        env["PGPASSFILE"] = FILE_PG_PASS
 
     # We use close_fds to close any file descriptors we have so it won't be copied to forked childs
     proc = subprocess.Popen(
@@ -644,7 +665,7 @@ def getAvailableSpace(path):
     logging.debug("Available space on %s is %s" % (path, availableSpace))
     return int(availableSpace)
 
-def getDbSize(db_dict):
+def getDbSize(db_dict, PGPASS_FILE):
     # Returns db size in MB
     sql = "SELECT pg_database_size(\'%s\')" % db_dict['name']
 
@@ -655,15 +676,16 @@ def getDbSize(db_dict):
         db_dict=db_copy,
         sqlQuery=sql,
         failOnError=True,
-        errMsg=ERR_DB_GET_SPACE % db_dict['name']
+        errMsg=ERR_DB_GET_SPACE % db_dict['name'],
+        envDict={'ENGINE_PGPASS': PGPASS_FILE}
     )
     size = int(out[0]['pg_database_size'])
     size = size / pow(20,2) # Get size in MB
     return size
 
-def performBackup(db_dict, backupPath):
+def performBackup(db_dict, backupPath, PGPASS_FILE):
     # Check abvailable space
-    dbSize = getDbSize(db_dict)
+    dbSize = getDbSize(db_dict, PGPASS_FILE)
     backupPathFree = getAvailableSpace(backupPath)
     doBackup = None
     proceed = None
@@ -743,3 +765,112 @@ def backupDB(backup_file, db_dict):
         msg='Error during DB backup.',
     )
     logging.debug("%s DB Backup completed successfully", db_dict['name'])
+
+
+def getUsernameId(username):
+    return pwd.getpwnam(username)[2]
+
+
+def getGroupId(groupName):
+    return grp.getgrnam(groupName)[2]
+
+
+def createTempPgpass(db_dict, mode='all'):
+
+    fd, pgpass = tempfile.mkstemp(
+        prefix='pgpass',
+        suffix='.tmp',
+    )
+    os.close(fd)
+    os.chmod(pgpass, 0o600)
+    with open(pgpass, 'w') as f:
+        f.write(
+            (
+                '# DB USER credentials.\n'
+                '{host}:{port}:{database}:{user}:{password}\n'
+            ).format(
+                host=db_dict['host'],
+                port=db_dict['port'],
+                database='*' if mode == 'all' else db_dict['name'],
+                user=db_dict['username'],
+                password=db_dict['password'],
+            ),
+        )
+
+    return pgpass
+
+
+def generatePassword():
+    return '%s%s' % (
+        ''.join([random.choice(string.digits) for i in xrange(4)]),
+        ''.join([random.choice(string.letters) for i in xrange(4)]),
+    )
+
+
+def createUser(user, password, option='createdb'):
+    sql_query_set =(
+        (
+            '"DROP ROLE if exists {user};"'
+        ),
+        (
+            '"CREATE ROLE {user} with '
+            '{option} login encrypted password \'{password}\';"'
+        ),
+    )
+
+    for sql_query in sql_query_set:
+        sql_command = [
+            EXEC_PSQL,
+            '-U', 'postgres',
+            '-c',
+            sql_query.format(
+                user=user,
+                option=option,
+                password=password,
+            ),
+        ]
+        cmd = [
+            '/usr/bin/su',
+            '-l',
+            'postgres',
+            '-c',
+            '{command}'.format(
+                command=' '.join(sql_command),
+            )
+        ]
+
+        execCmd(
+            cmdList=cmd,
+            failOnError=True
+        )
+
+def updatePgHba(database, user):
+    content = []
+    logging.debug('Updating pghba')
+    with open(FILE_PGHBA, 'r') as pghba:
+        for line in pghba.read().splitlines():
+            if user in line:
+                return
+
+            if 'engine          engine          0.0.0.0/0' in line:
+                for address in ('0.0.0.0/0', '::0/0'):
+                    content.append(
+                        (
+                            '{host:7} '
+                            '{database:15} '
+                            '{user:15} '
+                            '{address:23} '
+                            '{auth}'
+                        ).format(
+                            host='host',
+                            user=user,
+                            database='*',
+                            address=address,
+                            auth='md5',
+                        )
+                    )
+
+            content.append(line)
+
+    with open(FILE_PGHBA, 'w') as pghba:
+        pghba.write('\n'.join(content))

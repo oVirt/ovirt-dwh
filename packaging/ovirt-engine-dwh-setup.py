@@ -17,6 +17,7 @@ import os
 import time
 import traceback
 import glob
+import shutil
 import argparse
 import common_utils as utils
 from decorators import transactionDisplay
@@ -30,11 +31,14 @@ EXEC_UPGRADE_DB="upgrade.sh"
 FILE_DB_CONN = "/etc/ovirt-engine/ovirt-engine-dwh/Default.properties"
 FILE_ENGINE_CONF_DEFAULTS = "/usr/share/ovirt-engine/conf/engine.conf.defaults"
 FILE_ENGINE_CONF = "/etc/ovirt-engine/engine.conf"
+FILE_DATABASE_CONFIG = "/etc/ovirt-engine/engine.conf.d/10-setup-database.conf"
+FILE_DATABASE_DWH_CONFIG = "/etc/ovirt-engine/engine.conf.d/10-setup-database-dwh.conf"
 DB_BACKUPS_DIR = "/var/lib/ovirt-engine/backups"
 DB_NAME = "ovirt_engine_history"
-DB_USER_NAME = "postgres"
+DB_USER = 'engine_history'
 DB_PORT = "5432"
 DB_HOST = "localhost"
+PGPASS_TEMP = ''
 
 # DB messages
 DB_FILE = (
@@ -54,7 +58,11 @@ log_file = utils.initLogging("%s-setup" % DWH_PACKAGE_NAME, "/var/log/ovirt-engi
 
 def dbExists(db_dict):
     logging.debug("checking if %s db already exists" % db_dict["name"])
-    (output, rc) = utils.execSqlCmd(db_dict, "select 1")
+    (output, rc) = utils.execSqlCmd(
+        db_dict=db_dict,
+        sql_query="select 1",
+        envDict={'ENGINE_PGPASS': PGPASS_TEMP},
+    )
     if (rc != 0):
         return False
     else:
@@ -72,20 +80,32 @@ def createDB(db_dict):
 
     # Set ovirt-history-db-install.sh args - logfile
     if utils.localHost(db_dict["host"]):
-        install_type = "local"
+        utils.createUser(db_dict['username'], db_dict['password'])
+        utils.updatePgHba(db_dict['name'], db_dict['username'])
+        utils.stopPostgres()
+        utils.startPostgres()
+        install = 'local'
     else:
-        install_type = "remote"
-    cmd = [EXEC_CREATE_DB,
-           "-l", dbLogFilename,
-           "-u", db_dict["username"],
-           "-s", db_dict["host"],
-           "-p", db_dict["port"],
-           "-r", install_type,
-          ]
+        install = 'remote'
+
+    cmd = [
+        EXEC_CREATE_DB,
+        '-l', dbLogFilename,
+        '-u', db_dict['username'],
+        '-s', db_dict['host'],
+        '-p', db_dict['port'],
+        '-r', install,
+    ]
 
     # Create db using shell command
-    output, rc = utils.execCmd(cmd, None, True, ERR_DB_CREATE_FAILED)
+    output, rc = utils.execCmd(
+        cmdList=cmd,
+        failOnError=True,
+        msg=ERR_DB_CREATE_FAILED,
+        envDict={'ENGINE_PGPASS': PGPASS_TEMP},
+    )
     logging.debug('Successfully installed %s DB' % db_dict["name"])
+
 
 @transactionDisplay("Upgrade DB")
 def upgradeDB(db_dict):
@@ -108,17 +128,54 @@ def upgradeDB(db_dict):
                 "-l", "/var/log/ovirt-engine/%s" % dbLogFilename,
               ]
         os.chdir(PATH_DB_SCRIPTS)
-        output, rc = utils.execCmd(cmdList=cmd, failOnError=True, msg="Error while trying to upgrade %s DB" % DB_NAME)
+        output, rc = utils.execCmd(
+            cmdList=cmd,
+            failOnError=True,
+            msg="Error while trying to upgrade %s DB" % DB_NAME,
+            envDict={'ENGINE_PGPASS': PGPASS_TEMP},
+        )
     except:
         os.chdir(currDir)
         raise
 
+
 def getDbDictFromOptions():
-    db_dict = {"name"      : DB_NAME,
-               "host"      : utils.getDbHostName(),
-               "port"      : utils.getDbPort(),
-               "username"  : utils.getDbAdminUser(),
-               "password"  : utils.getPassFromFile(utils.getDbAdminUser())}
+    if os.path.exists(FILE_DATABASE_CONFIG):
+        handler = utils.TextConfigFileHandler(FILE_DATABASE_CONFIG)
+        handler.open()
+        dhandler = handler
+        if os.path.exists(FILE_DATABASE_DWH_CONFIG):
+            dhandler = utils.TextConfigFileHandler(FILE_DATABASE_DWH_CONFIG)
+            dhandler.open()
+        db_dict = {
+            'name': (
+                dhandler.getParam('DWH_DATABASE') or
+                DB_NAME
+            ),
+            'host': handler.getParam('ENGINE_DB_HOST'),
+            'port': handler.getParam('ENGINE_DB_PORT'),
+            'username': (
+                dhandler.getParam('DWH_USER') or
+                DB_USER
+            ),
+            'password': (
+                dhandler.getParam('DWH_PASSWORD') or
+                utils.generatePassword()
+            ),
+            'engine_user': handler.getParam('ENGINE_DB_USER'),
+            'engine_pass': handler.getParam('ENGINE_DB_PASSWORD'),
+        }
+        handler.close()
+        dhandler.close()
+    else:
+        db_dict = {
+            'name': DB_NAME,
+            'host': utils.getDbHostName(),
+            'port': utils.getDbPort(),
+            'username': utils.getDbAdminUser(),
+            'password': utils.getPassFromFile(utils.getDbAdminUser()),
+        }
+
     return db_dict
 
 
@@ -133,9 +190,9 @@ def setDbPass(db_dict):
     file_handler = utils.TextConfigFileHandler(FILE_DB_CONN)
     file_handler.open()
     file_handler.editParam("ovirtEngineHistoryDbPassword", db_dict["password"])
-    file_handler.editParam("ovirtEngineHistoryDbUser", db_dict["username"])
-    file_handler.editParam("ovirtEngineDbPassword", db_dict["password"])
-    file_handler.editParam("ovirtEngineDbUser", db_dict["username"])
+    file_handler.editParam("ovirtEngineHistoryDbUser", DB_USER)
+    file_handler.editParam("ovirtEngineDbPassword", db_dict["engine_pass"])
+    file_handler.editParam("ovirtEngineDbUser", db_dict["engine_user"])
     file_handler.editParam("ovirtEngineDbJdbcConnection",
                            "jdbc\:postgresql\://%s\:%s/engine?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
     file_handler.editParam("ovirtEngineHistoryDbJdbcConnection",
@@ -178,6 +235,8 @@ def main():
     doBackup = None
     backupFile = None
 
+    global PGPASS_TEMP
+
     parser = argparse.ArgumentParser(description='Installs or upgrades your oVirt Engine DWH')
     # Catch when calling ovirt-engine-dwh-setup --help
     args = parser.parse_args()
@@ -186,6 +245,21 @@ def main():
         logging.debug("starting main()")
 
         db_dict = getDbDictFromOptions()
+        if not os.path.exists(
+            FILE_DATABASE_DWH_CONFIG
+        ):
+            with open(FILE_DATABASE_DWH_CONFIG, 'w') as fdwh:
+                fdwh.write(
+                    (
+                        'DWH_USER={user}\n'
+                        'DWH_PASSWORD={password}\n'
+                        'DWH_DATABASE={database}'
+                    ).format(
+                        user=db_dict['username'],
+                        password=db_dict['password'],
+                        database=db_dict['name'],
+                    )
+                )
 
         # Get minimal supported version from oVirt Engine
         minimalVersion = utils.getVDCOption("MinimalETLVersion")
@@ -206,9 +280,10 @@ def main():
             setVersion()
 
             # Create/Upgrade DB
+            PGPASS_TEMP = utils.createTempPgpass(db_dict)
             if dbExists(db_dict):
                 try:
-                    doBackup = utils.performBackup(db_dict, DB_BACKUPS_DIR)
+                    doBackup = utils.performBackup(db_dict, DB_BACKUPS_DIR, PGPASS_TEMP)
                     backupFile = os.path.join(
                         DB_BACKUPS_DIR,
                         'ovirt-engine-history.backup.{date}'.format(
@@ -233,6 +308,10 @@ def main():
                 upgradeDB(db_dict)
             else:
                 createDB(db_dict)
+
+            if os.path.exists(PGPASS_TEMP):
+                os.remove(PGPASS_TEMP)
+
 
             # Start Services
             utils.startEngine()

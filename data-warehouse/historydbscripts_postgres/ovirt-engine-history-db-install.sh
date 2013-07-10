@@ -18,11 +18,8 @@ HOST=`/bin/hostname`
 SCRIPT_NAME="ovirt-history-db-install"
 CUR_DATE=`date +"%Y_%m_%d_%H_%M_%S"`
 
-#list of mandatory rpms - please add here any additional rpms required before configuring the postgresql server
-REQUIRED_RPMS=(postgresql-server postgresql postgresql-libs postgresql-contrib uuid)
-
 #postgresql data dir
-ENGINE_PGPASS=/etc/ovirt-engine/.pgpass
+ENGINE_PGPASS=${ENGINE_PGPASS:-/etc/ovirt-engine/.pgpass}
 PGDATA=/var/lib/pgsql/data
 
 #location of ovirt db scripts
@@ -48,7 +45,7 @@ LOG_PATH=/var/log/ovirt-engine
 USER=`/usr/bin/whoami`
 
 usage() {
-    printf "Usage: ${ME} [-h] [-s SERVERNAME [-p PORT]] [-d DATABASE] [-u USERNAME] [-r 'remote'] -l LOGFILE\n"
+    printf "Usage: ${ME} [-h] [-s SERVERNAME [-p PORT]] [-d DATABASE] [-u USERNAME] [-r 'remote'] -l LOGFILE [-L LOGDIR]\n"
     printf "\n"
     printf "\t-s SERVERNAME - The database servername for the database  (def. ${DB_HOST})\n"
     printf "\t-p PORT       - The database port for the database        (def. ${DB_PORT})\n"
@@ -63,13 +60,14 @@ usage() {
 }
 
 #EXTERNAL ARGS
-while getopts :s:p:d:u:w:l:r:h option; do
+while getopts :s:p:d:u:w:l:L:r:h option; do
     case $option in
         s) DB_HOST=$OPTARG;;
         p) DB_PORT=$OPTARG;;
         d) DB_NAME=$OPTARG;;
         u) DB_ADMIN=$OPTARG;;
         l) LOG_FILE=$OPTARG;;
+        L) LOG_PATH=$OPTARG;;
         r) REMOTE_INSTALL=$OPTARG;;
         h) usage;;
     esac
@@ -134,33 +132,6 @@ initLogFile()
 }
 
 
-#TODO: check if postgresql patch is installed
-verifyPostgresPkgAreInstalled()
-{
-    echo "[$SCRIPT_NAME] verifying required rpms are installed." >> $LOG_FILE
-    for rpm in "${REQUIRED_RPMS[@]}"; do
-        verifyPkgIsInstalled ${rpm}
-    done
-}
-
-verifyPkgIsInstalled()
-{
-    RPM="$1"
-    rpm -q $RPM >> $LOG_FILE 2>&1
-    _verifyRC $? "error, rpm $RPM is not installed"
-}
-
-verifyPostgresService()
-{
-   echo "[$SCRIPT_NAME] verifying postgres binary exists." >> $LOG_FILE
-
-   if [ ! -x $PSQL_BIN ]
-   then
-        echo "[$SCRIPT_NAME] postgres psql command cannot be executed from $PSQL_BIN"
-        exit 1
-   fi
-}
-
 initPgsqlDB()
 {
     echo "[$SCRIPT_NAME] init postgres db." >> $LOG_FILE
@@ -171,6 +142,8 @@ initPgsqlDB()
     else
         service $PGSQL initdb >> $LOG_FILE 2>&1
         _verifyRC $? "error, failed initializing postgresql db"
+        turnPgsqlOnStartup
+        startPgsqlService postgres postgres
     fi
 }
 
@@ -189,8 +162,8 @@ startPgsqlService()
     SERVICE_UP=0
     for i in {1..20}
     do
-       echo "[$SCRIPT_NAME] validating that postgres service is running...retry $i" >> $LOG_FILE
-       PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $USER -d $DB -c "select 1">> $LOG_FILE 2>&1
+       echo "[$SCRIPT_NAME] validating that postgresql service is running...retry $i" >> $LOG_FILE
+       PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $USER -d $DB -w -c "select 1">> $LOG_FILE 2>&1
        if [[ $? == 0 ]]
        then
             SERVICE_UP=1
@@ -245,7 +218,8 @@ createDB()
     then
         pushd $OVIRT_ENGINE_HISTORY_DB_SCRIPTS_DIR >> $LOG_FILE
         #TODO: to we need to verify if the db was already created? (we can create a new file and check if exists..)
-        $SHELL $OVIRT_ENGINE_HISTORY_DB_CREATE_SCRIPT -s $DB_HOST -p $DB_PORT -u $DB_ADMIN >> $LOG_FILE 2>&1
+        CREATE_DB="$OVIRT_ENGINE_HISTORY_DB_SCRIPTS_DIR/$OVIRT_ENGINE_HISTORY_DB_CREATE_SCRIPT"
+        PGPASSFILE="${ENGINE_PGPASS}" "${CREATE_DB}" -s $DB_HOST -p $DB_PORT -u $DB_ADMIN >> $LOG_FILE 2>&1
         _verifyRC $? "error, failed creating ovirt engine history db"
         popd >> $LOG_FILE
 
@@ -280,27 +254,6 @@ checkIfDBExists()
     fi
 }
 
-updateDBUsers()
-{
-    echo "[$SCRIPT_NAME] updating admin user credentials" >> $LOG_FILE
-
-    #update user postgres password
-    PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $DB_ADMIN -c "ALTER ROLE $DB_ADMIN WITH ENCRYPTED PASSWORD '$DB_PASS'" >> /dev/null  2>&1
-    _verifyRC $? "failed updating user $DB_ADMIN password"
-
-    #drop ovirt ROLE if exists
-    PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $DB_ADMIN -c "DROP ROLE IF EXISTS $DB_USER" >> $LOG_FILE 2>&1
-    _verifyRC $? "failed updating user $DB_USER password"
-
-    #create user ovirt + password
-    PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $DB_ADMIN -c "CREATE ROLE $DB_USER WITH LOGIN SUPERUSER ENCRYPTED PASSWORD '$DB_PASS'" >> /dev/null 2>&1
-    _verifyRC $? "failed updating user $DB_USER password"
-
-    #grant all permissions to user ovirt to db ovirt
-    PGPASSFILE="${ENGINE_PGPASS}" $PSQL -U $DB_ADMIN -c "GRANT ALL PRIVILEGES ON DATABASE $DB_NAME to $DB_USER " >> $LOG_FILE 2>&1
-    _verifyRC $? "failed updating user $DB_USER privileges"
-}
-
 turnPgsqlOnStartup()
 {
     #turn on the postgres service on startup
@@ -316,11 +269,7 @@ initLogFile
 # The following should only run during local installation
 if [[ $LOCAL_DB_SET -eq 1 ]]
 then
-    verifyPostgresPkgAreInstalled
-    verifyPostgresService
     initPgsqlDB
-    turnPgsqlOnStartup
-    startPgsqlService postgres postgres
 fi
 
 checkIfDBExists
@@ -332,7 +281,7 @@ then
     createDB
     if [[ $LOCAL_DB_SET -eq 1 ]]
     then
-        startPgsqlService postgres ovirt_engine_history
+        startPgsqlService $DB_ADMIN ovirt_engine_history
     fi
 elif [[ $DB_EXISTS -eq 2 ]]
 then
