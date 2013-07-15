@@ -21643,6 +21643,18 @@ public class ConfigurationSync implements TalendJob {
 			return this.time_zone;
 		}
 
+		public Object vm_pool_id;
+
+		public Object getVm_pool_id() {
+			return this.vm_pool_id;
+		}
+
+		public String vm_pool_name;
+
+		public String getVm_pool_name() {
+			return this.vm_pool_name;
+		}
+
 		public Integer cluster_configuration_version;
 
 		public Integer getCluster_configuration_version() {
@@ -21840,6 +21852,10 @@ public class ConfigurationSync implements TalendJob {
 
 					this.time_zone = readString(dis);
 
+					this.vm_pool_id = (Object) dis.readObject();
+
+					this.vm_pool_name = readString(dis);
+
 					this.cluster_configuration_version = readInteger(dis);
 
 					this.default_host_configuration_version = readInteger(dis);
@@ -21981,6 +21997,14 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.time_zone, dos);
 
+				// Object
+
+				dos.writeObject(this.vm_pool_id);
+
+				// String
+
+				writeString(this.vm_pool_name, dos);
+
 				// Integer
 
 				writeInteger(this.cluster_configuration_version, dos);
@@ -22031,6 +22055,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",fail_back=" + String.valueOf(fail_back));
 			sb.append(",usb_policy=" + String.valueOf(usb_policy));
 			sb.append(",time_zone=" + time_zone);
+			sb.append(",vm_pool_id=" + String.valueOf(vm_pool_id));
+			sb.append(",vm_pool_name=" + vm_pool_name);
 			sb.append(",cluster_configuration_version="
 					+ String.valueOf(cluster_configuration_version));
 			sb.append(",default_host_configuration_version="
@@ -22208,6 +22234,18 @@ public class ConfigurationSync implements TalendJob {
 			return this.time_zone;
 		}
 
+		public Object vm_pool_id;
+
+		public Object getVm_pool_id() {
+			return this.vm_pool_id;
+		}
+
+		public String vm_pool_name;
+
+		public String getVm_pool_name() {
+			return this.vm_pool_name;
+		}
+
 		public java.util.Date create_date;
 
 		public java.util.Date getCreate_date() {
@@ -22396,6 +22434,10 @@ public class ConfigurationSync implements TalendJob {
 
 					this.time_zone = readString(dis);
 
+					this.vm_pool_id = (Object) dis.readObject();
+
+					this.vm_pool_name = readString(dis);
+
 					this.create_date = readDate(dis);
 
 					this.update_date = readDate(dis);
@@ -22544,6 +22586,14 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.time_zone, dos);
 
+				// Object
+
+				dos.writeObject(this.vm_pool_id);
+
+				// String
+
+				writeString(this.vm_pool_name, dos);
+
 				// java.util.Date
 
 				writeDate(this.create_date, dos);
@@ -22584,6 +22634,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",fail_back=" + String.valueOf(fail_back));
 			sb.append(",usb_policy=" + String.valueOf(usb_policy));
 			sb.append(",time_zone=" + time_zone);
+			sb.append(",vm_pool_id=" + String.valueOf(vm_pool_id));
+			sb.append(",vm_pool_name=" + vm_pool_name);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -22756,6 +22808,18 @@ public class ConfigurationSync implements TalendJob {
 			return this.time_zone;
 		}
 
+		public Object vm_pool_id;
+
+		public Object getVm_pool_id() {
+			return this.vm_pool_id;
+		}
+
+		public String vm_pool_name;
+
+		public String getVm_pool_name() {
+			return this.vm_pool_name;
+		}
+
 		public java.util.Date create_date;
 
 		public java.util.Date getCreate_date() {
@@ -22944,6 +23008,10 @@ public class ConfigurationSync implements TalendJob {
 
 					this.time_zone = readString(dis);
 
+					this.vm_pool_id = (Object) dis.readObject();
+
+					this.vm_pool_name = readString(dis);
+
 					this.create_date = readDate(dis);
 
 					this.update_date = readDate(dis);
@@ -23092,6 +23160,14 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.time_zone, dos);
 
+				// Object
+
+				dos.writeObject(this.vm_pool_id);
+
+				// String
+
+				writeString(this.vm_pool_name, dos);
+
 				// java.util.Date
 
 				writeDate(this.create_date, dos);
@@ -23132,6 +23208,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",fail_back=" + String.valueOf(fail_back));
 			sb.append(",usb_policy=" + String.valueOf(usb_policy));
 			sb.append(",time_zone=" + time_zone);
+			sb.append(",vm_pool_id=" + String.valueOf(vm_pool_id));
+			sb.append(",vm_pool_name=" + vm_pool_name);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -23239,7 +23317,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_6 = "INSERT INTO "
 						+ "vm_configuration"
-						+ " (vm_id,vm_name,vm_description,vm_type,cluster_id,template_id,template_name,cpu_per_socket,number_of_sockets,memory_size_mb,operating_system,ad_domain,default_host,high_availability,initialized,stateless,fail_back,usb_policy,time_zone,cluster_configuration_version,default_host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (vm_id,vm_name,vm_description,vm_type,cluster_id,template_id,template_name,cpu_per_socket,number_of_sockets,memory_size_mb,operating_system,ad_domain,default_host,high_availability,initialized,stateless,fail_back,usb_policy,time_zone,vm_pool_id,vm_pool_name,cluster_configuration_version,default_host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_6 = connection_tJDBCOutput_6
 						.prepareStatement(insert_tJDBCOutput_6);
 
@@ -23315,7 +23393,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_6 = conn_tJDBCInput_6
 						.createStatement();
 
-				String dbquery_tJDBCInput_6 = "SELECT     vm_id,     vm_name,     vm_description,     vm_type,     cluster_id,    upper(cast(cluster_id as char(36))) as cluster_join_id,      template_id,     template_name,     cpu_per_socket,     number_of_sockets,     memory_size_mb,     operating_system,     ad_domain,     default_host,    upper(cast(default_host as char(36))) as default_host_join_id,      high_availability,     initialized,     stateless,     fail_back,      usb_policy,     time_zone,     create_date,     update_date  FROM dwh_vm_configuration_history_view";
+				String dbquery_tJDBCInput_6 = "SELECT     vm_id,     vm_name,     vm_description,     vm_type,     cluster_id,    upper(cast(cluster_id as char(36))) as cluster_join_id,      template_id,     template_name,     cpu_per_socket,     number_of_sockets,     memory_size_mb,     operating_system,     ad_domain,     default_host,    upper(cast(default_host as char(36))) as default_host_join_id,      high_availability,     initialized,     stateless,     fail_back,      usb_policy,     time_zone,    vm_pool_id,   vm_pool_name,    create_date,     update_date  FROM dwh_vm_configuration_history_view";
 
 				globalMap.put("tJDBCInput_6_QUERY", dbquery_tJDBCInput_6);
 
@@ -23712,6 +23790,42 @@ public class ConfigurationSync implements TalendJob {
 					column_index_tJDBCInput_6 = 22;
 
 					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
+						row4.vm_pool_id = null;
+					} else {
+
+						if (rs_tJDBCInput_6
+								.getObject(column_index_tJDBCInput_6) != null) {
+							row4.vm_pool_id = rs_tJDBCInput_6
+									.getObject(column_index_tJDBCInput_6);
+						} else {
+							row4.vm_pool_id = null;
+						}
+
+						if (rs_tJDBCInput_6.wasNull()) {
+							row4.vm_pool_id = null;
+						}
+					}
+					column_index_tJDBCInput_6 = 23;
+
+					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
+						row4.vm_pool_name = null;
+					} else {
+
+						tmpContent_tJDBCInput_6 = rs_tJDBCInput_6
+								.getString(column_index_tJDBCInput_6);
+						if (tmpContent_tJDBCInput_6 != null) {
+							row4.vm_pool_name = tmpContent_tJDBCInput_6;
+						} else {
+							row4.vm_pool_name = null;
+						}
+
+						if (rs_tJDBCInput_6.wasNull()) {
+							row4.vm_pool_name = null;
+						}
+					}
+					column_index_tJDBCInput_6 = 24;
+
+					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 						row4.create_date = null;
 					} else {
 
@@ -23729,7 +23843,7 @@ public class ConfigurationSync implements TalendJob {
 							row4.create_date = null;
 						}
 					}
-					column_index_tJDBCInput_6 = 23;
+					column_index_tJDBCInput_6 = 25;
 
 					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 						row4.update_date = null;
@@ -23918,6 +24032,8 @@ public class ConfigurationSync implements TalendJob {
 							vm_configuration_tmp.usb_policy = row4.usb_policy;
 							vm_configuration_tmp.time_zone = StringHandling
 									.TRIM(row4.time_zone);
+							vm_configuration_tmp.vm_pool_id = row4.vm_pool_id;
+							vm_configuration_tmp.vm_pool_name = row4.vm_pool_name;
 							vm_configuration_tmp.cluster_configuration_version = row39.history_id;
 							vm_configuration_tmp.default_host_configuration_version = row38.history_id;
 							vm_configuration_tmp.create_date = row4.create_date;
@@ -24092,54 +24208,70 @@ public class ConfigurationSync implements TalendJob {
 										vm_configuration.time_zone);
 							}
 
-							if (vm_configuration.cluster_configuration_version == null) {
+							if (vm_configuration.vm_pool_id == null) {
 								pstmt_tJDBCOutput_6.setNull(20,
+										java.sql.Types.OTHER);
+							} else {
+								pstmt_tJDBCOutput_6.setObject(20,
+										vm_configuration.vm_pool_id);
+							}
+
+							if (vm_configuration.vm_pool_name == null) {
+								pstmt_tJDBCOutput_6.setNull(21,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_6.setString(21,
+										vm_configuration.vm_pool_name);
+							}
+
+							if (vm_configuration.cluster_configuration_version == null) {
+								pstmt_tJDBCOutput_6.setNull(22,
 										java.sql.Types.INTEGER);
 							} else {
 								pstmt_tJDBCOutput_6
-										.setInt(20,
+										.setInt(22,
 												vm_configuration.cluster_configuration_version);
 							}
 
 							if (vm_configuration.default_host_configuration_version == null) {
-								pstmt_tJDBCOutput_6.setNull(21,
+								pstmt_tJDBCOutput_6.setNull(23,
 										java.sql.Types.INTEGER);
 							} else {
 								pstmt_tJDBCOutput_6
-										.setInt(21,
+										.setInt(23,
 												vm_configuration.default_host_configuration_version);
 							}
 
 							if (vm_configuration.create_date != null) {
 								pstmt_tJDBCOutput_6.setTimestamp(
-										22,
+										24,
 										new java.sql.Timestamp(
 												vm_configuration.create_date
 														.getTime()));
 							} else {
-								pstmt_tJDBCOutput_6.setNull(22,
+								pstmt_tJDBCOutput_6.setNull(24,
 										java.sql.Types.DATE);
 							}
 
 							if (vm_configuration.update_date != null) {
 								pstmt_tJDBCOutput_6.setTimestamp(
-										23,
+										25,
 										new java.sql.Timestamp(
 												vm_configuration.update_date
 														.getTime()));
 							} else {
-								pstmt_tJDBCOutput_6.setNull(23,
+								pstmt_tJDBCOutput_6.setNull(25,
 										java.sql.Types.DATE);
 							}
 
 							if (vm_configuration.delete_date != null) {
 								pstmt_tJDBCOutput_6.setTimestamp(
-										24,
+										26,
 										new java.sql.Timestamp(
 												vm_configuration.delete_date
 														.getTime()));
 							} else {
-								pstmt_tJDBCOutput_6.setNull(24,
+								pstmt_tJDBCOutput_6.setNull(26,
 										java.sql.Types.DATE);
 							}
 
@@ -59194,6 +59326,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1649937 characters generated by Talend Open Studio for Data Integration on
- * the June 23, 2013 12:07:58 PM IDT
+ * 1653516 characters generated by Talend Open Studio for Data Integration on
+ * the July 8, 2013 3:53:58 PM IDT
  ************************************************************************************************/
