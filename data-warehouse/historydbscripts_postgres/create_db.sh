@@ -43,7 +43,7 @@ done
 printf "Creating the database: ${DATABASE}\n"
 #try to drop the database first (if exists)
 dropdb --username=${USERNAME} --host=${SERVERNAME} --port=${PORT} ${DATABASE} -e > /dev/null
-createdb --username=${USERNAME} --host=${SERVERNAME} --port=${PORT} ${DATABASE} -e -E UTF8 -T template0 > /dev/null
+createdb --username=${USERNAME} --host=${SERVERNAME} --port=${PORT} ${DATABASE} -e -E UTF8 --lc-collate en_US.UTF8  --lc-ctype en_US.UTF8 -T template0 > /dev/null
 if [ $? -ne 0 ]
     then
       printf "Failed to create database ${DATABASE}\n"
