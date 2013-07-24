@@ -1038,7 +1038,7 @@ def updatePgHba(database, user):
                         ).format(
                             host='host',
                             user=user,
-                            database='*',
+                            database='all',
                             address=address,
                             auth='md5',
                         )
