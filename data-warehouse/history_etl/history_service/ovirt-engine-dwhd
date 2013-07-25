@@ -29,6 +29,8 @@ prog=ovirt-engine-dwhd
 RETVAL=0
 PID_FOLDER=/var/run/ovirt-engine/
 LOG_FOLDER=/var/log/ovirt-engine/
+OVIRT_USER=ovirt
+
 
 #create the log directory
 if [ ! -d LOG_FOLDER ]; then
@@ -42,11 +44,6 @@ fi
 # Path to the ovirt-engine-dwhd launch script
 ETL_SCRIPT=/usr/share/ovirt-engine-dwh/etl/history_service.sh
 
-# if oVirt_USER is not set, use root
-if [ -z "$oVirt_USER" ]; then
-    oVirt_USER="root"
-fi
-
 if [ -z "$SHUTDOWN_WAIT" ]; then
     SHUTDOWN_WAIT=10
 fi
@@ -58,6 +55,8 @@ if [ -z "$ETL_PID" ]; then
         exit 5
     fi
     ETL_PID=$PID_FOLDER/$prog.pid
+    chown "${OVIRT_USER}" "${PID_FOLDER}"
+    chown "${OVIRT_USER}" "${ETL_PID}"
 fi
 
 lock_file=/var/lock/subsys/$prog
@@ -76,7 +75,7 @@ start() {
     fi
     rm -f /usr/share/ovirt-engine-dwh/etl/kill > /dev/null 2>&1
     echo -n $"Starting $prog: at $(date)"
-    daemon --user $oVirt_USER ETL_PID=$ETL_PID $ETL_SCRIPT > /dev/null 2>&1
+    daemon --user $OVIRT_USER ETL_PID=$ETL_PID $ETL_SCRIPT > /dev/null 2>&1
     RETVAL=$?
     sleep 10
     pid=0
@@ -168,7 +167,7 @@ status() {
             rm -f $lock_file $ETL_PID
         fi
     else
-        pid="$(pgrep -fu $oVirt_USER ovirt_engine_dwh\.historyetl_3_3\.HistoryETL)"
+        pid="$(pgrep -fu $OVIRT_USER ovirt_engine_dwh\.historyetl_3_3\.HistoryETL)"
         if [ -n "$pid" ]; then
             echo "ETL service $0 running (${pid}) but no PID file exists"
             RETVAL="0"

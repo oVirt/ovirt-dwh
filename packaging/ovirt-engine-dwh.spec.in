@@ -5,6 +5,8 @@
 
 %global dwh_name ovirt-engine-dwh
 %global dwh_java %{_javadir}/%{dwh_name}
+%global engine_group ovirt
+%global engine_user ovirt
 
 %global make_common_opts \\\
         -j1 \\\
@@ -133,7 +135,7 @@ fi
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{dwh_name}d
 %{_bindir}/%{dwh_name}-setup
 %{_sysconfdir}/cron.hourly/ovirt_engine_dwh_watchdog.cron
-%config(noreplace) %{_sysconfdir}/ovirt-engine/%{dwh_name}/Default.properties
+%config(noreplace) %attr(-, %{engine_user}, %{engine_group}) %{_sysconfdir}/ovirt-engine/%{dwh_name}/Default.properties
 
 %changelog
 * Thu Apr 19 2012 Yaniv Dary <ydary@redhat.com> - 3.0.0-1.fc16
