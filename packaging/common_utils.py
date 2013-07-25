@@ -32,6 +32,7 @@ ENGINE_SERVICE_NAME = "ovirt-engine"
 # CONST
 EXEC_IP = "/sbin/ip"
 EXEC_PSQL = '/usr/bin/psql'
+EXEC_SU = '/bin/su'
 EXEC_PGDUMP = '/usr/bin/pg_dump'
 FILE_PG_PASS="/etc/ovirt-engine/.pgpass"
 EXEC_SERVICE="/sbin/service"
@@ -968,7 +969,7 @@ def createUser(user, password, option=''):
             ),
         ]
         cmd = [
-            '/usr/bin/su',
+            EXEC_SU,
             '-l',
             'postgres',
             '-c',
@@ -1000,7 +1001,7 @@ def testLocalDb():
             sql_query,
         ]
         cmd = [
-            '/usr/bin/su',
+            EXEC_SU,
             '-l',
             'postgres',
             '-c',
