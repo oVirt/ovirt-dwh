@@ -1,16 +1,5 @@
 #!/bin/bash
 
-insert_initial_data() {
-    printf "Inserting Period Table Values ...\n"
-    execute_file "insert_period_table_values.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
-    printf "Inserting Timekeeping Values  ...\n"
-    execute_file "insert_timekeeping_values.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
-    printf "Inserting ENUM Values ...\n"
-    execute_file "insert_enum_values.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
-    printf "Inserting Calendar Table's Values ...\n"
-    execute_file "insert_calendar_table_values.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
-}
-
 set_defaults() {
     ME=$(basename $0)
     SERVERNAME="localhost"
@@ -38,4 +27,15 @@ refresh_views() {
     execute_file "create_views_3_3.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
     printf "Creating ovirt engine reports views...\n"
     execute_file "create_reports_views.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+}
+
+insert_initial_data() {
+    printf "Inserting data  ...\n"
+    execute_file "insert_data.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+    printf "Inserting Timekeeping Values  ...\n"
+    execute_file "insert_timekeeping_values.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+    printf "Inserting ENUM Values ...\n"
+    execute_file "insert_enum_values.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+    printf "Inserting Calendar Table's Values ...\n"
+    execute_file "insert_calendar_table_values.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
 }

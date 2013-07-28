@@ -30,7 +30,7 @@ execute_file () {
     local ret_instead_exit=${5}
     # tuples_only - supress header (column names) and footer  (rows affected) from output.
     # ON_ERROR_STOP - stop on error.
-    local cmdline="psql --pset=tuples_only=on --set ON_ERROR_STOP=1"
+    local cmdline="psql -w --pset=tuples_only=on --set ON_ERROR_STOP=1"
     cmdline="${cmdline} --file=${filename} "
 
     if [[ -n "${dbname}" ]]; then
@@ -54,7 +54,7 @@ execute_file () {
     fi
 
     if [[ -n "${LOGFILE}" ]]; then
-    cmdline="${cmdline} --log-file=${LOGFILE} "
+	cmdline="${cmdline} --log-file=${LOGFILE} "
     fi
 
     eval $cmdline
@@ -66,6 +66,24 @@ execute_file () {
     fi
 
     return $retval
+}
+
+#cleans db by dropping all objects
+cleandb() {
+# common stored procedures are executed first (for new added functions to be valid)
+    file=$(mktemp)
+    execute_file "common_sp.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+    CMD="select * from generate_drop_all_seq_syntax();"
+    execute_command "$CMD" ${DATABASE} ${SERVERNAME} ${PORT} > $file
+    CMD="select * from generate_drop_all_tables_syntax();"
+    execute_command "$CMD" ${DATABASE} ${SERVERNAME} ${PORT} >> $file
+    CMD="select * from generate_drop_all_views_syntax();"
+    execute_command "$CMD" ${DATABASE} ${SERVERNAME} ${PORT} >> $file
+    CMD="select * from generate_drop_all_functions_syntax();"
+    execute_command "$CMD"  ${DATABASE} ${SERVERNAME} ${PORT} >> $file
+    execute_file "${file}" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+    CMD="DROP FUNCTION IF EXISTS uuid_generate_v1();"
+    execute_command "$CMD" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
 }
 
 #drops views before upgrade or refresh operations
@@ -82,10 +100,23 @@ execute_file "common_sp.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
 drop_sps() {
 # common stored procedures are executed first (for new added functions to be valid)
 execute_file "common_sp.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+    local drop_all_functions=$(mktemp)
+
     CMD="select * from generate_drop_all_functions_syntax();"
-    execute_command "$CMD"  ${DATABASE} ${SERVERNAME} ${PORT} > drop_all_functions.sql
-    execute_file "drop_all_functions.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
-    \rm -f drop_all_functions.sql
+    execute_command "$CMD"  ${DATABASE} ${SERVERNAME} ${PORT} > "${drop_all_functions}"
+    execute_file "${drop_all_functions}" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+    \rm -f "${drop_all_functions}"
+
+    #
+    # dropping the uuid extension and old functions is
+    # required only if we upgrade from old database
+    # as it requires special privileges, so
+    # before execution check if actually required
+    #
+    CMD="select count(*) from pg_proc where proname = 'uuid_nil';"
+    if [ "$(execute_command "$CMD" ${DATABASE} ${SERVERNAME} ${PORT} | sed -e 's/ //g' -e '/^$/d')" != 0 ]; then
+        psql -U postgres -h ${SERVERNAME} -p ${PORT} -f drop_old_uuid_functions.sql ${DATABASE} > /dev/null
+    fi
     # recreate generic functions
     execute_file "create_functions.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
 }
@@ -109,6 +140,12 @@ delete_async_tasks_and_compensation_data() {
     execute_file "delete_async_tasks_and_compensation_data.sql" ${DATABASE} ${SERVERNAME} ${PORT}> /dev/null
 }
 
+refresh_materialized_views() {
+    echo "Refreshing materialized views..."
+    CMD="select RefreshAllMaterializedViews(true);"
+    execute_command "${CMD}" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+}
+
 run_pre_upgrade() {
     #Dropping all views & sps
     drop_views
@@ -116,6 +153,7 @@ run_pre_upgrade() {
     install_common_func
     #run pre upgrade scripts
     execute_commands_in_dir 'pre_upgrade' 'pre-upgrade'
+
     if [[ -n "${CLEAN_TASKS}" ]]; then
        echo "Cleaning tasks metadata..."
        delete_async_tasks_and_compensation_data
@@ -128,16 +166,29 @@ run_post_upgrade() {
     refresh_sps
     #Running post-upgrade scripts
     execute_commands_in_dir 'post_upgrade' 'post-upgrade'
+    #run custom materialized views if exists
+    custom_materialized_views_file="upgrade/post_upgrade/custom/create_materialized_views.sql"
+    if [ -f ${custom_materialized_views_file} ]; then
+        echo "running custom materialized views from ${custom_materialized_views_file} ..."
+        psql -w -U ${USERNAME} --pset=tuples_only=on  --set ON_ERROR_STOP=1 -h ${SERVERNAME} -p ${PORT} -f "${custom_materialized_views_file}" ${DATABASE} > /dev/null
+        if [ $? -ne 0 ] ; then
+            #drop all custom views
+            psql -w -U ${USERNAME} -h ${SERVERNAME} -p ${PORT} -c "select DropAllCustomMaterializedViews();" ${DATABASE} > /dev/null
+            echo "Illegal syntax in custom Materialized Views, Custom Materialized Views were dropped."
+        fi
+    fi
 }
 
 # Runs all the SQL scripts in directory upgrade/$1/
 # The second argument is the label to use while notifying
 # the user about the running of the script
 execute_commands_in_dir() {
-    files=$(get_files "upgrade/${1}" 1)
-    for execFile in $(ls $files | sort); do
-       run_file $execFile
-    done
+    if [ -d upgrade/$1 ]; then
+        files=$(get_files "upgrade/${1}" 1)
+        for execFile in $(ls $files | sort); do
+           run_file $execFile
+        done
+    fi
 }
 
 run_required_scripts() {
@@ -165,17 +216,17 @@ run_file() {
    local execFile=${1}
    isShellScript=$(file $execFile | grep "shell" | wc -l)
    if [ $isShellScript -gt 0 ]; then
-       echo "Running $2 upgrade shell script $execFile ..."
+       echo "Running upgrade shell script $execFile ..."
        export  DATABASE="${DATABASE}" SERVERNAME="${SERVERNAME}" PORT="${PORT}" USERNAME="${USERNAME}"
       ./$execFile
    else
-      echo "Running $2 upgrade sql script $execFile ..."
+      echo "Running upgrade sql script $execFile ..."
       execute_file $execFile ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
    fi
 }
 
 set_version() {
-    execute_file upgrade/03_00_0000_add_schema_version.sql ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+    execute_file upgrade/03_01_0000_set_version.sql ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
     if [  -n "${VERSION}" ]; then
         CMD="update schema_version set current=true where version=trim('${VERSION}');"
         execute_command "${CMD}" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
@@ -184,17 +235,17 @@ set_version() {
 
 get_current_version() {
     echo "select version from schema_version where current = true order by id LIMIT 1;" |
-                    psql -U ${USERNAME} --pset=tuples_only=on ${DATABASE} -h ${SERVERNAME} -p ${PORT}
+                    psql -w -U ${USERNAME} --pset=tuples_only=on ${DATABASE} -h ${SERVERNAME} -p ${PORT}
 }
 
 get_installed_version() {
     local cheksum=${1}
     echo "select version from schema_version where checksum = '${cheksum}' and state = 'INSTALLED';" |
-                    psql -U ${USERNAME} --pset=tuples_only=on ${DATABASE} -h ${SERVERNAME} -p ${PORT}
+                    psql -w -U ${USERNAME} --pset=tuples_only=on ${DATABASE} -h ${SERVERNAME} -p ${PORT}
 }
 
 get_last_installed_id() {
-    echo "select max(id) from schema_version where state in ('INSTALLED','SKIPPED')" | psql -U ${USERNAME} --pset=tuples_only=on ${DATABASE} -h ${SERVERNAME} -p ${PORT}
+    echo "select max(id) from schema_version where state in ('INSTALLED','SKIPPED')" | psql -w -U ${USERNAME} --pset=tuples_only=on ${DATABASE} -h ${SERVERNAME} -p ${PORT}
 }
 set_last_version() {
     id=$(get_last_installed_id)
@@ -203,7 +254,7 @@ set_last_version() {
 }
 
 get_db_time(){
-    echo "select now();" | psql -U ${USERNAME} --pset=tuples_only=on ${DATABASE} -h ${SERVERNAME} -p ${PORT}
+    echo "select now();" | psql -w -U ${USERNAME} --pset=tuples_only=on ${DATABASE} -h ${SERVERNAME} -p ${PORT}
 }
 
 # gets a directory and required depth and return all sql & sh files
@@ -215,19 +266,19 @@ get_files() {
 
 is_view_or_sp_changed() {
     files=$(get_files "upgrade" 3)
-    md5sum_file=.${DATABASE}.scripts.md5
-    md5sum_tmp_file=${md5sum_file}.tmp
+    md5sum_file="${MD5DIR}/.${DATABASE}.scripts.md5"
+    md5sum_tmp_file="${md5sum_file}.tmp"
     md5sum $files create_*views.sql *_sp.sql > ${md5sum_tmp_file}
-    diff -s -q ${md5sum_file} ${md5sum_tmp_file} >& /dev/null
+    diff -s -q "${md5sum_file}" "${md5sum_tmp_file}" >& /dev/null
     result=$?
 
     #  0 - identical , 1 - differ , 2 - error
     if [ $result -eq 0 ] ; then
-        rm -f ${md5sum_tmp_file}
+        rm -f "${md5sum_tmp_file}"
     else
 
         # there is a diff or md5 file does not exist
-        mv -f ${md5sum_tmp_file} ${md5sum_file}
+        mv -f "${md5sum_tmp_file}" "${md5sum_file}"
     fi
     return $result
 }
@@ -253,10 +304,12 @@ run_upgrade_files() {
         comment=""
         updated=0
         validate_version_uniqueness
-        is_view_or_sp_changed
+        if [ "${NOMD5}" = "false" ]; then
+            is_view_or_sp_changed
+        fi
 
         # Checks if a view or sp file has been changed
-        if [ $? -ne 0 ]; then
+        if [[ $? -ne 0 || "${NOMD5}" = "true" ]]; then
             echo "upgrade script detected a change in Config, View or Stored Procedure..."
             run_pre_upgrade
             updated=1
@@ -272,7 +325,7 @@ run_upgrade_files() {
             before=$(get_db_time)
             checksum=$(md5sum $file | cut -d " " -f1)
             # upgrade/dd_dd_dddd* => dddddddd
-        ver="${file:8:2}${file:11:2}${file:14:4}"
+	    ver="${file:8:2}${file:11:2}${file:14:4}"
             if [ "$ver" -gt "$current" ] ; then
                 # we should remove leading zero in order not to treat number as octal
                 xver="${ver:1:7}"
@@ -323,7 +376,7 @@ run_upgrade_files() {
                 CMD="insert into schema_version(version,script,checksum,installed_by,started_at,ended_at,state,current,comment)
                      values (trim('$ver'),'$file','$checksum','${USERNAME}',
                      cast(trim('$before') as timestamp),cast(trim('$after') as timestamp),'$state',false,'$comment');"
-                execute_command "${CMD}" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+                psql -w -U ${USERNAME} --pset=tuples_only=on -h ${SERVERNAME} -p ${PORT} -c "${CMD}" ${DATABASE} > /dev/null
             fi
         done
         set_last_version
@@ -331,10 +384,8 @@ run_upgrade_files() {
         # restore views & SPs if dropped
         if [ $updated -eq 1 ]; then
             run_post_upgrade
-            # auto generate .schema file
-            pg_dump -f .schema -F p -n public -s -U ${USERNAME} ${DATABASE} -h ${SERVERNAME} -p ${PORT}  >& /dev/null
         else
-        echo "database is up to date."
+	    echo "database is up to date."
         fi
     fi
 }
@@ -381,6 +432,8 @@ unlock_entity() {
       CMD="select fn_db_unlock_entity('${object_type}', '${id}', ${recursive});"
    elif [ "${object_type}" = "disk" ]; then
       CMD="select fn_db_unlock_disk('${id}');"
+   elif [ "${object_type}" = "snapshot" ]; then
+      CMD="select fn_db_unlock_snapshot('${id}');"
    else
       printf "Error : $* "
    fi
@@ -403,10 +456,11 @@ query_locked_entities() {
    LOCKED=2
    TEMPLATE_LOCKED=1
    IMAGE_LOCKED=15;
+   SNAPSHOT_LOCKED=LOCKED
    if [ "${object_type}" = "vm" ]; then
        CMD="select vm_name as vm_name from vm_static a ,vm_dynamic b
             where a.vm_guid = b.vm_guid and status = ${IMAGE_LOCKED};"
-       psql -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
+       psql -w -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
        CMD="select vm_name as vm_name , image_group_id as disk_id
             from images a,vm_static b,vm_device c
             where a.image_group_id = c.device_id and b.vm_guid = c.vm_id and
@@ -414,12 +468,14 @@ query_locked_entities() {
             entity_type ilike 'VM' and
             image_group_id in
             (select device_id from vm_device where is_plugged);"
-       psql -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
+       psql -w -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
+       CMD="select vm_name as vm_name, snapshot_id as snapshot_id  from vm_static a ,snapshots b
+            where a.vm_guid = b.vm_id and status ilike '${SNAPSHOT_LOCKED}';"
+       psql -w -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
    elif [ "${object_type}" = "template" ]; then
-       CMD="select vm_name as template_name from vm_static a ,vm_dynamic b
-            where a.vm_guid = b.vm_guid and
-                  template_status = ${TEMPLATE_LOCKED};"
-       psql -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
+       CMD="select vm_name as template_name from vm_static
+                  where template_status = ${TEMPLATE_LOCKED};"
+       psql -w -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
        CMD="select vm_name as template_name, image_group_id as disk_id
             from images a,vm_static b,vm_device c
             where a.image_group_id = c.device_id and b.vm_guid = c.vm_id and
@@ -427,13 +483,19 @@ query_locked_entities() {
             entity_type ilike 'TEMPLATE' and
             image_group_id in
             (select device_id from vm_device where is_plugged);"
-       psql -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
+       psql -w -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
    elif [ "${object_type}" = "disk" ]; then
        CMD="select vm_id as entity_id,disk_id
             from base_disks a ,images b, vm_device c
             where a.disk_id = b.image_group_id and
                   b.image_group_id = c.device_id and
                   imagestatus = ${LOCKED} and is_plugged;"
-       psql -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
+       psql -w -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
+   elif [ "${object_type}" = "snapshot" ]; then
+       CMD="select vm_id as entity_id, snapshot_id
+            from snapshots a
+            where status ilike '${SNAPSHOT_LOCKED}';"
+       psql -w -c "${CMD}" -U ${USERNAME} -d "${DATABASE}" -h "${SERVERNAME}" -p "${PORT}"
    fi
 }
+
