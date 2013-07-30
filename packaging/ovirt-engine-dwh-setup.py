@@ -166,7 +166,7 @@ def getDbDictFromOptions():
                 utils.generatePassword()
             ),
             'engine_user': handler.getParam('ENGINE_DB_USER'),
-            'engine_pass': handler.getParam('ENGINE_DB_PASSWORD'),
+            'engine_pass': handler.getParam('ENGINE_DB_PASSWORD').replace('"', ''),
         }
         handler.close()
         dhandler.close()
