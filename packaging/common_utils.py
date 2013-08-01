@@ -42,6 +42,7 @@ PGPASS_FILE_USER_LINE = "DB USER credentials"
 PGPASS_FILE_ADMIN_LINE = "DB ADMIN credentials"
 FILE_ENGINE_CONFIG_BIN="/usr/bin/engine-config"
 FILE_DATABASE_CONFIG = "/etc/ovirt-engine/engine.conf.d/10-setup-database.conf"
+READ_ONLY_UPDATE_SQLFILE = '/tmp/updateReadOnly.sql'
 
 # ERRORS
 # TODO: Move all errors here and make them consistent
@@ -613,7 +614,7 @@ def createReadOnlyUser(db_dict, PGPASS_FILE):
     )
 
     password = getpass.getpass(
-        prompt='Provide a password for read-only user'
+        prompt='Provide a password for read-only user: '
     )
 
     secured = askYesNo(
@@ -630,6 +631,11 @@ def createReadOnlyUser(db_dict, PGPASS_FILE):
     createUser(
         user=user,
         password=password,
+        database=db_dict['name'],
+    )
+    updateReadOnly(
+        user=user,
+        database=db_dict['name'],
     )
     return (True, '')
 
@@ -938,7 +944,7 @@ def generatePassword():
     )
 
 
-def createUser(user, password, option=''):
+def createUser(user, password, option='', database=''):
     sql_query_set = [
         (
             '"DROP ROLE if exists {user};"'
@@ -948,15 +954,6 @@ def createUser(user, password, option=''):
             '{option} login encrypted password \'{password}\';"'
         ),
     ]
-    if option is '':
-        sql_query_set.append(
-            (
-                '"alter user {user} set default_transaction_read_only to true;"'
-            ).format(
-                user=user
-            )
-        )
-
     for sql_query in sql_query_set:
         sql_command = [
             EXEC_PSQL,
@@ -966,6 +963,53 @@ def createUser(user, password, option=''):
                 user=user,
                 option=option,
                 password=password,
+                database=database,
+            ),
+        ]
+        if database is not '':
+            sql_command.extend(
+                [
+                    '-d', database,
+                ]
+            )
+        cmd = [
+            EXEC_SU,
+            '-l',
+            'postgres',
+            '-c',
+            '{command}'.format(
+                command=' '.join(sql_command),
+            )
+        ]
+
+        execCmd(
+            cmdList=cmd,
+            failOnError=True
+        )
+
+
+def updateReadOnly(user, database):
+    sql_query_set = [
+        (
+            '"GRANT CONNECT ON DATABASE {database} TO {user};"'
+        ),
+        (
+            '"GRANT USAGE ON SCHEMA public TO {user};"'
+        ),
+        (
+            '"alter user {user} '
+            'set default_transaction_read_only to true;"'
+        ),
+    ]
+    for sql_query in sql_query_set:
+        sql_command = [
+            EXEC_PSQL,
+            '-U', 'postgres',
+            '-d', database,
+            '-c',
+            sql_query.format(
+                user=user,
+                database=database,
             ),
         ]
         cmd = [
@@ -982,6 +1026,62 @@ def createUser(user, password, option=''):
             cmdList=cmd,
             failOnError=True
         )
+
+        namespace_query = (
+            '"SELECT \'GRANT SELECT ON \' || relname || \' '
+            'TO {user};\' FROM pg_class JOIN pg_namespace '
+            'ON pg_namespace.oid = pg_class.relnamespace '
+            'WHERE nspname = \'public\' AND relkind IN (\'r\', \'v\');"'
+        )
+        sql_command = [
+            EXEC_PSQL,
+            '-U', 'postgres',
+            '-d', database,
+            '-c',
+            namespace_query.format(
+                user=user,
+            ),
+        ]
+        cmd = [
+            EXEC_SU,
+            '-l',
+            'postgres',
+            '-c',
+            '{command}'.format(
+                command=' '.join(sql_command),
+            )
+        ]
+
+        commands, rc = execCmd(
+            cmdList=cmd,
+            failOnError=True
+        )
+
+        commands = (line for line in commands.splitlines() if 'GRANT' in line)
+
+        with open(READ_ONLY_UPDATE_SQLFILE, 'w') as ro:
+            ro.write('\n'.join(commands))
+
+        if os.path.exists(READ_ONLY_UPDATE_SQLFILE):
+            command = [
+                EXEC_PSQL,
+                '-U', 'postgres',
+                '-d', database,
+                '-f', READ_ONLY_UPDATE_SQLFILE,
+            ]
+            cmd = [
+                EXEC_SU,
+                '-l',
+                'postgres',
+                '-c',
+                '{command}'.format(
+                    command=' '.join(command),
+                )
+            ]
+            execCmd(
+                cmdList=cmd,
+                failOnError=True,
+            )
 
 
 def testLocalDb():
