@@ -297,6 +297,7 @@ def main():
                         utils.backupDB(
                             backupFile,
                             db_dict,
+                            PGPASS_TEMP,
                         )
                 except UserWarning:
                     print 'User decided to stop setup. Exiting.'

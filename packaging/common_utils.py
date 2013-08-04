@@ -871,7 +871,7 @@ def performBackup(db_dict, backupPath, PGPASS_FILE):
     return doBackup
 
 @transactionDisplay("Backing up the DB")
-def backupDB(backup_file, db_dict):
+def backupDB(backup_file, db_dict, PGPASS_FILE):
     """
     Backup postgres db
     Args:  file - a target file to backup to
@@ -886,6 +886,7 @@ def backupDB(backup_file, db_dict):
         '-C',
         '-E',
         'UTF8',
+        '-w',
         '--disable-dollar-quoting',
         '--disable-triggers',
         '--format=p',
@@ -900,6 +901,7 @@ def backupDB(backup_file, db_dict):
         cmdList=cmd,
         failOnError=True,
         msg='Error during DB backup.',
+        envDict={'ENGINE_PGPASS': PGPASS_FILE}
     )
     logging.debug("%s DB Backup completed successfully", db_dict['name'])
 
