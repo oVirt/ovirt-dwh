@@ -1024,7 +1024,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_id, &#xD;&#xA;  upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;  vm_status, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  system_cpu_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xA;  disks_usage,&#xD;&#xA;  vm_ip, &#xA;  vm_client_ip,&#xD;&#xA;  current_user_name, &#xD;&#xA;  currently_running_on_host,&#xD;&#xA;  upper(cast(currently_running_on_host as char(36))) as running_on_host_join_id&#xD;&#xA;FROM dwh_vm_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_id, &#xD;&#xA;  upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;  vm_status, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  system_cpu_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xA;  disks_usage,&#xD;&#xA;  vm_ip, &#xA;  vm_client_ip,&#xD;&#xA;  current_user_name, &#xA;  user_logged_in_to_guest,&#xD;&#xA;  currently_running_on_host,&#xD;&#xA;  upper(cast(currently_running_on_host as char(36))) as running_on_host_join_id&#xD;&#xA;FROM dwh_vm_history_view&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1056,6 +1056,8 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="current_user_name"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="user_logged_in_to_guest"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="currently_running_on_host"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="running_on_host_join_id"/>
@@ -1078,6 +1080,7 @@
       <column comment="" key="false" length="2147483647" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vm_client_ip" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" name="running_on_host_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -1107,6 +1110,7 @@
       <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vm_client_ip" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -1131,6 +1135,7 @@
         <mapperTableEntries name="vm_ip" expression="row12.vm_ip" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_client_ip" expression="row12.vm_client_ip " type="id_String" nullable="true"/>
         <mapperTableEntries name="current_user_name" expression="row12.current_user_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_logged_in_to_guest" expression="row12.user_logged_in_to_guest" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="currently_running_on_host" expression="row12.currently_running_on_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_configuration_version" expression="row47.history_id " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="current_host_configuration_version" expression="row48.history_id " type="id_Integer" nullable="true"/>
@@ -1152,6 +1157,7 @@
         <mapperTableEntries name="vm_ip" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_client_ip" type="id_String" nullable="true"/>
         <mapperTableEntries name="current_user_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_logged_in_to_guest" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="currently_running_on_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="running_on_host_join_id" type="id_String" nullable="true"/>
       </inputTables>
@@ -1325,6 +1331,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="user_logged_in_to_guest"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="currently_running_on_host"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1361,6 +1372,7 @@
       <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vm_client_ip" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -1377,6 +1389,7 @@
       <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vm_client_ip" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -2573,6 +2586,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="vm_client_ip"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="user_logged_in_to_guest"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -2638,6 +2654,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="vm_client_ip"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="user_logged_in_to_guest"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>

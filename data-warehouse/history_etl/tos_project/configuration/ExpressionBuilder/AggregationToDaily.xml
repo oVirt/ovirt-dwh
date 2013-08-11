@@ -1,0 +1,21 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<expression:EMFExpression xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:expression="http:///expression.ecore" id="null=>complete_aggregate_users=>user_logged_in_to_guest" expression="row14.user_logged_in_to_guest > 0">
+  <variables name="row14.history_datetime" value="null" talendType="id_Date"/>
+  <variables name="row14.user_name" value="null" talendType="id_String" nullable="true"/>
+  <variables name="row14.user_logged_in_to_guest" value="null" talendType="id_Short" nullable="true"/>
+  <variables name="row14.vm_id" value="null" talendType="id_Object"/>
+  <variables name="row14.session_time_in_minutes" value="0" talendType="id_Double"/>
+  <variables name="row14.cpu_usage_percent" value="null" talendType="id_Short" nullable="true"/>
+  <variables name="row14.max_cpu_usage" value="null" talendType="id_Short" nullable="true"/>
+  <variables name="row14.memory_usage_percent" value="null" talendType="id_Short" nullable="true"/>
+  <variables name="row14.max_memory_usage" value="null" talendType="id_Short" nullable="true"/>
+  <variables name="row14.user_cpu_usage_percent" value="null" talendType="id_Short" nullable="true"/>
+  <variables name="row14.max_user_cpu_usage_percent" value="null" talendType="id_Short" nullable="true"/>
+  <variables name="row14.system_cpu_usage_percent" value="null" talendType="id_Short" nullable="true"/>
+  <variables name="row14.max_system_cpu_usage_percent" value="null" talendType="id_Short" nullable="true"/>
+  <variables name="row14.vm_ip" value="null" talendType="id_String" nullable="true"/>
+  <variables name="row14.vm_client_ip" value="null" talendType="id_String" nullable="true"/>
+  <variables name="row14.currently_running_on_host" value="null" talendType="id_Object" nullable="true"/>
+  <variables name="row14.vm_configuration_version" value="null" talendType="id_Integer" nullable="true"/>
+  <variables name="row14.current_host_configuration_version" value="null" talendType="id_Integer" nullable="true"/>
+</expression:EMFExpression>
