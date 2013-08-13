@@ -721,15 +721,15 @@ def restartPostgres():
 
 #TODO: Move all execution commands to execCmd
 def execCmd(
-        cmdList,
-        cwd=None,
-        failOnError=False,
-        msg='Return Code is not zero',
-        maskList=[],
-        useShell=False,
-        usePipeFiles=False,
-        envDict=None
-    ):
+    cmdList,
+    cwd=None,
+    failOnError=False,
+    msg='Return Code is not zero',
+    maskList=[],
+    useShell=False,
+    usePipeFiles=False,
+    envDict=None
+):
     """
     Run external shell command with 'shell=false'
     receives a list of arguments for command line execution
@@ -1150,3 +1150,40 @@ def updatePgHba(database, user):
 
     with open(FILE_PG_HBA, 'w') as pghba:
         pghba.write('\n'.join(content))
+
+def configHbaIdent(orig='md5', newval='ident'):
+    content = []
+    logging.debug('Updating pghba postgres use')
+    contentline = (
+        'local   '
+        'all         '
+        'all                               '
+        '{value}'
+    )
+
+    with open(FILE_PG_HBA, 'r') as pghba:
+        for line in pghba.read().splitlines():
+            if line.startswith(
+                contentline.format(value=newval)
+            ):
+                return False
+
+            if line.startswith(
+                contentline.format(value=orig)
+            ):
+                line=contentline.format(value=newval)
+
+            content.append(line)
+
+    with open(FILE_PG_HBA, 'w') as pghba:
+        pghba.write('\n'.join(content))
+
+    restartPostgres()
+    return True
+
+def setPgHbaIdent():
+    return configHbaIdent()
+
+def restorePgHba():
+    return configHbaIdent('ident', 'md5')
+

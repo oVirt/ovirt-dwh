@@ -32,7 +32,15 @@ FILE_DB_CONN = "/etc/ovirt-engine/ovirt-engine-dwh/Default.properties"
 FILE_ENGINE_CONF_DEFAULTS = "/usr/share/ovirt-engine/conf/engine.conf.defaults"
 FILE_ENGINE_CONF = "/etc/ovirt-engine/engine.conf"
 FILE_DATABASE_CONFIG = "/etc/ovirt-engine/engine.conf.d/10-setup-database.conf"
-FILE_DATABASE_DWH_CONFIG = "/etc/ovirt-engine/engine.conf.d/10-setup-database-dwh.conf"
+DIR_DWH_CONFIG = "/etc/ovirt-engine-dwh"
+DIR_DATABASE_DWH_CONFIG = os.path.join(
+    DIR_DWH_CONFIG,
+    'engine-dwh.conf.d',
+)
+FILE_DATABASE_DWH_CONFIG = os.path.join(
+    DIR_DATABASE_DWH_CONFIG,
+    '10-setup-database-dwh.conf'
+)
 DB_BACKUPS_DIR = "/var/lib/ovirt-engine/backups"
 DB_NAME = "ovirt_engine_history"
 DB_USER = 'engine_history'
@@ -237,6 +245,7 @@ def main():
     rc = 0
     doBackup = None
     backupFile = None
+    pg_updated = False
 
     global PGPASS_TEMP
 
@@ -248,21 +257,25 @@ def main():
         logging.debug("starting main()")
 
         db_dict = getDbDictFromOptions()
-        if not os.path.exists(
-            FILE_DATABASE_DWH_CONFIG
+        for dwh_path in (
+            DIR_DWH_CONFIG,
+            DIR_DATABASE_DWH_CONFIG
         ):
-            with open(FILE_DATABASE_DWH_CONFIG, 'w') as fdwh:
-                fdwh.write(
-                    (
-                        'DWH_USER={user}\n'
-                        'DWH_PASSWORD={password}\n'
-                        'DWH_DATABASE={database}'
-                    ).format(
-                        user=db_dict['username'],
-                        password=db_dict['password'],
-                        database=db_dict['name'],
-                    )
+            if not os.path.exists(dwh_path):
+                os.makedirs(dwh_path)
+                os.chmod(dwh_path, 0644)
+        with open(FILE_DATABASE_DWH_CONFIG, 'w') as fdwh:
+            fdwh.write(
+                (
+                    'DWH_USER={user}\n'
+                    'DWH_PASSWORD={password}\n'
+                    'DWH_DATABASE={database}'
+                ).format(
+                    user=db_dict['username'],
+                    password=db_dict['password'],
+                    database=db_dict['name'],
                 )
+            )
 
         # Get minimal supported version from oVirt Engine
         minimalVersion = utils.getVDCOption("MinimalETLVersion")
@@ -284,6 +297,8 @@ def main():
 
             # Create/Upgrade DB
             PGPASS_TEMP = utils.createTempPgpass(db_dict)
+            if utils.localHost(db_dict['host']):
+                pg_updated = utils.configHbaIdent()
             if dbExists(db_dict):
                 try:
                     doBackup = utils.performBackup(db_dict, DB_BACKUPS_DIR, PGPASS_TEMP)
@@ -356,6 +371,9 @@ def main():
     finally:
         if os.path.exists(PGPASS_TEMP):
             os.remove(PGPASS_TEMP)
+
+        if pg_updated:
+            utils.restorePgHba()
 
         return rc
 
