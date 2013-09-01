@@ -127,24 +127,27 @@ def _maskString(string, maskList=[]):
 
     return maskedStr
 
-def getVDCOption(key):
+def getVDCOption(key, db_dict, temp_pgpass):
     """
     Get option_value from vdc_options per given key
     """
-    cmd = [
-        FILE_ENGINE_CONFIG_BIN,
-        "-g",
-        key,
-        "--cver=general",
-        "-p",
-        "/usr/share/ovirt-engine/conf/engine-config-install.properties",
-    ]
-    logging.debug("getting vdc option %s" % key)
+    sqlQuery = '''
+        select option_value from vdc_options
+        where option_name like 'MinimalETLVersion'
+    '''
+    db_dict_new = db_dict.copy()
+    db_dict_new['username'] = db_dict['engine_user']
+    db_dict_new['name'] = db_dict['engine_db']
+    db_dict_new['password'] = db_dict['engine_pass']
+    out, rc = parseRemoteSqlCommand(
+        db_dict=db_dict_new,
+        sqlQuery=sqlQuery,
+        failOnError=True,
+        envDict={'ENGINE_PGPASS': temp_pgpass}
+    )
+    logging.debug("Value of %s is %s" % (key, out[0]['option_value']))
 
-    output, rc = execCmd(cmdList=cmd, failOnError=True, msg="Error: failed fetching configuration field %s" % key)
-    logging.debug("Value of %s is %s" % (key, output))
-
-    return output.rstrip()
+    return out[0]['option_value']
 
 def _getColoredText (text, color):
     ''' gets text string and color
@@ -927,12 +930,16 @@ def createTempPgpass(db_dict, mode='all'):
             (
                 '# DB USER credentials.\n'
                 '{host}:{port}:{database}:{user}:{password}\n'
+                '{host}:{port}:{engine_db}:{engine_user}:{engine_password}\n'
             ).format(
                 host=db_dict['host'],
                 port=db_dict['port'],
                 database='*' if mode == 'all' else db_dict['name'],
                 user=db_dict['username'],
                 password=db_dict['password'],
+                engine_user=db_dict['engine_user'],
+                engine_db=db_dict['engine_db'],
+                engine_password=db_dict['engine_pass'],
             ),
         )
 

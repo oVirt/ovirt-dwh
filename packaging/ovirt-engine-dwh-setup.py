@@ -173,6 +173,7 @@ def getDbDictFromOptions():
                 dhandler.getParam('DWH_PASSWORD') or
                 utils.generatePassword()
             ),
+            'engine_db': handler.getParam('ENGINE_DB_DATABASE'),
             'engine_user': handler.getParam('ENGINE_DB_USER'),
             'engine_pass': handler.getParam('ENGINE_DB_PASSWORD').replace('"', ''),
         }
@@ -257,6 +258,7 @@ def main():
         logging.debug("starting main()")
 
         db_dict = getDbDictFromOptions()
+        PGPASS_TEMP = utils.createTempPgpass(db_dict)
         for dwh_path in (
             DIR_DWH_CONFIG,
             DIR_DATABASE_DWH_CONFIG
@@ -278,7 +280,11 @@ def main():
             )
 
         # Get minimal supported version from oVirt Engine
-        minimalVersion = utils.getVDCOption("MinimalETLVersion")
+        minimalVersion = utils.getVDCOption(
+            key="MinimalETLVersion",
+            db_dict=db_dict,
+            temp_pgpass=PGPASS_TEMP,
+        )
         currentVersion = utils.getAppVersion(DWH_PACKAGE_NAME)
         if not isVersionSupported(minimalVersion, currentVersion):
             print "Minimal supported version (%s) is higher then installed version (%s), please update the %s package" % (minimalVersion, currentVersion, DWH_PACKAGE_NAME)
@@ -296,7 +302,6 @@ def main():
             setVersion()
 
             # Create/Upgrade DB
-            PGPASS_TEMP = utils.createTempPgpass(db_dict)
             if utils.localHost(db_dict['host']):
                 pg_updated = utils.configHbaIdent()
             if dbExists(db_dict):
