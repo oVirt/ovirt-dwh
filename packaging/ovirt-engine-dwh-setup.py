@@ -16,8 +16,7 @@ import sys
 import os
 import time
 import traceback
-import glob
-import shutil
+import pwd
 import argparse
 import getpass
 import types
@@ -65,7 +64,15 @@ DB_RESTORE = (
 # ERRORS:
 ERR_DB_CREATE_FAILED = "Error while trying to create %s db" % DB_NAME
 
-log_file = utils.initLogging("%s-setup" % DWH_PACKAGE_NAME, "/var/log/ovirt-engine")
+def _verifyUserPermissions():
+    username = pwd.getpwuid(os.getuid())[0]
+    if os.geteuid() != 0:
+        sys.exit(
+            'Error: insufficient permissions for user {user}, '
+            'you must run with user root.'.format(
+                user=username
+            )
+        )
 
 def dbExists(db_dict):
     logging.debug("checking if %s db already exists" % db_dict['dbname'])
@@ -294,6 +301,7 @@ def main():
     '''
     main
     '''
+
     rc = 0
     doBackup = None
     backupFile = None
@@ -518,5 +526,14 @@ def main():
         return rc
 
 if __name__ == "__main__":
+    # Check permissions first
+    _verifyUserPermissions()
+
+    # Initiate logging
+    log_file = utils.initLogging(
+        "%s-setup" % DWH_PACKAGE_NAME,
+        "/var/log/ovirt-engine"
+    )
+
     rc = main()
     sys.exit(rc)
