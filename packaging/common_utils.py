@@ -137,7 +137,7 @@ def getVDCOption(key, db_dict, temp_pgpass):
     '''
     db_dict_new = db_dict.copy()
     db_dict_new['username'] = db_dict['engine_user']
-    db_dict_new['name'] = db_dict['engine_db']
+    db_dict_new['dbname'] = db_dict['engine_db']
     db_dict_new['password'] = db_dict['engine_pass']
     out, rc = parseRemoteSqlCommand(
         db_dict=db_dict_new,
@@ -262,7 +262,7 @@ class TextConfigFileHandler(ConfigFileHandler):
     def delParams(self, paramsDict):
         pass
 
-def askQuestion(question=None, yesNo=False, options=''):
+def askQuestion(question=None, yesNo=False, options='', default=''):
     '''
     provides an interface that prompts the user
     to answer "yes/no" to a given question
@@ -274,6 +274,11 @@ def askQuestion(question=None, yesNo=False, options=''):
         question=question,
         options=options,
     )
+    if default is not '':
+        ask_string = '{ask_string} [{default}]'.format(
+            ask_string=ask_string,
+            default=default,
+        )
     logging.debug("asking user: %s" % ask_string)
     message.write(ask_string)
     message.seek(0)
@@ -286,9 +291,19 @@ def askQuestion(question=None, yesNo=False, options=''):
         elif answer == "no" or answer == "n":
             return False
         else:
-            return askQuestion(question, yesNo=True)
+            return askQuestion(question, yesNo, default)
     else:
-        return answer or askQuestion(question, options)
+        if (
+            type(answer) != str or
+            (len(answer) == 0 and default == '')
+        ):
+            print 'Not a valid answer. Try again'
+            return askQuestion(question, options, default)
+        elif len(answer) == 0:
+            return default
+        else:
+            return answer
+
 
 def askYesNo(question=None):
     '''
@@ -318,7 +333,7 @@ def execSqlCmd(db_dict, sql_query, fail_on_error=False, err_msg="Failed running 
     logging.debug("running sql query on host: %s, port: %s, db: %s, user: %s, query: \'%s\'." %
                   (db_dict["host"],
                    db_dict["port"],
-                   db_dict["name"],
+                   db_dict['dbname'],
                    db_dict["username"],
                    sql_query))
     cmd = [
@@ -326,7 +341,7 @@ def execSqlCmd(db_dict, sql_query, fail_on_error=False, err_msg="Failed running 
         "--pset=tuples_only=on",
         "--set",
         "ON_ERROR_STOP=1",
-        "--dbname", db_dict["name"],
+        "--dbname", db_dict['dbname'],
         "--host", db_dict["host"],
         "--port", db_dict["port"],
         "--username", db_dict["username"],
@@ -505,9 +520,9 @@ def getAppVersion(package):
     output, rc = execCmd(cmdList=cmd, failOnError=True, msg="Failed to get package version & release")
     return output.rstrip()
 
-def dbExists(db_dict):
-    logging.debug("checking if %s db already exists" % db_dict["name"])
-    (output, rc) = execSqlCmd(db_dict, "select 1")
+def dbExists(db_dict, pgpass):
+    logging.debug("checking if %s db already exists" % db_dict['dbname'])
+    (output, rc) = execSqlCmd(db_dict, "select 1", envDict={'ENGINE_PGPASS': pgpass})
     if (rc != 0):
         return False
     else:
@@ -551,13 +566,13 @@ def dropDB(db_dict):
     """
     drops the given DB
     """
-    logging.debug("dropping db %s" % db_dict["name"])
+    logging.debug("dropping db %s" % db_dict['dbname'])
     cmd = [
         "/usr/bin/dropdb",
         "-U", db_dict["username"],
-        db_dict["name"],
+        db_dict['dbname'],
     ]
-    (output, rc) = execCmd(cmdList=cmd, failOnError=True, msg="Error while removing database %s" % db_dict["name"])
+    (output, rc) = execCmd(cmdList=cmd, failOnError=True, msg="Error while removing database %s" % db_dict['dbname'])
 
 def getConfiguredIps():
     try:
@@ -587,7 +602,8 @@ def localHost(hostname):
         return True
     return False
 
-def createReadOnlyUser(db_dict, PGPASS_FILE):
+@transactionDisplay('Creating read-only user')
+def createReadOnlyUser(database, user, password, secured):
 
     # Check whether we can create DB:
     global DB_ADMIN
@@ -599,34 +615,7 @@ def createReadOnlyUser(db_dict, PGPASS_FILE):
     if not canCreateDb:
         return (False, errorMsg)
 
-    # Ask user how would the user be created
-    createReadUser = askYesNo(
-        question=(
-            '\nThis utility can configure a read only user for DB access. '
-            'Would you like to do so?'
-        )
-    )
-
-    if not createReadUser:
-        logging.debug('Skipping creation of read only DB user.')
-        print 'Skipping creationg of read only DB user.'
-        return (True, '')
-
-    user = askQuestion(
-        question='Provide a username for read-only user'
-    )
-
-    password = getpass.getpass(
-        prompt='Provide a password for read-only user: '
-    )
-
-    secured = askYesNo(
-        question=(
-            'Should postgresql be setup with secure connection?'
-        )
-    )
-
-    updatePgHba(db_dict['name'], user)
+    updatePgHba(database, user)
     configurePostgres(user, secured)
     if secured:
         createCertificate()
@@ -634,11 +623,11 @@ def createReadOnlyUser(db_dict, PGPASS_FILE):
     createUser(
         user=user,
         password=password,
-        database=db_dict['name'],
+        database=database,
     )
     updateReadOnly(
         user=user,
-        database=db_dict['name'],
+        database=database,
     )
     return (True, '')
 
@@ -806,16 +795,16 @@ def getAvailableSpace(path):
 
 def getDbSize(db_dict, PGPASS_FILE):
     # Returns db size in MB
-    sql = "SELECT pg_database_size(\'%s\')" % db_dict['name']
+    sql = "SELECT pg_database_size(\'%s\')" % db_dict['dbname']
 
     # Work with db credentials copy, rename db name to template1
     db_copy = db_dict.copy()
-    db_copy['name'] = 'template1'
+    db_copy['dbname'] = 'template1'
     out, rc = parseRemoteSqlCommand(
         db_dict=db_copy,
         sqlQuery=sql,
         failOnError=True,
-        errMsg=ERR_DB_GET_SPACE % db_dict['name'],
+        errMsg=ERR_DB_GET_SPACE % db_dict['dbname'],
         envDict={'ENGINE_PGPASS': PGPASS_FILE}
     )
     size = int(out[0]['pg_database_size'])
@@ -864,7 +853,7 @@ def performBackup(db_dict, backupPath, PGPASS_FILE):
 
     if not proceed or not askYesNo(
         proceed.format(
-            db=db_dict['name']
+            db=db_dict['dbname']
         )
     ):
         raise UserWarning(
@@ -881,7 +870,7 @@ def backupDB(backup_file, db_dict, PGPASS_FILE):
            db_dict = DB connection object
 
     """
-    logging.debug("%s DB Backup started", db_dict['name'])
+    logging.debug("%s DB Backup started", db_dict['dbname'])
 
     # Run backup
     cmd = [
@@ -898,7 +887,7 @@ def backupDB(backup_file, db_dict, PGPASS_FILE):
         '-p', db_dict['port'],
         '-Fc',
         '-f', backup_file,
-        db_dict['name'],
+        db_dict['dbname'],
     ]
     execCmd(
         cmdList=cmd,
@@ -906,7 +895,7 @@ def backupDB(backup_file, db_dict, PGPASS_FILE):
         msg='Error during DB backup.',
         envDict={'ENGINE_PGPASS': PGPASS_FILE}
     )
-    logging.debug("%s DB Backup completed successfully", db_dict['name'])
+    logging.debug("%s DB Backup completed successfully", db_dict['dbname'])
 
 
 def getUsernameId(username):
@@ -934,7 +923,7 @@ def createTempPgpass(db_dict, mode='all'):
             ).format(
                 host=db_dict['host'],
                 port=db_dict['port'],
-                database='*' if mode == 'all' else db_dict['name'],
+                database='*' if mode == 'all' else db_dict['dbname'],
                 user=db_dict['username'],
                 password=db_dict['password'],
                 engine_user=db_dict['engine_user'],
@@ -951,6 +940,19 @@ def generatePassword():
         ''.join([random.choice(string.digits) for i in xrange(4)]),
         ''.join([random.choice(string.letters) for i in xrange(4)]),
     )
+
+
+def createDB(database, owner):
+    sql_query_set = [
+        (
+            '"CREATE DATABASE {database} owner {owner};"'.format(
+                database=database,
+                owner=owner,
+            )
+        ),
+    ]
+    for sql_query in sql_query_set:
+        runPostgresSuQuery(sql_query)
 
 
 def createUser(user, password, option='', database=''):
@@ -1103,26 +1105,7 @@ def testLocalDb():
         ),
     ]
     for sql_query in sql_query_set:
-        sql_command = [
-            EXEC_PSQL,
-            '-U', 'postgres',
-            '-c',
-            sql_query,
-        ]
-        cmd = [
-            EXEC_SU,
-            '-l',
-            'postgres',
-            '-c',
-            '{command}'.format(
-                command=' '.join(sql_command),
-            )
-        ]
-
-        execCmd(
-            cmdList=cmd,
-            failOnError=True
-        )
+        runPostgresSuQuery(sql_query)
 
     return True
 
@@ -1193,4 +1176,35 @@ def setPgHbaIdent():
 
 def restorePgHba():
     return configHbaIdent('ident', 'md5')
+
+def runPostgresSuQuery(query, database=None, failOnError=True):
+    sql_command = [
+        EXEC_PSQL,
+        '-U', 'postgres',
+    ]
+    if database is not None:
+        sql_command.extend(
+            (
+                '-d', database
+            )
+        )
+    sql_command.extend(
+        (
+            '-c', query,
+        )
+    )
+    cmd = [
+        EXEC_SU,
+        '-l',
+        'postgres',
+        '-c',
+        '{command}'.format(
+            command=' '.join(sql_command),
+        )
+    ]
+
+    return execCmd(
+        cmdList=cmd,
+        failOnError=failOnError
+    )
 
