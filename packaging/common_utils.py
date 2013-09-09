@@ -945,7 +945,7 @@ def generatePassword():
 def createDB(database, owner):
     sql_query_set = [
         (
-            '"CREATE DATABASE {database} owner {owner};"'.format(
+            '"CREATE DATABASE {database} encoding \'UTF8\' LC_COLLATE \'en_US.UTF-8\' LC_CTYPE \'en_US.UTF-8\' template template0 owner {owner};"'.format(
                 database=database,
                 owner=owner,
             )
