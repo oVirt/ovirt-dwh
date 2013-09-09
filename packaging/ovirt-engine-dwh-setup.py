@@ -440,23 +440,24 @@ def main():
 
                 createDbSchema(db_dict)
 
-            # Create read only
-            readUserCreated, errMsg = utils.createReadOnlyUser(
-                db_dict['dbname'],
-                readonly_user,
-                readonly_pass,
-                readonly_secure,
-            )
-
-            if not readUserCreated:
-                print (
-                    'While trying to create a read-only DB user, '
-                    'the following error received: {error}'
-                ).format(
-                    error=errMsg
+            if utils.localHost(db_dict["host"]):
+                # Create read only
+                readUserCreated, errMsg = utils.createReadOnlyUser(
+                    db_dict['dbname'],
+                    readonly_user,
+                    readonly_pass,
+                    readonly_secure,
                 )
-            else:
-                db_dict['readonly'] = readonly_user
+
+                if not readUserCreated:
+                    print (
+                        'While trying to create a read-only DB user, '
+                        'the following error received: {error}'
+                    ).format(
+                        error=errMsg
+                    )
+                else:
+                    db_dict['readonly'] = readonly_user
 
             # Set DB connecitivty (user/pass)
             if db_dict['password']:
