@@ -507,6 +507,7 @@ SELECT
     a.vm_client_ip,
     a.currently_running_on_host as currently_running_on_host,
     a.current_user_name as current_user_name,
+    a.user_logged_in_to_guest,
     b.disks_usage as disks_usage,
     a.vm_configuration_version as vm_configuration_version,
     a.current_host_configuration_version as current_host_configuration_version
@@ -583,6 +584,7 @@ SELECT history_id,
        max_system_cpu_usage_percent,
        vm_ip,
        vm_client_ip,
+       user_logged_in_to_guest,
        currently_running_on_host,
        vm_configuration_version,
        current_host_configuration_version
@@ -605,6 +607,7 @@ SELECT history_id,
        max_system_cpu_usage_percent,
        vm_ip,
        vm_client_ip,
+       user_logged_in_to_guest,
        currently_running_on_host,
        vm_configuration_version,
        current_host_configuration_version
