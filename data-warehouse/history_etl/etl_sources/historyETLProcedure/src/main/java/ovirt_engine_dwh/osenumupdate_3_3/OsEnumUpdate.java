@@ -482,16 +482,6 @@ public class OsEnumUpdate implements TalendJob {
 		tJDBCInput_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tMap_1_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tMap_1", System.currentTimeMillis());
-
-		status = "failure";
-
-		tJDBCInput_2_onSubJobError(exception, errorComponent, globalMap);
-	}
-
 	public void tJDBCOutput_1_error(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1846,8 +1836,8 @@ public class OsEnumUpdate implements TalendJob {
 		globalMap.put("tRowGenerator_1_SUBPROCESS_STATE", 1);
 	}
 
-	public static class host_changesStruct implements
-			routines.system.IPersistableRow<host_changesStruct> {
+	public static class row2Struct implements
+			routines.system.IPersistableRow<row2Struct> {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_OsEnumUpdate = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_OsEnumUpdate = new byte[0];
 		protected static final int DEFAULT_HASHCODE = 1;
@@ -1916,7 +1906,7 @@ public class OsEnumUpdate implements TalendJob {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			final host_changesStruct other = (host_changesStruct) obj;
+			final row2Struct other = (row2Struct) obj;
 
 			if (this.enum_type == null) {
 				if (other.enum_type != null)
@@ -1939,7 +1929,7 @@ public class OsEnumUpdate implements TalendJob {
 			return true;
 		}
 
-		public void copyDataTo(host_changesStruct other) {
+		public void copyDataTo(row2Struct other) {
 
 			other.enum_type = this.enum_type;
 			other.enum_key = this.enum_key;
@@ -1948,200 +1938,12 @@ public class OsEnumUpdate implements TalendJob {
 
 		}
 
-		public void copyKeysDataTo(host_changesStruct other) {
+		public void copyKeysDataTo(row2Struct other) {
 
 			other.enum_type = this.enum_type;
 			other.enum_key = this.enum_key;
 			other.language_code = this.language_code;
 
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_OVIRT_ENGINE_DWH_OsEnumUpdate.length) {
-					if (length < 1024
-							&& commonByteArray_OVIRT_ENGINE_DWH_OsEnumUpdate.length == 0) {
-						commonByteArray_OVIRT_ENGINE_DWH_OsEnumUpdate = new byte[1024];
-					} else {
-						commonByteArray_OVIRT_ENGINE_DWH_OsEnumUpdate = new byte[2 * length];
-					}
-				}
-				dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_OsEnumUpdate, 0,
-						length);
-				strReturn = new String(
-						commonByteArray_OVIRT_ENGINE_DWH_OsEnumUpdate, 0,
-						length, utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_OsEnumUpdate) {
-
-				try {
-
-					int length = 0;
-
-					this.enum_type = readString(dis);
-
-					length = dis.readByte();
-					if (length == -1) {
-						this.enum_key = null;
-					} else {
-						this.enum_key = dis.readShort();
-					}
-
-					this.language_code = readString(dis);
-
-					this.value = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// String
-
-				writeString(this.enum_type, dos);
-
-				// Short
-
-				if (this.enum_key == null) {
-					dos.writeByte(-1);
-				} else {
-					dos.writeByte(0);
-					dos.writeShort(this.enum_key);
-				}
-
-				// String
-
-				writeString(this.language_code, dos);
-
-				// String
-
-				writeString(this.value, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("enum_type=" + enum_type);
-			sb.append(",enum_key=" + String.valueOf(enum_key));
-			sb.append(",language_code=" + language_code);
-			sb.append(",value=" + value);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(host_changesStruct other) {
-
-			int returnValue = -1;
-
-			returnValue = checkNullsAndCompare(this.enum_type, other.enum_type);
-			if (returnValue != 0) {
-				return returnValue;
-			}
-
-			returnValue = checkNullsAndCompare(this.enum_key, other.enum_key);
-			if (returnValue != 0) {
-				return returnValue;
-			}
-
-			returnValue = checkNullsAndCompare(this.language_code,
-					other.language_code);
-			if (returnValue != 0) {
-				return returnValue;
-			}
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(),
-						object2.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
-	public static class row2Struct implements
-			routines.system.IPersistableRow<row2Struct> {
-		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_OsEnumUpdate = new byte[0];
-		static byte[] commonByteArray_OVIRT_ENGINE_DWH_OsEnumUpdate = new byte[0];
-
-		public String enum_type;
-
-		public String getEnum_type() {
-			return this.enum_type;
-		}
-
-		public Short enum_key;
-
-		public Short getEnum_key() {
-			return this.enum_key;
-		}
-
-		public String language_code;
-
-		public String getLanguage_code() {
-			return this.language_code;
-		}
-
-		public String value;
-
-		public String getValue() {
-			return this.value;
 		}
 
 		private String readString(ObjectInputStream dis) throws IOException {
@@ -2260,6 +2062,22 @@ public class OsEnumUpdate implements TalendJob {
 
 			int returnValue = -1;
 
+			returnValue = checkNullsAndCompare(this.enum_type, other.enum_type);
+			if (returnValue != 0) {
+				return returnValue;
+			}
+
+			returnValue = checkNullsAndCompare(this.enum_key, other.enum_key);
+			if (returnValue != 0) {
+				return returnValue;
+			}
+
+			returnValue = checkNullsAndCompare(this.language_code,
+					other.language_code);
+			if (returnValue != 0) {
+				return returnValue;
+			}
+
 			return returnValue;
 		}
 
@@ -2309,7 +2127,6 @@ public class OsEnumUpdate implements TalendJob {
 				globalResumeTicket = true;
 
 				row2Struct row2 = new row2Struct();
-				host_changesStruct host_changes = new host_changesStruct();
 
 				/**
 				 * [tJDBCOutput_1 begin ] start
@@ -2356,36 +2173,6 @@ public class OsEnumUpdate implements TalendJob {
 
 				/**
 				 * [tJDBCOutput_1 begin ] stop
-				 */
-
-				/**
-				 * [tMap_1 begin ] start
-				 */
-
-				ok_Hash.put("tMap_1", false);
-				start_Hash.put("tMap_1", System.currentTimeMillis());
-				currentComponent = "tMap_1";
-
-				int tos_count_tMap_1 = 0;
-
-				// ###############################
-				// # Lookup's keys initialization
-				// ###############################
-
-				// ###############################
-				// # Vars initialization
-				class Var__tMap_1__Struct {
-				}
-				Var__tMap_1__Struct Var__tMap_1 = new Var__tMap_1__Struct();
-				// ###############################
-
-				// ###############################
-				// # Outputs initialization
-				host_changesStruct host_changes_tmp = new host_changesStruct();
-				// ###############################
-
-				/**
-				 * [tMap_1 begin ] stop
 				 */
 
 				/**
@@ -2519,100 +2306,50 @@ public class OsEnumUpdate implements TalendJob {
 					 */
 
 					/**
-					 * [tMap_1 main ] start
+					 * [tJDBCOutput_1 main ] start
 					 */
 
-					currentComponent = "tMap_1";
+					currentComponent = "tJDBCOutput_1";
 
-					boolean hasCasePrimitiveKeyWithNull_tMap_1 = false;
+					whetherReject_tJDBCOutput_1 = false;
+					if (row2.enum_type == null) {
+						pstmt_tJDBCOutput_1.setNull(1, java.sql.Types.VARCHAR);
+					} else {
+						pstmt_tJDBCOutput_1.setString(1, row2.enum_type);
+					}
 
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_1 = false;
-					boolean mainRowRejected_tMap_1 = false;
+					if (row2.enum_key == null) {
+						pstmt_tJDBCOutput_1.setNull(2, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_1.setShort(2, row2.enum_key);
+					}
 
-					// ###############################
-					{ // start of Var scope
+					if (row2.language_code == null) {
+						pstmt_tJDBCOutput_1.setNull(3, java.sql.Types.VARCHAR);
+					} else {
+						pstmt_tJDBCOutput_1.setString(3, row2.language_code);
+					}
 
-						// ###############################
-						// # Vars tables
+					if (row2.value == null) {
+						pstmt_tJDBCOutput_1.setNull(4, java.sql.Types.VARCHAR);
+					} else {
+						pstmt_tJDBCOutput_1.setString(4, row2.value);
+					}
 
-						Var__tMap_1__Struct Var = Var__tMap_1;// ###############################
-						// ###############################
-						// # Output tables
+					try {
+						insertedCount_tJDBCOutput_1 = insertedCount_tJDBCOutput_1
+								+ pstmt_tJDBCOutput_1.executeUpdate();
+						nb_line_tJDBCOutput_1++;
+					} catch (java.lang.Exception e) {
+						whetherReject_tJDBCOutput_1 = true;
+						throw (e);
+					}
 
-						host_changes = null;
-
-						// ###### START REJECTS #####
-						// ###############################
-
-					} // end of Var scope
-
-					rejectedInnerJoin_tMap_1 = false;
-
-					tos_count_tMap_1++;
+					tos_count_tJDBCOutput_1++;
 
 					/**
-					 * [tMap_1 main ] stop
+					 * [tJDBCOutput_1 main ] stop
 					 */
-					// Start of branch "host_changes"
-					if (host_changes != null) {
-
-						/**
-						 * [tJDBCOutput_1 main ] start
-						 */
-
-						currentComponent = "tJDBCOutput_1";
-
-						whetherReject_tJDBCOutput_1 = false;
-						if (host_changes.enum_type == null) {
-							pstmt_tJDBCOutput_1.setNull(1,
-									java.sql.Types.VARCHAR);
-						} else {
-							pstmt_tJDBCOutput_1.setString(1,
-									host_changes.enum_type);
-						}
-
-						if (host_changes.enum_key == null) {
-							pstmt_tJDBCOutput_1.setNull(2,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_1.setShort(2,
-									host_changes.enum_key);
-						}
-
-						if (host_changes.language_code == null) {
-							pstmt_tJDBCOutput_1.setNull(3,
-									java.sql.Types.VARCHAR);
-						} else {
-							pstmt_tJDBCOutput_1.setString(3,
-									host_changes.language_code);
-						}
-
-						if (host_changes.value == null) {
-							pstmt_tJDBCOutput_1.setNull(4,
-									java.sql.Types.VARCHAR);
-						} else {
-							pstmt_tJDBCOutput_1
-									.setString(4, host_changes.value);
-						}
-
-						try {
-							insertedCount_tJDBCOutput_1 = insertedCount_tJDBCOutput_1
-									+ pstmt_tJDBCOutput_1.executeUpdate();
-							nb_line_tJDBCOutput_1++;
-						} catch (java.lang.Exception e) {
-							whetherReject_tJDBCOutput_1 = true;
-							throw (e);
-						}
-
-						tos_count_tJDBCOutput_1++;
-
-						/**
-						 * [tJDBCOutput_1 main ] stop
-						 */
-
-					} // End of branch "host_changes"
 
 					/**
 					 * [tJDBCInput_2 end ] start
@@ -2631,23 +2368,6 @@ public class OsEnumUpdate implements TalendJob {
 
 				/**
 				 * [tJDBCInput_2 end ] stop
-				 */
-
-				/**
-				 * [tMap_1 end ] start
-				 */
-
-				currentComponent = "tMap_1";
-
-				// ###############################
-				// # Lookup hashes releasing
-				// ###############################
-
-				ok_Hash.put("tMap_1", true);
-				end_Hash.put("tMap_1", System.currentTimeMillis());
-
-				/**
-				 * [tMap_1 end ] stop
 				 */
 
 				/**
@@ -4525,6 +4245,6 @@ public class OsEnumUpdate implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 125510 characters generated by Talend Open Studio for Data Integration on the
- * September 17, 2013 5:28:57 PM IDT
+ * 118753 characters generated by Talend Open Studio for Data Integration on the
+ * September 30, 2013 5:02:44 PM IDT
  ************************************************************************************************/
