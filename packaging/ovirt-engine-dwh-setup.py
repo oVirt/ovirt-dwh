@@ -145,19 +145,25 @@ def upgradeDB(db_dict):
         os.chdir(currDir)
         raise
 
-def getPassFromUser(string):
+def getPassFromUser(prompt):
     """
     get a single password from the user
     """
-    userInput = getpass.getpass(string)
-    if type(userInput) != types.StringType or len(userInput) == 0:
+    userInput = getpass.getpass(prompt)
+    if len(userInput) == 0:
         print "Cannot accept an empty password"
-        return getPassFromUser(string)
+        return getPassFromUser(prompt)
 
     try:
         cracklib.FascistCheck(userInput)
     except:
         print "Warning: Weak Password."
+
+    # We do not need verification for the re-entered password
+    userInput2 = getpass.getpass("Re-type password: ")
+    if userInput != userInput2:
+            print "ERROR: passwords don't match"
+            return getPassFromUser(prompt)
 
     return userInput
 
@@ -193,13 +199,8 @@ def getDbCredentials(
     )
 
     userInput = getPassFromUser(
-        'Please choose a password for the db user: '
+        prompt='Please choose a password for the db user: '
     )
-    # We do not need verification for the re-entered password
-    userInput2 = getpass.getpass("Re-type password: ")
-    if userInput != userInput2:
-            print "ERROR: passwords don't match"
-            return getDbCredentials(dbhost, dbport, dbuser)
 
     return (dbhost, dbport, dbuser, userInput)
 
@@ -349,6 +350,9 @@ def main():
             utils.stopEtl()
 
             setVersion()
+            readUserCreated = False
+            createReadUser = False
+            errMsg = ''
 
             # Create/Upgrade DB
             if utils.localHost(db_dict['host']):
@@ -357,8 +361,6 @@ def main():
                 # Handle postgres configuration for the read-only user
                 # on local installations only
 
-                readUserCreated = False
-                errMsg = ''
                 if db_dict['readonly'] is None:
                     # Ask user how would the user be created
                     createReadUser = utils.askYesNo(
@@ -377,7 +379,7 @@ def main():
                             readonly_user = utils.askQuestion(
                                 question='Provide a username for read-only user'
                             )
-                        readonly_pass = getpass.getpass(
+                        readonly_pass = getPassFromUser(
                             prompt='Provide a password for read-only user: '
                         )
                         readonly_secure = utils.askYesNo(
@@ -462,7 +464,7 @@ def main():
 
                 createDbSchema(db_dict)
 
-            if utils.localHost(db_dict["host"]):
+            if createReadUser:
                 # Create read only
                 readUserCreated, errMsg = utils.createReadOnlyUser(
                     db_dict['dbname'],

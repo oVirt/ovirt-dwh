@@ -365,7 +365,7 @@ class TextConfigFileHandler(ConfigFileHandler):
     def delParams(self, paramsDict):
         pass
 
-def askQuestion(question=None, yesNo=False, options='', default=''):
+def askQuestion(question, yesNo=False, options='', default=''):
     '''
     provides an interface that prompts the user
     to answer "yes/no" to a given question
@@ -670,6 +670,12 @@ def localHost(hostname):
 
 @transactionDisplay('Creating read-only user')
 def createReadOnlyUser(database, user, password, secured):
+
+    if (
+        user is None or
+        user is ''
+    ):
+        raise RuntimeError('Empty username provided!')
 
     # Check whether we can create DB:
     global DB_ADMIN
