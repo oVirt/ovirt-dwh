@@ -311,6 +311,7 @@ def main():
 
     try:
         logging.debug("starting main()")
+        print "Welcome to ovirt-engine-dwh setup utility\n"
 
         db_dict = getDbDictFromOptions()
         PGPASS_TEMP = utils.createTempPgpass(db_dict)
