@@ -1206,3 +1206,22 @@ def runPostgresSuQuery(query, database=None, failOnError=True):
         failOnError=failOnError
     )
 
+
+def saveConfig(configFile, username, password, dbname, readonly):
+    with open(configFile, 'w') as fdwh:
+        content = (
+            'DWH_USER={user}\n'
+            'DWH_PASSWORD={password}\n'
+            'DWH_DATABASE={database}\n'
+        ).format(
+            user=username,
+            password=password,
+            database=dbname,
+        )
+        if readonly is not None:
+            content += (
+                'DWH_READONLY_USER={readonly}\n'
+            ).format(
+                readonly=readonly,
+            )
+        fdwh.write(content)

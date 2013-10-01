@@ -384,6 +384,15 @@ def main():
                             )
                         )
 
+            # Save configuration to the conf.d file
+            utils.saveConfig(
+                configFile=FILE_DATABASE_DWH_CONFIG,
+                username=db_dict['username'],
+                password=db_dict['password'],
+                dbname=db_dict['dbname'],
+                readonly=db_dict['readonly'],
+            )
+
 
             if dbExists(db_dict):
                 try:
@@ -418,9 +427,11 @@ def main():
                         password=db_dict['password'],
                         option='createdb',
                     )
+
                     utils.createDB(db_dict['dbname'], db_dict['username'])
                     utils.updatePgHba(db_dict['dbname'], db_dict['username'])
                     utils.restartPostgres()
+
                 else:
                     print 'Remote installation is selected.\n'
                     (
@@ -486,25 +497,13 @@ def main():
                 )
                 print DB_RESTORE
 
-            with open(FILE_DATABASE_DWH_CONFIG, 'w') as fdwh:
-                content = (
-                    'DWH_USER={user}\n'
-                    'DWH_PASSWORD={password}\n'
-                    'DWH_DATABASE={database}\n'
-                ).format(
-                    user=db_dict['username'],
-                    password=db_dict['password'],
-                    database=db_dict['dbname'],
-                )
-
-                if db_dict['readonly'] is not None:
-                    content += (
-                        'DWH_READONLY_USER={readonly}\n'
-                    ).format(
-                        readonly=db_dict['readonly'],
-                    )
-
-                fdwh.write(content)
+            utils.saveConfig(
+                configFile=FILE_DATABASE_DWH_CONFIG,
+                username=db_dict['username'],
+                password=db_dict['password'],
+                dbname=db_dict['dbname'],
+                readonly=db_dict['readonly'],
+            )
 
         else:
             logging.debug("user chose not to stop engine")
