@@ -4,14 +4,12 @@ common utils for rhev-dwh-setup
 '''
 
 import csv
-import getpass
 import logging
 import os
 import pwd
 import grp
 import traceback
 import datetime
-import time
 import re
 from StringIO import StringIO
 import subprocess
@@ -648,16 +646,16 @@ def configurePostgres(user, secured):
             if (
                 secured and
                 not configured_ssl and
-                line.startswith('#ssl')
+                line.startswith('#ssl =')
             ):
                 content.append("ssl = on")
                 configured_ssl = True
 
-            if line.startswith('listen_addresses'):
-                if '*' in line:
-                    break
-                else:
-                    line = '#' + line
+            if (
+                line.startswith('listen_addresses') and
+                '*' not in line
+            ):
+                line = '#' + line
 
             content.append(line)
 
@@ -667,7 +665,7 @@ def configurePostgres(user, secured):
 
 
 def createCertificate():
-    cmds =(
+    cmds = (
         [
             'openssl',
             'x509',
