@@ -370,11 +370,13 @@ def main():
 
                     if not createReadUser:
                         logging.debug('Skipping creation of read only DB user.')
-                        print 'Skipping creationg of read only DB user.'
+                        print 'Skipping creation of read only DB user.'
                     else:
-                        readonly_user = utils.askQuestion(
-                            question='Provide a username for read-only user'
-                        )
+                        readonly_user = ''
+                        while not utils.userValid(readonly_user):
+                            readonly_user = utils.askQuestion(
+                                question='Provide a username for read-only user'
+                            )
                         readonly_pass = getpass.getpass(
                             prompt='Provide a password for read-only user: '
                         )

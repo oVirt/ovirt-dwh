@@ -1188,7 +1188,7 @@ def runPostgresSuQuery(query, database=None, failOnError=True):
         )
     sql_command.extend(
         (
-            '-c', query,
+            '-tAc', query,
         )
     )
     cmd = [
@@ -1225,3 +1225,37 @@ def saveConfig(configFile, username, password, dbname, readonly):
                 readonly=readonly,
             )
         fdwh.write(content)
+
+def userValid(user):
+    if user in (
+        'postgres',
+        'engine',
+        'engine_history',
+        'engine_reports'
+    ):
+        print (
+            '{user} is a reserved username and cannot be used '
+            'for creating read only user.'
+        ).format(
+            user=user
+        )
+        return False
+
+    if len(user) == 0:
+        return False
+
+    sql_query = '"select 1 from pg_roles where rolname=\'{user}\';"'.format(
+        user=user
+    )
+
+    output, rc = runPostgresSuQuery(sql_query)
+    if '1' in output:
+        print (
+            '"{user}" role already exists in the DB and cannot be used '
+            'for creating read only user.'
+        ).format(
+            user=user
+        )
+        return False
+    else:
+        return True
