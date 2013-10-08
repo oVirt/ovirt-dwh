@@ -257,6 +257,7 @@ class Service():
         for st in ('dead', 'inactive', 'stopped'):
             if st in output:
                 self.lastStateUp = False
+                break
         else:
             for st in ('running', 'active'):
                 if st in output:
