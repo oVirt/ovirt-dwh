@@ -88,7 +88,6 @@ def _verifyUserPermissions():
             )
         )
 
-
 def _parseAnswerFile(answerfile=None):
     if (
         answerfile is not None and
@@ -453,9 +452,18 @@ def main(options):
                 readonly=db_dict['readonly'],
             )
 
-
-            if dbExists(db_dict):
+            dbExists, owned = utils.dbExists(db_dict, PGPASS_TEMP)
+            if dbExists:
                 try:
+                    if utils.localHost(db_dict['host']) and not owned:
+                        utils.createUser(
+                            user=db_dict['username'],
+                            password=db_dict['password'],
+                            option='createdb',
+                            validate=False,
+                        )
+                        utils.updateDbOwner(db_dict)
+
                     if options['BACKUP_DB'] is None:
                         doBackup = utils.performBackup(
                             db_dict,
@@ -518,7 +526,7 @@ def main(options):
                     if os.path.exists(PGPASS_TEMP):
                         os.remove(PGPASS_TEMP)
                     PGPASS_TEMP = utils.createTempPgpass(db_dict)
-                    if not utils.dbExists(db_dict, PGPASS_TEMP):
+                    if not utils.dbExists(db_dict, PGPASS_TEMP)[0]:
                         raise RuntimeError (
                             (
                                 'Remote installation failed. Please perform '

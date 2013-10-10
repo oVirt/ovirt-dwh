@@ -587,13 +587,31 @@ def getAppVersion(package):
     output, rc = execCmd(cmdList=cmd, failOnError=True, msg="Failed to get package version & release")
     return output.rstrip()
 
-def dbExists(db_dict, pgpass):
+def dbExists(db_dict, TEMP_PGPASS):
+
+    exists = False
+    owner = False
     logging.debug("checking if %s db already exists" % db_dict['dbname'])
-    (output, rc) = execSqlCmd(db_dict, "select 1", envDict={'ENGINE_PGPASS': pgpass})
-    if (rc != 0):
-        return False
+    env = {'ENGINE_PGPASS': TEMP_PGPASS}
+    output, rc = execSqlCmd(
+        db_dict=db_dict,
+        sql_query="select 1",
+        envDict=env,
+    )
+    if rc == 0:
+        exists = True
+        if db_dict['username'] != db_dict['engine_user']:
+            owner = True
     else:
-        return True
+        output, rc = runPostgresSuQuery(
+            query='"select 1;"',
+            database=db_dict['dbname'],
+            failOnError=False,
+        )
+        if rc == 0:
+            exists = True
+
+    return exists, owner
 
 def getDbAdminUser():
     """
@@ -1041,11 +1059,13 @@ def createDB(database, owner):
         runPostgresSuQuery(sql_query)
 
 
-def createUser(user, password, option='', database=''):
+def createUser(user, password, option='', database='', validate=True):
+    if validate and not userValid(user):
+        return
+
+    logging.debug('Adding user {user}'.format(user=user))
+
     sql_query_set = [
-        (
-            '"DROP ROLE if exists {user};"'
-        ),
         (
             '"CREATE ROLE {user} with '
             '{option} login encrypted password \'{password}\';"'
@@ -1196,6 +1216,32 @@ def testLocalDb():
     return True
 
 
+def updateDbOwner(db_dict):
+    logging.debug('Updating DB owner')
+    _RE_OWNER = re.compile(r'^([\w,.\(\)]+\s+)+OWNER TO (?P<owner>\w+).*$')
+    out, rc = runPostgresSuCommand(
+        command=EXEC_PGDUMP,
+        database=db_dict['dbname'],
+    )
+    sql_query_set = []
+    for line in out.splitlines():
+        matcher = _RE_OWNER.match(line)
+        if matcher is not None:
+            sql_query_set.append(
+                '"{query}"'.format(
+                    query=line.replace(
+                        'OWNER TO {orig}'.format(orig=matcher.group('owner')),
+                        'OWNER TO {new}'.format(new=db_dict['username'])
+                    )
+                )
+            )
+
+    for sql_query in sql_query_set:
+        runPostgresSuQuery(
+            query=sql_query,
+            database=db_dict['dbname'],
+        )
+
 def updatePgHba(database, user):
     content = []
     logging.debug('Updating pghba')
@@ -1262,6 +1308,28 @@ def setPgHbaIdent():
 
 def restorePgHba():
     return configHbaIdent('ident', 'md5')
+
+def runPostgresSuCommand(command, database=None, failOnError=True):
+    sql_command = [
+        command,
+    ]
+    if database is not None:
+        sql_command.append(database)
+
+    cmd = [
+        EXEC_SU,
+        '-l',
+        'postgres',
+        '-c',
+        '{command}'.format(
+            command=' '.join(sql_command),
+        )
+    ]
+
+    return execCmd(
+        cmdList=cmd,
+        failOnError=failOnError
+    )
 
 def runPostgresSuQuery(query, database=None, failOnError=True):
     sql_command = [
