@@ -74,9 +74,9 @@ DB_BACKUP_SHOW_STOP = (
 DB_BACKUP_SHOW_CONTINUE = (
     '\nThe upgrade utility can backup the existing database. The time and '
     'space required for the database backup depend on its size. The detected '
-    'DB size is {dbsize}. This process can take a considerable time, and in '
-    'some cases may take few hours to complete. Would you like to continue '
-    'and backup the existing database?\n'
+    'DB size is {dbsize}. This process takes time, and in some cases '
+    '(for instance, when the size is few GBs) may take few hours '
+    'to complete. Would you like to continue and backup the existing database?\n'
     'Answering "no" will skip the backup step and continue the upgrade '
     'without backing up the database'
 )
