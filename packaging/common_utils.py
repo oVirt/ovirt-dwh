@@ -62,8 +62,8 @@ DB_ADMIN = "postgres"
 # DB related messages
 DB_BACKUP_HEADER = (
     '\nExisting DB was found on the system. The size of the detected DB '
-    'is {dbsize} Mb, free space in the backup folder {backup} '
-    'is {foldersize} Mb. \n'
+    'is {dbsize}, free space in the backup folder {backup} '
+    'is approximately {foldersize}. \n'
 )
 
 DB_BACKUP_SHOW_STOP = (
@@ -74,7 +74,7 @@ DB_BACKUP_SHOW_STOP = (
 DB_BACKUP_SHOW_CONTINUE = (
     '\nThe upgrade utility can backup the existing database. The time and '
     'space required for the database backup depend on its size. The detected '
-    'DB size is {dbsize} Mb. This process can take a considerable time, and in '
+    'DB size is {dbsize}. This process can take a considerable time, and in '
     'some cases may take few hours to complete. Would you like to continue '
     'and backup the existing database?\n'
     'Answering "no" will skip the backup step and continue the upgrade '
@@ -860,7 +860,7 @@ def getAvailableSpace(path):
     stat = os.statvfs(path)
     #block size * available blocks = available space in bytes, we devide by
     #1024 ^ 2 in order to get the size in megabytes
-    availableSpace = (stat.f_bsize * stat.f_bavail) / pow(20, 2)
+    availableSpace = (stat.f_bsize * stat.f_bavail) / pow(2, 20)
     logging.debug("Available space on %s is %s" % (path, availableSpace))
     return int(availableSpace)
 
@@ -880,8 +880,18 @@ def getDbSize(db_dict, PGPASS_FILE):
         envDict={'ENGINE_PGPASS': PGPASS_FILE}
     )
     size = int(out[0]['pg_database_size'])
-    size = size / pow(20,2) # Get size in MB
+    size = size / pow(2, 20)  # Get size in MB
     return size
+
+
+def getSizeHuman(size):
+
+    if size < 1024:
+        return '{size} MB'.format(size=size)
+    else:
+        return '{size} GB'.format(
+            size=float(size/pow(2, 10))
+        )
 
 
 def performBackup(db_dict, backupPath, PGPASS_FILE):
@@ -891,15 +901,18 @@ def performBackup(db_dict, backupPath, PGPASS_FILE):
     doBackup = None
     proceed = None
 
+    dbSizeHuman = getSizeHuman(dbSize)
+    backupPathFreeHuman = getSizeHuman(backupPathFree)
+
     if (dbSize * 1.1) < backupPathFree:
         # allow upgrade, ask for backup
         msg = '{header}{cont}'.format(
             header=DB_BACKUP_HEADER,
             cont=DB_BACKUP_SHOW_CONTINUE,
         ).format(
-            dbsize=dbSize,
+            dbsize=dbSizeHuman,
             backup=backupPath,
-            foldersize=backupPathFree,
+            foldersize=backupPathFreeHuman,
         )
         if askYesNo(msg):
             proceed = DB_BACKUP_CONTINUE_WITH
