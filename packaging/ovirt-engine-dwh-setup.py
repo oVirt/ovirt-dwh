@@ -180,7 +180,9 @@ def getDbCredentials(
         'and the database in the following fashion:\n'
         '\tcreate role <role> with login '
         'encrypted password <password>;\n'
-        '\tcreate ovirt_engine_history owner <role>;\n'
+        '\tcreate database ovirt_engine_history template template0 encoding '
+        '\'UTF8\' lc_collate \'en_US.UTF-8\' lc_ctype \'en_US.UTF-8\' '
+        'owner <role>;\n'
     )
 
     dbhost = utils.askQuestion(
