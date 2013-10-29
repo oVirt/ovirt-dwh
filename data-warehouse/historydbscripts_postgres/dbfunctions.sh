@@ -96,6 +96,19 @@ execute_file "common_sp.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
     \rm -f drop_all_views.sql
 }
 
+drop_old_uuid_functions() {
+    #
+    # dropping the uuid extension and old functions is
+    # required only if we upgrade from old database
+    # as it requires special privileges, so
+    # before execution check if actually required
+    #
+    CMD="select count(*) from pg_proc where proname = 'uuid_nil';"
+    if [ "$(execute_command "$CMD" ${DATABASE} ${SERVERNAME} ${PORT} | sed -e 's/ //g' -e '/^$/d')" != 0 ]; then
+        su postgres -c "psql -f drop_old_uuid_functions.sql ${DATABASE}"  > /dev/null
+    fi
+}
+
 #drops sps before upgrade or refresh operations
 drop_sps() {
 # common stored procedures are executed first (for new added functions to be valid)
@@ -107,16 +120,7 @@ execute_file "common_sp.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
     execute_file "${drop_all_functions}" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
     \rm -f "${drop_all_functions}"
 
-    #
-    # dropping the uuid extension and old functions is
-    # required only if we upgrade from old database
-    # as it requires special privileges, so
-    # before execution check if actually required
-    #
-    CMD="select count(*) from pg_proc where proname = 'uuid_nil';"
-    if [ "$(execute_command "$CMD" ${DATABASE} ${SERVERNAME} ${PORT} | sed -e 's/ //g' -e '/^$/d')" != 0 ]; then
-        psql -U postgres -h ${SERVERNAME} -p ${PORT} -f drop_old_uuid_functions.sql ${DATABASE} > /dev/null
-    fi
+    drop_old_uuid_functions
     # recreate generic functions
     execute_file "create_functions.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
 }
@@ -140,12 +144,6 @@ delete_async_tasks_and_compensation_data() {
     execute_file "delete_async_tasks_and_compensation_data.sql" ${DATABASE} ${SERVERNAME} ${PORT}> /dev/null
 }
 
-refresh_materialized_views() {
-    echo "Refreshing materialized views..."
-    CMD="select RefreshAllMaterializedViews(true);"
-    execute_command "${CMD}" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
-}
-
 run_pre_upgrade() {
     #Dropping all views & sps
     drop_views
@@ -153,6 +151,10 @@ run_pre_upgrade() {
     install_common_func
     #run pre upgrade scripts
     execute_commands_in_dir 'pre_upgrade' 'pre-upgrade'
+    install_materialized_views_func
+    #drop materialized views to support views changesin upgrade
+    #Materialized views are restored in the post_upgrade step
+    drop_materialized_views
 
     if [[ -n "${CLEAN_TASKS}" ]]; then
        echo "Cleaning tasks metadata..."
@@ -177,6 +179,8 @@ run_post_upgrade() {
             echo "Illegal syntax in custom Materialized Views, Custom Materialized Views were dropped."
         fi
     fi
+    refresh_materialized_views
+
 }
 
 # Runs all the SQL scripts in directory upgrade/$1/
@@ -443,9 +447,9 @@ unlock_entity() {
        execute_command "${CMD}" "${DATABASE}" "${SERVERNAME}" "${PORT}"
        if [ $? -eq 0 ]; then
            log_unlock_entity ${object_type} ${id} ${user}
-           printf "unlock ${object_type} ${id} completed successfully."
+           printf "unlock ${object_type} ${id} completed successfully.\n"
        else
-           printf "unlock ${object_type} ${id} completed with errors.."
+           printf "unlock ${object_type} ${id} completed with errors.\n"
        fi
    fi
 }
