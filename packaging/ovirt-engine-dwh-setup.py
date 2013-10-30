@@ -219,8 +219,8 @@ def getDbDictFromOptions():
                 dhandler.getParam('DWH_DATABASE') or
                 DB_NAME
             ),
-            'host': handler.getParam('ENGINE_DB_HOST'),
-            'port': handler.getParam('ENGINE_DB_PORT'),
+            'host': handler.getParam('ENGINE_DB_HOST').strip('"'),
+            'port': handler.getParam('ENGINE_DB_PORT').strip('"'),
             'username': (
                 dhandler.getParam('DWH_USER') or
                 DB_USER
@@ -233,9 +233,9 @@ def getDbDictFromOptions():
                 dhandler.getParam('DWH_READONLY_USER') or
                 None
             ),
-            'engine_db': handler.getParam('ENGINE_DB_DATABASE'),
-            'engine_user': handler.getParam('ENGINE_DB_USER'),
-            'engine_pass': handler.getParam('ENGINE_DB_PASSWORD').replace('"', ''),
+            'engine_db': handler.getParam('ENGINE_DB_DATABASE').strip('"'),
+            'engine_user': handler.getParam('ENGINE_DB_USER').strip('"'),
+            'engine_pass': handler.getParam('ENGINE_DB_PASSWORD').strip('"'),
         }
         handler.close()
         dhandler.close()
