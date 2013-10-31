@@ -462,15 +462,16 @@ def isEngineUp():
     engine_service.status()
     return engine_service.lastStateUp
 
-def stopEngine():
+def stopEngine(answer=None):
     '''
     stops the ovirt-engine service
     '''
     logging.debug("checking ovirt-engine service")
     if isEngineUp():
         logging.debug("ovirt-engine is up and running")
-        print "In order to proceed the installer must stop the ovirt-engine service"
-        answer = askYesNo("Would you like to stop the ovirt-engine service")
+        if answer is None:
+            print "In order to proceed the installer must stop the ovirt-engine service"
+            answer = askYesNo("Would you like to stop the ovirt-engine service")
         if answer:
             stopEngineService()
         else:

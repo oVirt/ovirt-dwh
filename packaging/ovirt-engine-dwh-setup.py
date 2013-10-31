@@ -17,13 +17,26 @@ import os
 import time
 import traceback
 import pwd
-import argparse
+from optparse import OptionParser
+import ConfigParser
 import getpass
-import types
 import cracklib
 import common_utils as utils
 from decorators import transactionDisplay
 log_file = None
+
+params = {
+    'STOP_ENGINE': None,
+    'BACKUP_DB': None,
+    'CREATE_READONLY_USER': None,
+    'READONLY_USER': None,
+    'READONLY_PASS': None,
+    'READONLY_SECURE': None,
+    'REMOTE_DB_HOST': None,
+    'REMOTE_DB_PORT': None,
+    'REMOTE_DB_USER': None,
+    'REMOTE_DB_PASSWORD': None,
+}
 
 DWH_PACKAGE_NAME="ovirt-engine-dwh"
 PATH_DB_SCRIPTS="/usr/share/ovirt-engine-dwh/db-scripts"
@@ -64,6 +77,7 @@ DB_RESTORE = (
 # ERRORS:
 ERR_DB_CREATE_FAILED = "Error while trying to create %s db" % DB_NAME
 
+
 def _verifyUserPermissions():
     username = pwd.getpwuid(os.getuid())[0]
     if os.geteuid() != 0:
@@ -73,6 +87,47 @@ def _verifyUserPermissions():
                 user=username
             )
         )
+
+
+def _parseAnswerFile(answerfile=None):
+    if (
+        answerfile is not None and
+        os.path.exists(answerfile)
+    ):
+        global params
+        fconf = ConfigParser.ConfigParser()
+        fconf.read(answerfile)
+        for param in params.keys():
+            params[param] = fconf.get('general', param)
+            if params[param] == 'None':
+                params[param] = None
+            elif params[param] in ('True', 'true'):
+                params[param] = True
+            elif params[param] in ('False', 'false'):
+                params[param] = False
+
+    return params
+
+
+def _getOptions():
+    parser = OptionParser()
+
+    parser.add_option(
+        "-a",
+        "--answer-file",
+        dest="answerfile",
+        help="Use the following answer file for dwh installation",
+    )
+    parser.add_option(
+        "-g",
+        "--gen-answer-file",
+        dest="genanswerfile",
+        help="Generate answer file",
+    )
+
+    (options, args) = parser.parse_args()
+    return (options, args)
+
 
 def dbExists(db_dict):
     logging.debug("checking if %s db already exists" % db_dict['dbname'])
@@ -300,7 +355,7 @@ def setVersion():
     file_handler.editParam("etlVersion", "%s.%s" % (currentVersion, currentMinorVersion))
     file_handler.close()
 
-def main():
+def main(options):
     '''
     main
     '''
@@ -310,15 +365,11 @@ def main():
     backupFile = None
     pg_updated = False
 
-    readonly_user = None
-    readonly_pass = None
-    readonly_secure = None
+    readonly_user = options['READONLY_USER']
+    readonly_pass = options['READONLY_PASS']
+    readonly_secure = options['READONLY_SECURE']
 
     global PGPASS_TEMP
-
-    parser = argparse.ArgumentParser(description='Installs or upgrades your oVirt Engine DWH')
-    # Catch when calling ovirt-engine-dwh-setup --help
-    args = parser.parse_args()
 
     try:
         logging.debug("starting main()")
@@ -346,7 +397,7 @@ def main():
             raise Exception("current version not supported by ovirt engine")
 
         # Stop engine
-        if utils.stopEngine():
+        if utils.stopEngine(options['STOP_ENGINE']):
 
             # Stop ETL before doing anything
             utils.stopEtl()
@@ -363,7 +414,10 @@ def main():
                 # Handle postgres configuration for the read-only user
                 # on local installations only
 
-                if db_dict['readonly'] is None:
+                if (
+                    db_dict['readonly'] is None and
+                    options['CREATE_READONLY_USER'] is None
+                ):
                     # Ask user how would the user be created
                     createReadUser = utils.askYesNo(
                         question=(
@@ -402,7 +456,15 @@ def main():
 
             if dbExists(db_dict):
                 try:
-                    doBackup = utils.performBackup(db_dict, DB_BACKUPS_DIR, PGPASS_TEMP)
+                    if options['BACKUP_DB'] is None:
+                        doBackup = utils.performBackup(
+                            db_dict,
+                            DB_BACKUPS_DIR,
+                            PGPASS_TEMP
+                        )
+                    else:
+                        doBackup = options['BACKUP_DB']
+
                     backupFile = os.path.join(
                         DB_BACKUPS_DIR,
                         'ovirt-engine-history.backup.{date}'.format(
@@ -440,12 +502,19 @@ def main():
 
                 else:
                     print 'Remote installation is selected.\n'
-                    (
-                        db_dict['host'],
-                        db_dict['port'],
-                        db_dict['username'],
-                        db_dict['password'],
-                    ) = getDbCredentials()
+                    if options['REMOTE_DB_HOST'] is None:
+                        (
+                            db_dict['host'],
+                            db_dict['port'],
+                            db_dict['username'],
+                            db_dict['password'],
+                        ) = getDbCredentials()
+                    else:
+                        db_dict['host'] = options['REMOTE_DB_HOST']
+                        db_dict['port'] = options['REMOTE_DB_PORT']
+                        db_dict['username'] = options['REMOTE_DB_USER']
+                        db_dict['password'] = options['REMOTE_DB_PASSWORD']
+
                     if os.path.exists(PGPASS_TEMP):
                         os.remove(PGPASS_TEMP)
                     PGPASS_TEMP = utils.createTempPgpass(db_dict)
@@ -540,5 +609,23 @@ if __name__ == "__main__":
         "/var/log/ovirt-engine"
     )
 
-    rc = main()
+    options, args = _getOptions()
+    if options.genanswerfile:
+        with open(options.genanswerfile, 'w') as af:
+            content = '[general]\n'
+            for param in params.keys():
+                content = '{content}{newline}\n'.format(
+                    content=content,
+                    newline='{key}={value}'.format(
+                        key=param,
+                        value=params[param],
+                    )
+                )
+            af.write(content)
+            print 'Answer file generated at {answerfile}\n'.format(
+                answerfile=options.genanswerfile
+            )
+            sys.exit(0)
+
+    rc = main(_parseAnswerFile(options.answerfile))
     sys.exit(rc)
