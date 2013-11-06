@@ -533,13 +533,23 @@ def stopPostgresService():
     postgres_service = Service('postgresql')
     postgres_service.stop()
 
+def isEtlUp():
+    '''
+    checks if the dwhd  service is up and running
+    '''
+    logging.debug("checking the status of dwhd")
+    etl_service = Service('ovirt-engine-dwhd')
+    etl_service.status()
+    return etl_service.lastStateUp
+
 def stopEtl():
     """
     stop the ovirt-engine-dwhd service
     """
     logging.debug("Stopping ovirt-engine-dwhd")
-    etl_service = Service('ovirt-engine-dwhd')
-    etl_service.stop()
+    if isEtlUp():
+        etl_service = Service('ovirt-engine-dwhd')
+        etl_service.stop()
 
 @transactionDisplay("Starting oVirt-ETL")
 def startEtl():
@@ -547,7 +557,9 @@ def startEtl():
     starts the ovirt-engine-dwhd service
     '''
     etl_service = Service('ovirt-engine-dwhd')
-    etl_service.conditionalStart()
+    etl_service.autoStart()
+    if not isEtlUp():
+        etl_service.start()
 
 def copyFile(source, destination):
     '''
