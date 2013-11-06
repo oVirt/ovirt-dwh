@@ -56,7 +56,6 @@ if [ -z "$ETL_PID" ]; then
     fi
     ETL_PID=$PID_FOLDER/$prog.pid
     chown "${OVIRT_USER}" "${PID_FOLDER}"
-    chown "${OVIRT_USER}" "${ETL_PID}"
 fi
 
 lock_file=/var/lock/subsys/$prog
