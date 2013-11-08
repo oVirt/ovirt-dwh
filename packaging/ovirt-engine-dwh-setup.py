@@ -502,6 +502,7 @@ def main(options):
                         user=db_dict['username'],
                         password=db_dict['password'],
                         option='createdb',
+                        validate=False,
                     )
 
                     utils.createDB(db_dict['dbname'], db_dict['username'])
