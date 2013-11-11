@@ -130,6 +130,9 @@ fi
 %{_mavenpomdir}/JPP.%{name}-*
 %endif
 
+%dir %attr(-, %{engine_user}, %{engine_group}) %{_sysconfdir}/%{dwh_name}/engine-dwh.conf.d
+%config(noreplace) %{_sysconfdir}/%{dwh_name}/engine-dwh.conf.d/10-setup-database-dwh.conf
+
 %dir %{_sysconfdir}/ovirt-engine/%{dwh_name}
 %{_initddir}/%{dwh_name}d
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{dwh_name}d
