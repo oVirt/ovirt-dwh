@@ -512,16 +512,16 @@ def isPostgresUp():
     postgres_service = Service('postgresql')
     postgres_service.status()
 
+    return postgres_service.lastStateUp
+
+def isPostgresServerUp():
     output, rc = runPostgresSuQuery(
         query='"select 1;"',
         database='template1',
         failOnError=False,
     )
 
-    return (
-        postgres_service.lastStateUp and
-        rc == 0
-    )
+    return rc == 0
 
 def startPostgres():
     '''
@@ -531,7 +531,7 @@ def startPostgres():
         startPostgresService()
 
     for i in range(0, POSTGRES_START_CYCLES):
-        if isPostgresUp():
+        if isPostgresServerUp():
             break
         time.sleep(2)
     else:
