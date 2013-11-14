@@ -10,6 +10,7 @@ import pwd
 import grp
 import traceback
 import datetime
+import time
 import re
 from StringIO import StringIO
 import subprocess
@@ -28,6 +29,9 @@ NO_COLOR = "\033[0m"
 ENGINE_SERVICE_NAME = "ovirt-engine"
 
 # CONST
+
+POSTGRES_START_CYCLES = 5
+
 EXEC_IP = "/sbin/ip"
 EXEC_PSQL = '/usr/bin/psql'
 EXEC_SU = '/bin/su'
@@ -507,7 +511,17 @@ def isPostgresUp():
     logging.debug("checking the status of postgresql")
     postgres_service = Service('postgresql')
     postgres_service.status()
-    return postgres_service.lastStateUp
+
+    output, rc = runPostgresSuQuery(
+        query='"select 1;"',
+        database='template1',
+        failOnError=False,
+    )
+
+    return (
+        postgres_service.lastStateUp and
+        rc == 0
+    )
 
 def startPostgres():
     '''
@@ -515,6 +529,15 @@ def startPostgres():
     '''
     if not isPostgresUp():
         startPostgresService()
+
+    for i in range(0, POSTGRES_START_CYCLES):
+        if isPostgresUp():
+            break
+        time.sleep(2)
+    else:
+        raise RuntimeError(
+            'Error: postgresql service couldn\'t be started. Stopping.'
+        )
 
 def stopPostgres():
     '''
