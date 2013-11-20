@@ -359,6 +359,8 @@ def main(options):
     main
     '''
 
+    os.umask(0022)
+
     rc = 0
     doBackup = None
     backupFile = None
