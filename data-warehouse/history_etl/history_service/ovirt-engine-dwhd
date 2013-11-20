@@ -29,6 +29,7 @@ prog=ovirt-engine-dwhd
 RETVAL=0
 PID_FOLDER=/var/run/ovirt-engine/
 LOG_FOLDER=/var/log/ovirt-engine/
+LOG_FILE="${LOG_FOLDER}/ovirt-engine-dwhd.log"
 OVIRT_USER=ovirt
 
 
@@ -39,6 +40,10 @@ if [ ! -d LOG_FOLDER ]; then
         echo "Error: Please check permissions, can not create log folder: $LOG_FOLDER. "
         exit 5
     fi
+fi
+
+if [ -f ${LOG_FILE} ] ; then
+    chown "${OVIRT_USER}" "${LOG_FILE}"
 fi
 
 # Path to the ovirt-engine-dwhd launch script
