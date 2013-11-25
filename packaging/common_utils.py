@@ -527,8 +527,7 @@ def startPostgres():
     '''
     starts the postgresql service
     '''
-    if not isPostgresUp():
-        startPostgresService()
+    startPostgresService()
 
     for i in range(0, POSTGRES_START_CYCLES):
         if isPostgresServerUp():
@@ -547,9 +546,10 @@ def stopPostgres():
         stopPostgresService()
 
 def startPostgresService():
-    logging.debug("starting postgresql")
-    postgres_service = Service('postgresql')
-    postgres_service.start()
+    if not isPostgresUp():
+        logging.debug("starting postgresql")
+        postgres_service = Service('postgresql')
+        postgres_service.start()
 
 def stopPostgresService():
     logging.debug("stopping postgresql")
@@ -833,9 +833,12 @@ def createCertificate():
                 )
 
 
-def restartPostgres():
+def restartPostgres(skipCheck=False):
     stopPostgres()
-    startPostgres()
+    if skipCheck:
+        startPostgresService()
+    else:
+        startPostgres()
 
 #TODO: Move all execution commands to execCmd
 def execCmd(
@@ -1335,7 +1338,7 @@ def configHbaIdent(orig='md5', newval='ident'):
     with open(FILE_PG_HBA, 'w') as pghba:
         pghba.write('\n'.join(content))
 
-    restartPostgres()
+    restartPostgres(newval=='md5')
     return True
 
 def setPgHbaIdent():
