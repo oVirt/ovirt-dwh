@@ -569,6 +569,10 @@ def main(options):
             if db_dict['password']:
                 setDbPass(db_dict)
 
+            if pg_updated:
+                utils.restorePgHba()
+                time.sleep(2)
+
             # Start Services
             utils.startEngine()
             # Sleep for 20 secs to allow health applet to start
@@ -604,9 +608,6 @@ def main(options):
     finally:
         if os.path.exists(PGPASS_TEMP):
             os.remove(PGPASS_TEMP)
-
-        if pg_updated:
-            utils.restorePgHba()
 
         return rc
 
