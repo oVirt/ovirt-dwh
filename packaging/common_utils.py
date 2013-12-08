@@ -1428,7 +1428,7 @@ def userValid(user):
         'engine_reports'
     ):
         print (
-            '{user} is a reserved username and cannot be used '
+            'Error: {user} is a reserved username and cannot be used '
             'for creating read only user.'
         ).format(
             user=user
@@ -1436,6 +1436,11 @@ def userValid(user):
         return False
 
     if len(user) == 0:
+        print 'Error: user name cannot be empty'
+        return False
+
+    if re.search(r"\W", user):
+        print 'Error: user name can only include alphanumeric characters'
         return False
 
     sql_query = '"select 1 from pg_roles where rolname=\'{user}\';"'.format(
