@@ -21,7 +21,7 @@ FIX_RELEASE=2
 # - master
 # - <none>
 #
-MILESTONE=beta
+MILESTONE=
 
 # RPM release is manually specified,
 # For pre-release:
