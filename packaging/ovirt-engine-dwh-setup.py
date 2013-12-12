@@ -147,8 +147,8 @@ def createDbSchema(db_dict):
     """
     logging.debug("installing %s db", DB_NAME)
 
-    dbLogFilename = "ovirt-history-db-install-%s.log" %(utils.getCurrentDateTime())
-    logging.debug("ovirt engine history db creation is logged at %s/%s" % ("/var/log/ovirt-engine", dbLogFilename))
+    dbLogFilename = "%s/ovirt-history-db-install-%s.log" %("/var/log/ovirt-engine", utils.getCurrentDateTime())
+    logging.debug("ovirt engine history db creation is logged at %s" % (dbLogFilename))
 
     cmd = [
         os.path.join(PATH_DB_SCRIPTS, EXEC_CREATE_SCHEMA),
