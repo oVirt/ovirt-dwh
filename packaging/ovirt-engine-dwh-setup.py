@@ -100,9 +100,9 @@ def _parseAnswerFile(answerfile=None):
             params[param] = fconf.get('general', param)
             if params[param] == 'None':
                 params[param] = None
-            elif params[param] in ('True', 'true'):
+            elif params[param].lower() in ('true', 'yes'):
                 params[param] = True
-            elif params[param] in ('False', 'false'):
+            elif params[param].lower() in ('false', 'no'):
                 params[param] = False
 
     return params
@@ -415,22 +415,22 @@ def main(options):
                 # Handle postgres configuration for the read-only user
                 # on local installations only
 
-                if (
-                    db_dict['readonly'] is None and
-                    options['CREATE_READONLY_USER'] is None
-                ):
-                    # Ask user how would the user be created
-                    createReadUser = utils.askYesNo(
-                        question=(
-                            '\nThis utility can configure a read only user for DB access. '
-                            'Would you like to do so?'
+                if db_dict['readonly'] is None:
+                    if options['CREATE_READONLY_USER'] is None:
+                        # Ask user how would the user be created
+                        createReadUser = utils.askYesNo(
+                            question=(
+                                '\nThis utility can configure a read only user for DB access. '
+                                'Would you like to do so?'
+                            )
                         )
-                    )
+                    else:
+                        createReadUser = options['CREATE_READONLY_USER']
 
                     if not createReadUser:
                         logging.debug('Skipping creation of read only DB user.')
                         print 'Skipping creation of read only DB user.'
-                    else:
+                    elif options['CREATE_READONLY_USER'] is None:
                         readonly_user = ''
                         while not utils.userValid(readonly_user):
                             readonly_user = utils.askQuestion(
@@ -444,6 +444,22 @@ def main(options):
                                 'Should postgresql be setup with secure connection?'
                             )
                         )
+                    else:
+                        # validate answer file values only
+                        if readonly_user is None or not utils.userValid(readonly_user):
+                            raise RuntimeError(
+                                'Invalid read only user in answer file'
+                            )
+                        if readonly_pass is None:
+                            raise RuntimeError(
+                                'Missing password for read only user '
+                                'in answer file'
+                            )
+                        if readonly_secure is None:
+                            raise RuntimeError(
+                                'Missing parameter READONLY_SECURE '
+                                'in answerfile'
+                            )
 
             # Save configuration to the conf.d file
             utils.saveConfig(
