@@ -54,7 +54,7 @@ DIR_DATABASE_DWH_CONFIG = os.path.join(
 )
 FILE_DATABASE_DWH_CONFIG = os.path.join(
     DIR_DATABASE_DWH_CONFIG,
-    '10-setup-database-dwh.conf'
+    '10-setup-database.conf'
 )
 DB_BACKUPS_DIR = "/var/lib/ovirt-engine/backups"
 DB_NAME = "ovirt_engine_history"
@@ -261,47 +261,36 @@ def getDbCredentials(
     return (dbhost, dbport, dbuser, userInput)
 
 def getDbDictFromOptions():
-    if os.path.exists(FILE_DATABASE_CONFIG):
-        handler = utils.TextConfigFileHandler(FILE_DATABASE_CONFIG)
-        handler.open()
-        dhandler = handler
-        if os.path.exists(FILE_DATABASE_DWH_CONFIG):
-            dhandler = utils.TextConfigFileHandler(FILE_DATABASE_DWH_CONFIG)
-            dhandler.open()
-        db_dict = {
-            'dbname': (
-                dhandler.getParam('DWH_DATABASE') or
-                DB_NAME
-            ),
-            'host': handler.getParam('ENGINE_DB_HOST').strip('"'),
-            'port': handler.getParam('ENGINE_DB_PORT').strip('"'),
-            'username': (
-                dhandler.getParam('DWH_USER') or
-                DB_USER
-            ),
-            'password': (
-                dhandler.getParam('DWH_PASSWORD') or
-                utils.generatePassword()
-            ),
-            'readonly': (
-                dhandler.getParam('DWH_READONLY_USER') or
-                None
-            ),
-            'engine_db': handler.getParam('ENGINE_DB_DATABASE').strip('"'),
-            'engine_user': handler.getParam('ENGINE_DB_USER').strip('"'),
-            'engine_pass': handler.getParam('ENGINE_DB_PASSWORD').strip('"'),
-        }
-        handler.close()
-        dhandler.close()
-    else:
-        db_dict = {
-            'dbname': DB_NAME,
-            'host': utils.getDbHostName(),
-            'port': utils.getDbPort(),
-            'username': utils.getDbAdminUser(),
-            'password': utils.getPassFromFile(utils.getDbAdminUser()),
-            'readonly': None,
-        }
+    db_dict = {
+        'dbname': DB_NAME,
+        'host': utils.getDbHostName(),
+        'port': utils.getDbPort(),
+        'username': DB_USER,
+        'password': utils.generatePassword(),
+        'readonly': None,
+    }
+
+    for file in (FILE_DATABASE_CONFIG, FILE_DATABASE_DWH_CONFIG):
+
+        if os.path.exists(file):
+            handler = utils.TextConfigFileHandler(file)
+            handler.open()
+
+            for k, v in (
+                ('dbname', 'DWH_DATABASE'),
+                ('host', 'ENGINE_DB_HOST'),
+                ('port', 'ENGINE_DB_PORT'),
+                ('username', 'DWH_USER'),
+                ('password', 'DWH_PASSWORD'),
+                ('readonly', 'DWH_READONLY_USER'),
+                ('engine_db', 'ENGINE_DB_DATABASE'),
+                ('engine_user', 'ENGINE_DB_USER'),
+                ('engine_pass', 'ENGINE_DB_PASSWORD'),
+            ):
+                s = handler.getParam(v)
+                if s is not None:
+                    db_dict[k] = s.strip('"')
+            handler.close()
 
     return db_dict
 
