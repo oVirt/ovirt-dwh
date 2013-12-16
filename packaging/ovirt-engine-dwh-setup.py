@@ -277,12 +277,12 @@ def getDbDictFromOptions():
             handler.open()
 
             for k, v in (
-                ('dbname', 'DWH_DATABASE'),
+                ('dbname', 'DWH_DB_DATABASE'),
                 ('host', 'ENGINE_DB_HOST'),
                 ('port', 'ENGINE_DB_PORT'),
-                ('username', 'DWH_USER'),
-                ('password', 'DWH_PASSWORD'),
-                ('readonly', 'DWH_READONLY_USER'),
+                ('username', 'DWH_DB_USER'),
+                ('password', 'DWH_DB_PASSWORD'),
+                ('readonly', 'DWH_DB_READONLY_USER'),
                 ('engine_db', 'ENGINE_DB_DATABASE'),
                 ('engine_user', 'ENGINE_DB_USER'),
                 ('engine_pass', 'ENGINE_DB_PASSWORD'),

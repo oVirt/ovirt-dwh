@@ -1404,9 +1404,9 @@ def runPostgresSuQuery(query, database=None, failOnError=True):
 def saveConfig(configFile, username, password, dbname, readonly):
     with open(configFile, 'w') as fdwh:
         content = (
-            'DWH_USER={user}\n'
-            'DWH_PASSWORD={password}\n'
-            'DWH_DATABASE={database}\n'
+            'DWH_DB_USER={user}\n'
+            'DWH_DB_PASSWORD={password}\n'
+            'DWH_DB_DATABASE={database}\n'
         ).format(
             user=username,
             password=password,
@@ -1414,7 +1414,7 @@ def saveConfig(configFile, username, password, dbname, readonly):
         )
         if readonly is not None:
             content += (
-                'DWH_READONLY_USER={readonly}\n'
+                'DWH_DB_READONLY_USER={readonly}\n'
             ).format(
                 readonly=readonly,
             )
