@@ -152,7 +152,7 @@ install_files:
 	install -d $(DESTDIR)$(DATA_DIR)/etl
 	install -d $(DESTDIR)$(DATA_DIR)/db-scripts
 	install -d $(DESTDIR)$(SYSCONF_DIR)/ovirt-engine/$(OVIRT_DWH_NAME)
-	install -d $(DESTDIR)$(SYSCONF_DIR)/$(OVIRT_DWH_NAME)/engine-dwh.conf.d
+	install -d $(DESTDIR)$(SYSCONF_DIR)/$(OVIRT_DWH_NAME)/ovirt-engine-dwhd.conf.d
 	install -d $(DESTDIR)$(SYSCONF_DIR)/cron.hourly
 	install -d $(DESTDIR)$(SYSCONF_DIR)/logrotate.d
 
@@ -164,7 +164,7 @@ install_files:
 	cp -a  data-warehouse/history_etl/context_files/* $(DESTDIR)$(DATA_DIR)/etl
 	cp -r -a  data-warehouse/historydbscripts_postgres/* $(DESTDIR)$(DATA_DIR)/db-scripts
 	install -p -m 660 data-warehouse/history_etl/context_files/ovirt_engine_dwh/historyetl_3_3/contexts/Default.properties $(DESTDIR)$(SYSCONF_DIR)/ovirt-engine/$(OVIRT_DWH_NAME)
-	install -p -m 660 packaging/10-setup-database-dwh.conf $(DESTDIR)$(SYSCONF_DIR)/$(OVIRT_DWH_NAME)/engine-dwh.conf.d
+	install -p -m 660 packaging/10-setup-database-dwh.conf $(DESTDIR)$(SYSCONF_DIR)/$(OVIRT_DWH_NAME)/ovirt-engine-engine-dwhd.conf.d
 	install -p -m 644 packaging/resources/$(OVIRT_DWH_NAME)d.logrotate $(DESTDIR)$(SYSCONF_DIR)/logrotate.d/$(OVIRT_DWH_NAME)d
 	install -p -m 755 packaging/resources/ovirt_engine_dwh_watchdog.cron $(DESTDIR)$(SYSCONF_DIR)/cron.hourly
 

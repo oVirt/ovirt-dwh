@@ -50,7 +50,7 @@ FILE_DATABASE_CONFIG = "/etc/ovirt-engine/engine.conf.d/10-setup-database.conf"
 DIR_DWH_CONFIG = "/etc/ovirt-engine-dwh"
 DIR_DATABASE_DWH_CONFIG = os.path.join(
     DIR_DWH_CONFIG,
-    'engine-dwh.conf.d',
+    'ovirt-engine-dwhd.conf.d',
 )
 FILE_DATABASE_DWH_CONFIG = os.path.join(
     DIR_DATABASE_DWH_CONFIG,
