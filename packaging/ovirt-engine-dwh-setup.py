@@ -156,6 +156,7 @@ def createDbSchema(db_dict):
         '-u', db_dict['username'],
         '-s', db_dict['host'],
         '-p', db_dict['port'],
+        '-g',
     ]
 
     # Create db using shell command
@@ -187,6 +188,7 @@ def upgradeDB(db_dict):
             "-u", db_dict["username"],
             "-d", db_dict['dbname'],
             "-l", "/var/log/ovirt-engine/%s" % dbLogFilename,
+            "-g",
         ]
         os.chdir(PATH_DB_SCRIPTS)
         output, rc = utils.execCmd(
