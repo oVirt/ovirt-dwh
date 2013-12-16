@@ -1,7 +1,0 @@
-/var/log/ovirt-engine/ovirt-engine-dwhd.log {
-	size 10M
-	missingok
-	copytruncate
-	rotate 5
-	compress
-}

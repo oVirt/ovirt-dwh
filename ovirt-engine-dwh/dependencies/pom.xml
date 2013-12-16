@@ -1,0 +1,80 @@
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.ovirt.engine.dwh</groupId>
+    <artifactId>data-warehouse</artifactId>
+    <version>3.3.0</version>
+  </parent>
+
+  <artifactId>dependencies</artifactId>
+  <packaging>jar</packaging>
+
+  <name>oVirt Engine DWH dependencies</name>
+
+  <!-- We need to put here all the dependencies corresponding to the
+       .jar files that will be added to the modules archive: -->
+
+  <dependencies>
+
+    <dependency>
+      <groupId>postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>${postgres.jdbc.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ovirt.engine.dwh</groupId>
+      <artifactId>advancedPersistentLookupLib</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ovirt.engine.dwh</groupId>
+      <artifactId>historyETL</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+
+    <plugins>
+
+        <plugin>
+          <groupId>org.ovirt.engine.dwh</groupId>
+          <artifactId>jboss-modules-maven-plugin</artifactId>
+          <configuration>
+            <modules>
+
+              <module>
+                <groupId>postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <moduleName>org.postgresql</moduleName>
+              </module>
+
+              <module>
+                <groupId>org.ovirt.engine.dwh</groupId>
+                <artifactId>advancedPersistentLookupLib</artifactId>
+                <moduleName>org.ovirt.engine.dwh</moduleName>
+              </module>
+
+              <module>
+                <groupId>org.ovirt.engine.dwh</groupId>
+                <artifactId>historyETL</artifactId>
+                <moduleName>org.ovirt.engine.dwh</moduleName>
+              </module>
+
+            </modules>
+          </configuration>
+        </plugin>
+
+    </plugins>
+
+  </build>
+
+</project>

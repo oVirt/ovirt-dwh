@@ -1,0 +1,24 @@
+#!/bin/sh
+
+die() {
+	local m="$1"
+	echo "FATAL: ${m}" >&2
+	exit 1
+}
+
+JAVA_HOME="$("@DATAROOT_DIR@/ovirt-engine/bin/java-home")" || die "Cannot set JAVA_HOME"
+export JAVA_HOME
+export JAVA_MODULEPATH="@PKG_JBOSS_MODULES@:@JBOSS_HOME@/modules"
+export CLASSPATH=""
+
+LOGFILE="@PKG_LOG_DIR@/ovirt-engine-dwhd.log"
+
+"${JAVA_HOME}/bin/java" \
+	-Djboss.modules.write-indexes=false \
+	-jar "@JBOSS_HOME@/jboss-modules.jar" \
+	-dependencies org.ovirt.engine.dwh \
+	-class ovirt_engine_dwh.historyetl_3_3.HistoryETL \
+	--context=Default \
+	"$@" \
+	> "${LOGFILE}" 2>&1 &
+echo $! > "${ETL_PID}"

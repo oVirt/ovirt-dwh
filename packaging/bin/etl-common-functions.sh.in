@@ -1,0 +1,8 @@
+#!/bin/sh
+
+procrunning() {
+	procid=0
+	for procid in `cat "@DWH_PID@"`; do
+		ps -fp $procid | grep HistoryETL > /dev/null && pid=$procid
+	done
+}

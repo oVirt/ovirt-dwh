@@ -1,0 +1,276 @@
+#
+# CUSTOMIZATION-BEGIN
+#
+# ovirt_build_extra_flags
+# ovirt_build_ut
+%if 0%{!?ovirt_build_ut:1}
+%if 0%{?_ovirt_build_ut:1}
+%global ovirt_build_ut %{_ovirt_build_ut}
+%else
+%global ovirt_build_ut 1
+%endif
+%endif
+#
+# CUSTOMIZATION-END
+#
+
+#
+# rpm does not support override
+# nor modify of variables
+#
+%if %{?_ovirt_build_extra_flags:1}%{?ovirt_build_extra_flags:1}0
+%global EXTRA_BUILD_FLAGS %{?_ovirt_build_extra_flags:%{_ovirt_build_extra_flags}}%{?ovirt_build_extra_flags: %{ovirt_build_extra_flags}}
+%endif
+
+%if 0%{?fedora}
+%global ovirt_install_systemd 0
+%global ovirt_install_systemv 1
+%global ovirt_install_poms 1
+%global ovirt_require_maven 1
+%endif
+
+%if 0%{?rhel}
+%global ovirt_install_systemd 0
+%global ovirt_install_systemv 1
+%global ovirt_install_poms 0
+%global ovirt_require_maven 0
+%endif
+
+%global product_name Data warehouse package for oVirt Virtualization Suite
+%global product_description oVirt virtualization manager data warehouse
+
+%global engine_gid 108
+%global engine_group ovirt
+%global engine_uid 108
+%global engine_user ovirt
+
+# Macro to create an user:
+#
+# %1 user name
+# %2 user id
+# %3 primary group name
+# %4 primary group id
+# %5 description
+# %6 home directory
+#
+%global _ovirt_create_user() \
+getent group %3 >/dev/null || groupadd -r -g %4 %3; \
+getent passwd %1 >/dev/null || useradd -r -u %2 -g %3 -c %5 -s /sbin/nologin -d %6 %1
+
+%global ovirt_create_user_engine \
+%_ovirt_create_user %{engine_user} %{engine_uid} %{engine_group} %{engine_gid} "%{ovirt_user_description}" %{engine_state}
+
+%global make_common_opts \\\
+	-j1 \\\
+	BUILD_UT=%{ovirt_build_ut} \\\
+	BUILD_VALIDATION=0 \\\
+	PACKAGE_NAME=%{name} \\\
+	RPM_VERSION=%{version} \\\
+	RPM_RELEASE=%{release} \\\
+	LOCALSTATE_DIR=%{_localstatedir} \\\
+	PREFIX=%{_prefix} \\\
+	SYSCONF_DIR=%{_sysconfdir} \\\
+	BIN_DIR=%{_bindir} \\\
+	PID_DIR=%{_localstatedir}/run \\\
+	DATAROOT_DIR=%{_datadir} \\\
+	MAN_DIR=%{_mandir} \\\
+	DOC_DIR=%{_docdir} \\\
+	PYTHON=%{__python} \\\
+	PYTHON_DIR=%{python_sitelib} \\\
+	JAVA_DIR=%{_javadir} \\\
+	MAVENPOM_DIR=%{_mavenpomdir} \\\
+	PKG_USER=%{engine_user} \\\
+	PKG_GROUP=%{engine_group} \\\
+	%{?EXTRA_BUILD_FLAGS:EXTRA_BUILD_FLAGS="%{EXTRA_BUILD_FLAGS}"}
+
+Name:		@PACKAGE_NAME@
+Version:	@RPM_VERSION@
+Release:	@RPM_RELEASE@%{?release_suffix}%{dist}
+License:	LGPLv2 and ASL 2.0
+Summary:	%{product_name}
+Group:		Virtualization/Management
+URL:		http://www.ovirt.org
+BuildArch:	noarch
+Source:		http://ovirt.org/releases/stable/src/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
+
+BuildRequires:	jpackage-utils
+BuildRequires:	make
+%if %{ovirt_require_maven}
+BuildRequires:	maven
+%endif
+Requires:	python
+Requires:	java-1.7.0-openjdk
+Requires:	jboss-as >= 7.1.1-9.3
+Requires:	jpackage-utils
+Requires:	postgresql-jdbc
+Requires:	logrotate
+Requires:	ovirt-engine
+%if %{ovirt_install_systemd}
+BuildRequires:	systemd
+%endif
+
+%description
+The %{product_description} package provides
+the ETL process and DB scripts to create a historic database API.
+Enables SQL BI reports creation for management and monitoring.
+
+%if %{ovirt_install_systemd}
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
+%endif
+
+%prep
+%setup -c -q
+
+%build
+make %{make_common_opts}
+
+%install
+rm -fr "%{buildroot}"
+
+make %{make_common_opts} install DESTDIR=%{buildroot}
+
+#
+# /var creation
+#
+install -dm 755 "%{buildroot}/%{_localstatedir}/lib/ovirt-engine-dwh"
+install -dm 755 "%{buildroot}/%{_localstatedir}/log/ovirt-engine-dwh"
+
+#
+# Move jars to destribution location
+#
+install -dm 755 "%{buildroot}%{_javadir}/ovirt-engine-dwh"
+while read lib_path; do
+	java_path="%{_javadir}/ovirt-engine-dwh/$(basename "${lib_path}")"
+	mv "%{buildroot}/${lib_path}" "%{buildroot}/${java_path}"
+	ln -s "${java_path}" "%{buildroot}${lib_path}"
+done << __EOF__
+%{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/advancedPersistentLookupLib.jar
+%{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/historyETL.jar
+__EOF__
+
+# Needed for compatibility if package is different than the directory structure
+%if "%{name}" != "ovirt-engine-dwh"
+ln -s "ovirt-engine-dwh" "%{buildroot}%{_javadir}/ovirt-engine-dwh/../%{name}"
+%endif
+
+#
+# Register poms
+#
+%if !%{ovirt_install_poms}
+rm -fr "%{buildroot}%{_mavenpomdir}"
+%else
+for pom in %{buildroot}%{_mavenpomdir}/*.pom; do
+	pomdir="$(dirname "${pom}")"
+	pom="$(basename "${pom}")"
+	jpppom="JPP.${pom}"
+	mv "${pomdir}/${pom}" "${pomdir}/${jpppom}"
+	artifact_id="$(echo "${pom}" | sed -e 's/^%{name}-//' -e 's/\.pom//')"
+	if [ -f "%{buildroot}%{_javadir}/ovirt-engine-dwh/${artifact_id}.jar" ]; then
+		%add_maven_depmap "${jpppom}" "%{name}/${artifact_id}.jar"
+	else
+		%add_maven_depmap "${jpppom}"
+	fi
+done
+%endif
+
+#
+# Link dependencies to system provided
+#
+while read dst src; do
+	[ -z "${dst}" ] && continue
+	[ -z "${src}" ] && src="$(basename "${dst}")"
+
+	dst="%{_datadir}/ovirt-engine-dwh/modules/${dst}"
+	src="%{_javadir}/${src}"
+	rm -f "%{buildroot}${dst}"
+	ln -s "${src}" "%{buildroot}${dst}"
+done << __EOF__
+org/postgresql/main/postgresql.jar postgresql-jdbc.jar
+__EOF__
+
+#
+# Register services
+#
+%if %{ovirt_install_systemd}
+install -dm 755 "%{buildroot}%{_unitdir}"
+cp "%{buildroot}%{_datadir}/ovirt-engine-dwh/services/ovirt-engine-dwhd/ovirt-engine-dwhd.systemd" "%{buildroot}%{_unitdir}/ovirt-engine-dwhd.service"
+%endif
+
+%if %{ovirt_install_systemv}
+install -dm 755 "%{buildroot}%{_initddir}"
+cp "%{buildroot}%{_datadir}/ovirt-engine-dwh/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv" "%{buildroot}%{_initddir}/ovirt-engine-dwhd"
+%endif
+
+%post
+
+touch %{_localstatedir}/lib/ovirt-engine-dwh/kill
+%if %{ovirt_install_systemv}
+/sbin/chkconfig --add ovirt-engine-dwhd > /dev/null 2>&1
+/sbin/chkconfig ovirt-engine-dwhd off > /dev/null 2>&1
+/sbin/service ovirt-engine-dwhd stop > /dev/null 2>&1
+%endif
+%if %{ovirt_install_systemd}
+%systemd_post ovirt-engine-dwhd.service
+systemctl stop ovirt-engine-dwhd.service > /dev/null 2>&1
+systemctl disable ovirt-engine-dwhd.service > /dev/null 2>&1
+%endif
+%if %{ovirt_install_poms}
+%update_maven_depmap
+%endif
+
+%preun
+%ovirt_create_user_engine
+%if %{ovirt_install_systemv}
+if [ "$1" -eq 0 ]; then
+	/sbin/service ovirt-engine-dwhd stop > /dev/null 2>&1
+	/sbin/chkconfig --del ovirt-engine-dwhd > /dev/null 2>&1
+	rm -f "%{_sysconfdir}/ovirt-engine-dwh/ovirt-engine-dwhd.conf.d/10-setup-database.conf"
+fi
+%endif
+%if %{ovirt_install_systemd}
+%systemd_preun ovirt-engine-dwhd.service
+%endif
+
+%postun
+
+%if %{ovirt_install_systemd}
+%systemd_postun ovirt-engine-dwhd.service
+%endif
+%if %{ovirt_install_poms}
+%update_maven_depmap
+%endif
+
+%files
+
+%attr(-, %{engine_user}, %{engine_group}) %config(noreplace) %{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properties
+%config %{_sysconfdir}/cron.hourly/ovirt_engine_dwh_watchdog.cron
+%config(noreplace) %{_sysconfdir}/logrotate.d/ovirt-engine-dwhd
+%dir %attr(-, %{engine_user}, %{engine_group}) %{_localstatedir}/lib/ovirt-engine-dwh/
+%dir %attr(-, %{engine_user}, %{engine_group}) %{_localstatedir}/log/ovirt-engine-dwh/
+%dir %{_sysconfdir}/ovirt-engine-dwh
+%{_bindir}/ovirt-engine-dwh-setup
+%{_datadir}/ovirt-engine-dwh/
+%{_javadir}/ovirt-engine-dwh/
+%{_sysconfdir}/ovirt-engine-dwh/ovirt-engine-dwhd.conf.d/
+
+%if "%{name}" != "ovirt-engine-dwh"
+%{_javadir}/%{name}
+%endif
+
+%if %{ovirt_install_poms}
+%{_mavendepmapfragdir}/%{name}
+%{_mavenpomdir}/JPP.%{name}-*
+%endif
+
+%if %{ovirt_install_systemd}
+%{_unitdir}/ovirt-engine-dwhd.service
+%endif
+%if %{ovirt_install_systemv}
+%{_initddir}/ovirt-engine-dwhd
+%endif
+
+%changelog
+* Thu Apr 19 2012 Yaniv Dary <ydary@redhat.com> - 3.0.0-1.fc16
+- Added packaging to dwh
