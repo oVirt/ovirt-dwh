@@ -223,11 +223,7 @@ def getPassFromUser(prompt):
 
     return userInput
 
-def getDbCredentials(
-    hostdefault='',
-    portdefault='',
-    userdefault='',
-):
+def getDbCredentials(userdefault=''):
     """
     get db params from user
     """
@@ -241,16 +237,6 @@ def getDbCredentials(
         'owner <role>;\n'
     )
 
-    dbhost = utils.askQuestion(
-        question='Enter the host name for the DB server',
-        default=hostdefault,
-    )
-
-    dbport = utils.askQuestion(
-        question='Enter the port of the remote DB server',
-        default=portdefault or '5432',
-    )
-
     dbuser = utils.askQuestion(
         question='Provide a remote DB user',
         default=userdefault,
@@ -260,7 +246,7 @@ def getDbCredentials(
         prompt='Please choose a password for the db user: '
     )
 
-    return (dbhost, dbport, dbuser, userInput)
+    return (dbuser, userInput)
 
 def getDbDictFromOptions():
     db_dict = {
@@ -308,7 +294,7 @@ def setDbPass(db_dict):
     file_handler = utils.TextConfigFileHandler(FILE_DB_CONN)
     file_handler.open()
     file_handler.editParam("ovirtEngineHistoryDbPassword", db_dict["password"])
-    file_handler.editParam("ovirtEngineHistoryDbUser", DB_USER)
+    file_handler.editParam("ovirtEngineHistoryDbUser", db_dict["username"])
     file_handler.editParam("ovirtEngineDbPassword", db_dict["engine_pass"])
     file_handler.editParam("ovirtEngineDbUser", db_dict["engine_user"])
     file_handler.editParam("ovirtEngineDbJdbcConnection",
@@ -522,11 +508,11 @@ def main(options):
                     print 'Remote installation is selected.\n'
                     if options['REMOTE_DB_HOST'] is None:
                         (
-                            db_dict['host'],
-                            db_dict['port'],
                             db_dict['username'],
                             db_dict['password'],
-                        ) = getDbCredentials()
+                        ) = getDbCredentials(
+                            userdefault=db_dict['username'],
+                        )
                     else:
                         db_dict['host'] = options['REMOTE_DB_HOST']
                         db_dict['port'] = options['REMOTE_DB_PORT']
