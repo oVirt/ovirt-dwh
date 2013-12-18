@@ -622,29 +622,39 @@ def getAppVersion(package):
     output, rc = execCmd(cmdList=cmd, failOnError=True, msg="Failed to get package version & release")
     return output.rstrip()
 
+
 def dbExists(db_dict, TEMP_PGPASS):
 
     exists = False
     owner = False
     logging.debug("checking if %s db already exists" % db_dict['dbname'])
     env = {'ENGINE_PGPASS': TEMP_PGPASS}
-    output, rc = execSqlCmd(
-        db_dict=db_dict,
-        sql_query="select 1",
-        envDict=env,
-    )
+    if (
+        db_dict['username'] == 'admin' and
+        db_dict['password'] == 'dummy'
+    ):
+        if localHost(db_dict['host']):
+            output, rc = runPostgresSuQuery(
+                query='"select 1;"',
+                database=db_dict['dbname'],
+                failOnError=False,
+            )
+    else:
+        output, rc = execSqlCmd(
+            db_dict=db_dict,
+            sql_query="select 1",
+            envDict=env,
+        )
     if rc == 0:
         exists = True
-        if db_dict['username'] != db_dict['engine_user']:
+        if (
+            db_dict['username'] != db_dict['engine_user'] and
+            (
+                db_dict['password'] != 'dummy' and
+                db_dict['username'] != 'admin'
+            )
+        ):
             owner = True
-    else:
-        output, rc = runPostgresSuQuery(
-            query='"select 1;"',
-            database=db_dict['dbname'],
-            failOnError=False,
-        )
-        if rc == 0:
-            exists = True
 
     return exists, owner
 
@@ -1061,16 +1071,17 @@ def createTempPgpass(db_dict, mode='all'):
             (
                 '# DB USER credentials.\n'
                 '{host}:{port}:{database}:{user}:{password}\n'
-                '{host}:{port}:{engine_db}:{engine_user}:{engine_password}\n'
+                '{host}:{port}:{database}:{engine_user}:{engine_pass}\n'
+                '{host}:{port}:{engine_db}:{engine_user}:{engine_pass}\n'
             ).format(
                 host=db_dict['host'],
                 port=db_dict['port'],
                 database='*' if mode == 'all' else db_dict['dbname'],
+                engine_db=db_dict['engine_db'],
                 user=db_dict['username'],
                 password=db_dict['password'],
                 engine_user=db_dict['engine_user'],
-                engine_db=db_dict['engine_db'],
-                engine_password=db_dict['engine_pass'],
+                engine_pass=db_dict['engine_pass'],
             ),
         )
 
