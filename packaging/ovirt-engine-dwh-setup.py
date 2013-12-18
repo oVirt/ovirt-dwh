@@ -282,6 +282,37 @@ def getDbDictFromOptions():
 
     return db_dict
 
+def getDBStatus(db_dict, TEMP_PGPASS):
+    exists = owned = False
+    for dbdict in (
+        db_dict,
+        {
+            'dbname': DB_NAME,
+            'host': db_dict['host'],
+            'port': db_dict['port'],
+            'username': db_dict['engine_user'],
+            'password': db_dict['engine_pass'],
+            'engine_user': db_dict['engine_user'],
+            'engine_pass': db_dict['engine_pass'],
+        },
+        {
+            'dbname': DB_NAME,
+            'host': db_dict['host'],
+            'port': db_dict['port'],
+            'username': 'admin',
+            'password': 'dummy',
+            'engine_user': db_dict['engine_user'],
+            'engine_pass': db_dict['engine_pass'],
+        },
+    ):
+        exists, owned = utils.dbExists(dbdict, TEMP_PGPASS)
+        if exists:
+            db_dict['username'] = dbdict['username']
+            db_dict['password'] = dbdict['password']
+            break
+
+    return exists, owned
+
 
 @transactionDisplay("Setting DB connectivity")
 def setDbPass(db_dict):
@@ -447,7 +478,7 @@ def main(options):
                 readonly=db_dict['readonly'],
             )
 
-            dbExists, owned = utils.dbExists(db_dict, PGPASS_TEMP)
+            dbExists, owned = getDBStatus(db_dict, PGPASS_TEMP)
             if dbExists:
                 try:
                     if utils.localHost(db_dict['host']) and not owned:
