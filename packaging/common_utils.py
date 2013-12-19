@@ -376,17 +376,22 @@ def askQuestion(question, yesNo=False, options='', default=''):
     to answer "yes/no" to a given question
     '''
     message = StringIO()
+    ask_string = question
     if yesNo:
         options = '(yes|no)'
-    ask_string = "{question} {options}: ".format(
-        question=question,
-        options=options,
-    )
+    if options:
+        ask_string = "{ask_string} {options}".format(
+            ask_string=ask_string,
+            options=options,
+        )
     if default is not '':
         ask_string = '{ask_string} [{default}]'.format(
             ask_string=ask_string,
             default=default,
         )
+    ask_string = '{ask_string}: '.format(
+        ask_string=ask_string,
+    )
     logging.debug("asking user: %s" % ask_string)
     message.write(ask_string)
     message.seek(0)

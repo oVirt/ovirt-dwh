@@ -133,7 +133,7 @@ def _getOptions():
     return (options, args)
 
 
-@transactionDisplay("Creating DB")
+@transactionDisplay("Creating DB Schema")
 def createDbSchema(db_dict):
     """
     create fresh ovirt_engine_history db
@@ -194,7 +194,7 @@ def upgradeDB(db_dict):
         os.chdir(currDir)
         raise
 
-def getPassFromUser(prompt):
+def getPassFromUser(prompt, validate=True):
     """
     get a single password from the user
     """
@@ -203,16 +203,17 @@ def getPassFromUser(prompt):
         print "Cannot accept an empty password"
         return getPassFromUser(prompt)
 
-    try:
-        cracklib.FascistCheck(userInput)
-    except:
-        print "Warning: Weak Password."
+    if validate:
+        try:
+            cracklib.FascistCheck(userInput)
+        except:
+            print "Warning: Weak Password."
 
-    # We do not need verification for the re-entered password
-    userInput2 = getpass.getpass("Re-type password: ")
-    if userInput != userInput2:
-            print "ERROR: passwords don't match"
-            return getPassFromUser(prompt)
+        # We do not need verification for the re-entered password
+        userInput2 = getpass.getpass("Re-type password: ")
+        if userInput != userInput2:
+                print "ERROR: passwords don't match"
+                return getPassFromUser(prompt)
 
     return userInput
 
@@ -231,12 +232,13 @@ def getDbCredentials(userdefault=''):
     )
 
     dbuser = utils.askQuestion(
-        question='Provide a remote DB user: ',
+        question='Database user',
         default=userdefault,
     )
 
     userInput = getPassFromUser(
-        prompt='Please choose a password for the db user: '
+        prompt='Database password: ',
+        validate=False,
     )
 
     return (dbuser, userInput)
