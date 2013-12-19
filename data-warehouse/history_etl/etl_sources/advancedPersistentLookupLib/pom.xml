@@ -16,11 +16,6 @@
   <description>The jar that contains the advanced persistent lookup library</description>
 
   <dependencies>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>${version.log4j}</version>
-    </dependency>
 
     <dependency>
       <groupId>commons-collections</groupId>

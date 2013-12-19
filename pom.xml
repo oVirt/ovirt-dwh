@@ -16,7 +16,6 @@
     <!-- dependency versions -->
     <ovirt-dwh.version>3.3.0</ovirt-dwh.version>
     <version.commons-collections>3.2.1</version.commons-collections>
-    <version.log4j>1.2.14</version.log4j>
     <version.dom4j>1.6.1</version.dom4j>
     <version.postgresql-jdbc>9.1-901-1.jdbc4</version.postgresql-jdbc>
     <version.dependency-plugin>2.4</version.dependency-plugin>

@@ -137,10 +137,6 @@
                     </exec>
                     <exec executable="/bin/bash">
                         <arg value="-c"/>
-                        <arg value="ln -s ${deployment.etl.lib.dir}/log4j-${version.log4j}.jar ${deployment.etl.lib.dir}/log4j.jar"/>
-                    </exec>
-                    <exec executable="/bin/bash">
-                        <arg value="-c"/>
                         <arg value="ln -s ${deployment.etl.lib.dir}/commons-collections-${version.commons-collections}.jar ${deployment.etl.lib.dir}/commons-collections.jar"/>
                     </exec>
                     <echo>*** To complete the deployment please run root_etl_deploy.sh...</echo>

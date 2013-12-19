@@ -43,13 +43,11 @@ BuildRequires: maven-dependency-plugin
 BuildRequires: maven-antrun-plugin
 BuildRequires: maven-compiler-plugin
 BuildRequires: apache-commons-collections
-BuildRequires: log4j
 BuildRequires: postgresql-jdbc
 Requires: python
 Requires: java-1.7.0-openjdk
 Requires: jpackage-utils
 Requires: apache-commons-collections >= 3.2
-Requires: log4j
 Requires: dom4j >= 1.6.1
 Requires: postgresql-jdbc
 Requires: postgresql-server >= 8.4.7
