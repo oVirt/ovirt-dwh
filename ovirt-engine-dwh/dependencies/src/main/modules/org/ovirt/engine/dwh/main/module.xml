@@ -4,6 +4,7 @@
 
   <resources>
     <resource-root path="advancedPersistentLookupLib.jar"/>
+    <resource-root path="etltermination.jar"/>
     <resource-root path="historyETL.jar"/>
   </resources>
 
@@ -12,6 +13,7 @@
     <module name="org.apache.commons.collections"/>
     <module name="org.dom4j"/>
     <module name="org.postgresql"/>
+    <module name="sun.jdk"/>
   </dependencies>
 
 </module>

@@ -1,214 +1,77 @@
 #!/bin/sh
 #
-# This shell script takes care of starting and stopping oVirt Engine History ETL Service
+# Start/stop oVirt Engine Dataware House
 #
-# chkconfig: 2345 99 00
-# processname: ovirt-engine-dwhd
-# pidfile: /var/run/ovirt-engine/ovirt-engine-dwhd.pid
-#
+# chkconfig: - 65 34
+# description: oVirt Engine Dataware House
+# pidfile: /var/run/ovirt-engine-dwhd.pid
+
 ### BEGIN INIT INFO
 # Provides: ovirt-engine-dwhd
-# Required-Start: $syslog $network
-# Should-Start: $time
-# Required-Stop: $syslog
-# Default-Start: 2 3 4 5
-# Default-Stop: 0 1 6
-# Description: oVirt Engine History ETL Service for Data Warehouse and Reporting
-# Short-Description: oVirt Engine History ETL Service for Data Warehouse and Reporting
+# Short-Description: oVirt Engine Dataware House
 ### END INIT INFO
-#
-#
 
 # Source function library.
-. /etc/init.d/functions
+. /etc/rc.d/init.d/functions
 
-# ETL functions library.
-. "@PKG_DATA_DIR@/bin/etl-common-functions.sh"
+NAME="ovirt-engine-dwhd"
+PROG="oVirt Engine Dataware House"
 
-prog=ovirt-engine-dwhd
+[ -f "/etc/sysconfig/${NAME}" ] && . "/etc/sysconfig/${NAME}"
+
 RETVAL=0
-PIDFILE="@DWH_PID@"
-LOG_FOLDER="@PKG_LOG_DIR@"
-LOG_FILE="${LOG_FOLDER}/ovirt-engine-dwhd.log"
-OVIRT_USER="@PKG_USER@"
-
-
-#create the log directory
-if [ ! -d LOG_FOLDER ]; then
-    mkdir -p $LOG_FOLDER > /dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        echo "Error: Please check permissions, can not create log folder: $LOG_FOLDER. "
-        exit 5
-    fi
-fi
-
-if [ -f ${LOG_FILE} ] ; then
-    chown "${OVIRT_USER}" "${LOG_FILE}"
-fi
-
-# Path to the ovirt-engine-dwhd launch script
-ETL_SCRIPT="@PKG_DATA_DIR@/bin/history_service.sh"
-
-if [ -z "$SHUTDOWN_WAIT" ]; then
-    SHUTDOWN_WAIT=10
-fi
-
-lock_file=/var/lock/subsys/$prog
-
-start() {
-    if [ -f $lock_file ] ; then
-        if [ -f "${PIDFILE}" ]; then
-            read kpid < "${PIDFILE}"
-            if checkpid $kpid 2>&1; then
-                echo "$prog process (pid $kpid) is already running"
-                return 0
-            else
-                echo "lock file found but no process is running for pid $kpid, continuing"
-            fi
-        fi
-    fi
-    rm -f "@PKG_STATE_DIR@/kill" > /dev/null 2>&1
-    echo > "${PIDFILE}"
-    chown "${OVIRT_USER}" "${PIDFILE}"
-    echo -n $"Starting $prog: at $(date)"
-    daemon --user $OVIRT_USER --pidfile="${PIDFILE}" \
-    	ETL_PID="${PIDFILE}" ${ETL_SCRIPT} > /dev/null 2>&1
-    RETVAL=$?
-    sleep 10
-    pid=0
-    procrunning > /dev/null 2>&1
-    [ $RETVAL = 0 ] && [ $pid != '0' ] && touch $lock_file && success || failure
-    RETVAL=$?
-    echo
-    if [ $RETVAL != 0 ]; then
-        echo > "@PKG_STATE_DIR@/kill"
-    fi
-    return $RETVAL
-}
-
-stop() {
-    echo -n $"Stopping $prog: "
-    pid=0
-    procrunning > /dev/null 2>&1
-    if [ $pid = '0' ]; then
-        failure $"$prog shutdown"
-        echo -n -e "\noVirt ETL Service is currently not running\n"
-        if [ -f $lock_file ]; then
-            rm -f $lock_file
-        fi
-        if [ -f "${PIDFILE}" ]; then
-            rm -f "${PIDFILE}"
-        fi
-        return 1
-    fi
-
-    # If process is still running
-
-    # First, try to kill it nicely
-    echo > "@PKG_STATE_DIR@/kill" > /dev/null 2>&1
-    sleep 10
-
-    pid=0
-    procrunning > /dev/null 2>&1
-
-    if [ $pid != '0' ]; then
-    sleep 10
-    fi
-
-    pid=0
-    procrunning > /dev/null 2>&1
-
-    if [ $pid != '0' ]; then
-    sleep 10
-    fi
-
-    pid=0
-    procrunning > /dev/null 2>&1
-
-    # Second, try to kill signal it nicely
-    if [ $pid != '0' ]; then
-    killproc -p "${PIDFILE}" -d $SHUTDOWN_WAIT > /dev/null 2>&1
-    fi
-
-    # Still not dead... notify user
-
-    pid=0
-    procrunning > /dev/null 2>&1
-
-    if [ $pid != '0' ] ; then
-    failure $"$prog shutdown"
-    echo -n -e "\nTimeout: Shutdown command was sent, but process is still running with PID $pid\n"
-    return 1
-    else
-    if [ -f $lock_file ]; then
-        rm -f $lock_file
-    fi
-    if [ -f "${PIDFILE}" ]; then
-        rm -f "${PIDFILE}"
-    fi
-    success $"$prog shutdown";echo
-    return 0
-    fi
-}
-
-status() {
-    RETVAL="1"
-    STOPPED="0"
-    if [ -f "${PIDFILE}" ]; then
-        read kpid < "${PIDFILE}"
-        if checkpid $kpid 2>&1; then
-            echo "$0 is running (pid ${kpid})"
-            RETVAL="0"
-        else
-            echo "oVirt ETL service is not running for pid $kpid"
-            rm -f $lock_file "${PIDFILE}"
-        fi
-    else
-        pid="$(pgrep -fu $OVIRT_USER ovirt_engine_dwh\.historyetl_3_3\.HistoryETL)"
-        if [ -n "$pid" ]; then
-            echo "ETL service $0 running (${pid}) but no PID file exists"
-            RETVAL="0"
-        else
-            echo "$0 is stopped"
-            rm -f $lock_file
-        fi
-    fi
-    return $RETVAL
-}
-
+LOCKFILE="/var/lock/subsys/${NAME}"
+PIDFILE="${PIDFILE:-/var/run/${NAME}.pid}"
+PKG_USER="@PKG_USER@"
+PKG_DATA_DIR="@PKG_DATA_DIR@"
 
 # See how we were called.
 case "$1" in
-  start)
-        start
-        ;;
-  stop)
-        stop
-        ;;
-  status)
-        status
-        ;;
-  restart)
-        stop
-        sleep 2
-        start
-        ;;
-  condrestart)
-        if [ -f "${PIDFILE}" ] ; then
-            stop
-            sleep 2
-            start
-    else
-        echo "oVirt ETL Service is currently not running"
-        fi
-        ;;
-  *)
-        echo "Usage: $0 {start|stop|status|restart|condrestart}"
-        RETVAL=3
+	start)
+		if [ `id -u` -ne 0 ]; then
+			echo $"Insufficient privilege" 1>&2
+			exit 4
+		fi
+		echo -n $"Starting $PROG: "
+		touch "${PIDFILE}"
+		chown "${PKG_USER}" "${PIDFILE}"
+		daemon --user "${PKG_USER}" --pidfile="${PIDFILE}" \
+			"${PKG_DATA_DIR}/services/${NAME}/${NAME}.py" \
+				--pidfile="${PIDFILE}" \
+				--background \
+				--redirect-output \
+				${EXTRA_ARGS} \
+				start
+		RETVAL=$?
+		echo
+		if [ $RETVAL -eq 0 ]; then
+			touch "${LOCKFILE}"
+		else
+			if [ -f "${LOCKFILE}" ]; then
+				RETVAL=0
+			fi
+		fi
+		;;
+	stop)
+		echo -n $"Stopping $PROG: "
+		killproc -p "${PIDFILE}" -d 60
+		RETVAL=$?
+		echo
+		[ $RETVAL -eq 0 ] && rm -f "${LOCKFILE}"
+		;;
+	status)
+		status -p "${PIDFILE}" "${NAME}"
+		RETVAL=$?
+		;;
+	restart)
+		$0 stop
+		$0 start
+		RETVAL=$?
+		;;
+	*)
+		echo $"Usage: $0 {start|stop|status|restart}"
+		exit 2
+		;;
 esac
 
 exit $RETVAL
-
-#
-#
-# end

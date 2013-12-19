@@ -3,9 +3,10 @@ tmp.*
 
 build/python-check.sh
 ovirt-engine-dwh.spec
-packaging/bin/etl-common-functions.sh
-packaging/bin/history_service.sh
 packaging/etc/ovirt-engine-dwhd.conf.d/README
+packaging/services/ovirt-engine-dwhd/config.py
+packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.conf
+packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.systemd
 packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv
-packaging/sys-etc/cron.hourly/ovirt_engine_dwh_watchdog.cron
+packaging/services/ovirt-engine-dwhd/ovirt_engine_dwh_watchdog.cron
 packaging/sys-etc/logrotate.d/ovirt-engine-dwhd

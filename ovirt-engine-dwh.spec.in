@@ -23,8 +23,8 @@
 %endif
 
 %if 0%{?fedora}
-%global ovirt_install_systemd 0
-%global ovirt_install_systemv 1
+%global ovirt_install_systemd 1
+%global ovirt_install_systemv 0
 %global ovirt_install_poms 1
 %global ovirt_require_maven 1
 %endif
@@ -71,7 +71,6 @@ getent passwd %1 >/dev/null || useradd -r -u %2 -g %3 -c %5 -s /sbin/nologin -d 
 	PREFIX=%{_prefix} \\\
 	SYSCONF_DIR=%{_sysconfdir} \\\
 	BIN_DIR=%{_bindir} \\\
-	PID_DIR=%{_localstatedir}/run \\\
 	DATAROOT_DIR=%{_datadir} \\\
 	MAN_DIR=%{_mandir} \\\
 	DOC_DIR=%{_docdir} \\\
@@ -147,6 +146,7 @@ while read lib_path; do
 	ln -s "${java_path}" "%{buildroot}${lib_path}"
 done << __EOF__
 %{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/advancedPersistentLookupLib.jar
+%{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/etltermination.jar
 %{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/historyETL.jar
 __EOF__
 
@@ -199,13 +199,14 @@ cp "%{buildroot}%{_datadir}/ovirt-engine-dwh/services/ovirt-engine-dwhd/ovirt-en
 %endif
 
 %if %{ovirt_install_systemv}
+install -dm 755 "%{buildroot}%{_sysconfdir}/cron.hourly"
+cp "%{buildroot}%{_datadir}/ovirt-engine-dwh/services/ovirt-engine-dwhd/ovirt_engine_dwh_watchdog.cron" "%{buildroot}%{_sysconfdir}/cron.hourly"
 install -dm 755 "%{buildroot}%{_initddir}"
 cp "%{buildroot}%{_datadir}/ovirt-engine-dwh/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv" "%{buildroot}%{_initddir}/ovirt-engine-dwhd"
 %endif
 
 %post
 
-touch %{_localstatedir}/lib/ovirt-engine-dwh/kill
 %if %{ovirt_install_systemv}
 /sbin/chkconfig --add ovirt-engine-dwhd > /dev/null 2>&1
 /sbin/chkconfig ovirt-engine-dwhd off > /dev/null 2>&1
@@ -245,7 +246,6 @@ fi
 %files
 
 %attr(-, %{engine_user}, %{engine_group}) %config(noreplace) %{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properties
-%config %{_sysconfdir}/cron.hourly/ovirt_engine_dwh_watchdog.cron
 %config(noreplace) %{_sysconfdir}/logrotate.d/ovirt-engine-dwhd
 %dir %attr(-, %{engine_user}, %{engine_group}) %{_localstatedir}/lib/ovirt-engine-dwh/
 %dir %attr(-, %{engine_user}, %{engine_group}) %{_localstatedir}/log/ovirt-engine-dwh/
@@ -268,6 +268,7 @@ fi
 %{_unitdir}/ovirt-engine-dwhd.service
 %endif
 %if %{ovirt_install_systemv}
+%config %{_sysconfdir}/cron.hourly/ovirt_engine_dwh_watchdog.cron
 %{_initddir}/ovirt-engine-dwhd
 %endif
 

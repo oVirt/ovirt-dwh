@@ -16,11 +16,19 @@
   <description>The jar that contains the oVirt Engine History DB ETL module</description>
 
   <dependencies>
+
       <dependency>
         <groupId>org.ovirt.engine.dwh</groupId>
         <artifactId>advancedPersistentLookupLib</artifactId>
         <version>1.0</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.ovirt.engine.dwh</groupId>
+        <artifactId>etltermination</artifactId>
+        <version>3.3.0</version>
+      </dependency>
+
   </dependencies>
 
   <build>

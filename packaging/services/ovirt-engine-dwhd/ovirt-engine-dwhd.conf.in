@@ -1,0 +1,79 @@
+#
+# This file holds the configuration of oVirt dataware house daemon.
+#
+
+#
+# Comma separated list of keys
+# not to be logged.
+#
+SENSITIVE_KEYS=""
+
+#
+# File locations
+#
+PKG_SYSCONF_DIR="@PKG_SYSCONF_DIR@"
+PKG_LOG_DIR="@PKG_LOG_DIR@"
+PKG_STATE_DIR="@PKG_STATE_DIR@"
+PKG_DATA_DIR="@PKG_DATA_DIR@"
+PKG_JBOSS_MODULES="@PKG_JBOSS_MODULES@"
+JBOSS_HOME="@JBOSS_HOME@"
+
+#
+# Daemon settings
+#
+DAEMON_STOP_TIME=30
+DAEMON_STOP_INTERVAL=1
+
+#
+# Use this if you want to enable remote debugging of the engine java virtual
+# machine (useful mainly for developers):
+#
+#   DWH_DEBUG_ADDRESS=ovirt.example.com:8787
+#
+# The address and port should be reachable from your debugger, so using
+# localhost is not good unless you are running the engine and the debugger in
+# the same machine.
+#
+DWH_DEBUG_ADDRESS=
+
+#
+# Change following to true if you want to enable garbage collection debug
+# information (will be sent to the console.log file):
+#
+DWH_VERBOSE_GC=false
+
+#
+# Extra system properties to be added to the java virtual machine
+# of the engine. Properties can be specified using the typical
+# java syntax:
+#
+#   -Dmy.param=my.value
+#   -Dmy.flag
+#
+# If the -D prefix is not used it will be automatically added, so
+# the following is also valid:
+#
+#   my.param=my.value
+#   my.flag
+#
+# If several properties need to be specified they should all go in
+# the same line and separated by spaces:
+#
+#   -Dmy.param=my.value -Dmy.flag -Dyour.param=your.value
+#
+DWH_PROPERTIES=""
+
+#
+# Extra Java arguments to be added to command-line.
+#
+DWH_JVM_ARGS=""
+
+#
+# Module path
+#
+# Colon separated list of paths.
+#
+# JBoss is always appended, cannot be appended here
+# as it may be resolved to different value.
+#
+DWH_JAVA_MODULEPATH="${PKG_JBOSS_MODULES}"

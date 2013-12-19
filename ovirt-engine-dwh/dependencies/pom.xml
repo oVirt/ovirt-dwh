@@ -29,6 +29,12 @@
 
     <dependency>
       <groupId>org.ovirt.engine.dwh</groupId>
+      <artifactId>etltermination</artifactId>
+      <version>3.3.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.ovirt.engine.dwh</groupId>
       <artifactId>advancedPersistentLookupLib</artifactId>
       <version>1.0</version>
     </dependency>
@@ -55,6 +61,12 @@
                 <groupId>postgresql</groupId>
                 <artifactId>postgresql</artifactId>
                 <moduleName>org.postgresql</moduleName>
+              </module>
+
+              <module>
+                <groupId>org.ovirt.engine.dwh</groupId>
+                <artifactId>etltermination</artifactId>
+                <moduleName>org.ovirt.engine.dwh</moduleName>
               </module>
 
               <module>

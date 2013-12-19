@@ -26,7 +26,7 @@
 #
 BUILD_UT=1
 EXTRA_BUILD_FLAGS=
-BUILD_VALIDATION=0
+BUILD_VALIDATION=1
 
 PACKAGE_NAME=ovirt-engine-dwh
 MVN=mvn
@@ -37,7 +37,6 @@ PEP8=pep8
 PREFIX=/usr/local
 LOCALSTATE_DIR=$(PREFIX)/var
 BIN_DIR=$(PREFIX)/bin
-PID_DIR=$(LOCALSTATE_DIR)/run
 SYSCONF_DIR=$(PREFIX)/etc
 DATAROOT_DIR=$(PREFIX)/share
 MAN_DIR=$(DATAROOT_DIR)/man
@@ -105,8 +104,9 @@ ARTIFACTS = \
 	-e "s|@PKG_LOG_DIR@|$(PKG_LOG_DIR)|g" \
 	-e "s|@PKG_STATE_DIR@|$(PKG_STATE_DIR)|g" \
 	-e "s|@PKG_JBOSS_MODULES@|$(PKG_JBOSS_MODULES)|g" \
-	-e "s|@DWH_PID@|$(PID_DIR)/ovirt-engine-dwh.pid|g" \
 	-e "s|@JBOSS_HOME@|$(JBOSS_HOME)|g" \
+	-e "s|@DEV_PYTHON_DIR@|$(DEV_PYTHON_DIR)|g" \
+	-e "s|@DWH_VARS@|$(PKG_SYSCONF_DIR)/ovirt-engine-dwhd.conf|g" \
 	-e "s|@RPM_VERSION@|$(RPM_VERSION)|g" \
 	-e "s|@RPM_RELEASE@|$(RPM_RELEASE)|g" \
 	-e "s|@PACKAGE_NAME@|$(PACKAGE_NAME)|g" \
@@ -119,11 +119,12 @@ ARTIFACTS = \
 GENERATED = \
 	build/python-check.sh \
 	ovirt-engine-dwh.spec \
-	packaging/bin/etl-common-functions.sh \
-	packaging/bin/history_service.sh \
 	packaging/etc/ovirt-engine-dwhd.conf.d/README \
+	packaging/services/ovirt-engine-dwhd/config.py \
+	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.conf \
+	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.systemd \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv \
-	packaging/sys-etc/cron.hourly/ovirt_engine_dwh_watchdog.cron \
+	packaging/services/ovirt-engine-dwhd/ovirt_engine_dwh_watchdog.cron \
 	packaging/sys-etc/logrotate.d/ovirt-engine-dwhd \
 	$(NULL)
 
@@ -135,9 +136,8 @@ all:	\
 
 generated-files:	$(GENERATED)
 	chmod a+x build/python-check.sh
-	chmod a+x packaging/bin/history_service.sh
 	chmod a+x packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv
-	chmod a+x packaging/sys-etc/cron.hourly/ovirt_engine_dwh_watchdog.cron
+	chmod a+x packaging/services/ovirt-engine-dwhd/ovirt_engine_dwh_watchdog.cron
 
 $(BUILD_FILE):
 	export MAVEN_OPTS="${MAVEN_OPTS} -XX:MaxPermSize=512m"
@@ -242,6 +242,7 @@ install-poms:
 	install -dm 755 "$(DESTDIR)$(MAVENPOM_DIR)"
 	install -m 644 ovirt-engine-dwh/advancedPersistentLookupLib/pom.xml "$(DESTDIR)$(MAVENPOM_DIR)/$(PACKAGE_NAME)-advancedPersistentLookupLib.pom"
 	install -m 644 ovirt-engine-dwh/historyETL/pom.xml "$(DESTDIR)$(MAVENPOM_DIR)/$(PACKAGE_NAME)-historyETL.pom"
+	install -m 644 ovirt-engine-dwh/etltermination/pom.xml "$(DESTDIR)$(MAVENPOM_DIR)/$(PACKAGE_NAME)-etltermination.pom"
 	install -m 644 ovirt-engine-dwh/pom.xml "$(DESTDIR)$(MAVENPOM_DIR)/$(PACKAGE_NAME)-ovirt-engine-dwh.pom"
 	install -m 644 pom.xml "$(DESTDIR)$(MAVENPOM_DIR)/$(PACKAGE_NAME)-root.pom"
 
@@ -250,7 +251,7 @@ install-packaging-files: \
 		$(NULL)
 	$(MAKE) copy-recursive SOURCEDIR=packaging/sys-etc TARGETDIR="$(DESTDIR)$(SYSCONF_DIR)" EXCLUDE_GEN="$(GENERATED)"
 	$(MAKE) copy-recursive SOURCEDIR=packaging/etc TARGETDIR="$(DESTDIR)$(PKG_SYSCONF_DIR)" EXCLUDE_GEN="$(GENERATED)"
-	for d in bin dbscripts etl services legacy-setup; do \
+	for d in dbscripts etl services legacy-setup; do \
 		$(MAKE) copy-recursive SOURCEDIR="packaging/$${d}" TARGETDIR="$(DESTDIR)$(PKG_DATA_DIR)/$${d}" EXCLUDE_GEN="$(GENERATED)"; \
 	done
 
@@ -288,4 +289,3 @@ install-dev:	\
 
 	install -d "$(DESTDIR)$(PKG_STATE_DIR)"
 	install -d "$(DESTDIR)$(PKG_LOG_DIR)"
-	echo > "$(DESTDIR)$(PKG_STATE_DIR)/kill"

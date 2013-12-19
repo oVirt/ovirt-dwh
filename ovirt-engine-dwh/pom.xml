@@ -16,8 +16,9 @@
 
   <modules>
     <module>advancedPersistentLookupLib</module>
-    <module>historyETL</module>
     <module>dependencies</module>
+    <module>historyETL</module>
+    <module>etltermination</module>
   </modules>
 
 </project>

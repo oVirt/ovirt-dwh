@@ -41,10 +41,13 @@ import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.util.Comparator;
 
-//the import part of tJava_1
+//the import part of tLibraryLoad_1
 //import java.util.List;
 
 //the import part of tJava_4
+//import java.util.List;
+
+//the import part of tJava_1
 //import java.util.List;
 
 @SuppressWarnings("unused")
@@ -94,6 +97,13 @@ public class HistoryETL implements TalendJob {
 		}
 
 		public void synchronizeContext() {
+
+			if (configFileLocation != null) {
+
+				this.setProperty("configFileLocation",
+						configFileLocation.toString());
+
+			}
 
 			if (hoursToKeepDaily != null) {
 
@@ -211,6 +221,12 @@ public class HistoryETL implements TalendJob {
 
 			}
 
+		}
+
+		public String configFileLocation;
+
+		public String getConfigFileLocation() {
+			return this.configFileLocation;
 		}
 
 		public Integer hoursToKeepDaily;
@@ -592,6 +608,16 @@ public class HistoryETL implements TalendJob {
 		tPrejob_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tLibraryLoad_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tLibraryLoad_1", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tLibraryLoad_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tRowGenerator_2_error(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -610,16 +636,6 @@ public class HistoryETL implements TalendJob {
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
 		tRowGenerator_2_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tFileDelete_1_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tFileDelete_1", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tFileDelete_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tFileInputProperties_1_error(java.lang.Exception exception,
@@ -734,26 +750,6 @@ public class HistoryETL implements TalendJob {
 		tJDBCConnection_5_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tWaitForFile_1_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tWaitForFile_1", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tWaitForFile_1_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJava_1_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tJava_1", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tWaitForFile_1_onSubJobError(exception, errorComponent, globalMap);
-	}
-
 	public void tRunJob_2_error(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -802,6 +798,26 @@ public class HistoryETL implements TalendJob {
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
 		tJava_4_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tLoop_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tLoop_1", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tLoop_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJava_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJava_1", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJava_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void talendLogs_LOGS_error(java.lang.Exception exception,
@@ -945,7 +961,7 @@ public class HistoryETL implements TalendJob {
 
 	}
 
-	public void tRowGenerator_2_onSubJobError(java.lang.Exception exception,
+	public void tLibraryLoad_1_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -956,7 +972,7 @@ public class HistoryETL implements TalendJob {
 
 	}
 
-	public void tFileDelete_1_onSubJobError(java.lang.Exception exception,
+	public void tRowGenerator_2_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1056,17 +1072,6 @@ public class HistoryETL implements TalendJob {
 
 	}
 
-	public void tWaitForFile_1_onSubJobError(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
 	public void tRunJob_2_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1090,6 +1095,28 @@ public class HistoryETL implements TalendJob {
 	}
 
 	public void tJava_4_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tLoop_1_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJava_1_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1194,6 +1221,8 @@ public class HistoryETL implements TalendJob {
 							+ "=" + value_tRunJob_4);
 				}
 
+				parentContextMap_tRunJob_4.put("configFileLocation",
+						context.configFileLocation);
 				parentContextMap_tRunJob_4.put("hoursToKeepDaily",
 						context.hoursToKeepDaily);
 				parentContextMap_tRunJob_4.put("hoursToKeepHourly",
@@ -3076,7 +3105,7 @@ public class HistoryETL implements TalendJob {
 				ok_Hash.put("tPrejob_1", true);
 				end_Hash.put("tPrejob_1", System.currentTimeMillis());
 
-				tRowGenerator_2Process(globalMap);
+				tLibraryLoad_1Process(globalMap);
 
 				/**
 				 * [tPrejob_1 end ] stop
@@ -3095,6 +3124,89 @@ public class HistoryETL implements TalendJob {
 		}
 
 		globalMap.put("tPrejob_1_SUBPROCESS_STATE", 1);
+	}
+
+	public void tLibraryLoad_1Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tLibraryLoad_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tLibraryLoad_1 begin ] start
+				 */
+
+				ok_Hash.put("tLibraryLoad_1", false);
+				start_Hash.put("tLibraryLoad_1", System.currentTimeMillis());
+				currentComponent = "tLibraryLoad_1";
+
+				int tos_count_tLibraryLoad_1 = 0;
+
+				/**
+				 * [tLibraryLoad_1 begin ] stop
+				 */
+				/**
+				 * [tLibraryLoad_1 main ] start
+				 */
+
+				currentComponent = "tLibraryLoad_1";
+
+				tos_count_tLibraryLoad_1++;
+
+				/**
+				 * [tLibraryLoad_1 main ] stop
+				 */
+				/**
+				 * [tLibraryLoad_1 end ] start
+				 */
+
+				currentComponent = "tLibraryLoad_1";
+
+				ok_Hash.put("tLibraryLoad_1", true);
+				end_Hash.put("tLibraryLoad_1", System.currentTimeMillis());
+
+				/**
+				 * [tLibraryLoad_1 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tLibraryLoad_1:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tRowGenerator_2Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tLibraryLoad_1_SUBPROCESS_STATE", 1);
 	}
 
 	public static class row3Struct implements
@@ -3423,143 +3535,6 @@ public class HistoryETL implements TalendJob {
 								"", "", "", "");
 			}
 
-			tFileDelete_1Process(globalMap);
-
-		} catch (java.lang.Exception e) {
-
-			throw new TalendException(e, currentComponent, globalMap);
-
-		} catch (java.lang.Error error) {
-
-			throw new java.lang.Error(error);
-
-		}
-
-		globalMap.put("tRowGenerator_2_SUBPROCESS_STATE", 1);
-	}
-
-	public void tFileDelete_1Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tFileDelete_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		int iterateLoop = 0;
-		String currentComponent = "";
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tFileDelete_1 begin ] start
-				 */
-
-				ok_Hash.put("tFileDelete_1", false);
-				start_Hash.put("tFileDelete_1", System.currentTimeMillis());
-				currentComponent = "tFileDelete_1";
-
-				int tos_count_tFileDelete_1 = 0;
-
-				/**
-				 * [tFileDelete_1 begin ] stop
-				 */
-				/**
-				 * [tFileDelete_1 main ] start
-				 */
-
-				currentComponent = "tFileDelete_1";
-
-				class DeleteFoldertFileDelete_1 {
-					/**
-					 * delete all the sub-files in 'file'
-					 * 
-					 * @param file
-					 */
-					public boolean delete(java.io.File file) {
-						java.io.File[] files = file.listFiles();
-						for (int i = 0; i < files.length; i++) {
-							if (files[i].isFile()) {
-								files[i].delete();
-							} else if (files[i].isDirectory()) {
-								if (!files[i].delete()) {
-									delete(files[i]);
-								}
-							}
-						}
-						deleteDirectory(file);
-						return file.delete();
-					}
-
-					/**
-					 * delete all the sub-folders in 'file'
-					 * 
-					 * @param file
-					 */
-					private void deleteDirectory(java.io.File file) {
-						java.io.File[] filed = file.listFiles();
-						for (int i = 0; i < filed.length; i++) {
-							if (filed[i].isDirectory()) {
-								deleteDirectory(filed[i]);
-							}
-							filed[i].delete();
-						}
-					}
-
-				}
-				java.io.File file_tFileDelete_1 = new java.io.File(
-						"/var/lib/ovirt-engine-dwh/kill");
-				if (file_tFileDelete_1.exists() && file_tFileDelete_1.isFile()) {
-					if (file_tFileDelete_1.delete()) {
-						globalMap.put("tFileDelete_1_CURRENT_STATUS",
-								"File deleted.");
-					} else {
-						globalMap.put("tFileDelete_1_CURRENT_STATUS",
-								"No file deleted.");
-					}
-				} else {
-					globalMap.put("tFileDelete_1_CURRENT_STATUS",
-							"File does not exists or is invalid.");
-				}
-				globalMap.put("tFileDelete_1_DELETE_PATH",
-						"/var/lib/ovirt-engine-dwh/kill");
-
-				tos_count_tFileDelete_1++;
-
-				/**
-				 * [tFileDelete_1 main ] stop
-				 */
-				/**
-				 * [tFileDelete_1 end ] start
-				 */
-
-				currentComponent = "tFileDelete_1";
-
-				ok_Hash.put("tFileDelete_1", true);
-				end_Hash.put("tFileDelete_1", System.currentTimeMillis());
-
-				/**
-				 * [tFileDelete_1 end ] stop
-				 */
-
-			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tFileDelete_1:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
 			tFileInputProperties_1Process(globalMap);
 
 		} catch (java.lang.Exception e) {
@@ -3572,7 +3547,7 @@ public class HistoryETL implements TalendJob {
 
 		}
 
-		globalMap.put("tFileDelete_1_SUBPROCESS_STATE", 1);
+		globalMap.put("tRowGenerator_2_SUBPROCESS_STATE", 1);
 	}
 
 	public static class row1Struct implements
@@ -3763,7 +3738,7 @@ public class HistoryETL implements TalendJob {
 
 				int tos_count_tFileInputProperties_1 = 0;
 				java.io.File file_tFileInputProperties_1 = new java.io.File(
-						"/etc/ovirt-engine/ovirt-engine-dwh/Default.properties");
+						System.getProperty("org.ovirt.engine.dwh.settings"));
 				java.util.Properties properties_tFileInputProperties_1 = new java.util.Properties();
 				properties_tFileInputProperties_1
 						.load(new java.io.FileInputStream(
@@ -3829,6 +3804,12 @@ public class HistoryETL implements TalendJob {
 
 					if (tmp_key_tContextLoad_1 != null) {
 						try {
+							if (key_tContextLoad_1 != null
+									&& "configFileLocation"
+											.equals(key_tContextLoad_1)) {
+								context.configFileLocation = value_tContextLoad_1;
+							}
+
 							if (key_tContextLoad_1 != null
 									&& "hoursToKeepDaily"
 											.equals(key_tContextLoad_1)) {
@@ -5371,277 +5352,6 @@ public class HistoryETL implements TalendJob {
 		globalMap.put("tJDBCConnection_5_SUBPROCESS_STATE", 1);
 	}
 
-	public void tWaitForFile_1Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tWaitForFile_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		int iterateLoop = 0;
-		String currentComponent = "";
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tWaitForFile_1 begin ] start
-				 */
-
-				int NB_ITERATE_tJava_1 = 0; // for statistics
-
-				ok_Hash.put("tWaitForFile_1", false);
-				start_Hash.put("tWaitForFile_1", System.currentTimeMillis());
-				currentComponent = "tWaitForFile_1";
-
-				int tos_count_tWaitForFile_1 = 0;
-
-				class Util_tWaitForFile_1 {
-
-					private boolean flagt = false;
-
-					private java.util.regex.Pattern fileNamePatternt = null;
-					private java.util.List<String> list;
-
-					public java.util.List<String> getFiles() {
-						setFiles();
-						return list;
-					}
-
-					public Util_tWaitForFile_1() {
-						this.list = new java.util.ArrayList<String>();
-					}
-
-					public void addFile(java.io.File file) {
-						this.list.add(file.getPath());
-					}
-
-					void setFiles() {
-						String directoryt = "/var/lib/ovirt-engine-dwh";
-						String filemaskt = "kill" + "$";
-
-						if (filemaskt.indexOf("^") == -1) {
-							filemaskt = "^" + filemaskt;
-						}
-						if (!(filemaskt.lastIndexOf(".*$") == -1)
-								&& filemaskt.lastIndexOf("*.*$") == -1) {
-							filemaskt = filemaskt.substring(0,
-									filemaskt.length() - 3)
-									+ "$";
-							flagt = true;
-						} else {
-							filemaskt = java.util.regex.Pattern.compile("[*]")
-									.matcher(filemaskt).replaceAll(".*");
-						}
-
-						boolean case_sensitivet = true;
-						fileNamePatternt = java.util.regex.Pattern
-								.compile(filemaskt);
-						if (!case_sensitivet) {
-							fileNamePatternt = java.util.regex.Pattern.compile(
-									filemaskt,
-									java.util.regex.Pattern.CASE_INSENSITIVE);
-						}
-						java.io.File filet = new java.io.File(directoryt);
-						filet.listFiles(new java.io.FilenameFilter() {
-
-							public boolean accept(java.io.File dir, String name) {
-								java.io.File file = new java.io.File(dir, name);
-								if (file.isFile()) {
-									String fileNamet = name;
-									if (flagt == true) {
-										if (!(fileNamet.indexOf(".") == -1)) {
-											if (fileNamePatternt
-													.matcher(
-															fileNamet
-																	.substring(
-																			0,
-																			fileNamet
-																					.indexOf(".")))
-													.find()) {
-												addFile(file);
-
-											}
-										} else {
-											if (fileNamePatternt.matcher(
-													fileNamet).find()) {
-												addFile(file);
-											}
-										}
-									} else {
-										if (fileNamePatternt.matcher(fileNamet)
-												.find()) {
-											addFile(file);
-										}
-									}
-
-									return true;
-								}
-								return false;
-							}
-
-						});
-
-					}
-
-					java.util.List<java.io.File> getCreatedFiles(
-							java.util.List<String> originalFiles,
-							java.util.List<String> fetchOneTimeFiles) {
-						java.util.List<java.io.File> newCreatedFiles = new java.util.ArrayList<java.io.File>();
-						String[] array = originalFiles.toArray(new String[] {});
-						for (String file : fetchOneTimeFiles) {
-							int index = java.util.Arrays.binarySearch(array,
-									file);
-							if (index < 0) {
-								newCreatedFiles.add(new java.io.File(file));
-							}
-						}
-						return newCreatedFiles;
-					}
-
-				}
-
-				Util_tWaitForFile_1 util_tWaitForFile_1 = new Util_tWaitForFile_1();
-				java.util.List<String> originalFiles_tWaitForFile_1 = util_tWaitForFile_1
-						.getFiles();
-
-				int count_tWaitForFile_1 = 0;
-
-				while (true) {
-					boolean found_tWaitForFile_1 = false;
-					util_tWaitForFile_1 = new Util_tWaitForFile_1();
-
-					java.util.List<String> fetchFilesOneTime_tWaitForFile_1 = util_tWaitForFile_1
-							.getFiles();
-					util_tWaitForFile_1 = new Util_tWaitForFile_1();
-					java.util.Collections.sort(originalFiles_tWaitForFile_1);
-					java.util.List<java.io.File> newCreatedFiles_tWaitForFile_1 = util_tWaitForFile_1
-							.getCreatedFiles(originalFiles_tWaitForFile_1,
-									fetchFilesOneTime_tWaitForFile_1);
-
-					for (int i = 0; i < newCreatedFiles_tWaitForFile_1.size(); i++) {
-						java.io.File file_tWaitForFile_1 = newCreatedFiles_tWaitForFile_1
-								.get(i);
-
-						globalMap.put("tWaitForFile_1_FILENAME",
-								file_tWaitForFile_1.getName());
-						globalMap.put("tWaitForFile_1_CREATED_FILE",
-								file_tWaitForFile_1.getAbsolutePath());
-						found_tWaitForFile_1 = true;
-						originalFiles_tWaitForFile_1.add(file_tWaitForFile_1
-								.getPath());
-						break;
-					}
-
-					count_tWaitForFile_1++;
-
-					globalMap.put("tWaitForFile_1_CURRENT_ITERATION",
-							count_tWaitForFile_1);
-
-					if (!found_tWaitForFile_1) {
-						Thread.sleep(5 * 1000);
-						continue;
-					}
-
-					/**
-					 * [tWaitForFile_1 begin ] stop
-					 */
-					/**
-					 * [tWaitForFile_1 main ] start
-					 */
-
-					currentComponent = "tWaitForFile_1";
-
-					tos_count_tWaitForFile_1++;
-
-					/**
-					 * [tWaitForFile_1 main ] stop
-					 */
-					NB_ITERATE_tJava_1++;
-					iterateLoop++;
-
-					/**
-					 * [tJava_1 begin ] start
-					 */
-
-					ok_Hash.put("tJava_1", false);
-					start_Hash.put("tJava_1", System.currentTimeMillis());
-					currentComponent = "tJava_1";
-
-					int tos_count_tJava_1 = 0;
-
-					while (runningThreadCount.getCount() > 0) {
-						runningThreadCount.add(-1);
-					}
-
-					/**
-					 * [tJava_1 begin ] stop
-					 */
-					/**
-					 * [tJava_1 main ] start
-					 */
-
-					currentComponent = "tJava_1";
-
-					tos_count_tJava_1++;
-
-					/**
-					 * [tJava_1 main ] stop
-					 */
-					/**
-					 * [tJava_1 end ] start
-					 */
-
-					currentComponent = "tJava_1";
-
-					ok_Hash.put("tJava_1", true);
-					end_Hash.put("tJava_1", System.currentTimeMillis());
-
-					/**
-					 * [tJava_1 end ] stop
-					 */
-
-					/**
-					 * [tWaitForFile_1 end ] start
-					 */
-
-					currentComponent = "tWaitForFile_1";
-
-					if (true) {
-						break;
-					}
-				}
-
-				ok_Hash.put("tWaitForFile_1", true);
-				end_Hash.put("tWaitForFile_1", System.currentTimeMillis());
-
-				/**
-				 * [tWaitForFile_1 end ] stop
-				 */
-
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			throw new TalendException(e, currentComponent, globalMap);
-
-		} catch (java.lang.Error error) {
-
-			throw new java.lang.Error(error);
-
-		}
-
-		globalMap.put("tWaitForFile_1_SUBPROCESS_STATE", 1);
-	}
-
 	public void tRunJob_2Process(final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 		globalMap.put("tRunJob_2_SUBPROCESS_STATE", 0);
@@ -5725,6 +5435,8 @@ public class HistoryETL implements TalendJob {
 							+ "=" + value_tRunJob_2);
 				}
 
+				parentContextMap_tRunJob_2.put("configFileLocation",
+						context.configFileLocation);
 				parentContextMap_tRunJob_2.put("hoursToKeepDaily",
 						context.hoursToKeepDaily);
 				parentContextMap_tRunJob_2.put("hoursToKeepHourly",
@@ -6757,6 +6469,179 @@ public class HistoryETL implements TalendJob {
 		globalMap.put("tJava_4_SUBPROCESS_STATE", 1);
 	}
 
+	public void tLoop_1Process(final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tLoop_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tLoop_1 begin ] start
+				 */
+
+				ok_Hash.put("tLoop_1", false);
+				start_Hash.put("tLoop_1", System.currentTimeMillis());
+				currentComponent = "tLoop_1";
+
+				int tos_count_tLoop_1 = 0;
+
+				int current_iteration_tLoop_1 = 0;
+
+				;
+
+				while (!org.ovirt.engine.dwh.etltermination.Termination
+						.getInstance().shouldTerminate()) {
+
+					current_iteration_tLoop_1++;
+					globalMap.put("tLoop_1_CURRENT_ITERATION",
+							current_iteration_tLoop_1);
+
+					/**
+					 * [tLoop_1 begin ] stop
+					 */
+					/**
+					 * [tLoop_1 main ] start
+					 */
+
+					currentComponent = "tLoop_1";
+
+					tos_count_tLoop_1++;
+
+					/**
+					 * [tLoop_1 main ] stop
+					 */
+					/**
+					 * [tLoop_1 end ] start
+					 */
+
+					currentComponent = "tLoop_1";
+
+					Thread.sleep(4000);
+					;
+
+				}
+
+				ok_Hash.put("tLoop_1", true);
+				end_Hash.put("tLoop_1", System.currentTimeMillis());
+
+				/**
+				 * [tLoop_1 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil.addLog("CHECKPOINT",
+						"CONNECTION:SUBJOB_OK:tLoop_1:OnSubjobOk", "", Thread
+								.currentThread().getId() + "", "", "", "", "",
+						"");
+			}
+
+			tJava_1Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tLoop_1_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJava_1Process(final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJava_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJava_1 begin ] start
+				 */
+
+				ok_Hash.put("tJava_1", false);
+				start_Hash.put("tJava_1", System.currentTimeMillis());
+				currentComponent = "tJava_1";
+
+				int tos_count_tJava_1 = 0;
+
+				while (runningThreadCount.getCount() > 0) {
+					runningThreadCount.add(-1);
+				}
+
+				/**
+				 * [tJava_1 begin ] stop
+				 */
+				/**
+				 * [tJava_1 main ] start
+				 */
+
+				currentComponent = "tJava_1";
+
+				tos_count_tJava_1++;
+
+				/**
+				 * [tJava_1 main ] stop
+				 */
+				/**
+				 * [tJava_1 end ] start
+				 */
+
+				currentComponent = "tJava_1";
+
+				ok_Hash.put("tJava_1", true);
+				end_Hash.put("tJava_1", System.currentTimeMillis());
+
+				/**
+				 * [tJava_1 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			throw new TalendException(e, currentComponent, globalMap);
+
+		} catch (java.lang.Error error) {
+
+			throw new java.lang.Error(error);
+
+		}
+
+		globalMap.put("tJava_1_SUBPROCESS_STATE", 1);
+	}
+
 	public static class row_talendLogs_LOGSStruct implements
 			routines.system.IPersistableRow<row_talendLogs_LOGSStruct> {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
@@ -7479,6 +7364,8 @@ public class HistoryETL implements TalendJob {
 			if (!context_param.isEmpty()) {
 				context.putAll(context_param);
 			}
+			context.configFileLocation = (String) context
+					.getProperty("configFileLocation");
 			try {
 				context.hoursToKeepDaily = routines.system.ParserUtils
 						.parseTo_Integer(context
@@ -7565,6 +7452,10 @@ public class HistoryETL implements TalendJob {
 
 		// get context value from parent directly
 		if (parentContextMap != null && !parentContextMap.isEmpty()) {
+			if (parentContextMap.containsKey("configFileLocation")) {
+				context.configFileLocation = (String) parentContextMap
+						.get("configFileLocation");
+			}
 			if (parentContextMap.containsKey("hoursToKeepDaily")) {
 				context.hoursToKeepDaily = (Integer) parentContextMap
 						.get("hoursToKeepDaily");
@@ -7723,21 +7614,21 @@ public class HistoryETL implements TalendJob {
 
 				try {
 					((java.util.Map) threadLocal.get()).put("errorCode", null);
-					tWaitForFile_1Process(globalMap);
+					tRunJob_2Process(globalMap);
 					if (!"failure".equals(((java.util.Map) threadLocal.get())
 							.get("status"))) {
 						((java.util.Map) threadLocal.get())
 								.put("status", "end");
 					}
-				} catch (TalendException e_tWaitForFile_1) {
+				} catch (TalendException e_tRunJob_2) {
 
-					e_tWaitForFile_1.printStackTrace();
-					globalMap.put("tWaitForFile_1_SUBPROCESS_STATE", -1);
+					e_tRunJob_2.printStackTrace();
+					globalMap.put("tRunJob_2_SUBPROCESS_STATE", -1);
 
-				} catch (Error e_tWaitForFile_1) {
+				} catch (Error e_tRunJob_2) {
 
-					e_tWaitForFile_1.printStackTrace();
-					globalMap.put("tWaitForFile_1_SUBPROCESS_STATE", -1);
+					e_tRunJob_2.printStackTrace();
+					globalMap.put("tRunJob_2_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -7769,21 +7660,21 @@ public class HistoryETL implements TalendJob {
 
 				try {
 					((java.util.Map) threadLocal.get()).put("errorCode", null);
-					tRunJob_2Process(globalMap);
+					tLoop_1Process(globalMap);
 					if (!"failure".equals(((java.util.Map) threadLocal.get())
 							.get("status"))) {
 						((java.util.Map) threadLocal.get())
 								.put("status", "end");
 					}
-				} catch (TalendException e_tRunJob_2) {
+				} catch (TalendException e_tLoop_1) {
 
-					e_tRunJob_2.printStackTrace();
-					globalMap.put("tRunJob_2_SUBPROCESS_STATE", -1);
+					e_tLoop_1.printStackTrace();
+					globalMap.put("tLoop_1_SUBPROCESS_STATE", -1);
 
-				} catch (Error e_tRunJob_2) {
+				} catch (Error e_tLoop_1) {
 
-					e_tRunJob_2.printStackTrace();
-					globalMap.put("tRunJob_2_SUBPROCESS_STATE", -1);
+					e_tLoop_1.printStackTrace();
+					globalMap.put("tLoop_1_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -7934,6 +7825,6 @@ public class HistoryETL implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 212533 characters generated by Talend Open Studio for Data Integration on the
- * June 23, 2013 12:08:24 PM IDT
+ * 208390 characters generated by Talend Open Studio for Data Integration on the
+ * December 22, 2013 3:38:35 PM IST
  ************************************************************************************************/
