@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.ovirt.engine.dwh</groupId>
     <artifactId>ovirt-engine-dwh</artifactId>
-    <version>3.3.0</version>
+    <version>3.4.0</version>
   </parent>
 
   <artifactId>dependencies</artifactId>
@@ -30,7 +30,7 @@
     <dependency>
       <groupId>org.ovirt.engine.dwh</groupId>
       <artifactId>etltermination</artifactId>
-      <version>3.3.0</version>
+      <version>3.4.0</version>
     </dependency>
 
     <dependency>
@@ -48,7 +48,7 @@
     <dependency>
       <groupId>org.ovirt.engine.dwh</groupId>
       <artifactId>historyETL</artifactId>
-      <version>3.3.0</version>
+      <version>3.4.0</version>
     </dependency>
 
   </dependencies>

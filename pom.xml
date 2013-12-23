@@ -3,7 +3,7 @@
 
   <groupId>org.ovirt.engine.dwh</groupId>
   <artifactId>root</artifactId>
-  <version>3.3.0</version>
+  <version>3.4.0</version>
   <packaging>pom</packaging>
 
   <name>oVirt Engine DWH Root Project</name>
@@ -15,7 +15,7 @@
 
   <properties>
     <!-- dependency versions -->
-    <ovirt-dwh.version>3.3.0</ovirt-dwh.version>
+    <ovirt-dwh.version>3.4.0</ovirt-dwh.version>
     <version.commons-collections>3.2.1</version.commons-collections>
     <version.dom4j>1.6.1</version.dom4j>
     <postgres.jdbc.version>9.1-901-1.jdbc4</postgres.jdbc.version>

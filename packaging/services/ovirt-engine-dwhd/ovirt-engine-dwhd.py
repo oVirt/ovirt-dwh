@@ -176,7 +176,7 @@ class Daemon(service.Daemon):
         self._serviceArgs.extend([
             '-jar', jbossModulesJar,
             '-dependencies', 'org.ovirt.engine.dwh',
-            '-class', 'ovirt_engine_dwh.historyetl_3_3.HistoryETL',
+            '-class', 'ovirt_engine_dwh.historyetl_3_4.HistoryETL',
             '--context=Default',
         ])
 

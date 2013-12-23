@@ -5,13 +5,13 @@
   <parent>
           <groupId>org.ovirt.engine.dwh</groupId>
           <artifactId>ovirt-engine-dwh</artifactId>
-          <version>3.3.0</version>
+          <version>3.4.0</version>
   </parent>
 
   <groupId>org.ovirt.engine.dwh</groupId>
   <artifactId>etltermination</artifactId>
   <packaging>jar</packaging>
-  <version>3.3.0</version>
+  <version>3.4.0</version>
   <name>ETL Termination</name>
   <description>Hook to all accepting java termination</description>
 

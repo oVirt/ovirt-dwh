@@ -46,6 +46,8 @@ refresh_views() {
     execute_file "create_views_3_2.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
     printf "Creating views API 3.3...\n"
     execute_file "create_views_3_3.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
+    printf "Creating views API 3.4...\n"
+	execute_file "create_views_3_4.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
     printf "Creating ovirt engine reports views...\n"
     execute_file "create_reports_views.sql" ${DATABASE} ${SERVERNAME} ${PORT} > /dev/null
 }
