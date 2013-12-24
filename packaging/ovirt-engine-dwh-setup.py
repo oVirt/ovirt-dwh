@@ -17,6 +17,7 @@ import os
 import time
 import traceback
 import pwd
+import grp
 from optparse import OptionParser
 import ConfigParser
 import getpass
@@ -38,6 +39,8 @@ params = {
     'REMOTE_DB_PASSWORD': None,
 }
 
+OVIRT_SETUP_POST_INSTALL_CONFIG = "/etc/ovirt-engine-setup.conf.d/20-setup-ovirt-post.conf"
+DIR_DEPLOY = "/usr/share/ovirt-engine"
 DWH_PACKAGE_NAME="ovirt-engine-dwh"
 PATH_DB_SCRIPTS="/usr/share/ovirt-engine-dwh/db-scripts"
 PATH_WATCHDOG="/usr/share/ovirt-engine-dwh/etl/ovirt_engine_dwh_watchdog.cron"
@@ -58,10 +61,12 @@ FILE_DATABASE_DWH_CONFIG = os.path.join(
 )
 DB_BACKUPS_DIR = "/var/lib/ovirt-engine/backups"
 DB_NAME = "ovirt_engine_history"
-DB_USER = 'engine_history'
+DB_USER = "engine_history"
 DB_PORT = "5432"
 DB_HOST = "localhost"
 PGPASS_TEMP = ''
+OVIRT_UID = pwd.getpwnam('ovirt')[2]
+OVIRT_GID = grp.getgrnam('ovirt')[2]
 
 # DB messages
 DB_FILE = (
@@ -127,18 +132,6 @@ def _getOptions():
     (options, args) = parser.parse_args()
     return (options, args)
 
-
-def dbExists(db_dict):
-    logging.debug("checking if %s db already exists" % db_dict['dbname'])
-    (output, rc) = utils.execSqlCmd(
-        db_dict=db_dict,
-        sql_query="select 1",
-        envDict={'ENGINE_PGPASS': PGPASS_TEMP},
-    )
-    if (rc != 0):
-        return False
-    else:
-        return True
 
 @transactionDisplay("Creating DB")
 def createDbSchema(db_dict):
@@ -238,7 +231,7 @@ def getDbCredentials(userdefault=''):
     )
 
     dbuser = utils.askQuestion(
-        question='Provide a remote DB user',
+        question='Provide a remote DB user: ',
         default=userdefault,
     )
 
@@ -283,9 +276,13 @@ def getDbDictFromOptions():
     return db_dict
 
 def getDBStatus(db_dict, TEMP_PGPASS):
-    exists = owned = False
+    logging.debug("starting getDBStatus")
+    exists = owned = hasData = False
+    working_db_dict = None
     for dbdict in (
+        # Our own user
         db_dict,
+        # engine user
         {
             'dbname': DB_NAME,
             'host': db_dict['host'],
@@ -295,6 +292,7 @@ def getDBStatus(db_dict, TEMP_PGPASS):
             'engine_user': db_dict['engine_user'],
             'engine_pass': db_dict['engine_pass'],
         },
+        # postgres
         {
             'dbname': DB_NAME,
             'host': db_dict['host'],
@@ -305,13 +303,19 @@ def getDBStatus(db_dict, TEMP_PGPASS):
             'engine_pass': db_dict['engine_pass'],
         },
     ):
-        exists, owned = utils.dbExists(dbdict, TEMP_PGPASS)
-        if exists:
-            db_dict['username'] = dbdict['username']
-            db_dict['password'] = dbdict['password']
+        tmpexists, tmpowned, tmphasData = utils.dbExists(dbdict, TEMP_PGPASS)
+        exists |= tmpexists
+        owned |= tmpowned
+        hasData |= tmphasData
+        if hasData:
+            working_db_dict = dbdict
             break
+        elif working_db_dict is None and exists:
+            working_db_dict = dbdict
 
-    return exists, owned
+        if working_db_dict is not None:
+            logging.debug("getDBStatus working username %s" % working_db_dict['username'])
+    return exists, owned, hasData, working_db_dict
 
 
 @transactionDisplay("Setting DB connectivity")
@@ -329,10 +333,15 @@ def setDbPass(db_dict):
     file_handler.editParam("ovirtEngineDbPassword", db_dict["engine_pass"])
     file_handler.editParam("ovirtEngineDbUser", db_dict["engine_user"])
     file_handler.editParam("ovirtEngineDbJdbcConnection",
-                           "jdbc\:postgresql\://%s\:%s/engine?stringtype\=unspecified" % (db_dict["host"], db_dict["port"]))
+                           "jdbc\:postgresql\://{host}\:{port}/{dbname}?stringtype\=unspecified".format(
+                               host=db_dict["host"],
+                               port=db_dict["port"],
+                               dbname=db_dict["engine_db"],
+                           ))
     file_handler.editParam("ovirtEngineHistoryDbJdbcConnection",
                            "jdbc\:postgresql\://%s\:%s/%s?stringtype\=unspecified" % (db_dict["host"], db_dict["port"], db_dict['dbname']))
     file_handler.close()
+    os.chown(FILE_DB_CONN, OVIRT_UID, OVIRT_GID)
 
 def isVersionSupported(rawMinimalVersion, rawCurrentVersion):
     """
@@ -361,6 +370,18 @@ def setVersion():
     file_handler.open()
     file_handler.editParam("etlVersion", "%s.%s" % (currentVersion, currentMinorVersion))
     file_handler.close()
+    os.chown(FILE_DB_CONN, OVIRT_UID, OVIRT_GID)
+
+def userExists(user):
+    sql_query = '"select 1 from pg_roles where rolname=\'{user}\';"'.format(
+        user=user
+    )
+
+    output, rc = utils.runPostgresSuQuery(sql_query)
+    return '1' in output
+
+def isOvirtEngineInstalled():
+    return os.path.exists(OVIRT_SETUP_POST_INSTALL_CONFIG)
 
 def main(options):
     '''
@@ -383,6 +404,12 @@ def main(options):
     try:
         logging.debug("starting main()")
         print "Welcome to ovirt-engine-dwh setup utility\n"
+
+        # Check that oVirt-Engine is installed, otherwise exit gracefully with an informative message
+        if not isOvirtEngineInstalled():
+            logging.debug("ovirt-engine is not set up, cannot continue")
+            print "Please install & setup oVirt engine by executing \"engine-setup\" prior to setting up the data warehouse."
+            return 0
 
         db_dict = getDbDictFromOptions()
         PGPASS_TEMP = utils.createTempPgpass(db_dict)
@@ -414,6 +441,7 @@ def main(options):
             setVersion()
             readUserCreated = False
             createReadUser = False
+            dbExists = owned = hasData = False
             errMsg = ''
 
             # Create/Upgrade DB
@@ -478,17 +506,62 @@ def main(options):
                 readonly=db_dict['readonly'],
             )
 
-            dbExists, owned = getDBStatus(db_dict, PGPASS_TEMP)
+            dbExists, owned, hasData, working_db_dict = getDBStatus(db_dict, PGPASS_TEMP)
+            if not utils.localHost(db_dict["host"]) and not dbExists:
+                print 'Remote installation is selected.\n'
+
+                if options['REMOTE_DB_USER'] is None:
+                    while not dbExists:
+                        (
+                            db_dict['username'],
+                            db_dict['password'],
+                        ) = getDbCredentials(
+                             userdefault=db_dict['username'],
+                        )
+                        if os.path.exists(PGPASS_TEMP):
+                            os.remove(PGPASS_TEMP)
+                        PGPASS_TEMP = utils.createTempPgpass(db_dict)
+                        dbExists, owned, hasData, working_db_dict = getDBStatus(db_dict, PGPASS_TEMP)
+                        if not dbExists:
+                            print 'Could not connect to remote database - please try again.\n'
+                else:
+                    db_dict['username'] = options['REMOTE_DB_USER']
+                    db_dict['password'] = options['REMOTE_DB_PASSWORD']
+
+                if os.path.exists(PGPASS_TEMP):
+                    os.remove(PGPASS_TEMP)
+                PGPASS_TEMP = utils.createTempPgpass(db_dict)
+                dbExists, owned, hasData, working_db_dict = getDBStatus(db_dict, PGPASS_TEMP)
+                if not dbExists:
+                    raise RuntimeError (
+                       (
+                          'Remote installation failed. Please perform '
+                           '\tcreate role {role} with login '
+                           'encrypted password {password};\n'
+                           '\tcreate {db} owner {role}\n'
+                           'on the remote DB, verify it and rerun the setup.'
+                        ).format(
+                           role=db_dict['username'],
+                           db=db_dict['dbname'],
+                           password=db_dict['password'],
+                        )
+                    )
+
             if dbExists:
                 try:
-                    if utils.localHost(db_dict['host']) and not owned:
-                        utils.createUser(
-                            user=db_dict['username'],
-                            password=db_dict['password'],
-                            option='createdb',
-                            validate=False,
-                        )
-                        utils.updateDbOwner(db_dict)
+                    if utils.localHost(db_dict['host']):
+                        if not owned:
+                            if not userExists(db_dict['username']):
+                                utils.createUser(
+                                    user=db_dict['username'],
+                                    password=db_dict['password'],
+                                    option='createdb',
+                                    validate=False,
+                                )
+                            utils.updateDbOwner(db_dict)
+                    elif hasData:
+                        db_dict['username'] = working_db_dict['username']
+                        db_dict['password'] = working_db_dict['password']
 
                     if options['BACKUP_DB'] is None:
                         doBackup = utils.performBackup(
@@ -511,6 +584,10 @@ def main(options):
                             db_dict,
                             PGPASS_TEMP,
                         )
+                        print DB_FILE.format(
+                            dbfile=backupFile
+                        )
+                        print DB_RESTORE
                 except UserWarning:
                     print 'User decided to stop setup. Exiting.'
                     # Start Services
@@ -519,11 +596,25 @@ def main(options):
                     time.sleep(20)
                     utils.startEtl()
                     sys.exit(0)
+                except Exception as e:
+                    print 'Failed to backup database: {error}'.format(
+                        error=e,
+                    )
+                    # Start Services
+                    utils.startEngine()
+                    # Sleep for 20 secs to allow health applet to start
+                    time.sleep(20)
+                    utils.startEtl()
+                    sys.exit(0)
 
-                # Backup went ok, so upgrade
-                upgradeDB(db_dict)
+                if hasData:
+                    # Backup went ok, so upgrade
+                    upgradeDB(db_dict)
+                else:
+                    createDbSchema(db_dict)
             else:
-                if utils.localHost(db_dict["host"]):
+                # db does not exist
+                if not userExists(db_dict['username']):
                     utils.createUser(
                         user=db_dict['username'],
                         password=db_dict['password'],
@@ -531,43 +622,9 @@ def main(options):
                         validate=False,
                     )
 
-                    utils.createDB(db_dict['dbname'], db_dict['username'])
-                    utils.updatePgHba(db_dict['dbname'], db_dict['username'])
-                    utils.restartPostgres()
-
-                else:
-                    print 'Remote installation is selected.\n'
-                    if options['REMOTE_DB_HOST'] is None:
-                        (
-                            db_dict['username'],
-                            db_dict['password'],
-                        ) = getDbCredentials(
-                            userdefault=db_dict['username'],
-                        )
-                    else:
-                        db_dict['host'] = options['REMOTE_DB_HOST']
-                        db_dict['port'] = options['REMOTE_DB_PORT']
-                        db_dict['username'] = options['REMOTE_DB_USER']
-                        db_dict['password'] = options['REMOTE_DB_PASSWORD']
-
-                    if os.path.exists(PGPASS_TEMP):
-                        os.remove(PGPASS_TEMP)
-                    PGPASS_TEMP = utils.createTempPgpass(db_dict)
-                    if not utils.dbExists(db_dict, PGPASS_TEMP)[0]:
-                        raise RuntimeError (
-                            (
-                                'Remote installation failed. Please perform '
-                                '\tcreate role {role} with login '
-                                'encrypted password {password};\n'
-                                '\tcreate {db} owner {role}\n'
-                                'on the remote DB, verify it and rerun the setup.'
-                            ).format(
-                                role=db_dict['username'],
-                                db=db_dict['dbname'],
-                                password=db_dict['password'],
-                            )
-                        )
-
+                utils.createDB(db_dict['dbname'], db_dict['username'])
+                utils.updatePgHba(db_dict['dbname'], db_dict['username'])
+                utils.restartPostgres()
                 createDbSchema(db_dict)
 
             if createReadUser:
@@ -590,8 +647,7 @@ def main(options):
                     db_dict['readonly'] = readonly_user
 
             # Set DB connecitivty (user/pass)
-            if db_dict['password']:
-                setDbPass(db_dict)
+            setDbPass(db_dict)
 
             if pg_updated:
                 utils.restorePgHba()
@@ -605,11 +661,6 @@ def main(options):
 
             print "Successfully installed %s." % DWH_PACKAGE_NAME
             print "The installation log file is available at: %s" % log_file
-            if doBackup:
-                print DB_FILE.format(
-                    dbfile=backupFile
-                )
-                print DB_RESTORE
 
             utils.saveConfig(
                 configFile=FILE_DATABASE_DWH_CONFIG,

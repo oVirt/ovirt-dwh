@@ -62,6 +62,7 @@ ERR_DB_GET_SPACE = "Error: Failed to get %s database size."
 DB_HOST = "localhost"
 DB_PORT = "5432"
 DB_ADMIN = "postgres"
+DB_USER = "engine_history"
 
 # DB related messages
 DB_BACKUP_HEADER = (
@@ -627,18 +628,20 @@ def dbExists(db_dict, TEMP_PGPASS):
 
     exists = False
     owner = False
+    hasData = False
     logging.debug("checking if %s db already exists" % db_dict['dbname'])
     env = {'ENGINE_PGPASS': TEMP_PGPASS}
+    rc = -1
     if (
         db_dict['username'] == 'admin' and
-        db_dict['password'] == 'dummy'
+        db_dict['password'] == 'dummy' and
+        localHost(db_dict['host'])
     ):
-        if localHost(db_dict['host']):
-            output, rc = runPostgresSuQuery(
-                query='"select 1;"',
-                database=db_dict['dbname'],
-                failOnError=False,
-            )
+        output, rc = runPostgresSuQuery(
+            query='"select 1;"',
+            database=db_dict['dbname'],
+            failOnError=False,
+        )
     else:
         output, rc = execSqlCmd(
             db_dict=db_dict,
@@ -648,15 +651,31 @@ def dbExists(db_dict, TEMP_PGPASS):
     if rc == 0:
         exists = True
         if (
-            db_dict['username'] != db_dict['engine_user'] and
-            (
-                db_dict['password'] != 'dummy' and
-                db_dict['username'] != 'admin'
-            )
+            db_dict['username'] == DB_USER
         ):
             owner = True
 
-    return exists, owner
+        rc = -1
+        if (
+            db_dict['username'] == 'admin' and
+            db_dict['password'] == 'dummy' and
+            localHost(db_dict['host'])
+        ):
+            output, rc = runPostgresSuQuery(
+                query='"select 1 from history_configuration;"',
+                database=db_dict['dbname'],
+                failOnError=False,
+            )
+        else:
+            output, rc = execSqlCmd(
+                db_dict=db_dict,
+                sql_query="select 1 from history_configuration;",
+                envDict=env,
+            )
+        if rc == 0:
+            hasData = True
+
+    return exists, owner, hasData
 
 def getDbAdminUser():
     """
@@ -936,11 +955,8 @@ def getDbSize(db_dict, PGPASS_FILE):
     # Returns db size in MB
     sql = "SELECT pg_database_size(\'%s\')" % db_dict['dbname']
 
-    # Work with db credentials copy, rename db name to template1
-    db_copy = db_dict.copy()
-    db_copy['dbname'] = 'template1'
     out, rc = parseRemoteSqlCommand(
-        db_dict=db_copy,
+        db_dict=db_dict,
         sqlQuery=sql,
         failOnError=True,
         errMsg=ERR_DB_GET_SPACE % db_dict['dbname'],
