@@ -148,6 +148,7 @@ done << __EOF__
 %{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/advancedPersistentLookupLib.jar
 %{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/etltermination.jar
 %{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/historyETL.jar
+%{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/routines.jar
 __EOF__
 
 # Needed for compatibility if package is different than the directory structure

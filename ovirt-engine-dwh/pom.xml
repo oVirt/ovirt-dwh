@@ -15,10 +15,11 @@
   <description>parent for oVirt Engine History DB ETL module</description>
 
   <modules>
+    <module>routines</module>
     <module>advancedPersistentLookupLib</module>
-    <module>dependencies</module>
-    <module>historyETL</module>
     <module>etltermination</module>
+    <module>historyETL</module>
+    <module>dependencies</module>
   </modules>
 
 </project>

@@ -4,7 +4,7 @@
 
   <parent>
           <groupId>org.ovirt.engine.dwh</groupId>
-          <artifactId>data-warehouse</artifactId>
+          <artifactId>ovirt-engine-dwh</artifactId>
           <version>3.3.0</version>
   </parent>
 

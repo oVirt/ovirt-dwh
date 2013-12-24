@@ -6,6 +6,7 @@
     <resource-root path="advancedPersistentLookupLib.jar"/>
     <resource-root path="etltermination.jar"/>
     <resource-root path="historyETL.jar"/>
+    <resource-root path="routines.jar"/>
   </resources>
 
   <dependencies>

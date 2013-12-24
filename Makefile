@@ -241,9 +241,10 @@ install-artifacts:
 install-poms:
 	install -dm 755 "$(DESTDIR)$(MAVENPOM_DIR)"
 	install -m 644 ovirt-engine-dwh/advancedPersistentLookupLib/pom.xml "$(DESTDIR)$(MAVENPOM_DIR)/$(PACKAGE_NAME)-advancedPersistentLookupLib.pom"
-	install -m 644 ovirt-engine-dwh/historyETL/pom.xml "$(DESTDIR)$(MAVENPOM_DIR)/$(PACKAGE_NAME)-historyETL.pom"
 	install -m 644 ovirt-engine-dwh/etltermination/pom.xml "$(DESTDIR)$(MAVENPOM_DIR)/$(PACKAGE_NAME)-etltermination.pom"
+	install -m 644 ovirt-engine-dwh/historyETL/pom.xml "$(DESTDIR)$(MAVENPOM_DIR)/$(PACKAGE_NAME)-historyETL.pom"
 	install -m 644 ovirt-engine-dwh/pom.xml "$(DESTDIR)$(MAVENPOM_DIR)/$(PACKAGE_NAME)-ovirt-engine-dwh.pom"
+	install -m 644 ovirt-engine-dwh/routines/pom.xml "$(DESTDIR)$(MAVENPOM_DIR)/$(PACKAGE_NAME)-routines.pom"
 	install -m 644 pom.xml "$(DESTDIR)$(MAVENPOM_DIR)/$(PACKAGE_NAME)-root.pom"
 
 install-packaging-files: \
