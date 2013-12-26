@@ -261,7 +261,7 @@ install-layout: \
 		$(NULL)
 
 	install -dm 755 "$(DESTDIR)$(SYSCONF_DIR)/ovirt-engine/ovirt-engine-dwh"
-	install -m 660 ovirt-engine-dwh/historyETL/src/main/resources/ovirt_engine_dwh/historyetl_3_4/contexts/Default.properties "$(DESTDIR)$(SYSCONF_DIR)/ovirt-engine/ovirt-engine-dwh"
+	install -m 660 ovirt-engine-dwh/historyETL/src/main/resources/ovirt_engine_dwh/historyetl_$$(echo $(APP_VERSION) | sed -e 's/\([^.]*\.[^.]*\)\..*/\1/' -e 's/\./_/g')/contexts/Default.properties "$(DESTDIR)$(SYSCONF_DIR)/ovirt-engine/ovirt-engine-dwh"
 
 	install -dm 755 "$(DESTDIR)$(BIN_DIR)"
 	ln -sf "$(PKG_DATA_DIR)/legacy-setup/ovirt-engine-dwh-setup.py" "$(DESTDIR)$(BIN_DIR)/ovirt-engine-dwh-setup"
