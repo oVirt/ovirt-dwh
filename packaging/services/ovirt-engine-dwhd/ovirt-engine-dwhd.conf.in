@@ -77,3 +77,51 @@ DWH_JVM_ARGS=""
 # as it may be resolved to different value.
 #
 DWH_JAVA_MODULEPATH="${PKG_JBOSS_MODULES}"
+
+#
+# dwh version
+#
+DWH_VERSION="@DWH_VERSION@"
+
+#
+# Database connection details
+#
+SENSITIVE_KEYS="${SENSITIVE_KEYS},DWH_DB_PASSWORD,ENGINE_DB_PASSWORD"
+DWH_DB_HOST="localhost"
+DWH_DB_PORT="5432"
+DWH_DB_USER=engine_history
+DWH_DB_PASSWORD=
+DWH_DB_DATABASE=ovirt_engine_history
+DWH_DB_SECURED="False"
+DWH_DB_SECURED_VALIDATION="False"
+DWH_DB_DRIVER="org.postgresql.Driver"
+DWH_DB_URL="jdbc:postgresql://${DWH_DB_HOST}:${DWH_DB_PORT}/${DWH_DB_DATABASE}?sslfactory=org.postgresql.ssl.NonValidatingFactory"
+
+ENGINE_DB_HOST="localhost"
+ENGINE_DB_PORT="5432"
+ENGINE_DB_USER="engine"
+ENGINE_DB_PASSWORD=
+ENGINE_DB_DATABASE="engine"
+ENGINE_DB_SECURED="False"
+ENGINE_DB_SECURED_VALIDATION="False"
+ENGINE_DB_DRIVER="org.postgresql.Driver"
+ENGINE_DB_URL="jdbc:postgresql://${ENGINE_DB_HOST}:${ENGINE_DB_PORT}/${ENGINE_DB_DATABASE}?sslfactory=org.postgresql.ssl.NonValidatingFactory"
+
+
+#
+# Application Settings
+#
+
+# Delete Job Run Time (0 to 23 = Midnight to Eleven PM)
+DWH_DELETE_JOB_HOUR=3
+
+# Samples Collection Interleave in Seconds
+DWH_SAMPLING=60
+
+# Table Sizes Control in Hours
+DWH_TABLES_KEEP_SAMPLES=24
+DWH_TABLES_KEEP_HOURLY=1440
+DWH_TABLES_KEEP_DAILY=43800
+
+# Minimal Time Between Errors Pushing to Engine Audit Log in Milliseconds
+DWH_ERROR_EVENT_INTERVAL=300000

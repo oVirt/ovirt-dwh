@@ -27,6 +27,7 @@ import config
 
 from ovirt_engine import configfile
 from ovirt_engine import service
+from ovirt_engine import util
 from ovirt_engine import java
 
 
@@ -34,6 +35,7 @@ class Daemon(service.Daemon):
 
     def __init__(self):
         super(Daemon, self).__init__()
+        self._tempDir = None
         self._defaults = os.path.abspath(
             os.path.join(
                 os.path.dirname(sys.argv[0]),
@@ -127,23 +129,30 @@ class Daemon(service.Daemon):
             jbossModulesJar=jbossModulesJar,
         )
 
+        self._tempDir = service.TempDir()
+        self._tempDir.create()
+
+        settings = os.path.join(self._tempDir.directory, 'settings.properties')
+        with open(settings, 'w') as f:
+            f.write(
+                util.processTemplate(
+                    os.path.join(
+                        self._config.get('PKG_DATA_DIR'),
+                        'conf',
+                        'settings.properties.in'
+                    ),
+                    dict(
+                        ('@%s@' % k, util.escape(v, ':=\\ ')) for (k, v) in
+                        self._config.values.items()
+                    ),
+                )
+            )
+
         self._serviceArgs = [
             'ovirt-engine-dwhd',
             '-Djboss.modules.write-indexes=false',
+            '-Dorg.ovirt.engine.dwh.settings=%s' % settings,
         ]
-
-        #
-        # TODO Generate file out of configuration
-        #
-        self._serviceArgs.extend([
-            '-Dorg.ovirt.engine.dwh.settings=%s' % os.path.join(
-                config.PKG_SYSCONF_DIR,
-                '..',
-                'ovirt-engine',
-                'ovirt-engine-dwh',
-                'Default.properties',
-            ),
-        ])
 
         for engineProperty in shlex.split(
             self._config.get('DWH_PROPERTIES')
@@ -220,6 +229,10 @@ class Daemon(service.Daemon):
                 'DAEMON_STOP_INTERVAL'
             ),
         )
+
+    def daemonCleanup(self):
+        if self._tempDir:
+            self._tempDir.destroy()
 
 
 if __name__ == '__main__':

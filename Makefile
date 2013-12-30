@@ -66,6 +66,7 @@ APP_VERSION=$(shell echo $(POM_VERSION) | sed 's/\([^.]*\.[^.]\)\..*/\1/').$(FIX
 RPM_VERSION=$(APP_VERSION)
 PACKAGE_VERSION=$(APP_VERSION)$(if $(MILESTONE),_$(MILESTONE))
 DISPLAY_VERSION=$(PACKAGE_VERSION)
+DWH_VERSION=$(APP_VERSION)
 
 
 BUILD_FLAGS:=
@@ -105,11 +106,13 @@ ARTIFACTS = \
 	-e "s|@JBOSS_HOME@|$(JBOSS_HOME)|g" \
 	-e "s|@DEV_PYTHON_DIR@|$(DEV_PYTHON_DIR)|g" \
 	-e "s|@DWH_VARS@|$(PKG_SYSCONF_DIR)/ovirt-engine-dwhd.conf|g" \
+	-e "s|@DWH_DEFAULTS@|$(PKG_DATA_DIR)/services/ovirt-engine-dwhd/ovirt-engine-dwhd.conf|g" \
 	-e "s|@RPM_VERSION@|$(RPM_VERSION)|g" \
 	-e "s|@RPM_RELEASE@|$(RPM_RELEASE)|g" \
 	-e "s|@PACKAGE_NAME@|$(PACKAGE_NAME)|g" \
 	-e "s|@PACKAGE_VERSION@|$(PACKAGE_VERSION)|g" \
 	-e "s|@DISPLAY_VERSION@|$(DISPLAY_VERSION)|g" \
+	-e "s|@DWH_VERSION@|$(DWH_VERSION)|g" \
 	-e "s|@PEP8@|$(PEP8)|g" \
 	-e "s|@PYFLAKES@|$(PYFLAKES)|g" \
 	$< > $@
@@ -123,6 +126,7 @@ GENERATED = \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.systemd \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv \
 	packaging/services/ovirt-engine-dwhd/ovirt_engine_dwh_watchdog.cron \
+	packaging/setup/ovirt_engine_setup/dwhconfig.py \
 	packaging/sys-etc/logrotate.d/ovirt-engine-dwhd \
 	$(NULL)
 
@@ -229,7 +233,8 @@ install-packaging-files: \
 		$(NULL)
 	$(MAKE) copy-recursive SOURCEDIR=packaging/sys-etc TARGETDIR="$(DESTDIR)$(SYSCONF_DIR)" EXCLUDE_GEN="$(GENERATED)"
 	$(MAKE) copy-recursive SOURCEDIR=packaging/etc TARGETDIR="$(DESTDIR)$(PKG_SYSCONF_DIR)" EXCLUDE_GEN="$(GENERATED)"
-	for d in dbscripts etl services legacy-setup; do \
+	$(MAKE) copy-recursive SOURCEDIR=packaging/setup TARGETDIR="$(DESTDIR)$(PKG_DATA_DIR)/../ovirt-engine/setup" EXCLUDE_GEN="$(GENERATED)"
+	for d in conf dbscripts etl services; do \
 		$(MAKE) copy-recursive SOURCEDIR="packaging/$${d}" TARGETDIR="$(DESTDIR)$(PKG_DATA_DIR)/$${d}" EXCLUDE_GEN="$(GENERATED)"; \
 	done
 
@@ -237,13 +242,7 @@ install-layout: \
 		install-packaging-files \
 		$(NULL)
 
-	install -dm 755 "$(DESTDIR)$(SYSCONF_DIR)/ovirt-engine/ovirt-engine-dwh"
-	install -m 660 ovirt-engine-dwh/historyETL/src/main/resources/ovirt_engine_dwh/historyetl_$$(echo $(APP_VERSION) | sed -e 's/\([^.]*\.[^.]*\)\..*/\1/' -e 's/\./_/g')/contexts/Default.properties "$(DESTDIR)$(SYSCONF_DIR)/ovirt-engine/ovirt-engine-dwh"
-
-	install -dm 755 "$(DESTDIR)$(BIN_DIR)"
-	ln -sf "$(PKG_DATA_DIR)/legacy-setup/ovirt-engine-dwh-setup.py" "$(DESTDIR)$(BIN_DIR)/ovirt-engine-dwh-setup"
-
-	install -dm 755 "$(DESTDIR)$(PKG_STATE_DIR)"
+	install -dm 755 "$(DESTDIR)$(PKG_STATE_DIR)/backups"
 
 all-dev:
 	rm -f $(GENERATED)

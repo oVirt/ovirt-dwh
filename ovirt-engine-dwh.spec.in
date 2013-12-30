@@ -103,6 +103,7 @@ Requires:	jboss-as >= 7.1.1-9.3
 Requires:	jpackage-utils
 Requires:	postgresql-jdbc
 Requires:	logrotate
+Requires:	%{name}-setup >= %{version}-%{release}
 Requires:	ovirt-engine
 %if %{ovirt_install_systemd}
 BuildRequires:	systemd
@@ -119,6 +120,14 @@ Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
 
+%package setup
+Summary:	%{product_name} setup
+Group:		Virtualization/Management
+Requires:	ovirt-engine-setup-plugin-ovirt-engine-common
+
+%description setup
+%{product_description} setup package.
+
 %prep
 %setup -c -q
 
@@ -129,6 +138,10 @@ make %{make_common_opts}
 rm -fr "%{buildroot}"
 
 make %{make_common_opts} install DESTDIR=%{buildroot}
+
+# Compile python files
+%{__python} -m compileall -f -q -d / "%{buildroot}"
+%{__python} -O -m compileall -f -q -d / "%{buildroot}"
 
 #
 # /var creation
@@ -206,18 +219,13 @@ install -dm 755 "%{buildroot}%{_initddir}"
 cp "%{buildroot}%{_datadir}/ovirt-engine-dwh/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv" "%{buildroot}%{_initddir}/ovirt-engine-dwhd"
 %endif
 
+# backward compatibly (pre-3.4.0)
+# perserve old configuration
+install -d "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh"
+touch "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properties"
+
 %post
 
-%if %{ovirt_install_systemv}
-/sbin/chkconfig --add ovirt-engine-dwhd > /dev/null 2>&1
-/sbin/chkconfig ovirt-engine-dwhd off > /dev/null 2>&1
-/sbin/service ovirt-engine-dwhd stop > /dev/null 2>&1
-%endif
-%if %{ovirt_install_systemd}
-%systemd_post ovirt-engine-dwhd.service
-systemctl stop ovirt-engine-dwhd.service > /dev/null 2>&1
-systemctl disable ovirt-engine-dwhd.service > /dev/null 2>&1
-%endif
 %if %{ovirt_install_poms}
 %update_maven_depmap
 %endif
@@ -226,9 +234,8 @@ systemctl disable ovirt-engine-dwhd.service > /dev/null 2>&1
 %ovirt_create_user_engine
 %if %{ovirt_install_systemv}
 if [ "$1" -eq 0 ]; then
-	/sbin/service ovirt-engine-dwhd stop > /dev/null 2>&1
-	/sbin/chkconfig --del ovirt-engine-dwhd > /dev/null 2>&1
-	rm -f "%{_sysconfdir}/ovirt-engine-dwh/ovirt-engine-dwhd.conf.d/10-setup-database.conf"
+	/sbin/service ovirt-engine-dwhd stop > /dev/null 2>&1 || true
+	/sbin/chkconfig --del ovirt-engine-dwhd > /dev/null 2>&1 || true
 fi
 %endif
 %if %{ovirt_install_systemd}
@@ -246,15 +253,15 @@ fi
 
 %files
 
-%attr(-, %{engine_user}, %{engine_group}) %config(noreplace) %{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properties
+%ghost %config(noreplace) %{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properties
 %config(noreplace) %{_sysconfdir}/logrotate.d/ovirt-engine-dwhd
 %dir %attr(-, %{engine_user}, %{engine_group}) %{_localstatedir}/lib/ovirt-engine-dwh/
 %dir %attr(-, %{engine_user}, %{engine_group}) %{_localstatedir}/log/ovirt-engine-dwh/
 %dir %{_sysconfdir}/ovirt-engine-dwh
-%{_bindir}/ovirt-engine-dwh-setup
 %{_datadir}/ovirt-engine-dwh/
 %{_javadir}/ovirt-engine-dwh/
 %{_sysconfdir}/ovirt-engine-dwh/ovirt-engine-dwhd.conf.d/
+%{_localstatedir}/lib/ovirt-engine-dwh/backups/
 
 %if "%{name}" != "ovirt-engine-dwh"
 %{_javadir}/%{name}
@@ -272,6 +279,10 @@ fi
 %config %{_sysconfdir}/cron.hourly/ovirt_engine_dwh_watchdog.cron
 %{_initddir}/ovirt-engine-dwhd
 %endif
+
+%files setup
+%{_datadir}/ovirt-engine/setup/ovirt_engine_setup/dwh*
+%{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
 * Thu Jan 09 2014 Yaniv Dary <ydary@redhat.com> - 3.3
