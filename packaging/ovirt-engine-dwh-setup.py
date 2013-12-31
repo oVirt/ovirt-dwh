@@ -315,6 +315,7 @@ def getDBStatus(db_dict, TEMP_PGPASS):
 
         if working_db_dict is not None:
             logging.debug("getDBStatus working username %s" % working_db_dict['username'])
+    logging.debug("getDBStatus returns: exists %s owned %s hasData %s" % (exists, owned, hasData))
     return exists, owned, hasData, working_db_dict
 
 
@@ -341,7 +342,8 @@ def setDbPass(db_dict):
     file_handler.editParam("ovirtEngineHistoryDbJdbcConnection",
                            "jdbc\:postgresql\://%s\:%s/%s?stringtype\=unspecified" % (db_dict["host"], db_dict["port"], db_dict['dbname']))
     file_handler.close()
-    os.chown(FILE_DB_CONN, OVIRT_UID, OVIRT_GID)
+    os.chown(FILE_DB_CONN, 0, OVIRT_GID)
+    os.chmod(FILE_DB_CONN, 0o640)
 
 def isVersionSupported(rawMinimalVersion, rawCurrentVersion):
     """
@@ -370,7 +372,8 @@ def setVersion():
     file_handler.open()
     file_handler.editParam("etlVersion", "%s.%s" % (currentVersion, currentMinorVersion))
     file_handler.close()
-    os.chown(FILE_DB_CONN, OVIRT_UID, OVIRT_GID)
+    os.chown(FILE_DB_CONN, 0, OVIRT_GID)
+    os.chmod(FILE_DB_CONN, 0o640)
 
 def userExists(user):
     sql_query = '"select 1 from pg_roles where rolname=\'{user}\';"'.format(
@@ -504,12 +507,16 @@ def main(options):
                 password=db_dict['password'],
                 dbname=db_dict['dbname'],
                 readonly=db_dict['readonly'],
+                uid=0,
+                gid=OVIRT_GID,
+                perms=0o640,
             )
 
             dbExists, owned, hasData, working_db_dict = getDBStatus(db_dict, PGPASS_TEMP)
-            if not utils.localHost(db_dict["host"]) and not dbExists:
+            if not utils.localHost(db_dict["host"]) and not hasData:
                 print 'Remote installation is selected.\n'
 
+                dbExists, tmpowned, tmphasData = utils.dbExists(db_dict, PGPASS_TEMP)
                 if options['REMOTE_DB_USER'] is None:
                     while not dbExists:
                         (
@@ -521,7 +528,7 @@ def main(options):
                         if os.path.exists(PGPASS_TEMP):
                             os.remove(PGPASS_TEMP)
                         PGPASS_TEMP = utils.createTempPgpass(db_dict)
-                        dbExists, owned, hasData, working_db_dict = getDBStatus(db_dict, PGPASS_TEMP)
+                        dbExists, tmpowned, tmphasData = utils.dbExists(db_dict, PGPASS_TEMP)
                         if not dbExists:
                             print 'Could not connect to remote database - please try again.\n'
                 else:
@@ -549,23 +556,9 @@ def main(options):
 
             if dbExists:
                 try:
-                    if utils.localHost(db_dict['host']):
-                        if not owned:
-                            if not userExists(db_dict['username']):
-                                utils.createUser(
-                                    user=db_dict['username'],
-                                    password=db_dict['password'],
-                                    option='createdb',
-                                    validate=False,
-                                )
-                            utils.updateDbOwner(db_dict)
-                    elif hasData:
-                        db_dict['username'] = working_db_dict['username']
-                        db_dict['password'] = working_db_dict['password']
-
                     if options['BACKUP_DB'] is None:
                         doBackup = utils.performBackup(
-                            db_dict,
+                            working_db_dict,
                             DB_BACKUPS_DIR,
                             PGPASS_TEMP
                         )
@@ -581,7 +574,7 @@ def main(options):
                     if doBackup:
                         utils.backupDB(
                             backupFile,
-                            db_dict,
+                            working_db_dict,
                             PGPASS_TEMP,
                         )
                         print DB_FILE.format(
@@ -606,6 +599,16 @@ def main(options):
                     time.sleep(20)
                     utils.startEtl()
                     sys.exit(0)
+
+                if utils.localHost(db_dict['host']) and not owned:
+                    if not userExists(db_dict['username']):
+                        utils.createUser(
+                            user=db_dict['username'],
+                            password=db_dict['password'],
+                            option='createdb',
+                            validate=False,
+                        )
+                    utils.updateDbOwner(db_dict)
 
                 if hasData:
                     # Backup went ok, so upgrade
@@ -668,6 +671,9 @@ def main(options):
                 password=db_dict['password'],
                 dbname=db_dict['dbname'],
                 readonly=db_dict['readonly'],
+                uid=0,
+                gid=OVIRT_GID,
+                perms=0o640,
             )
 
         else:
