@@ -348,6 +348,8 @@ class TextConfigFileHandler(ConfigFileHandler):
                     changed = True
                     break
         if not changed:
+            if self.data[-1] != '\n':
+                self.data.append('\n')
             self.data.append("%s%s%s\n"%(param, self.sep, value))
 
     def renameParam(self, current_param_name, new_param_name):
@@ -364,6 +366,8 @@ class TextConfigFileHandler(ConfigFileHandler):
                     changed = True
                     break
         if not changed:
+            if self.data[-1] != '\n':
+                self.data.append('\n')
             self.data.append("%s%s\n"%(new_param_name, self.sep))
 
     def delParams(self, paramsDict):
