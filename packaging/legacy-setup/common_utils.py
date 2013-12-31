@@ -448,19 +448,31 @@ def execSqlCmd(db_dict, sql_query, fail_on_error=False, err_msg="Failed running 
                    db_dict['dbname'],
                    db_dict["username"],
                    sql_query))
-    cmd = [
-        EXEC_PSQL,
-        "--pset=tuples_only=on",
-        "--set",
-        "ON_ERROR_STOP=1",
-        "--dbname", db_dict['dbname'],
-        "--host", db_dict["host"],
-        "--port", db_dict["port"],
-        "--username", db_dict["username"],
-        "-w",
-        "-c", sql_query,
-    ]
-    return execCmd(cmdList=cmd, failOnError=fail_on_error, msg=err_msg, envDict=envDict)
+    if (
+        db_dict['username'] == 'admin' and
+        db_dict['password'] == 'dummy' and
+        localHost(db_dict['host'])
+    ):
+        output, rc = runPostgresSuQuery(
+            query=[sql_query],
+            database=db_dict['dbname'],
+            failOnError=fail_on_error,
+        )
+    else:
+        cmd = [
+            EXEC_PSQL,
+            "--pset=tuples_only=on",
+            "--set",
+            "ON_ERROR_STOP=1",
+            "--dbname", db_dict['dbname'],
+            "--host", db_dict["host"],
+            "--port", db_dict["port"],
+            "--username", db_dict["username"],
+            "-w",
+            "-c", sql_query,
+        ]
+        output, rc = execCmd(cmdList=cmd, failOnError=fail_on_error, msg=err_msg, envDict=envDict)
+    return output, rc
 
 def isEngineUp():
     '''
@@ -882,7 +894,9 @@ def execCmd(
     maskList=[],
     useShell=False,
     usePipeFiles=False,
-    envDict=None
+    envDict=None,
+    stdIn=None,
+    stdOut=None,
 ):
     """
     Run external shell command with 'shell=false'
@@ -900,10 +914,23 @@ def execCmd(
     stdOutFD = subprocess.PIPE
     stdInFD = subprocess.PIPE
 
+    stdInFile = None
+
     if usePipeFiles:
         (stdErrFD, stdErrFile) = tempfile.mkstemp(dir="/tmp")
         (stdOutFD, stdOutFile) = tempfile.mkstemp(dir="/tmp")
         (stdInFD, stdInFile) = tempfile.mkstemp(dir="/tmp")
+
+    if stdIn is not None:
+        logging.debug("input = %s"%(stdIn))
+        if stdInFile is None:
+            (stdInFD, stdInFile) = tempfile.mkstemp(dir="/tmp")
+        os.write(stdInFD, stdIn)
+        os.lseek(stdInFD, os.SEEK_SET, 0)
+
+    if stdOut is not None:
+        f = open(stdOut, 'w')
+        stdOutFD = f.fileno()
 
     # Copy os.environ and update with envDict if provided
     env = os.environ.copy()
@@ -939,7 +966,7 @@ def execCmd(
     logging.debug("output = %s"%(out))
     logging.debug("stderr = %s"%(err))
     logging.debug("retcode = %s"%(proc.returncode))
-    output = out + err
+    output = str(out) + str(err)
     if failOnError and proc.returncode != 0:
         raise Exception(msg)
     return ("".join(output.splitlines(True)), proc.returncode)
@@ -1045,28 +1072,51 @@ def backupDB(backup_file, db_dict, PGPASS_FILE):
     logging.debug("%s DB Backup started", db_dict['dbname'])
 
     # Run backup
-    cmd = [
-        EXEC_PGDUMP,
-        '-C',
-        '-E',
-        'UTF8',
-        '-w',
-        '--disable-dollar-quoting',
-        '--disable-triggers',
-        '--format=p',
-        '-U', db_dict['username'],
-        '-h', db_dict['host'],
-        '-p', db_dict['port'],
-        '-Fc',
-        '-f', backup_file,
-        db_dict['dbname'],
-    ]
-    execCmd(
-        cmdList=cmd,
-        failOnError=True,
-        msg='Error during DB backup.',
-        envDict={'ENGINE_PGPASS': PGPASS_FILE}
-    )
+    if (
+        db_dict['username'] == 'admin' and
+        db_dict['password'] == 'dummy' and
+        localHost(db_dict['host'])
+    ):
+        cmd = [
+            EXEC_PGDUMP,
+            '-C',
+            '-E',
+            'UTF8',
+            '-w',
+            '--disable-dollar-quoting',
+            '--disable-triggers',
+            '--format=p',
+            '-Fc',
+            db_dict['dbname'],
+        ]
+        output, rc = runPostgresSuCommand(
+            command=cmd,
+            failOnError=True,
+            output=backup_file,
+        )
+    else:
+        cmd = [
+            EXEC_PGDUMP,
+            '-C',
+            '-E',
+            'UTF8',
+            '-w',
+            '--disable-dollar-quoting',
+            '--disable-triggers',
+            '--format=p',
+            '-U', db_dict['username'],
+            '-h', db_dict['host'],
+            '-p', db_dict['port'],
+            '-Fc',
+            '-f', backup_file,
+            db_dict['dbname'],
+        ]
+        execCmd(
+            cmdList=cmd,
+            failOnError=True,
+            msg='Error during DB backup.',
+            envDict={'ENGINE_PGPASS': PGPASS_FILE}
+        )
     logging.debug("%s DB Backup completed successfully", db_dict['dbname'])
 
 
@@ -1289,15 +1339,24 @@ def updateDbOwner(db_dict):
     logging.debug('Updating DB owner')
     _RE_OWNER = re.compile(r'^([\w,.\(\)]+\s+)+OWNER TO (?P<owner>\w+).*$')
     out, rc = runPostgresSuCommand(
-        command=EXEC_PGDUMP,
-        database=db_dict['dbname'],
+        command=(
+            EXEC_PGDUMP,
+            '-s',
+            db_dict['dbname'],
+        ),
     )
     sql_query_set = []
+    sql_query_set.append(
+        'ALTER DATABASE {database} OWNER TO {owner};'.format(
+            database=db_dict['dbname'],
+            owner=db_dict['username'],
+        )
+    )
     for line in out.splitlines():
         matcher = _RE_OWNER.match(line)
         if matcher is not None:
             sql_query_set.append(
-                '"{query}"'.format(
+                '{query}'.format(
                     query=line.replace(
                         'OWNER TO {orig}'.format(orig=matcher.group('owner')),
                         'OWNER TO {new}'.format(new=db_dict['username'])
@@ -1305,11 +1364,10 @@ def updateDbOwner(db_dict):
                 )
             )
 
-    for sql_query in sql_query_set:
-        runPostgresSuQuery(
-            query=sql_query,
-            database=db_dict['dbname'],
-        )
+    runPostgresSuQuery(
+        query=sql_query_set,
+        database=db_dict['dbname'],
+    )
 
 def updatePgHba(database, user):
     content = []
@@ -1378,61 +1436,69 @@ def setPgHbaIdent():
 def restorePgHba():
     return configHbaIdent('ident', 'md5')
 
-def runPostgresSuCommand(command, database=None, failOnError=True):
-    sql_command = [
-        command,
-    ]
-    if database is not None:
-        sql_command.append(database)
-
+def runPostgresSuCommand(command, failOnError=True, output=None):
     cmd = [
         EXEC_SU,
         '-l',
         'postgres',
         '-c',
         '{command}'.format(
-            command=' '.join(sql_command),
+            command=' '.join(command),
         )
     ]
 
     return execCmd(
         cmdList=cmd,
-        failOnError=failOnError
+        failOnError=failOnError,
+        stdOut=output,
     )
 
 def runPostgresSuQuery(query, database=None, failOnError=True):
-    sql_command = [
+    logging.debug("starting runPostgresSuQuery database: %s query: %s" %
+                  (database,
+                   query))
+    command = [
         EXEC_PSQL,
         '-U', 'postgres',
     ]
     if database is not None:
-        sql_command.extend(
+        command.extend(
             (
                 '-d', database
             )
         )
-    sql_command.extend(
+    command.extend(
         (
-            '-tAc', query,
+            '-tA',
         )
     )
+    stdIn = None
+    if isinstance(query, list) or isinstance(query, tuple):
+        stdIn = '\n'.join(query)
+    else:
+        command.extend(
+            (
+                '-c', query,
+            )
+        )
     cmd = [
         EXEC_SU,
         '-l',
         'postgres',
         '-c',
         '{command}'.format(
-            command=' '.join(sql_command),
+            command=' '.join(command),
         )
     ]
 
     return execCmd(
         cmdList=cmd,
-        failOnError=failOnError
+        failOnError=failOnError,
+        stdIn=stdIn,
     )
 
 
-def saveConfig(configFile, username, password, dbname, readonly):
+def saveConfig(configFile, username, password, dbname, readonly, uid, gid, perms):
     with open(configFile, 'w') as fdwh:
         content = (
             'DWH_DB_USER={user}\n'
@@ -1450,6 +1516,8 @@ def saveConfig(configFile, username, password, dbname, readonly):
                 readonly=readonly,
             )
         fdwh.write(content)
+    os.chown(configFile, uid, gid)
+    os.chmod(configFile, perms)
 
 def userValid(user):
     if user in (
