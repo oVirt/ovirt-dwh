@@ -463,7 +463,9 @@ def main(options):
                         logging.debug('Skipping creation of read only DB user.')
                         print 'Skipping creation of read only DB user.'
                     elif options['CREATE_READONLY_USER'] is None:
-                        readonly_user = ''
+                        readonly_user = utils.askQuestion(
+                            question='Provide a username for read-only user'
+                        )
                         while not utils.userValid(readonly_user):
                             readonly_user = utils.askQuestion(
                                 question='Provide a username for read-only user'
