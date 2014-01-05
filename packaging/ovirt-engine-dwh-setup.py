@@ -513,46 +513,52 @@ def main(options):
             )
 
             dbExists, owned, hasData, working_db_dict = getDBStatus(db_dict, PGPASS_TEMP)
-            if not utils.localHost(db_dict["host"]) and not hasData:
-                print 'Remote installation is selected.\n'
-
-                dbExists, tmpowned, tmphasData = utils.dbExists(db_dict, PGPASS_TEMP)
-                if options['REMOTE_DB_USER'] is None:
-                    while not dbExists:
-                        (
-                            db_dict['username'],
-                            db_dict['password'],
-                        ) = getDbCredentials(
-                             userdefault=db_dict['username'],
-                        )
-                        if os.path.exists(PGPASS_TEMP):
-                            os.remove(PGPASS_TEMP)
-                        PGPASS_TEMP = utils.createTempPgpass(db_dict)
-                        dbExists, tmpowned, tmphasData = utils.dbExists(db_dict, PGPASS_TEMP)
-                        if not dbExists:
-                            print 'Could not connect to remote database - please try again.\n'
+            if not utils.localHost(db_dict["host"]):
+                # remote
+                if hasData:
+                    # upgrade
+                    db_dict['username'] = working_db_dict['username']
+                    db_dict['password'] = working_db_dict['password']
                 else:
-                    db_dict['username'] = options['REMOTE_DB_USER']
-                    db_dict['password'] = options['REMOTE_DB_PASSWORD']
+                    print 'Remote installation is selected.\n'
 
-                if os.path.exists(PGPASS_TEMP):
-                    os.remove(PGPASS_TEMP)
-                PGPASS_TEMP = utils.createTempPgpass(db_dict)
-                dbExists, owned, hasData, working_db_dict = getDBStatus(db_dict, PGPASS_TEMP)
-                if not dbExists:
-                    raise RuntimeError (
-                       (
-                          'Remote installation failed. Please perform '
-                           '\tcreate role {role} with login '
-                           'encrypted password {password};\n'
-                           '\tcreate {db} owner {role}\n'
-                           'on the remote DB, verify it and rerun the setup.'
-                        ).format(
-                           role=db_dict['username'],
-                           db=db_dict['dbname'],
-                           password=db_dict['password'],
+                    dbExists, tmpowned, tmphasData = utils.dbExists(db_dict, PGPASS_TEMP)
+                    if options['REMOTE_DB_USER'] is None:
+                        while not dbExists:
+                            (
+                                db_dict['username'],
+                                db_dict['password'],
+                            ) = getDbCredentials(
+                                 userdefault=db_dict['username'],
+                            )
+                            if os.path.exists(PGPASS_TEMP):
+                                os.remove(PGPASS_TEMP)
+                            PGPASS_TEMP = utils.createTempPgpass(db_dict)
+                            dbExists, tmpowned, tmphasData = utils.dbExists(db_dict, PGPASS_TEMP)
+                            if not dbExists:
+                                print 'Could not connect to remote database - please try again.\n'
+                    else:
+                        db_dict['username'] = options['REMOTE_DB_USER']
+                        db_dict['password'] = options['REMOTE_DB_PASSWORD']
+
+                    if os.path.exists(PGPASS_TEMP):
+                        os.remove(PGPASS_TEMP)
+                    PGPASS_TEMP = utils.createTempPgpass(db_dict)
+                    dbExists, owned, hasData, working_db_dict = getDBStatus(db_dict, PGPASS_TEMP)
+                    if not dbExists:
+                        raise RuntimeError (
+                           (
+                              'Remote installation failed. Please perform '
+                               '\tcreate role {role} with login '
+                               'encrypted password {password};\n'
+                               '\tcreate {db} owner {role}\n'
+                               'on the remote DB, verify it and rerun the setup.'
+                            ).format(
+                               role=db_dict['username'],
+                               db=db_dict['dbname'],
+                               password=db_dict['password'],
+                            )
                         )
-                    )
 
             if dbExists:
                 try:
