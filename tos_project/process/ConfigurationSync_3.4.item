@@ -1508,7 +1508,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_name, &#xD;&#xA;  vm_description, &#xD;&#xA;  vm_type, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  template_id, &#xD;&#xA;  template_name, &#xD;&#xA;  cpu_per_socket, &#xD;&#xA;  number_of_sockets, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  operating_system, &#xD;&#xA;  ad_domain, &#xD;&#xA;  default_host,&#xD;&#xA;  upper(cast(default_host as char(36))) as default_host_join_id,  &#xD;&#xA;  high_availability, &#xD;&#xA;  initialized, &#xD;&#xA;  stateless, &#xD;&#xA;  fail_back,  &#xD;&#xA;  usb_policy, &#xD;&#xA;  time_zone, &#xA;  vm_pool_id,&#xA;  vm_pool_name,&#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_vm_configuration_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_name, &#xD;&#xA;  vm_description, &#xD;&#xA;  vm_type, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  template_id, &#xD;&#xA;  template_name, &#xD;&#xA;  cpu_per_socket, &#xD;&#xA;  number_of_sockets, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  operating_system, &#xD;&#xA;  ad_domain, &#xD;&#xA;  default_host,&#xD;&#xA;  upper(cast(default_host as char(36))) as default_host_join_id,  &#xD;&#xA;  high_availability, &#xD;&#xA;  initialized, &#xD;&#xA;  stateless, &#xD;&#xA;  fail_back,  &#xD;&#xA;  usb_policy, &#xD;&#xA;  time_zone, &#xA;  vm_pool_id,&#xA;  vm_pool_name,&#xA;  created_by_user_id,&#xA;  created_by_user_name,&#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_vm_configuration_history_view&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1564,6 +1564,10 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_pool_name"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="created_by_user_id"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="created_by_user_name"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="create_date"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="update_date"/>
@@ -1598,6 +1602,8 @@
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_pool_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vm_pool_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="created_by_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="created_by_user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
@@ -1637,6 +1643,8 @@
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_pool_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vm_pool_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="created_by_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="created_by_user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="default_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -1668,6 +1676,8 @@
         <mapperTableEntries name="time_zone" expression="StringHandling.TRIM(row4.time_zone)" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_pool_id" expression="row4.vm_pool_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_pool_name" expression="row4.vm_pool_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="created_by_user_id" expression="row4.created_by_user_id" type="id_Object" nullable="true"/>
+        <mapperTableEntries name="created_by_user_name" expression="row4.created_by_user_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="cluster_configuration_version" expression="row39.history_id " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="default_host_configuration_version" expression="row38.history_id " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="create_date" expression="row4.create_date" type="id_Date" nullable="true"/>
@@ -1698,6 +1708,8 @@
         <mapperTableEntries name="time_zone" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_pool_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_pool_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="created_by_user_id" type="id_Object" nullable="true"/>
+        <mapperTableEntries name="created_by_user_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="create_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" type="id_Date" nullable="true"/>
       </inputTables>
@@ -1921,6 +1933,16 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="created_by_user_id"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="created_by_user_name"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="cluster_configuration_version"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1976,6 +1998,8 @@
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_pool_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vm_pool_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="created_by_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="created_by_user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="default_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -2004,6 +2028,8 @@
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_pool_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vm_pool_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="created_by_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="created_by_user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="default_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -4084,7 +4110,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;vm_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;&#x9;&#x9;vm_name, &#xD;&#xA;&#x9;&#x9;vm_description, &#xD;&#xA;&#x9;&#x9;vm_type, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;template_id, &#xD;&#xA;&#x9;&#x9;template_name, &#xD;&#xA;&#x9;&#x9;cpu_per_socket, &#xD;&#xA;&#x9;&#x9;number_of_sockets, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;operating_system, &#xD;&#xA;&#x9;&#x9;ad_domain, &#xD;&#xA;&#x9;&#x9;default_host, &#xD;&#xA;&#x9;&#x9;high_availability, &#xD;&#xA;&#x9;&#x9;initialized, &#xD;&#xA;&#x9;&#x9;stateless, &#xD;&#xA;&#x9;&#x9;fail_back, &#xD;&#xA;&#x9;&#x9;usb_policy, &#xD;&#xA;&#x9;&#x9;time_zone, &#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;default_host_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v3_4_latest_configuration_vms&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;vm_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;&#x9;&#x9;vm_name, &#xD;&#xA;&#x9;&#x9;vm_description, &#xD;&#xA;&#x9;&#x9;vm_type, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;template_id, &#xD;&#xA;&#x9;&#x9;template_name, &#xD;&#xA;&#x9;&#x9;cpu_per_socket, &#xD;&#xA;&#x9;&#x9;number_of_sockets, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;operating_system, &#xD;&#xA;&#x9;&#x9;ad_domain, &#xD;&#xA;&#x9;&#x9;default_host, &#xD;&#xA;&#x9;&#x9;high_availability, &#xD;&#xA;&#x9;&#x9;initialized, &#xD;&#xA;&#x9;&#x9;stateless, &#xD;&#xA;&#x9;&#x9;fail_back, &#xD;&#xA;&#x9;&#x9;usb_policy, &#xD;&#xA;&#x9;&#x9;time_zone, &#xA;&#x9;&#x9;vm_pool_id, &#xA;&#x9;&#x9;vm_pool_name,&#xA;&#x9;&#x9;created_by_user_id,&#xA;&#x9;&#x9;created_by_user_name,&#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;default_host_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v3_4_latest_configuration_vms&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -4136,6 +4162,14 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="time_zone"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_pool_id"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_pool_name"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="created_by_user_id"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="created_by_user_name"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="cluster_configuration_version"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="default_host_configuration_version"/>
@@ -4172,6 +4206,10 @@
       <column comment="" key="false" length="1" name="fail_back" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="usb_policy" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_pool_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="vm_pool_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="created_by_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="created_by_user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="default_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -4249,6 +4287,10 @@
       <column comment="" key="false" length="1" name="fail_back" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="usb_policy" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_pool_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="vm_pool_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="created_by_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="created_by_user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="default_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -4256,7 +4298,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_vms" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="vm_id" expression="row25.vm_id" type="id_Object"/>
@@ -4278,6 +4320,10 @@
         <mapperTableEntries name="fail_back" expression="row25.fail_back" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="usb_policy" expression="row25.usb_policy" type="id_Short" nullable="true"/>
         <mapperTableEntries name="time_zone" expression="row25.time_zone" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vm_pool_id" expression="row25.vm_pool_id" type="id_Object" nullable="true"/>
+        <mapperTableEntries name="vm_pool_name" expression="row25.vm_pool_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="created_by_user_id" expression="row25.created_by_user_id" type="id_Object" nullable="true"/>
+        <mapperTableEntries name="created_by_user_name" expression="row25.created_by_user_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="cluster_configuration_version" expression="row25.cluster_configuration_version" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="default_host_configuration_version" expression="row25.default_host_configuration_version" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="create_date" expression="row25.create_date" type="id_Date" nullable="true"/>
@@ -4306,6 +4352,10 @@
         <mapperTableEntries name="fail_back" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="usb_policy" type="id_Short" nullable="true"/>
         <mapperTableEntries name="time_zone" type="id_String" nullable="true"/>
+        <mapperTableEntries name="vm_pool_id" type="id_Object" nullable="true"/>
+        <mapperTableEntries name="vm_pool_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="created_by_user_id" type="id_Object" nullable="true"/>
+        <mapperTableEntries name="created_by_user_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="cluster_configuration_version" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="default_host_configuration_version" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="create_date" type="id_Date" nullable="true"/>
@@ -4434,6 +4484,26 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_pool_id"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="vm_pool_name"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="created_by_user_id"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="created_by_user_name"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="cluster_configuration_version"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -4487,6 +4557,10 @@
       <column comment="" key="false" length="1" name="fail_back" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="usb_policy" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_pool_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="vm_pool_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="created_by_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="created_by_user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="default_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -4513,6 +4587,10 @@
       <column comment="" key="false" length="1" name="fail_back" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="usb_policy" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="time_zone" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_pool_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="vm_pool_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="created_by_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="created_by_user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="cluster_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="default_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -8469,6 +8547,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="vm_pool_name"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="created_by_user_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="created_by_user_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -8571,6 +8655,12 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="vm_pool_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="created_by_user_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="created_by_user_name"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -9314,6 +9404,18 @@
       <elementValue elementRef="TRACE_COLUMN" value="vm_join_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="created_by_user_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="vm_pool_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="vm_pool_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="created_by_user_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -9426,6 +9528,18 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="delete_date"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="created_by_user_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="vm_pool_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="vm_pool_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="created_by_user_name"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>

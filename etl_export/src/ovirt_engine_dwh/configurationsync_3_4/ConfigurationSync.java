@@ -21655,6 +21655,18 @@ public class ConfigurationSync implements TalendJob {
 			return this.vm_pool_name;
 		}
 
+		public Object created_by_user_id;
+
+		public Object getCreated_by_user_id() {
+			return this.created_by_user_id;
+		}
+
+		public String created_by_user_name;
+
+		public String getCreated_by_user_name() {
+			return this.created_by_user_name;
+		}
+
 		public Integer cluster_configuration_version;
 
 		public Integer getCluster_configuration_version() {
@@ -21856,6 +21868,10 @@ public class ConfigurationSync implements TalendJob {
 
 					this.vm_pool_name = readString(dis);
 
+					this.created_by_user_id = (Object) dis.readObject();
+
+					this.created_by_user_name = readString(dis);
+
 					this.cluster_configuration_version = readInteger(dis);
 
 					this.default_host_configuration_version = readInteger(dis);
@@ -22005,6 +22021,14 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.vm_pool_name, dos);
 
+				// Object
+
+				dos.writeObject(this.created_by_user_id);
+
+				// String
+
+				writeString(this.created_by_user_name, dos);
+
 				// Integer
 
 				writeInteger(this.cluster_configuration_version, dos);
@@ -22057,6 +22081,9 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",time_zone=" + time_zone);
 			sb.append(",vm_pool_id=" + String.valueOf(vm_pool_id));
 			sb.append(",vm_pool_name=" + vm_pool_name);
+			sb.append(",created_by_user_id="
+					+ String.valueOf(created_by_user_id));
+			sb.append(",created_by_user_name=" + created_by_user_name);
 			sb.append(",cluster_configuration_version="
 					+ String.valueOf(cluster_configuration_version));
 			sb.append(",default_host_configuration_version="
@@ -22246,6 +22273,18 @@ public class ConfigurationSync implements TalendJob {
 			return this.vm_pool_name;
 		}
 
+		public Object created_by_user_id;
+
+		public Object getCreated_by_user_id() {
+			return this.created_by_user_id;
+		}
+
+		public String created_by_user_name;
+
+		public String getCreated_by_user_name() {
+			return this.created_by_user_name;
+		}
+
 		public java.util.Date create_date;
 
 		public java.util.Date getCreate_date() {
@@ -22438,6 +22477,10 @@ public class ConfigurationSync implements TalendJob {
 
 					this.vm_pool_name = readString(dis);
 
+					this.created_by_user_id = (Object) dis.readObject();
+
+					this.created_by_user_name = readString(dis);
+
 					this.create_date = readDate(dis);
 
 					this.update_date = readDate(dis);
@@ -22594,6 +22637,14 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.vm_pool_name, dos);
 
+				// Object
+
+				dos.writeObject(this.created_by_user_id);
+
+				// String
+
+				writeString(this.created_by_user_name, dos);
+
 				// java.util.Date
 
 				writeDate(this.create_date, dos);
@@ -22636,6 +22687,9 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",time_zone=" + time_zone);
 			sb.append(",vm_pool_id=" + String.valueOf(vm_pool_id));
 			sb.append(",vm_pool_name=" + vm_pool_name);
+			sb.append(",created_by_user_id="
+					+ String.valueOf(created_by_user_id));
+			sb.append(",created_by_user_name=" + created_by_user_name);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -22820,6 +22874,18 @@ public class ConfigurationSync implements TalendJob {
 			return this.vm_pool_name;
 		}
 
+		public Object created_by_user_id;
+
+		public Object getCreated_by_user_id() {
+			return this.created_by_user_id;
+		}
+
+		public String created_by_user_name;
+
+		public String getCreated_by_user_name() {
+			return this.created_by_user_name;
+		}
+
 		public java.util.Date create_date;
 
 		public java.util.Date getCreate_date() {
@@ -23012,6 +23078,10 @@ public class ConfigurationSync implements TalendJob {
 
 					this.vm_pool_name = readString(dis);
 
+					this.created_by_user_id = (Object) dis.readObject();
+
+					this.created_by_user_name = readString(dis);
+
 					this.create_date = readDate(dis);
 
 					this.update_date = readDate(dis);
@@ -23168,6 +23238,14 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.vm_pool_name, dos);
 
+				// Object
+
+				dos.writeObject(this.created_by_user_id);
+
+				// String
+
+				writeString(this.created_by_user_name, dos);
+
 				// java.util.Date
 
 				writeDate(this.create_date, dos);
@@ -23210,6 +23288,9 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",time_zone=" + time_zone);
 			sb.append(",vm_pool_id=" + String.valueOf(vm_pool_id));
 			sb.append(",vm_pool_name=" + vm_pool_name);
+			sb.append(",created_by_user_id="
+					+ String.valueOf(created_by_user_id));
+			sb.append(",created_by_user_name=" + created_by_user_name);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -23317,7 +23398,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_6 = "INSERT INTO "
 						+ "vm_configuration"
-						+ " (vm_id,vm_name,vm_description,vm_type,cluster_id,template_id,template_name,cpu_per_socket,number_of_sockets,memory_size_mb,operating_system,ad_domain,default_host,high_availability,initialized,stateless,fail_back,usb_policy,time_zone,vm_pool_id,vm_pool_name,cluster_configuration_version,default_host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (vm_id,vm_name,vm_description,vm_type,cluster_id,template_id,template_name,cpu_per_socket,number_of_sockets,memory_size_mb,operating_system,ad_domain,default_host,high_availability,initialized,stateless,fail_back,usb_policy,time_zone,vm_pool_id,vm_pool_name,created_by_user_id,created_by_user_name,cluster_configuration_version,default_host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_6 = connection_tJDBCOutput_6
 						.prepareStatement(insert_tJDBCOutput_6);
 
@@ -23393,7 +23474,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_6 = conn_tJDBCInput_6
 						.createStatement();
 
-				String dbquery_tJDBCInput_6 = "SELECT     vm_id,     vm_name,     vm_description,     vm_type,     cluster_id,    upper(cast(cluster_id as char(36))) as cluster_join_id,      template_id,     template_name,     cpu_per_socket,     number_of_sockets,     memory_size_mb,     operating_system,     ad_domain,     default_host,    upper(cast(default_host as char(36))) as default_host_join_id,      high_availability,     initialized,     stateless,     fail_back,      usb_policy,     time_zone,    vm_pool_id,   vm_pool_name,    create_date,     update_date  FROM dwh_vm_configuration_history_view";
+				String dbquery_tJDBCInput_6 = "SELECT     vm_id,     vm_name,     vm_description,     vm_type,     cluster_id,    upper(cast(cluster_id as char(36))) as cluster_join_id,      template_id,     template_name,     cpu_per_socket,     number_of_sockets,     memory_size_mb,     operating_system,     ad_domain,     default_host,    upper(cast(default_host as char(36))) as default_host_join_id,      high_availability,     initialized,     stateless,     fail_back,      usb_policy,     time_zone,    vm_pool_id,   vm_pool_name,   created_by_user_id,   created_by_user_name,    create_date,     update_date  FROM dwh_vm_configuration_history_view";
 
 				globalMap.put("tJDBCInput_6_QUERY", dbquery_tJDBCInput_6);
 
@@ -23826,6 +23907,42 @@ public class ConfigurationSync implements TalendJob {
 					column_index_tJDBCInput_6 = 24;
 
 					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
+						row4.created_by_user_id = null;
+					} else {
+
+						if (rs_tJDBCInput_6
+								.getObject(column_index_tJDBCInput_6) != null) {
+							row4.created_by_user_id = rs_tJDBCInput_6
+									.getObject(column_index_tJDBCInput_6);
+						} else {
+							row4.created_by_user_id = null;
+						}
+
+						if (rs_tJDBCInput_6.wasNull()) {
+							row4.created_by_user_id = null;
+						}
+					}
+					column_index_tJDBCInput_6 = 25;
+
+					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
+						row4.created_by_user_name = null;
+					} else {
+
+						tmpContent_tJDBCInput_6 = rs_tJDBCInput_6
+								.getString(column_index_tJDBCInput_6);
+						if (tmpContent_tJDBCInput_6 != null) {
+							row4.created_by_user_name = tmpContent_tJDBCInput_6;
+						} else {
+							row4.created_by_user_name = null;
+						}
+
+						if (rs_tJDBCInput_6.wasNull()) {
+							row4.created_by_user_name = null;
+						}
+					}
+					column_index_tJDBCInput_6 = 26;
+
+					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 						row4.create_date = null;
 					} else {
 
@@ -23843,7 +23960,7 @@ public class ConfigurationSync implements TalendJob {
 							row4.create_date = null;
 						}
 					}
-					column_index_tJDBCInput_6 = 25;
+					column_index_tJDBCInput_6 = 27;
 
 					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 						row4.update_date = null;
@@ -24034,6 +24151,8 @@ public class ConfigurationSync implements TalendJob {
 									.TRIM(row4.time_zone);
 							vm_configuration_tmp.vm_pool_id = row4.vm_pool_id;
 							vm_configuration_tmp.vm_pool_name = row4.vm_pool_name;
+							vm_configuration_tmp.created_by_user_id = row4.created_by_user_id;
+							vm_configuration_tmp.created_by_user_name = row4.created_by_user_name;
 							vm_configuration_tmp.cluster_configuration_version = row39.history_id;
 							vm_configuration_tmp.default_host_configuration_version = row38.history_id;
 							vm_configuration_tmp.create_date = row4.create_date;
@@ -24224,54 +24343,70 @@ public class ConfigurationSync implements TalendJob {
 										vm_configuration.vm_pool_name);
 							}
 
-							if (vm_configuration.cluster_configuration_version == null) {
+							if (vm_configuration.created_by_user_id == null) {
 								pstmt_tJDBCOutput_6.setNull(22,
+										java.sql.Types.OTHER);
+							} else {
+								pstmt_tJDBCOutput_6.setObject(22,
+										vm_configuration.created_by_user_id);
+							}
+
+							if (vm_configuration.created_by_user_name == null) {
+								pstmt_tJDBCOutput_6.setNull(23,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_6.setString(23,
+										vm_configuration.created_by_user_name);
+							}
+
+							if (vm_configuration.cluster_configuration_version == null) {
+								pstmt_tJDBCOutput_6.setNull(24,
 										java.sql.Types.INTEGER);
 							} else {
 								pstmt_tJDBCOutput_6
-										.setInt(22,
+										.setInt(24,
 												vm_configuration.cluster_configuration_version);
 							}
 
 							if (vm_configuration.default_host_configuration_version == null) {
-								pstmt_tJDBCOutput_6.setNull(23,
+								pstmt_tJDBCOutput_6.setNull(25,
 										java.sql.Types.INTEGER);
 							} else {
 								pstmt_tJDBCOutput_6
-										.setInt(23,
+										.setInt(25,
 												vm_configuration.default_host_configuration_version);
 							}
 
 							if (vm_configuration.create_date != null) {
 								pstmt_tJDBCOutput_6.setTimestamp(
-										24,
+										26,
 										new java.sql.Timestamp(
 												vm_configuration.create_date
 														.getTime()));
 							} else {
-								pstmt_tJDBCOutput_6.setNull(24,
+								pstmt_tJDBCOutput_6.setNull(26,
 										java.sql.Types.DATE);
 							}
 
 							if (vm_configuration.update_date != null) {
 								pstmt_tJDBCOutput_6.setTimestamp(
-										25,
+										27,
 										new java.sql.Timestamp(
 												vm_configuration.update_date
 														.getTime()));
 							} else {
-								pstmt_tJDBCOutput_6.setNull(25,
+								pstmt_tJDBCOutput_6.setNull(27,
 										java.sql.Types.DATE);
 							}
 
 							if (vm_configuration.delete_date != null) {
 								pstmt_tJDBCOutput_6.setTimestamp(
-										26,
+										28,
 										new java.sql.Timestamp(
 												vm_configuration.delete_date
 														.getTime()));
 							} else {
-								pstmt_tJDBCOutput_6.setNull(26,
+								pstmt_tJDBCOutput_6.setNull(28,
 										java.sql.Types.DATE);
 							}
 
@@ -24529,6 +24664,30 @@ public class ConfigurationSync implements TalendJob {
 			return this.time_zone;
 		}
 
+		public Object vm_pool_id;
+
+		public Object getVm_pool_id() {
+			return this.vm_pool_id;
+		}
+
+		public String vm_pool_name;
+
+		public String getVm_pool_name() {
+			return this.vm_pool_name;
+		}
+
+		public Object created_by_user_id;
+
+		public Object getCreated_by_user_id() {
+			return this.created_by_user_id;
+		}
+
+		public String created_by_user_name;
+
+		public String getCreated_by_user_name() {
+			return this.created_by_user_name;
+		}
+
 		public Integer cluster_configuration_version;
 
 		public Integer getCluster_configuration_version() {
@@ -24726,6 +24885,14 @@ public class ConfigurationSync implements TalendJob {
 
 					this.time_zone = readString(dis);
 
+					this.vm_pool_id = (Object) dis.readObject();
+
+					this.vm_pool_name = readString(dis);
+
+					this.created_by_user_id = (Object) dis.readObject();
+
+					this.created_by_user_name = readString(dis);
+
 					this.cluster_configuration_version = readInteger(dis);
 
 					this.default_host_configuration_version = readInteger(dis);
@@ -24867,6 +25034,22 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.time_zone, dos);
 
+				// Object
+
+				dos.writeObject(this.vm_pool_id);
+
+				// String
+
+				writeString(this.vm_pool_name, dos);
+
+				// Object
+
+				dos.writeObject(this.created_by_user_id);
+
+				// String
+
+				writeString(this.created_by_user_name, dos);
+
 				// Integer
 
 				writeInteger(this.cluster_configuration_version, dos);
@@ -24917,6 +25100,11 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",fail_back=" + String.valueOf(fail_back));
 			sb.append(",usb_policy=" + String.valueOf(usb_policy));
 			sb.append(",time_zone=" + time_zone);
+			sb.append(",vm_pool_id=" + String.valueOf(vm_pool_id));
+			sb.append(",vm_pool_name=" + vm_pool_name);
+			sb.append(",created_by_user_id="
+					+ String.valueOf(created_by_user_id));
+			sb.append(",created_by_user_name=" + created_by_user_name);
 			sb.append(",cluster_configuration_version="
 					+ String.valueOf(cluster_configuration_version));
 			sb.append(",default_host_configuration_version="
@@ -25094,6 +25282,30 @@ public class ConfigurationSync implements TalendJob {
 			return this.time_zone;
 		}
 
+		public Object vm_pool_id;
+
+		public Object getVm_pool_id() {
+			return this.vm_pool_id;
+		}
+
+		public String vm_pool_name;
+
+		public String getVm_pool_name() {
+			return this.vm_pool_name;
+		}
+
+		public Object created_by_user_id;
+
+		public Object getCreated_by_user_id() {
+			return this.created_by_user_id;
+		}
+
+		public String created_by_user_name;
+
+		public String getCreated_by_user_name() {
+			return this.created_by_user_name;
+		}
+
 		public Integer cluster_configuration_version;
 
 		public Integer getCluster_configuration_version() {
@@ -25294,6 +25506,14 @@ public class ConfigurationSync implements TalendJob {
 
 					this.time_zone = readString(dis);
 
+					this.vm_pool_id = (Object) dis.readObject();
+
+					this.vm_pool_name = readString(dis);
+
+					this.created_by_user_id = (Object) dis.readObject();
+
+					this.created_by_user_name = readString(dis);
+
 					this.cluster_configuration_version = readInteger(dis);
 
 					this.default_host_configuration_version = readInteger(dis);
@@ -25446,6 +25666,22 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.time_zone, dos);
 
+				// Object
+
+				dos.writeObject(this.vm_pool_id);
+
+				// String
+
+				writeString(this.vm_pool_name, dos);
+
+				// Object
+
+				dos.writeObject(this.created_by_user_id);
+
+				// String
+
+				writeString(this.created_by_user_name, dos);
+
 				// Integer
 
 				writeInteger(this.cluster_configuration_version, dos);
@@ -25494,6 +25730,11 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",fail_back=" + String.valueOf(fail_back));
 			sb.append(",usb_policy=" + String.valueOf(usb_policy));
 			sb.append(",time_zone=" + time_zone);
+			sb.append(",vm_pool_id=" + String.valueOf(vm_pool_id));
+			sb.append(",vm_pool_name=" + vm_pool_name);
+			sb.append(",created_by_user_id="
+					+ String.valueOf(created_by_user_id));
+			sb.append(",created_by_user_name=" + created_by_user_name);
 			sb.append(",cluster_configuration_version="
 					+ String.valueOf(cluster_configuration_version));
 			sb.append(",default_host_configuration_version="
@@ -25670,6 +25911,30 @@ public class ConfigurationSync implements TalendJob {
 			return this.time_zone;
 		}
 
+		public Object vm_pool_id;
+
+		public Object getVm_pool_id() {
+			return this.vm_pool_id;
+		}
+
+		public String vm_pool_name;
+
+		public String getVm_pool_name() {
+			return this.vm_pool_name;
+		}
+
+		public Object created_by_user_id;
+
+		public Object getCreated_by_user_id() {
+			return this.created_by_user_id;
+		}
+
+		public String created_by_user_name;
+
+		public String getCreated_by_user_name() {
+			return this.created_by_user_name;
+		}
+
 		public Integer cluster_configuration_version;
 
 		public Integer getCluster_configuration_version() {
@@ -25870,6 +26135,14 @@ public class ConfigurationSync implements TalendJob {
 
 					this.time_zone = readString(dis);
 
+					this.vm_pool_id = (Object) dis.readObject();
+
+					this.vm_pool_name = readString(dis);
+
+					this.created_by_user_id = (Object) dis.readObject();
+
+					this.created_by_user_name = readString(dis);
+
 					this.cluster_configuration_version = readInteger(dis);
 
 					this.default_host_configuration_version = readInteger(dis);
@@ -26022,6 +26295,22 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.time_zone, dos);
 
+				// Object
+
+				dos.writeObject(this.vm_pool_id);
+
+				// String
+
+				writeString(this.vm_pool_name, dos);
+
+				// Object
+
+				dos.writeObject(this.created_by_user_id);
+
+				// String
+
+				writeString(this.created_by_user_name, dos);
+
 				// Integer
 
 				writeInteger(this.cluster_configuration_version, dos);
@@ -26070,6 +26359,11 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",fail_back=" + String.valueOf(fail_back));
 			sb.append(",usb_policy=" + String.valueOf(usb_policy));
 			sb.append(",time_zone=" + time_zone);
+			sb.append(",vm_pool_id=" + String.valueOf(vm_pool_id));
+			sb.append(",vm_pool_name=" + vm_pool_name);
+			sb.append(",created_by_user_id="
+					+ String.valueOf(created_by_user_id));
+			sb.append(",created_by_user_name=" + created_by_user_name);
 			sb.append(",cluster_configuration_version="
 					+ String.valueOf(cluster_configuration_version));
 			sb.append(",default_host_configuration_version="
@@ -26180,7 +26474,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_19 = "INSERT INTO "
 						+ "vm_configuration"
-						+ " (vm_id,vm_name,vm_description,vm_type,cluster_id,template_id,template_name,cpu_per_socket,number_of_sockets,memory_size_mb,operating_system,ad_domain,default_host,high_availability,initialized,stateless,fail_back,usb_policy,time_zone,cluster_configuration_version,default_host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (vm_id,vm_name,vm_description,vm_type,cluster_id,template_id,template_name,cpu_per_socket,number_of_sockets,memory_size_mb,operating_system,ad_domain,default_host,high_availability,initialized,stateless,fail_back,usb_policy,time_zone,vm_pool_id,vm_pool_name,created_by_user_id,created_by_user_name,cluster_configuration_version,default_host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_19 = connection_tJDBCOutput_19
 						.prepareStatement(insert_tJDBCOutput_19);
 
@@ -26250,7 +26544,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_26 = conn_tJDBCInput_26
 						.createStatement();
 
-				String dbquery_tJDBCInput_26 = "SELECT history_id,   		vm_id,   		upper(cast(vm_id as char(36))) as vm_join_id,  		vm_name,   		vm_description,   		vm_type,   		cluster_id,   		template_id,   		template_name,   		cpu_per_socket,   		number_of_sockets,   		memory_size_mb,   		operating_system,   		ad_domain,   		default_host,   		high_availability,   		initialized,   		stateless,   		fail_back,   		usb_policy,   		time_zone,   		cluster_configuration_version,   		default_host_configuration_version,   		create_date,   		update_date  FROM v3_4_latest_configuration_vms";
+				String dbquery_tJDBCInput_26 = "SELECT history_id,   		vm_id,   		upper(cast(vm_id as char(36))) as vm_join_id,  		vm_name,   		vm_description,   		vm_type,   		cluster_id,   		template_id,   		template_name,   		cpu_per_socket,   		number_of_sockets,   		memory_size_mb,   		operating_system,   		ad_domain,   		default_host,   		high_availability,   		initialized,   		stateless,   		fail_back,   		usb_policy,   		time_zone,  		vm_pool_id,  		vm_pool_name, 		created_by_user_id, 		created_by_user_name,  		cluster_configuration_version,   		default_host_configuration_version,   		create_date,   		update_date  FROM v3_4_latest_configuration_vms";
 
 				globalMap.put("tJDBCInput_26_QUERY", dbquery_tJDBCInput_26);
 
@@ -26647,6 +26941,78 @@ public class ConfigurationSync implements TalendJob {
 					column_index_tJDBCInput_26 = 22;
 
 					if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
+						row25.vm_pool_id = null;
+					} else {
+
+						if (rs_tJDBCInput_26
+								.getObject(column_index_tJDBCInput_26) != null) {
+							row25.vm_pool_id = rs_tJDBCInput_26
+									.getObject(column_index_tJDBCInput_26);
+						} else {
+							row25.vm_pool_id = null;
+						}
+
+						if (rs_tJDBCInput_26.wasNull()) {
+							row25.vm_pool_id = null;
+						}
+					}
+					column_index_tJDBCInput_26 = 23;
+
+					if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
+						row25.vm_pool_name = null;
+					} else {
+
+						tmpContent_tJDBCInput_26 = rs_tJDBCInput_26
+								.getString(column_index_tJDBCInput_26);
+						if (tmpContent_tJDBCInput_26 != null) {
+							row25.vm_pool_name = tmpContent_tJDBCInput_26;
+						} else {
+							row25.vm_pool_name = null;
+						}
+
+						if (rs_tJDBCInput_26.wasNull()) {
+							row25.vm_pool_name = null;
+						}
+					}
+					column_index_tJDBCInput_26 = 24;
+
+					if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
+						row25.created_by_user_id = null;
+					} else {
+
+						if (rs_tJDBCInput_26
+								.getObject(column_index_tJDBCInput_26) != null) {
+							row25.created_by_user_id = rs_tJDBCInput_26
+									.getObject(column_index_tJDBCInput_26);
+						} else {
+							row25.created_by_user_id = null;
+						}
+
+						if (rs_tJDBCInput_26.wasNull()) {
+							row25.created_by_user_id = null;
+						}
+					}
+					column_index_tJDBCInput_26 = 25;
+
+					if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
+						row25.created_by_user_name = null;
+					} else {
+
+						tmpContent_tJDBCInput_26 = rs_tJDBCInput_26
+								.getString(column_index_tJDBCInput_26);
+						if (tmpContent_tJDBCInput_26 != null) {
+							row25.created_by_user_name = tmpContent_tJDBCInput_26;
+						} else {
+							row25.created_by_user_name = null;
+						}
+
+						if (rs_tJDBCInput_26.wasNull()) {
+							row25.created_by_user_name = null;
+						}
+					}
+					column_index_tJDBCInput_26 = 26;
+
+					if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 						row25.cluster_configuration_version = null;
 					} else {
 
@@ -26662,7 +27028,7 @@ public class ConfigurationSync implements TalendJob {
 							row25.cluster_configuration_version = null;
 						}
 					}
-					column_index_tJDBCInput_26 = 23;
+					column_index_tJDBCInput_26 = 27;
 
 					if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 						row25.default_host_configuration_version = null;
@@ -26680,7 +27046,7 @@ public class ConfigurationSync implements TalendJob {
 							row25.default_host_configuration_version = null;
 						}
 					}
-					column_index_tJDBCInput_26 = 24;
+					column_index_tJDBCInput_26 = 28;
 
 					if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 						row25.create_date = null;
@@ -26700,7 +27066,7 @@ public class ConfigurationSync implements TalendJob {
 							row25.create_date = null;
 						}
 					}
-					column_index_tJDBCInput_26 = 25;
+					column_index_tJDBCInput_26 = 29;
 
 					if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 						row25.update_date = null;
@@ -26837,6 +27203,10 @@ public class ConfigurationSync implements TalendJob {
 							delete_vms_tmp.fail_back = row25.fail_back;
 							delete_vms_tmp.usb_policy = row25.usb_policy;
 							delete_vms_tmp.time_zone = row25.time_zone;
+							delete_vms_tmp.vm_pool_id = row25.vm_pool_id;
+							delete_vms_tmp.vm_pool_name = row25.vm_pool_name;
+							delete_vms_tmp.created_by_user_id = row25.created_by_user_id;
+							delete_vms_tmp.created_by_user_name = row25.created_by_user_name;
 							delete_vms_tmp.cluster_configuration_version = row25.cluster_configuration_version;
 							delete_vms_tmp.default_host_configuration_version = row25.default_host_configuration_version;
 							delete_vms_tmp.create_date = row25.create_date;
@@ -27011,47 +27381,79 @@ public class ConfigurationSync implements TalendJob {
 									delete_vms.time_zone);
 						}
 
-						if (delete_vms.cluster_configuration_version == null) {
+						if (delete_vms.vm_pool_id == null) {
 							pstmt_tJDBCOutput_19.setNull(20,
+									java.sql.Types.OTHER);
+						} else {
+							pstmt_tJDBCOutput_19.setObject(20,
+									delete_vms.vm_pool_id);
+						}
+
+						if (delete_vms.vm_pool_name == null) {
+							pstmt_tJDBCOutput_19.setNull(21,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmt_tJDBCOutput_19.setString(21,
+									delete_vms.vm_pool_name);
+						}
+
+						if (delete_vms.created_by_user_id == null) {
+							pstmt_tJDBCOutput_19.setNull(22,
+									java.sql.Types.OTHER);
+						} else {
+							pstmt_tJDBCOutput_19.setObject(22,
+									delete_vms.created_by_user_id);
+						}
+
+						if (delete_vms.created_by_user_name == null) {
+							pstmt_tJDBCOutput_19.setNull(23,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmt_tJDBCOutput_19.setString(23,
+									delete_vms.created_by_user_name);
+						}
+
+						if (delete_vms.cluster_configuration_version == null) {
+							pstmt_tJDBCOutput_19.setNull(24,
 									java.sql.Types.INTEGER);
 						} else {
-							pstmt_tJDBCOutput_19.setInt(20,
+							pstmt_tJDBCOutput_19.setInt(24,
 									delete_vms.cluster_configuration_version);
 						}
 
 						if (delete_vms.default_host_configuration_version == null) {
-							pstmt_tJDBCOutput_19.setNull(21,
+							pstmt_tJDBCOutput_19.setNull(25,
 									java.sql.Types.INTEGER);
 						} else {
 							pstmt_tJDBCOutput_19
-									.setInt(21,
+									.setInt(25,
 											delete_vms.default_host_configuration_version);
 						}
 
 						if (delete_vms.create_date != null) {
-							pstmt_tJDBCOutput_19.setTimestamp(22,
+							pstmt_tJDBCOutput_19.setTimestamp(26,
 									new java.sql.Timestamp(
 											delete_vms.create_date.getTime()));
 						} else {
-							pstmt_tJDBCOutput_19.setNull(22,
+							pstmt_tJDBCOutput_19.setNull(26,
 									java.sql.Types.DATE);
 						}
 
 						if (delete_vms.update_date != null) {
-							pstmt_tJDBCOutput_19.setTimestamp(23,
+							pstmt_tJDBCOutput_19.setTimestamp(27,
 									new java.sql.Timestamp(
 											delete_vms.update_date.getTime()));
 						} else {
-							pstmt_tJDBCOutput_19.setNull(23,
+							pstmt_tJDBCOutput_19.setNull(27,
 									java.sql.Types.DATE);
 						}
 
 						if (delete_vms.delete_date != null) {
-							pstmt_tJDBCOutput_19.setTimestamp(24,
+							pstmt_tJDBCOutput_19.setTimestamp(28,
 									new java.sql.Timestamp(
 											delete_vms.delete_date.getTime()));
 						} else {
-							pstmt_tJDBCOutput_19.setNull(24,
+							pstmt_tJDBCOutput_19.setNull(28,
 									java.sql.Types.DATE);
 						}
 
@@ -59326,6 +59728,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1653516 characters generated by Talend Open Studio for Data Integration on
- * the July 8, 2013 3:53:58 PM IDT
+ * 1665236 characters generated by Talend Open Studio for Data Integration on
+ * the January 8, 2014 2:03:38 PM IST
  ************************************************************************************************/
