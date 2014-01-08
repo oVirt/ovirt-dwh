@@ -3,10 +3,10 @@ Description=oVirt Engine Dataware House
 After=network.service postgresql.service
 
 [Service]
-Type=simple
+Type=notify
 User=@PKG_USER@
 Group=@PKG_GROUP@
-ExecStart=@PKG_DATA_DIR@/services/ovirt-engine-dwhd/ovirt-engine-dwhd.py --redirect-output $EXTRA_ARGS start
+ExecStart=@PKG_DATA_DIR@/services/ovirt-engine-dwhd/ovirt-engine-dwhd.py --redirect-output --systemd=notify $EXTRA_ARGS start
 EnvironmentFile=-/etc/sysconfig/ovirt-engine-dwhd
 Restart=on-failure
 RestartSec=3600
