@@ -15,4 +15,6 @@
     <variables name="row5.message" value="null" talendType="id_String" nullable="true"/>
     <variables name="row5.code" value="null" talendType="id_Integer" nullable="true"/>
   </expression:EMFExpression>
+  <expression:EMFExpression id="null=>var_name=>customize parameter" expression="&quot;DwhCurrentlyRunning&quot;&quot;"/>
+  <expression:EMFExpression id="null=>var_value=>customize parameter" expression="&quot;1&quot; "/>
 </xmi:XMI>

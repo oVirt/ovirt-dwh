@@ -836,7 +836,7 @@
     <migrationTask xmi:id="_G1Uu69vkEeKmz4H4vIrR2g" id="org.talend.repository.model.migration.ChangePigVersionOfPigLoadMigrationTask" breaks="5.3.0" version="5.3.0" status="ok"/>
     <migrationTask xmi:id="_G1VV4NvkEeKmz4H4vIrR2g" id="org.talend.repository.model.migration.ChangeHadoopVersionsOfReferenceComponentsMigrationTask" breaks="5.3.0" version="5.3.0" status="ok"/>
     <migrationTask xmi:id="_G1VV4dvkEeKmz4H4vIrR2g" id="org.talend.repository.model.migration.AutoUpdateRelationsMigrationTask" breaks="5.1.1" version="5.1.2" status="ok"/>
-    <migrationTask xmi:id="_lnwm0HhcEeOju_gE_r-5Bg" id="org.talend.repository.model.migration.UpdateExistentMigrationTasksToAdaptNewMigrationSystemMigrationTask" breaks="5.1.1" version="5.1.2" status="ok"/>
+    <migrationTask xmi:id="_Ssz5UXuJEeOWcsSxXIhcbg" id="org.talend.repository.model.migration.UpdateExistentMigrationTasksToAdaptNewMigrationSystemMigrationTask" breaks="5.1.1" version="5.1.2" status="ok"/>
   </TalendProperties:Project>
   <TalendProperties:User xmi:id="_SapC4EJlEeCWRqOtaF5m-w" login="ydary@redhat.com" password="D41D8CD98F00B204E9800998ECF8427E"/>
   <TalendProperties:User xmi:id="_9rn8MCu-EeGwyfNuL-eF9g" login="test@talend.com" password="D41D8CD98F00B204E9800998ECF8427E"/>
