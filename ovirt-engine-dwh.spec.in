@@ -274,5 +274,264 @@ fi
 %endif
 
 %changelog
+* Thu Jan 09 2014 Yaniv Dary <ydary@redhat.com> - 3.3
+Refixed issue:
+- fix ugprade with remote db (#1046676)
+
+* Thu Jan 02 2014 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed issues:
+- Backup before doing any changes to the database (#1046679\1046676)
+- Fixed remote install setup (#1045846\1047392\1045855)
+
+* Wed Dec 18 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed issues:
+- detect existing DB in remote flows (#1026947)
+- correctly configure Default.properties (#1026947)
+- handle answerfile correctly (#1040029)
+- do not create db md5 files in production (#1043951)
+- rename config values to match engine convention (#1043951)
+- remove 10-setup-database-dwh.conf from package (#1043951)
+- rename /etc/ovirt-engine-dwh/engine-dwh.conf.d->/etc/ovirt-engine-dwh/ovirt-engine-dwhd.conf.d (#1043951)
+- Pass full log path to database schema creation script (#1040026)
+
+* Wed Dec 11 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed issues:
+- Adds COPYING.csv to conform to 3.3 manifest
+- add read user validation for alphanumeric chars (#1037861)
+
+* Tue Nov 26 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed issue:
+- update postgres service restart functionality (#1029969)
+
+* Sun Nov 24 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed issues:
+- Setup now sets correct umask for execution.
+- Fixed test on postgres status (#1029969).
+
+* Thu Nov 21 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed issues:
+- added a test on postgres status (#1029969)
+- update log permissions on service start (#1031992)
+
+* Wed Nov 13 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed issue:
+update Makefile and spec to include DB settings (#1026089)
+
+* Sun Nov 10 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Changes in setup:
+- fixed function of database user creation (#1027894)
+- removed unneeded chown that causes error on service actions
+- improve dwhd service handling (#1022550)
+- fix DB detection and owner from previous versions (#1015859)
+
+* Wed Nov 06 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Add answer file use in setup (#1025336)
+
+* Thu Oct 31 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Changed the db dict get method (#1024792)
+
+* Tue Oct 29 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Resynced db creation scripts.
+Also fixed issues:
+- Added clear instructions for creating remote DB (#1021560)
+
+* Wed Oct 23 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed issues:
+853955 - There should be no exception shown to a user when running setup with non root user
+1019741 - installation - size of the detected DB should be in MB
+1019758 - installation - misleading message
+
+* Tue Oct 15 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed issues:
+- update discovery of JAVA_HOME (#1019178)
+- fixed etl error when hosts are non-responsive (#1008370)
+- run dwh service as an ovirt user (#772001)
+- fixed issue with many ips in vm users table (#1016968)
+- run readonly user creation with non-empty user (#1008562)
+- added systemd handling to common_utils (#1011544)
+- validating read-only user before creation (#1006948)
+
+* Tue Oct 08 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed setup issues:
+- added welcome message (#1011542)
+- stop and notify if setup is not run as root (#853955)
+- save configuration immediately as available (#1006950)
+
+* Tue Oct 01 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed postgres.conf handling (#1014031)
+
+* Tue Sep 24 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Added OS info sync to enum table (#985346)
+
+* Mon Sep 16 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Added missing column to 3.3 views.
+
+* Mon Sep 09 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed verious installation issues with engine otopi setup.
+Setup now works in clean local\remote setup of 3.3.
+
+* Tue Aug 13 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Added feature:
+- boolean on logged in vm guest user
+
+* Thu Aug 08 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed two setup issues:
+- 990095 - packaging: setup: updated read-only user permissions
+- 991760 - packaging: setup: call psql with correct env
+Also:
+- resynced the create db scripts
+- made several changes to vm disks tables
+
+* Wed Jul 31 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed verious setup issues:
+- 990124 - fixed password handling for configuration
+- 988045 - fixed pg_hba handling
+- 988298 - updated 'su' utility location
+- fixed failuare to create engine dwh db because of locale
+
+* Thu Jul 25 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed issues:
+883120 - [RFE] Ability to associate VMs with a pool in the engine and DWH
+987517 - DWH - some vms don't sync
+
+* Tue Jul 09 2013 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed issue:
+- 970543 - ovirt-engine-dwh-setup doesn't support option --help
+
+* Thu Jun 13 2013 Yaniv Dary <ydary@redhat.com> - 3.2.1
+Refixed issue:
+- fixed issue with enum strings insertion (#952418)
+
+* Wed Jun 12 2013 Yaniv Dary <ydary@redhat.com> - 3.2.1
+Fixed issues:
+- fixed issue with enum strings insertion (#952418)
+- added missing enum keys for OS (#966437)
+
+* Wed May 08 2013 Yaniv Dary <ydary@redhat.com> - 3.2.0
+Fixed issue:
+953148 - ETL does not populate the dwh db.
+
+* Thu Mar 21 2013 Yaniv Dary <ydary@redhat.com> - 3.2.0
+Updated manifest file and localization files.
+
+Fixed issues:
+913384 - Upgrade - Error Can't start the ovirt-engine-dwhd service (Upgrade from si25.4 to si27.1)
+921445 - Update manifest file for 3.2
+
+* Thu Mar 07 2013 Yaniv Dary <ydary@redhat.com> - 3.2.0
+Reverted:
+913384 - Upgrade - Error Can't start the ovirt-engine-dwhd service (Upgrade from si25.4 to si27.1)
+
+Change on the engine side caused engine DB deadlock of nested transactions attempting to update the same 
+record. Without that change this patch will not work.
+
+* Wed Mar 06 2013 Yaniv Dary <ydary@redhat.com> - 3.2.0
+Refixed issue:
+902028 - Table audit_log - No Logs in table for an exception (Blocks DNS using iptables)
+
+Fixed issue:
+913384 - Upgrade - Error Can't start the ovirt-engine-dwhd service (Upgrade from si25.4 to si27.1)
+
+* Wed Feb 13 2013 Yaniv Dary <ydary@redhat.com> - 3.2.0
+Fixed issue:
+902028 - Table audit_log - No Logs in table for an exception (Blocks DNS using iptables)
+
+* Tue Feb 05 2013 Yaniv Dary <ydary@redhat.com> - 3.2.0
+Fixed issues:
+- 892278 - [ovirt-engine-dwh] dwh-setup fails.
+- 894716 - History DB - No Statisitics in hourly and daily tables
+
+* Wed Jan 02 2013 Yaniv Dary <ydary@redhat.com> - 3.2.0
+Fixed issues:
+- 846272 - PRD32 - RFE - Add storage domains status in the History DB
+- 885640 - remove is_auto_suspend field
+- 889755 - Service - Add "pid" string in /etc/init.d/ovirt-engine-dwhd service message [TEXT]
+
+* Thu Dec 27 2012 Yaniv Dary <ydary@redhat.com> - 3.2.0
+- Added 3.2 views.
+- Added user statistics usage tables and aggregation.
+- Moved to Talend DI 5.1.2 code generation.
+
+* Thu Nov 15 2012 Yaniv Dary <ydary@redhat.com> - 3.1.0
+Fixed bugs:
+876227 - upgrade - dwh upgrade doesn't rename the old DB
+876240 - upgrade - Reports doesnt work after upgrade (IC is empty and reports doesnt execute)
+876242 - upgrade - dwh service fails to start (java.lang.ClassNotFoundException:)
+
+* Sun Nov 04 2012 Yaniv Dary <ydary@redhat.com> - 3.1.0
+Updated DWH ENUM localization
+
+* Tue Oct 23 2012 Yaniv Dary <ydary@redhat.com> - 3.1.0
+Bugs fixed:
+800372 - vm system cpu usage is always 0.
+840866 - History DB - View v3_1_host_hourly_history_view shows 61 minutes instead of 60 minutes (Column minutes_in_status)
+866492 - Duplicate rows in Views
+
+
+* Tue Oct 09 2012 Yaniv Dary <ydary@redhat.com> - 3.1.0
+- Added upgrade flow from 3.0 to 3.1.
+- The host mac address field is extended to 59 so it could store
+  InfiniBand HCA mac address.
+
+Bugs Fixed:
+823397 - Extend host mac address to support IB HCA
+858569 - Replace JBoss service name with ovirt-engine
+
+* Tue Sep 04 2012 Yaniv Dary <ydary@redhat.com> - 3.1.0
+Bugs Fixed:
+841217  - History DB - Incorrect column name fqn_or_ip in View v3_1_host_configuration_view
+
+* Tue Aug 28 2012 Yaniv Dary <ydary@redhat.com> - 3.1.0
+Bugs Fixed:
+851833  - [ovirt-dwh] - ETL - Fails to connect to oVirt Engine Portal
+
+* Tue Aug 21 2012 Yaniv Dary <ydary@redhat.com> - 3.1.0
+Bugs Fixed:
+850330 - Setup fails on missing file
+781979 - ETL copies the templates images as disks
+844667 - Remote DB - DWH Setup fails to upgrade remote history DB
+
+* Mon Jul 16 2012 Yaniv Dary <ydary@redhat.com> - 3.1.0
+bug fixed:
+838292 - logrotate - DWH Log is not log-rotating correctly
+840273 - Views v3_x_vm_disk_samples_history_view are empty
+840283 - Views v3_x_vm_device_history_view are empty
+
+* Wed Jul 04 2012 Yaniv Dary <ydary@redhat.com> - 3.1.0
+bug fixed:
+834869 - Installer - Failed to create history DB
+
+* Thu Apr 20 2012 Yaniv Dary <ydary@redhat.com> - 3.1.0
+Changed from 3.0 release:
+- Project was renamed to ovirt-engine-dwh
+- DB was renamed to ovirt_engine_history
+- Added 3.1 API views.
+- Added vm devices history (deprecated vm disks map).
+- Added floating disks history.
+- Added engine up status check. Samples only collected when engine is up.
+- Added pushing audit log events in case of etl start\stop and error.
+- Added a watch dog.
+- Added new columns to the API.
+
+bugs fixed:
+728768  - [History] - Missing ENUM values for USB policy in vm configuration.
+755865  - Ad Hoc - missing enum for "VM disk storage type" (3) in report
+756405  - command support in 'ja_JP-UTF-8' environment
+766636  - postgreSQL locks the CPU on 100%
+768721  - Need to update ETL generated code.
+768755  - ETL copies duplicate entries of all hosts every hour.
+770644  - history: Unable to create a database with a MINUS sign in its name
+781470  - Stored Procedure dbo.dwh_history_aggregate_level fails to execute successfully
+781979  - ETL copies the templates images as disks
+783197  - When moving the database from one time zone to another many reports stop working.
+817519  - [ovirt-dwh] - jbossas cannot start (ETL occupies port 8080)
+772925  - RFE - ETL service start/stop should be logged in oVirt event log and send a notification by mail
+772916  - RFE - ovirt-etl should have a WatchDog
+770679  - [ovirt-dwh] - Cannot Create the ovirt_history database using the create_db.sh script
+749664  - Store number of CPU sockets
+749663  - Store CPU speed in Megahertz
+817756  - [ovirt-dwh] - oVirt-ETL log should be under /var/log/ovirt-engine
+783787  - [ovirt-etl] - Sample History - Saves data in host_samples_history_table/View for more then 48H
+
 * Thu Apr 19 2012 Yaniv Dary <ydary@redhat.com> - 3.0.0-1.fc16
 - Added packaging to dwh
