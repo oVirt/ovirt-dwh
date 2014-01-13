@@ -30,7 +30,6 @@ BUILD_VALIDATION=1
 
 PACKAGE_NAME=ovirt-engine-dwh
 MVN=mvn
-RPMBUILD=rpmbuild
 PYTHON=python
 PYFLAKES=pyflakes
 PEP8=pep8
@@ -76,7 +75,6 @@ endif
 BUILD_FLAGS:=$(BUILD_FLAGS) $(EXTRA_BUILD_FLAGS)
 
 PYTHON_SYS_DIR:=$(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib as f;print(f())")
-OUTPUT_RPMBUILD=$(shell pwd -P)/tmp.rpmbuild
 OUTPUT_DIR=output
 TARBALL=$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
 ARCH=noarch
@@ -149,7 +147,7 @@ $(BUILD_FILE):
 
 clean:
 	$(MVN) clean $(EXTRA_BUILD_FLAGS)
-	rm -rf $(OUTPUT_RPMBUILD) $(OUTPUT_DIR) $(BUILD_FILE)
+	rm -rf $(OUTPUT_DIR) $(BUILD_FILE)
 	rm -rf $(GENERATED)
 
 test:
@@ -164,34 +162,10 @@ install: \
 
 .PHONY: ovirt-engine-dwh.spec.in
 
-# legacy
-tarball:	dist
 dist:	ovirt-engine-dwh.spec
 	git ls-files | tar --files-from /proc/self/fd/0 -czf "$(TARBALL)" ovirt-engine-dwh.spec
 	@echo
-	@echo You can use $(RPMBUILD) -tb $(TARBALL) to produce rpms
-	@echo
-
-srpm:	dist
-	rm -rf $(OUTPUT_RPMBUILD)
-	mkdir -p $(OUTPUT_RPMBUILD)/{SPECS,RPMS,SRPMS,SOURCES,BUILD,BUILDROOT}
-	mkdir -p $(OUTPUT_DIR)
-	$(RPMBUILD) -ts --define="_topdir $(OUTPUT_RPMBUILD)" $(TARBALL)
-	mv $(OUTPUT_RPMBUILD)/SRPMS/*.rpm $(OUTPUT_DIR)
-	rm -rf $(OUTPUT_RPMBUILD)
-	@echo
-	@echo srpm is ready at $(OUTPUT_DIR)
-	@echo
-
-rpm:	srpm
-	rm -rf $(OUTPUT_RPMBUILD)
-	mkdir -p $(OUTPUT_RPMBUILD)/{SPECS,RPMS,SRPMS,SOURCES,BUILD,BUILDROOT}
-	mkdir -p $(OUTPUT_DIR)
-	$(RPMBUILD) --define="_topdir $(OUTPUT_RPMBUILD)" $(RPMBUILD_EXTRA_ARGS) --rebuild $(SRPM)
-	mv $(OUTPUT_RPMBUILD)/RPMS/$(ARCH)/*.rpm $(OUTPUT_DIR)
-	rm -rf $(OUTPUT_RPMBUILD)
-	@echo
-	@echo rpms are ready at $(OUTPUT_DIR)
+	@echo For distro specific packaging refer to http://www.ovirt.org/Build_Binary_Package
 	@echo
 
 # copy SOURCEDIR to TARGETDIR
