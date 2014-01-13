@@ -147,7 +147,7 @@ $(BUILD_FILE):
 
 clean:
 	$(MVN) clean $(EXTRA_BUILD_FLAGS)
-	rm -rf $(OUTPUT_DIR) $(BUILD_FILE)
+	rm -rf $(OUTPUT_DIR) $(BUILD_FILE) tmp.dev.flist
 	rm -rf $(GENERATED)
 
 test:
@@ -194,8 +194,11 @@ copy-recursive:
 			$${exclude} || echo "$${f}"; \
 		done \
 	) | while read f; do \
-		[ -x "$(SOURCEDIR)/$${f}" ] && MASK=755 || MASK=644; \
-		install -m "$${MASK}" "$(SOURCEDIR)/$${f}" "$$(dirname "$(TARGETDIR)/$${f}")"; \
+		src="$(SOURCEDIR)/$${f}"; \
+		dst="$(TARGETDIR)/$${f}"; \
+		[ -x "$${src}" ] && MASK=0755 || MASK=0644; \
+		[ -n "$(DEV_FLIST)" ] && echo "$${dst}" | sed 's#^$(PREFIX)/##' >> "$(DEV_FLIST)"; \
+		install -T -m "$${MASK}" "$${src}" "$${dst}"; \
 	done
 
 validations:	generated-files
@@ -256,11 +259,21 @@ install-dev:	\
 	# remove dbscripts to avoid dups
 	rm -fr "$(DESTDIR)$(PKG_DATA_DIR)/dbscripts"
 
+	if [ -f "$(DESTDIR)$(PREFIX)/dev.$(PACKAGE_NAME).flist" ]; then \
+		cat "$(DESTDIR)$(PREFIX)/dev.$(PACKAGE_NAME).flist" | while read f; do \
+			rm -f "$(DESTDIR)$(PREFIX)/$${f}"; \
+		done; \
+		rm -f "$(DESTDIR)$(PREFIX)/dev.$(PACKAGE_NAME).flist"; \
+	fi
+
+	rm -f tmp.dev.flist
 	$(MAKE) \
 		install \
 		BUILD_VALIDATION=0 \
 		PYTHON_DIR="$(PREFIX)$(PYTHON_SYS_DIR)" \
+		DEV_FLIST=tmp.dev.flist \
 		$(NULL)
+	cp tmp.dev.flist "$(DESTDIR)$(PREFIX)/dev.$(PACKAGE_NAME).flist"
 
 	install -d "$(DESTDIR)$(PKG_STATE_DIR)"
 	install -d "$(DESTDIR)$(PKG_LOG_DIR)"
