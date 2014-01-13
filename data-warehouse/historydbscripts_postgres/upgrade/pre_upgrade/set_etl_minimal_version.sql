@@ -1,2 +1,2 @@
-INSERT INTO history_configuration(var_name,var_value) SELECT 'MinimalETLVersion','3.3.2' WHERE not exists (SELECT var_name FROM history_configuration WHERE var_name = 'MinimalETLVersion');
-UPDATE history_configuration SET var_value = '3.3.2' WHERE var_name = 'MinimalETLVersion';
+INSERT INTO history_configuration(var_name,var_value) SELECT 'MinimalETLVersion','3.3.3' WHERE not exists (SELECT var_name FROM history_configuration WHERE var_name = 'MinimalETLVersion');
+UPDATE history_configuration SET var_value = '3.3.3' WHERE var_name = 'MinimalETLVersion';
