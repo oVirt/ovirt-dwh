@@ -512,7 +512,7 @@ bug fixed:
 bug fixed:
 834869 - Installer - Failed to create history DB
 
-* Thu Apr 20 2012 Yaniv Dary <ydary@redhat.com> - 3.1.0
+* Fri Apr 20 2012 Yaniv Dary <ydary@redhat.com> - 3.1.0
 Changed from 3.0 release:
 - Project was renamed to ovirt-engine-dwh
 - DB was renamed to ovirt_engine_history
