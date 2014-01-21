@@ -19,6 +19,8 @@ public class TalendThread extends Thread {
     public Integer errorCode = null;
 
     public String status = ""; //$NON-NLS-1$
+    
+    public Exception exception = null;
 
     // this is a template for Iterate Parallel
     public void run() {

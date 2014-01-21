@@ -17,6 +17,12 @@ package routines.system.api;
  */
 public interface ESBProviderCallback {
 
+    String HEADERS_SOAP = "HEADERS_SOAP";
+
+    String HEADERS_HTTP = "HEADERS_HTTP";
+
+    String REQUEST = "REQUEST";
+
     /**
      * Returns a request to the Job.
      * This method is <em>blocking</em> it will

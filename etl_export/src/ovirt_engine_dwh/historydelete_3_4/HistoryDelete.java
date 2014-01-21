@@ -46,7 +46,7 @@ import java.util.Comparator;
  * Job: HistoryDelete Purpose: <br>
  * Description:  <br>
  * @author ydary@redhat.com
- * @version 5.3.0.r101800
+ * @version 5.4.1.r111943
  * @status 
  */
 public class HistoryDelete implements TalendJob {
@@ -232,14 +232,16 @@ public class HistoryDelete implements TalendJob {
 	private final String projectName = "OVIRT_ENGINE_DWH";
 	public Integer errorCode = null;
 	private String currentComponent = "";
+
+	private final java.util.Map<String, Object> globalMap = java.util.Collections
+			.synchronizedMap(new java.util.HashMap<String, Object>());
+
 	private final java.util.Map<String, Long> start_Hash = java.util.Collections
 			.synchronizedMap(new java.util.HashMap<String, Long>());
 	private final java.util.Map<String, Long> end_Hash = java.util.Collections
 			.synchronizedMap(new java.util.HashMap<String, Long>());
 	private final java.util.Map<String, Boolean> ok_Hash = java.util.Collections
 			.synchronizedMap(new java.util.HashMap<String, Boolean>());
-	private final java.util.Map<String, Object> globalMap = java.util.Collections
-			.synchronizedMap(new java.util.HashMap<String, Object>());
 	public final java.util.List<String[]> globalBuffer = java.util.Collections
 			.synchronizedList(new java.util.ArrayList<String[]>());
 
@@ -291,6 +293,11 @@ public class HistoryDelete implements TalendJob {
 		private java.util.Map<String, Object> globalMap = null;
 		private java.lang.Exception e = null;
 		private String currentComponent = null;
+		private String virtualComponentName = null;
+
+		public void setVirtualComponentName(String virtualComponentName) {
+			this.virtualComponentName = virtualComponentName;
+		}
 
 		private TalendException(java.lang.Exception e, String errorComponent,
 				final java.util.Map<String, Object> globalMap) {
@@ -307,11 +314,34 @@ public class HistoryDelete implements TalendJob {
 			return this.currentComponent;
 		}
 
+		public String getExceptionCauseMessage(java.lang.Exception e) {
+			Throwable cause = e;
+			String message = null;
+			int i = 10;
+			while (null != cause && 0 < i--) {
+				message = cause.getMessage();
+				if (null == message) {
+					cause = cause.getCause();
+				} else {
+					break;
+				}
+			}
+			if (null == message) {
+				message = e.getClass().getName();
+			}
+			return message;
+		}
+
 		@Override
 		public void printStackTrace() {
 			if (!(e instanceof TalendException || e instanceof TDieException)) {
+				if (virtualComponentName != null
+						&& currentComponent.indexOf(virtualComponentName + "_") == 0) {
+					globalMap.put(virtualComponentName + "_ERROR_MESSAGE",
+							getExceptionCauseMessage(e));
+				}
 				globalMap.put(currentComponent + "_ERROR_MESSAGE",
-						e.getMessage());
+						getExceptionCauseMessage(e));
 				System.err
 						.println("Exception in component " + currentComponent);
 			}
@@ -352,10 +382,6 @@ public class HistoryDelete implements TalendJob {
 				} catch (TalendException e) {
 					// do nothing
 				}
-
-			} else {
-
-				((java.util.Map) threadLocal.get()).put("status", "failure");
 
 			}
 		}
@@ -1392,6 +1418,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -1411,6 +1438,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_1", false);
 				start_Hash.put("tJDBCOutput_1", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_1";
 
 				int tos_count_tJDBCOutput_1 = 0;
@@ -1438,13 +1466,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_1 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_1) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_1 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_1 = dataSources_tJDBCOutput_1
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_1 = 10000;
 				int batchSizeCounter_tJDBCOutput_1 = 0;
 
@@ -1464,6 +1485,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_1", false);
 				start_Hash.put("tJDBCInput_1", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_1";
 
 				int tos_count_tJDBCInput_1 = 0;
@@ -1472,14 +1494,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_1 = null;
 				conn_tJDBCInput_1 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_1) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_1 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_1 = dataSources_tJDBCInput_1.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_1);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_1 = conn_tJDBCInput_1
 						.createStatement();
@@ -1494,86 +1508,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
+				java.sql.ResultSet rs_tJDBCInput_1 = null;
+				try {
+					rs_tJDBCInput_1 = stmt_tJDBCInput_1
+							.executeQuery(dbquery_tJDBCInput_1);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_1 = rs_tJDBCInput_1
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_1 = rsmd_tJDBCInput_1
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_1 = stmt_tJDBCInput_1
-						.executeQuery(dbquery_tJDBCInput_1);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_1 = rs_tJDBCInput_1
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_1 = rsmd_tJDBCInput_1
-						.getColumnCount();
+					String tmpContent_tJDBCInput_1 = null;
+					int column_index_tJDBCInput_1 = 1;
 
-				String tmpContent_tJDBCInput_1 = null;
-				int column_index_tJDBCInput_1 = 1;
-				while (rs_tJDBCInput_1.next()) {
-					nb_line_tJDBCInput_1++;
+					while (rs_tJDBCInput_1.next()) {
+						nb_line_tJDBCInput_1++;
 
-					column_index_tJDBCInput_1 = 1;
+						column_index_tJDBCInput_1 = 1;
 
-					if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
-						row13.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_1
-								.getObject(column_index_tJDBCInput_1) != null) {
-							row13.history_id = rs_tJDBCInput_1
-									.getInt(column_index_tJDBCInput_1);
+						if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
+							row13.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_1
+									.getObject(column_index_tJDBCInput_1) != null) {
+								row13.history_id = rs_tJDBCInput_1
+										.getInt(column_index_tJDBCInput_1);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_1 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_1 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_1";
+
+						tos_count_tJDBCInput_1++;
+
+						/**
+						 * [tJDBCInput_1 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_1 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_1";
+
+						whetherReject_tJDBCOutput_1 = false;
+						pstmt_tJDBCOutput_1.setInt(1, row13.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_1 = deletedCount_tJDBCOutput_1
+									+ pstmt_tJDBCOutput_1.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_1 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_1++;
+
+						tos_count_tJDBCOutput_1++;
+
+						/**
+						 * [tJDBCOutput_1 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_1 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_1";
+
 					}
-
-					/**
-					 * [tJDBCInput_1 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_1 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_1";
-
-					tos_count_tJDBCInput_1++;
-
-					/**
-					 * [tJDBCInput_1 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_1 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_1";
-
-					whetherReject_tJDBCOutput_1 = false;
-					pstmt_tJDBCOutput_1.setInt(1, row13.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_1 = deletedCount_tJDBCOutput_1
-								+ pstmt_tJDBCOutput_1.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_1 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_1++;
-
-					tos_count_tJDBCOutput_1++;
-
-					/**
-					 * [tJDBCOutput_1 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_1 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_1";
+				} finally {
+					rs_tJDBCInput_1.close();
+					stmt_tJDBCInput_1.close();
 
 				}
-				rs_tJDBCInput_1.close();
-				stmt_tJDBCInput_1.close();
-
 				globalMap.put("tJDBCInput_1_NB_LINE", nb_line_tJDBCInput_1);
 
 				ok_Hash.put("tJDBCInput_1", true);
@@ -1625,12 +1644,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_1";
+
+				/**
+				 * [tJDBCInput_1 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_1";
+
+				/**
+				 * [tJDBCOutput_1 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", 1);
@@ -1788,6 +1838,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -1807,6 +1858,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_2", false);
 				start_Hash.put("tJDBCOutput_2", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_2";
 
 				int tos_count_tJDBCOutput_2 = 0;
@@ -1834,13 +1886,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_2 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_2) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_2 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_2 = dataSources_tJDBCOutput_2
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_2 = 10000;
 				int batchSizeCounter_tJDBCOutput_2 = 0;
 
@@ -1859,6 +1904,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_2", false);
 				start_Hash.put("tJDBCInput_2", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_2";
 
 				int tos_count_tJDBCInput_2 = 0;
@@ -1867,14 +1913,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_2 = null;
 				conn_tJDBCInput_2 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_2) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_2 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_2 = dataSources_tJDBCInput_2.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_2);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
@@ -1889,86 +1927,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
+				java.sql.ResultSet rs_tJDBCInput_2 = null;
+				try {
+					rs_tJDBCInput_2 = stmt_tJDBCInput_2
+							.executeQuery(dbquery_tJDBCInput_2);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_2 = rs_tJDBCInput_2
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_2 = rsmd_tJDBCInput_2
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_2 = stmt_tJDBCInput_2
-						.executeQuery(dbquery_tJDBCInput_2);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_2 = rs_tJDBCInput_2
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_2 = rsmd_tJDBCInput_2
-						.getColumnCount();
+					String tmpContent_tJDBCInput_2 = null;
+					int column_index_tJDBCInput_2 = 1;
 
-				String tmpContent_tJDBCInput_2 = null;
-				int column_index_tJDBCInput_2 = 1;
-				while (rs_tJDBCInput_2.next()) {
-					nb_line_tJDBCInput_2++;
+					while (rs_tJDBCInput_2.next()) {
+						nb_line_tJDBCInput_2++;
 
-					column_index_tJDBCInput_2 = 1;
+						column_index_tJDBCInput_2 = 1;
 
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row5.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row5.history_id = rs_tJDBCInput_2
-									.getInt(column_index_tJDBCInput_2);
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
+							row5.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row5.history_id = rs_tJDBCInput_2
+										.getInt(column_index_tJDBCInput_2);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_2 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_2 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_2";
+
+						tos_count_tJDBCInput_2++;
+
+						/**
+						 * [tJDBCInput_2 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_2 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_2";
+
+						whetherReject_tJDBCOutput_2 = false;
+						pstmt_tJDBCOutput_2.setInt(1, row5.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_2 = deletedCount_tJDBCOutput_2
+									+ pstmt_tJDBCOutput_2.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_2 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_2++;
+
+						tos_count_tJDBCOutput_2++;
+
+						/**
+						 * [tJDBCOutput_2 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_2 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_2";
+
 					}
-
-					/**
-					 * [tJDBCInput_2 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_2 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_2";
-
-					tos_count_tJDBCInput_2++;
-
-					/**
-					 * [tJDBCInput_2 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_2 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_2";
-
-					whetherReject_tJDBCOutput_2 = false;
-					pstmt_tJDBCOutput_2.setInt(1, row5.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_2 = deletedCount_tJDBCOutput_2
-								+ pstmt_tJDBCOutput_2.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_2 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_2++;
-
-					tos_count_tJDBCOutput_2++;
-
-					/**
-					 * [tJDBCOutput_2 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_2 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_2";
+				} finally {
+					rs_tJDBCInput_2.close();
+					stmt_tJDBCInput_2.close();
 
 				}
-				rs_tJDBCInput_2.close();
-				stmt_tJDBCInput_2.close();
-
 				globalMap.put("tJDBCInput_2_NB_LINE", nb_line_tJDBCInput_2);
 
 				ok_Hash.put("tJDBCInput_2", true);
@@ -2020,12 +2063,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_2";
+
+				/**
+				 * [tJDBCInput_2 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_2";
+
+				/**
+				 * [tJDBCOutput_2 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", 1);
@@ -2183,6 +2257,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -2202,6 +2277,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_3", false);
 				start_Hash.put("tJDBCOutput_3", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_3";
 
 				int tos_count_tJDBCOutput_3 = 0;
@@ -2229,13 +2305,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_3 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_3) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_3 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_3 = dataSources_tJDBCOutput_3
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_3 = 10000;
 				int batchSizeCounter_tJDBCOutput_3 = 0;
 
@@ -2255,6 +2324,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_3", false);
 				start_Hash.put("tJDBCInput_3", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_3";
 
 				int tos_count_tJDBCInput_3 = 0;
@@ -2263,14 +2333,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_3 = null;
 				conn_tJDBCInput_3 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_3) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_3 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_3 = dataSources_tJDBCInput_3.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_3);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_3 = conn_tJDBCInput_3
 						.createStatement();
@@ -2285,86 +2347,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
+				java.sql.ResultSet rs_tJDBCInput_3 = null;
+				try {
+					rs_tJDBCInput_3 = stmt_tJDBCInput_3
+							.executeQuery(dbquery_tJDBCInput_3);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_3 = rs_tJDBCInput_3
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_3 = rsmd_tJDBCInput_3
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_3 = stmt_tJDBCInput_3
-						.executeQuery(dbquery_tJDBCInput_3);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_3 = rs_tJDBCInput_3
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_3 = rsmd_tJDBCInput_3
-						.getColumnCount();
+					String tmpContent_tJDBCInput_3 = null;
+					int column_index_tJDBCInput_3 = 1;
 
-				String tmpContent_tJDBCInput_3 = null;
-				int column_index_tJDBCInput_3 = 1;
-				while (rs_tJDBCInput_3.next()) {
-					nb_line_tJDBCInput_3++;
+					while (rs_tJDBCInput_3.next()) {
+						nb_line_tJDBCInput_3++;
 
-					column_index_tJDBCInput_3 = 1;
+						column_index_tJDBCInput_3 = 1;
 
-					if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
-						row4.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_3
-								.getObject(column_index_tJDBCInput_3) != null) {
-							row4.history_id = rs_tJDBCInput_3
-									.getInt(column_index_tJDBCInput_3);
+						if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
+							row4.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_3
+									.getObject(column_index_tJDBCInput_3) != null) {
+								row4.history_id = rs_tJDBCInput_3
+										.getInt(column_index_tJDBCInput_3);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_3 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_3 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_3";
+
+						tos_count_tJDBCInput_3++;
+
+						/**
+						 * [tJDBCInput_3 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_3 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_3";
+
+						whetherReject_tJDBCOutput_3 = false;
+						pstmt_tJDBCOutput_3.setInt(1, row4.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_3 = deletedCount_tJDBCOutput_3
+									+ pstmt_tJDBCOutput_3.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_3 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_3++;
+
+						tos_count_tJDBCOutput_3++;
+
+						/**
+						 * [tJDBCOutput_3 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_3 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_3";
+
 					}
-
-					/**
-					 * [tJDBCInput_3 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_3 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_3";
-
-					tos_count_tJDBCInput_3++;
-
-					/**
-					 * [tJDBCInput_3 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_3 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_3";
-
-					whetherReject_tJDBCOutput_3 = false;
-					pstmt_tJDBCOutput_3.setInt(1, row4.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_3 = deletedCount_tJDBCOutput_3
-								+ pstmt_tJDBCOutput_3.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_3 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_3++;
-
-					tos_count_tJDBCOutput_3++;
-
-					/**
-					 * [tJDBCOutput_3 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_3 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_3";
+				} finally {
+					rs_tJDBCInput_3.close();
+					stmt_tJDBCInput_3.close();
 
 				}
-				rs_tJDBCInput_3.close();
-				stmt_tJDBCInput_3.close();
-
 				globalMap.put("tJDBCInput_3_NB_LINE", nb_line_tJDBCInput_3);
 
 				ok_Hash.put("tJDBCInput_3", true);
@@ -2416,12 +2483,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_3 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_3";
+
+				/**
+				 * [tJDBCInput_3 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_3 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_3";
+
+				/**
+				 * [tJDBCOutput_3 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", 1);
@@ -2579,6 +2677,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -2598,6 +2697,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_4", false);
 				start_Hash.put("tJDBCOutput_4", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_4";
 
 				int tos_count_tJDBCOutput_4 = 0;
@@ -2625,13 +2725,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_4 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_4) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_4 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_4 = dataSources_tJDBCOutput_4
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_4 = 10000;
 				int batchSizeCounter_tJDBCOutput_4 = 0;
 
@@ -2650,6 +2743,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_4", false);
 				start_Hash.put("tJDBCInput_4", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_4";
 
 				int tos_count_tJDBCInput_4 = 0;
@@ -2658,14 +2752,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_4 = null;
 				conn_tJDBCInput_4 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_4) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_4 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_4 = dataSources_tJDBCInput_4.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_4);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_4 = conn_tJDBCInput_4
 						.createStatement();
@@ -2680,86 +2766,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
+				java.sql.ResultSet rs_tJDBCInput_4 = null;
+				try {
+					rs_tJDBCInput_4 = stmt_tJDBCInput_4
+							.executeQuery(dbquery_tJDBCInput_4);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_4 = rs_tJDBCInput_4
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_4 = rsmd_tJDBCInput_4
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_4 = stmt_tJDBCInput_4
-						.executeQuery(dbquery_tJDBCInput_4);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_4 = rs_tJDBCInput_4
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_4 = rsmd_tJDBCInput_4
-						.getColumnCount();
+					String tmpContent_tJDBCInput_4 = null;
+					int column_index_tJDBCInput_4 = 1;
 
-				String tmpContent_tJDBCInput_4 = null;
-				int column_index_tJDBCInput_4 = 1;
-				while (rs_tJDBCInput_4.next()) {
-					nb_line_tJDBCInput_4++;
+					while (rs_tJDBCInput_4.next()) {
+						nb_line_tJDBCInput_4++;
 
-					column_index_tJDBCInput_4 = 1;
+						column_index_tJDBCInput_4 = 1;
 
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row3.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row3.history_id = rs_tJDBCInput_4
-									.getInt(column_index_tJDBCInput_4);
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
+							row3.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row3.history_id = rs_tJDBCInput_4
+										.getInt(column_index_tJDBCInput_4);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_4 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_4 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_4";
+
+						tos_count_tJDBCInput_4++;
+
+						/**
+						 * [tJDBCInput_4 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_4 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_4";
+
+						whetherReject_tJDBCOutput_4 = false;
+						pstmt_tJDBCOutput_4.setInt(1, row3.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_4 = deletedCount_tJDBCOutput_4
+									+ pstmt_tJDBCOutput_4.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_4 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_4++;
+
+						tos_count_tJDBCOutput_4++;
+
+						/**
+						 * [tJDBCOutput_4 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_4 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_4";
+
 					}
-
-					/**
-					 * [tJDBCInput_4 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_4 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_4";
-
-					tos_count_tJDBCInput_4++;
-
-					/**
-					 * [tJDBCInput_4 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_4 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_4";
-
-					whetherReject_tJDBCOutput_4 = false;
-					pstmt_tJDBCOutput_4.setInt(1, row3.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_4 = deletedCount_tJDBCOutput_4
-								+ pstmt_tJDBCOutput_4.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_4 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_4++;
-
-					tos_count_tJDBCOutput_4++;
-
-					/**
-					 * [tJDBCOutput_4 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_4 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_4";
+				} finally {
+					rs_tJDBCInput_4.close();
+					stmt_tJDBCInput_4.close();
 
 				}
-				rs_tJDBCInput_4.close();
-				stmt_tJDBCInput_4.close();
-
 				globalMap.put("tJDBCInput_4_NB_LINE", nb_line_tJDBCInput_4);
 
 				ok_Hash.put("tJDBCInput_4", true);
@@ -2811,12 +2902,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_4 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_4";
+
+				/**
+				 * [tJDBCInput_4 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_4 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_4";
+
+				/**
+				 * [tJDBCOutput_4 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", 1);
@@ -2974,6 +3096,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -2993,6 +3116,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_5", false);
 				start_Hash.put("tJDBCOutput_5", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_5";
 
 				int tos_count_tJDBCOutput_5 = 0;
@@ -3020,13 +3144,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_5 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_5) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_5 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_5 = dataSources_tJDBCOutput_5
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_5 = 10000;
 				int batchSizeCounter_tJDBCOutput_5 = 0;
 
@@ -3046,6 +3163,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_5", false);
 				start_Hash.put("tJDBCInput_5", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_5";
 
 				int tos_count_tJDBCInput_5 = 0;
@@ -3054,14 +3172,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_5 = null;
 				conn_tJDBCInput_5 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_5) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_5 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_5 = dataSources_tJDBCInput_5.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_5);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_5 = conn_tJDBCInput_5
 						.createStatement();
@@ -3076,86 +3186,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_5_QUERY", dbquery_tJDBCInput_5);
+				java.sql.ResultSet rs_tJDBCInput_5 = null;
+				try {
+					rs_tJDBCInput_5 = stmt_tJDBCInput_5
+							.executeQuery(dbquery_tJDBCInput_5);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_5 = rs_tJDBCInput_5
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_5 = rsmd_tJDBCInput_5
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_5 = stmt_tJDBCInput_5
-						.executeQuery(dbquery_tJDBCInput_5);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_5 = rs_tJDBCInput_5
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_5 = rsmd_tJDBCInput_5
-						.getColumnCount();
+					String tmpContent_tJDBCInput_5 = null;
+					int column_index_tJDBCInput_5 = 1;
 
-				String tmpContent_tJDBCInput_5 = null;
-				int column_index_tJDBCInput_5 = 1;
-				while (rs_tJDBCInput_5.next()) {
-					nb_line_tJDBCInput_5++;
+					while (rs_tJDBCInput_5.next()) {
+						nb_line_tJDBCInput_5++;
 
-					column_index_tJDBCInput_5 = 1;
+						column_index_tJDBCInput_5 = 1;
 
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row2.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row2.history_id = rs_tJDBCInput_5
-									.getInt(column_index_tJDBCInput_5);
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
+							row2.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row2.history_id = rs_tJDBCInput_5
+										.getInt(column_index_tJDBCInput_5);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_5 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_5 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_5";
+
+						tos_count_tJDBCInput_5++;
+
+						/**
+						 * [tJDBCInput_5 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_5 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_5";
+
+						whetherReject_tJDBCOutput_5 = false;
+						pstmt_tJDBCOutput_5.setInt(1, row2.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_5 = deletedCount_tJDBCOutput_5
+									+ pstmt_tJDBCOutput_5.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_5 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_5++;
+
+						tos_count_tJDBCOutput_5++;
+
+						/**
+						 * [tJDBCOutput_5 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_5 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_5";
+
 					}
-
-					/**
-					 * [tJDBCInput_5 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_5 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_5";
-
-					tos_count_tJDBCInput_5++;
-
-					/**
-					 * [tJDBCInput_5 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_5 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_5";
-
-					whetherReject_tJDBCOutput_5 = false;
-					pstmt_tJDBCOutput_5.setInt(1, row2.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_5 = deletedCount_tJDBCOutput_5
-								+ pstmt_tJDBCOutput_5.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_5 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_5++;
-
-					tos_count_tJDBCOutput_5++;
-
-					/**
-					 * [tJDBCOutput_5 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_5 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_5";
+				} finally {
+					rs_tJDBCInput_5.close();
+					stmt_tJDBCInput_5.close();
 
 				}
-				rs_tJDBCInput_5.close();
-				stmt_tJDBCInput_5.close();
-
 				globalMap.put("tJDBCInput_5_NB_LINE", nb_line_tJDBCInput_5);
 
 				ok_Hash.put("tJDBCInput_5", true);
@@ -3207,12 +3322,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_5 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_5";
+
+				/**
+				 * [tJDBCInput_5 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_5 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_5";
+
+				/**
+				 * [tJDBCOutput_5 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", 1);
@@ -3370,6 +3516,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -3389,6 +3536,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_6", false);
 				start_Hash.put("tJDBCOutput_6", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_6";
 
 				int tos_count_tJDBCOutput_6 = 0;
@@ -3416,13 +3564,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_6 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_6) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_6 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_6 = dataSources_tJDBCOutput_6
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_6 = 10000;
 				int batchSizeCounter_tJDBCOutput_6 = 0;
 
@@ -3441,6 +3582,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_6", false);
 				start_Hash.put("tJDBCInput_6", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_6";
 
 				int tos_count_tJDBCInput_6 = 0;
@@ -3449,14 +3591,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_6 = null;
 				conn_tJDBCInput_6 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_6) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_6 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_6 = dataSources_tJDBCInput_6.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_6);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_6 = conn_tJDBCInput_6
 						.createStatement();
@@ -3471,86 +3605,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_6_QUERY", dbquery_tJDBCInput_6);
+				java.sql.ResultSet rs_tJDBCInput_6 = null;
+				try {
+					rs_tJDBCInput_6 = stmt_tJDBCInput_6
+							.executeQuery(dbquery_tJDBCInput_6);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_6 = rs_tJDBCInput_6
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_6 = rsmd_tJDBCInput_6
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_6 = stmt_tJDBCInput_6
-						.executeQuery(dbquery_tJDBCInput_6);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_6 = rs_tJDBCInput_6
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_6 = rsmd_tJDBCInput_6
-						.getColumnCount();
+					String tmpContent_tJDBCInput_6 = null;
+					int column_index_tJDBCInput_6 = 1;
 
-				String tmpContent_tJDBCInput_6 = null;
-				int column_index_tJDBCInput_6 = 1;
-				while (rs_tJDBCInput_6.next()) {
-					nb_line_tJDBCInput_6++;
+					while (rs_tJDBCInput_6.next()) {
+						nb_line_tJDBCInput_6++;
 
-					column_index_tJDBCInput_6 = 1;
+						column_index_tJDBCInput_6 = 1;
 
-					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
-						row6.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_6
-								.getObject(column_index_tJDBCInput_6) != null) {
-							row6.history_id = rs_tJDBCInput_6
-									.getInt(column_index_tJDBCInput_6);
+						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
+							row6.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_6
+									.getObject(column_index_tJDBCInput_6) != null) {
+								row6.history_id = rs_tJDBCInput_6
+										.getInt(column_index_tJDBCInput_6);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_6 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_6 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_6";
+
+						tos_count_tJDBCInput_6++;
+
+						/**
+						 * [tJDBCInput_6 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_6 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_6";
+
+						whetherReject_tJDBCOutput_6 = false;
+						pstmt_tJDBCOutput_6.setInt(1, row6.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_6 = deletedCount_tJDBCOutput_6
+									+ pstmt_tJDBCOutput_6.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_6 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_6++;
+
+						tos_count_tJDBCOutput_6++;
+
+						/**
+						 * [tJDBCOutput_6 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_6 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_6";
+
 					}
-
-					/**
-					 * [tJDBCInput_6 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_6 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_6";
-
-					tos_count_tJDBCInput_6++;
-
-					/**
-					 * [tJDBCInput_6 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_6 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_6";
-
-					whetherReject_tJDBCOutput_6 = false;
-					pstmt_tJDBCOutput_6.setInt(1, row6.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_6 = deletedCount_tJDBCOutput_6
-								+ pstmt_tJDBCOutput_6.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_6 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_6++;
-
-					tos_count_tJDBCOutput_6++;
-
-					/**
-					 * [tJDBCOutput_6 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_6 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_6";
+				} finally {
+					rs_tJDBCInput_6.close();
+					stmt_tJDBCInput_6.close();
 
 				}
-				rs_tJDBCInput_6.close();
-				stmt_tJDBCInput_6.close();
-
 				globalMap.put("tJDBCInput_6_NB_LINE", nb_line_tJDBCInput_6);
 
 				ok_Hash.put("tJDBCInput_6", true);
@@ -3602,12 +3741,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_6 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_6";
+
+				/**
+				 * [tJDBCInput_6 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_6 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_6";
+
+				/**
+				 * [tJDBCOutput_6 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", 1);
@@ -3765,6 +3935,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -3784,6 +3955,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_7", false);
 				start_Hash.put("tJDBCOutput_7", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_7";
 
 				int tos_count_tJDBCOutput_7 = 0;
@@ -3811,13 +3983,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_7 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_7) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_7 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_7 = dataSources_tJDBCOutput_7
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_7 = 10000;
 				int batchSizeCounter_tJDBCOutput_7 = 0;
 
@@ -3836,6 +4001,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_7", false);
 				start_Hash.put("tJDBCInput_7", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_7";
 
 				int tos_count_tJDBCInput_7 = 0;
@@ -3844,14 +4010,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_7 = null;
 				conn_tJDBCInput_7 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_7) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_7 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_7 = dataSources_tJDBCInput_7.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_7);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_7 = conn_tJDBCInput_7
 						.createStatement();
@@ -3866,86 +4024,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_7_QUERY", dbquery_tJDBCInput_7);
+				java.sql.ResultSet rs_tJDBCInput_7 = null;
+				try {
+					rs_tJDBCInput_7 = stmt_tJDBCInput_7
+							.executeQuery(dbquery_tJDBCInput_7);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_7 = rs_tJDBCInput_7
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_7 = rsmd_tJDBCInput_7
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_7 = stmt_tJDBCInput_7
-						.executeQuery(dbquery_tJDBCInput_7);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_7 = rs_tJDBCInput_7
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_7 = rsmd_tJDBCInput_7
-						.getColumnCount();
+					String tmpContent_tJDBCInput_7 = null;
+					int column_index_tJDBCInput_7 = 1;
 
-				String tmpContent_tJDBCInput_7 = null;
-				int column_index_tJDBCInput_7 = 1;
-				while (rs_tJDBCInput_7.next()) {
-					nb_line_tJDBCInput_7++;
+					while (rs_tJDBCInput_7.next()) {
+						nb_line_tJDBCInput_7++;
 
-					column_index_tJDBCInput_7 = 1;
+						column_index_tJDBCInput_7 = 1;
 
-					if (colQtyInRs_tJDBCInput_7 < column_index_tJDBCInput_7) {
-						row8.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_7
-								.getObject(column_index_tJDBCInput_7) != null) {
-							row8.history_id = rs_tJDBCInput_7
-									.getInt(column_index_tJDBCInput_7);
+						if (colQtyInRs_tJDBCInput_7 < column_index_tJDBCInput_7) {
+							row8.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_7
+									.getObject(column_index_tJDBCInput_7) != null) {
+								row8.history_id = rs_tJDBCInput_7
+										.getInt(column_index_tJDBCInput_7);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_7 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_7 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_7";
+
+						tos_count_tJDBCInput_7++;
+
+						/**
+						 * [tJDBCInput_7 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_7 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_7";
+
+						whetherReject_tJDBCOutput_7 = false;
+						pstmt_tJDBCOutput_7.setInt(1, row8.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_7 = deletedCount_tJDBCOutput_7
+									+ pstmt_tJDBCOutput_7.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_7 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_7++;
+
+						tos_count_tJDBCOutput_7++;
+
+						/**
+						 * [tJDBCOutput_7 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_7 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_7";
+
 					}
-
-					/**
-					 * [tJDBCInput_7 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_7 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_7";
-
-					tos_count_tJDBCInput_7++;
-
-					/**
-					 * [tJDBCInput_7 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_7 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_7";
-
-					whetherReject_tJDBCOutput_7 = false;
-					pstmt_tJDBCOutput_7.setInt(1, row8.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_7 = deletedCount_tJDBCOutput_7
-								+ pstmt_tJDBCOutput_7.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_7 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_7++;
-
-					tos_count_tJDBCOutput_7++;
-
-					/**
-					 * [tJDBCOutput_7 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_7 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_7";
+				} finally {
+					rs_tJDBCInput_7.close();
+					stmt_tJDBCInput_7.close();
 
 				}
-				rs_tJDBCInput_7.close();
-				stmt_tJDBCInput_7.close();
-
 				globalMap.put("tJDBCInput_7_NB_LINE", nb_line_tJDBCInput_7);
 
 				ok_Hash.put("tJDBCInput_7", true);
@@ -3997,12 +4160,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_7 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_7";
+
+				/**
+				 * [tJDBCInput_7 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_7 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_7";
+
+				/**
+				 * [tJDBCOutput_7 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_7_SUBPROCESS_STATE", 1);
@@ -4160,6 +4354,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -4179,6 +4374,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_8", false);
 				start_Hash.put("tJDBCOutput_8", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_8";
 
 				int tos_count_tJDBCOutput_8 = 0;
@@ -4206,13 +4402,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_8 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_8) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_8 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_8 = dataSources_tJDBCOutput_8
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_8 = 10000;
 				int batchSizeCounter_tJDBCOutput_8 = 0;
 
@@ -4232,6 +4421,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_8", false);
 				start_Hash.put("tJDBCInput_8", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_8";
 
 				int tos_count_tJDBCInput_8 = 0;
@@ -4240,14 +4430,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_8 = null;
 				conn_tJDBCInput_8 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_8) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_8 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_8 = dataSources_tJDBCInput_8.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_8);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_8 = conn_tJDBCInput_8
 						.createStatement();
@@ -4262,86 +4444,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_8_QUERY", dbquery_tJDBCInput_8);
+				java.sql.ResultSet rs_tJDBCInput_8 = null;
+				try {
+					rs_tJDBCInput_8 = stmt_tJDBCInput_8
+							.executeQuery(dbquery_tJDBCInput_8);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_8 = rs_tJDBCInput_8
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_8 = rsmd_tJDBCInput_8
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_8 = stmt_tJDBCInput_8
-						.executeQuery(dbquery_tJDBCInput_8);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_8 = rs_tJDBCInput_8
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_8 = rsmd_tJDBCInput_8
-						.getColumnCount();
+					String tmpContent_tJDBCInput_8 = null;
+					int column_index_tJDBCInput_8 = 1;
 
-				String tmpContent_tJDBCInput_8 = null;
-				int column_index_tJDBCInput_8 = 1;
-				while (rs_tJDBCInput_8.next()) {
-					nb_line_tJDBCInput_8++;
+					while (rs_tJDBCInput_8.next()) {
+						nb_line_tJDBCInput_8++;
 
-					column_index_tJDBCInput_8 = 1;
+						column_index_tJDBCInput_8 = 1;
 
-					if (colQtyInRs_tJDBCInput_8 < column_index_tJDBCInput_8) {
-						row9.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_8
-								.getObject(column_index_tJDBCInput_8) != null) {
-							row9.history_id = rs_tJDBCInput_8
-									.getInt(column_index_tJDBCInput_8);
+						if (colQtyInRs_tJDBCInput_8 < column_index_tJDBCInput_8) {
+							row9.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_8
+									.getObject(column_index_tJDBCInput_8) != null) {
+								row9.history_id = rs_tJDBCInput_8
+										.getInt(column_index_tJDBCInput_8);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_8 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_8 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_8";
+
+						tos_count_tJDBCInput_8++;
+
+						/**
+						 * [tJDBCInput_8 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_8 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_8";
+
+						whetherReject_tJDBCOutput_8 = false;
+						pstmt_tJDBCOutput_8.setInt(1, row9.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_8 = deletedCount_tJDBCOutput_8
+									+ pstmt_tJDBCOutput_8.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_8 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_8++;
+
+						tos_count_tJDBCOutput_8++;
+
+						/**
+						 * [tJDBCOutput_8 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_8 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_8";
+
 					}
-
-					/**
-					 * [tJDBCInput_8 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_8 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_8";
-
-					tos_count_tJDBCInput_8++;
-
-					/**
-					 * [tJDBCInput_8 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_8 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_8";
-
-					whetherReject_tJDBCOutput_8 = false;
-					pstmt_tJDBCOutput_8.setInt(1, row9.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_8 = deletedCount_tJDBCOutput_8
-								+ pstmt_tJDBCOutput_8.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_8 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_8++;
-
-					tos_count_tJDBCOutput_8++;
-
-					/**
-					 * [tJDBCOutput_8 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_8 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_8";
+				} finally {
+					rs_tJDBCInput_8.close();
+					stmt_tJDBCInput_8.close();
 
 				}
-				rs_tJDBCInput_8.close();
-				stmt_tJDBCInput_8.close();
-
 				globalMap.put("tJDBCInput_8_NB_LINE", nb_line_tJDBCInput_8);
 
 				ok_Hash.put("tJDBCInput_8", true);
@@ -4393,12 +4580,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_8 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_8";
+
+				/**
+				 * [tJDBCInput_8 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_8 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_8";
+
+				/**
+				 * [tJDBCOutput_8 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_8_SUBPROCESS_STATE", 1);
@@ -4556,6 +4774,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -4575,6 +4794,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_9", false);
 				start_Hash.put("tJDBCOutput_9", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_9";
 
 				int tos_count_tJDBCOutput_9 = 0;
@@ -4602,13 +4822,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_9 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_9) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_9 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_9 = dataSources_tJDBCOutput_9
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_9 = 10000;
 				int batchSizeCounter_tJDBCOutput_9 = 0;
 
@@ -4627,6 +4840,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_9", false);
 				start_Hash.put("tJDBCInput_9", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_9";
 
 				int tos_count_tJDBCInput_9 = 0;
@@ -4635,14 +4849,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_9 = null;
 				conn_tJDBCInput_9 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_9) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_9 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_9 = dataSources_tJDBCInput_9.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_9);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_9 = conn_tJDBCInput_9
 						.createStatement();
@@ -4657,86 +4863,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_9_QUERY", dbquery_tJDBCInput_9);
+				java.sql.ResultSet rs_tJDBCInput_9 = null;
+				try {
+					rs_tJDBCInput_9 = stmt_tJDBCInput_9
+							.executeQuery(dbquery_tJDBCInput_9);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_9 = rs_tJDBCInput_9
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_9 = rsmd_tJDBCInput_9
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_9 = stmt_tJDBCInput_9
-						.executeQuery(dbquery_tJDBCInput_9);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_9 = rs_tJDBCInput_9
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_9 = rsmd_tJDBCInput_9
-						.getColumnCount();
+					String tmpContent_tJDBCInput_9 = null;
+					int column_index_tJDBCInput_9 = 1;
 
-				String tmpContent_tJDBCInput_9 = null;
-				int column_index_tJDBCInput_9 = 1;
-				while (rs_tJDBCInput_9.next()) {
-					nb_line_tJDBCInput_9++;
+					while (rs_tJDBCInput_9.next()) {
+						nb_line_tJDBCInput_9++;
 
-					column_index_tJDBCInput_9 = 1;
+						column_index_tJDBCInput_9 = 1;
 
-					if (colQtyInRs_tJDBCInput_9 < column_index_tJDBCInput_9) {
-						row10.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_9
-								.getObject(column_index_tJDBCInput_9) != null) {
-							row10.history_id = rs_tJDBCInput_9
-									.getInt(column_index_tJDBCInput_9);
+						if (colQtyInRs_tJDBCInput_9 < column_index_tJDBCInput_9) {
+							row10.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_9
+									.getObject(column_index_tJDBCInput_9) != null) {
+								row10.history_id = rs_tJDBCInput_9
+										.getInt(column_index_tJDBCInput_9);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_9 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_9 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_9";
+
+						tos_count_tJDBCInput_9++;
+
+						/**
+						 * [tJDBCInput_9 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_9 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_9";
+
+						whetherReject_tJDBCOutput_9 = false;
+						pstmt_tJDBCOutput_9.setInt(1, row10.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_9 = deletedCount_tJDBCOutput_9
+									+ pstmt_tJDBCOutput_9.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_9 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_9++;
+
+						tos_count_tJDBCOutput_9++;
+
+						/**
+						 * [tJDBCOutput_9 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_9 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_9";
+
 					}
-
-					/**
-					 * [tJDBCInput_9 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_9 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_9";
-
-					tos_count_tJDBCInput_9++;
-
-					/**
-					 * [tJDBCInput_9 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_9 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_9";
-
-					whetherReject_tJDBCOutput_9 = false;
-					pstmt_tJDBCOutput_9.setInt(1, row10.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_9 = deletedCount_tJDBCOutput_9
-								+ pstmt_tJDBCOutput_9.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_9 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_9++;
-
-					tos_count_tJDBCOutput_9++;
-
-					/**
-					 * [tJDBCOutput_9 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_9 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_9";
+				} finally {
+					rs_tJDBCInput_9.close();
+					stmt_tJDBCInput_9.close();
 
 				}
-				rs_tJDBCInput_9.close();
-				stmt_tJDBCInput_9.close();
-
 				globalMap.put("tJDBCInput_9_NB_LINE", nb_line_tJDBCInput_9);
 
 				ok_Hash.put("tJDBCInput_9", true);
@@ -4788,12 +4999,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_9 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_9";
+
+				/**
+				 * [tJDBCInput_9 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_9 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_9";
+
+				/**
+				 * [tJDBCOutput_9 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", 1);
@@ -4951,6 +5193,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -4970,6 +5213,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_10", false);
 				start_Hash.put("tJDBCOutput_10", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_10";
 
 				int tos_count_tJDBCOutput_10 = 0;
@@ -4997,13 +5241,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_10 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_10) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_10 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_10 = dataSources_tJDBCOutput_10.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_10 = 10000;
 				int batchSizeCounter_tJDBCOutput_10 = 0;
 
@@ -5023,6 +5260,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_10", false);
 				start_Hash.put("tJDBCInput_10", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_10";
 
 				int tos_count_tJDBCInput_10 = 0;
@@ -5031,14 +5269,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_10 = null;
 				conn_tJDBCInput_10 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_10) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_10 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_10 = dataSources_tJDBCInput_10.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_10);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_10 = conn_tJDBCInput_10
 						.createStatement();
@@ -5053,86 +5283,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_10_QUERY", dbquery_tJDBCInput_10);
+				java.sql.ResultSet rs_tJDBCInput_10 = null;
+				try {
+					rs_tJDBCInput_10 = stmt_tJDBCInput_10
+							.executeQuery(dbquery_tJDBCInput_10);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_10 = rs_tJDBCInput_10
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_10 = rsmd_tJDBCInput_10
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_10 = stmt_tJDBCInput_10
-						.executeQuery(dbquery_tJDBCInput_10);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_10 = rs_tJDBCInput_10
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_10 = rsmd_tJDBCInput_10
-						.getColumnCount();
+					String tmpContent_tJDBCInput_10 = null;
+					int column_index_tJDBCInput_10 = 1;
 
-				String tmpContent_tJDBCInput_10 = null;
-				int column_index_tJDBCInput_10 = 1;
-				while (rs_tJDBCInput_10.next()) {
-					nb_line_tJDBCInput_10++;
+					while (rs_tJDBCInput_10.next()) {
+						nb_line_tJDBCInput_10++;
 
-					column_index_tJDBCInput_10 = 1;
+						column_index_tJDBCInput_10 = 1;
 
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row12.history_id = rs_tJDBCInput_10
-									.getInt(column_index_tJDBCInput_10);
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
+							row12.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row12.history_id = rs_tJDBCInput_10
+										.getInt(column_index_tJDBCInput_10);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_10 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_10 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_10";
+
+						tos_count_tJDBCInput_10++;
+
+						/**
+						 * [tJDBCInput_10 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_10 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_10";
+
+						whetherReject_tJDBCOutput_10 = false;
+						pstmt_tJDBCOutput_10.setInt(1, row12.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_10 = deletedCount_tJDBCOutput_10
+									+ pstmt_tJDBCOutput_10.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_10 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_10++;
+
+						tos_count_tJDBCOutput_10++;
+
+						/**
+						 * [tJDBCOutput_10 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_10 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_10";
+
 					}
-
-					/**
-					 * [tJDBCInput_10 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_10 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_10";
-
-					tos_count_tJDBCInput_10++;
-
-					/**
-					 * [tJDBCInput_10 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_10 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_10";
-
-					whetherReject_tJDBCOutput_10 = false;
-					pstmt_tJDBCOutput_10.setInt(1, row12.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_10 = deletedCount_tJDBCOutput_10
-								+ pstmt_tJDBCOutput_10.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_10 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_10++;
-
-					tos_count_tJDBCOutput_10++;
-
-					/**
-					 * [tJDBCOutput_10 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_10 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_10";
+				} finally {
+					rs_tJDBCInput_10.close();
+					stmt_tJDBCInput_10.close();
 
 				}
-				rs_tJDBCInput_10.close();
-				stmt_tJDBCInput_10.close();
-
 				globalMap.put("tJDBCInput_10_NB_LINE", nb_line_tJDBCInput_10);
 
 				ok_Hash.put("tJDBCInput_10", true);
@@ -5184,12 +5419,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_10 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_10";
+
+				/**
+				 * [tJDBCInput_10 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_10 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_10";
+
+				/**
+				 * [tJDBCOutput_10 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", 1);
@@ -5347,6 +5613,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -5366,6 +5633,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_11", false);
 				start_Hash.put("tJDBCOutput_11", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_11";
 
 				int tos_count_tJDBCOutput_11 = 0;
@@ -5393,13 +5661,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_11 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_11) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_11 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_11 = dataSources_tJDBCOutput_11.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_11 = 10000;
 				int batchSizeCounter_tJDBCOutput_11 = 0;
 
@@ -5419,6 +5680,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_11", false);
 				start_Hash.put("tJDBCInput_11", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_11";
 
 				int tos_count_tJDBCInput_11 = 0;
@@ -5427,14 +5689,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_11 = null;
 				conn_tJDBCInput_11 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_11) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_11 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_11 = dataSources_tJDBCInput_11.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_11);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_11 = conn_tJDBCInput_11
 						.createStatement();
@@ -5449,86 +5703,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_11_QUERY", dbquery_tJDBCInput_11);
+				java.sql.ResultSet rs_tJDBCInput_11 = null;
+				try {
+					rs_tJDBCInput_11 = stmt_tJDBCInput_11
+							.executeQuery(dbquery_tJDBCInput_11);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_11 = rs_tJDBCInput_11
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_11 = rsmd_tJDBCInput_11
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_11 = stmt_tJDBCInput_11
-						.executeQuery(dbquery_tJDBCInput_11);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_11 = rs_tJDBCInput_11
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_11 = rsmd_tJDBCInput_11
-						.getColumnCount();
+					String tmpContent_tJDBCInput_11 = null;
+					int column_index_tJDBCInput_11 = 1;
 
-				String tmpContent_tJDBCInput_11 = null;
-				int column_index_tJDBCInput_11 = 1;
-				while (rs_tJDBCInput_11.next()) {
-					nb_line_tJDBCInput_11++;
+					while (rs_tJDBCInput_11.next()) {
+						nb_line_tJDBCInput_11++;
 
-					column_index_tJDBCInput_11 = 1;
+						column_index_tJDBCInput_11 = 1;
 
-					if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
-						row11.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_11
-								.getObject(column_index_tJDBCInput_11) != null) {
-							row11.history_id = rs_tJDBCInput_11
-									.getInt(column_index_tJDBCInput_11);
+						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
+							row11.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_11
+									.getObject(column_index_tJDBCInput_11) != null) {
+								row11.history_id = rs_tJDBCInput_11
+										.getInt(column_index_tJDBCInput_11);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_11 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_11 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_11";
+
+						tos_count_tJDBCInput_11++;
+
+						/**
+						 * [tJDBCInput_11 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_11 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_11";
+
+						whetherReject_tJDBCOutput_11 = false;
+						pstmt_tJDBCOutput_11.setInt(1, row11.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_11 = deletedCount_tJDBCOutput_11
+									+ pstmt_tJDBCOutput_11.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_11 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_11++;
+
+						tos_count_tJDBCOutput_11++;
+
+						/**
+						 * [tJDBCOutput_11 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_11 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_11";
+
 					}
-
-					/**
-					 * [tJDBCInput_11 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_11 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_11";
-
-					tos_count_tJDBCInput_11++;
-
-					/**
-					 * [tJDBCInput_11 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_11 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_11";
-
-					whetherReject_tJDBCOutput_11 = false;
-					pstmt_tJDBCOutput_11.setInt(1, row11.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_11 = deletedCount_tJDBCOutput_11
-								+ pstmt_tJDBCOutput_11.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_11 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_11++;
-
-					tos_count_tJDBCOutput_11++;
-
-					/**
-					 * [tJDBCOutput_11 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_11 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_11";
+				} finally {
+					rs_tJDBCInput_11.close();
+					stmt_tJDBCInput_11.close();
 
 				}
-				rs_tJDBCInput_11.close();
-				stmt_tJDBCInput_11.close();
-
 				globalMap.put("tJDBCInput_11_NB_LINE", nb_line_tJDBCInput_11);
 
 				ok_Hash.put("tJDBCInput_11", true);
@@ -5580,12 +5839,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_11 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_11";
+
+				/**
+				 * [tJDBCInput_11 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_11 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_11";
+
+				/**
+				 * [tJDBCOutput_11 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_11_SUBPROCESS_STATE", 1);
@@ -5743,6 +6033,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -5762,6 +6053,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_12", false);
 				start_Hash.put("tJDBCOutput_12", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_12";
 
 				int tos_count_tJDBCOutput_12 = 0;
@@ -5789,13 +6081,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_12 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_12) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_12 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_12 = dataSources_tJDBCOutput_12.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_12 = 10000;
 				int batchSizeCounter_tJDBCOutput_12 = 0;
 
@@ -5815,6 +6100,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_12", false);
 				start_Hash.put("tJDBCInput_12", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_12";
 
 				int tos_count_tJDBCInput_12 = 0;
@@ -5823,14 +6109,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_12 = null;
 				conn_tJDBCInput_12 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_12) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_12 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_12 = dataSources_tJDBCInput_12.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_12);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_12 = conn_tJDBCInput_12
 						.createStatement();
@@ -5845,86 +6123,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_12_QUERY", dbquery_tJDBCInput_12);
+				java.sql.ResultSet rs_tJDBCInput_12 = null;
+				try {
+					rs_tJDBCInput_12 = stmt_tJDBCInput_12
+							.executeQuery(dbquery_tJDBCInput_12);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_12 = rs_tJDBCInput_12
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_12 = rsmd_tJDBCInput_12
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_12 = stmt_tJDBCInput_12
-						.executeQuery(dbquery_tJDBCInput_12);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_12 = rs_tJDBCInput_12
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_12 = rsmd_tJDBCInput_12
-						.getColumnCount();
+					String tmpContent_tJDBCInput_12 = null;
+					int column_index_tJDBCInput_12 = 1;
 
-				String tmpContent_tJDBCInput_12 = null;
-				int column_index_tJDBCInput_12 = 1;
-				while (rs_tJDBCInput_12.next()) {
-					nb_line_tJDBCInput_12++;
+					while (rs_tJDBCInput_12.next()) {
+						nb_line_tJDBCInput_12++;
 
-					column_index_tJDBCInput_12 = 1;
+						column_index_tJDBCInput_12 = 1;
 
-					if (colQtyInRs_tJDBCInput_12 < column_index_tJDBCInput_12) {
-						row7.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_12
-								.getObject(column_index_tJDBCInput_12) != null) {
-							row7.history_id = rs_tJDBCInput_12
-									.getInt(column_index_tJDBCInput_12);
+						if (colQtyInRs_tJDBCInput_12 < column_index_tJDBCInput_12) {
+							row7.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_12
+									.getObject(column_index_tJDBCInput_12) != null) {
+								row7.history_id = rs_tJDBCInput_12
+										.getInt(column_index_tJDBCInput_12);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_12 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_12 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_12";
+
+						tos_count_tJDBCInput_12++;
+
+						/**
+						 * [tJDBCInput_12 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_12 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_12";
+
+						whetherReject_tJDBCOutput_12 = false;
+						pstmt_tJDBCOutput_12.setInt(1, row7.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_12 = deletedCount_tJDBCOutput_12
+									+ pstmt_tJDBCOutput_12.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_12 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_12++;
+
+						tos_count_tJDBCOutput_12++;
+
+						/**
+						 * [tJDBCOutput_12 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_12 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_12";
+
 					}
-
-					/**
-					 * [tJDBCInput_12 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_12 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_12";
-
-					tos_count_tJDBCInput_12++;
-
-					/**
-					 * [tJDBCInput_12 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_12 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_12";
-
-					whetherReject_tJDBCOutput_12 = false;
-					pstmt_tJDBCOutput_12.setInt(1, row7.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_12 = deletedCount_tJDBCOutput_12
-								+ pstmt_tJDBCOutput_12.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_12 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_12++;
-
-					tos_count_tJDBCOutput_12++;
-
-					/**
-					 * [tJDBCOutput_12 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_12 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_12";
+				} finally {
+					rs_tJDBCInput_12.close();
+					stmt_tJDBCInput_12.close();
 
 				}
-				rs_tJDBCInput_12.close();
-				stmt_tJDBCInput_12.close();
-
 				globalMap.put("tJDBCInput_12_NB_LINE", nb_line_tJDBCInput_12);
 
 				ok_Hash.put("tJDBCInput_12", true);
@@ -5976,12 +6259,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_12 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_12";
+
+				/**
+				 * [tJDBCInput_12 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_12 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_12";
+
+				/**
+				 * [tJDBCOutput_12 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_12_SUBPROCESS_STATE", 1);
@@ -6139,6 +6453,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -6158,6 +6473,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_13", false);
 				start_Hash.put("tJDBCOutput_13", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_13";
 
 				int tos_count_tJDBCOutput_13 = 0;
@@ -6185,13 +6501,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_13 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_13) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_13 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_13 = dataSources_tJDBCOutput_13.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_13 = 10000;
 				int batchSizeCounter_tJDBCOutput_13 = 0;
 
@@ -6210,6 +6519,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_13", false);
 				start_Hash.put("tJDBCInput_13", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_13";
 
 				int tos_count_tJDBCInput_13 = 0;
@@ -6218,14 +6528,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_13 = null;
 				conn_tJDBCInput_13 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_13) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_13 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_13 = dataSources_tJDBCInput_13.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_13);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_13 = conn_tJDBCInput_13
 						.createStatement();
@@ -6240,86 +6542,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_13_QUERY", dbquery_tJDBCInput_13);
+				java.sql.ResultSet rs_tJDBCInput_13 = null;
+				try {
+					rs_tJDBCInput_13 = stmt_tJDBCInput_13
+							.executeQuery(dbquery_tJDBCInput_13);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_13 = rs_tJDBCInput_13
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_13 = rsmd_tJDBCInput_13
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_13 = stmt_tJDBCInput_13
-						.executeQuery(dbquery_tJDBCInput_13);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_13 = rs_tJDBCInput_13
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_13 = rsmd_tJDBCInput_13
-						.getColumnCount();
+					String tmpContent_tJDBCInput_13 = null;
+					int column_index_tJDBCInput_13 = 1;
 
-				String tmpContent_tJDBCInput_13 = null;
-				int column_index_tJDBCInput_13 = 1;
-				while (rs_tJDBCInput_13.next()) {
-					nb_line_tJDBCInput_13++;
+					while (rs_tJDBCInput_13.next()) {
+						nb_line_tJDBCInput_13++;
 
-					column_index_tJDBCInput_13 = 1;
+						column_index_tJDBCInput_13 = 1;
 
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row1.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row1.history_id = rs_tJDBCInput_13
-									.getInt(column_index_tJDBCInput_13);
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
+							row1.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row1.history_id = rs_tJDBCInput_13
+										.getInt(column_index_tJDBCInput_13);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_13 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_13 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_13";
+
+						tos_count_tJDBCInput_13++;
+
+						/**
+						 * [tJDBCInput_13 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_13 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_13";
+
+						whetherReject_tJDBCOutput_13 = false;
+						pstmt_tJDBCOutput_13.setInt(1, row1.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_13 = deletedCount_tJDBCOutput_13
+									+ pstmt_tJDBCOutput_13.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_13 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_13++;
+
+						tos_count_tJDBCOutput_13++;
+
+						/**
+						 * [tJDBCOutput_13 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_13 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_13";
+
 					}
-
-					/**
-					 * [tJDBCInput_13 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_13 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_13";
-
-					tos_count_tJDBCInput_13++;
-
-					/**
-					 * [tJDBCInput_13 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_13 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_13";
-
-					whetherReject_tJDBCOutput_13 = false;
-					pstmt_tJDBCOutput_13.setInt(1, row1.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_13 = deletedCount_tJDBCOutput_13
-								+ pstmt_tJDBCOutput_13.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_13 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_13++;
-
-					tos_count_tJDBCOutput_13++;
-
-					/**
-					 * [tJDBCOutput_13 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_13 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_13";
+				} finally {
+					rs_tJDBCInput_13.close();
+					stmt_tJDBCInput_13.close();
 
 				}
-				rs_tJDBCInput_13.close();
-				stmt_tJDBCInput_13.close();
-
 				globalMap.put("tJDBCInput_13_NB_LINE", nb_line_tJDBCInput_13);
 
 				ok_Hash.put("tJDBCInput_13", true);
@@ -6371,12 +6678,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_13 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_13";
+
+				/**
+				 * [tJDBCInput_13 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_13 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_13";
+
+				/**
+				 * [tJDBCOutput_13 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_13_SUBPROCESS_STATE", 1);
@@ -6534,6 +6872,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -6553,6 +6892,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_14", false);
 				start_Hash.put("tJDBCOutput_14", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_14";
 
 				int tos_count_tJDBCOutput_14 = 0;
@@ -6580,13 +6920,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_14 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_14) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_14 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_14 = dataSources_tJDBCOutput_14.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_14 = 10000;
 				int batchSizeCounter_tJDBCOutput_14 = 0;
 
@@ -6605,6 +6938,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_14", false);
 				start_Hash.put("tJDBCInput_14", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_14";
 
 				int tos_count_tJDBCInput_14 = 0;
@@ -6613,14 +6947,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_14 = null;
 				conn_tJDBCInput_14 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_14) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_14 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_14 = dataSources_tJDBCInput_14.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_14);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_14 = conn_tJDBCInput_14
 						.createStatement();
@@ -6635,86 +6961,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_14_QUERY", dbquery_tJDBCInput_14);
+				java.sql.ResultSet rs_tJDBCInput_14 = null;
+				try {
+					rs_tJDBCInput_14 = stmt_tJDBCInput_14
+							.executeQuery(dbquery_tJDBCInput_14);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_14 = rs_tJDBCInput_14
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_14 = rsmd_tJDBCInput_14
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_14 = stmt_tJDBCInput_14
-						.executeQuery(dbquery_tJDBCInput_14);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_14 = rs_tJDBCInput_14
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_14 = rsmd_tJDBCInput_14
-						.getColumnCount();
+					String tmpContent_tJDBCInput_14 = null;
+					int column_index_tJDBCInput_14 = 1;
 
-				String tmpContent_tJDBCInput_14 = null;
-				int column_index_tJDBCInput_14 = 1;
-				while (rs_tJDBCInput_14.next()) {
-					nb_line_tJDBCInput_14++;
+					while (rs_tJDBCInput_14.next()) {
+						nb_line_tJDBCInput_14++;
 
-					column_index_tJDBCInput_14 = 1;
+						column_index_tJDBCInput_14 = 1;
 
-					if (colQtyInRs_tJDBCInput_14 < column_index_tJDBCInput_14) {
-						row14.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_14
-								.getObject(column_index_tJDBCInput_14) != null) {
-							row14.history_id = rs_tJDBCInput_14
-									.getInt(column_index_tJDBCInput_14);
+						if (colQtyInRs_tJDBCInput_14 < column_index_tJDBCInput_14) {
+							row14.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_14
+									.getObject(column_index_tJDBCInput_14) != null) {
+								row14.history_id = rs_tJDBCInput_14
+										.getInt(column_index_tJDBCInput_14);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_14 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_14 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_14";
+
+						tos_count_tJDBCInput_14++;
+
+						/**
+						 * [tJDBCInput_14 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_14 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_14";
+
+						whetherReject_tJDBCOutput_14 = false;
+						pstmt_tJDBCOutput_14.setInt(1, row14.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_14 = deletedCount_tJDBCOutput_14
+									+ pstmt_tJDBCOutput_14.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_14 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_14++;
+
+						tos_count_tJDBCOutput_14++;
+
+						/**
+						 * [tJDBCOutput_14 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_14 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_14";
+
 					}
-
-					/**
-					 * [tJDBCInput_14 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_14 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_14";
-
-					tos_count_tJDBCInput_14++;
-
-					/**
-					 * [tJDBCInput_14 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_14 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_14";
-
-					whetherReject_tJDBCOutput_14 = false;
-					pstmt_tJDBCOutput_14.setInt(1, row14.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_14 = deletedCount_tJDBCOutput_14
-								+ pstmt_tJDBCOutput_14.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_14 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_14++;
-
-					tos_count_tJDBCOutput_14++;
-
-					/**
-					 * [tJDBCOutput_14 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_14 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_14";
+				} finally {
+					rs_tJDBCInput_14.close();
+					stmt_tJDBCInput_14.close();
 
 				}
-				rs_tJDBCInput_14.close();
-				stmt_tJDBCInput_14.close();
-
 				globalMap.put("tJDBCInput_14_NB_LINE", nb_line_tJDBCInput_14);
 
 				ok_Hash.put("tJDBCInput_14", true);
@@ -6766,12 +7097,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_14 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_14";
+
+				/**
+				 * [tJDBCInput_14 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_14 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_14";
+
+				/**
+				 * [tJDBCOutput_14 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_14_SUBPROCESS_STATE", 1);
@@ -6929,6 +7291,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -6948,6 +7311,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_15", false);
 				start_Hash.put("tJDBCOutput_15", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_15";
 
 				int tos_count_tJDBCOutput_15 = 0;
@@ -6975,13 +7339,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_15 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_15) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_15 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_15 = dataSources_tJDBCOutput_15.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_15 = 10000;
 				int batchSizeCounter_tJDBCOutput_15 = 0;
 
@@ -7000,6 +7357,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_15", false);
 				start_Hash.put("tJDBCInput_15", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_15";
 
 				int tos_count_tJDBCInput_15 = 0;
@@ -7008,14 +7366,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_15 = null;
 				conn_tJDBCInput_15 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_15) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_15 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_15 = dataSources_tJDBCInput_15.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_15);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_15 = conn_tJDBCInput_15
 						.createStatement();
@@ -7030,86 +7380,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_15_QUERY", dbquery_tJDBCInput_15);
+				java.sql.ResultSet rs_tJDBCInput_15 = null;
+				try {
+					rs_tJDBCInput_15 = stmt_tJDBCInput_15
+							.executeQuery(dbquery_tJDBCInput_15);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_15 = rs_tJDBCInput_15
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_15 = rsmd_tJDBCInput_15
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_15 = stmt_tJDBCInput_15
-						.executeQuery(dbquery_tJDBCInput_15);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_15 = rs_tJDBCInput_15
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_15 = rsmd_tJDBCInput_15
-						.getColumnCount();
+					String tmpContent_tJDBCInput_15 = null;
+					int column_index_tJDBCInput_15 = 1;
 
-				String tmpContent_tJDBCInput_15 = null;
-				int column_index_tJDBCInput_15 = 1;
-				while (rs_tJDBCInput_15.next()) {
-					nb_line_tJDBCInput_15++;
+					while (rs_tJDBCInput_15.next()) {
+						nb_line_tJDBCInput_15++;
 
-					column_index_tJDBCInput_15 = 1;
+						column_index_tJDBCInput_15 = 1;
 
-					if (colQtyInRs_tJDBCInput_15 < column_index_tJDBCInput_15) {
-						row15.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_15
-								.getObject(column_index_tJDBCInput_15) != null) {
-							row15.history_id = rs_tJDBCInput_15
-									.getInt(column_index_tJDBCInput_15);
+						if (colQtyInRs_tJDBCInput_15 < column_index_tJDBCInput_15) {
+							row15.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_15
+									.getObject(column_index_tJDBCInput_15) != null) {
+								row15.history_id = rs_tJDBCInput_15
+										.getInt(column_index_tJDBCInput_15);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_15 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_15 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_15";
+
+						tos_count_tJDBCInput_15++;
+
+						/**
+						 * [tJDBCInput_15 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_15 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_15";
+
+						whetherReject_tJDBCOutput_15 = false;
+						pstmt_tJDBCOutput_15.setInt(1, row15.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_15 = deletedCount_tJDBCOutput_15
+									+ pstmt_tJDBCOutput_15.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_15 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_15++;
+
+						tos_count_tJDBCOutput_15++;
+
+						/**
+						 * [tJDBCOutput_15 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_15 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_15";
+
 					}
-
-					/**
-					 * [tJDBCInput_15 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_15 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_15";
-
-					tos_count_tJDBCInput_15++;
-
-					/**
-					 * [tJDBCInput_15 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_15 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_15";
-
-					whetherReject_tJDBCOutput_15 = false;
-					pstmt_tJDBCOutput_15.setInt(1, row15.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_15 = deletedCount_tJDBCOutput_15
-								+ pstmt_tJDBCOutput_15.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_15 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_15++;
-
-					tos_count_tJDBCOutput_15++;
-
-					/**
-					 * [tJDBCOutput_15 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_15 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_15";
+				} finally {
+					rs_tJDBCInput_15.close();
+					stmt_tJDBCInput_15.close();
 
 				}
-				rs_tJDBCInput_15.close();
-				stmt_tJDBCInput_15.close();
-
 				globalMap.put("tJDBCInput_15_NB_LINE", nb_line_tJDBCInput_15);
 
 				ok_Hash.put("tJDBCInput_15", true);
@@ -7161,12 +7516,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_15 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_15";
+
+				/**
+				 * [tJDBCInput_15 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_15 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_15";
+
+				/**
+				 * [tJDBCOutput_15 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_15_SUBPROCESS_STATE", 1);
@@ -7324,6 +7710,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -7343,6 +7730,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_16", false);
 				start_Hash.put("tJDBCOutput_16", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_16";
 
 				int tos_count_tJDBCOutput_16 = 0;
@@ -7370,13 +7758,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_16 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_16) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_16 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_16 = dataSources_tJDBCOutput_16.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_16 = 10000;
 				int batchSizeCounter_tJDBCOutput_16 = 0;
 
@@ -7396,6 +7777,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_16", false);
 				start_Hash.put("tJDBCInput_16", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_16";
 
 				int tos_count_tJDBCInput_16 = 0;
@@ -7404,14 +7786,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_16 = null;
 				conn_tJDBCInput_16 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_16) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_16 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_16 = dataSources_tJDBCInput_16.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_16);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_16 = conn_tJDBCInput_16
 						.createStatement();
@@ -7426,86 +7800,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_16_QUERY", dbquery_tJDBCInput_16);
+				java.sql.ResultSet rs_tJDBCInput_16 = null;
+				try {
+					rs_tJDBCInput_16 = stmt_tJDBCInput_16
+							.executeQuery(dbquery_tJDBCInput_16);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_16 = rs_tJDBCInput_16
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_16 = rsmd_tJDBCInput_16
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_16 = stmt_tJDBCInput_16
-						.executeQuery(dbquery_tJDBCInput_16);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_16 = rs_tJDBCInput_16
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_16 = rsmd_tJDBCInput_16
-						.getColumnCount();
+					String tmpContent_tJDBCInput_16 = null;
+					int column_index_tJDBCInput_16 = 1;
 
-				String tmpContent_tJDBCInput_16 = null;
-				int column_index_tJDBCInput_16 = 1;
-				while (rs_tJDBCInput_16.next()) {
-					nb_line_tJDBCInput_16++;
+					while (rs_tJDBCInput_16.next()) {
+						nb_line_tJDBCInput_16++;
 
-					column_index_tJDBCInput_16 = 1;
+						column_index_tJDBCInput_16 = 1;
 
-					if (colQtyInRs_tJDBCInput_16 < column_index_tJDBCInput_16) {
-						row16.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_16
-								.getObject(column_index_tJDBCInput_16) != null) {
-							row16.history_id = rs_tJDBCInput_16
-									.getInt(column_index_tJDBCInput_16);
+						if (colQtyInRs_tJDBCInput_16 < column_index_tJDBCInput_16) {
+							row16.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_16
+									.getObject(column_index_tJDBCInput_16) != null) {
+								row16.history_id = rs_tJDBCInput_16
+										.getInt(column_index_tJDBCInput_16);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_16 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_16 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_16";
+
+						tos_count_tJDBCInput_16++;
+
+						/**
+						 * [tJDBCInput_16 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_16 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_16";
+
+						whetherReject_tJDBCOutput_16 = false;
+						pstmt_tJDBCOutput_16.setInt(1, row16.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_16 = deletedCount_tJDBCOutput_16
+									+ pstmt_tJDBCOutput_16.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_16 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_16++;
+
+						tos_count_tJDBCOutput_16++;
+
+						/**
+						 * [tJDBCOutput_16 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_16 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_16";
+
 					}
-
-					/**
-					 * [tJDBCInput_16 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_16 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_16";
-
-					tos_count_tJDBCInput_16++;
-
-					/**
-					 * [tJDBCInput_16 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_16 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_16";
-
-					whetherReject_tJDBCOutput_16 = false;
-					pstmt_tJDBCOutput_16.setInt(1, row16.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_16 = deletedCount_tJDBCOutput_16
-								+ pstmt_tJDBCOutput_16.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_16 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_16++;
-
-					tos_count_tJDBCOutput_16++;
-
-					/**
-					 * [tJDBCOutput_16 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_16 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_16";
+				} finally {
+					rs_tJDBCInput_16.close();
+					stmt_tJDBCInput_16.close();
 
 				}
-				rs_tJDBCInput_16.close();
-				stmt_tJDBCInput_16.close();
-
 				globalMap.put("tJDBCInput_16_NB_LINE", nb_line_tJDBCInput_16);
 
 				ok_Hash.put("tJDBCInput_16", true);
@@ -7557,12 +7936,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_16 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_16";
+
+				/**
+				 * [tJDBCInput_16 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_16 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_16";
+
+				/**
+				 * [tJDBCOutput_16 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_16_SUBPROCESS_STATE", 1);
@@ -7720,6 +8130,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -7739,6 +8150,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_17", false);
 				start_Hash.put("tJDBCOutput_17", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_17";
 
 				int tos_count_tJDBCOutput_17 = 0;
@@ -7766,13 +8178,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_17 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_17) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_17 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_17 = dataSources_tJDBCOutput_17.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_17 = 10000;
 				int batchSizeCounter_tJDBCOutput_17 = 0;
 
@@ -7791,6 +8196,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_17", false);
 				start_Hash.put("tJDBCInput_17", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_17";
 
 				int tos_count_tJDBCInput_17 = 0;
@@ -7799,14 +8205,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_17 = null;
 				conn_tJDBCInput_17 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_17) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_17 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_17 = dataSources_tJDBCInput_17.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_17);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_17 = conn_tJDBCInput_17
 						.createStatement();
@@ -7821,86 +8219,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_17_QUERY", dbquery_tJDBCInput_17);
+				java.sql.ResultSet rs_tJDBCInput_17 = null;
+				try {
+					rs_tJDBCInput_17 = stmt_tJDBCInput_17
+							.executeQuery(dbquery_tJDBCInput_17);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_17 = rs_tJDBCInput_17
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_17 = rsmd_tJDBCInput_17
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_17 = stmt_tJDBCInput_17
-						.executeQuery(dbquery_tJDBCInput_17);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_17 = rs_tJDBCInput_17
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_17 = rsmd_tJDBCInput_17
-						.getColumnCount();
+					String tmpContent_tJDBCInput_17 = null;
+					int column_index_tJDBCInput_17 = 1;
 
-				String tmpContent_tJDBCInput_17 = null;
-				int column_index_tJDBCInput_17 = 1;
-				while (rs_tJDBCInput_17.next()) {
-					nb_line_tJDBCInput_17++;
+					while (rs_tJDBCInput_17.next()) {
+						nb_line_tJDBCInput_17++;
 
-					column_index_tJDBCInput_17 = 1;
+						column_index_tJDBCInput_17 = 1;
 
-					if (colQtyInRs_tJDBCInput_17 < column_index_tJDBCInput_17) {
-						row17.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_17
-								.getObject(column_index_tJDBCInput_17) != null) {
-							row17.history_id = rs_tJDBCInput_17
-									.getInt(column_index_tJDBCInput_17);
+						if (colQtyInRs_tJDBCInput_17 < column_index_tJDBCInput_17) {
+							row17.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_17
+									.getObject(column_index_tJDBCInput_17) != null) {
+								row17.history_id = rs_tJDBCInput_17
+										.getInt(column_index_tJDBCInput_17);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_17 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_17 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_17";
+
+						tos_count_tJDBCInput_17++;
+
+						/**
+						 * [tJDBCInput_17 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_17 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_17";
+
+						whetherReject_tJDBCOutput_17 = false;
+						pstmt_tJDBCOutput_17.setInt(1, row17.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_17 = deletedCount_tJDBCOutput_17
+									+ pstmt_tJDBCOutput_17.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_17 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_17++;
+
+						tos_count_tJDBCOutput_17++;
+
+						/**
+						 * [tJDBCOutput_17 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_17 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_17";
+
 					}
-
-					/**
-					 * [tJDBCInput_17 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_17 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_17";
-
-					tos_count_tJDBCInput_17++;
-
-					/**
-					 * [tJDBCInput_17 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_17 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_17";
-
-					whetherReject_tJDBCOutput_17 = false;
-					pstmt_tJDBCOutput_17.setInt(1, row17.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_17 = deletedCount_tJDBCOutput_17
-								+ pstmt_tJDBCOutput_17.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_17 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_17++;
-
-					tos_count_tJDBCOutput_17++;
-
-					/**
-					 * [tJDBCOutput_17 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_17 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_17";
+				} finally {
+					rs_tJDBCInput_17.close();
+					stmt_tJDBCInput_17.close();
 
 				}
-				rs_tJDBCInput_17.close();
-				stmt_tJDBCInput_17.close();
-
 				globalMap.put("tJDBCInput_17_NB_LINE", nb_line_tJDBCInput_17);
 
 				ok_Hash.put("tJDBCInput_17", true);
@@ -7952,12 +8355,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_17 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_17";
+
+				/**
+				 * [tJDBCInput_17 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_17 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_17";
+
+				/**
+				 * [tJDBCOutput_17 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_17_SUBPROCESS_STATE", 1);
@@ -8115,6 +8549,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -8134,6 +8569,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_18", false);
 				start_Hash.put("tJDBCOutput_18", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_18";
 
 				int tos_count_tJDBCOutput_18 = 0;
@@ -8161,13 +8597,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_18 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_18) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_18 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_18 = dataSources_tJDBCOutput_18.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_18 = 10000;
 				int batchSizeCounter_tJDBCOutput_18 = 0;
 
@@ -8187,6 +8616,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_18", false);
 				start_Hash.put("tJDBCInput_18", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_18";
 
 				int tos_count_tJDBCInput_18 = 0;
@@ -8195,14 +8625,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_18 = null;
 				conn_tJDBCInput_18 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_18) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_18 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_18 = dataSources_tJDBCInput_18.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_18);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_18 = conn_tJDBCInput_18
 						.createStatement();
@@ -8217,86 +8639,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_18_QUERY", dbquery_tJDBCInput_18);
+				java.sql.ResultSet rs_tJDBCInput_18 = null;
+				try {
+					rs_tJDBCInput_18 = stmt_tJDBCInput_18
+							.executeQuery(dbquery_tJDBCInput_18);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_18 = rs_tJDBCInput_18
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_18 = rsmd_tJDBCInput_18
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_18 = stmt_tJDBCInput_18
-						.executeQuery(dbquery_tJDBCInput_18);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_18 = rs_tJDBCInput_18
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_18 = rsmd_tJDBCInput_18
-						.getColumnCount();
+					String tmpContent_tJDBCInput_18 = null;
+					int column_index_tJDBCInput_18 = 1;
 
-				String tmpContent_tJDBCInput_18 = null;
-				int column_index_tJDBCInput_18 = 1;
-				while (rs_tJDBCInput_18.next()) {
-					nb_line_tJDBCInput_18++;
+					while (rs_tJDBCInput_18.next()) {
+						nb_line_tJDBCInput_18++;
 
-					column_index_tJDBCInput_18 = 1;
+						column_index_tJDBCInput_18 = 1;
 
-					if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
-						row18.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_18
-								.getObject(column_index_tJDBCInput_18) != null) {
-							row18.history_id = rs_tJDBCInput_18
-									.getInt(column_index_tJDBCInput_18);
+						if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
+							row18.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_18
+									.getObject(column_index_tJDBCInput_18) != null) {
+								row18.history_id = rs_tJDBCInput_18
+										.getInt(column_index_tJDBCInput_18);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_18 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_18 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_18";
+
+						tos_count_tJDBCInput_18++;
+
+						/**
+						 * [tJDBCInput_18 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_18 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_18";
+
+						whetherReject_tJDBCOutput_18 = false;
+						pstmt_tJDBCOutput_18.setInt(1, row18.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_18 = deletedCount_tJDBCOutput_18
+									+ pstmt_tJDBCOutput_18.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_18 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_18++;
+
+						tos_count_tJDBCOutput_18++;
+
+						/**
+						 * [tJDBCOutput_18 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_18 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_18";
+
 					}
-
-					/**
-					 * [tJDBCInput_18 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_18 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_18";
-
-					tos_count_tJDBCInput_18++;
-
-					/**
-					 * [tJDBCInput_18 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_18 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_18";
-
-					whetherReject_tJDBCOutput_18 = false;
-					pstmt_tJDBCOutput_18.setInt(1, row18.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_18 = deletedCount_tJDBCOutput_18
-								+ pstmt_tJDBCOutput_18.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_18 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_18++;
-
-					tos_count_tJDBCOutput_18++;
-
-					/**
-					 * [tJDBCOutput_18 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_18 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_18";
+				} finally {
+					rs_tJDBCInput_18.close();
+					stmt_tJDBCInput_18.close();
 
 				}
-				rs_tJDBCInput_18.close();
-				stmt_tJDBCInput_18.close();
-
 				globalMap.put("tJDBCInput_18_NB_LINE", nb_line_tJDBCInput_18);
 
 				ok_Hash.put("tJDBCInput_18", true);
@@ -8348,12 +8775,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_18 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_18";
+
+				/**
+				 * [tJDBCInput_18 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_18 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_18";
+
+				/**
+				 * [tJDBCOutput_18 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_18_SUBPROCESS_STATE", 1);
@@ -8511,6 +8969,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -8530,6 +8989,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_19", false);
 				start_Hash.put("tJDBCOutput_19", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_19";
 
 				int tos_count_tJDBCOutput_19 = 0;
@@ -8557,13 +9017,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_19 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_19) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_19 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_19 = dataSources_tJDBCOutput_19.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_19 = 10000;
 				int batchSizeCounter_tJDBCOutput_19 = 0;
 
@@ -8582,6 +9035,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_19", false);
 				start_Hash.put("tJDBCInput_19", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_19";
 
 				int tos_count_tJDBCInput_19 = 0;
@@ -8590,14 +9044,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_19 = null;
 				conn_tJDBCInput_19 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_19) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_19 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_19 = dataSources_tJDBCInput_19.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_19);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_19 = conn_tJDBCInput_19
 						.createStatement();
@@ -8612,86 +9058,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_19_QUERY", dbquery_tJDBCInput_19);
+				java.sql.ResultSet rs_tJDBCInput_19 = null;
+				try {
+					rs_tJDBCInput_19 = stmt_tJDBCInput_19
+							.executeQuery(dbquery_tJDBCInput_19);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_19 = rs_tJDBCInput_19
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_19 = rsmd_tJDBCInput_19
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_19 = stmt_tJDBCInput_19
-						.executeQuery(dbquery_tJDBCInput_19);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_19 = rs_tJDBCInput_19
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_19 = rsmd_tJDBCInput_19
-						.getColumnCount();
+					String tmpContent_tJDBCInput_19 = null;
+					int column_index_tJDBCInput_19 = 1;
 
-				String tmpContent_tJDBCInput_19 = null;
-				int column_index_tJDBCInput_19 = 1;
-				while (rs_tJDBCInput_19.next()) {
-					nb_line_tJDBCInput_19++;
+					while (rs_tJDBCInput_19.next()) {
+						nb_line_tJDBCInput_19++;
 
-					column_index_tJDBCInput_19 = 1;
+						column_index_tJDBCInput_19 = 1;
 
-					if (colQtyInRs_tJDBCInput_19 < column_index_tJDBCInput_19) {
-						row19.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_19
-								.getObject(column_index_tJDBCInput_19) != null) {
-							row19.history_id = rs_tJDBCInput_19
-									.getInt(column_index_tJDBCInput_19);
+						if (colQtyInRs_tJDBCInput_19 < column_index_tJDBCInput_19) {
+							row19.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_19
+									.getObject(column_index_tJDBCInput_19) != null) {
+								row19.history_id = rs_tJDBCInput_19
+										.getInt(column_index_tJDBCInput_19);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_19 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_19 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_19";
+
+						tos_count_tJDBCInput_19++;
+
+						/**
+						 * [tJDBCInput_19 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_19 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_19";
+
+						whetherReject_tJDBCOutput_19 = false;
+						pstmt_tJDBCOutput_19.setInt(1, row19.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_19 = deletedCount_tJDBCOutput_19
+									+ pstmt_tJDBCOutput_19.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_19 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_19++;
+
+						tos_count_tJDBCOutput_19++;
+
+						/**
+						 * [tJDBCOutput_19 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_19 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_19";
+
 					}
-
-					/**
-					 * [tJDBCInput_19 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_19 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_19";
-
-					tos_count_tJDBCInput_19++;
-
-					/**
-					 * [tJDBCInput_19 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_19 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_19";
-
-					whetherReject_tJDBCOutput_19 = false;
-					pstmt_tJDBCOutput_19.setInt(1, row19.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_19 = deletedCount_tJDBCOutput_19
-								+ pstmt_tJDBCOutput_19.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_19 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_19++;
-
-					tos_count_tJDBCOutput_19++;
-
-					/**
-					 * [tJDBCOutput_19 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_19 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_19";
+				} finally {
+					rs_tJDBCInput_19.close();
+					stmt_tJDBCInput_19.close();
 
 				}
-				rs_tJDBCInput_19.close();
-				stmt_tJDBCInput_19.close();
-
 				globalMap.put("tJDBCInput_19_NB_LINE", nb_line_tJDBCInput_19);
 
 				ok_Hash.put("tJDBCInput_19", true);
@@ -8743,12 +9194,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_19 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_19";
+
+				/**
+				 * [tJDBCInput_19 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_19 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_19";
+
+				/**
+				 * [tJDBCOutput_19 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_19_SUBPROCESS_STATE", 1);
@@ -8906,6 +9388,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -8925,6 +9408,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_20", false);
 				start_Hash.put("tJDBCOutput_20", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_20";
 
 				int tos_count_tJDBCOutput_20 = 0;
@@ -8952,13 +9436,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_20 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_20) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_20 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_20 = dataSources_tJDBCOutput_20.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_20 = 10000;
 				int batchSizeCounter_tJDBCOutput_20 = 0;
 
@@ -8978,6 +9455,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_20", false);
 				start_Hash.put("tJDBCInput_20", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_20";
 
 				int tos_count_tJDBCInput_20 = 0;
@@ -8986,14 +9464,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_20 = null;
 				conn_tJDBCInput_20 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_20) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_20 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_20 = dataSources_tJDBCInput_20.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_20);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_20 = conn_tJDBCInput_20
 						.createStatement();
@@ -9008,86 +9478,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_20_QUERY", dbquery_tJDBCInput_20);
+				java.sql.ResultSet rs_tJDBCInput_20 = null;
+				try {
+					rs_tJDBCInput_20 = stmt_tJDBCInput_20
+							.executeQuery(dbquery_tJDBCInput_20);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_20 = rs_tJDBCInput_20
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_20 = rsmd_tJDBCInput_20
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_20 = stmt_tJDBCInput_20
-						.executeQuery(dbquery_tJDBCInput_20);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_20 = rs_tJDBCInput_20
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_20 = rsmd_tJDBCInput_20
-						.getColumnCount();
+					String tmpContent_tJDBCInput_20 = null;
+					int column_index_tJDBCInput_20 = 1;
 
-				String tmpContent_tJDBCInput_20 = null;
-				int column_index_tJDBCInput_20 = 1;
-				while (rs_tJDBCInput_20.next()) {
-					nb_line_tJDBCInput_20++;
+					while (rs_tJDBCInput_20.next()) {
+						nb_line_tJDBCInput_20++;
 
-					column_index_tJDBCInput_20 = 1;
+						column_index_tJDBCInput_20 = 1;
 
-					if (colQtyInRs_tJDBCInput_20 < column_index_tJDBCInput_20) {
-						row20.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_20
-								.getObject(column_index_tJDBCInput_20) != null) {
-							row20.history_id = rs_tJDBCInput_20
-									.getInt(column_index_tJDBCInput_20);
+						if (colQtyInRs_tJDBCInput_20 < column_index_tJDBCInput_20) {
+							row20.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_20
+									.getObject(column_index_tJDBCInput_20) != null) {
+								row20.history_id = rs_tJDBCInput_20
+										.getInt(column_index_tJDBCInput_20);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_20 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_20 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_20";
+
+						tos_count_tJDBCInput_20++;
+
+						/**
+						 * [tJDBCInput_20 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_20 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_20";
+
+						whetherReject_tJDBCOutput_20 = false;
+						pstmt_tJDBCOutput_20.setInt(1, row20.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_20 = deletedCount_tJDBCOutput_20
+									+ pstmt_tJDBCOutput_20.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_20 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_20++;
+
+						tos_count_tJDBCOutput_20++;
+
+						/**
+						 * [tJDBCOutput_20 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_20 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_20";
+
 					}
-
-					/**
-					 * [tJDBCInput_20 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_20 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_20";
-
-					tos_count_tJDBCInput_20++;
-
-					/**
-					 * [tJDBCInput_20 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_20 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_20";
-
-					whetherReject_tJDBCOutput_20 = false;
-					pstmt_tJDBCOutput_20.setInt(1, row20.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_20 = deletedCount_tJDBCOutput_20
-								+ pstmt_tJDBCOutput_20.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_20 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_20++;
-
-					tos_count_tJDBCOutput_20++;
-
-					/**
-					 * [tJDBCOutput_20 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_20 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_20";
+				} finally {
+					rs_tJDBCInput_20.close();
+					stmt_tJDBCInput_20.close();
 
 				}
-				rs_tJDBCInput_20.close();
-				stmt_tJDBCInput_20.close();
-
 				globalMap.put("tJDBCInput_20_NB_LINE", nb_line_tJDBCInput_20);
 
 				ok_Hash.put("tJDBCInput_20", true);
@@ -9139,12 +9614,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_20 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_20";
+
+				/**
+				 * [tJDBCInput_20 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_20 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_20";
+
+				/**
+				 * [tJDBCOutput_20 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_20_SUBPROCESS_STATE", 1);
@@ -9302,6 +9808,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -9321,6 +9828,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_21", false);
 				start_Hash.put("tJDBCOutput_21", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_21";
 
 				int tos_count_tJDBCOutput_21 = 0;
@@ -9348,13 +9856,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_21 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_21) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_21 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_21 = dataSources_tJDBCOutput_21.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_21 = 10000;
 				int batchSizeCounter_tJDBCOutput_21 = 0;
 
@@ -9373,6 +9874,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_21", false);
 				start_Hash.put("tJDBCInput_21", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_21";
 
 				int tos_count_tJDBCInput_21 = 0;
@@ -9381,14 +9883,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_21 = null;
 				conn_tJDBCInput_21 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_21) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_21 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_21 = dataSources_tJDBCInput_21.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_21);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_21 = conn_tJDBCInput_21
 						.createStatement();
@@ -9403,86 +9897,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_21_QUERY", dbquery_tJDBCInput_21);
+				java.sql.ResultSet rs_tJDBCInput_21 = null;
+				try {
+					rs_tJDBCInput_21 = stmt_tJDBCInput_21
+							.executeQuery(dbquery_tJDBCInput_21);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_21 = rs_tJDBCInput_21
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_21 = rsmd_tJDBCInput_21
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_21 = stmt_tJDBCInput_21
-						.executeQuery(dbquery_tJDBCInput_21);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_21 = rs_tJDBCInput_21
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_21 = rsmd_tJDBCInput_21
-						.getColumnCount();
+					String tmpContent_tJDBCInput_21 = null;
+					int column_index_tJDBCInput_21 = 1;
 
-				String tmpContent_tJDBCInput_21 = null;
-				int column_index_tJDBCInput_21 = 1;
-				while (rs_tJDBCInput_21.next()) {
-					nb_line_tJDBCInput_21++;
+					while (rs_tJDBCInput_21.next()) {
+						nb_line_tJDBCInput_21++;
 
-					column_index_tJDBCInput_21 = 1;
+						column_index_tJDBCInput_21 = 1;
 
-					if (colQtyInRs_tJDBCInput_21 < column_index_tJDBCInput_21) {
-						row21.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_21
-								.getObject(column_index_tJDBCInput_21) != null) {
-							row21.history_id = rs_tJDBCInput_21
-									.getInt(column_index_tJDBCInput_21);
+						if (colQtyInRs_tJDBCInput_21 < column_index_tJDBCInput_21) {
+							row21.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_21
+									.getObject(column_index_tJDBCInput_21) != null) {
+								row21.history_id = rs_tJDBCInput_21
+										.getInt(column_index_tJDBCInput_21);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_21 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_21 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_21";
+
+						tos_count_tJDBCInput_21++;
+
+						/**
+						 * [tJDBCInput_21 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_21 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_21";
+
+						whetherReject_tJDBCOutput_21 = false;
+						pstmt_tJDBCOutput_21.setInt(1, row21.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_21 = deletedCount_tJDBCOutput_21
+									+ pstmt_tJDBCOutput_21.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_21 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_21++;
+
+						tos_count_tJDBCOutput_21++;
+
+						/**
+						 * [tJDBCOutput_21 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_21 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_21";
+
 					}
-
-					/**
-					 * [tJDBCInput_21 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_21 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_21";
-
-					tos_count_tJDBCInput_21++;
-
-					/**
-					 * [tJDBCInput_21 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_21 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_21";
-
-					whetherReject_tJDBCOutput_21 = false;
-					pstmt_tJDBCOutput_21.setInt(1, row21.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_21 = deletedCount_tJDBCOutput_21
-								+ pstmt_tJDBCOutput_21.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_21 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_21++;
-
-					tos_count_tJDBCOutput_21++;
-
-					/**
-					 * [tJDBCOutput_21 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_21 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_21";
+				} finally {
+					rs_tJDBCInput_21.close();
+					stmt_tJDBCInput_21.close();
 
 				}
-				rs_tJDBCInput_21.close();
-				stmt_tJDBCInput_21.close();
-
 				globalMap.put("tJDBCInput_21_NB_LINE", nb_line_tJDBCInput_21);
 
 				ok_Hash.put("tJDBCInput_21", true);
@@ -9534,12 +10033,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_21 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_21";
+
+				/**
+				 * [tJDBCInput_21 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_21 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_21";
+
+				/**
+				 * [tJDBCOutput_21 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_21_SUBPROCESS_STATE", 1);
@@ -9554,6 +10084,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -9571,6 +10102,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tPrejob_1", false);
 				start_Hash.put("tPrejob_1", System.currentTimeMillis());
+
 				currentComponent = "tPrejob_1";
 
 				int tos_count_tPrejob_1 = 0;
@@ -9603,17 +10135,36 @@ public class HistoryDelete implements TalendJob {
 				/**
 				 * [tPrejob_1 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tPrejob_1 finally ] start
+				 */
+
+				currentComponent = "tPrejob_1";
+
+				/**
+				 * [tPrejob_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tPrejob_1_SUBPROCESS_STATE", 1);
@@ -9629,6 +10180,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -9646,6 +10198,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCConnection_1", false);
 				start_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
+
 				currentComponent = "tJDBCConnection_1";
 
 				int tos_count_tJDBCConnection_1 = 0;
@@ -9701,17 +10254,36 @@ public class HistoryDelete implements TalendJob {
 				/**
 				 * [tJDBCConnection_1 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCConnection_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_1";
+
+				/**
+				 * [tJDBCConnection_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", 1);
@@ -9869,6 +10441,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -9888,6 +10461,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_22", false);
 				start_Hash.put("tJDBCOutput_22", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_22";
 
 				int tos_count_tJDBCOutput_22 = 0;
@@ -9915,13 +10489,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_22 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_22) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_22 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_22 = dataSources_tJDBCOutput_22.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_22 = 10000;
 				int batchSizeCounter_tJDBCOutput_22 = 0;
 
@@ -9941,6 +10508,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_22", false);
 				start_Hash.put("tJDBCInput_22", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_22";
 
 				int tos_count_tJDBCInput_22 = 0;
@@ -9949,14 +10517,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_22 = null;
 				conn_tJDBCInput_22 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_22) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_22 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_22 = dataSources_tJDBCInput_22.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_22);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_22 = conn_tJDBCInput_22
 						.createStatement();
@@ -9971,86 +10531,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_22_QUERY", dbquery_tJDBCInput_22);
+				java.sql.ResultSet rs_tJDBCInput_22 = null;
+				try {
+					rs_tJDBCInput_22 = stmt_tJDBCInput_22
+							.executeQuery(dbquery_tJDBCInput_22);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_22 = rs_tJDBCInput_22
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_22 = rsmd_tJDBCInput_22
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_22 = stmt_tJDBCInput_22
-						.executeQuery(dbquery_tJDBCInput_22);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_22 = rs_tJDBCInput_22
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_22 = rsmd_tJDBCInput_22
-						.getColumnCount();
+					String tmpContent_tJDBCInput_22 = null;
+					int column_index_tJDBCInput_22 = 1;
 
-				String tmpContent_tJDBCInput_22 = null;
-				int column_index_tJDBCInput_22 = 1;
-				while (rs_tJDBCInput_22.next()) {
-					nb_line_tJDBCInput_22++;
+					while (rs_tJDBCInput_22.next()) {
+						nb_line_tJDBCInput_22++;
 
-					column_index_tJDBCInput_22 = 1;
+						column_index_tJDBCInput_22 = 1;
 
-					if (colQtyInRs_tJDBCInput_22 < column_index_tJDBCInput_22) {
-						row22.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_22
-								.getObject(column_index_tJDBCInput_22) != null) {
-							row22.history_id = rs_tJDBCInput_22
-									.getInt(column_index_tJDBCInput_22);
+						if (colQtyInRs_tJDBCInput_22 < column_index_tJDBCInput_22) {
+							row22.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_22
+									.getObject(column_index_tJDBCInput_22) != null) {
+								row22.history_id = rs_tJDBCInput_22
+										.getInt(column_index_tJDBCInput_22);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_22 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_22 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_22";
+
+						tos_count_tJDBCInput_22++;
+
+						/**
+						 * [tJDBCInput_22 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_22 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_22";
+
+						whetherReject_tJDBCOutput_22 = false;
+						pstmt_tJDBCOutput_22.setInt(1, row22.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_22 = deletedCount_tJDBCOutput_22
+									+ pstmt_tJDBCOutput_22.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_22 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_22++;
+
+						tos_count_tJDBCOutput_22++;
+
+						/**
+						 * [tJDBCOutput_22 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_22 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_22";
+
 					}
-
-					/**
-					 * [tJDBCInput_22 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_22 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_22";
-
-					tos_count_tJDBCInput_22++;
-
-					/**
-					 * [tJDBCInput_22 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_22 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_22";
-
-					whetherReject_tJDBCOutput_22 = false;
-					pstmt_tJDBCOutput_22.setInt(1, row22.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_22 = deletedCount_tJDBCOutput_22
-								+ pstmt_tJDBCOutput_22.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_22 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_22++;
-
-					tos_count_tJDBCOutput_22++;
-
-					/**
-					 * [tJDBCOutput_22 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_22 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_22";
+				} finally {
+					rs_tJDBCInput_22.close();
+					stmt_tJDBCInput_22.close();
 
 				}
-				rs_tJDBCInput_22.close();
-				stmt_tJDBCInput_22.close();
-
 				globalMap.put("tJDBCInput_22_NB_LINE", nb_line_tJDBCInput_22);
 
 				ok_Hash.put("tJDBCInput_22", true);
@@ -10102,12 +10667,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_22 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_22";
+
+				/**
+				 * [tJDBCInput_22 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_22 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_22";
+
+				/**
+				 * [tJDBCOutput_22 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_22_SUBPROCESS_STATE", 1);
@@ -10265,6 +10861,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -10284,6 +10881,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_23", false);
 				start_Hash.put("tJDBCOutput_23", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_23";
 
 				int tos_count_tJDBCOutput_23 = 0;
@@ -10311,13 +10909,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_23 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_23) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_23 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_23 = dataSources_tJDBCOutput_23.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_23 = 10000;
 				int batchSizeCounter_tJDBCOutput_23 = 0;
 
@@ -10337,6 +10928,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_23", false);
 				start_Hash.put("tJDBCInput_23", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_23";
 
 				int tos_count_tJDBCInput_23 = 0;
@@ -10345,14 +10937,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_23 = null;
 				conn_tJDBCInput_23 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_23) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_23 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_23 = dataSources_tJDBCInput_23.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_23);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_23 = conn_tJDBCInput_23
 						.createStatement();
@@ -10367,86 +10951,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_23_QUERY", dbquery_tJDBCInput_23);
+				java.sql.ResultSet rs_tJDBCInput_23 = null;
+				try {
+					rs_tJDBCInput_23 = stmt_tJDBCInput_23
+							.executeQuery(dbquery_tJDBCInput_23);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_23 = rs_tJDBCInput_23
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_23 = rsmd_tJDBCInput_23
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_23 = stmt_tJDBCInput_23
-						.executeQuery(dbquery_tJDBCInput_23);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_23 = rs_tJDBCInput_23
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_23 = rsmd_tJDBCInput_23
-						.getColumnCount();
+					String tmpContent_tJDBCInput_23 = null;
+					int column_index_tJDBCInput_23 = 1;
 
-				String tmpContent_tJDBCInput_23 = null;
-				int column_index_tJDBCInput_23 = 1;
-				while (rs_tJDBCInput_23.next()) {
-					nb_line_tJDBCInput_23++;
+					while (rs_tJDBCInput_23.next()) {
+						nb_line_tJDBCInput_23++;
 
-					column_index_tJDBCInput_23 = 1;
+						column_index_tJDBCInput_23 = 1;
 
-					if (colQtyInRs_tJDBCInput_23 < column_index_tJDBCInput_23) {
-						row23.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_23
-								.getObject(column_index_tJDBCInput_23) != null) {
-							row23.history_id = rs_tJDBCInput_23
-									.getInt(column_index_tJDBCInput_23);
+						if (colQtyInRs_tJDBCInput_23 < column_index_tJDBCInput_23) {
+							row23.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_23
+									.getObject(column_index_tJDBCInput_23) != null) {
+								row23.history_id = rs_tJDBCInput_23
+										.getInt(column_index_tJDBCInput_23);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_23 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_23 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_23";
+
+						tos_count_tJDBCInput_23++;
+
+						/**
+						 * [tJDBCInput_23 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_23 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_23";
+
+						whetherReject_tJDBCOutput_23 = false;
+						pstmt_tJDBCOutput_23.setInt(1, row23.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_23 = deletedCount_tJDBCOutput_23
+									+ pstmt_tJDBCOutput_23.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_23 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_23++;
+
+						tos_count_tJDBCOutput_23++;
+
+						/**
+						 * [tJDBCOutput_23 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_23 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_23";
+
 					}
-
-					/**
-					 * [tJDBCInput_23 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_23 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_23";
-
-					tos_count_tJDBCInput_23++;
-
-					/**
-					 * [tJDBCInput_23 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_23 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_23";
-
-					whetherReject_tJDBCOutput_23 = false;
-					pstmt_tJDBCOutput_23.setInt(1, row23.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_23 = deletedCount_tJDBCOutput_23
-								+ pstmt_tJDBCOutput_23.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_23 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_23++;
-
-					tos_count_tJDBCOutput_23++;
-
-					/**
-					 * [tJDBCOutput_23 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_23 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_23";
+				} finally {
+					rs_tJDBCInput_23.close();
+					stmt_tJDBCInput_23.close();
 
 				}
-				rs_tJDBCInput_23.close();
-				stmt_tJDBCInput_23.close();
-
 				globalMap.put("tJDBCInput_23_NB_LINE", nb_line_tJDBCInput_23);
 
 				ok_Hash.put("tJDBCInput_23", true);
@@ -10498,12 +11087,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_23 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_23";
+
+				/**
+				 * [tJDBCInput_23 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_23 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_23";
+
+				/**
+				 * [tJDBCOutput_23 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_23_SUBPROCESS_STATE", 1);
@@ -10661,6 +11281,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -10680,6 +11301,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_24", false);
 				start_Hash.put("tJDBCOutput_24", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_24";
 
 				int tos_count_tJDBCOutput_24 = 0;
@@ -10707,13 +11329,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_24 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_24) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_24 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_24 = dataSources_tJDBCOutput_24.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_24 = 10000;
 				int batchSizeCounter_tJDBCOutput_24 = 0;
 
@@ -10733,6 +11348,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_24", false);
 				start_Hash.put("tJDBCInput_24", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_24";
 
 				int tos_count_tJDBCInput_24 = 0;
@@ -10741,14 +11357,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_24 = null;
 				conn_tJDBCInput_24 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_24) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_24 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_24 = dataSources_tJDBCInput_24.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_24);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_24 = conn_tJDBCInput_24
 						.createStatement();
@@ -10763,86 +11371,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_24_QUERY", dbquery_tJDBCInput_24);
+				java.sql.ResultSet rs_tJDBCInput_24 = null;
+				try {
+					rs_tJDBCInput_24 = stmt_tJDBCInput_24
+							.executeQuery(dbquery_tJDBCInput_24);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_24 = rs_tJDBCInput_24
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_24 = rsmd_tJDBCInput_24
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_24 = stmt_tJDBCInput_24
-						.executeQuery(dbquery_tJDBCInput_24);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_24 = rs_tJDBCInput_24
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_24 = rsmd_tJDBCInput_24
-						.getColumnCount();
+					String tmpContent_tJDBCInput_24 = null;
+					int column_index_tJDBCInput_24 = 1;
 
-				String tmpContent_tJDBCInput_24 = null;
-				int column_index_tJDBCInput_24 = 1;
-				while (rs_tJDBCInput_24.next()) {
-					nb_line_tJDBCInput_24++;
+					while (rs_tJDBCInput_24.next()) {
+						nb_line_tJDBCInput_24++;
 
-					column_index_tJDBCInput_24 = 1;
+						column_index_tJDBCInput_24 = 1;
 
-					if (colQtyInRs_tJDBCInput_24 < column_index_tJDBCInput_24) {
-						row24.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_24
-								.getObject(column_index_tJDBCInput_24) != null) {
-							row24.history_id = rs_tJDBCInput_24
-									.getInt(column_index_tJDBCInput_24);
+						if (colQtyInRs_tJDBCInput_24 < column_index_tJDBCInput_24) {
+							row24.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_24
+									.getObject(column_index_tJDBCInput_24) != null) {
+								row24.history_id = rs_tJDBCInput_24
+										.getInt(column_index_tJDBCInput_24);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_24 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_24 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_24";
+
+						tos_count_tJDBCInput_24++;
+
+						/**
+						 * [tJDBCInput_24 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_24 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_24";
+
+						whetherReject_tJDBCOutput_24 = false;
+						pstmt_tJDBCOutput_24.setInt(1, row24.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_24 = deletedCount_tJDBCOutput_24
+									+ pstmt_tJDBCOutput_24.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_24 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_24++;
+
+						tos_count_tJDBCOutput_24++;
+
+						/**
+						 * [tJDBCOutput_24 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_24 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_24";
+
 					}
-
-					/**
-					 * [tJDBCInput_24 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_24 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_24";
-
-					tos_count_tJDBCInput_24++;
-
-					/**
-					 * [tJDBCInput_24 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_24 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_24";
-
-					whetherReject_tJDBCOutput_24 = false;
-					pstmt_tJDBCOutput_24.setInt(1, row24.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_24 = deletedCount_tJDBCOutput_24
-								+ pstmt_tJDBCOutput_24.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_24 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_24++;
-
-					tos_count_tJDBCOutput_24++;
-
-					/**
-					 * [tJDBCOutput_24 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_24 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_24";
+				} finally {
+					rs_tJDBCInput_24.close();
+					stmt_tJDBCInput_24.close();
 
 				}
-				rs_tJDBCInput_24.close();
-				stmt_tJDBCInput_24.close();
-
 				globalMap.put("tJDBCInput_24_NB_LINE", nb_line_tJDBCInput_24);
 
 				ok_Hash.put("tJDBCInput_24", true);
@@ -10894,12 +11507,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_24 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_24";
+
+				/**
+				 * [tJDBCInput_24 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_24 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_24";
+
+				/**
+				 * [tJDBCOutput_24 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_24_SUBPROCESS_STATE", 1);
@@ -11057,6 +11701,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -11076,6 +11721,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_25", false);
 				start_Hash.put("tJDBCOutput_25", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_25";
 
 				int tos_count_tJDBCOutput_25 = 0;
@@ -11103,13 +11749,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_25 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_25) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_25 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_25 = dataSources_tJDBCOutput_25.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_25 = 10000;
 				int batchSizeCounter_tJDBCOutput_25 = 0;
 
@@ -11129,6 +11768,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_25", false);
 				start_Hash.put("tJDBCInput_25", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_25";
 
 				int tos_count_tJDBCInput_25 = 0;
@@ -11137,14 +11777,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_25 = null;
 				conn_tJDBCInput_25 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_25) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_25 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_25 = dataSources_tJDBCInput_25.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_25);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_25 = conn_tJDBCInput_25
 						.createStatement();
@@ -11159,86 +11791,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_25_QUERY", dbquery_tJDBCInput_25);
+				java.sql.ResultSet rs_tJDBCInput_25 = null;
+				try {
+					rs_tJDBCInput_25 = stmt_tJDBCInput_25
+							.executeQuery(dbquery_tJDBCInput_25);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_25 = rs_tJDBCInput_25
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_25 = rsmd_tJDBCInput_25
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_25 = stmt_tJDBCInput_25
-						.executeQuery(dbquery_tJDBCInput_25);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_25 = rs_tJDBCInput_25
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_25 = rsmd_tJDBCInput_25
-						.getColumnCount();
+					String tmpContent_tJDBCInput_25 = null;
+					int column_index_tJDBCInput_25 = 1;
 
-				String tmpContent_tJDBCInput_25 = null;
-				int column_index_tJDBCInput_25 = 1;
-				while (rs_tJDBCInput_25.next()) {
-					nb_line_tJDBCInput_25++;
+					while (rs_tJDBCInput_25.next()) {
+						nb_line_tJDBCInput_25++;
 
-					column_index_tJDBCInput_25 = 1;
+						column_index_tJDBCInput_25 = 1;
 
-					if (colQtyInRs_tJDBCInput_25 < column_index_tJDBCInput_25) {
-						row25.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_25
-								.getObject(column_index_tJDBCInput_25) != null) {
-							row25.history_id = rs_tJDBCInput_25
-									.getInt(column_index_tJDBCInput_25);
+						if (colQtyInRs_tJDBCInput_25 < column_index_tJDBCInput_25) {
+							row25.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_25
+									.getObject(column_index_tJDBCInput_25) != null) {
+								row25.history_id = rs_tJDBCInput_25
+										.getInt(column_index_tJDBCInput_25);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_25 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_25 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_25";
+
+						tos_count_tJDBCInput_25++;
+
+						/**
+						 * [tJDBCInput_25 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_25 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_25";
+
+						whetherReject_tJDBCOutput_25 = false;
+						pstmt_tJDBCOutput_25.setInt(1, row25.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_25 = deletedCount_tJDBCOutput_25
+									+ pstmt_tJDBCOutput_25.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_25 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_25++;
+
+						tos_count_tJDBCOutput_25++;
+
+						/**
+						 * [tJDBCOutput_25 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_25 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_25";
+
 					}
-
-					/**
-					 * [tJDBCInput_25 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_25 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_25";
-
-					tos_count_tJDBCInput_25++;
-
-					/**
-					 * [tJDBCInput_25 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_25 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_25";
-
-					whetherReject_tJDBCOutput_25 = false;
-					pstmt_tJDBCOutput_25.setInt(1, row25.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_25 = deletedCount_tJDBCOutput_25
-								+ pstmt_tJDBCOutput_25.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_25 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_25++;
-
-					tos_count_tJDBCOutput_25++;
-
-					/**
-					 * [tJDBCOutput_25 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_25 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_25";
+				} finally {
+					rs_tJDBCInput_25.close();
+					stmt_tJDBCInput_25.close();
 
 				}
-				rs_tJDBCInput_25.close();
-				stmt_tJDBCInput_25.close();
-
 				globalMap.put("tJDBCInput_25_NB_LINE", nb_line_tJDBCInput_25);
 
 				ok_Hash.put("tJDBCInput_25", true);
@@ -11290,12 +11927,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_25 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_25";
+
+				/**
+				 * [tJDBCInput_25 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_25 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_25";
+
+				/**
+				 * [tJDBCOutput_25 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_25_SUBPROCESS_STATE", 1);
@@ -11453,6 +12121,7 @@ public class HistoryDelete implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -11472,6 +12141,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_26", false);
 				start_Hash.put("tJDBCOutput_26", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_26";
 
 				int tos_count_tJDBCOutput_26 = 0;
@@ -11499,13 +12169,6 @@ public class HistoryDelete implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_26 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_26) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_26 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_26 = dataSources_tJDBCOutput_26.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_26 = 10000;
 				int batchSizeCounter_tJDBCOutput_26 = 0;
 
@@ -11525,6 +12188,7 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_26", false);
 				start_Hash.put("tJDBCInput_26", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_26";
 
 				int tos_count_tJDBCInput_26 = 0;
@@ -11533,14 +12197,6 @@ public class HistoryDelete implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_26 = null;
 				conn_tJDBCInput_26 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_26) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_26 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_26 = dataSources_tJDBCInput_26.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_26);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_26 = conn_tJDBCInput_26
 						.createStatement();
@@ -11555,86 +12211,91 @@ public class HistoryDelete implements TalendJob {
 						+ context.limitRows;
 
 				globalMap.put("tJDBCInput_26_QUERY", dbquery_tJDBCInput_26);
+				java.sql.ResultSet rs_tJDBCInput_26 = null;
+				try {
+					rs_tJDBCInput_26 = stmt_tJDBCInput_26
+							.executeQuery(dbquery_tJDBCInput_26);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_26 = rs_tJDBCInput_26
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_26 = rsmd_tJDBCInput_26
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_26 = stmt_tJDBCInput_26
-						.executeQuery(dbquery_tJDBCInput_26);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_26 = rs_tJDBCInput_26
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_26 = rsmd_tJDBCInput_26
-						.getColumnCount();
+					String tmpContent_tJDBCInput_26 = null;
+					int column_index_tJDBCInput_26 = 1;
 
-				String tmpContent_tJDBCInput_26 = null;
-				int column_index_tJDBCInput_26 = 1;
-				while (rs_tJDBCInput_26.next()) {
-					nb_line_tJDBCInput_26++;
+					while (rs_tJDBCInput_26.next()) {
+						nb_line_tJDBCInput_26++;
 
-					column_index_tJDBCInput_26 = 1;
+						column_index_tJDBCInput_26 = 1;
 
-					if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
-						row26.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_26
-								.getObject(column_index_tJDBCInput_26) != null) {
-							row26.history_id = rs_tJDBCInput_26
-									.getInt(column_index_tJDBCInput_26);
+						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
+							row26.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_26
+									.getObject(column_index_tJDBCInput_26) != null) {
+								row26.history_id = rs_tJDBCInput_26
+										.getInt(column_index_tJDBCInput_26);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
+						/**
+						 * [tJDBCInput_26 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_26 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_26";
+
+						tos_count_tJDBCInput_26++;
+
+						/**
+						 * [tJDBCInput_26 main ] stop
+						 */
+
+						/**
+						 * [tJDBCOutput_26 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_26";
+
+						whetherReject_tJDBCOutput_26 = false;
+						pstmt_tJDBCOutput_26.setInt(1, row26.history_id);
+
+						try {
+							deletedCount_tJDBCOutput_26 = deletedCount_tJDBCOutput_26
+									+ pstmt_tJDBCOutput_26.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_26 = true;
+							throw (e);
+						}
+
+						nb_line_tJDBCOutput_26++;
+
+						tos_count_tJDBCOutput_26++;
+
+						/**
+						 * [tJDBCOutput_26 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_26 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_26";
+
 					}
-
-					/**
-					 * [tJDBCInput_26 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_26 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_26";
-
-					tos_count_tJDBCInput_26++;
-
-					/**
-					 * [tJDBCInput_26 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_26 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_26";
-
-					whetherReject_tJDBCOutput_26 = false;
-					pstmt_tJDBCOutput_26.setInt(1, row26.history_id);
-
-					try {
-						deletedCount_tJDBCOutput_26 = deletedCount_tJDBCOutput_26
-								+ pstmt_tJDBCOutput_26.executeUpdate();
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_26 = true;
-						throw (e);
-					}
-
-					nb_line_tJDBCOutput_26++;
-
-					tos_count_tJDBCOutput_26++;
-
-					/**
-					 * [tJDBCOutput_26 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_26 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_26";
+				} finally {
+					rs_tJDBCInput_26.close();
+					stmt_tJDBCInput_26.close();
 
 				}
-				rs_tJDBCInput_26.close();
-				stmt_tJDBCInput_26.close();
-
 				globalMap.put("tJDBCInput_26_NB_LINE", nb_line_tJDBCInput_26);
 
 				ok_Hash.put("tJDBCInput_26", true);
@@ -11686,12 +12347,43 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_26 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_26";
+
+				/**
+				 * [tJDBCInput_26 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_26 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_26";
+
+				/**
+				 * [tJDBCOutput_26 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_26_SUBPROCESS_STATE", 1);
@@ -12014,10 +12706,12 @@ public class HistoryDelete implements TalendJob {
 		globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -12038,6 +12732,9 @@ public class HistoryDelete implements TalendJob {
 				ok_Hash.put("talendLogs_CONSOLE", false);
 				start_Hash
 						.put("talendLogs_CONSOLE", System.currentTimeMillis());
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
+
 				currentComponent = "talendLogs_CONSOLE";
 
 				int tos_count_talendLogs_CONSOLE = 0;
@@ -12061,6 +12758,9 @@ public class HistoryDelete implements TalendJob {
 
 				ok_Hash.put("talendLogs_LOGS", false);
 				start_Hash.put("talendLogs_LOGS", System.currentTimeMillis());
+
+				currentVirtualComponent = "talendLogs_LOGS";
+
 				currentComponent = "talendLogs_LOGS";
 
 				int tos_count_talendLogs_LOGS = 0;
@@ -12093,6 +12793,8 @@ public class HistoryDelete implements TalendJob {
 					 * [talendLogs_LOGS main ] start
 					 */
 
+					currentVirtualComponent = "talendLogs_LOGS";
+
 					currentComponent = "talendLogs_LOGS";
 
 					tos_count_talendLogs_LOGS++;
@@ -12104,6 +12806,8 @@ public class HistoryDelete implements TalendJob {
 					/**
 					 * [talendLogs_CONSOLE main ] start
 					 */
+
+					currentVirtualComponent = "talendLogs_CONSOLE";
 
 					currentComponent = "talendLogs_CONSOLE";
 
@@ -12248,6 +12952,8 @@ public class HistoryDelete implements TalendJob {
 					 * [talendLogs_LOGS end ] start
 					 */
 
+					currentVirtualComponent = "talendLogs_LOGS";
+
 					currentComponent = "talendLogs_LOGS";
 
 				}
@@ -12262,6 +12968,8 @@ public class HistoryDelete implements TalendJob {
 				/**
 				 * [talendLogs_CONSOLE end ] start
 				 */
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
 
 				currentComponent = "talendLogs_CONSOLE";
 
@@ -12283,12 +12991,49 @@ public class HistoryDelete implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [talendLogs_LOGS finally ] start
+				 */
+
+				currentVirtualComponent = "talendLogs_LOGS";
+
+				currentComponent = "talendLogs_LOGS";
+
+				/**
+				 * [talendLogs_LOGS finally ] stop
+				 */
+
+				/**
+				 * [talendLogs_CONSOLE finally ] start
+				 */
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
+
+				currentComponent = "talendLogs_CONSOLE";
+
+				/**
+				 * [talendLogs_CONSOLE finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 1);
@@ -12314,6 +13059,7 @@ public class HistoryDelete implements TalendJob {
 	public String fatherNode = null;
 	public long startTime = 0;
 	public boolean isChildJob = false;
+	public String log4jLevel = "";
 
 	private boolean execStat = true;
 
@@ -12349,6 +13095,7 @@ public class HistoryDelete implements TalendJob {
 		final HistoryDelete HistoryDeleteClass = new HistoryDelete();
 
 		int exitCode = HistoryDeleteClass.runJobInTOS(args);
+
 		System.exit(exitCode);
 	}
 
@@ -12361,6 +13108,8 @@ public class HistoryDelete implements TalendJob {
 	}
 
 	public int runJobInTOS(String[] args) {
+		// reset status
+		status = "";
 
 		String lastStr = "";
 		for (String arg : args) {
@@ -12545,9 +13294,9 @@ public class HistoryDelete implements TalendJob {
 				status = "end";
 			}
 		} catch (TalendException e_tPrejob_1) {
+			globalMap.put("tPrejob_1_SUBPROCESS_STATE", -1);
 
 			e_tPrejob_1.printStackTrace();
-			globalMap.put("tPrejob_1_SUBPROCESS_STATE", -1);
 
 		}
 
@@ -12570,14 +13319,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_1) {
+					globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_1.printStackTrace();
-					globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_1) {
+					globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_1.printStackTrace();
-					globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -12616,14 +13365,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_2) {
+					globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_2.printStackTrace();
-					globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_2) {
+					globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_2.printStackTrace();
-					globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -12662,14 +13411,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_3) {
+					globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_3.printStackTrace();
-					globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_3) {
+					globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_3.printStackTrace();
-					globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -12708,14 +13457,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_4) {
+					globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_4.printStackTrace();
-					globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_4) {
+					globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_4.printStackTrace();
-					globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -12754,14 +13503,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_5) {
+					globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_5.printStackTrace();
-					globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_5) {
+					globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_5.printStackTrace();
-					globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -12800,14 +13549,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_6) {
+					globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_6.printStackTrace();
-					globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_6) {
+					globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_6.printStackTrace();
-					globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -12846,14 +13595,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_7) {
+					globalMap.put("tJDBCInput_7_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_7.printStackTrace();
-					globalMap.put("tJDBCInput_7_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_7) {
+					globalMap.put("tJDBCInput_7_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_7.printStackTrace();
-					globalMap.put("tJDBCInput_7_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -12892,14 +13641,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_8) {
+					globalMap.put("tJDBCInput_8_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_8.printStackTrace();
-					globalMap.put("tJDBCInput_8_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_8) {
+					globalMap.put("tJDBCInput_8_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_8.printStackTrace();
-					globalMap.put("tJDBCInput_8_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -12938,14 +13687,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_9) {
+					globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_9.printStackTrace();
-					globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_9) {
+					globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_9.printStackTrace();
-					globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -12984,14 +13733,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_10) {
+					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_10.printStackTrace();
-					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_10) {
+					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_10.printStackTrace();
-					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13030,14 +13779,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_11) {
+					globalMap.put("tJDBCInput_11_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_11.printStackTrace();
-					globalMap.put("tJDBCInput_11_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_11) {
+					globalMap.put("tJDBCInput_11_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_11.printStackTrace();
-					globalMap.put("tJDBCInput_11_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13076,14 +13825,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_12) {
+					globalMap.put("tJDBCInput_12_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_12.printStackTrace();
-					globalMap.put("tJDBCInput_12_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_12) {
+					globalMap.put("tJDBCInput_12_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_12.printStackTrace();
-					globalMap.put("tJDBCInput_12_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13122,14 +13871,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_13) {
+					globalMap.put("tJDBCInput_13_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_13.printStackTrace();
-					globalMap.put("tJDBCInput_13_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_13) {
+					globalMap.put("tJDBCInput_13_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_13.printStackTrace();
-					globalMap.put("tJDBCInput_13_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13168,14 +13917,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_14) {
+					globalMap.put("tJDBCInput_14_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_14.printStackTrace();
-					globalMap.put("tJDBCInput_14_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_14) {
+					globalMap.put("tJDBCInput_14_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_14.printStackTrace();
-					globalMap.put("tJDBCInput_14_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13214,14 +13963,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_15) {
+					globalMap.put("tJDBCInput_15_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_15.printStackTrace();
-					globalMap.put("tJDBCInput_15_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_15) {
+					globalMap.put("tJDBCInput_15_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_15.printStackTrace();
-					globalMap.put("tJDBCInput_15_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13260,14 +14009,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_16) {
+					globalMap.put("tJDBCInput_16_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_16.printStackTrace();
-					globalMap.put("tJDBCInput_16_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_16) {
+					globalMap.put("tJDBCInput_16_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_16.printStackTrace();
-					globalMap.put("tJDBCInput_16_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13306,14 +14055,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_17) {
+					globalMap.put("tJDBCInput_17_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_17.printStackTrace();
-					globalMap.put("tJDBCInput_17_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_17) {
+					globalMap.put("tJDBCInput_17_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_17.printStackTrace();
-					globalMap.put("tJDBCInput_17_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13352,14 +14101,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_18) {
+					globalMap.put("tJDBCInput_18_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_18.printStackTrace();
-					globalMap.put("tJDBCInput_18_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_18) {
+					globalMap.put("tJDBCInput_18_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_18.printStackTrace();
-					globalMap.put("tJDBCInput_18_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13398,14 +14147,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_19) {
+					globalMap.put("tJDBCInput_19_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_19.printStackTrace();
-					globalMap.put("tJDBCInput_19_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_19) {
+					globalMap.put("tJDBCInput_19_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_19.printStackTrace();
-					globalMap.put("tJDBCInput_19_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13444,14 +14193,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_20) {
+					globalMap.put("tJDBCInput_20_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_20.printStackTrace();
-					globalMap.put("tJDBCInput_20_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_20) {
+					globalMap.put("tJDBCInput_20_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_20.printStackTrace();
-					globalMap.put("tJDBCInput_20_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13490,14 +14239,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_21) {
+					globalMap.put("tJDBCInput_21_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_21.printStackTrace();
-					globalMap.put("tJDBCInput_21_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_21) {
+					globalMap.put("tJDBCInput_21_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_21.printStackTrace();
-					globalMap.put("tJDBCInput_21_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13536,14 +14285,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_22) {
+					globalMap.put("tJDBCInput_22_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_22.printStackTrace();
-					globalMap.put("tJDBCInput_22_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_22) {
+					globalMap.put("tJDBCInput_22_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_22.printStackTrace();
-					globalMap.put("tJDBCInput_22_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13582,14 +14331,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_23) {
+					globalMap.put("tJDBCInput_23_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_23.printStackTrace();
-					globalMap.put("tJDBCInput_23_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_23) {
+					globalMap.put("tJDBCInput_23_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_23.printStackTrace();
-					globalMap.put("tJDBCInput_23_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13628,14 +14377,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_24) {
+					globalMap.put("tJDBCInput_24_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_24.printStackTrace();
-					globalMap.put("tJDBCInput_24_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_24) {
+					globalMap.put("tJDBCInput_24_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_24.printStackTrace();
-					globalMap.put("tJDBCInput_24_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13674,14 +14423,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_25) {
+					globalMap.put("tJDBCInput_25_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_25.printStackTrace();
-					globalMap.put("tJDBCInput_25_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_25) {
+					globalMap.put("tJDBCInput_25_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_25.printStackTrace();
-					globalMap.put("tJDBCInput_25_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13720,14 +14469,14 @@ public class HistoryDelete implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_26) {
+					globalMap.put("tJDBCInput_26_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_26.printStackTrace();
-					globalMap.put("tJDBCInput_26_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_26) {
+					globalMap.put("tJDBCInput_26_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_26.printStackTrace();
-					globalMap.put("tJDBCInput_26_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -13836,6 +14585,8 @@ public class HistoryDelete implements TalendJob {
 							keyValue.substring(index + 1));
 				}
 			}
+		} else if (arg.startsWith("--log4jLevel=")) {
+			log4jLevel = arg.substring(13);
 		}
 
 	}
@@ -13865,6 +14616,6 @@ public class HistoryDelete implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 383776 characters generated by Talend Open Studio for Data Integration on the
- * June 23, 2013 12:08:20 PM IDT
+ * 388939 characters generated by Talend Open Studio for Data Integration on the
+ * January 21, 2014 3:54:36 PM IST
  ************************************************************************************************/

@@ -46,7 +46,7 @@ import java.util.Comparator;
  * Job: AggregationToHourly Purpose: <br>
  * Description:  <br>
  * @author ydary@redhat.com
- * @version 5.3.0.r101800
+ * @version 5.4.1.r111943
  * @status 
  */
 public class AggregationToHourly implements TalendJob {
@@ -181,14 +181,16 @@ public class AggregationToHourly implements TalendJob {
 	private final String projectName = "OVIRT_ENGINE_DWH";
 	public Integer errorCode = null;
 	private String currentComponent = "";
+
+	private final java.util.Map<String, Object> globalMap = java.util.Collections
+			.synchronizedMap(new java.util.HashMap<String, Object>());
+
 	private final java.util.Map<String, Long> start_Hash = java.util.Collections
 			.synchronizedMap(new java.util.HashMap<String, Long>());
 	private final java.util.Map<String, Long> end_Hash = java.util.Collections
 			.synchronizedMap(new java.util.HashMap<String, Long>());
 	private final java.util.Map<String, Boolean> ok_Hash = java.util.Collections
 			.synchronizedMap(new java.util.HashMap<String, Boolean>());
-	private final java.util.Map<String, Object> globalMap = java.util.Collections
-			.synchronizedMap(new java.util.HashMap<String, Object>());
 	public final java.util.List<String[]> globalBuffer = java.util.Collections
 			.synchronizedList(new java.util.ArrayList<String[]>());
 
@@ -240,6 +242,11 @@ public class AggregationToHourly implements TalendJob {
 		private java.util.Map<String, Object> globalMap = null;
 		private java.lang.Exception e = null;
 		private String currentComponent = null;
+		private String virtualComponentName = null;
+
+		public void setVirtualComponentName(String virtualComponentName) {
+			this.virtualComponentName = virtualComponentName;
+		}
 
 		private TalendException(java.lang.Exception e, String errorComponent,
 				final java.util.Map<String, Object> globalMap) {
@@ -256,11 +263,34 @@ public class AggregationToHourly implements TalendJob {
 			return this.currentComponent;
 		}
 
+		public String getExceptionCauseMessage(java.lang.Exception e) {
+			Throwable cause = e;
+			String message = null;
+			int i = 10;
+			while (null != cause && 0 < i--) {
+				message = cause.getMessage();
+				if (null == message) {
+					cause = cause.getCause();
+				} else {
+					break;
+				}
+			}
+			if (null == message) {
+				message = e.getClass().getName();
+			}
+			return message;
+		}
+
 		@Override
 		public void printStackTrace() {
 			if (!(e instanceof TalendException || e instanceof TDieException)) {
+				if (virtualComponentName != null
+						&& currentComponent.indexOf(virtualComponentName + "_") == 0) {
+					globalMap.put(virtualComponentName + "_ERROR_MESSAGE",
+							getExceptionCauseMessage(e));
+				}
 				globalMap.put(currentComponent + "_ERROR_MESSAGE",
-						e.getMessage());
+						getExceptionCauseMessage(e));
 				System.err
 						.println("Exception in component " + currentComponent);
 			}
@@ -301,10 +331,6 @@ public class AggregationToHourly implements TalendJob {
 				} catch (TalendException e) {
 					// do nothing
 				}
-
-			} else {
-
-				((java.util.Map) threadLocal.get()).put("status", "failure");
 
 			}
 		}
@@ -1671,10 +1697,12 @@ public class AggregationToHourly implements TalendJob {
 		globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -1697,6 +1725,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_1_AGGOUT", false);
 				start_Hash.put("tAggregateRow_1_AGGOUT",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_1";
+
 				currentComponent = "tAggregateRow_1_AGGOUT";
 
 				int tos_count_tAggregateRow_1_AGGOUT = 0;
@@ -1729,6 +1760,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						byte r = (byte) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'short/Short'", "'int/Integer'"));
@@ -1739,6 +1771,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						short r = (short) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'int/Integer'", "'short/Short'"));
@@ -1749,6 +1782,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						int r = a + b;
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'long/Long'", "'int/Integer'"));
@@ -1771,6 +1805,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							float minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -1783,6 +1818,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& ((double) a + (double) b > (double) Float.MAX_VALUE)
 								|| ((double) a + (double) b < (double) -Float.MAX_VALUE)) {
+
 							throw new RuntimeException(
 									buildOverflowMessage(String.valueOf(a),
 											String.valueOf(b),
@@ -1797,6 +1833,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -1809,6 +1846,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -1821,6 +1859,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -1833,6 +1872,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -1845,6 +1885,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -1857,6 +1898,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -1869,6 +1911,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -1987,6 +2030,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tMap_1", false);
 				start_Hash.put("tMap_1", System.currentTimeMillis());
+
 				currentComponent = "tMap_1";
 
 				int tos_count_tMap_1 = 0;
@@ -2017,6 +2061,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_1", false);
 				start_Hash.put("tJDBCInput_1", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_1";
 
 				int tos_count_tJDBCInput_1 = 0;
@@ -2025,14 +2070,6 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_1 = null;
 				conn_tJDBCInput_1 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_1) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_1 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_1 = dataSources_tJDBCInput_1.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_1);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_1 = conn_tJDBCInput_1
 						.createStatement();
@@ -2040,257 +2077,274 @@ public class AggregationToHourly implements TalendJob {
 				String dbquery_tJDBCInput_1 = "SELECT history_id,  		history_datetime,        	datacenter_id,        	datacenter_status,        	minutes_in_status,  		datacenter_configuration_version  FROM datacenter_samples_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastHourAggr')  ORDER BY history_datetime,        	 datacenter_id,        	 datacenter_status";
 
 				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
+				java.sql.ResultSet rs_tJDBCInput_1 = null;
+				try {
+					rs_tJDBCInput_1 = stmt_tJDBCInput_1
+							.executeQuery(dbquery_tJDBCInput_1);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_1 = rs_tJDBCInput_1
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_1 = rsmd_tJDBCInput_1
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_1 = stmt_tJDBCInput_1
-						.executeQuery(dbquery_tJDBCInput_1);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_1 = rs_tJDBCInput_1
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_1 = rsmd_tJDBCInput_1
-						.getColumnCount();
+					String tmpContent_tJDBCInput_1 = null;
+					int column_index_tJDBCInput_1 = 1;
 
-				String tmpContent_tJDBCInput_1 = null;
-				int column_index_tJDBCInput_1 = 1;
-				while (rs_tJDBCInput_1.next()) {
-					nb_line_tJDBCInput_1++;
+					while (rs_tJDBCInput_1.next()) {
+						nb_line_tJDBCInput_1++;
 
-					column_index_tJDBCInput_1 = 1;
+						column_index_tJDBCInput_1 = 1;
 
-					if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
-						row1.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_1
-								.getObject(column_index_tJDBCInput_1) != null) {
-							row1.history_id = rs_tJDBCInput_1
-									.getInt(column_index_tJDBCInput_1);
+						if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
+							row1.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_1
+									.getObject(column_index_tJDBCInput_1) != null) {
+								row1.history_id = rs_tJDBCInput_1
+										.getInt(column_index_tJDBCInput_1);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_1 = 2;
+						column_index_tJDBCInput_1 = 2;
 
-					if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
-						row1.history_datetime = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_1 = null;
-						try {
-							date_tJDBCInput_1 = rs_tJDBCInput_1
-									.getTimestamp(column_index_tJDBCInput_1);
-						} catch (java.lang.Exception e) {
-							date_tJDBCInput_1 = rs_tJDBCInput_1
-									.getDate(column_index_tJDBCInput_1);
-						}
-						row1.history_datetime = date_tJDBCInput_1;
-
-					}
-					column_index_tJDBCInput_1 = 3;
-
-					if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
-						row1.datacenter_id = null;
-					} else {
-
-						if (rs_tJDBCInput_1
-								.getObject(column_index_tJDBCInput_1) != null) {
-							row1.datacenter_id = rs_tJDBCInput_1
-									.getObject(column_index_tJDBCInput_1);
+						if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
+							row1.history_datetime = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							java.util.Date date_tJDBCInput_1 = null;
+							try {
+								date_tJDBCInput_1 = rs_tJDBCInput_1
+										.getTimestamp(column_index_tJDBCInput_1);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_1 = rs_tJDBCInput_1
+										.getDate(column_index_tJDBCInput_1);
+							}
+							row1.history_datetime = date_tJDBCInput_1;
+
 						}
 
-					}
-					column_index_tJDBCInput_1 = 4;
+						column_index_tJDBCInput_1 = 3;
 
-					if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
-						row1.datacenter_status = 0;
-					} else {
-
-						if (rs_tJDBCInput_1
-								.getObject(column_index_tJDBCInput_1) != null) {
-							row1.datacenter_status = rs_tJDBCInput_1
-									.getShort(column_index_tJDBCInput_1);
+						if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
+							row1.datacenter_id = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_1
+									.getObject(column_index_tJDBCInput_1) != null) {
+								row1.datacenter_id = rs_tJDBCInput_1
+										.getObject(column_index_tJDBCInput_1);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_1 = 5;
+						column_index_tJDBCInput_1 = 4;
 
-					if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
-						row1.minutes_in_status = 0;
-					} else {
-
-						if (rs_tJDBCInput_1
-								.getObject(column_index_tJDBCInput_1) != null) {
-							row1.minutes_in_status = rs_tJDBCInput_1
-									.getDouble(column_index_tJDBCInput_1);
+						if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
+							row1.datacenter_status = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_1
+									.getObject(column_index_tJDBCInput_1) != null) {
+								row1.datacenter_status = rs_tJDBCInput_1
+										.getShort(column_index_tJDBCInput_1);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_1 = 6;
+						column_index_tJDBCInput_1 = 5;
 
-					if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
-						row1.datacenter_configuration_version = 0;
-					} else {
-
-						if (rs_tJDBCInput_1
-								.getObject(column_index_tJDBCInput_1) != null) {
-							row1.datacenter_configuration_version = rs_tJDBCInput_1
-									.getInt(column_index_tJDBCInput_1);
+						if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
+							row1.minutes_in_status = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_1
+									.getObject(column_index_tJDBCInput_1) != null) {
+								row1.minutes_in_status = rs_tJDBCInput_1
+										.getDouble(column_index_tJDBCInput_1);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
+						column_index_tJDBCInput_1 = 6;
 
-					/**
-					 * [tJDBCInput_1 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_1 main ] start
-					 */
+						if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
+							row1.datacenter_configuration_version = 0;
+						} else {
 
-					currentComponent = "tJDBCInput_1";
+							if (rs_tJDBCInput_1
+									.getObject(column_index_tJDBCInput_1) != null) {
+								row1.datacenter_configuration_version = rs_tJDBCInput_1
+										.getInt(column_index_tJDBCInput_1);
+							} else {
 
-					tos_count_tJDBCInput_1++;
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
 
-					/**
-					 * [tJDBCInput_1 main ] stop
-					 */
-
-					/**
-					 * [tMap_1 main ] start
-					 */
-
-					currentComponent = "tMap_1";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_1 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_1 = false;
-					boolean mainRowRejected_tMap_1 = false;
-
-					if (
-
-					(
-
-					routines.RoutineHistoryETL.dateCompare(
-							row1.history_datetime, routines.RoutineHistoryETL
-									.manipulateDate(routines.RoutineHistoryETL
-											.startOfHour(context.runTime), -1,
-											"HH")) < 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row1'
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_1__Struct Var = Var__tMap_1;// ###############################
-							// ###############################
-							// # Output tables
-
-							dc_history_aggregate = null;
-
-							// # Output table : 'dc_history_aggregate'
-							dc_history_aggregate_tmp.history_datetime = RoutineHistoryETL
-									.startOfHour(row1.history_datetime);
-							dc_history_aggregate_tmp.datacenter_id = row1.datacenter_id;
-							dc_history_aggregate_tmp.datacenter_status = row1.datacenter_status;
-							dc_history_aggregate_tmp.minutes_in_status = row1.minutes_in_status;
-							dc_history_aggregate_tmp.datacenter_configuration_version = row1.datacenter_configuration_version;
-							dc_history_aggregate = dc_history_aggregate_tmp;
-							// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_1 = false;
-
-						tos_count_tMap_1++;
+						}
 
 						/**
-						 * [tMap_1 main ] stop
+						 * [tJDBCInput_1 begin ] stop
 						 */
-						// Start of branch "dc_history_aggregate"
-						if (dc_history_aggregate != null) {
+						/**
+						 * [tJDBCInput_1 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_1";
+
+						tos_count_tJDBCInput_1++;
+
+						/**
+						 * [tJDBCInput_1 main ] stop
+						 */
+
+						/**
+						 * [tMap_1 main ] start
+						 */
+
+						currentComponent = "tMap_1";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_1 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_1 = false;
+						boolean mainRowRejected_tMap_1 = false;
+
+						if (
+
+						(
+
+						routines.RoutineHistoryETL.dateCompare(
+								row1.history_datetime,
+								routines.RoutineHistoryETL.manipulateDate(
+										routines.RoutineHistoryETL
+												.startOfHour(context.runTime),
+										-1, "HH")) < 0
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row1'
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_1__Struct Var = Var__tMap_1;// ###############################
+								// ###############################
+								// # Output tables
+
+								dc_history_aggregate = null;
+
+								// # Output table : 'dc_history_aggregate'
+								dc_history_aggregate_tmp.history_datetime = RoutineHistoryETL
+										.startOfHour(row1.history_datetime);
+								dc_history_aggregate_tmp.datacenter_id = row1.datacenter_id;
+								dc_history_aggregate_tmp.datacenter_status = row1.datacenter_status;
+								dc_history_aggregate_tmp.minutes_in_status = row1.minutes_in_status;
+								dc_history_aggregate_tmp.datacenter_configuration_version = row1.datacenter_configuration_version;
+								dc_history_aggregate = dc_history_aggregate_tmp;
+								// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_1 = false;
+
+							tos_count_tMap_1++;
 
 							/**
-							 * [tAggregateRow_1_AGGOUT main ] start
+							 * [tMap_1 main ] stop
 							 */
+							// Start of branch "dc_history_aggregate"
+							if (dc_history_aggregate != null) {
 
-							currentComponent = "tAggregateRow_1_AGGOUT";
+								/**
+								 * [tAggregateRow_1_AGGOUT main ] start
+								 */
 
-							operation_finder_tAggregateRow_1.history_datetime = dc_history_aggregate.history_datetime;
-							operation_finder_tAggregateRow_1.datacenter_id = dc_history_aggregate.datacenter_id;
-							operation_finder_tAggregateRow_1.datacenter_status = dc_history_aggregate.datacenter_status;
+								currentVirtualComponent = "tAggregateRow_1";
 
-							operation_finder_tAggregateRow_1.hashCodeDirty = true;
+								currentComponent = "tAggregateRow_1_AGGOUT";
 
-							operation_result_tAggregateRow_1 = hash_tAggregateRow_1
-									.get(operation_finder_tAggregateRow_1);
+								operation_finder_tAggregateRow_1.history_datetime = dc_history_aggregate.history_datetime;
+								operation_finder_tAggregateRow_1.datacenter_id = dc_history_aggregate.datacenter_id;
+								operation_finder_tAggregateRow_1.datacenter_status = dc_history_aggregate.datacenter_status;
 
-							boolean isFirstAdd_tAggregateRow_1 = false;
+								operation_finder_tAggregateRow_1.hashCodeDirty = true;
 
-							if (operation_result_tAggregateRow_1 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_1 = hash_tAggregateRow_1
+										.get(operation_finder_tAggregateRow_1);
 
-								operation_result_tAggregateRow_1 = new AggOperationStruct_tAggregateRow_1();
+								boolean isFirstAdd_tAggregateRow_1 = false;
 
-								operation_result_tAggregateRow_1.history_datetime = operation_finder_tAggregateRow_1.history_datetime;
-								operation_result_tAggregateRow_1.datacenter_id = operation_finder_tAggregateRow_1.datacenter_id;
-								operation_result_tAggregateRow_1.datacenter_status = operation_finder_tAggregateRow_1.datacenter_status;
+								if (operation_result_tAggregateRow_1 == null) { // G_OutMain_AggR_001
 
-								isFirstAdd_tAggregateRow_1 = true;
+									operation_result_tAggregateRow_1 = new AggOperationStruct_tAggregateRow_1();
 
-								hash_tAggregateRow_1.put(
-										operation_result_tAggregateRow_1,
-										operation_result_tAggregateRow_1);
+									operation_result_tAggregateRow_1.history_datetime = operation_finder_tAggregateRow_1.history_datetime;
+									operation_result_tAggregateRow_1.datacenter_id = operation_finder_tAggregateRow_1.datacenter_id;
+									operation_result_tAggregateRow_1.datacenter_status = operation_finder_tAggregateRow_1.datacenter_status;
 
-							} // G_OutMain_AggR_001
+									isFirstAdd_tAggregateRow_1 = true;
 
-							if (operation_result_tAggregateRow_1.minutes_in_status_sum == null) {
-								operation_result_tAggregateRow_1.minutes_in_status_sum = new BigDecimal(
-										0).setScale(0);
-							}
-							operation_result_tAggregateRow_1.minutes_in_status_sum = operation_result_tAggregateRow_1.minutes_in_status_sum
-									.add(new BigDecimal(
-											String.valueOf(dc_history_aggregate.minutes_in_status)));
+									hash_tAggregateRow_1.put(
+											operation_result_tAggregateRow_1,
+											operation_result_tAggregateRow_1);
 
-							operation_result_tAggregateRow_1.datacenter_configuration_version_last = dc_history_aggregate.datacenter_configuration_version;
+								} // G_OutMain_AggR_001
 
-							tos_count_tAggregateRow_1_AGGOUT++;
+								if (operation_result_tAggregateRow_1.minutes_in_status_sum == null) {
+									operation_result_tAggregateRow_1.minutes_in_status_sum = new BigDecimal(
+											0).setScale(0);
+								}
+								operation_result_tAggregateRow_1.minutes_in_status_sum = operation_result_tAggregateRow_1.minutes_in_status_sum
+										.add(new BigDecimal(
+												String.valueOf(dc_history_aggregate.minutes_in_status)));
 
-							/**
-							 * [tAggregateRow_1_AGGOUT main ] stop
-							 */
+								operation_result_tAggregateRow_1.datacenter_configuration_version_last = dc_history_aggregate.datacenter_configuration_version;
 
-						} // End of branch "dc_history_aggregate"
+								tos_count_tAggregateRow_1_AGGOUT++;
 
-					} // G_TM_M_280 close main tMap filter for table 'row1'
+								/**
+								 * [tAggregateRow_1_AGGOUT main ] stop
+								 */
 
-					/**
-					 * [tJDBCInput_1 end ] start
-					 */
+							} // End of branch "dc_history_aggregate"
 
-					currentComponent = "tJDBCInput_1";
+						} // G_TM_M_280 close main tMap filter for table 'row1'
+
+						/**
+						 * [tJDBCInput_1 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_1";
+
+					}
+				} finally {
+					rs_tJDBCInput_1.close();
+					stmt_tJDBCInput_1.close();
 
 				}
-				rs_tJDBCInput_1.close();
-				stmt_tJDBCInput_1.close();
-
 				globalMap.put("tJDBCInput_1_NB_LINE", nb_line_tJDBCInput_1);
 
 				ok_Hash.put("tJDBCInput_1", true);
@@ -2321,6 +2375,8 @@ public class AggregationToHourly implements TalendJob {
 				 * [tAggregateRow_1_AGGOUT end ] start
 				 */
 
+				currentVirtualComponent = "tAggregateRow_1";
+
 				currentComponent = "tAggregateRow_1_AGGOUT";
 
 				ok_Hash.put("tAggregateRow_1_AGGOUT", true);
@@ -2337,6 +2393,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_1", false);
 				start_Hash.put("tJDBCOutput_1", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_1";
 
 				int tos_count_tJDBCOutput_1 = 0;
@@ -2358,13 +2415,6 @@ public class AggregationToHourly implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_1 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_1) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_1 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_1 = dataSources_tJDBCOutput_1
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_1 = 10000;
 				int batchSizeCounter_tJDBCOutput_1 = 0;
 
@@ -2385,6 +2435,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_1_AGGIN", false);
 				start_Hash.put("tAggregateRow_1_AGGIN",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_1";
+
 				currentComponent = "tAggregateRow_1_AGGIN";
 
 				int tos_count_tAggregateRow_1_AGGIN = 0;
@@ -2403,6 +2456,8 @@ public class AggregationToHourly implements TalendJob {
 					/**
 					 * [tAggregateRow_1_AGGIN main ] start
 					 */
+
+					currentVirtualComponent = "tAggregateRow_1";
 
 					currentComponent = "tAggregateRow_1_AGGIN";
 
@@ -2478,6 +2533,8 @@ public class AggregationToHourly implements TalendJob {
 					 * [tAggregateRow_1_AGGIN end ] start
 					 */
 
+					currentVirtualComponent = "tAggregateRow_1";
+
 					currentComponent = "tAggregateRow_1_AGGIN";
 
 				} // G_AggR_600
@@ -2532,16 +2589,82 @@ public class AggregationToHourly implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tAggregateRow_1_AGGIN"
 			globalMap.remove("tAggregateRow_1");
 
+			try {
+
+				/**
+				 * [tJDBCInput_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_1";
+
+				/**
+				 * [tJDBCInput_1 finally ] stop
+				 */
+
+				/**
+				 * [tMap_1 finally ] start
+				 */
+
+				currentComponent = "tMap_1";
+
+				/**
+				 * [tMap_1 finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_1_AGGOUT finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_1";
+
+				currentComponent = "tAggregateRow_1_AGGOUT";
+
+				/**
+				 * [tAggregateRow_1_AGGOUT finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_1_AGGIN finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_1";
+
+				currentComponent = "tAggregateRow_1_AGGIN";
+
+				/**
+				 * [tAggregateRow_1_AGGIN finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_1";
+
+				/**
+				 * [tJDBCOutput_1 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", 1);
@@ -4686,10 +4809,12 @@ public class AggregationToHourly implements TalendJob {
 		globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -4712,6 +4837,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_2_AGGOUT", false);
 				start_Hash.put("tAggregateRow_2_AGGOUT",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_2";
+
 				currentComponent = "tAggregateRow_2_AGGOUT";
 
 				int tos_count_tAggregateRow_2_AGGOUT = 0;
@@ -4744,6 +4872,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						byte r = (byte) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'short/Short'", "'int/Integer'"));
@@ -4754,6 +4883,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						short r = (short) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'int/Integer'", "'short/Short'"));
@@ -4764,6 +4894,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						int r = a + b;
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'long/Long'", "'int/Integer'"));
@@ -4786,6 +4917,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							float minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -4798,6 +4930,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& ((double) a + (double) b > (double) Float.MAX_VALUE)
 								|| ((double) a + (double) b < (double) -Float.MAX_VALUE)) {
+
 							throw new RuntimeException(
 									buildOverflowMessage(String.valueOf(a),
 											String.valueOf(b),
@@ -4812,6 +4945,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -4824,6 +4958,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -4836,6 +4971,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -4848,6 +4984,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -4860,6 +4997,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -4872,6 +5010,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -4884,6 +5023,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -5044,6 +5184,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tMap_2", false);
 				start_Hash.put("tMap_2", System.currentTimeMillis());
+
 				currentComponent = "tMap_2";
 
 				int tos_count_tMap_2 = 0;
@@ -5074,6 +5215,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_2", false);
 				start_Hash.put("tJDBCInput_2", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_2";
 
 				int tos_count_tJDBCInput_2 = 0;
@@ -5082,14 +5224,6 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_2 = null;
 				conn_tJDBCInput_2 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_2) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_2 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_2 = dataSources_tJDBCInput_2.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_2);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
@@ -5097,733 +5231,724 @@ public class AggregationToHourly implements TalendJob {
 				String dbquery_tJDBCInput_2 = "SELECT     history_id,     history_datetime,     host_id,     host_status,     minutes_in_status,     memory_usage_percent,    ksm_shared_memory_percent,    cpu_usage_percent,     ksm_cpu_percent,     active_vms,     total_vms,     total_vms_vcpus,     cpu_load,     system_cpu_usage_percent,     user_cpu_usage_percent,     swap_used_mb,     host_configuration_version  FROM host_samples_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastHourAggr')  ORDER BY history_datetime,  		 host_id,        	 host_status";
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
+				java.sql.ResultSet rs_tJDBCInput_2 = null;
+				try {
+					rs_tJDBCInput_2 = stmt_tJDBCInput_2
+							.executeQuery(dbquery_tJDBCInput_2);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_2 = rs_tJDBCInput_2
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_2 = rsmd_tJDBCInput_2
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_2 = stmt_tJDBCInput_2
-						.executeQuery(dbquery_tJDBCInput_2);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_2 = rs_tJDBCInput_2
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_2 = rsmd_tJDBCInput_2
-						.getColumnCount();
+					String tmpContent_tJDBCInput_2 = null;
+					int column_index_tJDBCInput_2 = 1;
 
-				String tmpContent_tJDBCInput_2 = null;
-				int column_index_tJDBCInput_2 = 1;
-				while (rs_tJDBCInput_2.next()) {
-					nb_line_tJDBCInput_2++;
+					while (rs_tJDBCInput_2.next()) {
+						nb_line_tJDBCInput_2++;
 
-					column_index_tJDBCInput_2 = 1;
+						column_index_tJDBCInput_2 = 1;
 
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.history_id = rs_tJDBCInput_2
-									.getInt(column_index_tJDBCInput_2);
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
+							row2.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.history_id = rs_tJDBCInput_2
+										.getInt(column_index_tJDBCInput_2);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_2 = 2;
+						column_index_tJDBCInput_2 = 2;
 
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.history_datetime = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_2 = null;
-						try {
-							date_tJDBCInput_2 = rs_tJDBCInput_2
-									.getTimestamp(column_index_tJDBCInput_2);
-						} catch (java.lang.Exception e) {
-							date_tJDBCInput_2 = rs_tJDBCInput_2
-									.getDate(column_index_tJDBCInput_2);
-						}
-						row2.history_datetime = date_tJDBCInput_2;
-
-					}
-					column_index_tJDBCInput_2 = 3;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.host_id = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.host_id = rs_tJDBCInput_2
-									.getObject(column_index_tJDBCInput_2);
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
+							row2.history_datetime = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							java.util.Date date_tJDBCInput_2 = null;
+							try {
+								date_tJDBCInput_2 = rs_tJDBCInput_2
+										.getTimestamp(column_index_tJDBCInput_2);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_2 = rs_tJDBCInput_2
+										.getDate(column_index_tJDBCInput_2);
+							}
+							row2.history_datetime = date_tJDBCInput_2;
+
 						}
 
-					}
-					column_index_tJDBCInput_2 = 4;
+						column_index_tJDBCInput_2 = 3;
 
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.host_status = 0;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.host_status = rs_tJDBCInput_2
-									.getShort(column_index_tJDBCInput_2);
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
+							row2.host_id = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.host_id = rs_tJDBCInput_2
+										.getObject(column_index_tJDBCInput_2);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_2 = 5;
+						column_index_tJDBCInput_2 = 4;
 
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.minutes_in_status = 0;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.minutes_in_status = rs_tJDBCInput_2
-									.getDouble(column_index_tJDBCInput_2);
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
+							row2.host_status = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.host_status = rs_tJDBCInput_2
+										.getShort(column_index_tJDBCInput_2);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_2 = 6;
+						column_index_tJDBCInput_2 = 5;
 
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.memory_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.memory_usage_percent = rs_tJDBCInput_2
-									.getShort(column_index_tJDBCInput_2);
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
+							row2.minutes_in_status = 0;
 						} else {
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.minutes_in_status = rs_tJDBCInput_2
+										.getDouble(column_index_tJDBCInput_2);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
+						}
+
+						column_index_tJDBCInput_2 = 6;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.memory_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row2.memory_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 7;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.ksm_shared_memory_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.ksm_shared_memory_percent = rs_tJDBCInput_2
-									.getShort(column_index_tJDBCInput_2);
 						} else {
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.memory_usage_percent = rs_tJDBCInput_2
+										.getShort(column_index_tJDBCInput_2);
+							} else {
+								row2.memory_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_2 = 7;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.ksm_shared_memory_percent = null;
-						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row2.ksm_shared_memory_percent = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 8;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.cpu_usage_percent = rs_tJDBCInput_2
-									.getShort(column_index_tJDBCInput_2);
 						} else {
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.ksm_shared_memory_percent = rs_tJDBCInput_2
+										.getShort(column_index_tJDBCInput_2);
+							} else {
+								row2.ksm_shared_memory_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_2 = 8;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row2.cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 9;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.ksm_cpu_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.ksm_cpu_percent = rs_tJDBCInput_2
-									.getShort(column_index_tJDBCInput_2);
 						} else {
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.cpu_usage_percent = rs_tJDBCInput_2
+										.getShort(column_index_tJDBCInput_2);
+							} else {
+								row2.cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_2 = 9;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.ksm_cpu_percent = null;
-						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row2.ksm_cpu_percent = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 10;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.active_vms = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.active_vms = rs_tJDBCInput_2
-									.getShort(column_index_tJDBCInput_2);
 						} else {
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.ksm_cpu_percent = rs_tJDBCInput_2
+										.getShort(column_index_tJDBCInput_2);
+							} else {
+								row2.ksm_cpu_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_2 = 10;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.active_vms = null;
-						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row2.active_vms = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 11;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.total_vms = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.total_vms = rs_tJDBCInput_2
-									.getShort(column_index_tJDBCInput_2);
 						} else {
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.active_vms = rs_tJDBCInput_2
+										.getShort(column_index_tJDBCInput_2);
+							} else {
+								row2.active_vms = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_2 = 11;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.total_vms = null;
-						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row2.total_vms = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 12;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.total_vms_vcpus = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.total_vms_vcpus = rs_tJDBCInput_2
-									.getInt(column_index_tJDBCInput_2);
 						} else {
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.total_vms = rs_tJDBCInput_2
+										.getShort(column_index_tJDBCInput_2);
+							} else {
+								row2.total_vms = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_2 = 12;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.total_vms_vcpus = null;
-						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row2.total_vms_vcpus = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 13;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.cpu_load = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.cpu_load = rs_tJDBCInput_2
-									.getInt(column_index_tJDBCInput_2);
 						} else {
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.total_vms_vcpus = rs_tJDBCInput_2
+										.getInt(column_index_tJDBCInput_2);
+							} else {
+								row2.total_vms_vcpus = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_2 = 13;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.cpu_load = null;
-						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row2.cpu_load = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 14;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.system_cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.system_cpu_usage_percent = rs_tJDBCInput_2
-									.getShort(column_index_tJDBCInput_2);
 						} else {
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.cpu_load = rs_tJDBCInput_2
+										.getInt(column_index_tJDBCInput_2);
+							} else {
+								row2.cpu_load = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_2 = 14;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.system_cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row2.system_cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 15;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.user_cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.user_cpu_usage_percent = rs_tJDBCInput_2
-									.getShort(column_index_tJDBCInput_2);
 						} else {
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.system_cpu_usage_percent = rs_tJDBCInput_2
+										.getShort(column_index_tJDBCInput_2);
+							} else {
+								row2.system_cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_2 = 15;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.user_cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row2.user_cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 16;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.swap_used_mb = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.swap_used_mb = rs_tJDBCInput_2
-									.getInt(column_index_tJDBCInput_2);
 						} else {
-							row2.swap_used_mb = null;
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.user_cpu_usage_percent = rs_tJDBCInput_2
+										.getShort(column_index_tJDBCInput_2);
+							} else {
+								row2.user_cpu_usage_percent = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_2.wasNull()) {
+						column_index_tJDBCInput_2 = 16;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.swap_used_mb = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 17;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.host_configuration_version = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row2.host_configuration_version = rs_tJDBCInput_2
-									.getInt(column_index_tJDBCInput_2);
 						} else {
-							row2.host_configuration_version = null;
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.swap_used_mb = rs_tJDBCInput_2
+										.getInt(column_index_tJDBCInput_2);
+							} else {
+								row2.swap_used_mb = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_2.wasNull()) {
+						column_index_tJDBCInput_2 = 17;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.host_configuration_version = null;
+						} else {
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row2.host_configuration_version = rs_tJDBCInput_2
+										.getInt(column_index_tJDBCInput_2);
+							} else {
+								row2.host_configuration_version = null;
+							}
+
 						}
-					}
-
-					/**
-					 * [tJDBCInput_2 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_2 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_2";
-
-					tos_count_tJDBCInput_2++;
-
-					/**
-					 * [tJDBCInput_2 main ] stop
-					 */
-
-					/**
-					 * [tMap_2 main ] start
-					 */
-
-					currentComponent = "tMap_2";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_2 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_2 = false;
-					boolean mainRowRejected_tMap_2 = false;
-
-					if (
-
-					(
-
-					routines.RoutineHistoryETL.dateCompare(
-							row2.history_datetime, routines.RoutineHistoryETL
-									.manipulateDate(routines.RoutineHistoryETL
-											.startOfHour(context.runTime), -1,
-											"HH")) < 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row2'
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_2__Struct Var = Var__tMap_2;// ###############################
-							// ###############################
-							// # Output tables
-
-							host_aggregation = null;
-
-							// # Output table : 'host_aggregation'
-							host_aggregation_tmp.history_datetime = RoutineHistoryETL
-									.startOfHour(row2.history_datetime);
-							host_aggregation_tmp.host_id = row2.host_id;
-							host_aggregation_tmp.host_status = row2.host_status;
-							host_aggregation_tmp.minutes_in_status = row2.minutes_in_status;
-							host_aggregation_tmp.memory_usage_percent = row2.memory_usage_percent;
-							host_aggregation_tmp.ksm_shared_memory_percent = row2.ksm_shared_memory_percent;
-							host_aggregation_tmp.cpu_usage_percent = row2.cpu_usage_percent;
-							host_aggregation_tmp.ksm_cpu_percent = row2.ksm_cpu_percent;
-							host_aggregation_tmp.active_vms = row2.active_vms;
-							host_aggregation_tmp.total_vms = row2.total_vms;
-							host_aggregation_tmp.total_vms_vcpus = row2.total_vms_vcpus;
-							host_aggregation_tmp.cpu_load = row2.cpu_load;
-							host_aggregation_tmp.system_cpu_usage_percent = row2.system_cpu_usage_percent;
-							host_aggregation_tmp.user_cpu_usage_percent = row2.user_cpu_usage_percent;
-							host_aggregation_tmp.swap_used_mb = row2.swap_used_mb;
-							host_aggregation_tmp.host_configuration_version = row2.host_configuration_version;
-							host_aggregation = host_aggregation_tmp;
-							// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_2 = false;
-
-						tos_count_tMap_2++;
 
 						/**
-						 * [tMap_2 main ] stop
+						 * [tJDBCInput_2 begin ] stop
 						 */
-						// Start of branch "host_aggregation"
-						if (host_aggregation != null) {
+						/**
+						 * [tJDBCInput_2 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_2";
+
+						tos_count_tJDBCInput_2++;
+
+						/**
+						 * [tJDBCInput_2 main ] stop
+						 */
+
+						/**
+						 * [tMap_2 main ] start
+						 */
+
+						currentComponent = "tMap_2";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_2 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_2 = false;
+						boolean mainRowRejected_tMap_2 = false;
+
+						if (
+
+						(
+
+						routines.RoutineHistoryETL.dateCompare(
+								row2.history_datetime,
+								routines.RoutineHistoryETL.manipulateDate(
+										routines.RoutineHistoryETL
+												.startOfHour(context.runTime),
+										-1, "HH")) < 0
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row2'
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_2__Struct Var = Var__tMap_2;// ###############################
+								// ###############################
+								// # Output tables
+
+								host_aggregation = null;
+
+								// # Output table : 'host_aggregation'
+								host_aggregation_tmp.history_datetime = RoutineHistoryETL
+										.startOfHour(row2.history_datetime);
+								host_aggregation_tmp.host_id = row2.host_id;
+								host_aggregation_tmp.host_status = row2.host_status;
+								host_aggregation_tmp.minutes_in_status = row2.minutes_in_status;
+								host_aggregation_tmp.memory_usage_percent = row2.memory_usage_percent;
+								host_aggregation_tmp.ksm_shared_memory_percent = row2.ksm_shared_memory_percent;
+								host_aggregation_tmp.cpu_usage_percent = row2.cpu_usage_percent;
+								host_aggregation_tmp.ksm_cpu_percent = row2.ksm_cpu_percent;
+								host_aggregation_tmp.active_vms = row2.active_vms;
+								host_aggregation_tmp.total_vms = row2.total_vms;
+								host_aggregation_tmp.total_vms_vcpus = row2.total_vms_vcpus;
+								host_aggregation_tmp.cpu_load = row2.cpu_load;
+								host_aggregation_tmp.system_cpu_usage_percent = row2.system_cpu_usage_percent;
+								host_aggregation_tmp.user_cpu_usage_percent = row2.user_cpu_usage_percent;
+								host_aggregation_tmp.swap_used_mb = row2.swap_used_mb;
+								host_aggregation_tmp.host_configuration_version = row2.host_configuration_version;
+								host_aggregation = host_aggregation_tmp;
+								// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_2 = false;
+
+							tos_count_tMap_2++;
 
 							/**
-							 * [tAggregateRow_2_AGGOUT main ] start
+							 * [tMap_2 main ] stop
 							 */
+							// Start of branch "host_aggregation"
+							if (host_aggregation != null) {
 
-							currentComponent = "tAggregateRow_2_AGGOUT";
+								/**
+								 * [tAggregateRow_2_AGGOUT main ] start
+								 */
 
-							operation_finder_tAggregateRow_2.history_datetime = host_aggregation.history_datetime;
-							operation_finder_tAggregateRow_2.host_id = host_aggregation.host_id;
-							operation_finder_tAggregateRow_2.host_status = host_aggregation.host_status;
+								currentVirtualComponent = "tAggregateRow_2";
 
-							operation_finder_tAggregateRow_2.hashCodeDirty = true;
+								currentComponent = "tAggregateRow_2_AGGOUT";
 
-							operation_result_tAggregateRow_2 = hash_tAggregateRow_2
-									.get(operation_finder_tAggregateRow_2);
+								operation_finder_tAggregateRow_2.history_datetime = host_aggregation.history_datetime;
+								operation_finder_tAggregateRow_2.host_id = host_aggregation.host_id;
+								operation_finder_tAggregateRow_2.host_status = host_aggregation.host_status;
 
-							boolean isFirstAdd_tAggregateRow_2 = false;
+								operation_finder_tAggregateRow_2.hashCodeDirty = true;
 
-							if (operation_result_tAggregateRow_2 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_2 = hash_tAggregateRow_2
+										.get(operation_finder_tAggregateRow_2);
 
-								operation_result_tAggregateRow_2 = new AggOperationStruct_tAggregateRow_2();
+								boolean isFirstAdd_tAggregateRow_2 = false;
 
-								operation_result_tAggregateRow_2.history_datetime = operation_finder_tAggregateRow_2.history_datetime;
-								operation_result_tAggregateRow_2.host_id = operation_finder_tAggregateRow_2.host_id;
-								operation_result_tAggregateRow_2.host_status = operation_finder_tAggregateRow_2.host_status;
+								if (operation_result_tAggregateRow_2 == null) { // G_OutMain_AggR_001
 
-								isFirstAdd_tAggregateRow_2 = true;
+									operation_result_tAggregateRow_2 = new AggOperationStruct_tAggregateRow_2();
 
-								hash_tAggregateRow_2.put(
-										operation_result_tAggregateRow_2,
-										operation_result_tAggregateRow_2);
+									operation_result_tAggregateRow_2.history_datetime = operation_finder_tAggregateRow_2.history_datetime;
+									operation_result_tAggregateRow_2.host_id = operation_finder_tAggregateRow_2.host_id;
+									operation_result_tAggregateRow_2.host_status = operation_finder_tAggregateRow_2.host_status;
 
-							} // G_OutMain_AggR_001
+									isFirstAdd_tAggregateRow_2 = true;
 
-							if (operation_result_tAggregateRow_2.minutes_in_status_sum == null) {
-								operation_result_tAggregateRow_2.minutes_in_status_sum = new BigDecimal(
-										0).setScale(0);
-							}
-							operation_result_tAggregateRow_2.minutes_in_status_sum = operation_result_tAggregateRow_2.minutes_in_status_sum
-									.add(new BigDecimal(
-											String.valueOf(host_aggregation.minutes_in_status)));
+									hash_tAggregateRow_2.put(
+											operation_result_tAggregateRow_2,
+											operation_result_tAggregateRow_2);
 
-							if (host_aggregation.memory_usage_percent != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_001
 
-								operation_result_tAggregateRow_2.memory_usage_percent_count++;
-
-								if (operation_result_tAggregateRow_2.memory_usage_percent_sum == null) {
-									operation_result_tAggregateRow_2.memory_usage_percent_sum = (double) 0;
+								if (operation_result_tAggregateRow_2.minutes_in_status_sum == null) {
+									operation_result_tAggregateRow_2.minutes_in_status_sum = new BigDecimal(
+											0).setScale(0);
 								}
-								operation_result_tAggregateRow_2.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_2.memory_usage_percent_sum
-										.doubleValue() + host_aggregation.memory_usage_percent
-										.shortValue());
+								operation_result_tAggregateRow_2.minutes_in_status_sum = operation_result_tAggregateRow_2.minutes_in_status_sum
+										.add(new BigDecimal(
+												String.valueOf(host_aggregation.minutes_in_status)));
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.memory_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.memory_usage_percent != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_2.memory_usage_percent_count++;
 
-								if (operation_result_tAggregateRow_2.max_memory_usage_max == null
-										|| host_aggregation.memory_usage_percent > operation_result_tAggregateRow_2.max_memory_usage_max
+									if (operation_result_tAggregateRow_2.memory_usage_percent_sum == null) {
+										operation_result_tAggregateRow_2.memory_usage_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_2.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_2.memory_usage_percent_sum
+											.doubleValue() + host_aggregation.memory_usage_percent
+											.shortValue());
 
-								) {
-									operation_result_tAggregateRow_2.max_memory_usage_max = host_aggregation.memory_usage_percent;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.memory_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.cpu_usage_percent != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_2.max_memory_usage_max == null
+											|| host_aggregation.memory_usage_percent > operation_result_tAggregateRow_2.max_memory_usage_max
 
-								operation_result_tAggregateRow_2.cpu_usage_percent_count++;
+									) {
+										operation_result_tAggregateRow_2.max_memory_usage_max = host_aggregation.memory_usage_percent;
+									}
 
-								if (operation_result_tAggregateRow_2.cpu_usage_percent_sum == null) {
-									operation_result_tAggregateRow_2.cpu_usage_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_2.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_2.cpu_usage_percent_sum
-										.doubleValue() + host_aggregation.cpu_usage_percent
-										.shortValue());
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.cpu_usage_percent != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_2.cpu_usage_percent_count++;
 
-								if (operation_result_tAggregateRow_2.max_cpu_usage_max == null
-										|| host_aggregation.cpu_usage_percent > operation_result_tAggregateRow_2.max_cpu_usage_max
+									if (operation_result_tAggregateRow_2.cpu_usage_percent_sum == null) {
+										operation_result_tAggregateRow_2.cpu_usage_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_2.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_2.cpu_usage_percent_sum
+											.doubleValue() + host_aggregation.cpu_usage_percent
+											.shortValue());
 
-								) {
-									operation_result_tAggregateRow_2.max_cpu_usage_max = host_aggregation.cpu_usage_percent;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.ksm_cpu_percent != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_2.max_cpu_usage_max == null
+											|| host_aggregation.cpu_usage_percent > operation_result_tAggregateRow_2.max_cpu_usage_max
 
-								operation_result_tAggregateRow_2.ksm_cpu_percent_count++;
+									) {
+										operation_result_tAggregateRow_2.max_cpu_usage_max = host_aggregation.cpu_usage_percent;
+									}
 
-								if (operation_result_tAggregateRow_2.ksm_cpu_percent_sum == null) {
-									operation_result_tAggregateRow_2.ksm_cpu_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_2.ksm_cpu_percent_sum = (double) (operation_result_tAggregateRow_2.ksm_cpu_percent_sum
-										.doubleValue() + host_aggregation.ksm_cpu_percent
-										.shortValue());
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.ksm_cpu_percent != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.ksm_cpu_percent != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_2.ksm_cpu_percent_count++;
 
-								if (operation_result_tAggregateRow_2.max_ksm_cpu_percent_max == null
-										|| host_aggregation.ksm_cpu_percent > operation_result_tAggregateRow_2.max_ksm_cpu_percent_max
+									if (operation_result_tAggregateRow_2.ksm_cpu_percent_sum == null) {
+										operation_result_tAggregateRow_2.ksm_cpu_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_2.ksm_cpu_percent_sum = (double) (operation_result_tAggregateRow_2.ksm_cpu_percent_sum
+											.doubleValue() + host_aggregation.ksm_cpu_percent
+											.shortValue());
 
-								) {
-									operation_result_tAggregateRow_2.max_ksm_cpu_percent_max = host_aggregation.ksm_cpu_percent;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.ksm_cpu_percent != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.active_vms != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_2.max_ksm_cpu_percent_max == null
+											|| host_aggregation.ksm_cpu_percent > operation_result_tAggregateRow_2.max_ksm_cpu_percent_max
 
-								operation_result_tAggregateRow_2.active_vms_count++;
+									) {
+										operation_result_tAggregateRow_2.max_ksm_cpu_percent_max = host_aggregation.ksm_cpu_percent;
+									}
 
-								if (operation_result_tAggregateRow_2.active_vms_sum == null) {
-									operation_result_tAggregateRow_2.active_vms_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_2.active_vms_sum = (double) (operation_result_tAggregateRow_2.active_vms_sum
-										.doubleValue() + host_aggregation.active_vms
-										.shortValue());
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.active_vms != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.active_vms != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_2.active_vms_count++;
 
-								if (operation_result_tAggregateRow_2.max_active_vms_max == null
-										|| host_aggregation.active_vms > operation_result_tAggregateRow_2.max_active_vms_max
+									if (operation_result_tAggregateRow_2.active_vms_sum == null) {
+										operation_result_tAggregateRow_2.active_vms_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_2.active_vms_sum = (double) (operation_result_tAggregateRow_2.active_vms_sum
+											.doubleValue() + host_aggregation.active_vms
+											.shortValue());
 
-								) {
-									operation_result_tAggregateRow_2.max_active_vms_max = host_aggregation.active_vms;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.active_vms != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.total_vms != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_2.max_active_vms_max == null
+											|| host_aggregation.active_vms > operation_result_tAggregateRow_2.max_active_vms_max
 
-								operation_result_tAggregateRow_2.total_vms_count++;
+									) {
+										operation_result_tAggregateRow_2.max_active_vms_max = host_aggregation.active_vms;
+									}
 
-								if (operation_result_tAggregateRow_2.total_vms_sum == null) {
-									operation_result_tAggregateRow_2.total_vms_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_2.total_vms_sum = (double) (operation_result_tAggregateRow_2.total_vms_sum
-										.doubleValue() + host_aggregation.total_vms
-										.shortValue());
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.total_vms != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.total_vms != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_2.total_vms_count++;
 
-								if (operation_result_tAggregateRow_2.max_total_vms_max == null
-										|| host_aggregation.total_vms > operation_result_tAggregateRow_2.max_total_vms_max
+									if (operation_result_tAggregateRow_2.total_vms_sum == null) {
+										operation_result_tAggregateRow_2.total_vms_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_2.total_vms_sum = (double) (operation_result_tAggregateRow_2.total_vms_sum
+											.doubleValue() + host_aggregation.total_vms
+											.shortValue());
 
-								) {
-									operation_result_tAggregateRow_2.max_total_vms_max = host_aggregation.total_vms;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.total_vms != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.total_vms_vcpus != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_2.max_total_vms_max == null
+											|| host_aggregation.total_vms > operation_result_tAggregateRow_2.max_total_vms_max
 
-								operation_result_tAggregateRow_2.total_vms_vcpus_count++;
+									) {
+										operation_result_tAggregateRow_2.max_total_vms_max = host_aggregation.total_vms;
+									}
 
-								if (operation_result_tAggregateRow_2.total_vms_vcpus_sum == null) {
-									operation_result_tAggregateRow_2.total_vms_vcpus_sum = (double) 0;
-								}
+								} // G_OutMain_AggR_546
 
-								if (host_aggregation.total_vms_vcpus != null)
-									operation_result_tAggregateRow_2.total_vms_vcpus_sum += host_aggregation.total_vms_vcpus;
-							} // G_OutMain_AggR_546
+								if (host_aggregation.total_vms_vcpus != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.total_vms_vcpus != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_2.total_vms_vcpus_count++;
 
-								if (operation_result_tAggregateRow_2.max_total_vms_vcpus_max == null
-										|| host_aggregation.total_vms_vcpus > operation_result_tAggregateRow_2.max_total_vms_vcpus_max
+									if (operation_result_tAggregateRow_2.total_vms_vcpus_sum == null) {
+										operation_result_tAggregateRow_2.total_vms_vcpus_sum = (double) 0;
+									}
 
-								) {
-									operation_result_tAggregateRow_2.max_total_vms_vcpus_max = host_aggregation.total_vms_vcpus;
-								}
+									if (host_aggregation.total_vms_vcpus != null)
+										operation_result_tAggregateRow_2.total_vms_vcpus_sum += host_aggregation.total_vms_vcpus;
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.total_vms_vcpus != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.cpu_load != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_2.max_total_vms_vcpus_max == null
+											|| host_aggregation.total_vms_vcpus > operation_result_tAggregateRow_2.max_total_vms_vcpus_max
 
-								operation_result_tAggregateRow_2.cpu_load_count++;
+									) {
+										operation_result_tAggregateRow_2.max_total_vms_vcpus_max = host_aggregation.total_vms_vcpus;
+									}
 
-								if (operation_result_tAggregateRow_2.cpu_load_sum == null) {
-									operation_result_tAggregateRow_2.cpu_load_sum = (double) 0;
-								}
+								} // G_OutMain_AggR_546
 
-								if (host_aggregation.cpu_load != null)
-									operation_result_tAggregateRow_2.cpu_load_sum += host_aggregation.cpu_load;
-							} // G_OutMain_AggR_546
+								if (host_aggregation.cpu_load != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.cpu_load != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_2.cpu_load_count++;
 
-								if (operation_result_tAggregateRow_2.max_cpu_load_max == null
-										|| host_aggregation.cpu_load > operation_result_tAggregateRow_2.max_cpu_load_max
+									if (operation_result_tAggregateRow_2.cpu_load_sum == null) {
+										operation_result_tAggregateRow_2.cpu_load_sum = (double) 0;
+									}
 
-								) {
-									operation_result_tAggregateRow_2.max_cpu_load_max = host_aggregation.cpu_load;
-								}
+									if (host_aggregation.cpu_load != null)
+										operation_result_tAggregateRow_2.cpu_load_sum += host_aggregation.cpu_load;
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.cpu_load != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_2.max_cpu_load_max == null
+											|| host_aggregation.cpu_load > operation_result_tAggregateRow_2.max_cpu_load_max
 
-								operation_result_tAggregateRow_2.system_cpu_usage_percent_count++;
+									) {
+										operation_result_tAggregateRow_2.max_cpu_load_max = host_aggregation.cpu_load;
+									}
 
-								if (operation_result_tAggregateRow_2.system_cpu_usage_percent_sum == null) {
-									operation_result_tAggregateRow_2.system_cpu_usage_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_2.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_2.system_cpu_usage_percent_sum
-										.doubleValue() + host_aggregation.system_cpu_usage_percent
-										.shortValue());
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_2.system_cpu_usage_percent_count++;
 
-								if (operation_result_tAggregateRow_2.max_system_cpu_usage_percent_max == null
-										|| host_aggregation.system_cpu_usage_percent > operation_result_tAggregateRow_2.max_system_cpu_usage_percent_max
+									if (operation_result_tAggregateRow_2.system_cpu_usage_percent_sum == null) {
+										operation_result_tAggregateRow_2.system_cpu_usage_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_2.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_2.system_cpu_usage_percent_sum
+											.doubleValue() + host_aggregation.system_cpu_usage_percent
+											.shortValue());
 
-								) {
-									operation_result_tAggregateRow_2.max_system_cpu_usage_percent_max = host_aggregation.system_cpu_usage_percent;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_2.max_system_cpu_usage_percent_max == null
+											|| host_aggregation.system_cpu_usage_percent > operation_result_tAggregateRow_2.max_system_cpu_usage_percent_max
 
-								operation_result_tAggregateRow_2.user_cpu_usage_percent_count++;
+									) {
+										operation_result_tAggregateRow_2.max_system_cpu_usage_percent_max = host_aggregation.system_cpu_usage_percent;
+									}
 
-								if (operation_result_tAggregateRow_2.user_cpu_usage_percent_sum == null) {
-									operation_result_tAggregateRow_2.user_cpu_usage_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_2.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_2.user_cpu_usage_percent_sum
-										.doubleValue() + host_aggregation.user_cpu_usage_percent
-										.shortValue());
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_2.user_cpu_usage_percent_count++;
 
-								if (operation_result_tAggregateRow_2.max_user_cpu_usage_percent_max == null
-										|| host_aggregation.user_cpu_usage_percent > operation_result_tAggregateRow_2.max_user_cpu_usage_percent_max
+									if (operation_result_tAggregateRow_2.user_cpu_usage_percent_sum == null) {
+										operation_result_tAggregateRow_2.user_cpu_usage_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_2.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_2.user_cpu_usage_percent_sum
+											.doubleValue() + host_aggregation.user_cpu_usage_percent
+											.shortValue());
 
-								) {
-									operation_result_tAggregateRow_2.max_user_cpu_usage_percent_max = host_aggregation.user_cpu_usage_percent;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.swap_used_mb != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_2.max_user_cpu_usage_percent_max == null
+											|| host_aggregation.user_cpu_usage_percent > operation_result_tAggregateRow_2.max_user_cpu_usage_percent_max
 
-								operation_result_tAggregateRow_2.swap_used_mb_count++;
+									) {
+										operation_result_tAggregateRow_2.max_user_cpu_usage_percent_max = host_aggregation.user_cpu_usage_percent;
+									}
 
-								if (operation_result_tAggregateRow_2.swap_used_mb_sum == null) {
-									operation_result_tAggregateRow_2.swap_used_mb_sum = (double) 0;
-								}
+								} // G_OutMain_AggR_546
 
-								if (host_aggregation.swap_used_mb != null)
-									operation_result_tAggregateRow_2.swap_used_mb_sum += host_aggregation.swap_used_mb;
-							} // G_OutMain_AggR_546
+								if (host_aggregation.swap_used_mb != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.swap_used_mb != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_2.swap_used_mb_count++;
 
-								if (operation_result_tAggregateRow_2.max_swap_used_mb_max == null
-										|| host_aggregation.swap_used_mb > operation_result_tAggregateRow_2.max_swap_used_mb_max
+									if (operation_result_tAggregateRow_2.swap_used_mb_sum == null) {
+										operation_result_tAggregateRow_2.swap_used_mb_sum = (double) 0;
+									}
 
-								) {
-									operation_result_tAggregateRow_2.max_swap_used_mb_max = host_aggregation.swap_used_mb;
-								}
+									if (host_aggregation.swap_used_mb != null)
+										operation_result_tAggregateRow_2.swap_used_mb_sum += host_aggregation.swap_used_mb;
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.swap_used_mb != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.host_configuration_version != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_2.max_swap_used_mb_max == null
+											|| host_aggregation.swap_used_mb > operation_result_tAggregateRow_2.max_swap_used_mb_max
 
-								operation_result_tAggregateRow_2.host_configuration_version_last = host_aggregation.host_configuration_version;
+									) {
+										operation_result_tAggregateRow_2.max_swap_used_mb_max = host_aggregation.swap_used_mb;
+									}
 
-							} // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-							if (host_aggregation.ksm_shared_memory_percent != null) { // G_OutMain_AggR_546
+								if (host_aggregation.host_configuration_version != null) { // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_2.ksm_shared_memory_percent_count++;
+									operation_result_tAggregateRow_2.host_configuration_version_last = host_aggregation.host_configuration_version;
 
-								if (operation_result_tAggregateRow_2.ksm_shared_memory_percent_sum == null) {
-									operation_result_tAggregateRow_2.ksm_shared_memory_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_2.ksm_shared_memory_percent_sum = (double) (operation_result_tAggregateRow_2.ksm_shared_memory_percent_sum
-										.doubleValue() + host_aggregation.ksm_shared_memory_percent
-										.shortValue());
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.ksm_shared_memory_percent != null) { // G_OutMain_AggR_546
 
-							if (host_aggregation.ksm_shared_memory_percent != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_2.ksm_shared_memory_percent_count++;
 
-								if (operation_result_tAggregateRow_2.max_ksm_shared_memory_percent_max == null
-										|| host_aggregation.ksm_shared_memory_percent > operation_result_tAggregateRow_2.max_ksm_shared_memory_percent_max
+									if (operation_result_tAggregateRow_2.ksm_shared_memory_percent_sum == null) {
+										operation_result_tAggregateRow_2.ksm_shared_memory_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_2.ksm_shared_memory_percent_sum = (double) (operation_result_tAggregateRow_2.ksm_shared_memory_percent_sum
+											.doubleValue() + host_aggregation.ksm_shared_memory_percent
+											.shortValue());
 
-								) {
-									operation_result_tAggregateRow_2.max_ksm_shared_memory_percent_max = host_aggregation.ksm_shared_memory_percent;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_aggregation.ksm_shared_memory_percent != null) { // G_OutMain_AggR_546
 
-							tos_count_tAggregateRow_2_AGGOUT++;
+									if (operation_result_tAggregateRow_2.max_ksm_shared_memory_percent_max == null
+											|| host_aggregation.ksm_shared_memory_percent > operation_result_tAggregateRow_2.max_ksm_shared_memory_percent_max
 
-							/**
-							 * [tAggregateRow_2_AGGOUT main ] stop
-							 */
+									) {
+										operation_result_tAggregateRow_2.max_ksm_shared_memory_percent_max = host_aggregation.ksm_shared_memory_percent;
+									}
 
-						} // End of branch "host_aggregation"
+								} // G_OutMain_AggR_546
 
-					} // G_TM_M_280 close main tMap filter for table 'row2'
+								tos_count_tAggregateRow_2_AGGOUT++;
 
-					/**
-					 * [tJDBCInput_2 end ] start
-					 */
+								/**
+								 * [tAggregateRow_2_AGGOUT main ] stop
+								 */
 
-					currentComponent = "tJDBCInput_2";
+							} // End of branch "host_aggregation"
+
+						} // G_TM_M_280 close main tMap filter for table 'row2'
+
+						/**
+						 * [tJDBCInput_2 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_2";
+
+					}
+				} finally {
+					rs_tJDBCInput_2.close();
+					stmt_tJDBCInput_2.close();
 
 				}
-				rs_tJDBCInput_2.close();
-				stmt_tJDBCInput_2.close();
-
 				globalMap.put("tJDBCInput_2_NB_LINE", nb_line_tJDBCInput_2);
 
 				ok_Hash.put("tJDBCInput_2", true);
@@ -5854,6 +5979,8 @@ public class AggregationToHourly implements TalendJob {
 				 * [tAggregateRow_2_AGGOUT end ] start
 				 */
 
+				currentVirtualComponent = "tAggregateRow_2";
+
 				currentComponent = "tAggregateRow_2_AGGOUT";
 
 				ok_Hash.put("tAggregateRow_2_AGGOUT", true);
@@ -5870,6 +5997,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_2", false);
 				start_Hash.put("tJDBCOutput_2", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_2";
 
 				int tos_count_tJDBCOutput_2 = 0;
@@ -5891,13 +6019,6 @@ public class AggregationToHourly implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_2 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_2) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_2 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_2 = dataSources_tJDBCOutput_2
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_2 = 10000;
 				int batchSizeCounter_tJDBCOutput_2 = 0;
 
@@ -5918,6 +6039,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_2_AGGIN", false);
 				start_Hash.put("tAggregateRow_2_AGGIN",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_2";
+
 				currentComponent = "tAggregateRow_2_AGGIN";
 
 				int tos_count_tAggregateRow_2_AGGIN = 0;
@@ -5936,6 +6060,8 @@ public class AggregationToHourly implements TalendJob {
 					/**
 					 * [tAggregateRow_2_AGGIN main ] start
 					 */
+
+					currentVirtualComponent = "tAggregateRow_2";
 
 					currentComponent = "tAggregateRow_2_AGGIN";
 
@@ -6316,6 +6442,8 @@ public class AggregationToHourly implements TalendJob {
 					 * [tAggregateRow_2_AGGIN end ] start
 					 */
 
+					currentVirtualComponent = "tAggregateRow_2";
+
 					currentComponent = "tAggregateRow_2_AGGIN";
 
 				} // G_AggR_600
@@ -6370,16 +6498,82 @@ public class AggregationToHourly implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tAggregateRow_2_AGGIN"
 			globalMap.remove("tAggregateRow_2");
 
+			try {
+
+				/**
+				 * [tJDBCInput_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_2";
+
+				/**
+				 * [tJDBCInput_2 finally ] stop
+				 */
+
+				/**
+				 * [tMap_2 finally ] start
+				 */
+
+				currentComponent = "tMap_2";
+
+				/**
+				 * [tMap_2 finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_2_AGGOUT finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_2";
+
+				currentComponent = "tAggregateRow_2_AGGOUT";
+
+				/**
+				 * [tAggregateRow_2_AGGOUT finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_2_AGGIN finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_2";
+
+				currentComponent = "tAggregateRow_2_AGGIN";
+
+				/**
+				 * [tAggregateRow_2_AGGIN finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_2";
+
+				/**
+				 * [tJDBCOutput_2 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", 1);
@@ -7345,10 +7539,12 @@ public class AggregationToHourly implements TalendJob {
 		globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -7371,6 +7567,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_3_AGGOUT", false);
 				start_Hash.put("tAggregateRow_3_AGGOUT",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_3";
+
 				currentComponent = "tAggregateRow_3_AGGOUT";
 
 				int tos_count_tAggregateRow_3_AGGOUT = 0;
@@ -7403,6 +7602,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						byte r = (byte) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'short/Short'", "'int/Integer'"));
@@ -7413,6 +7613,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						short r = (short) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'int/Integer'", "'short/Short'"));
@@ -7423,6 +7624,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						int r = a + b;
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'long/Long'", "'int/Integer'"));
@@ -7445,6 +7647,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							float minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -7457,6 +7660,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& ((double) a + (double) b > (double) Float.MAX_VALUE)
 								|| ((double) a + (double) b < (double) -Float.MAX_VALUE)) {
+
 							throw new RuntimeException(
 									buildOverflowMessage(String.valueOf(a),
 											String.valueOf(b),
@@ -7471,6 +7675,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -7483,6 +7688,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -7495,6 +7701,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -7507,6 +7714,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -7519,6 +7727,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -7531,6 +7740,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -7543,6 +7753,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -7660,6 +7871,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tMap_3", false);
 				start_Hash.put("tMap_3", System.currentTimeMillis());
+
 				currentComponent = "tMap_3";
 
 				int tos_count_tMap_3 = 0;
@@ -7690,6 +7902,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_3", false);
 				start_Hash.put("tJDBCInput_3", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_3";
 
 				int tos_count_tJDBCInput_3 = 0;
@@ -7698,14 +7911,6 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_3 = null;
 				conn_tJDBCInput_3 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_3) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_3 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_3 = dataSources_tJDBCInput_3.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_3);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_3 = conn_tJDBCInput_3
 						.createStatement();
@@ -7713,305 +7918,311 @@ public class AggregationToHourly implements TalendJob {
 				String dbquery_tJDBCInput_3 = "SELECT     history_id,     history_datetime,     host_interface_id,     receive_rate_percent,     transmit_rate_percent,     host_interface_configuration_version  FROM host_interface_samples_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastHourAggr')  ORDER BY history_datetime,        	 host_interface_id";
 
 				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
+				java.sql.ResultSet rs_tJDBCInput_3 = null;
+				try {
+					rs_tJDBCInput_3 = stmt_tJDBCInput_3
+							.executeQuery(dbquery_tJDBCInput_3);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_3 = rs_tJDBCInput_3
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_3 = rsmd_tJDBCInput_3
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_3 = stmt_tJDBCInput_3
-						.executeQuery(dbquery_tJDBCInput_3);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_3 = rs_tJDBCInput_3
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_3 = rsmd_tJDBCInput_3
-						.getColumnCount();
+					String tmpContent_tJDBCInput_3 = null;
+					int column_index_tJDBCInput_3 = 1;
 
-				String tmpContent_tJDBCInput_3 = null;
-				int column_index_tJDBCInput_3 = 1;
-				while (rs_tJDBCInput_3.next()) {
-					nb_line_tJDBCInput_3++;
+					while (rs_tJDBCInput_3.next()) {
+						nb_line_tJDBCInput_3++;
 
-					column_index_tJDBCInput_3 = 1;
+						column_index_tJDBCInput_3 = 1;
 
-					if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
-						row3.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_3
-								.getObject(column_index_tJDBCInput_3) != null) {
-							row3.history_id = rs_tJDBCInput_3
-									.getInt(column_index_tJDBCInput_3);
+						if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
+							row3.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_3
+									.getObject(column_index_tJDBCInput_3) != null) {
+								row3.history_id = rs_tJDBCInput_3
+										.getInt(column_index_tJDBCInput_3);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_3 = 2;
+						column_index_tJDBCInput_3 = 2;
 
-					if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
-						row3.history_datetime = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_3 = null;
-						try {
-							date_tJDBCInput_3 = rs_tJDBCInput_3
-									.getTimestamp(column_index_tJDBCInput_3);
-						} catch (java.lang.Exception e) {
-							date_tJDBCInput_3 = rs_tJDBCInput_3
-									.getDate(column_index_tJDBCInput_3);
-						}
-						row3.history_datetime = date_tJDBCInput_3;
-
-					}
-					column_index_tJDBCInput_3 = 3;
-
-					if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
-						row3.host_interface_id = null;
-					} else {
-
-						if (rs_tJDBCInput_3
-								.getObject(column_index_tJDBCInput_3) != null) {
-							row3.host_interface_id = rs_tJDBCInput_3
-									.getObject(column_index_tJDBCInput_3);
+						if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
+							row3.history_datetime = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							java.util.Date date_tJDBCInput_3 = null;
+							try {
+								date_tJDBCInput_3 = rs_tJDBCInput_3
+										.getTimestamp(column_index_tJDBCInput_3);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_3 = rs_tJDBCInput_3
+										.getDate(column_index_tJDBCInput_3);
+							}
+							row3.history_datetime = date_tJDBCInput_3;
+
 						}
 
-					}
-					column_index_tJDBCInput_3 = 4;
+						column_index_tJDBCInput_3 = 3;
 
-					if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
-						row3.receive_rate_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_3
-								.getObject(column_index_tJDBCInput_3) != null) {
-							row3.receive_rate_percent = rs_tJDBCInput_3
-									.getShort(column_index_tJDBCInput_3);
+						if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
+							row3.host_interface_id = null;
 						} else {
+
+							if (rs_tJDBCInput_3
+									.getObject(column_index_tJDBCInput_3) != null) {
+								row3.host_interface_id = rs_tJDBCInput_3
+										.getObject(column_index_tJDBCInput_3);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
+						}
+
+						column_index_tJDBCInput_3 = 4;
+
+						if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
 							row3.receive_rate_percent = null;
-						}
-
-						if (rs_tJDBCInput_3.wasNull()) {
-							row3.receive_rate_percent = null;
-						}
-					}
-					column_index_tJDBCInput_3 = 5;
-
-					if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
-						row3.transmit_rate_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_3
-								.getObject(column_index_tJDBCInput_3) != null) {
-							row3.transmit_rate_percent = rs_tJDBCInput_3
-									.getShort(column_index_tJDBCInput_3);
 						} else {
-							row3.transmit_rate_percent = null;
+
+							if (rs_tJDBCInput_3
+									.getObject(column_index_tJDBCInput_3) != null) {
+								row3.receive_rate_percent = rs_tJDBCInput_3
+										.getShort(column_index_tJDBCInput_3);
+							} else {
+								row3.receive_rate_percent = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_3.wasNull()) {
+						column_index_tJDBCInput_3 = 5;
+
+						if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
 							row3.transmit_rate_percent = null;
-						}
-					}
-					column_index_tJDBCInput_3 = 6;
-
-					if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
-						row3.host_interface_configuration_version = null;
-					} else {
-
-						if (rs_tJDBCInput_3
-								.getObject(column_index_tJDBCInput_3) != null) {
-							row3.host_interface_configuration_version = rs_tJDBCInput_3
-									.getInt(column_index_tJDBCInput_3);
 						} else {
-							row3.host_interface_configuration_version = null;
+
+							if (rs_tJDBCInput_3
+									.getObject(column_index_tJDBCInput_3) != null) {
+								row3.transmit_rate_percent = rs_tJDBCInput_3
+										.getShort(column_index_tJDBCInput_3);
+							} else {
+								row3.transmit_rate_percent = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_3.wasNull()) {
+						column_index_tJDBCInput_3 = 6;
+
+						if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
 							row3.host_interface_configuration_version = null;
+						} else {
+
+							if (rs_tJDBCInput_3
+									.getObject(column_index_tJDBCInput_3) != null) {
+								row3.host_interface_configuration_version = rs_tJDBCInput_3
+										.getInt(column_index_tJDBCInput_3);
+							} else {
+								row3.host_interface_configuration_version = null;
+							}
+
 						}
-					}
-
-					/**
-					 * [tJDBCInput_3 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_3 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_3";
-
-					tos_count_tJDBCInput_3++;
-
-					/**
-					 * [tJDBCInput_3 main ] stop
-					 */
-
-					/**
-					 * [tMap_3 main ] start
-					 */
-
-					currentComponent = "tMap_3";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_3 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_3 = false;
-					boolean mainRowRejected_tMap_3 = false;
-
-					if (
-
-					(
-
-					routines.RoutineHistoryETL.dateCompare(
-							row3.history_datetime, routines.RoutineHistoryETL
-									.manipulateDate(routines.RoutineHistoryETL
-											.startOfHour(context.runTime), -1,
-											"HH")) < 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row3'
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_3__Struct Var = Var__tMap_3;// ###############################
-							// ###############################
-							// # Output tables
-
-							host_history_history_aggregate = null;
-
-							// # Output table : 'host_history_history_aggregate'
-							host_history_history_aggregate_tmp.history_datetime = RoutineHistoryETL
-									.startOfHour(row3.history_datetime);
-							host_history_history_aggregate_tmp.host_interface_id = row3.host_interface_id;
-							host_history_history_aggregate_tmp.receive_rate_percent = row3.receive_rate_percent;
-							host_history_history_aggregate_tmp.transmit_rate_percent = row3.transmit_rate_percent;
-							host_history_history_aggregate_tmp.host_interface_configuration_version = row3.host_interface_configuration_version;
-							host_history_history_aggregate = host_history_history_aggregate_tmp;
-							// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_3 = false;
-
-						tos_count_tMap_3++;
 
 						/**
-						 * [tMap_3 main ] stop
+						 * [tJDBCInput_3 begin ] stop
 						 */
-						// Start of branch "host_history_history_aggregate"
-						if (host_history_history_aggregate != null) {
+						/**
+						 * [tJDBCInput_3 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_3";
+
+						tos_count_tJDBCInput_3++;
+
+						/**
+						 * [tJDBCInput_3 main ] stop
+						 */
+
+						/**
+						 * [tMap_3 main ] start
+						 */
+
+						currentComponent = "tMap_3";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_3 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_3 = false;
+						boolean mainRowRejected_tMap_3 = false;
+
+						if (
+
+						(
+
+						routines.RoutineHistoryETL.dateCompare(
+								row3.history_datetime,
+								routines.RoutineHistoryETL.manipulateDate(
+										routines.RoutineHistoryETL
+												.startOfHour(context.runTime),
+										-1, "HH")) < 0
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row3'
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_3__Struct Var = Var__tMap_3;// ###############################
+								// ###############################
+								// # Output tables
+
+								host_history_history_aggregate = null;
+
+								// # Output table :
+								// 'host_history_history_aggregate'
+								host_history_history_aggregate_tmp.history_datetime = RoutineHistoryETL
+										.startOfHour(row3.history_datetime);
+								host_history_history_aggregate_tmp.host_interface_id = row3.host_interface_id;
+								host_history_history_aggregate_tmp.receive_rate_percent = row3.receive_rate_percent;
+								host_history_history_aggregate_tmp.transmit_rate_percent = row3.transmit_rate_percent;
+								host_history_history_aggregate_tmp.host_interface_configuration_version = row3.host_interface_configuration_version;
+								host_history_history_aggregate = host_history_history_aggregate_tmp;
+								// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_3 = false;
+
+							tos_count_tMap_3++;
 
 							/**
-							 * [tAggregateRow_3_AGGOUT main ] start
+							 * [tMap_3 main ] stop
 							 */
+							// Start of branch "host_history_history_aggregate"
+							if (host_history_history_aggregate != null) {
 
-							currentComponent = "tAggregateRow_3_AGGOUT";
+								/**
+								 * [tAggregateRow_3_AGGOUT main ] start
+								 */
 
-							operation_finder_tAggregateRow_3.history_datetime = host_history_history_aggregate.history_datetime;
-							operation_finder_tAggregateRow_3.host_interface_id = host_history_history_aggregate.host_interface_id;
+								currentVirtualComponent = "tAggregateRow_3";
 
-							operation_finder_tAggregateRow_3.hashCodeDirty = true;
+								currentComponent = "tAggregateRow_3_AGGOUT";
 
-							operation_result_tAggregateRow_3 = hash_tAggregateRow_3
-									.get(operation_finder_tAggregateRow_3);
+								operation_finder_tAggregateRow_3.history_datetime = host_history_history_aggregate.history_datetime;
+								operation_finder_tAggregateRow_3.host_interface_id = host_history_history_aggregate.host_interface_id;
 
-							boolean isFirstAdd_tAggregateRow_3 = false;
+								operation_finder_tAggregateRow_3.hashCodeDirty = true;
 
-							if (operation_result_tAggregateRow_3 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_3 = hash_tAggregateRow_3
+										.get(operation_finder_tAggregateRow_3);
 
-								operation_result_tAggregateRow_3 = new AggOperationStruct_tAggregateRow_3();
+								boolean isFirstAdd_tAggregateRow_3 = false;
 
-								operation_result_tAggregateRow_3.history_datetime = operation_finder_tAggregateRow_3.history_datetime;
-								operation_result_tAggregateRow_3.host_interface_id = operation_finder_tAggregateRow_3.host_interface_id;
+								if (operation_result_tAggregateRow_3 == null) { // G_OutMain_AggR_001
 
-								isFirstAdd_tAggregateRow_3 = true;
+									operation_result_tAggregateRow_3 = new AggOperationStruct_tAggregateRow_3();
 
-								hash_tAggregateRow_3.put(
-										operation_result_tAggregateRow_3,
-										operation_result_tAggregateRow_3);
+									operation_result_tAggregateRow_3.history_datetime = operation_finder_tAggregateRow_3.history_datetime;
+									operation_result_tAggregateRow_3.host_interface_id = operation_finder_tAggregateRow_3.host_interface_id;
 
-							} // G_OutMain_AggR_001
+									isFirstAdd_tAggregateRow_3 = true;
 
-							if (host_history_history_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
+									hash_tAggregateRow_3.put(
+											operation_result_tAggregateRow_3,
+											operation_result_tAggregateRow_3);
 
-								operation_result_tAggregateRow_3.receive_rate_percent_count++;
+								} // G_OutMain_AggR_001
 
-								if (operation_result_tAggregateRow_3.receive_rate_percent_sum == null) {
-									operation_result_tAggregateRow_3.receive_rate_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_3.receive_rate_percent_sum = (double) (operation_result_tAggregateRow_3.receive_rate_percent_sum
-										.doubleValue() + host_history_history_aggregate.receive_rate_percent
-										.shortValue());
+								if (host_history_history_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+									operation_result_tAggregateRow_3.receive_rate_percent_count++;
 
-							if (host_history_history_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_3.receive_rate_percent_sum == null) {
+										operation_result_tAggregateRow_3.receive_rate_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_3.receive_rate_percent_sum = (double) (operation_result_tAggregateRow_3.receive_rate_percent_sum
+											.doubleValue() + host_history_history_aggregate.receive_rate_percent
+											.shortValue());
 
-								if (operation_result_tAggregateRow_3.max_receive_rate_percent_max == null
-										|| host_history_history_aggregate.receive_rate_percent > operation_result_tAggregateRow_3.max_receive_rate_percent_max
+								} // G_OutMain_AggR_546
 
-								) {
-									operation_result_tAggregateRow_3.max_receive_rate_percent_max = host_history_history_aggregate.receive_rate_percent;
-								}
+								if (host_history_history_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_3.max_receive_rate_percent_max == null
+											|| host_history_history_aggregate.receive_rate_percent > operation_result_tAggregateRow_3.max_receive_rate_percent_max
 
-							if (host_history_history_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
+									) {
+										operation_result_tAggregateRow_3.max_receive_rate_percent_max = host_history_history_aggregate.receive_rate_percent;
+									}
 
-								operation_result_tAggregateRow_3.transmit_rate_percent_count++;
+								} // G_OutMain_AggR_546
 
-								if (operation_result_tAggregateRow_3.transmit_rate_percent_sum == null) {
-									operation_result_tAggregateRow_3.transmit_rate_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_3.transmit_rate_percent_sum = (double) (operation_result_tAggregateRow_3.transmit_rate_percent_sum
-										.doubleValue() + host_history_history_aggregate.transmit_rate_percent
-										.shortValue());
+								if (host_history_history_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+									operation_result_tAggregateRow_3.transmit_rate_percent_count++;
 
-							if (host_history_history_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_3.transmit_rate_percent_sum == null) {
+										operation_result_tAggregateRow_3.transmit_rate_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_3.transmit_rate_percent_sum = (double) (operation_result_tAggregateRow_3.transmit_rate_percent_sum
+											.doubleValue() + host_history_history_aggregate.transmit_rate_percent
+											.shortValue());
 
-								if (operation_result_tAggregateRow_3.max_transmit_rate_percent_max == null
-										|| host_history_history_aggregate.transmit_rate_percent > operation_result_tAggregateRow_3.max_transmit_rate_percent_max
+								} // G_OutMain_AggR_546
 
-								) {
-									operation_result_tAggregateRow_3.max_transmit_rate_percent_max = host_history_history_aggregate.transmit_rate_percent;
-								}
+								if (host_history_history_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_3.max_transmit_rate_percent_max == null
+											|| host_history_history_aggregate.transmit_rate_percent > operation_result_tAggregateRow_3.max_transmit_rate_percent_max
 
-							if (host_history_history_aggregate.host_interface_configuration_version != null) { // G_OutMain_AggR_546
+									) {
+										operation_result_tAggregateRow_3.max_transmit_rate_percent_max = host_history_history_aggregate.transmit_rate_percent;
+									}
 
-								operation_result_tAggregateRow_3.host_interface_configuration_version_last = host_history_history_aggregate.host_interface_configuration_version;
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (host_history_history_aggregate.host_interface_configuration_version != null) { // G_OutMain_AggR_546
 
-							tos_count_tAggregateRow_3_AGGOUT++;
+									operation_result_tAggregateRow_3.host_interface_configuration_version_last = host_history_history_aggregate.host_interface_configuration_version;
 
-							/**
-							 * [tAggregateRow_3_AGGOUT main ] stop
-							 */
+								} // G_OutMain_AggR_546
 
-						} // End of branch "host_history_history_aggregate"
+								tos_count_tAggregateRow_3_AGGOUT++;
 
-					} // G_TM_M_280 close main tMap filter for table 'row3'
+								/**
+								 * [tAggregateRow_3_AGGOUT main ] stop
+								 */
 
-					/**
-					 * [tJDBCInput_3 end ] start
-					 */
+							} // End of branch "host_history_history_aggregate"
 
-					currentComponent = "tJDBCInput_3";
+						} // G_TM_M_280 close main tMap filter for table 'row3'
+
+						/**
+						 * [tJDBCInput_3 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_3";
+
+					}
+				} finally {
+					rs_tJDBCInput_3.close();
+					stmt_tJDBCInput_3.close();
 
 				}
-				rs_tJDBCInput_3.close();
-				stmt_tJDBCInput_3.close();
-
 				globalMap.put("tJDBCInput_3_NB_LINE", nb_line_tJDBCInput_3);
 
 				ok_Hash.put("tJDBCInput_3", true);
@@ -8042,6 +8253,8 @@ public class AggregationToHourly implements TalendJob {
 				 * [tAggregateRow_3_AGGOUT end ] start
 				 */
 
+				currentVirtualComponent = "tAggregateRow_3";
+
 				currentComponent = "tAggregateRow_3_AGGOUT";
 
 				ok_Hash.put("tAggregateRow_3_AGGOUT", true);
@@ -8058,6 +8271,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_3", false);
 				start_Hash.put("tJDBCOutput_3", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_3";
 
 				int tos_count_tJDBCOutput_3 = 0;
@@ -8079,13 +8293,6 @@ public class AggregationToHourly implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_3 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_3) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_3 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_3 = dataSources_tJDBCOutput_3
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_3 = 10000;
 				int batchSizeCounter_tJDBCOutput_3 = 0;
 
@@ -8106,6 +8313,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_3_AGGIN", false);
 				start_Hash.put("tAggregateRow_3_AGGIN",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_3";
+
 				currentComponent = "tAggregateRow_3_AGGIN";
 
 				int tos_count_tAggregateRow_3_AGGIN = 0;
@@ -8124,6 +8334,8 @@ public class AggregationToHourly implements TalendJob {
 					/**
 					 * [tAggregateRow_3_AGGIN main ] start
 					 */
+
+					currentVirtualComponent = "tAggregateRow_3";
 
 					currentComponent = "tAggregateRow_3_AGGIN";
 
@@ -8246,6 +8458,8 @@ public class AggregationToHourly implements TalendJob {
 					 * [tAggregateRow_3_AGGIN end ] start
 					 */
 
+					currentVirtualComponent = "tAggregateRow_3";
+
 					currentComponent = "tAggregateRow_3_AGGIN";
 
 				} // G_AggR_600
@@ -8300,16 +8514,82 @@ public class AggregationToHourly implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tAggregateRow_3_AGGIN"
 			globalMap.remove("tAggregateRow_3");
 
+			try {
+
+				/**
+				 * [tJDBCInput_3 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_3";
+
+				/**
+				 * [tJDBCInput_3 finally ] stop
+				 */
+
+				/**
+				 * [tMap_3 finally ] start
+				 */
+
+				currentComponent = "tMap_3";
+
+				/**
+				 * [tMap_3 finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_3_AGGOUT finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_3";
+
+				currentComponent = "tAggregateRow_3_AGGOUT";
+
+				/**
+				 * [tAggregateRow_3_AGGOUT finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_3_AGGIN finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_3";
+
+				currentComponent = "tAggregateRow_3_AGGIN";
+
+				/**
+				 * [tAggregateRow_3_AGGIN finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_3 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_3";
+
+				/**
+				 * [tJDBCOutput_3 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", 1);
@@ -10042,10 +10322,12 @@ public class AggregationToHourly implements TalendJob {
 		globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -10068,6 +10350,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_4_AGGOUT", false);
 				start_Hash.put("tAggregateRow_4_AGGOUT",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_4";
+
 				currentComponent = "tAggregateRow_4_AGGOUT";
 
 				int tos_count_tAggregateRow_4_AGGOUT = 0;
@@ -10100,6 +10385,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						byte r = (byte) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'short/Short'", "'int/Integer'"));
@@ -10110,6 +10396,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						short r = (short) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'int/Integer'", "'short/Short'"));
@@ -10120,6 +10407,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						int r = a + b;
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'long/Long'", "'int/Integer'"));
@@ -10142,6 +10430,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							float minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -10154,6 +10443,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& ((double) a + (double) b > (double) Float.MAX_VALUE)
 								|| ((double) a + (double) b < (double) -Float.MAX_VALUE)) {
+
 							throw new RuntimeException(
 									buildOverflowMessage(String.valueOf(a),
 											String.valueOf(b),
@@ -10168,6 +10458,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -10180,6 +10471,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -10192,6 +10484,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -10204,6 +10497,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -10216,6 +10510,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -10228,6 +10523,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -10240,6 +10536,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -10376,6 +10673,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tMap_4", false);
 				start_Hash.put("tMap_4", System.currentTimeMillis());
+
 				currentComponent = "tMap_4";
 
 				int tos_count_tMap_4 = 0;
@@ -10406,6 +10704,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_4", false);
 				start_Hash.put("tJDBCInput_4", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_4";
 
 				int tos_count_tJDBCInput_4 = 0;
@@ -10414,14 +10713,6 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_4 = null;
 				conn_tJDBCInput_4 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_4) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_4 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_4 = dataSources_tJDBCInput_4.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_4);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_4 = conn_tJDBCInput_4
 						.createStatement();
@@ -10429,553 +10720,548 @@ public class AggregationToHourly implements TalendJob {
 				String dbquery_tJDBCInput_4 = "SELECT     history_id,     history_datetime,     vm_id,     vm_status,     minutes_in_status,     cpu_usage_percent,     memory_usage_percent,     user_cpu_usage_percent,     system_cpu_usage_percent,    vm_ip,     current_user_name,    user_logged_in_to_guest,    currently_running_on_host,     vm_configuration_version,     current_host_configuration_version  FROM vm_samples_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastHourAggr')  ORDER BY history_datetime,        	 vm_id,  		 vm_status";
 
 				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
+				java.sql.ResultSet rs_tJDBCInput_4 = null;
+				try {
+					rs_tJDBCInput_4 = stmt_tJDBCInput_4
+							.executeQuery(dbquery_tJDBCInput_4);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_4 = rs_tJDBCInput_4
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_4 = rsmd_tJDBCInput_4
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_4 = stmt_tJDBCInput_4
-						.executeQuery(dbquery_tJDBCInput_4);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_4 = rs_tJDBCInput_4
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_4 = rsmd_tJDBCInput_4
-						.getColumnCount();
+					String tmpContent_tJDBCInput_4 = null;
+					int column_index_tJDBCInput_4 = 1;
 
-				String tmpContent_tJDBCInput_4 = null;
-				int column_index_tJDBCInput_4 = 1;
-				while (rs_tJDBCInput_4.next()) {
-					nb_line_tJDBCInput_4++;
+					while (rs_tJDBCInput_4.next()) {
+						nb_line_tJDBCInput_4++;
 
-					column_index_tJDBCInput_4 = 1;
+						column_index_tJDBCInput_4 = 1;
 
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row4.history_id = rs_tJDBCInput_4
-									.getInt(column_index_tJDBCInput_4);
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
+							row4.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.history_id = rs_tJDBCInput_4
+										.getInt(column_index_tJDBCInput_4);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_4 = 2;
+						column_index_tJDBCInput_4 = 2;
 
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.history_datetime = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_4 = null;
-						try {
-							date_tJDBCInput_4 = rs_tJDBCInput_4
-									.getTimestamp(column_index_tJDBCInput_4);
-						} catch (java.lang.Exception e) {
-							date_tJDBCInput_4 = rs_tJDBCInput_4
-									.getDate(column_index_tJDBCInput_4);
-						}
-						row4.history_datetime = date_tJDBCInput_4;
-
-					}
-					column_index_tJDBCInput_4 = 3;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.vm_id = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row4.vm_id = rs_tJDBCInput_4
-									.getObject(column_index_tJDBCInput_4);
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
+							row4.history_datetime = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							java.util.Date date_tJDBCInput_4 = null;
+							try {
+								date_tJDBCInput_4 = rs_tJDBCInput_4
+										.getTimestamp(column_index_tJDBCInput_4);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_4 = rs_tJDBCInput_4
+										.getDate(column_index_tJDBCInput_4);
+							}
+							row4.history_datetime = date_tJDBCInput_4;
+
 						}
 
-					}
-					column_index_tJDBCInput_4 = 4;
+						column_index_tJDBCInput_4 = 3;
 
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.vm_status = 0;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row4.vm_status = rs_tJDBCInput_4
-									.getShort(column_index_tJDBCInput_4);
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
+							row4.vm_id = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.vm_id = rs_tJDBCInput_4
+										.getObject(column_index_tJDBCInput_4);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_4 = 5;
+						column_index_tJDBCInput_4 = 4;
 
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.minutes_in_status = 0;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row4.minutes_in_status = rs_tJDBCInput_4
-									.getDouble(column_index_tJDBCInput_4);
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
+							row4.vm_status = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.vm_status = rs_tJDBCInput_4
+										.getShort(column_index_tJDBCInput_4);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_4 = 6;
+						column_index_tJDBCInput_4 = 5;
 
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row4.cpu_usage_percent = rs_tJDBCInput_4
-									.getShort(column_index_tJDBCInput_4);
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
+							row4.minutes_in_status = 0;
 						} else {
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.minutes_in_status = rs_tJDBCInput_4
+										.getDouble(column_index_tJDBCInput_4);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
+						}
+
+						column_index_tJDBCInput_4 = 6;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row4.cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_4.wasNull()) {
-							row4.cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 7;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.memory_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row4.memory_usage_percent = rs_tJDBCInput_4
-									.getShort(column_index_tJDBCInput_4);
 						} else {
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.cpu_usage_percent = rs_tJDBCInput_4
+										.getShort(column_index_tJDBCInput_4);
+							} else {
+								row4.cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_4 = 7;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row4.memory_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_4.wasNull()) {
-							row4.memory_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 8;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.user_cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row4.user_cpu_usage_percent = rs_tJDBCInput_4
-									.getShort(column_index_tJDBCInput_4);
 						} else {
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.memory_usage_percent = rs_tJDBCInput_4
+										.getShort(column_index_tJDBCInput_4);
+							} else {
+								row4.memory_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_4 = 8;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row4.user_cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_4.wasNull()) {
-							row4.user_cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 9;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.system_cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row4.system_cpu_usage_percent = rs_tJDBCInput_4
-									.getShort(column_index_tJDBCInput_4);
 						} else {
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.user_cpu_usage_percent = rs_tJDBCInput_4
+										.getShort(column_index_tJDBCInput_4);
+							} else {
+								row4.user_cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_4 = 9;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row4.system_cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_4.wasNull()) {
-							row4.system_cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 10;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.vm_ip = null;
-					} else {
-
-						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4
-								.getString(column_index_tJDBCInput_4);
-						if (tmpContent_tJDBCInput_4 != null) {
-							row4.vm_ip = tmpContent_tJDBCInput_4;
 						} else {
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.system_cpu_usage_percent = rs_tJDBCInput_4
+										.getShort(column_index_tJDBCInput_4);
+							} else {
+								row4.system_cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_4 = 10;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row4.vm_ip = null;
-						}
-
-						if (rs_tJDBCInput_4.wasNull()) {
-							row4.vm_ip = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 11;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.current_user_name = null;
-					} else {
-
-						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4
-								.getString(column_index_tJDBCInput_4);
-						if (tmpContent_tJDBCInput_4 != null) {
-							row4.current_user_name = tmpContent_tJDBCInput_4;
 						} else {
+
+							tmpContent_tJDBCInput_4 = rs_tJDBCInput_4
+									.getString(column_index_tJDBCInput_4);
+							if (tmpContent_tJDBCInput_4 != null) {
+								row4.vm_ip = tmpContent_tJDBCInput_4;
+							} else {
+								row4.vm_ip = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_4 = 11;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row4.current_user_name = null;
-						}
-
-						if (rs_tJDBCInput_4.wasNull()) {
-							row4.current_user_name = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 12;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.user_logged_in_to_guest = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row4.user_logged_in_to_guest = rs_tJDBCInput_4
-									.getBoolean(column_index_tJDBCInput_4);
 						} else {
+
+							tmpContent_tJDBCInput_4 = rs_tJDBCInput_4
+									.getString(column_index_tJDBCInput_4);
+							if (tmpContent_tJDBCInput_4 != null) {
+								row4.current_user_name = tmpContent_tJDBCInput_4;
+							} else {
+								row4.current_user_name = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_4 = 12;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row4.user_logged_in_to_guest = null;
-						}
-
-						if (rs_tJDBCInput_4.wasNull()) {
-							row4.user_logged_in_to_guest = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 13;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.currently_running_on_host = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row4.currently_running_on_host = rs_tJDBCInput_4
-									.getObject(column_index_tJDBCInput_4);
 						} else {
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.user_logged_in_to_guest = rs_tJDBCInput_4
+										.getBoolean(column_index_tJDBCInput_4);
+							} else {
+								row4.user_logged_in_to_guest = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_4 = 13;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row4.currently_running_on_host = null;
-						}
-
-						if (rs_tJDBCInput_4.wasNull()) {
-							row4.currently_running_on_host = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 14;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.vm_configuration_version = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row4.vm_configuration_version = rs_tJDBCInput_4
-									.getInt(column_index_tJDBCInput_4);
 						} else {
-							row4.vm_configuration_version = null;
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.currently_running_on_host = rs_tJDBCInput_4
+										.getObject(column_index_tJDBCInput_4);
+							} else {
+								row4.currently_running_on_host = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_4.wasNull()) {
+						column_index_tJDBCInput_4 = 14;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row4.vm_configuration_version = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 15;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row4.current_host_configuration_version = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row4.current_host_configuration_version = rs_tJDBCInput_4
-									.getInt(column_index_tJDBCInput_4);
 						} else {
-							row4.current_host_configuration_version = null;
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.vm_configuration_version = rs_tJDBCInput_4
+										.getInt(column_index_tJDBCInput_4);
+							} else {
+								row4.vm_configuration_version = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_4.wasNull()) {
+						column_index_tJDBCInput_4 = 15;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row4.current_host_configuration_version = null;
+						} else {
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.current_host_configuration_version = rs_tJDBCInput_4
+										.getInt(column_index_tJDBCInput_4);
+							} else {
+								row4.current_host_configuration_version = null;
+							}
+
 						}
-					}
-
-					/**
-					 * [tJDBCInput_4 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_4 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_4";
-
-					tos_count_tJDBCInput_4++;
-
-					/**
-					 * [tJDBCInput_4 main ] stop
-					 */
-
-					/**
-					 * [tMap_4 main ] start
-					 */
-
-					currentComponent = "tMap_4";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_4 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_4 = false;
-					boolean mainRowRejected_tMap_4 = false;
-
-					if (
-
-					(
-
-					routines.RoutineHistoryETL.dateCompare(
-							row4.history_datetime, routines.RoutineHistoryETL
-									.manipulateDate(routines.RoutineHistoryETL
-											.startOfHour(context.runTime), -1,
-											"HH")) < 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row4'
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_4__Struct Var = Var__tMap_4;// ###############################
-							// ###############################
-							// # Output tables
-
-							vm_aggregate_history = null;
-
-							// # Output table : 'vm_aggregate_history'
-							vm_aggregate_history_tmp.history_datetime = RoutineHistoryETL
-									.startOfHour(row4.history_datetime);
-							vm_aggregate_history_tmp.vm_id = row4.vm_id;
-							vm_aggregate_history_tmp.vm_status = row4.vm_status;
-							vm_aggregate_history_tmp.minutes_in_status = row4.minutes_in_status;
-							vm_aggregate_history_tmp.cpu_usage_percent = row4.cpu_usage_percent;
-							vm_aggregate_history_tmp.memory_usage_percent = row4.memory_usage_percent;
-							vm_aggregate_history_tmp.user_cpu_usage_percent = row4.user_cpu_usage_percent;
-							vm_aggregate_history_tmp.system_cpu_usage_percent = row4.system_cpu_usage_percent;
-							vm_aggregate_history_tmp.vm_ip = row4.vm_ip;
-							vm_aggregate_history_tmp.current_user_name = row4.current_user_name;
-							vm_aggregate_history_tmp.currently_running_on_host = row4.currently_running_on_host;
-							vm_aggregate_history_tmp.vm_configuration_version = row4.vm_configuration_version;
-							vm_aggregate_history_tmp.current_host_configuration_version = row4.current_host_configuration_version;
-							vm_aggregate_history = vm_aggregate_history_tmp;
-							// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_4 = false;
-
-						tos_count_tMap_4++;
 
 						/**
-						 * [tMap_4 main ] stop
+						 * [tJDBCInput_4 begin ] stop
 						 */
-						// Start of branch "vm_aggregate_history"
-						if (vm_aggregate_history != null) {
+						/**
+						 * [tJDBCInput_4 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_4";
+
+						tos_count_tJDBCInput_4++;
+
+						/**
+						 * [tJDBCInput_4 main ] stop
+						 */
+
+						/**
+						 * [tMap_4 main ] start
+						 */
+
+						currentComponent = "tMap_4";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_4 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_4 = false;
+						boolean mainRowRejected_tMap_4 = false;
+
+						if (
+
+						(
+
+						routines.RoutineHistoryETL.dateCompare(
+								row4.history_datetime,
+								routines.RoutineHistoryETL.manipulateDate(
+										routines.RoutineHistoryETL
+												.startOfHour(context.runTime),
+										-1, "HH")) < 0
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row4'
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_4__Struct Var = Var__tMap_4;// ###############################
+								// ###############################
+								// # Output tables
+
+								vm_aggregate_history = null;
+
+								// # Output table : 'vm_aggregate_history'
+								vm_aggregate_history_tmp.history_datetime = RoutineHistoryETL
+										.startOfHour(row4.history_datetime);
+								vm_aggregate_history_tmp.vm_id = row4.vm_id;
+								vm_aggregate_history_tmp.vm_status = row4.vm_status;
+								vm_aggregate_history_tmp.minutes_in_status = row4.minutes_in_status;
+								vm_aggregate_history_tmp.cpu_usage_percent = row4.cpu_usage_percent;
+								vm_aggregate_history_tmp.memory_usage_percent = row4.memory_usage_percent;
+								vm_aggregate_history_tmp.user_cpu_usage_percent = row4.user_cpu_usage_percent;
+								vm_aggregate_history_tmp.system_cpu_usage_percent = row4.system_cpu_usage_percent;
+								vm_aggregate_history_tmp.vm_ip = row4.vm_ip;
+								vm_aggregate_history_tmp.current_user_name = row4.current_user_name;
+								vm_aggregate_history_tmp.currently_running_on_host = row4.currently_running_on_host;
+								vm_aggregate_history_tmp.vm_configuration_version = row4.vm_configuration_version;
+								vm_aggregate_history_tmp.current_host_configuration_version = row4.current_host_configuration_version;
+								vm_aggregate_history = vm_aggregate_history_tmp;
+								// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_4 = false;
+
+							tos_count_tMap_4++;
 
 							/**
-							 * [tAggregateRow_4_AGGOUT main ] start
+							 * [tMap_4 main ] stop
 							 */
+							// Start of branch "vm_aggregate_history"
+							if (vm_aggregate_history != null) {
 
-							currentComponent = "tAggregateRow_4_AGGOUT";
+								/**
+								 * [tAggregateRow_4_AGGOUT main ] start
+								 */
 
-							operation_finder_tAggregateRow_4.history_datetime = vm_aggregate_history.history_datetime;
-							operation_finder_tAggregateRow_4.vm_id = vm_aggregate_history.vm_id;
-							operation_finder_tAggregateRow_4.vm_status = vm_aggregate_history.vm_status;
+								currentVirtualComponent = "tAggregateRow_4";
 
-							operation_finder_tAggregateRow_4.hashCodeDirty = true;
+								currentComponent = "tAggregateRow_4_AGGOUT";
 
-							operation_result_tAggregateRow_4 = hash_tAggregateRow_4
-									.get(operation_finder_tAggregateRow_4);
+								operation_finder_tAggregateRow_4.history_datetime = vm_aggregate_history.history_datetime;
+								operation_finder_tAggregateRow_4.vm_id = vm_aggregate_history.vm_id;
+								operation_finder_tAggregateRow_4.vm_status = vm_aggregate_history.vm_status;
 
-							boolean isFirstAdd_tAggregateRow_4 = false;
+								operation_finder_tAggregateRow_4.hashCodeDirty = true;
 
-							if (operation_result_tAggregateRow_4 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_4 = hash_tAggregateRow_4
+										.get(operation_finder_tAggregateRow_4);
 
-								operation_result_tAggregateRow_4 = new AggOperationStruct_tAggregateRow_4();
+								boolean isFirstAdd_tAggregateRow_4 = false;
 
-								operation_result_tAggregateRow_4.history_datetime = operation_finder_tAggregateRow_4.history_datetime;
-								operation_result_tAggregateRow_4.vm_id = operation_finder_tAggregateRow_4.vm_id;
-								operation_result_tAggregateRow_4.vm_status = operation_finder_tAggregateRow_4.vm_status;
+								if (operation_result_tAggregateRow_4 == null) { // G_OutMain_AggR_001
 
-								isFirstAdd_tAggregateRow_4 = true;
+									operation_result_tAggregateRow_4 = new AggOperationStruct_tAggregateRow_4();
 
-								hash_tAggregateRow_4.put(
-										operation_result_tAggregateRow_4,
-										operation_result_tAggregateRow_4);
+									operation_result_tAggregateRow_4.history_datetime = operation_finder_tAggregateRow_4.history_datetime;
+									operation_result_tAggregateRow_4.vm_id = operation_finder_tAggregateRow_4.vm_id;
+									operation_result_tAggregateRow_4.vm_status = operation_finder_tAggregateRow_4.vm_status;
 
-							} // G_OutMain_AggR_001
+									isFirstAdd_tAggregateRow_4 = true;
 
-							if (operation_result_tAggregateRow_4.minutes_in_status_sum == null) {
-								operation_result_tAggregateRow_4.minutes_in_status_sum = new BigDecimal(
-										0).setScale(0);
-							}
-							operation_result_tAggregateRow_4.minutes_in_status_sum = operation_result_tAggregateRow_4.minutes_in_status_sum
-									.add(new BigDecimal(
-											String.valueOf(vm_aggregate_history.minutes_in_status)));
+									hash_tAggregateRow_4.put(
+											operation_result_tAggregateRow_4,
+											operation_result_tAggregateRow_4);
 
-							if (vm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_001
 
-								operation_result_tAggregateRow_4.cpu_usage_percent_count++;
-
-								if (operation_result_tAggregateRow_4.cpu_usage_percent_sum == null) {
-									operation_result_tAggregateRow_4.cpu_usage_percent_sum = (double) 0;
+								if (operation_result_tAggregateRow_4.minutes_in_status_sum == null) {
+									operation_result_tAggregateRow_4.minutes_in_status_sum = new BigDecimal(
+											0).setScale(0);
 								}
-								operation_result_tAggregateRow_4.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_4.cpu_usage_percent_sum
-										.doubleValue() + vm_aggregate_history.cpu_usage_percent
-										.shortValue());
+								operation_result_tAggregateRow_4.minutes_in_status_sum = operation_result_tAggregateRow_4.minutes_in_status_sum
+										.add(new BigDecimal(
+												String.valueOf(vm_aggregate_history.minutes_in_status)));
 
-							} // G_OutMain_AggR_546
+								if (vm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_4.cpu_usage_percent_count++;
 
-								if (operation_result_tAggregateRow_4.max_cpu_usage_max == null
-										|| vm_aggregate_history.cpu_usage_percent > operation_result_tAggregateRow_4.max_cpu_usage_max
+									if (operation_result_tAggregateRow_4.cpu_usage_percent_sum == null) {
+										operation_result_tAggregateRow_4.cpu_usage_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_4.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_4.cpu_usage_percent_sum
+											.doubleValue() + vm_aggregate_history.cpu_usage_percent
+											.shortValue());
 
-								) {
-									operation_result_tAggregateRow_4.max_cpu_usage_max = vm_aggregate_history.cpu_usage_percent;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (vm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_4.max_cpu_usage_max == null
+											|| vm_aggregate_history.cpu_usage_percent > operation_result_tAggregateRow_4.max_cpu_usage_max
 
-								operation_result_tAggregateRow_4.memory_usage_percent_count++;
+									) {
+										operation_result_tAggregateRow_4.max_cpu_usage_max = vm_aggregate_history.cpu_usage_percent;
+									}
 
-								if (operation_result_tAggregateRow_4.memory_usage_percent_sum == null) {
-									operation_result_tAggregateRow_4.memory_usage_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_4.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_4.memory_usage_percent_sum
-										.doubleValue() + vm_aggregate_history.memory_usage_percent
-										.shortValue());
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (vm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_4.memory_usage_percent_count++;
 
-								if (operation_result_tAggregateRow_4.max_memory_usage_max == null
-										|| vm_aggregate_history.memory_usage_percent > operation_result_tAggregateRow_4.max_memory_usage_max
+									if (operation_result_tAggregateRow_4.memory_usage_percent_sum == null) {
+										operation_result_tAggregateRow_4.memory_usage_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_4.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_4.memory_usage_percent_sum
+											.doubleValue() + vm_aggregate_history.memory_usage_percent
+											.shortValue());
 
-								) {
-									operation_result_tAggregateRow_4.max_memory_usage_max = vm_aggregate_history.memory_usage_percent;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (vm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_4.max_memory_usage_max == null
+											|| vm_aggregate_history.memory_usage_percent > operation_result_tAggregateRow_4.max_memory_usage_max
 
-								operation_result_tAggregateRow_4.user_cpu_usage_percent_count++;
+									) {
+										operation_result_tAggregateRow_4.max_memory_usage_max = vm_aggregate_history.memory_usage_percent;
+									}
 
-								if (operation_result_tAggregateRow_4.user_cpu_usage_percent_sum == null) {
-									operation_result_tAggregateRow_4.user_cpu_usage_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_4.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_4.user_cpu_usage_percent_sum
-										.doubleValue() + vm_aggregate_history.user_cpu_usage_percent
-										.shortValue());
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (vm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_4.user_cpu_usage_percent_count++;
 
-								if (operation_result_tAggregateRow_4.max_user_cpu_usage_percent_max == null
-										|| vm_aggregate_history.user_cpu_usage_percent > operation_result_tAggregateRow_4.max_user_cpu_usage_percent_max
+									if (operation_result_tAggregateRow_4.user_cpu_usage_percent_sum == null) {
+										operation_result_tAggregateRow_4.user_cpu_usage_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_4.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_4.user_cpu_usage_percent_sum
+											.doubleValue() + vm_aggregate_history.user_cpu_usage_percent
+											.shortValue());
 
-								) {
-									operation_result_tAggregateRow_4.max_user_cpu_usage_percent_max = vm_aggregate_history.user_cpu_usage_percent;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (vm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_4.max_user_cpu_usage_percent_max == null
+											|| vm_aggregate_history.user_cpu_usage_percent > operation_result_tAggregateRow_4.max_user_cpu_usage_percent_max
 
-								operation_result_tAggregateRow_4.system_cpu_usage_percent_count++;
+									) {
+										operation_result_tAggregateRow_4.max_user_cpu_usage_percent_max = vm_aggregate_history.user_cpu_usage_percent;
+									}
 
-								if (operation_result_tAggregateRow_4.system_cpu_usage_percent_sum == null) {
-									operation_result_tAggregateRow_4.system_cpu_usage_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_4.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_4.system_cpu_usage_percent_sum
-										.doubleValue() + vm_aggregate_history.system_cpu_usage_percent
-										.shortValue());
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (vm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_4.system_cpu_usage_percent_count++;
 
-								if (operation_result_tAggregateRow_4.max_system_cpu_usage_percent_max == null
-										|| vm_aggregate_history.system_cpu_usage_percent > operation_result_tAggregateRow_4.max_system_cpu_usage_percent_max
+									if (operation_result_tAggregateRow_4.system_cpu_usage_percent_sum == null) {
+										operation_result_tAggregateRow_4.system_cpu_usage_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_4.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_4.system_cpu_usage_percent_sum
+											.doubleValue() + vm_aggregate_history.system_cpu_usage_percent
+											.shortValue());
 
-								) {
-									operation_result_tAggregateRow_4.max_system_cpu_usage_percent_max = vm_aggregate_history.system_cpu_usage_percent;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (vm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.vm_ip != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_4.max_system_cpu_usage_percent_max == null
+											|| vm_aggregate_history.system_cpu_usage_percent > operation_result_tAggregateRow_4.max_system_cpu_usage_percent_max
 
-								operation_result_tAggregateRow_4.vm_ip_last = vm_aggregate_history.vm_ip;
+									) {
+										operation_result_tAggregateRow_4.max_system_cpu_usage_percent_max = vm_aggregate_history.system_cpu_usage_percent;
+									}
 
-							} // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.current_user_name != null) { // G_OutMain_AggR_546
+								if (vm_aggregate_history.vm_ip != null) { // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_4.current_user_name_last = vm_aggregate_history.current_user_name;
+									operation_result_tAggregateRow_4.vm_ip_last = vm_aggregate_history.vm_ip;
 
-							} // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.currently_running_on_host != null) { // G_OutMain_AggR_546
+								if (vm_aggregate_history.current_user_name != null) { // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_4.currently_running_on_host_last = vm_aggregate_history.currently_running_on_host;
+									operation_result_tAggregateRow_4.current_user_name_last = vm_aggregate_history.current_user_name;
 
-							} // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.vm_configuration_version != null) { // G_OutMain_AggR_546
+								if (vm_aggregate_history.currently_running_on_host != null) { // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_4.vm_configuration_version_last = vm_aggregate_history.vm_configuration_version;
+									operation_result_tAggregateRow_4.currently_running_on_host_last = vm_aggregate_history.currently_running_on_host;
 
-							} // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.current_host_configuration_version != null) { // G_OutMain_AggR_546
+								if (vm_aggregate_history.vm_configuration_version != null) { // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_4.current_host_configuration_version_last = vm_aggregate_history.current_host_configuration_version;
+									operation_result_tAggregateRow_4.vm_configuration_version_last = vm_aggregate_history.vm_configuration_version;
 
-							} // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-							tos_count_tAggregateRow_4_AGGOUT++;
+								if (vm_aggregate_history.current_host_configuration_version != null) { // G_OutMain_AggR_546
 
-							/**
-							 * [tAggregateRow_4_AGGOUT main ] stop
-							 */
+									operation_result_tAggregateRow_4.current_host_configuration_version_last = vm_aggregate_history.current_host_configuration_version;
 
-						} // End of branch "vm_aggregate_history"
+								} // G_OutMain_AggR_546
 
-					} // G_TM_M_280 close main tMap filter for table 'row4'
+								tos_count_tAggregateRow_4_AGGOUT++;
 
-					/**
-					 * [tJDBCInput_4 end ] start
-					 */
+								/**
+								 * [tAggregateRow_4_AGGOUT main ] stop
+								 */
 
-					currentComponent = "tJDBCInput_4";
+							} // End of branch "vm_aggregate_history"
+
+						} // G_TM_M_280 close main tMap filter for table 'row4'
+
+						/**
+						 * [tJDBCInput_4 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_4";
+
+					}
+				} finally {
+					rs_tJDBCInput_4.close();
+					stmt_tJDBCInput_4.close();
 
 				}
-				rs_tJDBCInput_4.close();
-				stmt_tJDBCInput_4.close();
-
 				globalMap.put("tJDBCInput_4_NB_LINE", nb_line_tJDBCInput_4);
 
 				ok_Hash.put("tJDBCInput_4", true);
@@ -11006,6 +11292,8 @@ public class AggregationToHourly implements TalendJob {
 				 * [tAggregateRow_4_AGGOUT end ] start
 				 */
 
+				currentVirtualComponent = "tAggregateRow_4";
+
 				currentComponent = "tAggregateRow_4_AGGOUT";
 
 				ok_Hash.put("tAggregateRow_4_AGGOUT", true);
@@ -11022,6 +11310,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_4", false);
 				start_Hash.put("tJDBCOutput_4", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_4";
 
 				int tos_count_tJDBCOutput_4 = 0;
@@ -11043,13 +11332,6 @@ public class AggregationToHourly implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_4 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_4) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_4 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_4 = dataSources_tJDBCOutput_4
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_4 = 10000;
 				int batchSizeCounter_tJDBCOutput_4 = 0;
 
@@ -11070,6 +11352,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_4_AGGIN", false);
 				start_Hash.put("tAggregateRow_4_AGGIN",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_4";
+
 				currentComponent = "tAggregateRow_4_AGGIN";
 
 				int tos_count_tAggregateRow_4_AGGIN = 0;
@@ -11088,6 +11373,8 @@ public class AggregationToHourly implements TalendJob {
 					/**
 					 * [tAggregateRow_4_AGGIN main ] start
 					 */
+
+					currentVirtualComponent = "tAggregateRow_4";
 
 					currentComponent = "tAggregateRow_4_AGGIN";
 
@@ -11311,6 +11598,8 @@ public class AggregationToHourly implements TalendJob {
 					 * [tAggregateRow_4_AGGIN end ] start
 					 */
 
+					currentVirtualComponent = "tAggregateRow_4";
+
 					currentComponent = "tAggregateRow_4_AGGIN";
 
 				} // G_AggR_600
@@ -11365,16 +11654,82 @@ public class AggregationToHourly implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tAggregateRow_4_AGGIN"
 			globalMap.remove("tAggregateRow_4");
 
+			try {
+
+				/**
+				 * [tJDBCInput_4 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_4";
+
+				/**
+				 * [tJDBCInput_4 finally ] stop
+				 */
+
+				/**
+				 * [tMap_4 finally ] start
+				 */
+
+				currentComponent = "tMap_4";
+
+				/**
+				 * [tMap_4 finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_4_AGGOUT finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_4";
+
+				currentComponent = "tAggregateRow_4_AGGOUT";
+
+				/**
+				 * [tAggregateRow_4_AGGOUT finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_4_AGGIN finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_4";
+
+				currentComponent = "tAggregateRow_4_AGGIN";
+
+				/**
+				 * [tAggregateRow_4_AGGIN finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_4 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_4";
+
+				/**
+				 * [tJDBCOutput_4 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", 1);
@@ -12339,10 +12694,12 @@ public class AggregationToHourly implements TalendJob {
 		globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -12365,6 +12722,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_5_AGGOUT", false);
 				start_Hash.put("tAggregateRow_5_AGGOUT",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_5";
+
 				currentComponent = "tAggregateRow_5_AGGOUT";
 
 				int tos_count_tAggregateRow_5_AGGOUT = 0;
@@ -12397,6 +12757,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						byte r = (byte) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'short/Short'", "'int/Integer'"));
@@ -12407,6 +12768,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						short r = (short) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'int/Integer'", "'short/Short'"));
@@ -12417,6 +12779,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						int r = a + b;
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'long/Long'", "'int/Integer'"));
@@ -12439,6 +12802,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							float minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -12451,6 +12815,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& ((double) a + (double) b > (double) Float.MAX_VALUE)
 								|| ((double) a + (double) b < (double) -Float.MAX_VALUE)) {
+
 							throw new RuntimeException(
 									buildOverflowMessage(String.valueOf(a),
 											String.valueOf(b),
@@ -12465,6 +12830,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -12477,6 +12843,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -12489,6 +12856,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -12501,6 +12869,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -12513,6 +12882,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -12525,6 +12895,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -12537,6 +12908,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -12654,6 +13026,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tMap_5", false);
 				start_Hash.put("tMap_5", System.currentTimeMillis());
+
 				currentComponent = "tMap_5";
 
 				int tos_count_tMap_5 = 0;
@@ -12684,6 +13057,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_5", false);
 				start_Hash.put("tJDBCInput_5", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_5";
 
 				int tos_count_tJDBCInput_5 = 0;
@@ -12692,14 +13066,6 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_5 = null;
 				conn_tJDBCInput_5 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_5) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_5 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_5 = dataSources_tJDBCInput_5.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_5);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_5 = conn_tJDBCInput_5
 						.createStatement();
@@ -12707,305 +13073,310 @@ public class AggregationToHourly implements TalendJob {
 				String dbquery_tJDBCInput_5 = "SELECT     history_id,     history_datetime,     vm_interface_id,     receive_rate_percent,     transmit_rate_percent,     vm_interface_configuration_version  FROM vm_interface_samples_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastHourAggr')  ORDER BY history_datetime,  		 vm_interface_id";
 
 				globalMap.put("tJDBCInput_5_QUERY", dbquery_tJDBCInput_5);
+				java.sql.ResultSet rs_tJDBCInput_5 = null;
+				try {
+					rs_tJDBCInput_5 = stmt_tJDBCInput_5
+							.executeQuery(dbquery_tJDBCInput_5);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_5 = rs_tJDBCInput_5
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_5 = rsmd_tJDBCInput_5
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_5 = stmt_tJDBCInput_5
-						.executeQuery(dbquery_tJDBCInput_5);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_5 = rs_tJDBCInput_5
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_5 = rsmd_tJDBCInput_5
-						.getColumnCount();
+					String tmpContent_tJDBCInput_5 = null;
+					int column_index_tJDBCInput_5 = 1;
 
-				String tmpContent_tJDBCInput_5 = null;
-				int column_index_tJDBCInput_5 = 1;
-				while (rs_tJDBCInput_5.next()) {
-					nb_line_tJDBCInput_5++;
+					while (rs_tJDBCInput_5.next()) {
+						nb_line_tJDBCInput_5++;
 
-					column_index_tJDBCInput_5 = 1;
+						column_index_tJDBCInput_5 = 1;
 
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row5.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row5.history_id = rs_tJDBCInput_5
-									.getInt(column_index_tJDBCInput_5);
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
+							row5.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row5.history_id = rs_tJDBCInput_5
+										.getInt(column_index_tJDBCInput_5);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_5 = 2;
+						column_index_tJDBCInput_5 = 2;
 
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row5.history_datetime = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_5 = null;
-						try {
-							date_tJDBCInput_5 = rs_tJDBCInput_5
-									.getTimestamp(column_index_tJDBCInput_5);
-						} catch (java.lang.Exception e) {
-							date_tJDBCInput_5 = rs_tJDBCInput_5
-									.getDate(column_index_tJDBCInput_5);
-						}
-						row5.history_datetime = date_tJDBCInput_5;
-
-					}
-					column_index_tJDBCInput_5 = 3;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row5.vm_interface_id = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row5.vm_interface_id = rs_tJDBCInput_5
-									.getObject(column_index_tJDBCInput_5);
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
+							row5.history_datetime = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							java.util.Date date_tJDBCInput_5 = null;
+							try {
+								date_tJDBCInput_5 = rs_tJDBCInput_5
+										.getTimestamp(column_index_tJDBCInput_5);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_5 = rs_tJDBCInput_5
+										.getDate(column_index_tJDBCInput_5);
+							}
+							row5.history_datetime = date_tJDBCInput_5;
+
 						}
 
-					}
-					column_index_tJDBCInput_5 = 4;
+						column_index_tJDBCInput_5 = 3;
 
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row5.receive_rate_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row5.receive_rate_percent = rs_tJDBCInput_5
-									.getShort(column_index_tJDBCInput_5);
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
+							row5.vm_interface_id = null;
 						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row5.vm_interface_id = rs_tJDBCInput_5
+										.getObject(column_index_tJDBCInput_5);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 4;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row5.receive_rate_percent = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row5.receive_rate_percent = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 5;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row5.transmit_rate_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row5.transmit_rate_percent = rs_tJDBCInput_5
-									.getShort(column_index_tJDBCInput_5);
 						} else {
-							row5.transmit_rate_percent = null;
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row5.receive_rate_percent = rs_tJDBCInput_5
+										.getShort(column_index_tJDBCInput_5);
+							} else {
+								row5.receive_rate_percent = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_5.wasNull()) {
+						column_index_tJDBCInput_5 = 5;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row5.transmit_rate_percent = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 6;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row5.vm_interface_configuration_version = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row5.vm_interface_configuration_version = rs_tJDBCInput_5
-									.getInt(column_index_tJDBCInput_5);
 						} else {
-							row5.vm_interface_configuration_version = null;
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row5.transmit_rate_percent = rs_tJDBCInput_5
+										.getShort(column_index_tJDBCInput_5);
+							} else {
+								row5.transmit_rate_percent = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_5.wasNull()) {
+						column_index_tJDBCInput_5 = 6;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row5.vm_interface_configuration_version = null;
+						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row5.vm_interface_configuration_version = rs_tJDBCInput_5
+										.getInt(column_index_tJDBCInput_5);
+							} else {
+								row5.vm_interface_configuration_version = null;
+							}
+
 						}
-					}
-
-					/**
-					 * [tJDBCInput_5 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_5 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_5";
-
-					tos_count_tJDBCInput_5++;
-
-					/**
-					 * [tJDBCInput_5 main ] stop
-					 */
-
-					/**
-					 * [tMap_5 main ] start
-					 */
-
-					currentComponent = "tMap_5";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_5 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_5 = false;
-					boolean mainRowRejected_tMap_5 = false;
-
-					if (
-
-					(
-
-					routines.RoutineHistoryETL.dateCompare(
-							row5.history_datetime, routines.RoutineHistoryETL
-									.manipulateDate(routines.RoutineHistoryETL
-											.startOfHour(context.runTime), -1,
-											"HH")) < 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row5'
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_5__Struct Var = Var__tMap_5;// ###############################
-							// ###############################
-							// # Output tables
-
-							vm_interface_aggregate = null;
-
-							// # Output table : 'vm_interface_aggregate'
-							vm_interface_aggregate_tmp.history_datetime = RoutineHistoryETL
-									.startOfHour(row5.history_datetime);
-							vm_interface_aggregate_tmp.vm_interface_id = row5.vm_interface_id;
-							vm_interface_aggregate_tmp.receive_rate_percent = row5.receive_rate_percent;
-							vm_interface_aggregate_tmp.transmit_rate_percent = row5.transmit_rate_percent;
-							vm_interface_aggregate_tmp.vm_interface_configuration_version = row5.vm_interface_configuration_version;
-							vm_interface_aggregate = vm_interface_aggregate_tmp;
-							// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_5 = false;
-
-						tos_count_tMap_5++;
 
 						/**
-						 * [tMap_5 main ] stop
+						 * [tJDBCInput_5 begin ] stop
 						 */
-						// Start of branch "vm_interface_aggregate"
-						if (vm_interface_aggregate != null) {
+						/**
+						 * [tJDBCInput_5 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_5";
+
+						tos_count_tJDBCInput_5++;
+
+						/**
+						 * [tJDBCInput_5 main ] stop
+						 */
+
+						/**
+						 * [tMap_5 main ] start
+						 */
+
+						currentComponent = "tMap_5";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_5 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_5 = false;
+						boolean mainRowRejected_tMap_5 = false;
+
+						if (
+
+						(
+
+						routines.RoutineHistoryETL.dateCompare(
+								row5.history_datetime,
+								routines.RoutineHistoryETL.manipulateDate(
+										routines.RoutineHistoryETL
+												.startOfHour(context.runTime),
+										-1, "HH")) < 0
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row5'
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_5__Struct Var = Var__tMap_5;// ###############################
+								// ###############################
+								// # Output tables
+
+								vm_interface_aggregate = null;
+
+								// # Output table : 'vm_interface_aggregate'
+								vm_interface_aggregate_tmp.history_datetime = RoutineHistoryETL
+										.startOfHour(row5.history_datetime);
+								vm_interface_aggregate_tmp.vm_interface_id = row5.vm_interface_id;
+								vm_interface_aggregate_tmp.receive_rate_percent = row5.receive_rate_percent;
+								vm_interface_aggregate_tmp.transmit_rate_percent = row5.transmit_rate_percent;
+								vm_interface_aggregate_tmp.vm_interface_configuration_version = row5.vm_interface_configuration_version;
+								vm_interface_aggregate = vm_interface_aggregate_tmp;
+								// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_5 = false;
+
+							tos_count_tMap_5++;
 
 							/**
-							 * [tAggregateRow_5_AGGOUT main ] start
+							 * [tMap_5 main ] stop
 							 */
+							// Start of branch "vm_interface_aggregate"
+							if (vm_interface_aggregate != null) {
 
-							currentComponent = "tAggregateRow_5_AGGOUT";
+								/**
+								 * [tAggregateRow_5_AGGOUT main ] start
+								 */
 
-							operation_finder_tAggregateRow_5.history_datetime = vm_interface_aggregate.history_datetime;
-							operation_finder_tAggregateRow_5.vm_interface_id = vm_interface_aggregate.vm_interface_id;
+								currentVirtualComponent = "tAggregateRow_5";
 
-							operation_finder_tAggregateRow_5.hashCodeDirty = true;
+								currentComponent = "tAggregateRow_5_AGGOUT";
 
-							operation_result_tAggregateRow_5 = hash_tAggregateRow_5
-									.get(operation_finder_tAggregateRow_5);
+								operation_finder_tAggregateRow_5.history_datetime = vm_interface_aggregate.history_datetime;
+								operation_finder_tAggregateRow_5.vm_interface_id = vm_interface_aggregate.vm_interface_id;
 
-							boolean isFirstAdd_tAggregateRow_5 = false;
+								operation_finder_tAggregateRow_5.hashCodeDirty = true;
 
-							if (operation_result_tAggregateRow_5 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_5 = hash_tAggregateRow_5
+										.get(operation_finder_tAggregateRow_5);
 
-								operation_result_tAggregateRow_5 = new AggOperationStruct_tAggregateRow_5();
+								boolean isFirstAdd_tAggregateRow_5 = false;
 
-								operation_result_tAggregateRow_5.history_datetime = operation_finder_tAggregateRow_5.history_datetime;
-								operation_result_tAggregateRow_5.vm_interface_id = operation_finder_tAggregateRow_5.vm_interface_id;
+								if (operation_result_tAggregateRow_5 == null) { // G_OutMain_AggR_001
 
-								isFirstAdd_tAggregateRow_5 = true;
+									operation_result_tAggregateRow_5 = new AggOperationStruct_tAggregateRow_5();
 
-								hash_tAggregateRow_5.put(
-										operation_result_tAggregateRow_5,
-										operation_result_tAggregateRow_5);
+									operation_result_tAggregateRow_5.history_datetime = operation_finder_tAggregateRow_5.history_datetime;
+									operation_result_tAggregateRow_5.vm_interface_id = operation_finder_tAggregateRow_5.vm_interface_id;
 
-							} // G_OutMain_AggR_001
+									isFirstAdd_tAggregateRow_5 = true;
 
-							if (vm_interface_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
+									hash_tAggregateRow_5.put(
+											operation_result_tAggregateRow_5,
+											operation_result_tAggregateRow_5);
 
-								operation_result_tAggregateRow_5.receive_rate_percent_count++;
+								} // G_OutMain_AggR_001
 
-								if (operation_result_tAggregateRow_5.receive_rate_percent_sum == null) {
-									operation_result_tAggregateRow_5.receive_rate_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_5.receive_rate_percent_sum = (double) (operation_result_tAggregateRow_5.receive_rate_percent_sum
-										.doubleValue() + vm_interface_aggregate.receive_rate_percent
-										.shortValue());
+								if (vm_interface_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+									operation_result_tAggregateRow_5.receive_rate_percent_count++;
 
-							if (vm_interface_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_5.receive_rate_percent_sum == null) {
+										operation_result_tAggregateRow_5.receive_rate_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_5.receive_rate_percent_sum = (double) (operation_result_tAggregateRow_5.receive_rate_percent_sum
+											.doubleValue() + vm_interface_aggregate.receive_rate_percent
+											.shortValue());
 
-								if (operation_result_tAggregateRow_5.max_receive_rate_percent_max == null
-										|| vm_interface_aggregate.receive_rate_percent > operation_result_tAggregateRow_5.max_receive_rate_percent_max
+								} // G_OutMain_AggR_546
 
-								) {
-									operation_result_tAggregateRow_5.max_receive_rate_percent_max = vm_interface_aggregate.receive_rate_percent;
-								}
+								if (vm_interface_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_5.max_receive_rate_percent_max == null
+											|| vm_interface_aggregate.receive_rate_percent > operation_result_tAggregateRow_5.max_receive_rate_percent_max
 
-							if (vm_interface_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
+									) {
+										operation_result_tAggregateRow_5.max_receive_rate_percent_max = vm_interface_aggregate.receive_rate_percent;
+									}
 
-								operation_result_tAggregateRow_5.transmit_rate_percent_count++;
+								} // G_OutMain_AggR_546
 
-								if (operation_result_tAggregateRow_5.transmit_rate_percent_sum == null) {
-									operation_result_tAggregateRow_5.transmit_rate_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_5.transmit_rate_percent_sum = (double) (operation_result_tAggregateRow_5.transmit_rate_percent_sum
-										.doubleValue() + vm_interface_aggregate.transmit_rate_percent
-										.shortValue());
+								if (vm_interface_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+									operation_result_tAggregateRow_5.transmit_rate_percent_count++;
 
-							if (vm_interface_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_5.transmit_rate_percent_sum == null) {
+										operation_result_tAggregateRow_5.transmit_rate_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_5.transmit_rate_percent_sum = (double) (operation_result_tAggregateRow_5.transmit_rate_percent_sum
+											.doubleValue() + vm_interface_aggregate.transmit_rate_percent
+											.shortValue());
 
-								if (operation_result_tAggregateRow_5.max_transmit_rate_percent_max == null
-										|| vm_interface_aggregate.transmit_rate_percent > operation_result_tAggregateRow_5.max_transmit_rate_percent_max
+								} // G_OutMain_AggR_546
 
-								) {
-									operation_result_tAggregateRow_5.max_transmit_rate_percent_max = vm_interface_aggregate.transmit_rate_percent;
-								}
+								if (vm_interface_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_5.max_transmit_rate_percent_max == null
+											|| vm_interface_aggregate.transmit_rate_percent > operation_result_tAggregateRow_5.max_transmit_rate_percent_max
 
-							if (vm_interface_aggregate.vm_interface_configuration_version != null) { // G_OutMain_AggR_546
+									) {
+										operation_result_tAggregateRow_5.max_transmit_rate_percent_max = vm_interface_aggregate.transmit_rate_percent;
+									}
 
-								operation_result_tAggregateRow_5.vm_interface_configuration_version_last = vm_interface_aggregate.vm_interface_configuration_version;
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (vm_interface_aggregate.vm_interface_configuration_version != null) { // G_OutMain_AggR_546
 
-							tos_count_tAggregateRow_5_AGGOUT++;
+									operation_result_tAggregateRow_5.vm_interface_configuration_version_last = vm_interface_aggregate.vm_interface_configuration_version;
 
-							/**
-							 * [tAggregateRow_5_AGGOUT main ] stop
-							 */
+								} // G_OutMain_AggR_546
 
-						} // End of branch "vm_interface_aggregate"
+								tos_count_tAggregateRow_5_AGGOUT++;
 
-					} // G_TM_M_280 close main tMap filter for table 'row5'
+								/**
+								 * [tAggregateRow_5_AGGOUT main ] stop
+								 */
 
-					/**
-					 * [tJDBCInput_5 end ] start
-					 */
+							} // End of branch "vm_interface_aggregate"
 
-					currentComponent = "tJDBCInput_5";
+						} // G_TM_M_280 close main tMap filter for table 'row5'
+
+						/**
+						 * [tJDBCInput_5 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_5";
+
+					}
+				} finally {
+					rs_tJDBCInput_5.close();
+					stmt_tJDBCInput_5.close();
 
 				}
-				rs_tJDBCInput_5.close();
-				stmt_tJDBCInput_5.close();
-
 				globalMap.put("tJDBCInput_5_NB_LINE", nb_line_tJDBCInput_5);
 
 				ok_Hash.put("tJDBCInput_5", true);
@@ -13036,6 +13407,8 @@ public class AggregationToHourly implements TalendJob {
 				 * [tAggregateRow_5_AGGOUT end ] start
 				 */
 
+				currentVirtualComponent = "tAggregateRow_5";
+
 				currentComponent = "tAggregateRow_5_AGGOUT";
 
 				ok_Hash.put("tAggregateRow_5_AGGOUT", true);
@@ -13052,6 +13425,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_5", false);
 				start_Hash.put("tJDBCOutput_5", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_5";
 
 				int tos_count_tJDBCOutput_5 = 0;
@@ -13073,13 +13447,6 @@ public class AggregationToHourly implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_5 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_5) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_5 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_5 = dataSources_tJDBCOutput_5
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_5 = 10000;
 				int batchSizeCounter_tJDBCOutput_5 = 0;
 
@@ -13100,6 +13467,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_5_AGGIN", false);
 				start_Hash.put("tAggregateRow_5_AGGIN",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_5";
+
 				currentComponent = "tAggregateRow_5_AGGIN";
 
 				int tos_count_tAggregateRow_5_AGGIN = 0;
@@ -13118,6 +13488,8 @@ public class AggregationToHourly implements TalendJob {
 					/**
 					 * [tAggregateRow_5_AGGIN main ] start
 					 */
+
+					currentVirtualComponent = "tAggregateRow_5";
 
 					currentComponent = "tAggregateRow_5_AGGIN";
 
@@ -13239,6 +13611,8 @@ public class AggregationToHourly implements TalendJob {
 					 * [tAggregateRow_5_AGGIN end ] start
 					 */
 
+					currentVirtualComponent = "tAggregateRow_5";
+
 					currentComponent = "tAggregateRow_5_AGGIN";
 
 				} // G_AggR_600
@@ -13293,16 +13667,82 @@ public class AggregationToHourly implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tAggregateRow_5_AGGIN"
 			globalMap.remove("tAggregateRow_5");
 
+			try {
+
+				/**
+				 * [tJDBCInput_5 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_5";
+
+				/**
+				 * [tJDBCInput_5 finally ] stop
+				 */
+
+				/**
+				 * [tMap_5 finally ] start
+				 */
+
+				currentComponent = "tMap_5";
+
+				/**
+				 * [tMap_5 finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_5_AGGOUT finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_5";
+
+				currentComponent = "tAggregateRow_5_AGGOUT";
+
+				/**
+				 * [tAggregateRow_5_AGGOUT finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_5_AGGIN finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_5";
+
+				currentComponent = "tAggregateRow_5_AGGIN";
+
+				/**
+				 * [tAggregateRow_5_AGGIN finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_5 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_5";
+
+				/**
+				 * [tJDBCOutput_5 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", 1);
@@ -14195,10 +14635,12 @@ public class AggregationToHourly implements TalendJob {
 		globalMap.put("tJDBCInput_11_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -14221,6 +14663,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_6_AGGOUT", false);
 				start_Hash.put("tAggregateRow_6_AGGOUT",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_6";
+
 				currentComponent = "tAggregateRow_6_AGGOUT";
 
 				int tos_count_tAggregateRow_6_AGGOUT = 0;
@@ -14253,6 +14698,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						byte r = (byte) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'short/Short'", "'int/Integer'"));
@@ -14263,6 +14709,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						short r = (short) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'int/Integer'", "'short/Short'"));
@@ -14273,6 +14720,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						int r = a + b;
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'long/Long'", "'int/Integer'"));
@@ -14295,6 +14743,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							float minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -14307,6 +14756,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& ((double) a + (double) b > (double) Float.MAX_VALUE)
 								|| ((double) a + (double) b < (double) -Float.MAX_VALUE)) {
+
 							throw new RuntimeException(
 									buildOverflowMessage(String.valueOf(a),
 											String.valueOf(b),
@@ -14321,6 +14771,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -14333,6 +14784,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -14345,6 +14797,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -14357,6 +14810,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -14369,6 +14823,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -14381,6 +14836,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -14393,6 +14849,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -14513,6 +14970,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tMap_11", false);
 				start_Hash.put("tMap_11", System.currentTimeMillis());
+
 				currentComponent = "tMap_11";
 
 				int tos_count_tMap_11 = 0;
@@ -14543,6 +15001,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_11", false);
 				start_Hash.put("tJDBCInput_11", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_11";
 
 				int tos_count_tJDBCInput_11 = 0;
@@ -14551,14 +15010,6 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_11 = null;
 				conn_tJDBCInput_11 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_11) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_11 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_11 = dataSources_tJDBCInput_11.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_11);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_11 = conn_tJDBCInput_11
 						.createStatement();
@@ -14566,323 +15017,332 @@ public class AggregationToHourly implements TalendJob {
 				String dbquery_tJDBCInput_11 = "SELECT     history_id,   history_datetime,    storage_domain_id,    storage_domain_status,   minutes_in_status,   available_disk_size_gb,    used_disk_size_gb,    storage_configuration_version FROM storage_domain_samples_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastHourAggr')  ORDER BY history_datetime,        	 storage_domain_id";
 
 				globalMap.put("tJDBCInput_11_QUERY", dbquery_tJDBCInput_11);
+				java.sql.ResultSet rs_tJDBCInput_11 = null;
+				try {
+					rs_tJDBCInput_11 = stmt_tJDBCInput_11
+							.executeQuery(dbquery_tJDBCInput_11);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_11 = rs_tJDBCInput_11
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_11 = rsmd_tJDBCInput_11
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_11 = stmt_tJDBCInput_11
-						.executeQuery(dbquery_tJDBCInput_11);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_11 = rs_tJDBCInput_11
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_11 = rsmd_tJDBCInput_11
-						.getColumnCount();
+					String tmpContent_tJDBCInput_11 = null;
+					int column_index_tJDBCInput_11 = 1;
 
-				String tmpContent_tJDBCInput_11 = null;
-				int column_index_tJDBCInput_11 = 1;
-				while (rs_tJDBCInput_11.next()) {
-					nb_line_tJDBCInput_11++;
+					while (rs_tJDBCInput_11.next()) {
+						nb_line_tJDBCInput_11++;
 
-					column_index_tJDBCInput_11 = 1;
+						column_index_tJDBCInput_11 = 1;
 
-					if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
-						row16.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_11
-								.getObject(column_index_tJDBCInput_11) != null) {
-							row16.history_id = rs_tJDBCInput_11
-									.getInt(column_index_tJDBCInput_11);
+						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
+							row16.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_11
+									.getObject(column_index_tJDBCInput_11) != null) {
+								row16.history_id = rs_tJDBCInput_11
+										.getInt(column_index_tJDBCInput_11);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_11 = 2;
+						column_index_tJDBCInput_11 = 2;
 
-					if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
-						row16.history_datetime = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_11 = null;
-						try {
-							date_tJDBCInput_11 = rs_tJDBCInput_11
-									.getTimestamp(column_index_tJDBCInput_11);
-						} catch (java.lang.Exception e) {
-							date_tJDBCInput_11 = rs_tJDBCInput_11
-									.getDate(column_index_tJDBCInput_11);
-						}
-						row16.history_datetime = date_tJDBCInput_11;
-
-					}
-					column_index_tJDBCInput_11 = 3;
-
-					if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
-						row16.storage_domain_id = null;
-					} else {
-
-						if (rs_tJDBCInput_11
-								.getObject(column_index_tJDBCInput_11) != null) {
-							row16.storage_domain_id = rs_tJDBCInput_11
-									.getObject(column_index_tJDBCInput_11);
+						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
+							row16.history_datetime = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							java.util.Date date_tJDBCInput_11 = null;
+							try {
+								date_tJDBCInput_11 = rs_tJDBCInput_11
+										.getTimestamp(column_index_tJDBCInput_11);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_11 = rs_tJDBCInput_11
+										.getDate(column_index_tJDBCInput_11);
+							}
+							row16.history_datetime = date_tJDBCInput_11;
+
 						}
 
-					}
-					column_index_tJDBCInput_11 = 4;
+						column_index_tJDBCInput_11 = 3;
 
-					if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
-						row16.storage_domain_status = 0;
-					} else {
-
-						if (rs_tJDBCInput_11
-								.getObject(column_index_tJDBCInput_11) != null) {
-							row16.storage_domain_status = rs_tJDBCInput_11
-									.getShort(column_index_tJDBCInput_11);
+						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
+							row16.storage_domain_id = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_11
+									.getObject(column_index_tJDBCInput_11) != null) {
+								row16.storage_domain_id = rs_tJDBCInput_11
+										.getObject(column_index_tJDBCInput_11);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_11 = 5;
+						column_index_tJDBCInput_11 = 4;
 
-					if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
-						row16.minutes_in_status = 0;
-					} else {
-
-						if (rs_tJDBCInput_11
-								.getObject(column_index_tJDBCInput_11) != null) {
-							row16.minutes_in_status = rs_tJDBCInput_11
-									.getDouble(column_index_tJDBCInput_11);
+						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
+							row16.storage_domain_status = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_11
+									.getObject(column_index_tJDBCInput_11) != null) {
+								row16.storage_domain_status = rs_tJDBCInput_11
+										.getShort(column_index_tJDBCInput_11);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_11 = 6;
+						column_index_tJDBCInput_11 = 5;
 
-					if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
-						row16.available_disk_size_gb = null;
-					} else {
-
-						if (rs_tJDBCInput_11
-								.getObject(column_index_tJDBCInput_11) != null) {
-							row16.available_disk_size_gb = rs_tJDBCInput_11
-									.getInt(column_index_tJDBCInput_11);
+						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
+							row16.minutes_in_status = 0;
 						} else {
+
+							if (rs_tJDBCInput_11
+									.getObject(column_index_tJDBCInput_11) != null) {
+								row16.minutes_in_status = rs_tJDBCInput_11
+										.getDouble(column_index_tJDBCInput_11);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
+						}
+
+						column_index_tJDBCInput_11 = 6;
+
+						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row16.available_disk_size_gb = null;
-						}
-
-						if (rs_tJDBCInput_11.wasNull()) {
-							row16.available_disk_size_gb = null;
-						}
-					}
-					column_index_tJDBCInput_11 = 7;
-
-					if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
-						row16.used_disk_size_gb = null;
-					} else {
-
-						if (rs_tJDBCInput_11
-								.getObject(column_index_tJDBCInput_11) != null) {
-							row16.used_disk_size_gb = rs_tJDBCInput_11
-									.getInt(column_index_tJDBCInput_11);
 						} else {
-							row16.used_disk_size_gb = null;
+
+							if (rs_tJDBCInput_11
+									.getObject(column_index_tJDBCInput_11) != null) {
+								row16.available_disk_size_gb = rs_tJDBCInput_11
+										.getInt(column_index_tJDBCInput_11);
+							} else {
+								row16.available_disk_size_gb = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_11.wasNull()) {
+						column_index_tJDBCInput_11 = 7;
+
+						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row16.used_disk_size_gb = null;
-						}
-					}
-					column_index_tJDBCInput_11 = 8;
-
-					if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
-						row16.storage_configuration_version = null;
-					} else {
-
-						if (rs_tJDBCInput_11
-								.getObject(column_index_tJDBCInput_11) != null) {
-							row16.storage_configuration_version = rs_tJDBCInput_11
-									.getInt(column_index_tJDBCInput_11);
 						} else {
-							row16.storage_configuration_version = null;
+
+							if (rs_tJDBCInput_11
+									.getObject(column_index_tJDBCInput_11) != null) {
+								row16.used_disk_size_gb = rs_tJDBCInput_11
+										.getInt(column_index_tJDBCInput_11);
+							} else {
+								row16.used_disk_size_gb = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_11.wasNull()) {
+						column_index_tJDBCInput_11 = 8;
+
+						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row16.storage_configuration_version = null;
+						} else {
+
+							if (rs_tJDBCInput_11
+									.getObject(column_index_tJDBCInput_11) != null) {
+								row16.storage_configuration_version = rs_tJDBCInput_11
+										.getInt(column_index_tJDBCInput_11);
+							} else {
+								row16.storage_configuration_version = null;
+							}
+
 						}
-					}
-
-					/**
-					 * [tJDBCInput_11 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_11 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_11";
-
-					tos_count_tJDBCInput_11++;
-
-					/**
-					 * [tJDBCInput_11 main ] stop
-					 */
-
-					/**
-					 * [tMap_11 main ] start
-					 */
-
-					currentComponent = "tMap_11";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_11 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_11 = false;
-					boolean mainRowRejected_tMap_11 = false;
-
-					if (
-
-					(
-
-					routines.RoutineHistoryETL.dateCompare(
-							row16.history_datetime, routines.RoutineHistoryETL
-									.manipulateDate(routines.RoutineHistoryETL
-											.startOfHour(context.runTime), -1,
-											"HH")) < 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row16'
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_11__Struct Var = Var__tMap_11;// ###############################
-							// ###############################
-							// # Output tables
-
-							storage_aggregate = null;
-
-							// # Output table : 'storage_aggregate'
-							storage_aggregate_tmp.history_datetime = RoutineHistoryETL
-									.startOfHour(row16.history_datetime);
-							storage_aggregate_tmp.storage_domain_id = row16.storage_domain_id;
-							storage_aggregate_tmp.storage_domain_status = row16.storage_domain_status;
-							storage_aggregate_tmp.minutes_in_status = row16.minutes_in_status;
-							storage_aggregate_tmp.available_disk_size_gb = row16.available_disk_size_gb;
-							storage_aggregate_tmp.used_disk_size_gb = row16.used_disk_size_gb;
-							storage_aggregate_tmp.storage_configuration_version = row16.storage_configuration_version;
-							storage_aggregate = storage_aggregate_tmp;
-							// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_11 = false;
-
-						tos_count_tMap_11++;
 
 						/**
-						 * [tMap_11 main ] stop
+						 * [tJDBCInput_11 begin ] stop
 						 */
-						// Start of branch "storage_aggregate"
-						if (storage_aggregate != null) {
+						/**
+						 * [tJDBCInput_11 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_11";
+
+						tos_count_tJDBCInput_11++;
+
+						/**
+						 * [tJDBCInput_11 main ] stop
+						 */
+
+						/**
+						 * [tMap_11 main ] start
+						 */
+
+						currentComponent = "tMap_11";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_11 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_11 = false;
+						boolean mainRowRejected_tMap_11 = false;
+
+						if (
+
+						(
+
+						routines.RoutineHistoryETL.dateCompare(
+								row16.history_datetime,
+								routines.RoutineHistoryETL.manipulateDate(
+										routines.RoutineHistoryETL
+												.startOfHour(context.runTime),
+										-1, "HH")) < 0
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row16'
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_11__Struct Var = Var__tMap_11;// ###############################
+								// ###############################
+								// # Output tables
+
+								storage_aggregate = null;
+
+								// # Output table : 'storage_aggregate'
+								storage_aggregate_tmp.history_datetime = RoutineHistoryETL
+										.startOfHour(row16.history_datetime);
+								storage_aggregate_tmp.storage_domain_id = row16.storage_domain_id;
+								storage_aggregate_tmp.storage_domain_status = row16.storage_domain_status;
+								storage_aggregate_tmp.minutes_in_status = row16.minutes_in_status;
+								storage_aggregate_tmp.available_disk_size_gb = row16.available_disk_size_gb;
+								storage_aggregate_tmp.used_disk_size_gb = row16.used_disk_size_gb;
+								storage_aggregate_tmp.storage_configuration_version = row16.storage_configuration_version;
+								storage_aggregate = storage_aggregate_tmp;
+								// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_11 = false;
+
+							tos_count_tMap_11++;
 
 							/**
-							 * [tAggregateRow_6_AGGOUT main ] start
+							 * [tMap_11 main ] stop
 							 */
+							// Start of branch "storage_aggregate"
+							if (storage_aggregate != null) {
 
-							currentComponent = "tAggregateRow_6_AGGOUT";
+								/**
+								 * [tAggregateRow_6_AGGOUT main ] start
+								 */
 
-							operation_finder_tAggregateRow_6.history_datetime = storage_aggregate.history_datetime;
-							operation_finder_tAggregateRow_6.storage_domain_id = storage_aggregate.storage_domain_id;
-							operation_finder_tAggregateRow_6.storage_domain_status = storage_aggregate.storage_domain_status;
+								currentVirtualComponent = "tAggregateRow_6";
 
-							operation_finder_tAggregateRow_6.hashCodeDirty = true;
+								currentComponent = "tAggregateRow_6_AGGOUT";
 
-							operation_result_tAggregateRow_6 = hash_tAggregateRow_6
-									.get(operation_finder_tAggregateRow_6);
+								operation_finder_tAggregateRow_6.history_datetime = storage_aggregate.history_datetime;
+								operation_finder_tAggregateRow_6.storage_domain_id = storage_aggregate.storage_domain_id;
+								operation_finder_tAggregateRow_6.storage_domain_status = storage_aggregate.storage_domain_status;
 
-							boolean isFirstAdd_tAggregateRow_6 = false;
+								operation_finder_tAggregateRow_6.hashCodeDirty = true;
 
-							if (operation_result_tAggregateRow_6 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_6 = hash_tAggregateRow_6
+										.get(operation_finder_tAggregateRow_6);
 
-								operation_result_tAggregateRow_6 = new AggOperationStruct_tAggregateRow_6();
+								boolean isFirstAdd_tAggregateRow_6 = false;
 
-								operation_result_tAggregateRow_6.history_datetime = operation_finder_tAggregateRow_6.history_datetime;
-								operation_result_tAggregateRow_6.storage_domain_id = operation_finder_tAggregateRow_6.storage_domain_id;
-								operation_result_tAggregateRow_6.storage_domain_status = operation_finder_tAggregateRow_6.storage_domain_status;
+								if (operation_result_tAggregateRow_6 == null) { // G_OutMain_AggR_001
 
-								isFirstAdd_tAggregateRow_6 = true;
+									operation_result_tAggregateRow_6 = new AggOperationStruct_tAggregateRow_6();
 
-								hash_tAggregateRow_6.put(
-										operation_result_tAggregateRow_6,
-										operation_result_tAggregateRow_6);
+									operation_result_tAggregateRow_6.history_datetime = operation_finder_tAggregateRow_6.history_datetime;
+									operation_result_tAggregateRow_6.storage_domain_id = operation_finder_tAggregateRow_6.storage_domain_id;
+									operation_result_tAggregateRow_6.storage_domain_status = operation_finder_tAggregateRow_6.storage_domain_status;
 
-							} // G_OutMain_AggR_001
+									isFirstAdd_tAggregateRow_6 = true;
 
-							if (operation_result_tAggregateRow_6.minutes_in_status_sum == null) {
-								operation_result_tAggregateRow_6.minutes_in_status_sum = new BigDecimal(
-										0).setScale(0);
-							}
-							operation_result_tAggregateRow_6.minutes_in_status_sum = operation_result_tAggregateRow_6.minutes_in_status_sum
-									.add(new BigDecimal(
-											String.valueOf(storage_aggregate.minutes_in_status)));
+									hash_tAggregateRow_6.put(
+											operation_result_tAggregateRow_6,
+											operation_result_tAggregateRow_6);
 
-							if (storage_aggregate.available_disk_size_gb != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_001
 
-								if (operation_result_tAggregateRow_6.available_disk_size_gb_max == null
-										|| storage_aggregate.available_disk_size_gb > operation_result_tAggregateRow_6.available_disk_size_gb_max
-
-								) {
-									operation_result_tAggregateRow_6.available_disk_size_gb_max = storage_aggregate.available_disk_size_gb;
+								if (operation_result_tAggregateRow_6.minutes_in_status_sum == null) {
+									operation_result_tAggregateRow_6.minutes_in_status_sum = new BigDecimal(
+											0).setScale(0);
 								}
+								operation_result_tAggregateRow_6.minutes_in_status_sum = operation_result_tAggregateRow_6.minutes_in_status_sum
+										.add(new BigDecimal(
+												String.valueOf(storage_aggregate.minutes_in_status)));
 
-							} // G_OutMain_AggR_546
+								if (storage_aggregate.available_disk_size_gb != null) { // G_OutMain_AggR_546
 
-							if (storage_aggregate.used_disk_size_gb != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_6.available_disk_size_gb_max == null
+											|| storage_aggregate.available_disk_size_gb > operation_result_tAggregateRow_6.available_disk_size_gb_max
 
-								if (operation_result_tAggregateRow_6.used_disk_size_gb_max == null
-										|| storage_aggregate.used_disk_size_gb > operation_result_tAggregateRow_6.used_disk_size_gb_max
+									) {
+										operation_result_tAggregateRow_6.available_disk_size_gb_max = storage_aggregate.available_disk_size_gb;
+									}
 
-								) {
-									operation_result_tAggregateRow_6.used_disk_size_gb_max = storage_aggregate.used_disk_size_gb;
-								}
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (storage_aggregate.used_disk_size_gb != null) { // G_OutMain_AggR_546
 
-							if (storage_aggregate.storage_configuration_version != null) { // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_6.used_disk_size_gb_max == null
+											|| storage_aggregate.used_disk_size_gb > operation_result_tAggregateRow_6.used_disk_size_gb_max
 
-								operation_result_tAggregateRow_6.storage_configuration_version_last = storage_aggregate.storage_configuration_version;
+									) {
+										operation_result_tAggregateRow_6.used_disk_size_gb_max = storage_aggregate.used_disk_size_gb;
+									}
 
-							} // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-							tos_count_tAggregateRow_6_AGGOUT++;
+								if (storage_aggregate.storage_configuration_version != null) { // G_OutMain_AggR_546
 
-							/**
-							 * [tAggregateRow_6_AGGOUT main ] stop
-							 */
+									operation_result_tAggregateRow_6.storage_configuration_version_last = storage_aggregate.storage_configuration_version;
 
-						} // End of branch "storage_aggregate"
+								} // G_OutMain_AggR_546
 
-					} // G_TM_M_280 close main tMap filter for table 'row16'
+								tos_count_tAggregateRow_6_AGGOUT++;
 
-					/**
-					 * [tJDBCInput_11 end ] start
-					 */
+								/**
+								 * [tAggregateRow_6_AGGOUT main ] stop
+								 */
 
-					currentComponent = "tJDBCInput_11";
+							} // End of branch "storage_aggregate"
+
+						} // G_TM_M_280 close main tMap filter for table 'row16'
+
+						/**
+						 * [tJDBCInput_11 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_11";
+
+					}
+				} finally {
+					rs_tJDBCInput_11.close();
+					stmt_tJDBCInput_11.close();
 
 				}
-				rs_tJDBCInput_11.close();
-				stmt_tJDBCInput_11.close();
-
 				globalMap.put("tJDBCInput_11_NB_LINE", nb_line_tJDBCInput_11);
 
 				ok_Hash.put("tJDBCInput_11", true);
@@ -14913,6 +15373,8 @@ public class AggregationToHourly implements TalendJob {
 				 * [tAggregateRow_6_AGGOUT end ] start
 				 */
 
+				currentVirtualComponent = "tAggregateRow_6";
+
 				currentComponent = "tAggregateRow_6_AGGOUT";
 
 				ok_Hash.put("tAggregateRow_6_AGGOUT", true);
@@ -14929,6 +15391,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_11", false);
 				start_Hash.put("tJDBCOutput_11", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_11";
 
 				int tos_count_tJDBCOutput_11 = 0;
@@ -14950,13 +15413,6 @@ public class AggregationToHourly implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_11 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_11) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_11 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_11 = dataSources_tJDBCOutput_11.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_11 = 10000;
 				int batchSizeCounter_tJDBCOutput_11 = 0;
 
@@ -14977,6 +15433,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_6_AGGIN", false);
 				start_Hash.put("tAggregateRow_6_AGGIN",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_6";
+
 				currentComponent = "tAggregateRow_6_AGGIN";
 
 				int tos_count_tAggregateRow_6_AGGIN = 0;
@@ -14995,6 +15454,8 @@ public class AggregationToHourly implements TalendJob {
 					/**
 					 * [tAggregateRow_6_AGGIN main ] start
 					 */
+
+					currentVirtualComponent = "tAggregateRow_6";
 
 					currentComponent = "tAggregateRow_6_AGGIN";
 
@@ -15091,6 +15552,8 @@ public class AggregationToHourly implements TalendJob {
 					 * [tAggregateRow_6_AGGIN end ] start
 					 */
 
+					currentVirtualComponent = "tAggregateRow_6";
+
 					currentComponent = "tAggregateRow_6_AGGIN";
 
 				} // G_AggR_600
@@ -15145,16 +15608,82 @@ public class AggregationToHourly implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tAggregateRow_6_AGGIN"
 			globalMap.remove("tAggregateRow_6");
 
+			try {
+
+				/**
+				 * [tJDBCInput_11 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_11";
+
+				/**
+				 * [tJDBCInput_11 finally ] stop
+				 */
+
+				/**
+				 * [tMap_11 finally ] start
+				 */
+
+				currentComponent = "tMap_11";
+
+				/**
+				 * [tMap_11 finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_6_AGGOUT finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_6";
+
+				currentComponent = "tAggregateRow_6_AGGOUT";
+
+				/**
+				 * [tAggregateRow_6_AGGOUT finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_6_AGGIN finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_6";
+
+				currentComponent = "tAggregateRow_6_AGGIN";
+
+				/**
+				 * [tAggregateRow_6_AGGIN finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_11 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_11";
+
+				/**
+				 * [tJDBCOutput_11 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_11_SUBPROCESS_STATE", 1);
@@ -16790,10 +17319,12 @@ public class AggregationToHourly implements TalendJob {
 		globalMap.put("tJDBCInput_13_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -16816,6 +17347,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_7_AGGOUT", false);
 				start_Hash.put("tAggregateRow_7_AGGOUT",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_7";
+
 				currentComponent = "tAggregateRow_7_AGGOUT";
 
 				int tos_count_tAggregateRow_7_AGGOUT = 0;
@@ -16848,6 +17382,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						byte r = (byte) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'short/Short'", "'int/Integer'"));
@@ -16858,6 +17393,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						short r = (short) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'int/Integer'", "'short/Short'"));
@@ -16868,6 +17404,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						int r = a + b;
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'long/Long'", "'int/Integer'"));
@@ -16890,6 +17427,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							float minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -16902,6 +17440,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& ((double) a + (double) b > (double) Float.MAX_VALUE)
 								|| ((double) a + (double) b < (double) -Float.MAX_VALUE)) {
+
 							throw new RuntimeException(
 									buildOverflowMessage(String.valueOf(a),
 											String.valueOf(b),
@@ -16916,6 +17455,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -16928,6 +17468,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -16940,6 +17481,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -16952,6 +17494,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -16964,6 +17507,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -16976,6 +17520,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -16988,6 +17533,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -17134,6 +17680,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tMap_13", false);
 				start_Hash.put("tMap_13", System.currentTimeMillis());
+
 				currentComponent = "tMap_13";
 
 				int tos_count_tMap_13 = 0;
@@ -17164,6 +17711,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_13", false);
 				start_Hash.put("tJDBCInput_13", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_13";
 
 				int tos_count_tJDBCInput_13 = 0;
@@ -17172,14 +17720,6 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_13 = null;
 				conn_tJDBCInput_13 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_13) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_13 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_13 = dataSources_tJDBCInput_13.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_13);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_13 = conn_tJDBCInput_13
 						.createStatement();
@@ -17187,513 +17727,514 @@ public class AggregationToHourly implements TalendJob {
 				String dbquery_tJDBCInput_13 = "SELECT history_datetime, 		vm_disk_id,         image_id, 		vm_disk_status,  		minutes_in_status, 		vm_disk_actual_size_mb, 		read_rate_bytes_per_second, 		read_latency_seconds, 		write_rate_bytes_per_second, 		write_latency_seconds, 		flush_latency_seconds, 		vm_disk_configuration_version  FROM vm_disk_samples_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastHourAggr')  ORDER BY history_datetime,  		 vm_disk_id,     		 vm_disk_status";
 
 				globalMap.put("tJDBCInput_13_QUERY", dbquery_tJDBCInput_13);
+				java.sql.ResultSet rs_tJDBCInput_13 = null;
+				try {
+					rs_tJDBCInput_13 = stmt_tJDBCInput_13
+							.executeQuery(dbquery_tJDBCInput_13);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_13 = rs_tJDBCInput_13
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_13 = rsmd_tJDBCInput_13
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_13 = stmt_tJDBCInput_13
-						.executeQuery(dbquery_tJDBCInput_13);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_13 = rs_tJDBCInput_13
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_13 = rsmd_tJDBCInput_13
-						.getColumnCount();
+					String tmpContent_tJDBCInput_13 = null;
+					int column_index_tJDBCInput_13 = 1;
 
-				String tmpContent_tJDBCInput_13 = null;
-				int column_index_tJDBCInput_13 = 1;
-				while (rs_tJDBCInput_13.next()) {
-					nb_line_tJDBCInput_13++;
+					while (rs_tJDBCInput_13.next()) {
+						nb_line_tJDBCInput_13++;
 
-					column_index_tJDBCInput_13 = 1;
+						column_index_tJDBCInput_13 = 1;
 
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row19.history_datetime = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_13 = null;
-						try {
-							date_tJDBCInput_13 = rs_tJDBCInput_13
-									.getTimestamp(column_index_tJDBCInput_13);
-						} catch (java.lang.Exception e) {
-							date_tJDBCInput_13 = rs_tJDBCInput_13
-									.getDate(column_index_tJDBCInput_13);
-						}
-						row19.history_datetime = date_tJDBCInput_13;
-
-					}
-					column_index_tJDBCInput_13 = 2;
-
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row19.vm_disk_id = null;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row19.vm_disk_id = rs_tJDBCInput_13
-									.getObject(column_index_tJDBCInput_13);
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
+							row19.history_datetime = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							java.util.Date date_tJDBCInput_13 = null;
+							try {
+								date_tJDBCInput_13 = rs_tJDBCInput_13
+										.getTimestamp(column_index_tJDBCInput_13);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_13 = rs_tJDBCInput_13
+										.getDate(column_index_tJDBCInput_13);
+							}
+							row19.history_datetime = date_tJDBCInput_13;
+
 						}
 
-					}
-					column_index_tJDBCInput_13 = 3;
+						column_index_tJDBCInput_13 = 2;
 
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row19.image_id = null;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row19.image_id = rs_tJDBCInput_13
-									.getObject(column_index_tJDBCInput_13);
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
+							row19.vm_disk_id = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row19.vm_disk_id = rs_tJDBCInput_13
+										.getObject(column_index_tJDBCInput_13);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_13 = 4;
+						column_index_tJDBCInput_13 = 3;
 
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row19.vm_disk_status = null;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row19.vm_disk_status = rs_tJDBCInput_13
-									.getShort(column_index_tJDBCInput_13);
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
+							row19.image_id = null;
 						} else {
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row19.image_id = rs_tJDBCInput_13
+										.getObject(column_index_tJDBCInput_13);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
+						}
+
+						column_index_tJDBCInput_13 = 4;
+
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
 							row19.vm_disk_status = null;
-						}
-
-						if (rs_tJDBCInput_13.wasNull()) {
-							row19.vm_disk_status = null;
-						}
-					}
-					column_index_tJDBCInput_13 = 5;
-
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row19.minutes_in_status = 0;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row19.minutes_in_status = rs_tJDBCInput_13
-									.getDouble(column_index_tJDBCInput_13);
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row19.vm_disk_status = rs_tJDBCInput_13
+										.getShort(column_index_tJDBCInput_13);
+							} else {
+								row19.vm_disk_status = null;
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_13 = 6;
+						column_index_tJDBCInput_13 = 5;
 
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row19.vm_disk_actual_size_mb = 0;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row19.vm_disk_actual_size_mb = rs_tJDBCInput_13
-									.getInt(column_index_tJDBCInput_13);
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
+							row19.minutes_in_status = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row19.minutes_in_status = rs_tJDBCInput_13
+										.getDouble(column_index_tJDBCInput_13);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_13 = 7;
+						column_index_tJDBCInput_13 = 6;
 
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row19.read_rate_bytes_per_second = null;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row19.read_rate_bytes_per_second = rs_tJDBCInput_13
-									.getLong(column_index_tJDBCInput_13);
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
+							row19.vm_disk_actual_size_mb = 0;
 						} else {
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row19.vm_disk_actual_size_mb = rs_tJDBCInput_13
+										.getInt(column_index_tJDBCInput_13);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
+						}
+
+						column_index_tJDBCInput_13 = 7;
+
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
 							row19.read_rate_bytes_per_second = null;
-						}
-
-						if (rs_tJDBCInput_13.wasNull()) {
-							row19.read_rate_bytes_per_second = null;
-						}
-					}
-					column_index_tJDBCInput_13 = 8;
-
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row19.read_latency_seconds = null;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row19.read_latency_seconds = rs_tJDBCInput_13
-									.getDouble(column_index_tJDBCInput_13);
 						} else {
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row19.read_rate_bytes_per_second = rs_tJDBCInput_13
+										.getLong(column_index_tJDBCInput_13);
+							} else {
+								row19.read_rate_bytes_per_second = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_13 = 8;
+
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
 							row19.read_latency_seconds = null;
-						}
-
-						if (rs_tJDBCInput_13.wasNull()) {
-							row19.read_latency_seconds = null;
-						}
-					}
-					column_index_tJDBCInput_13 = 9;
-
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row19.write_rate_bytes_per_second = null;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row19.write_rate_bytes_per_second = rs_tJDBCInput_13
-									.getLong(column_index_tJDBCInput_13);
 						} else {
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row19.read_latency_seconds = rs_tJDBCInput_13
+										.getDouble(column_index_tJDBCInput_13);
+							} else {
+								row19.read_latency_seconds = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_13 = 9;
+
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
 							row19.write_rate_bytes_per_second = null;
-						}
-
-						if (rs_tJDBCInput_13.wasNull()) {
-							row19.write_rate_bytes_per_second = null;
-						}
-					}
-					column_index_tJDBCInput_13 = 10;
-
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row19.write_latency_seconds = null;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row19.write_latency_seconds = rs_tJDBCInput_13
-									.getDouble(column_index_tJDBCInput_13);
 						} else {
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row19.write_rate_bytes_per_second = rs_tJDBCInput_13
+										.getLong(column_index_tJDBCInput_13);
+							} else {
+								row19.write_rate_bytes_per_second = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_13 = 10;
+
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
 							row19.write_latency_seconds = null;
-						}
-
-						if (rs_tJDBCInput_13.wasNull()) {
-							row19.write_latency_seconds = null;
-						}
-					}
-					column_index_tJDBCInput_13 = 11;
-
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row19.flush_latency_seconds = null;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row19.flush_latency_seconds = rs_tJDBCInput_13
-									.getDouble(column_index_tJDBCInput_13);
 						} else {
-							row19.flush_latency_seconds = null;
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row19.write_latency_seconds = rs_tJDBCInput_13
+										.getDouble(column_index_tJDBCInput_13);
+							} else {
+								row19.write_latency_seconds = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_13.wasNull()) {
+						column_index_tJDBCInput_13 = 11;
+
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
 							row19.flush_latency_seconds = null;
-						}
-					}
-					column_index_tJDBCInput_13 = 12;
-
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row19.vm_disk_configuration_version = null;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row19.vm_disk_configuration_version = rs_tJDBCInput_13
-									.getInt(column_index_tJDBCInput_13);
 						} else {
-							row19.vm_disk_configuration_version = null;
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row19.flush_latency_seconds = rs_tJDBCInput_13
+										.getDouble(column_index_tJDBCInput_13);
+							} else {
+								row19.flush_latency_seconds = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_13.wasNull()) {
+						column_index_tJDBCInput_13 = 12;
+
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
 							row19.vm_disk_configuration_version = null;
+						} else {
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row19.vm_disk_configuration_version = rs_tJDBCInput_13
+										.getInt(column_index_tJDBCInput_13);
+							} else {
+								row19.vm_disk_configuration_version = null;
+							}
+
 						}
-					}
-
-					/**
-					 * [tJDBCInput_13 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_13 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_13";
-
-					tos_count_tJDBCInput_13++;
-
-					/**
-					 * [tJDBCInput_13 main ] stop
-					 */
-
-					/**
-					 * [tMap_13 main ] start
-					 */
-
-					currentComponent = "tMap_13";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_13 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_13 = false;
-					boolean mainRowRejected_tMap_13 = false;
-
-					if (
-
-					(
-
-					routines.RoutineHistoryETL.dateCompare(
-							row19.history_datetime, routines.RoutineHistoryETL
-									.manipulateDate(routines.RoutineHistoryETL
-											.startOfHour(context.runTime), -1,
-											"HH")) < 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row19'
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_13__Struct Var = Var__tMap_13;// ###############################
-							// ###############################
-							// # Output tables
-
-							vm_disk_aggregate = null;
-
-							// # Output table : 'vm_disk_aggregate'
-							vm_disk_aggregate_tmp.history_datetime = RoutineHistoryETL
-									.startOfHour(row19.history_datetime);
-							vm_disk_aggregate_tmp.vm_disk_id = row19.vm_disk_id;
-							vm_disk_aggregate_tmp.image_id = row19.image_id;
-							vm_disk_aggregate_tmp.vm_disk_status = row19.vm_disk_status;
-							vm_disk_aggregate_tmp.minutes_in_status = row19.minutes_in_status;
-							vm_disk_aggregate_tmp.vm_disk_actual_size_mb = row19.vm_disk_actual_size_mb;
-							vm_disk_aggregate_tmp.read_rate_bytes_per_second = row19.read_rate_bytes_per_second;
-							vm_disk_aggregate_tmp.read_latency_seconds = row19.read_latency_seconds;
-							vm_disk_aggregate_tmp.write_rate_bytes_per_second = row19.write_rate_bytes_per_second;
-							vm_disk_aggregate_tmp.write_latency_seconds = row19.write_latency_seconds;
-							vm_disk_aggregate_tmp.flush_latency_seconds = row19.flush_latency_seconds;
-							vm_disk_aggregate_tmp.vm_disk_configuration_version = row19.vm_disk_configuration_version;
-							vm_disk_aggregate = vm_disk_aggregate_tmp;
-							// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_13 = false;
-
-						tos_count_tMap_13++;
 
 						/**
-						 * [tMap_13 main ] stop
+						 * [tJDBCInput_13 begin ] stop
 						 */
-						// Start of branch "vm_disk_aggregate"
-						if (vm_disk_aggregate != null) {
+						/**
+						 * [tJDBCInput_13 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_13";
+
+						tos_count_tJDBCInput_13++;
+
+						/**
+						 * [tJDBCInput_13 main ] stop
+						 */
+
+						/**
+						 * [tMap_13 main ] start
+						 */
+
+						currentComponent = "tMap_13";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_13 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_13 = false;
+						boolean mainRowRejected_tMap_13 = false;
+
+						if (
+
+						(
+
+						routines.RoutineHistoryETL.dateCompare(
+								row19.history_datetime,
+								routines.RoutineHistoryETL.manipulateDate(
+										routines.RoutineHistoryETL
+												.startOfHour(context.runTime),
+										-1, "HH")) < 0
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row19'
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_13__Struct Var = Var__tMap_13;// ###############################
+								// ###############################
+								// # Output tables
+
+								vm_disk_aggregate = null;
+
+								// # Output table : 'vm_disk_aggregate'
+								vm_disk_aggregate_tmp.history_datetime = RoutineHistoryETL
+										.startOfHour(row19.history_datetime);
+								vm_disk_aggregate_tmp.vm_disk_id = row19.vm_disk_id;
+								vm_disk_aggregate_tmp.image_id = row19.image_id;
+								vm_disk_aggregate_tmp.vm_disk_status = row19.vm_disk_status;
+								vm_disk_aggregate_tmp.minutes_in_status = row19.minutes_in_status;
+								vm_disk_aggregate_tmp.vm_disk_actual_size_mb = row19.vm_disk_actual_size_mb;
+								vm_disk_aggregate_tmp.read_rate_bytes_per_second = row19.read_rate_bytes_per_second;
+								vm_disk_aggregate_tmp.read_latency_seconds = row19.read_latency_seconds;
+								vm_disk_aggregate_tmp.write_rate_bytes_per_second = row19.write_rate_bytes_per_second;
+								vm_disk_aggregate_tmp.write_latency_seconds = row19.write_latency_seconds;
+								vm_disk_aggregate_tmp.flush_latency_seconds = row19.flush_latency_seconds;
+								vm_disk_aggregate_tmp.vm_disk_configuration_version = row19.vm_disk_configuration_version;
+								vm_disk_aggregate = vm_disk_aggregate_tmp;
+								// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_13 = false;
+
+							tos_count_tMap_13++;
 
 							/**
-							 * [tAggregateRow_7_AGGOUT main ] start
+							 * [tMap_13 main ] stop
 							 */
+							// Start of branch "vm_disk_aggregate"
+							if (vm_disk_aggregate != null) {
 
-							currentComponent = "tAggregateRow_7_AGGOUT";
+								/**
+								 * [tAggregateRow_7_AGGOUT main ] start
+								 */
 
-							operation_finder_tAggregateRow_7.history_datetime = vm_disk_aggregate.history_datetime;
-							operation_finder_tAggregateRow_7.vm_disk_id = vm_disk_aggregate.vm_disk_id;
-							operation_finder_tAggregateRow_7.vm_disk_status = vm_disk_aggregate.vm_disk_status;
+								currentVirtualComponent = "tAggregateRow_7";
 
-							operation_finder_tAggregateRow_7.hashCodeDirty = true;
+								currentComponent = "tAggregateRow_7_AGGOUT";
 
-							operation_result_tAggregateRow_7 = hash_tAggregateRow_7
-									.get(operation_finder_tAggregateRow_7);
+								operation_finder_tAggregateRow_7.history_datetime = vm_disk_aggregate.history_datetime;
+								operation_finder_tAggregateRow_7.vm_disk_id = vm_disk_aggregate.vm_disk_id;
+								operation_finder_tAggregateRow_7.vm_disk_status = vm_disk_aggregate.vm_disk_status;
 
-							boolean isFirstAdd_tAggregateRow_7 = false;
+								operation_finder_tAggregateRow_7.hashCodeDirty = true;
 
-							if (operation_result_tAggregateRow_7 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_7 = hash_tAggregateRow_7
+										.get(operation_finder_tAggregateRow_7);
 
-								operation_result_tAggregateRow_7 = new AggOperationStruct_tAggregateRow_7();
+								boolean isFirstAdd_tAggregateRow_7 = false;
 
-								operation_result_tAggregateRow_7.history_datetime = operation_finder_tAggregateRow_7.history_datetime;
-								operation_result_tAggregateRow_7.vm_disk_id = operation_finder_tAggregateRow_7.vm_disk_id;
-								operation_result_tAggregateRow_7.vm_disk_status = operation_finder_tAggregateRow_7.vm_disk_status;
+								if (operation_result_tAggregateRow_7 == null) { // G_OutMain_AggR_001
 
-								isFirstAdd_tAggregateRow_7 = true;
+									operation_result_tAggregateRow_7 = new AggOperationStruct_tAggregateRow_7();
 
-								hash_tAggregateRow_7.put(
-										operation_result_tAggregateRow_7,
-										operation_result_tAggregateRow_7);
+									operation_result_tAggregateRow_7.history_datetime = operation_finder_tAggregateRow_7.history_datetime;
+									operation_result_tAggregateRow_7.vm_disk_id = operation_finder_tAggregateRow_7.vm_disk_id;
+									operation_result_tAggregateRow_7.vm_disk_status = operation_finder_tAggregateRow_7.vm_disk_status;
 
-							} // G_OutMain_AggR_001
+									isFirstAdd_tAggregateRow_7 = true;
 
-							if (operation_result_tAggregateRow_7.minutes_in_status_sum == null) {
-								operation_result_tAggregateRow_7.minutes_in_status_sum = new BigDecimal(
-										0).setScale(2);
-							}
-							operation_result_tAggregateRow_7.minutes_in_status_sum = operation_result_tAggregateRow_7.minutes_in_status_sum
-									.add(new BigDecimal(
-											String.valueOf(vm_disk_aggregate.minutes_in_status)));
+									hash_tAggregateRow_7.put(
+											operation_result_tAggregateRow_7,
+											operation_result_tAggregateRow_7);
 
-							operation_result_tAggregateRow_7.vm_disk_actual_size_mb_count++;
+								} // G_OutMain_AggR_001
 
-							operation_result_tAggregateRow_7.vm_disk_actual_size_mb_sum += vm_disk_aggregate.vm_disk_actual_size_mb;
-
-							if (vm_disk_aggregate.read_rate_bytes_per_second != null) { // G_OutMain_AggR_546
-
-								operation_result_tAggregateRow_7.read_rate_bytes_per_second_count++;
-
-								if (operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum == null) {
-									operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum = new BigDecimal(
-											0).setScale(0);
+								if (operation_result_tAggregateRow_7.minutes_in_status_sum == null) {
+									operation_result_tAggregateRow_7.minutes_in_status_sum = new BigDecimal(
+											0).setScale(2);
 								}
-								operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum = operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum
+								operation_result_tAggregateRow_7.minutes_in_status_sum = operation_result_tAggregateRow_7.minutes_in_status_sum
 										.add(new BigDecimal(
-												String.valueOf(vm_disk_aggregate.read_rate_bytes_per_second)));
+												String.valueOf(vm_disk_aggregate.minutes_in_status)));
 
-							} // G_OutMain_AggR_546
+								operation_result_tAggregateRow_7.vm_disk_actual_size_mb_count++;
 
-							if (vm_disk_aggregate.read_rate_bytes_per_second != null) { // G_OutMain_AggR_546
+								operation_result_tAggregateRow_7.vm_disk_actual_size_mb_sum += vm_disk_aggregate.vm_disk_actual_size_mb;
 
-								if (operation_result_tAggregateRow_7.max_read_rate_bytes_per_second_max == null
-										|| vm_disk_aggregate.read_rate_bytes_per_second > operation_result_tAggregateRow_7.max_read_rate_bytes_per_second_max
+								if (vm_disk_aggregate.read_rate_bytes_per_second != null) { // G_OutMain_AggR_546
 
-								) {
-									operation_result_tAggregateRow_7.max_read_rate_bytes_per_second_max = vm_disk_aggregate.read_rate_bytes_per_second;
-								}
+									operation_result_tAggregateRow_7.read_rate_bytes_per_second_count++;
 
-							} // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum == null) {
+										operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum = new BigDecimal(
+												0).setScale(0);
+									}
+									operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum = operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum
+											.add(new BigDecimal(
+													String.valueOf(vm_disk_aggregate.read_rate_bytes_per_second)));
 
-							if (vm_disk_aggregate.read_latency_seconds != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_7.read_latency_seconds_count++;
+								if (vm_disk_aggregate.read_rate_bytes_per_second != null) { // G_OutMain_AggR_546
 
-								if (operation_result_tAggregateRow_7.read_latency_seconds_sum == null) {
-									operation_result_tAggregateRow_7.read_latency_seconds_sum = new BigDecimal(
-											0).setScale(9);
-								}
-								operation_result_tAggregateRow_7.read_latency_seconds_sum = operation_result_tAggregateRow_7.read_latency_seconds_sum
-										.add(new BigDecimal(
-												String.valueOf(vm_disk_aggregate.read_latency_seconds)));
+									if (operation_result_tAggregateRow_7.max_read_rate_bytes_per_second_max == null
+											|| vm_disk_aggregate.read_rate_bytes_per_second > operation_result_tAggregateRow_7.max_read_rate_bytes_per_second_max
 
-							} // G_OutMain_AggR_546
+									) {
+										operation_result_tAggregateRow_7.max_read_rate_bytes_per_second_max = vm_disk_aggregate.read_rate_bytes_per_second;
+									}
 
-							if (vm_disk_aggregate.read_latency_seconds != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-								if (operation_result_tAggregateRow_7.max_read_latency_seconds_max == null
-										|| vm_disk_aggregate.read_latency_seconds > operation_result_tAggregateRow_7.max_read_latency_seconds_max
+								if (vm_disk_aggregate.read_latency_seconds != null) { // G_OutMain_AggR_546
 
-								) {
-									operation_result_tAggregateRow_7.max_read_latency_seconds_max = vm_disk_aggregate.read_latency_seconds;
-								}
+									operation_result_tAggregateRow_7.read_latency_seconds_count++;
 
-							} // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_7.read_latency_seconds_sum == null) {
+										operation_result_tAggregateRow_7.read_latency_seconds_sum = new BigDecimal(
+												0).setScale(9);
+									}
+									operation_result_tAggregateRow_7.read_latency_seconds_sum = operation_result_tAggregateRow_7.read_latency_seconds_sum
+											.add(new BigDecimal(
+													String.valueOf(vm_disk_aggregate.read_latency_seconds)));
 
-							if (vm_disk_aggregate.write_rate_bytes_per_second != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_7.write_rate_bytes_per_second_count++;
+								if (vm_disk_aggregate.read_latency_seconds != null) { // G_OutMain_AggR_546
 
-								if (operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum == null) {
-									operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum = new BigDecimal(
-											0).setScale(0);
-								}
-								operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum = operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum
-										.add(new BigDecimal(
-												String.valueOf(vm_disk_aggregate.write_rate_bytes_per_second)));
+									if (operation_result_tAggregateRow_7.max_read_latency_seconds_max == null
+											|| vm_disk_aggregate.read_latency_seconds > operation_result_tAggregateRow_7.max_read_latency_seconds_max
 
-							} // G_OutMain_AggR_546
+									) {
+										operation_result_tAggregateRow_7.max_read_latency_seconds_max = vm_disk_aggregate.read_latency_seconds;
+									}
 
-							if (vm_disk_aggregate.write_rate_bytes_per_second != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-								if (operation_result_tAggregateRow_7.max_write_rate_bytes_per_second_max == null
-										|| vm_disk_aggregate.write_rate_bytes_per_second > operation_result_tAggregateRow_7.max_write_rate_bytes_per_second_max
+								if (vm_disk_aggregate.write_rate_bytes_per_second != null) { // G_OutMain_AggR_546
 
-								) {
-									operation_result_tAggregateRow_7.max_write_rate_bytes_per_second_max = vm_disk_aggregate.write_rate_bytes_per_second;
-								}
+									operation_result_tAggregateRow_7.write_rate_bytes_per_second_count++;
 
-							} // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum == null) {
+										operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum = new BigDecimal(
+												0).setScale(0);
+									}
+									operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum = operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum
+											.add(new BigDecimal(
+													String.valueOf(vm_disk_aggregate.write_rate_bytes_per_second)));
 
-							if (vm_disk_aggregate.write_latency_seconds != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_7.write_latency_seconds_count++;
+								if (vm_disk_aggregate.write_rate_bytes_per_second != null) { // G_OutMain_AggR_546
 
-								if (operation_result_tAggregateRow_7.write_latency_seconds_sum == null) {
-									operation_result_tAggregateRow_7.write_latency_seconds_sum = new BigDecimal(
-											0).setScale(9);
-								}
-								operation_result_tAggregateRow_7.write_latency_seconds_sum = operation_result_tAggregateRow_7.write_latency_seconds_sum
-										.add(new BigDecimal(
-												String.valueOf(vm_disk_aggregate.write_latency_seconds)));
+									if (operation_result_tAggregateRow_7.max_write_rate_bytes_per_second_max == null
+											|| vm_disk_aggregate.write_rate_bytes_per_second > operation_result_tAggregateRow_7.max_write_rate_bytes_per_second_max
 
-							} // G_OutMain_AggR_546
+									) {
+										operation_result_tAggregateRow_7.max_write_rate_bytes_per_second_max = vm_disk_aggregate.write_rate_bytes_per_second;
+									}
 
-							if (vm_disk_aggregate.write_latency_seconds != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-								if (operation_result_tAggregateRow_7.max_write_latency_seconds_max == null
-										|| vm_disk_aggregate.write_latency_seconds > operation_result_tAggregateRow_7.max_write_latency_seconds_max
+								if (vm_disk_aggregate.write_latency_seconds != null) { // G_OutMain_AggR_546
 
-								) {
-									operation_result_tAggregateRow_7.max_write_latency_seconds_max = vm_disk_aggregate.write_latency_seconds;
-								}
+									operation_result_tAggregateRow_7.write_latency_seconds_count++;
 
-							} // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_7.write_latency_seconds_sum == null) {
+										operation_result_tAggregateRow_7.write_latency_seconds_sum = new BigDecimal(
+												0).setScale(9);
+									}
+									operation_result_tAggregateRow_7.write_latency_seconds_sum = operation_result_tAggregateRow_7.write_latency_seconds_sum
+											.add(new BigDecimal(
+													String.valueOf(vm_disk_aggregate.write_latency_seconds)));
 
-							if (vm_disk_aggregate.flush_latency_seconds != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_7.flush_latency_seconds_count++;
+								if (vm_disk_aggregate.write_latency_seconds != null) { // G_OutMain_AggR_546
 
-								if (operation_result_tAggregateRow_7.flush_latency_seconds_sum == null) {
-									operation_result_tAggregateRow_7.flush_latency_seconds_sum = new BigDecimal(
-											0).setScale(9);
-								}
-								operation_result_tAggregateRow_7.flush_latency_seconds_sum = operation_result_tAggregateRow_7.flush_latency_seconds_sum
-										.add(new BigDecimal(
-												String.valueOf(vm_disk_aggregate.flush_latency_seconds)));
+									if (operation_result_tAggregateRow_7.max_write_latency_seconds_max == null
+											|| vm_disk_aggregate.write_latency_seconds > operation_result_tAggregateRow_7.max_write_latency_seconds_max
 
-							} // G_OutMain_AggR_546
+									) {
+										operation_result_tAggregateRow_7.max_write_latency_seconds_max = vm_disk_aggregate.write_latency_seconds;
+									}
 
-							if (vm_disk_aggregate.flush_latency_seconds != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-								if (operation_result_tAggregateRow_7.max_flush_latency_seconds_max == null
-										|| vm_disk_aggregate.flush_latency_seconds > operation_result_tAggregateRow_7.max_flush_latency_seconds_max
+								if (vm_disk_aggregate.flush_latency_seconds != null) { // G_OutMain_AggR_546
 
-								) {
-									operation_result_tAggregateRow_7.max_flush_latency_seconds_max = vm_disk_aggregate.flush_latency_seconds;
-								}
+									operation_result_tAggregateRow_7.flush_latency_seconds_count++;
 
-							} // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_7.flush_latency_seconds_sum == null) {
+										operation_result_tAggregateRow_7.flush_latency_seconds_sum = new BigDecimal(
+												0).setScale(9);
+									}
+									operation_result_tAggregateRow_7.flush_latency_seconds_sum = operation_result_tAggregateRow_7.flush_latency_seconds_sum
+											.add(new BigDecimal(
+													String.valueOf(vm_disk_aggregate.flush_latency_seconds)));
 
-							if (vm_disk_aggregate.vm_disk_configuration_version != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_7.vm_disk_configuration_version_last = vm_disk_aggregate.vm_disk_configuration_version;
+								if (vm_disk_aggregate.flush_latency_seconds != null) { // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+									if (operation_result_tAggregateRow_7.max_flush_latency_seconds_max == null
+											|| vm_disk_aggregate.flush_latency_seconds > operation_result_tAggregateRow_7.max_flush_latency_seconds_max
 
-							if (vm_disk_aggregate.image_id != null) { // G_OutMain_AggR_546
+									) {
+										operation_result_tAggregateRow_7.max_flush_latency_seconds_max = vm_disk_aggregate.flush_latency_seconds;
+									}
 
-								operation_result_tAggregateRow_7.image_id_last = vm_disk_aggregate.image_id;
+								} // G_OutMain_AggR_546
 
-							} // G_OutMain_AggR_546
+								if (vm_disk_aggregate.vm_disk_configuration_version != null) { // G_OutMain_AggR_546
 
-							tos_count_tAggregateRow_7_AGGOUT++;
+									operation_result_tAggregateRow_7.vm_disk_configuration_version_last = vm_disk_aggregate.vm_disk_configuration_version;
 
-							/**
-							 * [tAggregateRow_7_AGGOUT main ] stop
-							 */
+								} // G_OutMain_AggR_546
 
-						} // End of branch "vm_disk_aggregate"
+								if (vm_disk_aggregate.image_id != null) { // G_OutMain_AggR_546
 
-					} // G_TM_M_280 close main tMap filter for table 'row19'
+									operation_result_tAggregateRow_7.image_id_last = vm_disk_aggregate.image_id;
 
-					/**
-					 * [tJDBCInput_13 end ] start
-					 */
+								} // G_OutMain_AggR_546
 
-					currentComponent = "tJDBCInput_13";
+								tos_count_tAggregateRow_7_AGGOUT++;
+
+								/**
+								 * [tAggregateRow_7_AGGOUT main ] stop
+								 */
+
+							} // End of branch "vm_disk_aggregate"
+
+						} // G_TM_M_280 close main tMap filter for table 'row19'
+
+						/**
+						 * [tJDBCInput_13 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_13";
+
+					}
+				} finally {
+					rs_tJDBCInput_13.close();
+					stmt_tJDBCInput_13.close();
 
 				}
-				rs_tJDBCInput_13.close();
-				stmt_tJDBCInput_13.close();
-
 				globalMap.put("tJDBCInput_13_NB_LINE", nb_line_tJDBCInput_13);
 
 				ok_Hash.put("tJDBCInput_13", true);
@@ -17724,6 +18265,8 @@ public class AggregationToHourly implements TalendJob {
 				 * [tAggregateRow_7_AGGOUT end ] start
 				 */
 
+				currentVirtualComponent = "tAggregateRow_7";
+
 				currentComponent = "tAggregateRow_7_AGGOUT";
 
 				ok_Hash.put("tAggregateRow_7_AGGOUT", true);
@@ -17740,6 +18283,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_13", false);
 				start_Hash.put("tJDBCOutput_13", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_13";
 
 				int tos_count_tJDBCOutput_13 = 0;
@@ -17761,13 +18305,6 @@ public class AggregationToHourly implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_13 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_13) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_13 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_13 = dataSources_tJDBCOutput_13.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_13 = 10000;
 				int batchSizeCounter_tJDBCOutput_13 = 0;
 
@@ -17788,6 +18325,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_7_AGGIN", false);
 				start_Hash.put("tAggregateRow_7_AGGIN",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_7";
+
 				currentComponent = "tAggregateRow_7_AGGIN";
 
 				int tos_count_tAggregateRow_7_AGGIN = 0;
@@ -17806,6 +18346,8 @@ public class AggregationToHourly implements TalendJob {
 					/**
 					 * [tAggregateRow_7_AGGIN main ] start
 					 */
+
+					currentVirtualComponent = "tAggregateRow_7";
 
 					currentComponent = "tAggregateRow_7_AGGIN";
 
@@ -18081,6 +18623,8 @@ public class AggregationToHourly implements TalendJob {
 					 * [tAggregateRow_7_AGGIN end ] start
 					 */
 
+					currentVirtualComponent = "tAggregateRow_7";
+
 					currentComponent = "tAggregateRow_7_AGGIN";
 
 				} // G_AggR_600
@@ -18135,16 +18679,82 @@ public class AggregationToHourly implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tAggregateRow_7_AGGIN"
 			globalMap.remove("tAggregateRow_7");
 
+			try {
+
+				/**
+				 * [tJDBCInput_13 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_13";
+
+				/**
+				 * [tJDBCInput_13 finally ] stop
+				 */
+
+				/**
+				 * [tMap_13 finally ] start
+				 */
+
+				currentComponent = "tMap_13";
+
+				/**
+				 * [tMap_13 finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_7_AGGOUT finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_7";
+
+				currentComponent = "tAggregateRow_7_AGGOUT";
+
+				/**
+				 * [tAggregateRow_7_AGGOUT finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_7_AGGIN finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_7";
+
+				currentComponent = "tAggregateRow_7_AGGIN";
+
+				/**
+				 * [tAggregateRow_7_AGGIN finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_13 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_13";
+
+				/**
+				 * [tJDBCOutput_13 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_13_SUBPROCESS_STATE", 1);
@@ -18159,6 +18769,7 @@ public class AggregationToHourly implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -18176,6 +18787,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tPrejob_1", false);
 				start_Hash.put("tPrejob_1", System.currentTimeMillis());
+
 				currentComponent = "tPrejob_1";
 
 				int tos_count_tPrejob_1 = 0;
@@ -18208,17 +18820,36 @@ public class AggregationToHourly implements TalendJob {
 				/**
 				 * [tPrejob_1 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tPrejob_1 finally ] start
+				 */
+
+				currentComponent = "tPrejob_1";
+
+				/**
+				 * [tPrejob_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tPrejob_1_SUBPROCESS_STATE", 1);
@@ -18234,6 +18865,7 @@ public class AggregationToHourly implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -18251,6 +18883,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCConnection_1", false);
 				start_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
+
 				currentComponent = "tJDBCConnection_1";
 
 				int tos_count_tJDBCConnection_1 = 0;
@@ -18306,17 +18939,36 @@ public class AggregationToHourly implements TalendJob {
 				/**
 				 * [tJDBCConnection_1 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCConnection_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_1";
+
+				/**
+				 * [tJDBCConnection_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", 1);
@@ -18331,6 +18983,7 @@ public class AggregationToHourly implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -18348,6 +19001,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tPostjob_1", false);
 				start_Hash.put("tPostjob_1", System.currentTimeMillis());
+
 				currentComponent = "tPostjob_1";
 
 				int tos_count_tPostjob_1 = 0;
@@ -18380,17 +19034,36 @@ public class AggregationToHourly implements TalendJob {
 				/**
 				 * [tPostjob_1 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tPostjob_1 finally ] start
+				 */
+
+				currentComponent = "tPostjob_1";
+
+				/**
+				 * [tPostjob_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tPostjob_1_SUBPROCESS_STATE", 1);
@@ -18455,7 +19128,9 @@ public class AggregationToHourly implements TalendJob {
 			if (this.var_name == null) {
 				if (other.var_name != null)
 					return false;
+
 			} else if (!this.var_name.equals(other.var_name))
+
 				return false;
 
 			return true;
@@ -18813,6 +19488,7 @@ public class AggregationToHourly implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -18833,6 +19509,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_6", false);
 				start_Hash.put("tJDBCOutput_6", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_6";
 
 				int tos_count_tJDBCOutput_6 = 0;
@@ -18860,13 +19537,6 @@ public class AggregationToHourly implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_6 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_6) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_6 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_6 = dataSources_tJDBCOutput_6
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_6 = 10000;
 				int batchSizeCounter_tJDBCOutput_6 = 0;
 
@@ -18886,6 +19556,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tMap_6", false);
 				start_Hash.put("tMap_6", System.currentTimeMillis());
+
 				currentComponent = "tMap_6";
 
 				int tos_count_tMap_6 = 0;
@@ -18916,6 +19587,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_6", false);
 				start_Hash.put("tJDBCInput_6", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_6";
 
 				int tos_count_tJDBCInput_6 = 0;
@@ -18924,14 +19596,6 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_6 = null;
 				conn_tJDBCInput_6 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_6) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_6 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_6 = dataSources_tJDBCInput_6.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_6);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_6 = conn_tJDBCInput_6
 						.createStatement();
@@ -18939,194 +19603,196 @@ public class AggregationToHourly implements TalendJob {
 				String dbquery_tJDBCInput_6 = "SELECT *  FROM history_configuration  WHERE var_name = 'lastHourAggr'";
 
 				globalMap.put("tJDBCInput_6_QUERY", dbquery_tJDBCInput_6);
+				java.sql.ResultSet rs_tJDBCInput_6 = null;
+				try {
+					rs_tJDBCInput_6 = stmt_tJDBCInput_6
+							.executeQuery(dbquery_tJDBCInput_6);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_6 = rs_tJDBCInput_6
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_6 = rsmd_tJDBCInput_6
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_6 = stmt_tJDBCInput_6
-						.executeQuery(dbquery_tJDBCInput_6);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_6 = rs_tJDBCInput_6
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_6 = rsmd_tJDBCInput_6
-						.getColumnCount();
+					String tmpContent_tJDBCInput_6 = null;
+					int column_index_tJDBCInput_6 = 1;
 
-				String tmpContent_tJDBCInput_6 = null;
-				int column_index_tJDBCInput_6 = 1;
-				while (rs_tJDBCInput_6.next()) {
-					nb_line_tJDBCInput_6++;
+					while (rs_tJDBCInput_6.next()) {
+						nb_line_tJDBCInput_6++;
 
-					column_index_tJDBCInput_6 = 1;
+						column_index_tJDBCInput_6 = 1;
 
-					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
-						row11.var_name = null;
-					} else {
-
-						tmpContent_tJDBCInput_6 = rs_tJDBCInput_6
-								.getString(column_index_tJDBCInput_6);
-						if (tmpContent_tJDBCInput_6 != null) {
-							row11.var_name = tmpContent_tJDBCInput_6;
-						} else {
+						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row11.var_name = null;
-						}
-
-					}
-					column_index_tJDBCInput_6 = 2;
-
-					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
-						row11.var_value = null;
-					} else {
-
-						tmpContent_tJDBCInput_6 = rs_tJDBCInput_6
-								.getString(column_index_tJDBCInput_6);
-						if (tmpContent_tJDBCInput_6 != null) {
-							row11.var_value = tmpContent_tJDBCInput_6;
 						} else {
+
+							tmpContent_tJDBCInput_6 = rs_tJDBCInput_6
+									.getString(column_index_tJDBCInput_6);
+							if (tmpContent_tJDBCInput_6 != null) {
+								row11.var_name = tmpContent_tJDBCInput_6;
+							} else {
+								row11.var_name = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_6 = 2;
+
+						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row11.var_value = null;
+						} else {
+
+							tmpContent_tJDBCInput_6 = rs_tJDBCInput_6
+									.getString(column_index_tJDBCInput_6);
+							if (tmpContent_tJDBCInput_6 != null) {
+								row11.var_value = tmpContent_tJDBCInput_6;
+							} else {
+								row11.var_value = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_6.wasNull()) {
-							row11.var_value = null;
-						}
-					}
-					column_index_tJDBCInput_6 = 3;
+						column_index_tJDBCInput_6 = 3;
 
-					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
-						row11.var_datetime = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_6 = null;
-						try {
-							date_tJDBCInput_6 = rs_tJDBCInput_6
-									.getTimestamp(column_index_tJDBCInput_6);
-						} catch (java.lang.Exception e) {
-							date_tJDBCInput_6 = rs_tJDBCInput_6
-									.getDate(column_index_tJDBCInput_6);
-						}
-						row11.var_datetime = date_tJDBCInput_6;
-
-						if (rs_tJDBCInput_6.wasNull()) {
+						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row11.var_datetime = null;
+						} else {
+
+							java.util.Date date_tJDBCInput_6 = null;
+							try {
+								date_tJDBCInput_6 = rs_tJDBCInput_6
+										.getTimestamp(column_index_tJDBCInput_6);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_6 = rs_tJDBCInput_6
+										.getDate(column_index_tJDBCInput_6);
+							}
+							row11.var_datetime = date_tJDBCInput_6;
+
 						}
+
+						/**
+						 * [tJDBCInput_6 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_6 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_6";
+
+						tos_count_tJDBCInput_6++;
+
+						/**
+						 * [tJDBCInput_6 main ] stop
+						 */
+
+						/**
+						 * [tMap_6 main ] start
+						 */
+
+						currentComponent = "tMap_6";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_6 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_6 = false;
+						boolean mainRowRejected_tMap_6 = false;
+
+						// ###############################
+						{ // start of Var scope
+
+							// ###############################
+							// # Vars tables
+
+							Var__tMap_6__Struct Var = Var__tMap_6;// ###############################
+							// ###############################
+							// # Output tables
+
+							dc_aggregate_date = null;
+
+							// # Output table : 'dc_aggregate_date'
+							dc_aggregate_date_tmp.var_name = row11.var_name;
+							dc_aggregate_date_tmp.var_value = row11.var_value;
+							dc_aggregate_date_tmp.var_datetime = TalendDate
+									.addDate(routines.RoutineHistoryETL
+											.startOfHour(context.runTime), -1,
+											"HH");
+							dc_aggregate_date = dc_aggregate_date_tmp;
+							// ###############################
+
+						} // end of Var scope
+
+						rejectedInnerJoin_tMap_6 = false;
+
+						tos_count_tMap_6++;
+
+						/**
+						 * [tMap_6 main ] stop
+						 */
+						// Start of branch "dc_aggregate_date"
+						if (dc_aggregate_date != null) {
+
+							/**
+							 * [tJDBCOutput_6 main ] start
+							 */
+
+							currentComponent = "tJDBCOutput_6";
+
+							whetherReject_tJDBCOutput_6 = false;
+							if (dc_aggregate_date.var_value == null) {
+								pstmt_tJDBCOutput_6.setNull(1,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_6.setString(1,
+										dc_aggregate_date.var_value);
+							}
+
+							if (dc_aggregate_date.var_datetime != null) {
+								pstmt_tJDBCOutput_6.setTimestamp(
+										2,
+										new java.sql.Timestamp(
+												dc_aggregate_date.var_datetime
+														.getTime()));
+							} else {
+								pstmt_tJDBCOutput_6.setNull(2,
+										java.sql.Types.DATE);
+							}
+
+							if (dc_aggregate_date.var_name == null) {
+								pstmt_tJDBCOutput_6.setNull(3,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_6.setString(3,
+										dc_aggregate_date.var_name);
+							}
+
+							try {
+								updatedCount_tJDBCOutput_6 = updatedCount_tJDBCOutput_6
+										+ pstmt_tJDBCOutput_6.executeUpdate();
+								nb_line_tJDBCOutput_6++;
+							} catch (java.lang.Exception e) {
+								whetherReject_tJDBCOutput_6 = true;
+								throw (e);
+							}
+
+							tos_count_tJDBCOutput_6++;
+
+							/**
+							 * [tJDBCOutput_6 main ] stop
+							 */
+
+						} // End of branch "dc_aggregate_date"
+
+						/**
+						 * [tJDBCInput_6 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_6";
+
 					}
-
-					/**
-					 * [tJDBCInput_6 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_6 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_6";
-
-					tos_count_tJDBCInput_6++;
-
-					/**
-					 * [tJDBCInput_6 main ] stop
-					 */
-
-					/**
-					 * [tMap_6 main ] start
-					 */
-
-					currentComponent = "tMap_6";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_6 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_6 = false;
-					boolean mainRowRejected_tMap_6 = false;
-
-					// ###############################
-					{ // start of Var scope
-
-						// ###############################
-						// # Vars tables
-
-						Var__tMap_6__Struct Var = Var__tMap_6;// ###############################
-						// ###############################
-						// # Output tables
-
-						dc_aggregate_date = null;
-
-						// # Output table : 'dc_aggregate_date'
-						dc_aggregate_date_tmp.var_name = row11.var_name;
-						dc_aggregate_date_tmp.var_value = row11.var_value;
-						dc_aggregate_date_tmp.var_datetime = TalendDate
-								.addDate(routines.RoutineHistoryETL
-										.startOfHour(context.runTime), -1, "HH");
-						dc_aggregate_date = dc_aggregate_date_tmp;
-						// ###############################
-
-					} // end of Var scope
-
-					rejectedInnerJoin_tMap_6 = false;
-
-					tos_count_tMap_6++;
-
-					/**
-					 * [tMap_6 main ] stop
-					 */
-					// Start of branch "dc_aggregate_date"
-					if (dc_aggregate_date != null) {
-
-						/**
-						 * [tJDBCOutput_6 main ] start
-						 */
-
-						currentComponent = "tJDBCOutput_6";
-
-						whetherReject_tJDBCOutput_6 = false;
-						if (dc_aggregate_date.var_value == null) {
-							pstmt_tJDBCOutput_6.setNull(1,
-									java.sql.Types.VARCHAR);
-						} else {
-							pstmt_tJDBCOutput_6.setString(1,
-									dc_aggregate_date.var_value);
-						}
-
-						if (dc_aggregate_date.var_datetime != null) {
-							pstmt_tJDBCOutput_6.setTimestamp(
-									2,
-									new java.sql.Timestamp(
-											dc_aggregate_date.var_datetime
-													.getTime()));
-						} else {
-							pstmt_tJDBCOutput_6.setNull(2, java.sql.Types.DATE);
-						}
-
-						if (dc_aggregate_date.var_name == null) {
-							pstmt_tJDBCOutput_6.setNull(3,
-									java.sql.Types.VARCHAR);
-						} else {
-							pstmt_tJDBCOutput_6.setString(3,
-									dc_aggregate_date.var_name);
-						}
-
-						try {
-							updatedCount_tJDBCOutput_6 = updatedCount_tJDBCOutput_6
-									+ pstmt_tJDBCOutput_6.executeUpdate();
-							nb_line_tJDBCOutput_6++;
-						} catch (java.lang.Exception e) {
-							whetherReject_tJDBCOutput_6 = true;
-							throw (e);
-						}
-
-						tos_count_tJDBCOutput_6++;
-
-						/**
-						 * [tJDBCOutput_6 main ] stop
-						 */
-
-					} // End of branch "dc_aggregate_date"
-
-					/**
-					 * [tJDBCInput_6 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_6";
+				} finally {
+					rs_tJDBCInput_6.close();
+					stmt_tJDBCInput_6.close();
 
 				}
-				rs_tJDBCInput_6.close();
-				stmt_tJDBCInput_6.close();
-
 				globalMap.put("tJDBCInput_6_NB_LINE", nb_line_tJDBCInput_6);
 
 				ok_Hash.put("tJDBCInput_6", true);
@@ -19195,12 +19861,53 @@ public class AggregationToHourly implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_6 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_6";
+
+				/**
+				 * [tJDBCInput_6 finally ] stop
+				 */
+
+				/**
+				 * [tMap_6 finally ] start
+				 */
+
+				currentComponent = "tMap_6";
+
+				/**
+				 * [tMap_6 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_6 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_6";
+
+				/**
+				 * [tJDBCOutput_6 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", 1);
@@ -19568,6 +20275,7 @@ public class AggregationToHourly implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -19588,6 +20296,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_9", false);
 				start_Hash.put("tJDBCOutput_9", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_9";
 
 				int tos_count_tJDBCOutput_9 = 0;
@@ -19609,13 +20318,6 @@ public class AggregationToHourly implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_9 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_9) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_9 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_9 = dataSources_tJDBCOutput_9
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_9 = 10000;
 				int batchSizeCounter_tJDBCOutput_9 = 0;
 
@@ -19635,6 +20337,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tMap_9", false);
 				start_Hash.put("tMap_9", System.currentTimeMillis());
+
 				currentComponent = "tMap_9";
 
 				int tos_count_tMap_9 = 0;
@@ -19665,6 +20368,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_9", false);
 				start_Hash.put("tJDBCInput_9", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_9";
 
 				int tos_count_tJDBCInput_9 = 0;
@@ -19673,14 +20377,6 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_9 = null;
 				conn_tJDBCInput_9 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_9) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_9 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_9 = dataSources_tJDBCInput_9.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_9);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_9 = conn_tJDBCInput_9
 						.createStatement();
@@ -19688,209 +20384,215 @@ public class AggregationToHourly implements TalendJob {
 				String dbquery_tJDBCInput_9 = "SELECT date_trunc('hour', history_datetime), vm_id, disks_usage  FROM vm_disks_usage_samples_history  WHERE history_id in (SELECT max(history_id)                       FROM vm_disks_usage_samples_history                       GROUP BY vm_id, date_trunc('hour', history_datetime))         AND history_datetime >= (SELECT var_datetime                                 FROM history_configuration                                 WHERE var_name = 'lastHourAggr')";
 
 				globalMap.put("tJDBCInput_9_QUERY", dbquery_tJDBCInput_9);
+				java.sql.ResultSet rs_tJDBCInput_9 = null;
+				try {
+					rs_tJDBCInput_9 = stmt_tJDBCInput_9
+							.executeQuery(dbquery_tJDBCInput_9);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_9 = rs_tJDBCInput_9
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_9 = rsmd_tJDBCInput_9
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_9 = stmt_tJDBCInput_9
-						.executeQuery(dbquery_tJDBCInput_9);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_9 = rs_tJDBCInput_9
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_9 = rsmd_tJDBCInput_9
-						.getColumnCount();
+					String tmpContent_tJDBCInput_9 = null;
+					int column_index_tJDBCInput_9 = 1;
 
-				String tmpContent_tJDBCInput_9 = null;
-				int column_index_tJDBCInput_9 = 1;
-				while (rs_tJDBCInput_9.next()) {
-					nb_line_tJDBCInput_9++;
+					while (rs_tJDBCInput_9.next()) {
+						nb_line_tJDBCInput_9++;
 
-					column_index_tJDBCInput_9 = 1;
+						column_index_tJDBCInput_9 = 1;
 
-					if (colQtyInRs_tJDBCInput_9 < column_index_tJDBCInput_9) {
-						row12.history_datetime = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_9 = null;
-						try {
-							date_tJDBCInput_9 = rs_tJDBCInput_9
-									.getTimestamp(column_index_tJDBCInput_9);
-						} catch (java.lang.Exception e) {
-							date_tJDBCInput_9 = rs_tJDBCInput_9
-									.getDate(column_index_tJDBCInput_9);
-						}
-						row12.history_datetime = date_tJDBCInput_9;
-
-					}
-					column_index_tJDBCInput_9 = 2;
-
-					if (colQtyInRs_tJDBCInput_9 < column_index_tJDBCInput_9) {
-						row12.vm_id = null;
-					} else {
-
-						if (rs_tJDBCInput_9
-								.getObject(column_index_tJDBCInput_9) != null) {
-							row12.vm_id = rs_tJDBCInput_9
-									.getObject(column_index_tJDBCInput_9);
+						if (colQtyInRs_tJDBCInput_9 < column_index_tJDBCInput_9) {
+							row12.history_datetime = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							java.util.Date date_tJDBCInput_9 = null;
+							try {
+								date_tJDBCInput_9 = rs_tJDBCInput_9
+										.getTimestamp(column_index_tJDBCInput_9);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_9 = rs_tJDBCInput_9
+										.getDate(column_index_tJDBCInput_9);
+							}
+							row12.history_datetime = date_tJDBCInput_9;
+
 						}
 
-					}
-					column_index_tJDBCInput_9 = 3;
+						column_index_tJDBCInput_9 = 2;
 
-					if (colQtyInRs_tJDBCInput_9 < column_index_tJDBCInput_9) {
-						row12.disks_usage = null;
-					} else {
-
-						tmpContent_tJDBCInput_9 = rs_tJDBCInput_9
-								.getString(column_index_tJDBCInput_9);
-						if (tmpContent_tJDBCInput_9 != null) {
-							row12.disks_usage = tmpContent_tJDBCInput_9;
+						if (colQtyInRs_tJDBCInput_9 < column_index_tJDBCInput_9) {
+							row12.vm_id = null;
 						} else {
-							row12.disks_usage = null;
+
+							if (rs_tJDBCInput_9
+									.getObject(column_index_tJDBCInput_9) != null) {
+								row12.vm_id = rs_tJDBCInput_9
+										.getObject(column_index_tJDBCInput_9);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-						if (rs_tJDBCInput_9.wasNull()) {
+						column_index_tJDBCInput_9 = 3;
+
+						if (colQtyInRs_tJDBCInput_9 < column_index_tJDBCInput_9) {
 							row12.disks_usage = null;
+						} else {
+
+							tmpContent_tJDBCInput_9 = rs_tJDBCInput_9
+									.getString(column_index_tJDBCInput_9);
+							if (tmpContent_tJDBCInput_9 != null) {
+								row12.disks_usage = tmpContent_tJDBCInput_9;
+							} else {
+								row12.disks_usage = null;
+							}
+
 						}
-					}
-
-					/**
-					 * [tJDBCInput_9 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_9 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_9";
-
-					tos_count_tJDBCInput_9++;
-
-					/**
-					 * [tJDBCInput_9 main ] stop
-					 */
-
-					/**
-					 * [tMap_9 main ] start
-					 */
-
-					currentComponent = "tMap_9";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_9 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_9 = false;
-					boolean mainRowRejected_tMap_9 = false;
-
-					if (
-
-					(
-
-					routines.RoutineHistoryETL.dateCompare(
-							row12.history_datetime, routines.RoutineHistoryETL
-									.manipulateDate(routines.RoutineHistoryETL
-											.startOfHour(context.runTime), -1,
-											"HH")) < 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row12'
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_9__Struct Var = Var__tMap_9;// ###############################
-							// ###############################
-							// # Output tables
-
-							disks_usage_hourly = null;
-
-							// # Output table : 'disks_usage_hourly'
-							disks_usage_hourly_tmp.history_datetime = row12.history_datetime;
-							disks_usage_hourly_tmp.vm_id = row12.vm_id;
-							disks_usage_hourly_tmp.disks_usage = row12.disks_usage;
-							disks_usage_hourly = disks_usage_hourly_tmp;
-							// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_9 = false;
-
-						tos_count_tMap_9++;
 
 						/**
-						 * [tMap_9 main ] stop
+						 * [tJDBCInput_9 begin ] stop
 						 */
-						// Start of branch "disks_usage_hourly"
-						if (disks_usage_hourly != null) {
+						/**
+						 * [tJDBCInput_9 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_9";
+
+						tos_count_tJDBCInput_9++;
+
+						/**
+						 * [tJDBCInput_9 main ] stop
+						 */
+
+						/**
+						 * [tMap_9 main ] start
+						 */
+
+						currentComponent = "tMap_9";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_9 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_9 = false;
+						boolean mainRowRejected_tMap_9 = false;
+
+						if (
+
+						(
+
+						routines.RoutineHistoryETL.dateCompare(
+								row12.history_datetime,
+								routines.RoutineHistoryETL.manipulateDate(
+										routines.RoutineHistoryETL
+												.startOfHour(context.runTime),
+										-1, "HH")) < 0
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row12'
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_9__Struct Var = Var__tMap_9;// ###############################
+								// ###############################
+								// # Output tables
+
+								disks_usage_hourly = null;
+
+								// # Output table : 'disks_usage_hourly'
+								disks_usage_hourly_tmp.history_datetime = row12.history_datetime;
+								disks_usage_hourly_tmp.vm_id = row12.vm_id;
+								disks_usage_hourly_tmp.disks_usage = row12.disks_usage;
+								disks_usage_hourly = disks_usage_hourly_tmp;
+								// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_9 = false;
+
+							tos_count_tMap_9++;
 
 							/**
-							 * [tJDBCOutput_9 main ] start
+							 * [tMap_9 main ] stop
 							 */
+							// Start of branch "disks_usage_hourly"
+							if (disks_usage_hourly != null) {
 
-							currentComponent = "tJDBCOutput_9";
+								/**
+								 * [tJDBCOutput_9 main ] start
+								 */
 
-							whetherReject_tJDBCOutput_9 = false;
-							if (disks_usage_hourly.history_datetime != null) {
-								pstmt_tJDBCOutput_9
-										.setTimestamp(
-												1,
-												new java.sql.Timestamp(
-														disks_usage_hourly.history_datetime
-																.getTime()));
-							} else {
-								pstmt_tJDBCOutput_9.setNull(1,
-										java.sql.Types.DATE);
-							}
+								currentComponent = "tJDBCOutput_9";
 
-							if (disks_usage_hourly.vm_id == null) {
-								pstmt_tJDBCOutput_9.setNull(2,
-										java.sql.Types.OTHER);
-							} else {
-								pstmt_tJDBCOutput_9.setObject(2,
-										disks_usage_hourly.vm_id);
-							}
+								whetherReject_tJDBCOutput_9 = false;
+								if (disks_usage_hourly.history_datetime != null) {
+									pstmt_tJDBCOutput_9
+											.setTimestamp(
+													1,
+													new java.sql.Timestamp(
+															disks_usage_hourly.history_datetime
+																	.getTime()));
+								} else {
+									pstmt_tJDBCOutput_9.setNull(1,
+											java.sql.Types.DATE);
+								}
 
-							if (disks_usage_hourly.disks_usage == null) {
-								pstmt_tJDBCOutput_9.setNull(3,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_9.setString(3,
-										disks_usage_hourly.disks_usage);
-							}
+								if (disks_usage_hourly.vm_id == null) {
+									pstmt_tJDBCOutput_9.setNull(2,
+											java.sql.Types.OTHER);
+								} else {
+									pstmt_tJDBCOutput_9.setObject(2,
+											disks_usage_hourly.vm_id);
+								}
 
-							try {
-								insertedCount_tJDBCOutput_9 = insertedCount_tJDBCOutput_9
-										+ pstmt_tJDBCOutput_9.executeUpdate();
-								nb_line_tJDBCOutput_9++;
-							} catch (java.lang.Exception e) {
-								whetherReject_tJDBCOutput_9 = true;
-								throw (e);
-							}
+								if (disks_usage_hourly.disks_usage == null) {
+									pstmt_tJDBCOutput_9.setNull(3,
+											java.sql.Types.VARCHAR);
+								} else {
+									pstmt_tJDBCOutput_9.setString(3,
+											disks_usage_hourly.disks_usage);
+								}
 
-							tos_count_tJDBCOutput_9++;
+								try {
+									insertedCount_tJDBCOutput_9 = insertedCount_tJDBCOutput_9
+											+ pstmt_tJDBCOutput_9
+													.executeUpdate();
+									nb_line_tJDBCOutput_9++;
+								} catch (java.lang.Exception e) {
+									whetherReject_tJDBCOutput_9 = true;
+									throw (e);
+								}
 
-							/**
-							 * [tJDBCOutput_9 main ] stop
-							 */
+								tos_count_tJDBCOutput_9++;
 
-						} // End of branch "disks_usage_hourly"
+								/**
+								 * [tJDBCOutput_9 main ] stop
+								 */
 
-					} // G_TM_M_280 close main tMap filter for table 'row12'
+							} // End of branch "disks_usage_hourly"
 
-					/**
-					 * [tJDBCInput_9 end ] start
-					 */
+						} // G_TM_M_280 close main tMap filter for table 'row12'
 
-					currentComponent = "tJDBCInput_9";
+						/**
+						 * [tJDBCInput_9 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_9";
+
+					}
+				} finally {
+					rs_tJDBCInput_9.close();
+					stmt_tJDBCInput_9.close();
 
 				}
-				rs_tJDBCInput_9.close();
-				stmt_tJDBCInput_9.close();
-
 				globalMap.put("tJDBCInput_9_NB_LINE", nb_line_tJDBCInput_9);
 
 				ok_Hash.put("tJDBCInput_9", true);
@@ -19959,12 +20661,53 @@ public class AggregationToHourly implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_9 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_9";
+
+				/**
+				 * [tJDBCInput_9 finally ] stop
+				 */
+
+				/**
+				 * [tMap_9 finally ] start
+				 */
+
+				currentComponent = "tMap_9";
+
+				/**
+				 * [tMap_9 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_9 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_9";
+
+				/**
+				 * [tJDBCOutput_9 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", 1);
@@ -22225,10 +22968,12 @@ public class AggregationToHourly implements TalendJob {
 		globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -22252,6 +22997,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_8_AGGOUT", false);
 				start_Hash.put("tAggregateRow_8_AGGOUT",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_8";
+
 				currentComponent = "tAggregateRow_8_AGGOUT";
 
 				int tos_count_tAggregateRow_8_AGGOUT = 0;
@@ -22284,6 +23032,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						byte r = (byte) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'short/Short'", "'int/Integer'"));
@@ -22294,6 +23043,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						short r = (short) (a + b);
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'int/Integer'", "'short/Short'"));
@@ -22304,6 +23054,7 @@ public class AggregationToHourly implements TalendJob {
 							boolean checkTypeOverFlow, boolean checkUlp) {
 						int r = a + b;
 						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'long/Long'", "'int/Integer'"));
@@ -22326,6 +23077,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							float minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -22338,6 +23090,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& ((double) a + (double) b > (double) Float.MAX_VALUE)
 								|| ((double) a + (double) b < (double) -Float.MAX_VALUE)) {
+
 							throw new RuntimeException(
 									buildOverflowMessage(String.valueOf(a),
 											String.valueOf(b),
@@ -22352,6 +23105,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -22364,6 +23118,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -22376,6 +23131,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -22388,6 +23144,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -22400,6 +23157,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -22412,6 +23170,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkUlp) {
 							double minAddedValue = Math.ulp(a);
 							if (minAddedValue > Math.abs(b)) {
+
 								throw new RuntimeException(
 										buildPrecisionMessage(
 												String.valueOf(a),
@@ -22424,6 +23183,7 @@ public class AggregationToHourly implements TalendJob {
 						if (checkTypeOverFlow
 								&& (a + b > (double) Double.MAX_VALUE)
 								|| (a + b < -Double.MAX_VALUE)) {
+
 							throw new RuntimeException(buildOverflowMessage(
 									String.valueOf(a), String.valueOf(b),
 									"'BigDecimal'", "'double/Double'"));
@@ -22567,6 +23327,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tMap_10", false);
 				start_Hash.put("tMap_10", System.currentTimeMillis());
+
 				currentComponent = "tMap_10";
 
 				int tos_count_tMap_10 = 0;
@@ -22597,6 +23358,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_10", false);
 				start_Hash.put("tJDBCInput_10", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_10";
 
 				int tos_count_tJDBCInput_10 = 0;
@@ -22605,14 +23367,6 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_10 = null;
 				conn_tJDBCInput_10 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_10) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_10 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_10 = dataSources_tJDBCInput_10.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_10);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_10 = conn_tJDBCInput_10
 						.createStatement();
@@ -22620,559 +23374,550 @@ public class AggregationToHourly implements TalendJob {
 				String dbquery_tJDBCInput_10 = "SELECT     history_id,    history_datetime,   current_user_name,   cast(user_logged_in_to_guest as int),    vm_id,    minutes_in_status,    cpu_usage_percent,    memory_usage_percent,    user_cpu_usage_percent,    system_cpu_usage_percent,    vm_ip,   vm_client_ip,    currently_running_on_host,    vm_configuration_version,    current_host_configuration_version  FROM vm_samples_history  WHERE vm_status = 1       AND history_datetime >= (SELECT var_datetime  						       FROM history_configuration  						       WHERE var_name = 'lastHourAggr')  ORDER BY history_datetime,          current_user_name,        	 vm_id";
 
 				globalMap.put("tJDBCInput_10_QUERY", dbquery_tJDBCInput_10);
+				java.sql.ResultSet rs_tJDBCInput_10 = null;
+				try {
+					rs_tJDBCInput_10 = stmt_tJDBCInput_10
+							.executeQuery(dbquery_tJDBCInput_10);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_10 = rs_tJDBCInput_10
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_10 = rsmd_tJDBCInput_10
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_10 = stmt_tJDBCInput_10
-						.executeQuery(dbquery_tJDBCInput_10);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_10 = rs_tJDBCInput_10
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_10 = rsmd_tJDBCInput_10
-						.getColumnCount();
+					String tmpContent_tJDBCInput_10 = null;
+					int column_index_tJDBCInput_10 = 1;
 
-				String tmpContent_tJDBCInput_10 = null;
-				int column_index_tJDBCInput_10 = 1;
-				while (rs_tJDBCInput_10.next()) {
-					nb_line_tJDBCInput_10++;
+					while (rs_tJDBCInput_10.next()) {
+						nb_line_tJDBCInput_10++;
 
-					column_index_tJDBCInput_10 = 1;
+						column_index_tJDBCInput_10 = 1;
 
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.history_id = 0;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row13.history_id = rs_tJDBCInput_10
-									.getInt(column_index_tJDBCInput_10);
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
+							row13.history_id = 0;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row13.history_id = rs_tJDBCInput_10
+										.getInt(column_index_tJDBCInput_10);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_10 = 2;
+						column_index_tJDBCInput_10 = 2;
 
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.history_datetime = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_10 = null;
-						try {
-							date_tJDBCInput_10 = rs_tJDBCInput_10
-									.getTimestamp(column_index_tJDBCInput_10);
-						} catch (java.lang.Exception e) {
-							date_tJDBCInput_10 = rs_tJDBCInput_10
-									.getDate(column_index_tJDBCInput_10);
-						}
-						row13.history_datetime = date_tJDBCInput_10;
-
-					}
-					column_index_tJDBCInput_10 = 3;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.current_user_name = null;
-					} else {
-
-						tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
-								.getString(column_index_tJDBCInput_10);
-						if (tmpContent_tJDBCInput_10 != null) {
-							row13.current_user_name = tmpContent_tJDBCInput_10;
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
+							row13.history_datetime = null;
 						} else {
+
+							java.util.Date date_tJDBCInput_10 = null;
+							try {
+								date_tJDBCInput_10 = rs_tJDBCInput_10
+										.getTimestamp(column_index_tJDBCInput_10);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_10 = rs_tJDBCInput_10
+										.getDate(column_index_tJDBCInput_10);
+							}
+							row13.history_datetime = date_tJDBCInput_10;
+
+						}
+
+						column_index_tJDBCInput_10 = 3;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.current_user_name = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row13.current_user_name = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 4;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.user_logged_in_to_guest = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row13.user_logged_in_to_guest = rs_tJDBCInput_10
-									.getInt(column_index_tJDBCInput_10);
 						} else {
+
+							tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
+									.getString(column_index_tJDBCInput_10);
+							if (tmpContent_tJDBCInput_10 != null) {
+								row13.current_user_name = tmpContent_tJDBCInput_10;
+							} else {
+								row13.current_user_name = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 4;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.user_logged_in_to_guest = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row13.user_logged_in_to_guest = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 5;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.vm_id = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row13.vm_id = rs_tJDBCInput_10
-									.getObject(column_index_tJDBCInput_10);
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row13.user_logged_in_to_guest = rs_tJDBCInput_10
+										.getInt(column_index_tJDBCInput_10);
+							} else {
+								row13.user_logged_in_to_guest = null;
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_10 = 6;
+						column_index_tJDBCInput_10 = 5;
 
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.minutes_in_status = 0;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row13.minutes_in_status = rs_tJDBCInput_10
-									.getDouble(column_index_tJDBCInput_10);
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
+							row13.vm_id = null;
 						} else {
-							throw new RuntimeException(
-									"Null value in non-Nullable column");
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row13.vm_id = rs_tJDBCInput_10
+										.getObject(column_index_tJDBCInput_10);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
 						}
 
-					}
-					column_index_tJDBCInput_10 = 7;
+						column_index_tJDBCInput_10 = 6;
 
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row13.cpu_usage_percent = rs_tJDBCInput_10
-									.getShort(column_index_tJDBCInput_10);
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
+							row13.minutes_in_status = 0;
 						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row13.minutes_in_status = rs_tJDBCInput_10
+										.getDouble(column_index_tJDBCInput_10);
+							} else {
+
+								throw new RuntimeException(
+										"Null value in non-Nullable column");
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 7;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row13.cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 8;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.memory_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row13.memory_usage_percent = rs_tJDBCInput_10
-									.getShort(column_index_tJDBCInput_10);
 						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row13.cpu_usage_percent = rs_tJDBCInput_10
+										.getShort(column_index_tJDBCInput_10);
+							} else {
+								row13.cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 8;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.memory_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row13.memory_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 9;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.user_cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row13.user_cpu_usage_percent = rs_tJDBCInput_10
-									.getShort(column_index_tJDBCInput_10);
 						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row13.memory_usage_percent = rs_tJDBCInput_10
+										.getShort(column_index_tJDBCInput_10);
+							} else {
+								row13.memory_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 9;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.user_cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row13.user_cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 10;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.system_cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row13.system_cpu_usage_percent = rs_tJDBCInput_10
-									.getShort(column_index_tJDBCInput_10);
 						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row13.user_cpu_usage_percent = rs_tJDBCInput_10
+										.getShort(column_index_tJDBCInput_10);
+							} else {
+								row13.user_cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 10;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.system_cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row13.system_cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 11;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.vm_ip = null;
-					} else {
-
-						tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
-								.getString(column_index_tJDBCInput_10);
-						if (tmpContent_tJDBCInput_10 != null) {
-							row13.vm_ip = tmpContent_tJDBCInput_10;
 						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row13.system_cpu_usage_percent = rs_tJDBCInput_10
+										.getShort(column_index_tJDBCInput_10);
+							} else {
+								row13.system_cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 11;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.vm_ip = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row13.vm_ip = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 12;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.vm_client_ip = null;
-					} else {
-
-						tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
-								.getString(column_index_tJDBCInput_10);
-						if (tmpContent_tJDBCInput_10 != null) {
-							row13.vm_client_ip = tmpContent_tJDBCInput_10;
 						} else {
+
+							tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
+									.getString(column_index_tJDBCInput_10);
+							if (tmpContent_tJDBCInput_10 != null) {
+								row13.vm_ip = tmpContent_tJDBCInput_10;
+							} else {
+								row13.vm_ip = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 12;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.vm_client_ip = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row13.vm_client_ip = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 13;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.currently_running_on_host = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row13.currently_running_on_host = rs_tJDBCInput_10
-									.getObject(column_index_tJDBCInput_10);
 						} else {
+
+							tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
+									.getString(column_index_tJDBCInput_10);
+							if (tmpContent_tJDBCInput_10 != null) {
+								row13.vm_client_ip = tmpContent_tJDBCInput_10;
+							} else {
+								row13.vm_client_ip = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 13;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.currently_running_on_host = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row13.currently_running_on_host = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 14;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.vm_configuration_version = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row13.vm_configuration_version = rs_tJDBCInput_10
-									.getInt(column_index_tJDBCInput_10);
 						} else {
-							row13.vm_configuration_version = null;
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row13.currently_running_on_host = rs_tJDBCInput_10
+										.getObject(column_index_tJDBCInput_10);
+							} else {
+								row13.currently_running_on_host = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_10.wasNull()) {
+						column_index_tJDBCInput_10 = 14;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.vm_configuration_version = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 15;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row13.current_host_configuration_version = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row13.current_host_configuration_version = rs_tJDBCInput_10
-									.getInt(column_index_tJDBCInput_10);
 						} else {
-							row13.current_host_configuration_version = null;
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row13.vm_configuration_version = rs_tJDBCInput_10
+										.getInt(column_index_tJDBCInput_10);
+							} else {
+								row13.vm_configuration_version = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_10.wasNull()) {
+						column_index_tJDBCInput_10 = 15;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.current_host_configuration_version = null;
+						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row13.current_host_configuration_version = rs_tJDBCInput_10
+										.getInt(column_index_tJDBCInput_10);
+							} else {
+								row13.current_host_configuration_version = null;
+							}
+
 						}
-					}
-
-					/**
-					 * [tJDBCInput_10 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_10 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_10";
-
-					tos_count_tJDBCInput_10++;
-
-					/**
-					 * [tJDBCInput_10 main ] stop
-					 */
-
-					/**
-					 * [tMap_10 main ] start
-					 */
-
-					currentComponent = "tMap_10";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_10 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_10 = false;
-					boolean mainRowRejected_tMap_10 = false;
-
-					if (
-
-					(
-
-					routines.RoutineHistoryETL.dateCompare(
-							row13.history_datetime, routines.RoutineHistoryETL
-									.manipulateDate(routines.RoutineHistoryETL
-											.startOfHour(context.runTime), -1,
-											"HH")) < 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row13'
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_10__Struct Var = Var__tMap_10;// ###############################
-							// ###############################
-							// # Output tables
-
-							vm_users_aggregate_history = null;
-
-							// # Output table : 'vm_users_aggregate_history'
-							vm_users_aggregate_history_tmp.history_datetime = RoutineHistoryETL
-									.startOfHour(row13.history_datetime);
-							vm_users_aggregate_history_tmp.user_name = row13.current_user_name;
-							vm_users_aggregate_history_tmp.user_logged_in_to_guest = row13.user_logged_in_to_guest;
-							vm_users_aggregate_history_tmp.vm_id = row13.vm_id;
-							vm_users_aggregate_history_tmp.session_time_in_minutes = row13.minutes_in_status;
-							vm_users_aggregate_history_tmp.cpu_usage_percent = row13.cpu_usage_percent;
-							vm_users_aggregate_history_tmp.memory_usage_percent = row13.memory_usage_percent;
-							vm_users_aggregate_history_tmp.user_cpu_usage_percent = row13.user_cpu_usage_percent;
-							vm_users_aggregate_history_tmp.system_cpu_usage_percent = row13.system_cpu_usage_percent;
-							vm_users_aggregate_history_tmp.vm_ip = row13.vm_ip;
-							vm_users_aggregate_history_tmp.vm_client_ip = row13.vm_client_ip;
-							vm_users_aggregate_history_tmp.currently_running_on_host = row13.currently_running_on_host;
-							vm_users_aggregate_history_tmp.vm_configuration_version = row13.vm_configuration_version;
-							vm_users_aggregate_history_tmp.current_host_configuration_version = row13.current_host_configuration_version;
-							vm_users_aggregate_history = vm_users_aggregate_history_tmp;
-							// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_10 = false;
-
-						tos_count_tMap_10++;
 
 						/**
-						 * [tMap_10 main ] stop
+						 * [tJDBCInput_10 begin ] stop
 						 */
-						// Start of branch "vm_users_aggregate_history"
-						if (vm_users_aggregate_history != null) {
+						/**
+						 * [tJDBCInput_10 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_10";
+
+						tos_count_tJDBCInput_10++;
+
+						/**
+						 * [tJDBCInput_10 main ] stop
+						 */
+
+						/**
+						 * [tMap_10 main ] start
+						 */
+
+						currentComponent = "tMap_10";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_10 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_10 = false;
+						boolean mainRowRejected_tMap_10 = false;
+
+						if (
+
+						(
+
+						routines.RoutineHistoryETL.dateCompare(
+								row13.history_datetime,
+								routines.RoutineHistoryETL.manipulateDate(
+										routines.RoutineHistoryETL
+												.startOfHour(context.runTime),
+										-1, "HH")) < 0
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row13'
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_10__Struct Var = Var__tMap_10;// ###############################
+								// ###############################
+								// # Output tables
+
+								vm_users_aggregate_history = null;
+
+								// # Output table : 'vm_users_aggregate_history'
+								vm_users_aggregate_history_tmp.history_datetime = RoutineHistoryETL
+										.startOfHour(row13.history_datetime);
+								vm_users_aggregate_history_tmp.user_name = row13.current_user_name;
+								vm_users_aggregate_history_tmp.user_logged_in_to_guest = row13.user_logged_in_to_guest;
+								vm_users_aggregate_history_tmp.vm_id = row13.vm_id;
+								vm_users_aggregate_history_tmp.session_time_in_minutes = row13.minutes_in_status;
+								vm_users_aggregate_history_tmp.cpu_usage_percent = row13.cpu_usage_percent;
+								vm_users_aggregate_history_tmp.memory_usage_percent = row13.memory_usage_percent;
+								vm_users_aggregate_history_tmp.user_cpu_usage_percent = row13.user_cpu_usage_percent;
+								vm_users_aggregate_history_tmp.system_cpu_usage_percent = row13.system_cpu_usage_percent;
+								vm_users_aggregate_history_tmp.vm_ip = row13.vm_ip;
+								vm_users_aggregate_history_tmp.vm_client_ip = row13.vm_client_ip;
+								vm_users_aggregate_history_tmp.currently_running_on_host = row13.currently_running_on_host;
+								vm_users_aggregate_history_tmp.vm_configuration_version = row13.vm_configuration_version;
+								vm_users_aggregate_history_tmp.current_host_configuration_version = row13.current_host_configuration_version;
+								vm_users_aggregate_history = vm_users_aggregate_history_tmp;
+								// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_10 = false;
+
+							tos_count_tMap_10++;
 
 							/**
-							 * [tAggregateRow_8_AGGOUT main ] start
+							 * [tMap_10 main ] stop
 							 */
+							// Start of branch "vm_users_aggregate_history"
+							if (vm_users_aggregate_history != null) {
 
-							currentComponent = "tAggregateRow_8_AGGOUT";
+								/**
+								 * [tAggregateRow_8_AGGOUT main ] start
+								 */
 
-							operation_finder_tAggregateRow_8.history_datetime = vm_users_aggregate_history.history_datetime;
-							operation_finder_tAggregateRow_8.user_name = vm_users_aggregate_history.user_name;
-							operation_finder_tAggregateRow_8.vm_id = vm_users_aggregate_history.vm_id;
+								currentVirtualComponent = "tAggregateRow_8";
 
-							operation_finder_tAggregateRow_8.hashCodeDirty = true;
+								currentComponent = "tAggregateRow_8_AGGOUT";
 
-							operation_result_tAggregateRow_8 = hash_tAggregateRow_8
-									.get(operation_finder_tAggregateRow_8);
+								operation_finder_tAggregateRow_8.history_datetime = vm_users_aggregate_history.history_datetime;
+								operation_finder_tAggregateRow_8.user_name = vm_users_aggregate_history.user_name;
+								operation_finder_tAggregateRow_8.vm_id = vm_users_aggregate_history.vm_id;
 
-							boolean isFirstAdd_tAggregateRow_8 = false;
+								operation_finder_tAggregateRow_8.hashCodeDirty = true;
 
-							if (operation_result_tAggregateRow_8 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_8 = hash_tAggregateRow_8
+										.get(operation_finder_tAggregateRow_8);
 
-								operation_result_tAggregateRow_8 = new AggOperationStruct_tAggregateRow_8();
+								boolean isFirstAdd_tAggregateRow_8 = false;
 
-								operation_result_tAggregateRow_8.history_datetime = operation_finder_tAggregateRow_8.history_datetime;
-								operation_result_tAggregateRow_8.user_name = operation_finder_tAggregateRow_8.user_name;
-								operation_result_tAggregateRow_8.vm_id = operation_finder_tAggregateRow_8.vm_id;
+								if (operation_result_tAggregateRow_8 == null) { // G_OutMain_AggR_001
 
-								isFirstAdd_tAggregateRow_8 = true;
+									operation_result_tAggregateRow_8 = new AggOperationStruct_tAggregateRow_8();
 
-								hash_tAggregateRow_8.put(
-										operation_result_tAggregateRow_8,
-										operation_result_tAggregateRow_8);
+									operation_result_tAggregateRow_8.history_datetime = operation_finder_tAggregateRow_8.history_datetime;
+									operation_result_tAggregateRow_8.user_name = operation_finder_tAggregateRow_8.user_name;
+									operation_result_tAggregateRow_8.vm_id = operation_finder_tAggregateRow_8.vm_id;
 
-							} // G_OutMain_AggR_001
+									isFirstAdd_tAggregateRow_8 = true;
 
-							if (operation_result_tAggregateRow_8.session_time_in_minutes_sum == null) {
-								operation_result_tAggregateRow_8.session_time_in_minutes_sum = new BigDecimal(
-										0).setScale(0);
-							}
-							operation_result_tAggregateRow_8.session_time_in_minutes_sum = operation_result_tAggregateRow_8.session_time_in_minutes_sum
-									.add(new BigDecimal(
-											String.valueOf(vm_users_aggregate_history.session_time_in_minutes)));
+									hash_tAggregateRow_8.put(
+											operation_result_tAggregateRow_8,
+											operation_result_tAggregateRow_8);
 
-							if (vm_users_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
+								} // G_OutMain_AggR_001
 
-								operation_result_tAggregateRow_8.cpu_usage_percent_count++;
-
-								if (operation_result_tAggregateRow_8.cpu_usage_percent_sum == null) {
-									operation_result_tAggregateRow_8.cpu_usage_percent_sum = (double) 0;
+								if (operation_result_tAggregateRow_8.session_time_in_minutes_sum == null) {
+									operation_result_tAggregateRow_8.session_time_in_minutes_sum = new BigDecimal(
+											0).setScale(0);
 								}
-								operation_result_tAggregateRow_8.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.cpu_usage_percent_sum
-										.doubleValue() + vm_users_aggregate_history.cpu_usage_percent
-										.shortValue());
+								operation_result_tAggregateRow_8.session_time_in_minutes_sum = operation_result_tAggregateRow_8.session_time_in_minutes_sum
+										.add(new BigDecimal(
+												String.valueOf(vm_users_aggregate_history.session_time_in_minutes)));
 
-							} // G_OutMain_AggR_546
+								if (vm_users_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-							if (vm_users_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
+									operation_result_tAggregateRow_8.cpu_usage_percent_count++;
 
-								if (operation_result_tAggregateRow_8.max_cpu_usage_max == null
-										|| vm_users_aggregate_history.cpu_usage_percent > operation_result_tAggregateRow_8.max_cpu_usage_max
+									if (operation_result_tAggregateRow_8.cpu_usage_percent_sum == null) {
+										operation_result_tAggregateRow_8.cpu_usage_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_8.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.cpu_usage_percent_sum
+											.doubleValue() + vm_users_aggregate_history.cpu_usage_percent
+											.shortValue());
+
+								} // G_OutMain_AggR_546
+
+								if (vm_users_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+									if (operation_result_tAggregateRow_8.max_cpu_usage_max == null
+											|| vm_users_aggregate_history.cpu_usage_percent > operation_result_tAggregateRow_8.max_cpu_usage_max
+
+									) {
+										operation_result_tAggregateRow_8.max_cpu_usage_max = vm_users_aggregate_history.cpu_usage_percent;
+									}
+
+								} // G_OutMain_AggR_546
+
+								if (vm_users_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
+
+									operation_result_tAggregateRow_8.memory_usage_percent_count++;
+
+									if (operation_result_tAggregateRow_8.memory_usage_percent_sum == null) {
+										operation_result_tAggregateRow_8.memory_usage_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_8.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_8.memory_usage_percent_sum
+											.doubleValue() + vm_users_aggregate_history.memory_usage_percent
+											.shortValue());
+
+								} // G_OutMain_AggR_546
+
+								if (vm_users_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
+
+									if (operation_result_tAggregateRow_8.max_memory_usage_max == null
+											|| vm_users_aggregate_history.memory_usage_percent > operation_result_tAggregateRow_8.max_memory_usage_max
+
+									) {
+										operation_result_tAggregateRow_8.max_memory_usage_max = vm_users_aggregate_history.memory_usage_percent;
+									}
+
+								} // G_OutMain_AggR_546
+
+								if (vm_users_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+									operation_result_tAggregateRow_8.user_cpu_usage_percent_count++;
+
+									if (operation_result_tAggregateRow_8.user_cpu_usage_percent_sum == null) {
+										operation_result_tAggregateRow_8.user_cpu_usage_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_8.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.user_cpu_usage_percent_sum
+											.doubleValue() + vm_users_aggregate_history.user_cpu_usage_percent
+											.shortValue());
+
+								} // G_OutMain_AggR_546
+
+								if (vm_users_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+									if (operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max == null
+											|| vm_users_aggregate_history.user_cpu_usage_percent > operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max
+
+									) {
+										operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max = vm_users_aggregate_history.user_cpu_usage_percent;
+									}
+
+								} // G_OutMain_AggR_546
+
+								if (vm_users_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+									operation_result_tAggregateRow_8.system_cpu_usage_percent_count++;
+
+									if (operation_result_tAggregateRow_8.system_cpu_usage_percent_sum == null) {
+										operation_result_tAggregateRow_8.system_cpu_usage_percent_sum = (double) 0;
+									}
+									operation_result_tAggregateRow_8.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.system_cpu_usage_percent_sum
+											.doubleValue() + vm_users_aggregate_history.system_cpu_usage_percent
+											.shortValue());
+
+								} // G_OutMain_AggR_546
+
+								if (vm_users_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+									if (operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max == null
+											|| vm_users_aggregate_history.system_cpu_usage_percent > operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max
+
+									) {
+										operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max = vm_users_aggregate_history.system_cpu_usage_percent;
+									}
+
+								} // G_OutMain_AggR_546
+
+								if (vm_users_aggregate_history.vm_ip != null) { // G_OutMain_AggR_546
+
+									operation_result_tAggregateRow_8.vm_ip_last = vm_users_aggregate_history.vm_ip;
+
+								} // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.vm_client_ip_last = vm_users_aggregate_history.vm_client_ip;
+
+								if (vm_users_aggregate_history.currently_running_on_host != null) { // G_OutMain_AggR_546
+
+									operation_result_tAggregateRow_8.currently_running_on_host_last = vm_users_aggregate_history.currently_running_on_host;
+
+								} // G_OutMain_AggR_546
+
+								if (vm_users_aggregate_history.vm_configuration_version != null) { // G_OutMain_AggR_546
+
+									operation_result_tAggregateRow_8.vm_configuration_version_last = vm_users_aggregate_history.vm_configuration_version;
+
+								} // G_OutMain_AggR_546
+
+								if (vm_users_aggregate_history.current_host_configuration_version != null) { // G_OutMain_AggR_546
+
+									operation_result_tAggregateRow_8.current_host_configuration_version_last = vm_users_aggregate_history.current_host_configuration_version;
+
+								} // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_8.user_logged_in_to_guest_max == null
+										|| vm_users_aggregate_history.user_logged_in_to_guest > operation_result_tAggregateRow_8.user_logged_in_to_guest_max
 
 								) {
-									operation_result_tAggregateRow_8.max_cpu_usage_max = vm_users_aggregate_history.cpu_usage_percent;
+									operation_result_tAggregateRow_8.user_logged_in_to_guest_max = vm_users_aggregate_history.user_logged_in_to_guest;
 								}
 
-							} // G_OutMain_AggR_546
+								tos_count_tAggregateRow_8_AGGOUT++;
 
-							if (vm_users_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
+								/**
+								 * [tAggregateRow_8_AGGOUT main ] stop
+								 */
 
-								operation_result_tAggregateRow_8.memory_usage_percent_count++;
+							} // End of branch "vm_users_aggregate_history"
 
-								if (operation_result_tAggregateRow_8.memory_usage_percent_sum == null) {
-									operation_result_tAggregateRow_8.memory_usage_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_8.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_8.memory_usage_percent_sum
-										.doubleValue() + vm_users_aggregate_history.memory_usage_percent
-										.shortValue());
+						} // G_TM_M_280 close main tMap filter for table 'row13'
 
-							} // G_OutMain_AggR_546
+						/**
+						 * [tJDBCInput_10 end ] start
+						 */
 
-							if (vm_users_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
+						currentComponent = "tJDBCInput_10";
 
-								if (operation_result_tAggregateRow_8.max_memory_usage_max == null
-										|| vm_users_aggregate_history.memory_usage_percent > operation_result_tAggregateRow_8.max_memory_usage_max
-
-								) {
-									operation_result_tAggregateRow_8.max_memory_usage_max = vm_users_aggregate_history.memory_usage_percent;
-								}
-
-							} // G_OutMain_AggR_546
-
-							if (vm_users_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-								operation_result_tAggregateRow_8.user_cpu_usage_percent_count++;
-
-								if (operation_result_tAggregateRow_8.user_cpu_usage_percent_sum == null) {
-									operation_result_tAggregateRow_8.user_cpu_usage_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_8.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.user_cpu_usage_percent_sum
-										.doubleValue() + vm_users_aggregate_history.user_cpu_usage_percent
-										.shortValue());
-
-							} // G_OutMain_AggR_546
-
-							if (vm_users_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-								if (operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max == null
-										|| vm_users_aggregate_history.user_cpu_usage_percent > operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max
-
-								) {
-									operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max = vm_users_aggregate_history.user_cpu_usage_percent;
-								}
-
-							} // G_OutMain_AggR_546
-
-							if (vm_users_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-								operation_result_tAggregateRow_8.system_cpu_usage_percent_count++;
-
-								if (operation_result_tAggregateRow_8.system_cpu_usage_percent_sum == null) {
-									operation_result_tAggregateRow_8.system_cpu_usage_percent_sum = (double) 0;
-								}
-								operation_result_tAggregateRow_8.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.system_cpu_usage_percent_sum
-										.doubleValue() + vm_users_aggregate_history.system_cpu_usage_percent
-										.shortValue());
-
-							} // G_OutMain_AggR_546
-
-							if (vm_users_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-								if (operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max == null
-										|| vm_users_aggregate_history.system_cpu_usage_percent > operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max
-
-								) {
-									operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max = vm_users_aggregate_history.system_cpu_usage_percent;
-								}
-
-							} // G_OutMain_AggR_546
-
-							if (vm_users_aggregate_history.vm_ip != null) { // G_OutMain_AggR_546
-
-								operation_result_tAggregateRow_8.vm_ip_last = vm_users_aggregate_history.vm_ip;
-
-							} // G_OutMain_AggR_546
-
-							operation_result_tAggregateRow_8.vm_client_ip_last = vm_users_aggregate_history.vm_client_ip;
-
-							if (vm_users_aggregate_history.currently_running_on_host != null) { // G_OutMain_AggR_546
-
-								operation_result_tAggregateRow_8.currently_running_on_host_last = vm_users_aggregate_history.currently_running_on_host;
-
-							} // G_OutMain_AggR_546
-
-							if (vm_users_aggregate_history.vm_configuration_version != null) { // G_OutMain_AggR_546
-
-								operation_result_tAggregateRow_8.vm_configuration_version_last = vm_users_aggregate_history.vm_configuration_version;
-
-							} // G_OutMain_AggR_546
-
-							if (vm_users_aggregate_history.current_host_configuration_version != null) { // G_OutMain_AggR_546
-
-								operation_result_tAggregateRow_8.current_host_configuration_version_last = vm_users_aggregate_history.current_host_configuration_version;
-
-							} // G_OutMain_AggR_546
-
-							if (operation_result_tAggregateRow_8.user_logged_in_to_guest_max == null
-									|| vm_users_aggregate_history.user_logged_in_to_guest > operation_result_tAggregateRow_8.user_logged_in_to_guest_max
-
-							) {
-								operation_result_tAggregateRow_8.user_logged_in_to_guest_max = vm_users_aggregate_history.user_logged_in_to_guest;
-							}
-
-							tos_count_tAggregateRow_8_AGGOUT++;
-
-							/**
-							 * [tAggregateRow_8_AGGOUT main ] stop
-							 */
-
-						} // End of branch "vm_users_aggregate_history"
-
-					} // G_TM_M_280 close main tMap filter for table 'row13'
-
-					/**
-					 * [tJDBCInput_10 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_10";
+					}
+				} finally {
+					rs_tJDBCInput_10.close();
+					stmt_tJDBCInput_10.close();
 
 				}
-				rs_tJDBCInput_10.close();
-				stmt_tJDBCInput_10.close();
-
 				globalMap.put("tJDBCInput_10_NB_LINE", nb_line_tJDBCInput_10);
 
 				ok_Hash.put("tJDBCInput_10", true);
@@ -23203,6 +23948,8 @@ public class AggregationToHourly implements TalendJob {
 				 * [tAggregateRow_8_AGGOUT end ] start
 				 */
 
+				currentVirtualComponent = "tAggregateRow_8";
+
 				currentComponent = "tAggregateRow_8_AGGOUT";
 
 				ok_Hash.put("tAggregateRow_8_AGGOUT", true);
@@ -23219,6 +23966,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_10", false);
 				start_Hash.put("tJDBCOutput_10", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_10";
 
 				int tos_count_tJDBCOutput_10 = 0;
@@ -23240,13 +23988,6 @@ public class AggregationToHourly implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_10 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == connection_tJDBCOutput_10) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_10 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_10 = dataSources_tJDBCOutput_10.get(
-							"").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_10 = 10000;
 				int batchSizeCounter_tJDBCOutput_10 = 0;
 
@@ -23266,6 +24007,7 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("tMap_12", false);
 				start_Hash.put("tMap_12", System.currentTimeMillis());
+
 				currentComponent = "tMap_12";
 
 				int tos_count_tMap_12 = 0;
@@ -23297,6 +24039,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("tAggregateRow_8_AGGIN", false);
 				start_Hash.put("tAggregateRow_8_AGGIN",
 						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_8";
+
 				currentComponent = "tAggregateRow_8_AGGIN";
 
 				int tos_count_tAggregateRow_8_AGGIN = 0;
@@ -23315,6 +24060,8 @@ public class AggregationToHourly implements TalendJob {
 					/**
 					 * [tAggregateRow_8_AGGIN main ] start
 					 */
+
+					currentVirtualComponent = "tAggregateRow_8";
 
 					currentComponent = "tAggregateRow_8_AGGIN";
 
@@ -23651,6 +24398,8 @@ public class AggregationToHourly implements TalendJob {
 					 * [tAggregateRow_8_AGGIN end ] start
 					 */
 
+					currentVirtualComponent = "tAggregateRow_8";
+
 					currentComponent = "tAggregateRow_8_AGGIN";
 
 				} // G_AggR_600
@@ -23722,16 +24471,92 @@ public class AggregationToHourly implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tAggregateRow_8_AGGIN"
 			globalMap.remove("tAggregateRow_8");
 
+			try {
+
+				/**
+				 * [tJDBCInput_10 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_10";
+
+				/**
+				 * [tJDBCInput_10 finally ] stop
+				 */
+
+				/**
+				 * [tMap_10 finally ] start
+				 */
+
+				currentComponent = "tMap_10";
+
+				/**
+				 * [tMap_10 finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_8_AGGOUT finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_8";
+
+				currentComponent = "tAggregateRow_8_AGGOUT";
+
+				/**
+				 * [tAggregateRow_8_AGGOUT finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_8_AGGIN finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_8";
+
+				currentComponent = "tAggregateRow_8_AGGIN";
+
+				/**
+				 * [tAggregateRow_8_AGGIN finally ] stop
+				 */
+
+				/**
+				 * [tMap_12 finally ] start
+				 */
+
+				currentComponent = "tMap_12";
+
+				/**
+				 * [tMap_12 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_10 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_10";
+
+				/**
+				 * [tJDBCOutput_10 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", 1);
@@ -24055,10 +24880,12 @@ public class AggregationToHourly implements TalendJob {
 		globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -24079,6 +24906,9 @@ public class AggregationToHourly implements TalendJob {
 				ok_Hash.put("talendLogs_CONSOLE", false);
 				start_Hash
 						.put("talendLogs_CONSOLE", System.currentTimeMillis());
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
+
 				currentComponent = "talendLogs_CONSOLE";
 
 				int tos_count_talendLogs_CONSOLE = 0;
@@ -24102,6 +24932,9 @@ public class AggregationToHourly implements TalendJob {
 
 				ok_Hash.put("talendLogs_LOGS", false);
 				start_Hash.put("talendLogs_LOGS", System.currentTimeMillis());
+
+				currentVirtualComponent = "talendLogs_LOGS";
+
 				currentComponent = "talendLogs_LOGS";
 
 				int tos_count_talendLogs_LOGS = 0;
@@ -24134,6 +24967,8 @@ public class AggregationToHourly implements TalendJob {
 					 * [talendLogs_LOGS main ] start
 					 */
 
+					currentVirtualComponent = "talendLogs_LOGS";
+
 					currentComponent = "talendLogs_LOGS";
 
 					tos_count_talendLogs_LOGS++;
@@ -24145,6 +24980,8 @@ public class AggregationToHourly implements TalendJob {
 					/**
 					 * [talendLogs_CONSOLE main ] start
 					 */
+
+					currentVirtualComponent = "talendLogs_CONSOLE";
 
 					currentComponent = "talendLogs_CONSOLE";
 
@@ -24289,6 +25126,8 @@ public class AggregationToHourly implements TalendJob {
 					 * [talendLogs_LOGS end ] start
 					 */
 
+					currentVirtualComponent = "talendLogs_LOGS";
+
 					currentComponent = "talendLogs_LOGS";
 
 				}
@@ -24303,6 +25142,8 @@ public class AggregationToHourly implements TalendJob {
 				/**
 				 * [talendLogs_CONSOLE end ] start
 				 */
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
 
 				currentComponent = "talendLogs_CONSOLE";
 
@@ -24324,12 +25165,49 @@ public class AggregationToHourly implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [talendLogs_LOGS finally ] start
+				 */
+
+				currentVirtualComponent = "talendLogs_LOGS";
+
+				currentComponent = "talendLogs_LOGS";
+
+				/**
+				 * [talendLogs_LOGS finally ] stop
+				 */
+
+				/**
+				 * [talendLogs_CONSOLE finally ] start
+				 */
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
+
+				currentComponent = "talendLogs_CONSOLE";
+
+				/**
+				 * [talendLogs_CONSOLE finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 1);
@@ -24355,6 +25233,7 @@ public class AggregationToHourly implements TalendJob {
 	public String fatherNode = null;
 	public long startTime = 0;
 	public boolean isChildJob = false;
+	public String log4jLevel = "";
 
 	private boolean execStat = true;
 
@@ -24390,6 +25269,7 @@ public class AggregationToHourly implements TalendJob {
 		final AggregationToHourly AggregationToHourlyClass = new AggregationToHourly();
 
 		int exitCode = AggregationToHourlyClass.runJobInTOS(args);
+
 		System.exit(exitCode);
 	}
 
@@ -24402,6 +25282,8 @@ public class AggregationToHourly implements TalendJob {
 	}
 
 	public int runJobInTOS(String[] args) {
+		// reset status
+		status = "";
 
 		String lastStr = "";
 		for (String arg : args) {
@@ -24549,9 +25431,9 @@ public class AggregationToHourly implements TalendJob {
 				status = "end";
 			}
 		} catch (TalendException e_tPrejob_1) {
+			globalMap.put("tPrejob_1_SUBPROCESS_STATE", -1);
 
 			e_tPrejob_1.printStackTrace();
-			globalMap.put("tPrejob_1_SUBPROCESS_STATE", -1);
 
 		}
 
@@ -24574,14 +25456,14 @@ public class AggregationToHourly implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_1) {
+					globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_1.printStackTrace();
-					globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_1) {
+					globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_1.printStackTrace();
-					globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -24620,14 +25502,14 @@ public class AggregationToHourly implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_2) {
+					globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_2.printStackTrace();
-					globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_2) {
+					globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_2.printStackTrace();
-					globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -24666,14 +25548,14 @@ public class AggregationToHourly implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_3) {
+					globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_3.printStackTrace();
-					globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_3) {
+					globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_3.printStackTrace();
-					globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -24712,14 +25594,14 @@ public class AggregationToHourly implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_4) {
+					globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_4.printStackTrace();
-					globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_4) {
+					globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_4.printStackTrace();
-					globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -24758,14 +25640,14 @@ public class AggregationToHourly implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_5) {
+					globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_5.printStackTrace();
-					globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_5) {
+					globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_5.printStackTrace();
-					globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -24804,14 +25686,14 @@ public class AggregationToHourly implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_11) {
+					globalMap.put("tJDBCInput_11_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_11.printStackTrace();
-					globalMap.put("tJDBCInput_11_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_11) {
+					globalMap.put("tJDBCInput_11_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_11.printStackTrace();
-					globalMap.put("tJDBCInput_11_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -24850,14 +25732,14 @@ public class AggregationToHourly implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_13) {
+					globalMap.put("tJDBCInput_13_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_13.printStackTrace();
-					globalMap.put("tJDBCInput_13_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_13) {
+					globalMap.put("tJDBCInput_13_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_13.printStackTrace();
-					globalMap.put("tJDBCInput_13_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -24896,14 +25778,14 @@ public class AggregationToHourly implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_9) {
+					globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_9.printStackTrace();
-					globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_9) {
+					globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_9.printStackTrace();
-					globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -24942,14 +25824,14 @@ public class AggregationToHourly implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_10) {
+					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_10.printStackTrace();
-					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_10) {
+					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_10.printStackTrace();
-					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -24988,9 +25870,9 @@ public class AggregationToHourly implements TalendJob {
 				status = "end";
 			}
 		} catch (TalendException e_tPostjob_1) {
+			globalMap.put("tPostjob_1_SUBPROCESS_STATE", -1);
 
 			e_tPostjob_1.printStackTrace();
-			globalMap.put("tPostjob_1_SUBPROCESS_STATE", -1);
 
 		}
 
@@ -25072,6 +25954,8 @@ public class AggregationToHourly implements TalendJob {
 							keyValue.substring(index + 1));
 				}
 			}
+		} else if (arg.startsWith("--log4jLevel=")) {
+			log4jLevel = arg.substring(13);
 		}
 
 	}
@@ -25101,6 +25985,6 @@ public class AggregationToHourly implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 738020 characters generated by Talend Open Studio for Data Integration on the
- * January 5, 2014 3:16:44 PM IST
+ * 748813 characters generated by Talend Open Studio for Data Integration on the
+ * January 21, 2014 3:54:33 PM IST
  ************************************************************************************************/

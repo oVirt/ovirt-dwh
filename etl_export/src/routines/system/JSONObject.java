@@ -1337,10 +1337,10 @@ public class JSONObject {
      */
     static Object wrap(Object object) {
         try {
-            if (object == null) {
+            if (object == null ) {
                 return NULL;
             }
-            if (object instanceof JSONObject || object instanceof JSONArray || object instanceof Byte
+            if (object instanceof routines.system.Document || object instanceof JSONObject || object instanceof JSONArray || object instanceof Byte
                     || object instanceof Character || object instanceof Short || object instanceof Integer
                     || object instanceof Long || object instanceof Boolean || object instanceof Float || object instanceof Double
                     || object instanceof String || NULL.equals(object)) {

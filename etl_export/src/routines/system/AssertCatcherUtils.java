@@ -36,6 +36,8 @@ public class AssertCatcherUtils {
 
         private String description;
 
+        private Exception exception;
+
         public AssertCatcherMessage(String pid, String project, String job, String language, String origin, String status,
                 String substatus, String description) {
             this.moment = java.util.Calendar.getInstance().getTime();
@@ -47,6 +49,12 @@ public class AssertCatcherUtils {
             this.status = status;
             this.substatus = substatus;
             this.description = description;
+        }
+
+        public AssertCatcherMessage(String pid, String project, String job, String language, String origin, String status,
+                String substatus, Exception exception) {
+            this(pid, project, job, language, origin, status, substatus, exception.getMessage());
+            this.exception = exception;
         }
 
         /**
@@ -210,6 +218,24 @@ public class AssertCatcherUtils {
         public void setSubstatus(String substatus) {
             this.substatus = substatus;
         }
+
+        /**
+         * Getter for exception.
+         * 
+         * @return the exception
+         */
+        public Exception getException() {
+            return this.exception;
+        }
+
+        /**
+         * Sets the exception.
+         * 
+         * @param exception the exception to set
+         */
+        public void setException(Exception exception) {
+            this.exception = exception;
+        }
     }
 
     java.util.List<AssertCatcherMessage> messages = java.util.Collections
@@ -218,6 +244,12 @@ public class AssertCatcherUtils {
     public void addMessage(String pid, String project, String job, String language, String origin, String status,
             String substatus, String description) {
         AssertCatcherMessage lcm = new AssertCatcherMessage(pid, project, job, language, origin, status, substatus, description);
+        messages.add(lcm);
+    }
+
+    public void addMessage(String pid, String project, String job, String language, String origin, String status,
+            String substatus, Exception exception) {
+        AssertCatcherMessage lcm = new AssertCatcherMessage(pid, project, job, language, origin, status, substatus, exception);
         messages.add(lcm);
     }
 

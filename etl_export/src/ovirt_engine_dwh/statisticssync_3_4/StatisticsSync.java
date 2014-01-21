@@ -46,7 +46,7 @@ import java.util.Comparator;
  * Job: StatisticsSync Purpose: <br>
  * Description:  <br>
  * @author ydary@redhat.com
- * @version 5.3.0.r101800
+ * @version 5.4.1.r111943
  * @status 
  */
 public class StatisticsSync implements TalendJob {
@@ -245,14 +245,16 @@ public class StatisticsSync implements TalendJob {
 	private final String projectName = "OVIRT_ENGINE_DWH";
 	public Integer errorCode = null;
 	private String currentComponent = "";
+
+	private final java.util.Map<String, Object> globalMap = java.util.Collections
+			.synchronizedMap(new java.util.HashMap<String, Object>());
+
 	private final java.util.Map<String, Long> start_Hash = java.util.Collections
 			.synchronizedMap(new java.util.HashMap<String, Long>());
 	private final java.util.Map<String, Long> end_Hash = java.util.Collections
 			.synchronizedMap(new java.util.HashMap<String, Long>());
 	private final java.util.Map<String, Boolean> ok_Hash = java.util.Collections
 			.synchronizedMap(new java.util.HashMap<String, Boolean>());
-	private final java.util.Map<String, Object> globalMap = java.util.Collections
-			.synchronizedMap(new java.util.HashMap<String, Object>());
 	public final java.util.List<String[]> globalBuffer = java.util.Collections
 			.synchronizedList(new java.util.ArrayList<String[]>());
 
@@ -304,6 +306,11 @@ public class StatisticsSync implements TalendJob {
 		private java.util.Map<String, Object> globalMap = null;
 		private java.lang.Exception e = null;
 		private String currentComponent = null;
+		private String virtualComponentName = null;
+
+		public void setVirtualComponentName(String virtualComponentName) {
+			this.virtualComponentName = virtualComponentName;
+		}
 
 		private TalendException(java.lang.Exception e, String errorComponent,
 				final java.util.Map<String, Object> globalMap) {
@@ -320,11 +327,34 @@ public class StatisticsSync implements TalendJob {
 			return this.currentComponent;
 		}
 
+		public String getExceptionCauseMessage(java.lang.Exception e) {
+			Throwable cause = e;
+			String message = null;
+			int i = 10;
+			while (null != cause && 0 < i--) {
+				message = cause.getMessage();
+				if (null == message) {
+					cause = cause.getCause();
+				} else {
+					break;
+				}
+			}
+			if (null == message) {
+				message = e.getClass().getName();
+			}
+			return message;
+		}
+
 		@Override
 		public void printStackTrace() {
 			if (!(e instanceof TalendException || e instanceof TDieException)) {
+				if (virtualComponentName != null
+						&& currentComponent.indexOf(virtualComponentName + "_") == 0) {
+					globalMap.put(virtualComponentName + "_ERROR_MESSAGE",
+							getExceptionCauseMessage(e));
+				}
 				globalMap.put(currentComponent + "_ERROR_MESSAGE",
-						e.getMessage());
+						getExceptionCauseMessage(e));
 				System.err
 						.println("Exception in component " + currentComponent);
 			}
@@ -365,10 +395,6 @@ public class StatisticsSync implements TalendJob {
 				} catch (TalendException e) {
 					// do nothing
 				}
-
-			} else {
-
-				((java.util.Map) threadLocal.get()).put("status", "failure");
 
 			}
 		}
@@ -1569,6 +1595,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -1591,6 +1618,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_1", false);
 				start_Hash.put("tJDBCOutput_1", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_1";
 
 				int tos_count_tJDBCOutput_1 = 0;
@@ -1612,13 +1640,6 @@ public class StatisticsSync implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_1 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == connection_tJDBCOutput_1) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_1 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_1 = dataSources_tJDBCOutput_1
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_1 = 10000;
 				int batchSizeCounter_tJDBCOutput_1 = 0;
 
@@ -1638,6 +1659,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tMap_1", false);
 				start_Hash.put("tMap_1", System.currentTimeMillis());
+
 				currentComponent = "tMap_1";
 
 				int tos_count_tMap_1 = 0;
@@ -1674,6 +1696,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_2", false);
 				start_Hash.put("tJDBCInput_2", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_2";
 
 				int tos_count_tJDBCInput_2 = 0;
@@ -1682,14 +1705,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_2 = null;
 				conn_tJDBCInput_2 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_2) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_2 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_2 = dataSources_tJDBCInput_2.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_2);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
@@ -1697,270 +1712,269 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_2 = "SELECT    datacenter_id,    upper(cast(datacenter_id as char(36))) as datacenter_join_id,   datacenter_status  FROM dwh_datacenter_history_view";
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
+				java.sql.ResultSet rs_tJDBCInput_2 = null;
+				try {
+					rs_tJDBCInput_2 = stmt_tJDBCInput_2
+							.executeQuery(dbquery_tJDBCInput_2);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_2 = rs_tJDBCInput_2
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_2 = rsmd_tJDBCInput_2
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_2 = stmt_tJDBCInput_2
-						.executeQuery(dbquery_tJDBCInput_2);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_2 = rs_tJDBCInput_2
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_2 = rsmd_tJDBCInput_2
-						.getColumnCount();
+					String tmpContent_tJDBCInput_2 = null;
+					int column_index_tJDBCInput_2 = 1;
 
-				String tmpContent_tJDBCInput_2 = null;
-				int column_index_tJDBCInput_2 = 1;
-				while (rs_tJDBCInput_2.next()) {
-					nb_line_tJDBCInput_2++;
+					while (rs_tJDBCInput_2.next()) {
+						nb_line_tJDBCInput_2++;
 
-					column_index_tJDBCInput_2 = 1;
+						column_index_tJDBCInput_2 = 1;
 
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row9.datacenter_id = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row9.datacenter_id = rs_tJDBCInput_2
-									.getObject(column_index_tJDBCInput_2);
-						} else {
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row9.datacenter_id = null;
-						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row9.datacenter_id = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 2;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row9.datacenter_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_2 = rs_tJDBCInput_2
-								.getString(column_index_tJDBCInput_2);
-						if (tmpContent_tJDBCInput_2 != null) {
-							row9.datacenter_join_id = tmpContent_tJDBCInput_2;
 						} else {
-							row9.datacenter_join_id = null;
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row9.datacenter_id = rs_tJDBCInput_2
+										.getObject(column_index_tJDBCInput_2);
+							} else {
+								row9.datacenter_id = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_2.wasNull()) {
+						column_index_tJDBCInput_2 = 2;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row9.datacenter_join_id = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 3;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row9.datacenter_status = null;
-					} else {
-
-						if (rs_tJDBCInput_2
-								.getObject(column_index_tJDBCInput_2) != null) {
-							row9.datacenter_status = rs_tJDBCInput_2
-									.getInt(column_index_tJDBCInput_2);
 						} else {
+
+							tmpContent_tJDBCInput_2 = rs_tJDBCInput_2
+									.getString(column_index_tJDBCInput_2);
+							if (tmpContent_tJDBCInput_2 != null) {
+								row9.datacenter_join_id = tmpContent_tJDBCInput_2;
+							} else {
+								row9.datacenter_join_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_2 = 3;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row9.datacenter_status = null;
+						} else {
+
+							if (rs_tJDBCInput_2
+									.getObject(column_index_tJDBCInput_2) != null) {
+								row9.datacenter_status = rs_tJDBCInput_2
+										.getInt(column_index_tJDBCInput_2);
+							} else {
+								row9.datacenter_status = null;
+							}
+
 						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row9.datacenter_status = null;
-						}
-					}
-
-					/**
-					 * [tJDBCInput_2 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_2 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_2";
-
-					tos_count_tJDBCInput_2++;
-
-					/**
-					 * [tJDBCInput_2 main ] stop
-					 */
-
-					/**
-					 * [tMap_1 main ] start
-					 */
-
-					currentComponent = "tMap_1";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_1 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_1 = false;
-					boolean mainRowRejected_tMap_1 = false;
-
-					if (
-
-					(
-
-					row9.datacenter_status != 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row9'
-
-						// /////////////////////////////////////////////
-						// Starting Lookup Table "row41"
-						// /////////////////////////////////////////////
-
-						boolean forceLooprow41 = false;
-
-						row41Struct row41ObjectFromLookup = null;
-
-						if (!rejectedInnerJoin_tMap_1) { // G_TM_M_020
-
-							hasCasePrimitiveKeyWithNull_tMap_1 = false;
-
-							row41HashKey.datacenter_join_id = row9.datacenter_join_id;
-
-							row41HashKey.hashCodeDirty = true;
-
-							tHash_Lookup_row41.lookup(row41HashKey);
-
-							if (!tHash_Lookup_row41.hasNext()) { // G_TM_M_090
-
-								rejectedInnerJoin_tMap_1 = true;
-
-							} // G_TM_M_090
-
-						} // G_TM_M_020
-
-						if (tHash_Lookup_row41 != null
-								&& tHash_Lookup_row41.getCount(row41HashKey) > 1) { // G
-																					// 071
-
-							// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row41' and it contains more one result from keys :  row41.datacenter_join_id = '"
-							// + row41HashKey.datacenter_join_id + "'");
-						} // G 071
-
-						row41Struct row41 = null;
-
-						row41Struct fromLookup_row41 = null;
-						row41 = row41Default;
-
-						if (tHash_Lookup_row41 != null
-								&& tHash_Lookup_row41.hasNext()) { // G 099
-
-							fromLookup_row41 = tHash_Lookup_row41.next();
-
-						} // G 099
-
-						if (fromLookup_row41 != null) {
-							row41 = fromLookup_row41;
-						}
-
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_1__Struct Var = Var__tMap_1;// ###############################
-							// ###############################
-							// # Output tables
-
-							datacenter_history = null;
-
-							if (!rejectedInnerJoin_tMap_1) {
-
-								// # Output table : 'datacenter_history'
-								datacenter_history_tmp.history_datetime = context.runTime;
-								datacenter_history_tmp.datacenter_id = row9.datacenter_id;
-								datacenter_history_tmp.datacenter_status = (row9.datacenter_status == 3 || row9.datacenter_status == 4) ? (short) 3
-										: row9.datacenter_status == 1 ? (short) 1
-												: (row9.datacenter_status == 2 || row9.datacenter_status == 5) ? (short) 2
-														: (short) -1;
-								datacenter_history_tmp.minutes_in_status = context.runInterleave
-										.doubleValue() / 60;
-								datacenter_history_tmp.datacenter_configuration_version = row41.history_id;
-								datacenter_history = datacenter_history_tmp;
-							} // closing inner join bracket (2)
-								// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_1 = false;
-
-						tos_count_tMap_1++;
 
 						/**
-						 * [tMap_1 main ] stop
+						 * [tJDBCInput_2 begin ] stop
 						 */
-						// Start of branch "datacenter_history"
-						if (datacenter_history != null) {
+						/**
+						 * [tJDBCInput_2 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_2";
+
+						tos_count_tJDBCInput_2++;
+
+						/**
+						 * [tJDBCInput_2 main ] stop
+						 */
+
+						/**
+						 * [tMap_1 main ] start
+						 */
+
+						currentComponent = "tMap_1";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_1 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_1 = false;
+						boolean mainRowRejected_tMap_1 = false;
+
+						if (
+
+						(
+
+						row9.datacenter_status != 0
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row9'
+
+							// /////////////////////////////////////////////
+							// Starting Lookup Table "row41"
+							// /////////////////////////////////////////////
+
+							boolean forceLooprow41 = false;
+
+							row41Struct row41ObjectFromLookup = null;
+
+							if (!rejectedInnerJoin_tMap_1) { // G_TM_M_020
+
+								hasCasePrimitiveKeyWithNull_tMap_1 = false;
+
+								row41HashKey.datacenter_join_id = row9.datacenter_join_id;
+
+								row41HashKey.hashCodeDirty = true;
+
+								tHash_Lookup_row41.lookup(row41HashKey);
+
+								if (!tHash_Lookup_row41.hasNext()) { // G_TM_M_090
+
+									rejectedInnerJoin_tMap_1 = true;
+
+								} // G_TM_M_090
+
+							} // G_TM_M_020
+
+							if (tHash_Lookup_row41 != null
+									&& tHash_Lookup_row41
+											.getCount(row41HashKey) > 1) { // G
+																			// 071
+
+								// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row41' and it contains more one result from keys :  row41.datacenter_join_id = '"
+								// + row41HashKey.datacenter_join_id + "'");
+							} // G 071
+
+							row41Struct row41 = null;
+
+							row41Struct fromLookup_row41 = null;
+							row41 = row41Default;
+
+							if (tHash_Lookup_row41 != null
+									&& tHash_Lookup_row41.hasNext()) { // G 099
+
+								fromLookup_row41 = tHash_Lookup_row41.next();
+
+							} // G 099
+
+							if (fromLookup_row41 != null) {
+								row41 = fromLookup_row41;
+							}
+
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_1__Struct Var = Var__tMap_1;// ###############################
+								// ###############################
+								// # Output tables
+
+								datacenter_history = null;
+
+								if (!rejectedInnerJoin_tMap_1) {
+
+									// # Output table : 'datacenter_history'
+									datacenter_history_tmp.history_datetime = context.runTime;
+									datacenter_history_tmp.datacenter_id = row9.datacenter_id;
+									datacenter_history_tmp.datacenter_status = (row9.datacenter_status == 3 || row9.datacenter_status == 4) ? (short) 3
+											: row9.datacenter_status == 1 ? (short) 1
+													: (row9.datacenter_status == 2 || row9.datacenter_status == 5) ? (short) 2
+															: (short) -1;
+									datacenter_history_tmp.minutes_in_status = context.runInterleave
+											.doubleValue() / 60;
+									datacenter_history_tmp.datacenter_configuration_version = row41.history_id;
+									datacenter_history = datacenter_history_tmp;
+								} // closing inner join bracket (2)
+									// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_1 = false;
+
+							tos_count_tMap_1++;
 
 							/**
-							 * [tJDBCOutput_1 main ] start
+							 * [tMap_1 main ] stop
 							 */
+							// Start of branch "datacenter_history"
+							if (datacenter_history != null) {
 
-							currentComponent = "tJDBCOutput_1";
+								/**
+								 * [tJDBCOutput_1 main ] start
+								 */
 
-							whetherReject_tJDBCOutput_1 = false;
-							if (datacenter_history.history_datetime != null) {
+								currentComponent = "tJDBCOutput_1";
+
+								whetherReject_tJDBCOutput_1 = false;
+								if (datacenter_history.history_datetime != null) {
+									pstmt_tJDBCOutput_1
+											.setTimestamp(
+													1,
+													new java.sql.Timestamp(
+															datacenter_history.history_datetime
+																	.getTime()));
+								} else {
+									pstmt_tJDBCOutput_1.setNull(1,
+											java.sql.Types.DATE);
+								}
+
+								if (datacenter_history.datacenter_id == null) {
+									pstmt_tJDBCOutput_1.setNull(2,
+											java.sql.Types.OTHER);
+								} else {
+									pstmt_tJDBCOutput_1.setObject(2,
+											datacenter_history.datacenter_id);
+								}
+
+								pstmt_tJDBCOutput_1.setShort(3,
+										datacenter_history.datacenter_status);
+
+								pstmt_tJDBCOutput_1.setDouble(4,
+										datacenter_history.minutes_in_status);
+
 								pstmt_tJDBCOutput_1
-										.setTimestamp(
-												1,
-												new java.sql.Timestamp(
-														datacenter_history.history_datetime
-																.getTime()));
-							} else {
-								pstmt_tJDBCOutput_1.setNull(1,
-										java.sql.Types.DATE);
-							}
+										.setInt(5,
+												datacenter_history.datacenter_configuration_version);
 
-							if (datacenter_history.datacenter_id == null) {
-								pstmt_tJDBCOutput_1.setNull(2,
-										java.sql.Types.OTHER);
-							} else {
-								pstmt_tJDBCOutput_1.setObject(2,
-										datacenter_history.datacenter_id);
-							}
+								try {
+									insertedCount_tJDBCOutput_1 = insertedCount_tJDBCOutput_1
+											+ pstmt_tJDBCOutput_1
+													.executeUpdate();
+									nb_line_tJDBCOutput_1++;
+								} catch (java.lang.Exception e) {
+									whetherReject_tJDBCOutput_1 = true;
+									throw (e);
+								}
 
-							pstmt_tJDBCOutput_1.setShort(3,
-									datacenter_history.datacenter_status);
+								tos_count_tJDBCOutput_1++;
 
-							pstmt_tJDBCOutput_1.setDouble(4,
-									datacenter_history.minutes_in_status);
+								/**
+								 * [tJDBCOutput_1 main ] stop
+								 */
 
-							pstmt_tJDBCOutput_1
-									.setInt(5,
-											datacenter_history.datacenter_configuration_version);
+							} // End of branch "datacenter_history"
 
-							try {
-								insertedCount_tJDBCOutput_1 = insertedCount_tJDBCOutput_1
-										+ pstmt_tJDBCOutput_1.executeUpdate();
-								nb_line_tJDBCOutput_1++;
-							} catch (java.lang.Exception e) {
-								whetherReject_tJDBCOutput_1 = true;
-								throw (e);
-							}
+						} // G_TM_M_280 close main tMap filter for table 'row9'
 
-							tos_count_tJDBCOutput_1++;
+						/**
+						 * [tJDBCInput_2 end ] start
+						 */
 
-							/**
-							 * [tJDBCOutput_1 main ] stop
-							 */
+						currentComponent = "tJDBCInput_2";
 
-						} // End of branch "datacenter_history"
-
-					} // G_TM_M_280 close main tMap filter for table 'row9'
-
-					/**
-					 * [tJDBCInput_2 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_2";
+					}
+				} finally {
+					rs_tJDBCInput_2.close();
+					stmt_tJDBCInput_2.close();
 
 				}
-				rs_tJDBCInput_2.close();
-				stmt_tJDBCInput_2.close();
-
 				globalMap.put("tJDBCInput_2_NB_LINE", nb_line_tJDBCInput_2);
 
 				ok_Hash.put("tJDBCInput_2", true);
@@ -2034,16 +2048,56 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tMap_1"
 			globalMap.remove("tHash_Lookup_row41");
 
+			try {
+
+				/**
+				 * [tJDBCInput_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_2";
+
+				/**
+				 * [tJDBCInput_2 finally ] stop
+				 */
+
+				/**
+				 * [tMap_1 finally ] start
+				 */
+
+				currentComponent = "tMap_1";
+
+				/**
+				 * [tMap_1 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_1";
+
+				/**
+				 * [tJDBCOutput_1 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", 1);
@@ -2102,8 +2156,10 @@ public class StatisticsSync implements TalendJob {
 			if (this.datacenter_join_id == null) {
 				if (other.datacenter_join_id != null)
 					return false;
+
 			} else if (!this.datacenter_join_id
 					.equals(other.datacenter_join_id))
+
 				return false;
 
 			return true;
@@ -2305,6 +2361,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -2325,6 +2382,7 @@ public class StatisticsSync implements TalendJob {
 				ok_Hash.put("tAdvancedHash_row41", false);
 				start_Hash.put("tAdvancedHash_row41",
 						System.currentTimeMillis());
+
 				currentComponent = "tAdvancedHash_row41";
 
 				int tos_count_tAdvancedHash_row41 = 0;
@@ -2353,6 +2411,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_1", false);
 				start_Hash.put("tJDBCInput_1", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_1";
 
 				int tos_count_tJDBCInput_1 = 0;
@@ -2361,14 +2420,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_1 = null;
 				conn_tJDBCInput_1 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == conn_tJDBCInput_1) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_1 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_1 = dataSources_tJDBCInput_1.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_2",
-					// conn_tJDBCInput_1);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_1 = conn_tJDBCInput_1
 						.createStatement();
@@ -2376,101 +2427,100 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_1 = "SELECT history_id, upper(cast(datacenter_id as char(36))) as datacenter_join_id  FROM  v3_4_latest_configuration_datacenters";
 
 				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
+				java.sql.ResultSet rs_tJDBCInput_1 = null;
+				try {
+					rs_tJDBCInput_1 = stmt_tJDBCInput_1
+							.executeQuery(dbquery_tJDBCInput_1);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_1 = rs_tJDBCInput_1
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_1 = rsmd_tJDBCInput_1
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_1 = stmt_tJDBCInput_1
-						.executeQuery(dbquery_tJDBCInput_1);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_1 = rs_tJDBCInput_1
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_1 = rsmd_tJDBCInput_1
-						.getColumnCount();
+					String tmpContent_tJDBCInput_1 = null;
+					int column_index_tJDBCInput_1 = 1;
 
-				String tmpContent_tJDBCInput_1 = null;
-				int column_index_tJDBCInput_1 = 1;
-				while (rs_tJDBCInput_1.next()) {
-					nb_line_tJDBCInput_1++;
+					while (rs_tJDBCInput_1.next()) {
+						nb_line_tJDBCInput_1++;
 
-					column_index_tJDBCInput_1 = 1;
+						column_index_tJDBCInput_1 = 1;
 
-					if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
-						row41.history_id = null;
-					} else {
-
-						if (rs_tJDBCInput_1
-								.getObject(column_index_tJDBCInput_1) != null) {
-							row41.history_id = rs_tJDBCInput_1
-									.getInt(column_index_tJDBCInput_1);
-						} else {
+						if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
 							row41.history_id = null;
-						}
-
-						if (rs_tJDBCInput_1.wasNull()) {
-							row41.history_id = null;
-						}
-					}
-					column_index_tJDBCInput_1 = 2;
-
-					if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
-						row41.datacenter_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_1 = rs_tJDBCInput_1
-								.getString(column_index_tJDBCInput_1);
-						if (tmpContent_tJDBCInput_1 != null) {
-							row41.datacenter_join_id = tmpContent_tJDBCInput_1;
 						} else {
-							row41.datacenter_join_id = null;
+
+							if (rs_tJDBCInput_1
+									.getObject(column_index_tJDBCInput_1) != null) {
+								row41.history_id = rs_tJDBCInput_1
+										.getInt(column_index_tJDBCInput_1);
+							} else {
+								row41.history_id = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_1.wasNull()) {
+						column_index_tJDBCInput_1 = 2;
+
+						if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
 							row41.datacenter_join_id = null;
+						} else {
+
+							tmpContent_tJDBCInput_1 = rs_tJDBCInput_1
+									.getString(column_index_tJDBCInput_1);
+							if (tmpContent_tJDBCInput_1 != null) {
+								row41.datacenter_join_id = tmpContent_tJDBCInput_1;
+							} else {
+								row41.datacenter_join_id = null;
+							}
+
 						}
+
+						/**
+						 * [tJDBCInput_1 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_1 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_1";
+
+						tos_count_tJDBCInput_1++;
+
+						/**
+						 * [tJDBCInput_1 main ] stop
+						 */
+
+						/**
+						 * [tAdvancedHash_row41 main ] start
+						 */
+
+						currentComponent = "tAdvancedHash_row41";
+
+						row41Struct row41_HashRow = new row41Struct();
+
+						row41_HashRow.history_id = row41.history_id;
+
+						row41_HashRow.datacenter_join_id = row41.datacenter_join_id;
+
+						tHash_Lookup_row41.put(row41_HashRow);
+
+						tos_count_tAdvancedHash_row41++;
+
+						/**
+						 * [tAdvancedHash_row41 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_1 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_1";
+
 					}
-
-					/**
-					 * [tJDBCInput_1 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_1 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_1";
-
-					tos_count_tJDBCInput_1++;
-
-					/**
-					 * [tJDBCInput_1 main ] stop
-					 */
-
-					/**
-					 * [tAdvancedHash_row41 main ] start
-					 */
-
-					currentComponent = "tAdvancedHash_row41";
-
-					row41Struct row41_HashRow = new row41Struct();
-
-					row41_HashRow.history_id = row41.history_id;
-
-					row41_HashRow.datacenter_join_id = row41.datacenter_join_id;
-
-					tHash_Lookup_row41.put(row41_HashRow);
-
-					tos_count_tAdvancedHash_row41++;
-
-					/**
-					 * [tAdvancedHash_row41 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_1 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_1";
+				} finally {
+					rs_tJDBCInput_1.close();
+					stmt_tJDBCInput_1.close();
 
 				}
-				rs_tJDBCInput_1.close();
-				stmt_tJDBCInput_1.close();
-
 				globalMap.put("tJDBCInput_1_NB_LINE", nb_line_tJDBCInput_1);
 
 				ok_Hash.put("tJDBCInput_1", true);
@@ -2499,12 +2549,43 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_1";
+
+				/**
+				 * [tJDBCInput_1 finally ] stop
+				 */
+
+				/**
+				 * [tAdvancedHash_row41 finally ] start
+				 */
+
+				currentComponent = "tAdvancedHash_row41";
+
+				/**
+				 * [tAdvancedHash_row41 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", 1);
@@ -3171,6 +3252,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -3193,6 +3275,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_2", false);
 				start_Hash.put("tJDBCOutput_2", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_2";
 
 				int tos_count_tJDBCOutput_2 = 0;
@@ -3214,13 +3297,6 @@ public class StatisticsSync implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_2 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == connection_tJDBCOutput_2) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_2 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_2 = dataSources_tJDBCOutput_2
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_2 = 10000;
 				int batchSizeCounter_tJDBCOutput_2 = 0;
 
@@ -3240,6 +3316,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tMap_2", false);
 				start_Hash.put("tMap_2", System.currentTimeMillis());
+
 				currentComponent = "tMap_2";
 
 				int tos_count_tMap_2 = 0;
@@ -3276,6 +3353,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_4", false);
 				start_Hash.put("tJDBCInput_4", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_4";
 
 				int tos_count_tJDBCInput_4 = 0;
@@ -3284,14 +3362,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_4 = null;
 				conn_tJDBCInput_4 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_4) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_4 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_4 = dataSources_tJDBCInput_4.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_4);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_4 = conn_tJDBCInput_4
 						.createStatement();
@@ -3299,315 +3369,310 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_4 = "SELECT     storage_domain_id,     upper(cast(storage_domain_id as char(36))) as storage_domain_join_id,   storage_domain_status,    available_disk_size_gb,     used_disk_size_gb  FROM dwh_storage_domain_history_view";
 
 				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
+				java.sql.ResultSet rs_tJDBCInput_4 = null;
+				try {
+					rs_tJDBCInput_4 = stmt_tJDBCInput_4
+							.executeQuery(dbquery_tJDBCInput_4);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_4 = rs_tJDBCInput_4
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_4 = rsmd_tJDBCInput_4
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_4 = stmt_tJDBCInput_4
-						.executeQuery(dbquery_tJDBCInput_4);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_4 = rs_tJDBCInput_4
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_4 = rsmd_tJDBCInput_4
-						.getColumnCount();
+					String tmpContent_tJDBCInput_4 = null;
+					int column_index_tJDBCInput_4 = 1;
 
-				String tmpContent_tJDBCInput_4 = null;
-				int column_index_tJDBCInput_4 = 1;
-				while (rs_tJDBCInput_4.next()) {
-					nb_line_tJDBCInput_4++;
+					while (rs_tJDBCInput_4.next()) {
+						nb_line_tJDBCInput_4++;
 
-					column_index_tJDBCInput_4 = 1;
+						column_index_tJDBCInput_4 = 1;
 
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row44.storage_domain_id = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row44.storage_domain_id = rs_tJDBCInput_4
-									.getObject(column_index_tJDBCInput_4);
-						} else {
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row44.storage_domain_id = null;
-						}
-
-						if (rs_tJDBCInput_4.wasNull()) {
-							row44.storage_domain_id = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 2;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row44.storage_domain_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_4 = rs_tJDBCInput_4
-								.getString(column_index_tJDBCInput_4);
-						if (tmpContent_tJDBCInput_4 != null) {
-							row44.storage_domain_join_id = tmpContent_tJDBCInput_4;
 						} else {
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row44.storage_domain_id = rs_tJDBCInput_4
+										.getObject(column_index_tJDBCInput_4);
+							} else {
+								row44.storage_domain_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_4 = 2;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row44.storage_domain_join_id = null;
-						}
-
-						if (rs_tJDBCInput_4.wasNull()) {
-							row44.storage_domain_join_id = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 3;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row44.storage_domain_status = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row44.storage_domain_status = rs_tJDBCInput_4
-									.getShort(column_index_tJDBCInput_4);
 						} else {
+
+							tmpContent_tJDBCInput_4 = rs_tJDBCInput_4
+									.getString(column_index_tJDBCInput_4);
+							if (tmpContent_tJDBCInput_4 != null) {
+								row44.storage_domain_join_id = tmpContent_tJDBCInput_4;
+							} else {
+								row44.storage_domain_join_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_4 = 3;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row44.storage_domain_status = null;
-						}
-
-						if (rs_tJDBCInput_4.wasNull()) {
-							row44.storage_domain_status = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 4;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row44.available_disk_size_gb = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row44.available_disk_size_gb = rs_tJDBCInput_4
-									.getInt(column_index_tJDBCInput_4);
 						} else {
-							row44.available_disk_size_gb = null;
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row44.storage_domain_status = rs_tJDBCInput_4
+										.getShort(column_index_tJDBCInput_4);
+							} else {
+								row44.storage_domain_status = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_4.wasNull()) {
+						column_index_tJDBCInput_4 = 4;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row44.available_disk_size_gb = null;
-						}
-					}
-					column_index_tJDBCInput_4 = 5;
-
-					if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-						row44.used_disk_size_gb = null;
-					} else {
-
-						if (rs_tJDBCInput_4
-								.getObject(column_index_tJDBCInput_4) != null) {
-							row44.used_disk_size_gb = rs_tJDBCInput_4
-									.getInt(column_index_tJDBCInput_4);
 						} else {
-							row44.used_disk_size_gb = null;
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row44.available_disk_size_gb = rs_tJDBCInput_4
+										.getInt(column_index_tJDBCInput_4);
+							} else {
+								row44.available_disk_size_gb = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_4.wasNull()) {
+						column_index_tJDBCInput_4 = 5;
+
+						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
 							row44.used_disk_size_gb = null;
+						} else {
+
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row44.used_disk_size_gb = rs_tJDBCInput_4
+										.getInt(column_index_tJDBCInput_4);
+							} else {
+								row44.used_disk_size_gb = null;
+							}
+
 						}
-					}
 
-					/**
-					 * [tJDBCInput_4 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_4 main ] start
-					 */
+						/**
+						 * [tJDBCInput_4 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_4 main ] start
+						 */
 
-					currentComponent = "tJDBCInput_4";
+						currentComponent = "tJDBCInput_4";
 
-					tos_count_tJDBCInput_4++;
+						tos_count_tJDBCInput_4++;
 
-					/**
-					 * [tJDBCInput_4 main ] stop
-					 */
+						/**
+						 * [tJDBCInput_4 main ] stop
+						 */
 
-					/**
-					 * [tMap_2 main ] start
-					 */
+						/**
+						 * [tMap_2 main ] start
+						 */
 
-					currentComponent = "tMap_2";
+						currentComponent = "tMap_2";
 
-					boolean hasCasePrimitiveKeyWithNull_tMap_2 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_2 = false;
-					boolean mainRowRejected_tMap_2 = false;
-
-					// /////////////////////////////////////////////
-					// Starting Lookup Table "row43"
-					// /////////////////////////////////////////////
-
-					boolean forceLooprow43 = false;
-
-					row43Struct row43ObjectFromLookup = null;
-
-					if (!rejectedInnerJoin_tMap_2) { // G_TM_M_020
-
-						hasCasePrimitiveKeyWithNull_tMap_2 = false;
-
-						row43HashKey.storage_domain_join_id = row44.storage_domain_join_id;
-
-						row43HashKey.hashCodeDirty = true;
-
-						tHash_Lookup_row43.lookup(row43HashKey);
-
-						if (!tHash_Lookup_row43.hasNext()) { // G_TM_M_090
-
-							rejectedInnerJoin_tMap_2 = true;
-
-						} // G_TM_M_090
-
-					} // G_TM_M_020
-
-					if (tHash_Lookup_row43 != null
-							&& tHash_Lookup_row43.getCount(row43HashKey) > 1) { // G
-																				// 071
-
-						// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row43' and it contains more one result from keys :  row43.storage_domain_join_id = '"
-						// + row43HashKey.storage_domain_join_id + "'");
-					} // G 071
-
-					row43Struct row43 = null;
-
-					row43Struct fromLookup_row43 = null;
-					row43 = row43Default;
-
-					if (tHash_Lookup_row43 != null
-							&& tHash_Lookup_row43.hasNext()) { // G 099
-
-						fromLookup_row43 = tHash_Lookup_row43.next();
-
-					} // G 099
-
-					if (fromLookup_row43 != null) {
-						row43 = fromLookup_row43;
-					}
-
-					// ###############################
-					{ // start of Var scope
+						boolean hasCasePrimitiveKeyWithNull_tMap_2 = false;
 
 						// ###############################
-						// # Vars tables
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_2 = false;
+						boolean mainRowRejected_tMap_2 = false;
 
-						Var__tMap_2__Struct Var = Var__tMap_2;// ###############################
+						// /////////////////////////////////////////////
+						// Starting Lookup Table "row43"
+						// /////////////////////////////////////////////
+
+						boolean forceLooprow43 = false;
+
+						row43Struct row43ObjectFromLookup = null;
+
+						if (!rejectedInnerJoin_tMap_2) { // G_TM_M_020
+
+							hasCasePrimitiveKeyWithNull_tMap_2 = false;
+
+							row43HashKey.storage_domain_join_id = row44.storage_domain_join_id;
+
+							row43HashKey.hashCodeDirty = true;
+
+							tHash_Lookup_row43.lookup(row43HashKey);
+
+							if (!tHash_Lookup_row43.hasNext()) { // G_TM_M_090
+
+								rejectedInnerJoin_tMap_2 = true;
+
+							} // G_TM_M_090
+
+						} // G_TM_M_020
+
+						if (tHash_Lookup_row43 != null
+								&& tHash_Lookup_row43.getCount(row43HashKey) > 1) { // G
+																					// 071
+
+							// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row43' and it contains more one result from keys :  row43.storage_domain_join_id = '"
+							// + row43HashKey.storage_domain_join_id + "'");
+						} // G 071
+
+						row43Struct row43 = null;
+
+						row43Struct fromLookup_row43 = null;
+						row43 = row43Default;
+
+						if (tHash_Lookup_row43 != null
+								&& tHash_Lookup_row43.hasNext()) { // G 099
+
+							fromLookup_row43 = tHash_Lookup_row43.next();
+
+						} // G 099
+
+						if (fromLookup_row43 != null) {
+							row43 = fromLookup_row43;
+						}
+
 						// ###############################
-						// # Output tables
+						{ // start of Var scope
 
-						storage_history = null;
-
-						if (!rejectedInnerJoin_tMap_2) {
-
-							// # Output table : 'storage_history'
-							storage_history_tmp.history_datetime = context.runTime;
-							storage_history_tmp.storage_domain_id = row44.storage_domain_id;
-							storage_history_tmp.storage_domain_status = row44.storage_domain_status;
-							storage_history_tmp.minutes_in_status = context.runInterleave
-									.doubleValue() / 60;
-							storage_history_tmp.available_disk_size_gb = row44.available_disk_size_gb;
-							storage_history_tmp.used_disk_size_gb = row44.used_disk_size_gb;
-							storage_history_tmp.storage_configuration_version = row43.history_id;
-							storage_history = storage_history_tmp;
-						} // closing inner join bracket (2)
 							// ###############################
+							// # Vars tables
 
-					} // end of Var scope
+							Var__tMap_2__Struct Var = Var__tMap_2;// ###############################
+							// ###############################
+							// # Output tables
 
-					rejectedInnerJoin_tMap_2 = false;
+							storage_history = null;
 
-					tos_count_tMap_2++;
+							if (!rejectedInnerJoin_tMap_2) {
 
-					/**
-					 * [tMap_2 main ] stop
-					 */
-					// Start of branch "storage_history"
-					if (storage_history != null) {
+								// # Output table : 'storage_history'
+								storage_history_tmp.history_datetime = context.runTime;
+								storage_history_tmp.storage_domain_id = row44.storage_domain_id;
+								storage_history_tmp.storage_domain_status = row44.storage_domain_status;
+								storage_history_tmp.minutes_in_status = context.runInterleave
+										.doubleValue() / 60;
+								storage_history_tmp.available_disk_size_gb = row44.available_disk_size_gb;
+								storage_history_tmp.used_disk_size_gb = row44.used_disk_size_gb;
+								storage_history_tmp.storage_configuration_version = row43.history_id;
+								storage_history = storage_history_tmp;
+							} // closing inner join bracket (2)
+								// ###############################
 
-						/**
-						 * [tJDBCOutput_2 main ] start
-						 */
+						} // end of Var scope
 
-						currentComponent = "tJDBCOutput_2";
+						rejectedInnerJoin_tMap_2 = false;
 
-						whetherReject_tJDBCOutput_2 = false;
-						if (storage_history.history_datetime != null) {
-							pstmt_tJDBCOutput_2.setTimestamp(
-									1,
-									new java.sql.Timestamp(
-											storage_history.history_datetime
-													.getTime()));
-						} else {
-							pstmt_tJDBCOutput_2.setNull(1, java.sql.Types.DATE);
-						}
-
-						if (storage_history.storage_domain_id == null) {
-							pstmt_tJDBCOutput_2
-									.setNull(2, java.sql.Types.OTHER);
-						} else {
-							pstmt_tJDBCOutput_2.setObject(2,
-									storage_history.storage_domain_id);
-						}
-
-						if (storage_history.storage_domain_status == null) {
-							pstmt_tJDBCOutput_2.setNull(3,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_2.setShort(3,
-									storage_history.storage_domain_status);
-						}
-
-						pstmt_tJDBCOutput_2.setDouble(4,
-								storage_history.minutes_in_status);
-
-						if (storage_history.available_disk_size_gb == null) {
-							pstmt_tJDBCOutput_2.setNull(5,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_2.setInt(5,
-									storage_history.available_disk_size_gb);
-						}
-
-						if (storage_history.used_disk_size_gb == null) {
-							pstmt_tJDBCOutput_2.setNull(6,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_2.setInt(6,
-									storage_history.used_disk_size_gb);
-						}
-
-						if (storage_history.storage_configuration_version == null) {
-							pstmt_tJDBCOutput_2.setNull(7,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_2
-									.setInt(7,
-											storage_history.storage_configuration_version);
-						}
-
-						try {
-							insertedCount_tJDBCOutput_2 = insertedCount_tJDBCOutput_2
-									+ pstmt_tJDBCOutput_2.executeUpdate();
-							nb_line_tJDBCOutput_2++;
-						} catch (java.lang.Exception e) {
-							whetherReject_tJDBCOutput_2 = true;
-							throw (e);
-						}
-
-						tos_count_tJDBCOutput_2++;
+						tos_count_tMap_2++;
 
 						/**
-						 * [tJDBCOutput_2 main ] stop
+						 * [tMap_2 main ] stop
+						 */
+						// Start of branch "storage_history"
+						if (storage_history != null) {
+
+							/**
+							 * [tJDBCOutput_2 main ] start
+							 */
+
+							currentComponent = "tJDBCOutput_2";
+
+							whetherReject_tJDBCOutput_2 = false;
+							if (storage_history.history_datetime != null) {
+								pstmt_tJDBCOutput_2
+										.setTimestamp(
+												1,
+												new java.sql.Timestamp(
+														storage_history.history_datetime
+																.getTime()));
+							} else {
+								pstmt_tJDBCOutput_2.setNull(1,
+										java.sql.Types.DATE);
+							}
+
+							if (storage_history.storage_domain_id == null) {
+								pstmt_tJDBCOutput_2.setNull(2,
+										java.sql.Types.OTHER);
+							} else {
+								pstmt_tJDBCOutput_2.setObject(2,
+										storage_history.storage_domain_id);
+							}
+
+							if (storage_history.storage_domain_status == null) {
+								pstmt_tJDBCOutput_2.setNull(3,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_2.setShort(3,
+										storage_history.storage_domain_status);
+							}
+
+							pstmt_tJDBCOutput_2.setDouble(4,
+									storage_history.minutes_in_status);
+
+							if (storage_history.available_disk_size_gb == null) {
+								pstmt_tJDBCOutput_2.setNull(5,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_2.setInt(5,
+										storage_history.available_disk_size_gb);
+							}
+
+							if (storage_history.used_disk_size_gb == null) {
+								pstmt_tJDBCOutput_2.setNull(6,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_2.setInt(6,
+										storage_history.used_disk_size_gb);
+							}
+
+							if (storage_history.storage_configuration_version == null) {
+								pstmt_tJDBCOutput_2.setNull(7,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_2
+										.setInt(7,
+												storage_history.storage_configuration_version);
+							}
+
+							try {
+								insertedCount_tJDBCOutput_2 = insertedCount_tJDBCOutput_2
+										+ pstmt_tJDBCOutput_2.executeUpdate();
+								nb_line_tJDBCOutput_2++;
+							} catch (java.lang.Exception e) {
+								whetherReject_tJDBCOutput_2 = true;
+								throw (e);
+							}
+
+							tos_count_tJDBCOutput_2++;
+
+							/**
+							 * [tJDBCOutput_2 main ] stop
+							 */
+
+						} // End of branch "storage_history"
+
+						/**
+						 * [tJDBCInput_4 end ] start
 						 */
 
-					} // End of branch "storage_history"
+						currentComponent = "tJDBCInput_4";
 
-					/**
-					 * [tJDBCInput_4 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_4";
+					}
+				} finally {
+					rs_tJDBCInput_4.close();
+					stmt_tJDBCInput_4.close();
 
 				}
-				rs_tJDBCInput_4.close();
-				stmt_tJDBCInput_4.close();
-
 				globalMap.put("tJDBCInput_4_NB_LINE", nb_line_tJDBCInput_4);
 
 				ok_Hash.put("tJDBCInput_4", true);
@@ -3681,16 +3746,56 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tMap_2"
 			globalMap.remove("tHash_Lookup_row43");
 
+			try {
+
+				/**
+				 * [tJDBCInput_4 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_4";
+
+				/**
+				 * [tJDBCInput_4 finally ] stop
+				 */
+
+				/**
+				 * [tMap_2 finally ] start
+				 */
+
+				currentComponent = "tMap_2";
+
+				/**
+				 * [tMap_2 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_2";
+
+				/**
+				 * [tJDBCOutput_2 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", 1);
@@ -3749,8 +3854,10 @@ public class StatisticsSync implements TalendJob {
 			if (this.storage_domain_join_id == null) {
 				if (other.storage_domain_join_id != null)
 					return false;
+
 			} else if (!this.storage_domain_join_id
 					.equals(other.storage_domain_join_id))
+
 				return false;
 
 			return true;
@@ -3952,6 +4059,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -3972,6 +4080,7 @@ public class StatisticsSync implements TalendJob {
 				ok_Hash.put("tAdvancedHash_row43", false);
 				start_Hash.put("tAdvancedHash_row43",
 						System.currentTimeMillis());
+
 				currentComponent = "tAdvancedHash_row43";
 
 				int tos_count_tAdvancedHash_row43 = 0;
@@ -4000,6 +4109,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_3", false);
 				start_Hash.put("tJDBCInput_3", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_3";
 
 				int tos_count_tJDBCInput_3 = 0;
@@ -4008,14 +4118,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_3 = null;
 				conn_tJDBCInput_3 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == conn_tJDBCInput_3) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_3 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_3 = dataSources_tJDBCInput_3.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_2",
-					// conn_tJDBCInput_3);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_3 = conn_tJDBCInput_3
 						.createStatement();
@@ -4023,101 +4125,100 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_3 = "SELECT history_id, upper(cast(storage_domain_id as char(36))) as storage_domain_join_id  FROM  v3_4_latest_configuration_storage_domains";
 
 				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
+				java.sql.ResultSet rs_tJDBCInput_3 = null;
+				try {
+					rs_tJDBCInput_3 = stmt_tJDBCInput_3
+							.executeQuery(dbquery_tJDBCInput_3);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_3 = rs_tJDBCInput_3
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_3 = rsmd_tJDBCInput_3
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_3 = stmt_tJDBCInput_3
-						.executeQuery(dbquery_tJDBCInput_3);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_3 = rs_tJDBCInput_3
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_3 = rsmd_tJDBCInput_3
-						.getColumnCount();
+					String tmpContent_tJDBCInput_3 = null;
+					int column_index_tJDBCInput_3 = 1;
 
-				String tmpContent_tJDBCInput_3 = null;
-				int column_index_tJDBCInput_3 = 1;
-				while (rs_tJDBCInput_3.next()) {
-					nb_line_tJDBCInput_3++;
+					while (rs_tJDBCInput_3.next()) {
+						nb_line_tJDBCInput_3++;
 
-					column_index_tJDBCInput_3 = 1;
+						column_index_tJDBCInput_3 = 1;
 
-					if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
-						row43.history_id = null;
-					} else {
-
-						if (rs_tJDBCInput_3
-								.getObject(column_index_tJDBCInput_3) != null) {
-							row43.history_id = rs_tJDBCInput_3
-									.getInt(column_index_tJDBCInput_3);
-						} else {
+						if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
 							row43.history_id = null;
-						}
-
-						if (rs_tJDBCInput_3.wasNull()) {
-							row43.history_id = null;
-						}
-					}
-					column_index_tJDBCInput_3 = 2;
-
-					if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
-						row43.storage_domain_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_3 = rs_tJDBCInput_3
-								.getString(column_index_tJDBCInput_3);
-						if (tmpContent_tJDBCInput_3 != null) {
-							row43.storage_domain_join_id = tmpContent_tJDBCInput_3;
 						} else {
-							row43.storage_domain_join_id = null;
+
+							if (rs_tJDBCInput_3
+									.getObject(column_index_tJDBCInput_3) != null) {
+								row43.history_id = rs_tJDBCInput_3
+										.getInt(column_index_tJDBCInput_3);
+							} else {
+								row43.history_id = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_3.wasNull()) {
+						column_index_tJDBCInput_3 = 2;
+
+						if (colQtyInRs_tJDBCInput_3 < column_index_tJDBCInput_3) {
 							row43.storage_domain_join_id = null;
+						} else {
+
+							tmpContent_tJDBCInput_3 = rs_tJDBCInput_3
+									.getString(column_index_tJDBCInput_3);
+							if (tmpContent_tJDBCInput_3 != null) {
+								row43.storage_domain_join_id = tmpContent_tJDBCInput_3;
+							} else {
+								row43.storage_domain_join_id = null;
+							}
+
 						}
+
+						/**
+						 * [tJDBCInput_3 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_3 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_3";
+
+						tos_count_tJDBCInput_3++;
+
+						/**
+						 * [tJDBCInput_3 main ] stop
+						 */
+
+						/**
+						 * [tAdvancedHash_row43 main ] start
+						 */
+
+						currentComponent = "tAdvancedHash_row43";
+
+						row43Struct row43_HashRow = new row43Struct();
+
+						row43_HashRow.history_id = row43.history_id;
+
+						row43_HashRow.storage_domain_join_id = row43.storage_domain_join_id;
+
+						tHash_Lookup_row43.put(row43_HashRow);
+
+						tos_count_tAdvancedHash_row43++;
+
+						/**
+						 * [tAdvancedHash_row43 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_3 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_3";
+
 					}
-
-					/**
-					 * [tJDBCInput_3 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_3 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_3";
-
-					tos_count_tJDBCInput_3++;
-
-					/**
-					 * [tJDBCInput_3 main ] stop
-					 */
-
-					/**
-					 * [tAdvancedHash_row43 main ] start
-					 */
-
-					currentComponent = "tAdvancedHash_row43";
-
-					row43Struct row43_HashRow = new row43Struct();
-
-					row43_HashRow.history_id = row43.history_id;
-
-					row43_HashRow.storage_domain_join_id = row43.storage_domain_join_id;
-
-					tHash_Lookup_row43.put(row43_HashRow);
-
-					tos_count_tAdvancedHash_row43++;
-
-					/**
-					 * [tAdvancedHash_row43 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_3 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_3";
+				} finally {
+					rs_tJDBCInput_3.close();
+					stmt_tJDBCInput_3.close();
 
 				}
-				rs_tJDBCInput_3.close();
-				stmt_tJDBCInput_3.close();
-
 				globalMap.put("tJDBCInput_3_NB_LINE", nb_line_tJDBCInput_3);
 
 				ok_Hash.put("tJDBCInput_3", true);
@@ -4146,12 +4247,43 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_3 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_3";
+
+				/**
+				 * [tJDBCInput_3 finally ] stop
+				 */
+
+				/**
+				 * [tAdvancedHash_row43 finally ] start
+				 */
+
+				currentComponent = "tAdvancedHash_row43";
+
+				/**
+				 * [tAdvancedHash_row43 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", 1);
@@ -5405,6 +5537,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -5427,6 +5560,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_3", false);
 				start_Hash.put("tJDBCOutput_3", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_3";
 
 				int tos_count_tJDBCOutput_3 = 0;
@@ -5448,13 +5582,6 @@ public class StatisticsSync implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_3 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == connection_tJDBCOutput_3) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_3 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_3 = dataSources_tJDBCOutput_3
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_3 = 10000;
 				int batchSizeCounter_tJDBCOutput_3 = 0;
 
@@ -5474,6 +5601,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tMap_3", false);
 				start_Hash.put("tMap_3", System.currentTimeMillis());
+
 				currentComponent = "tMap_3";
 
 				int tos_count_tMap_3 = 0;
@@ -5510,6 +5638,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_5", false);
 				start_Hash.put("tJDBCInput_5", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_5";
 
 				int tos_count_tJDBCInput_5 = 0;
@@ -5518,14 +5647,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_5 = null;
 				conn_tJDBCInput_5 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_5) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_5 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_5 = dataSources_tJDBCInput_5.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_5);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_5 = conn_tJDBCInput_5
 						.createStatement();
@@ -5533,578 +5654,562 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_5 = "SELECT     host_id,    upper(cast(host_id as char(36))) as host_join_id,    host_status,     memory_usage_percent,    ksm_shared_memory_percent,    cpu_usage_percent,     ksm_cpu_percent,     cpu_load,     system_cpu_usage_percent,     user_cpu_usage_percent,     swap_used_mb,     vm_active,     total_vms,     total_vms_vcpus  FROM dwh_host_history_view";
 
 				globalMap.put("tJDBCInput_5_QUERY", dbquery_tJDBCInput_5);
+				java.sql.ResultSet rs_tJDBCInput_5 = null;
+				try {
+					rs_tJDBCInput_5 = stmt_tJDBCInput_5
+							.executeQuery(dbquery_tJDBCInput_5);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_5 = rs_tJDBCInput_5
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_5 = rsmd_tJDBCInput_5
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_5 = stmt_tJDBCInput_5
-						.executeQuery(dbquery_tJDBCInput_5);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_5 = rs_tJDBCInput_5
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_5 = rsmd_tJDBCInput_5
-						.getColumnCount();
+					String tmpContent_tJDBCInput_5 = null;
+					int column_index_tJDBCInput_5 = 1;
 
-				String tmpContent_tJDBCInput_5 = null;
-				int column_index_tJDBCInput_5 = 1;
-				while (rs_tJDBCInput_5.next()) {
-					nb_line_tJDBCInput_5++;
+					while (rs_tJDBCInput_5.next()) {
+						nb_line_tJDBCInput_5++;
 
-					column_index_tJDBCInput_5 = 1;
+						column_index_tJDBCInput_5 = 1;
 
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.host_id = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.host_id = rs_tJDBCInput_5
-									.getObject(column_index_tJDBCInput_5);
-						} else {
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.host_id = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.host_id = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 2;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.host_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_5 = rs_tJDBCInput_5
-								.getString(column_index_tJDBCInput_5);
-						if (tmpContent_tJDBCInput_5 != null) {
-							row10.host_join_id = tmpContent_tJDBCInput_5;
 						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.host_id = rs_tJDBCInput_5
+										.getObject(column_index_tJDBCInput_5);
+							} else {
+								row10.host_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 2;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.host_join_id = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.host_join_id = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 3;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.host_status = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.host_status = rs_tJDBCInput_5
-									.getShort(column_index_tJDBCInput_5);
 						} else {
+
+							tmpContent_tJDBCInput_5 = rs_tJDBCInput_5
+									.getString(column_index_tJDBCInput_5);
+							if (tmpContent_tJDBCInput_5 != null) {
+								row10.host_join_id = tmpContent_tJDBCInput_5;
+							} else {
+								row10.host_join_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 3;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.host_status = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.host_status = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 4;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.memory_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.memory_usage_percent = rs_tJDBCInput_5
-									.getShort(column_index_tJDBCInput_5);
 						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.host_status = rs_tJDBCInput_5
+										.getShort(column_index_tJDBCInput_5);
+							} else {
+								row10.host_status = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 4;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.memory_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.memory_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 5;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.ksm_shared_memory_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.ksm_shared_memory_percent = rs_tJDBCInput_5
-									.getShort(column_index_tJDBCInput_5);
 						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.memory_usage_percent = rs_tJDBCInput_5
+										.getShort(column_index_tJDBCInput_5);
+							} else {
+								row10.memory_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 5;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.ksm_shared_memory_percent = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.ksm_shared_memory_percent = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 6;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.cpu_usage_percent = rs_tJDBCInput_5
-									.getShort(column_index_tJDBCInput_5);
 						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.ksm_shared_memory_percent = rs_tJDBCInput_5
+										.getShort(column_index_tJDBCInput_5);
+							} else {
+								row10.ksm_shared_memory_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 6;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 7;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.ksm_cpu_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.ksm_cpu_percent = rs_tJDBCInput_5
-									.getShort(column_index_tJDBCInput_5);
 						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.cpu_usage_percent = rs_tJDBCInput_5
+										.getShort(column_index_tJDBCInput_5);
+							} else {
+								row10.cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 7;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.ksm_cpu_percent = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.ksm_cpu_percent = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 8;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.cpu_load = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.cpu_load = rs_tJDBCInput_5
-									.getInt(column_index_tJDBCInput_5);
 						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.ksm_cpu_percent = rs_tJDBCInput_5
+										.getShort(column_index_tJDBCInput_5);
+							} else {
+								row10.ksm_cpu_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 8;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.cpu_load = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.cpu_load = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 9;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.system_cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.system_cpu_usage_percent = rs_tJDBCInput_5
-									.getShort(column_index_tJDBCInput_5);
 						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.cpu_load = rs_tJDBCInput_5
+										.getInt(column_index_tJDBCInput_5);
+							} else {
+								row10.cpu_load = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 9;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.system_cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.system_cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 10;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.user_cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.user_cpu_usage_percent = rs_tJDBCInput_5
-									.getShort(column_index_tJDBCInput_5);
 						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.system_cpu_usage_percent = rs_tJDBCInput_5
+										.getShort(column_index_tJDBCInput_5);
+							} else {
+								row10.system_cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 10;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.user_cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.user_cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 11;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.swap_used_mb = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.swap_used_mb = rs_tJDBCInput_5
-									.getInt(column_index_tJDBCInput_5);
 						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.user_cpu_usage_percent = rs_tJDBCInput_5
+										.getShort(column_index_tJDBCInput_5);
+							} else {
+								row10.user_cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 11;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.swap_used_mb = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.swap_used_mb = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 12;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.vm_active = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.vm_active = rs_tJDBCInput_5
-									.getShort(column_index_tJDBCInput_5);
 						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.swap_used_mb = rs_tJDBCInput_5
+										.getInt(column_index_tJDBCInput_5);
+							} else {
+								row10.swap_used_mb = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 12;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.vm_active = null;
-						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.vm_active = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 13;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.total_vms = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.total_vms = rs_tJDBCInput_5
-									.getShort(column_index_tJDBCInput_5);
 						} else {
-							row10.total_vms = null;
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.vm_active = rs_tJDBCInput_5
+										.getShort(column_index_tJDBCInput_5);
+							} else {
+								row10.vm_active = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_5.wasNull()) {
+						column_index_tJDBCInput_5 = 13;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.total_vms = null;
-						}
-					}
-					column_index_tJDBCInput_5 = 14;
-
-					if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-						row10.total_vms_vcpus = null;
-					} else {
-
-						if (rs_tJDBCInput_5
-								.getObject(column_index_tJDBCInput_5) != null) {
-							row10.total_vms_vcpus = rs_tJDBCInput_5
-									.getInt(column_index_tJDBCInput_5);
 						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.total_vms = rs_tJDBCInput_5
+										.getShort(column_index_tJDBCInput_5);
+							} else {
+								row10.total_vms = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_5 = 14;
+
+						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
 							row10.total_vms_vcpus = null;
+						} else {
+
+							if (rs_tJDBCInput_5
+									.getObject(column_index_tJDBCInput_5) != null) {
+								row10.total_vms_vcpus = rs_tJDBCInput_5
+										.getInt(column_index_tJDBCInput_5);
+							} else {
+								row10.total_vms_vcpus = null;
+							}
+
 						}
-
-						if (rs_tJDBCInput_5.wasNull()) {
-							row10.total_vms_vcpus = null;
-						}
-					}
-
-					/**
-					 * [tJDBCInput_5 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_5 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_5";
-
-					tos_count_tJDBCInput_5++;
-
-					/**
-					 * [tJDBCInput_5 main ] stop
-					 */
-
-					/**
-					 * [tMap_3 main ] start
-					 */
-
-					currentComponent = "tMap_3";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_3 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_3 = false;
-					boolean mainRowRejected_tMap_3 = false;
-
-					if (
-
-					(
-
-					row10.host_status != 0
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row10'
-
-						// /////////////////////////////////////////////
-						// Starting Lookup Table "row42"
-						// /////////////////////////////////////////////
-
-						boolean forceLooprow42 = false;
-
-						row42Struct row42ObjectFromLookup = null;
-
-						if (!rejectedInnerJoin_tMap_3) { // G_TM_M_020
-
-							hasCasePrimitiveKeyWithNull_tMap_3 = false;
-
-							row42HashKey.host_join_id = row10.host_join_id;
-
-							row42HashKey.hashCodeDirty = true;
-
-							tHash_Lookup_row42.lookup(row42HashKey);
-
-							if (!tHash_Lookup_row42.hasNext()) { // G_TM_M_090
-
-								rejectedInnerJoin_tMap_3 = true;
-
-							} // G_TM_M_090
-
-						} // G_TM_M_020
-
-						if (tHash_Lookup_row42 != null
-								&& tHash_Lookup_row42.getCount(row42HashKey) > 1) { // G
-																					// 071
-
-							// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row42' and it contains more one result from keys :  row42.host_join_id = '"
-							// + row42HashKey.host_join_id + "'");
-						} // G 071
-
-						row42Struct row42 = null;
-
-						row42Struct fromLookup_row42 = null;
-						row42 = row42Default;
-
-						if (tHash_Lookup_row42 != null
-								&& tHash_Lookup_row42.hasNext()) { // G 099
-
-							fromLookup_row42 = tHash_Lookup_row42.next();
-
-						} // G 099
-
-						if (fromLookup_row42 != null) {
-							row42 = fromLookup_row42;
-						}
-
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_3__Struct Var = Var__tMap_3;// ###############################
-							// ###############################
-							// # Output tables
-
-							host_history = null;
-
-							if (!rejectedInnerJoin_tMap_3) {
-
-								// # Output table : 'host_history'
-								host_history_tmp.history_datetime = context.runTime;
-								host_history_tmp.host_id = row10.host_id;
-								host_history_tmp.host_status = (row10.host_status == 3
-										|| row10.host_status == 8
-										|| row10.host_status == 12 || row10.host_status == 9) ? (short) 1
-										: (row10.host_status == 2
-												|| row10.host_status == 6 || row10.host_status == 11) ? (short) 2
-												: (row10.host_status == 5
-														|| row10.host_status == 10
-														|| row10.host_status == 4
-														|| row10.host_status == 7
-														|| row10.host_status == 1 || row10.host_status == 13) ? (short) 3
-														: (short) -1;
-								host_history_tmp.minutes_in_status = context.runInterleave
-										.doubleValue() / 60;
-								host_history_tmp.memory_usage_percent = row10.memory_usage_percent;
-								host_history_tmp.ksm_shared_memory_percent = row10.ksm_shared_memory_percent;
-								host_history_tmp.cpu_usage_percent = row10.cpu_usage_percent;
-								host_history_tmp.ksm_cpu_percent = row10.ksm_cpu_percent;
-								host_history_tmp.active_vms = row10.vm_active;
-								host_history_tmp.total_vms = row10.total_vms;
-								host_history_tmp.total_vms_vcpus = row10.total_vms_vcpus;
-								host_history_tmp.cpu_load = row10.cpu_load;
-								host_history_tmp.system_cpu_usage_percent = row10.system_cpu_usage_percent;
-								host_history_tmp.user_cpu_usage_percent = row10.user_cpu_usage_percent;
-								host_history_tmp.swap_used_mb = row10.swap_used_mb;
-								host_history_tmp.host_configuration_version = row42.history_id;
-								host_history = host_history_tmp;
-							} // closing inner join bracket (2)
-								// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_3 = false;
-
-						tos_count_tMap_3++;
 
 						/**
-						 * [tMap_3 main ] stop
+						 * [tJDBCInput_5 begin ] stop
 						 */
-						// Start of branch "host_history"
-						if (host_history != null) {
+						/**
+						 * [tJDBCInput_5 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_5";
+
+						tos_count_tJDBCInput_5++;
+
+						/**
+						 * [tJDBCInput_5 main ] stop
+						 */
+
+						/**
+						 * [tMap_3 main ] start
+						 */
+
+						currentComponent = "tMap_3";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_3 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_3 = false;
+						boolean mainRowRejected_tMap_3 = false;
+
+						if (
+
+						(
+
+						row10.host_status != 0
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row10'
+
+							// /////////////////////////////////////////////
+							// Starting Lookup Table "row42"
+							// /////////////////////////////////////////////
+
+							boolean forceLooprow42 = false;
+
+							row42Struct row42ObjectFromLookup = null;
+
+							if (!rejectedInnerJoin_tMap_3) { // G_TM_M_020
+
+								hasCasePrimitiveKeyWithNull_tMap_3 = false;
+
+								row42HashKey.host_join_id = row10.host_join_id;
+
+								row42HashKey.hashCodeDirty = true;
+
+								tHash_Lookup_row42.lookup(row42HashKey);
+
+								if (!tHash_Lookup_row42.hasNext()) { // G_TM_M_090
+
+									rejectedInnerJoin_tMap_3 = true;
+
+								} // G_TM_M_090
+
+							} // G_TM_M_020
+
+							if (tHash_Lookup_row42 != null
+									&& tHash_Lookup_row42
+											.getCount(row42HashKey) > 1) { // G
+																			// 071
+
+								// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row42' and it contains more one result from keys :  row42.host_join_id = '"
+								// + row42HashKey.host_join_id + "'");
+							} // G 071
+
+							row42Struct row42 = null;
+
+							row42Struct fromLookup_row42 = null;
+							row42 = row42Default;
+
+							if (tHash_Lookup_row42 != null
+									&& tHash_Lookup_row42.hasNext()) { // G 099
+
+								fromLookup_row42 = tHash_Lookup_row42.next();
+
+							} // G 099
+
+							if (fromLookup_row42 != null) {
+								row42 = fromLookup_row42;
+							}
+
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_3__Struct Var = Var__tMap_3;// ###############################
+								// ###############################
+								// # Output tables
+
+								host_history = null;
+
+								if (!rejectedInnerJoin_tMap_3) {
+
+									// # Output table : 'host_history'
+									host_history_tmp.history_datetime = context.runTime;
+									host_history_tmp.host_id = row10.host_id;
+									host_history_tmp.host_status = (row10.host_status == 3
+											|| row10.host_status == 8
+											|| row10.host_status == 12 || row10.host_status == 9) ? (short) 1
+											: (row10.host_status == 2
+													|| row10.host_status == 6 || row10.host_status == 11) ? (short) 2
+													: (row10.host_status == 5
+															|| row10.host_status == 10
+															|| row10.host_status == 4
+															|| row10.host_status == 7
+															|| row10.host_status == 1 || row10.host_status == 13) ? (short) 3
+															: (short) -1;
+									host_history_tmp.minutes_in_status = context.runInterleave
+											.doubleValue() / 60;
+									host_history_tmp.memory_usage_percent = row10.memory_usage_percent;
+									host_history_tmp.ksm_shared_memory_percent = row10.ksm_shared_memory_percent;
+									host_history_tmp.cpu_usage_percent = row10.cpu_usage_percent;
+									host_history_tmp.ksm_cpu_percent = row10.ksm_cpu_percent;
+									host_history_tmp.active_vms = row10.vm_active;
+									host_history_tmp.total_vms = row10.total_vms;
+									host_history_tmp.total_vms_vcpus = row10.total_vms_vcpus;
+									host_history_tmp.cpu_load = row10.cpu_load;
+									host_history_tmp.system_cpu_usage_percent = row10.system_cpu_usage_percent;
+									host_history_tmp.user_cpu_usage_percent = row10.user_cpu_usage_percent;
+									host_history_tmp.swap_used_mb = row10.swap_used_mb;
+									host_history_tmp.host_configuration_version = row42.history_id;
+									host_history = host_history_tmp;
+								} // closing inner join bracket (2)
+									// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_3 = false;
+
+							tos_count_tMap_3++;
 
 							/**
-							 * [tJDBCOutput_3 main ] start
+							 * [tMap_3 main ] stop
 							 */
+							// Start of branch "host_history"
+							if (host_history != null) {
 
-							currentComponent = "tJDBCOutput_3";
+								/**
+								 * [tJDBCOutput_3 main ] start
+								 */
 
-							whetherReject_tJDBCOutput_3 = false;
-							if (host_history.history_datetime != null) {
-								pstmt_tJDBCOutput_3.setTimestamp(
-										1,
-										new java.sql.Timestamp(
-												host_history.history_datetime
-														.getTime()));
-							} else {
-								pstmt_tJDBCOutput_3.setNull(1,
-										java.sql.Types.DATE);
-							}
+								currentComponent = "tJDBCOutput_3";
 
-							if (host_history.host_id == null) {
-								pstmt_tJDBCOutput_3.setNull(2,
-										java.sql.Types.OTHER);
-							} else {
-								pstmt_tJDBCOutput_3.setObject(2,
-										host_history.host_id);
-							}
+								whetherReject_tJDBCOutput_3 = false;
+								if (host_history.history_datetime != null) {
+									pstmt_tJDBCOutput_3
+											.setTimestamp(
+													1,
+													new java.sql.Timestamp(
+															host_history.history_datetime
+																	.getTime()));
+								} else {
+									pstmt_tJDBCOutput_3.setNull(1,
+											java.sql.Types.DATE);
+								}
 
-							pstmt_tJDBCOutput_3.setShort(3,
-									host_history.host_status);
+								if (host_history.host_id == null) {
+									pstmt_tJDBCOutput_3.setNull(2,
+											java.sql.Types.OTHER);
+								} else {
+									pstmt_tJDBCOutput_3.setObject(2,
+											host_history.host_id);
+								}
 
-							pstmt_tJDBCOutput_3.setDouble(4,
-									host_history.minutes_in_status);
+								pstmt_tJDBCOutput_3.setShort(3,
+										host_history.host_status);
 
-							if (host_history.memory_usage_percent == null) {
-								pstmt_tJDBCOutput_3.setNull(5,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_3.setShort(5,
-										host_history.memory_usage_percent);
-							}
+								pstmt_tJDBCOutput_3.setDouble(4,
+										host_history.minutes_in_status);
 
-							if (host_history.ksm_shared_memory_percent == null) {
-								pstmt_tJDBCOutput_3.setNull(6,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_3.setShort(6,
-										host_history.ksm_shared_memory_percent);
-							}
+								if (host_history.memory_usage_percent == null) {
+									pstmt_tJDBCOutput_3.setNull(5,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_3.setShort(5,
+											host_history.memory_usage_percent);
+								}
 
-							if (host_history.cpu_usage_percent == null) {
-								pstmt_tJDBCOutput_3.setNull(7,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_3.setShort(7,
-										host_history.cpu_usage_percent);
-							}
+								if (host_history.ksm_shared_memory_percent == null) {
+									pstmt_tJDBCOutput_3.setNull(6,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_3
+											.setShort(
+													6,
+													host_history.ksm_shared_memory_percent);
+								}
 
-							if (host_history.ksm_cpu_percent == null) {
-								pstmt_tJDBCOutput_3.setNull(8,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_3.setShort(8,
-										host_history.ksm_cpu_percent);
-							}
+								if (host_history.cpu_usage_percent == null) {
+									pstmt_tJDBCOutput_3.setNull(7,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_3.setShort(7,
+											host_history.cpu_usage_percent);
+								}
 
-							if (host_history.active_vms == null) {
-								pstmt_tJDBCOutput_3.setNull(9,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_3.setShort(9,
-										host_history.active_vms);
-							}
+								if (host_history.ksm_cpu_percent == null) {
+									pstmt_tJDBCOutput_3.setNull(8,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_3.setShort(8,
+											host_history.ksm_cpu_percent);
+								}
 
-							if (host_history.total_vms == null) {
-								pstmt_tJDBCOutput_3.setNull(10,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_3.setShort(10,
-										host_history.total_vms);
-							}
+								if (host_history.active_vms == null) {
+									pstmt_tJDBCOutput_3.setNull(9,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_3.setShort(9,
+											host_history.active_vms);
+								}
 
-							if (host_history.total_vms_vcpus == null) {
-								pstmt_tJDBCOutput_3.setNull(11,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_3.setInt(11,
-										host_history.total_vms_vcpus);
-							}
+								if (host_history.total_vms == null) {
+									pstmt_tJDBCOutput_3.setNull(10,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_3.setShort(10,
+											host_history.total_vms);
+								}
 
-							if (host_history.cpu_load == null) {
-								pstmt_tJDBCOutput_3.setNull(12,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_3.setInt(12,
-										host_history.cpu_load);
-							}
+								if (host_history.total_vms_vcpus == null) {
+									pstmt_tJDBCOutput_3.setNull(11,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_3.setInt(11,
+											host_history.total_vms_vcpus);
+								}
 
-							if (host_history.system_cpu_usage_percent == null) {
-								pstmt_tJDBCOutput_3.setNull(13,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_3.setShort(13,
-										host_history.system_cpu_usage_percent);
-							}
+								if (host_history.cpu_load == null) {
+									pstmt_tJDBCOutput_3.setNull(12,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_3.setInt(12,
+											host_history.cpu_load);
+								}
 
-							if (host_history.user_cpu_usage_percent == null) {
-								pstmt_tJDBCOutput_3.setNull(14,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_3.setShort(14,
-										host_history.user_cpu_usage_percent);
-							}
+								if (host_history.system_cpu_usage_percent == null) {
+									pstmt_tJDBCOutput_3.setNull(13,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_3
+											.setShort(
+													13,
+													host_history.system_cpu_usage_percent);
+								}
 
-							if (host_history.swap_used_mb == null) {
-								pstmt_tJDBCOutput_3.setNull(15,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_3.setInt(15,
-										host_history.swap_used_mb);
-							}
+								if (host_history.user_cpu_usage_percent == null) {
+									pstmt_tJDBCOutput_3.setNull(14,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_3
+											.setShort(
+													14,
+													host_history.user_cpu_usage_percent);
+								}
 
-							if (host_history.host_configuration_version == null) {
-								pstmt_tJDBCOutput_3.setNull(16,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_3
-										.setInt(16,
-												host_history.host_configuration_version);
-							}
+								if (host_history.swap_used_mb == null) {
+									pstmt_tJDBCOutput_3.setNull(15,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_3.setInt(15,
+											host_history.swap_used_mb);
+								}
 
-							try {
-								insertedCount_tJDBCOutput_3 = insertedCount_tJDBCOutput_3
-										+ pstmt_tJDBCOutput_3.executeUpdate();
-								nb_line_tJDBCOutput_3++;
-							} catch (java.lang.Exception e) {
-								whetherReject_tJDBCOutput_3 = true;
-								throw (e);
-							}
+								if (host_history.host_configuration_version == null) {
+									pstmt_tJDBCOutput_3.setNull(16,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_3
+											.setInt(16,
+													host_history.host_configuration_version);
+								}
 
-							tos_count_tJDBCOutput_3++;
+								try {
+									insertedCount_tJDBCOutput_3 = insertedCount_tJDBCOutput_3
+											+ pstmt_tJDBCOutput_3
+													.executeUpdate();
+									nb_line_tJDBCOutput_3++;
+								} catch (java.lang.Exception e) {
+									whetherReject_tJDBCOutput_3 = true;
+									throw (e);
+								}
 
-							/**
-							 * [tJDBCOutput_3 main ] stop
-							 */
+								tos_count_tJDBCOutput_3++;
 
-						} // End of branch "host_history"
+								/**
+								 * [tJDBCOutput_3 main ] stop
+								 */
 
-					} // G_TM_M_280 close main tMap filter for table 'row10'
+							} // End of branch "host_history"
 
-					/**
-					 * [tJDBCInput_5 end ] start
-					 */
+						} // G_TM_M_280 close main tMap filter for table 'row10'
 
-					currentComponent = "tJDBCInput_5";
+						/**
+						 * [tJDBCInput_5 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_5";
+
+					}
+				} finally {
+					rs_tJDBCInput_5.close();
+					stmt_tJDBCInput_5.close();
 
 				}
-				rs_tJDBCInput_5.close();
-				stmt_tJDBCInput_5.close();
-
 				globalMap.put("tJDBCInput_5_NB_LINE", nb_line_tJDBCInput_5);
 
 				ok_Hash.put("tJDBCInput_5", true);
@@ -6178,16 +6283,56 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tMap_3"
 			globalMap.remove("tHash_Lookup_row42");
 
+			try {
+
+				/**
+				 * [tJDBCInput_5 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_5";
+
+				/**
+				 * [tJDBCInput_5 finally ] stop
+				 */
+
+				/**
+				 * [tMap_3 finally ] start
+				 */
+
+				currentComponent = "tMap_3";
+
+				/**
+				 * [tMap_3 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_3 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_3";
+
+				/**
+				 * [tJDBCOutput_3 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", 1);
@@ -6246,7 +6391,9 @@ public class StatisticsSync implements TalendJob {
 			if (this.host_join_id == null) {
 				if (other.host_join_id != null)
 					return false;
+
 			} else if (!this.host_join_id.equals(other.host_join_id))
+
 				return false;
 
 			return true;
@@ -6448,6 +6595,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -6468,6 +6616,7 @@ public class StatisticsSync implements TalendJob {
 				ok_Hash.put("tAdvancedHash_row42", false);
 				start_Hash.put("tAdvancedHash_row42",
 						System.currentTimeMillis());
+
 				currentComponent = "tAdvancedHash_row42";
 
 				int tos_count_tAdvancedHash_row42 = 0;
@@ -6496,6 +6645,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_6", false);
 				start_Hash.put("tJDBCInput_6", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_6";
 
 				int tos_count_tJDBCInput_6 = 0;
@@ -6504,14 +6654,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_6 = null;
 				conn_tJDBCInput_6 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == conn_tJDBCInput_6) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_6 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_6 = dataSources_tJDBCInput_6.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_2",
-					// conn_tJDBCInput_6);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_6 = conn_tJDBCInput_6
 						.createStatement();
@@ -6519,101 +6661,100 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_6 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id  FROM v3_4_latest_configuration_hosts";
 
 				globalMap.put("tJDBCInput_6_QUERY", dbquery_tJDBCInput_6);
+				java.sql.ResultSet rs_tJDBCInput_6 = null;
+				try {
+					rs_tJDBCInput_6 = stmt_tJDBCInput_6
+							.executeQuery(dbquery_tJDBCInput_6);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_6 = rs_tJDBCInput_6
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_6 = rsmd_tJDBCInput_6
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_6 = stmt_tJDBCInput_6
-						.executeQuery(dbquery_tJDBCInput_6);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_6 = rs_tJDBCInput_6
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_6 = rsmd_tJDBCInput_6
-						.getColumnCount();
+					String tmpContent_tJDBCInput_6 = null;
+					int column_index_tJDBCInput_6 = 1;
 
-				String tmpContent_tJDBCInput_6 = null;
-				int column_index_tJDBCInput_6 = 1;
-				while (rs_tJDBCInput_6.next()) {
-					nb_line_tJDBCInput_6++;
+					while (rs_tJDBCInput_6.next()) {
+						nb_line_tJDBCInput_6++;
 
-					column_index_tJDBCInput_6 = 1;
+						column_index_tJDBCInput_6 = 1;
 
-					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
-						row42.history_id = null;
-					} else {
-
-						if (rs_tJDBCInput_6
-								.getObject(column_index_tJDBCInput_6) != null) {
-							row42.history_id = rs_tJDBCInput_6
-									.getInt(column_index_tJDBCInput_6);
-						} else {
+						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row42.history_id = null;
-						}
-
-						if (rs_tJDBCInput_6.wasNull()) {
-							row42.history_id = null;
-						}
-					}
-					column_index_tJDBCInput_6 = 2;
-
-					if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
-						row42.host_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_6 = rs_tJDBCInput_6
-								.getString(column_index_tJDBCInput_6);
-						if (tmpContent_tJDBCInput_6 != null) {
-							row42.host_join_id = tmpContent_tJDBCInput_6;
 						} else {
-							row42.host_join_id = null;
+
+							if (rs_tJDBCInput_6
+									.getObject(column_index_tJDBCInput_6) != null) {
+								row42.history_id = rs_tJDBCInput_6
+										.getInt(column_index_tJDBCInput_6);
+							} else {
+								row42.history_id = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_6.wasNull()) {
+						column_index_tJDBCInput_6 = 2;
+
+						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row42.host_join_id = null;
+						} else {
+
+							tmpContent_tJDBCInput_6 = rs_tJDBCInput_6
+									.getString(column_index_tJDBCInput_6);
+							if (tmpContent_tJDBCInput_6 != null) {
+								row42.host_join_id = tmpContent_tJDBCInput_6;
+							} else {
+								row42.host_join_id = null;
+							}
+
 						}
+
+						/**
+						 * [tJDBCInput_6 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_6 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_6";
+
+						tos_count_tJDBCInput_6++;
+
+						/**
+						 * [tJDBCInput_6 main ] stop
+						 */
+
+						/**
+						 * [tAdvancedHash_row42 main ] start
+						 */
+
+						currentComponent = "tAdvancedHash_row42";
+
+						row42Struct row42_HashRow = new row42Struct();
+
+						row42_HashRow.history_id = row42.history_id;
+
+						row42_HashRow.host_join_id = row42.host_join_id;
+
+						tHash_Lookup_row42.put(row42_HashRow);
+
+						tos_count_tAdvancedHash_row42++;
+
+						/**
+						 * [tAdvancedHash_row42 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_6 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_6";
+
 					}
-
-					/**
-					 * [tJDBCInput_6 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_6 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_6";
-
-					tos_count_tJDBCInput_6++;
-
-					/**
-					 * [tJDBCInput_6 main ] stop
-					 */
-
-					/**
-					 * [tAdvancedHash_row42 main ] start
-					 */
-
-					currentComponent = "tAdvancedHash_row42";
-
-					row42Struct row42_HashRow = new row42Struct();
-
-					row42_HashRow.history_id = row42.history_id;
-
-					row42_HashRow.host_join_id = row42.host_join_id;
-
-					tHash_Lookup_row42.put(row42_HashRow);
-
-					tos_count_tAdvancedHash_row42++;
-
-					/**
-					 * [tAdvancedHash_row42 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_6 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_6";
+				} finally {
+					rs_tJDBCInput_6.close();
+					stmt_tJDBCInput_6.close();
 
 				}
-				rs_tJDBCInput_6.close();
-				stmt_tJDBCInput_6.close();
-
 				globalMap.put("tJDBCInput_6_NB_LINE", nb_line_tJDBCInput_6);
 
 				ok_Hash.put("tJDBCInput_6", true);
@@ -6642,12 +6783,43 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_6 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_6";
+
+				/**
+				 * [tJDBCInput_6 finally ] stop
+				 */
+
+				/**
+				 * [tAdvancedHash_row42 finally ] start
+				 */
+
+				currentComponent = "tAdvancedHash_row42";
+
+				/**
+				 * [tAdvancedHash_row42 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", 1);
@@ -7248,6 +7420,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -7270,6 +7443,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_4", false);
 				start_Hash.put("tJDBCOutput_4", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_4";
 
 				int tos_count_tJDBCOutput_4 = 0;
@@ -7291,13 +7465,6 @@ public class StatisticsSync implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_4 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == connection_tJDBCOutput_4) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_4 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_4 = dataSources_tJDBCOutput_4
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_4 = 10000;
 				int batchSizeCounter_tJDBCOutput_4 = 0;
 
@@ -7317,6 +7484,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tMap_4", false);
 				start_Hash.put("tMap_4", System.currentTimeMillis());
+
 				currentComponent = "tMap_4";
 
 				int tos_count_tMap_4 = 0;
@@ -7353,6 +7521,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_8", false);
 				start_Hash.put("tJDBCInput_8", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_8";
 
 				int tos_count_tJDBCInput_8 = 0;
@@ -7361,14 +7530,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_8 = null;
 				conn_tJDBCInput_8 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_8) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_8 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_8 = dataSources_tJDBCInput_8.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_8);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_8 = conn_tJDBCInput_8
 						.createStatement();
@@ -7376,283 +7537,284 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_8 = "SELECT     host_interface_id,     upper(cast(host_interface_id as char(36))) as host_interface_join_id,    receive_rate_percent,     transmit_rate_percent  FROM dwh_host_interface_history_view";
 
 				globalMap.put("tJDBCInput_8_QUERY", dbquery_tJDBCInput_8);
+				java.sql.ResultSet rs_tJDBCInput_8 = null;
+				try {
+					rs_tJDBCInput_8 = stmt_tJDBCInput_8
+							.executeQuery(dbquery_tJDBCInput_8);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_8 = rs_tJDBCInput_8
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_8 = rsmd_tJDBCInput_8
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_8 = stmt_tJDBCInput_8
-						.executeQuery(dbquery_tJDBCInput_8);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_8 = rs_tJDBCInput_8
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_8 = rsmd_tJDBCInput_8
-						.getColumnCount();
+					String tmpContent_tJDBCInput_8 = null;
+					int column_index_tJDBCInput_8 = 1;
 
-				String tmpContent_tJDBCInput_8 = null;
-				int column_index_tJDBCInput_8 = 1;
-				while (rs_tJDBCInput_8.next()) {
-					nb_line_tJDBCInput_8++;
+					while (rs_tJDBCInput_8.next()) {
+						nb_line_tJDBCInput_8++;
 
-					column_index_tJDBCInput_8 = 1;
+						column_index_tJDBCInput_8 = 1;
 
-					if (colQtyInRs_tJDBCInput_8 < column_index_tJDBCInput_8) {
-						row11.host_interface_id = null;
-					} else {
-
-						if (rs_tJDBCInput_8
-								.getObject(column_index_tJDBCInput_8) != null) {
-							row11.host_interface_id = rs_tJDBCInput_8
-									.getObject(column_index_tJDBCInput_8);
-						} else {
+						if (colQtyInRs_tJDBCInput_8 < column_index_tJDBCInput_8) {
 							row11.host_interface_id = null;
-						}
-
-						if (rs_tJDBCInput_8.wasNull()) {
-							row11.host_interface_id = null;
-						}
-					}
-					column_index_tJDBCInput_8 = 2;
-
-					if (colQtyInRs_tJDBCInput_8 < column_index_tJDBCInput_8) {
-						row11.host_interface_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_8 = rs_tJDBCInput_8
-								.getString(column_index_tJDBCInput_8);
-						if (tmpContent_tJDBCInput_8 != null) {
-							row11.host_interface_join_id = tmpContent_tJDBCInput_8;
 						} else {
+
+							if (rs_tJDBCInput_8
+									.getObject(column_index_tJDBCInput_8) != null) {
+								row11.host_interface_id = rs_tJDBCInput_8
+										.getObject(column_index_tJDBCInput_8);
+							} else {
+								row11.host_interface_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_8 = 2;
+
+						if (colQtyInRs_tJDBCInput_8 < column_index_tJDBCInput_8) {
 							row11.host_interface_join_id = null;
-						}
-
-						if (rs_tJDBCInput_8.wasNull()) {
-							row11.host_interface_join_id = null;
-						}
-					}
-					column_index_tJDBCInput_8 = 3;
-
-					if (colQtyInRs_tJDBCInput_8 < column_index_tJDBCInput_8) {
-						row11.receive_rate_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_8
-								.getObject(column_index_tJDBCInput_8) != null) {
-							row11.receive_rate_percent = rs_tJDBCInput_8
-									.getShort(column_index_tJDBCInput_8);
 						} else {
-							row11.receive_rate_percent = null;
+
+							tmpContent_tJDBCInput_8 = rs_tJDBCInput_8
+									.getString(column_index_tJDBCInput_8);
+							if (tmpContent_tJDBCInput_8 != null) {
+								row11.host_interface_join_id = tmpContent_tJDBCInput_8;
+							} else {
+								row11.host_interface_join_id = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_8.wasNull()) {
+						column_index_tJDBCInput_8 = 3;
+
+						if (colQtyInRs_tJDBCInput_8 < column_index_tJDBCInput_8) {
 							row11.receive_rate_percent = null;
-						}
-					}
-					column_index_tJDBCInput_8 = 4;
-
-					if (colQtyInRs_tJDBCInput_8 < column_index_tJDBCInput_8) {
-						row11.transmit_rate_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_8
-								.getObject(column_index_tJDBCInput_8) != null) {
-							row11.transmit_rate_percent = rs_tJDBCInput_8
-									.getShort(column_index_tJDBCInput_8);
 						} else {
-							row11.transmit_rate_percent = null;
+
+							if (rs_tJDBCInput_8
+									.getObject(column_index_tJDBCInput_8) != null) {
+								row11.receive_rate_percent = rs_tJDBCInput_8
+										.getShort(column_index_tJDBCInput_8);
+							} else {
+								row11.receive_rate_percent = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_8.wasNull()) {
+						column_index_tJDBCInput_8 = 4;
+
+						if (colQtyInRs_tJDBCInput_8 < column_index_tJDBCInput_8) {
 							row11.transmit_rate_percent = null;
+						} else {
+
+							if (rs_tJDBCInput_8
+									.getObject(column_index_tJDBCInput_8) != null) {
+								row11.transmit_rate_percent = rs_tJDBCInput_8
+										.getShort(column_index_tJDBCInput_8);
+							} else {
+								row11.transmit_rate_percent = null;
+							}
+
 						}
-					}
 
-					/**
-					 * [tJDBCInput_8 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_8 main ] start
-					 */
+						/**
+						 * [tJDBCInput_8 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_8 main ] start
+						 */
 
-					currentComponent = "tJDBCInput_8";
+						currentComponent = "tJDBCInput_8";
 
-					tos_count_tJDBCInput_8++;
+						tos_count_tJDBCInput_8++;
 
-					/**
-					 * [tJDBCInput_8 main ] stop
-					 */
+						/**
+						 * [tJDBCInput_8 main ] stop
+						 */
 
-					/**
-					 * [tMap_4 main ] start
-					 */
+						/**
+						 * [tMap_4 main ] start
+						 */
 
-					currentComponent = "tMap_4";
+						currentComponent = "tMap_4";
 
-					boolean hasCasePrimitiveKeyWithNull_tMap_4 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_4 = false;
-					boolean mainRowRejected_tMap_4 = false;
-
-					// /////////////////////////////////////////////
-					// Starting Lookup Table "row45"
-					// /////////////////////////////////////////////
-
-					boolean forceLooprow45 = false;
-
-					row45Struct row45ObjectFromLookup = null;
-
-					if (!rejectedInnerJoin_tMap_4) { // G_TM_M_020
-
-						hasCasePrimitiveKeyWithNull_tMap_4 = false;
-
-						row45HashKey.host_interface_join_id = row11.host_interface_join_id;
-
-						row45HashKey.hashCodeDirty = true;
-
-						tHash_Lookup_row45.lookup(row45HashKey);
-
-						if (!tHash_Lookup_row45.hasNext()) { // G_TM_M_090
-
-							rejectedInnerJoin_tMap_4 = true;
-
-						} // G_TM_M_090
-
-					} // G_TM_M_020
-
-					if (tHash_Lookup_row45 != null
-							&& tHash_Lookup_row45.getCount(row45HashKey) > 1) { // G
-																				// 071
-
-						// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row45' and it contains more one result from keys :  row45.host_interface_join_id = '"
-						// + row45HashKey.host_interface_join_id + "'");
-					} // G 071
-
-					row45Struct row45 = null;
-
-					row45Struct fromLookup_row45 = null;
-					row45 = row45Default;
-
-					if (tHash_Lookup_row45 != null
-							&& tHash_Lookup_row45.hasNext()) { // G 099
-
-						fromLookup_row45 = tHash_Lookup_row45.next();
-
-					} // G 099
-
-					if (fromLookup_row45 != null) {
-						row45 = fromLookup_row45;
-					}
-
-					// ###############################
-					{ // start of Var scope
+						boolean hasCasePrimitiveKeyWithNull_tMap_4 = false;
 
 						// ###############################
-						// # Vars tables
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_4 = false;
+						boolean mainRowRejected_tMap_4 = false;
 
-						Var__tMap_4__Struct Var = Var__tMap_4;// ###############################
+						// /////////////////////////////////////////////
+						// Starting Lookup Table "row45"
+						// /////////////////////////////////////////////
+
+						boolean forceLooprow45 = false;
+
+						row45Struct row45ObjectFromLookup = null;
+
+						if (!rejectedInnerJoin_tMap_4) { // G_TM_M_020
+
+							hasCasePrimitiveKeyWithNull_tMap_4 = false;
+
+							row45HashKey.host_interface_join_id = row11.host_interface_join_id;
+
+							row45HashKey.hashCodeDirty = true;
+
+							tHash_Lookup_row45.lookup(row45HashKey);
+
+							if (!tHash_Lookup_row45.hasNext()) { // G_TM_M_090
+
+								rejectedInnerJoin_tMap_4 = true;
+
+							} // G_TM_M_090
+
+						} // G_TM_M_020
+
+						if (tHash_Lookup_row45 != null
+								&& tHash_Lookup_row45.getCount(row45HashKey) > 1) { // G
+																					// 071
+
+							// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row45' and it contains more one result from keys :  row45.host_interface_join_id = '"
+							// + row45HashKey.host_interface_join_id + "'");
+						} // G 071
+
+						row45Struct row45 = null;
+
+						row45Struct fromLookup_row45 = null;
+						row45 = row45Default;
+
+						if (tHash_Lookup_row45 != null
+								&& tHash_Lookup_row45.hasNext()) { // G 099
+
+							fromLookup_row45 = tHash_Lookup_row45.next();
+
+						} // G 099
+
+						if (fromLookup_row45 != null) {
+							row45 = fromLookup_row45;
+						}
+
 						// ###############################
-						// # Output tables
+						{ // start of Var scope
 
-						hinterface_history = null;
-
-						if (!rejectedInnerJoin_tMap_4) {
-
-							// # Output table : 'hinterface_history'
-							hinterface_history_tmp.history_datetime = context.runTime;
-							hinterface_history_tmp.host_interface_id = row11.host_interface_id;
-							hinterface_history_tmp.receive_rate_percent = row11.receive_rate_percent;
-							hinterface_history_tmp.transmit_rate_percent = row11.transmit_rate_percent;
-							hinterface_history_tmp.host_interface_configuration_version = row45.history_id;
-							hinterface_history = hinterface_history_tmp;
-						} // closing inner join bracket (2)
 							// ###############################
+							// # Vars tables
 
-					} // end of Var scope
+							Var__tMap_4__Struct Var = Var__tMap_4;// ###############################
+							// ###############################
+							// # Output tables
 
-					rejectedInnerJoin_tMap_4 = false;
+							hinterface_history = null;
 
-					tos_count_tMap_4++;
+							if (!rejectedInnerJoin_tMap_4) {
 
-					/**
-					 * [tMap_4 main ] stop
-					 */
-					// Start of branch "hinterface_history"
-					if (hinterface_history != null) {
+								// # Output table : 'hinterface_history'
+								hinterface_history_tmp.history_datetime = context.runTime;
+								hinterface_history_tmp.host_interface_id = row11.host_interface_id;
+								hinterface_history_tmp.receive_rate_percent = row11.receive_rate_percent;
+								hinterface_history_tmp.transmit_rate_percent = row11.transmit_rate_percent;
+								hinterface_history_tmp.host_interface_configuration_version = row45.history_id;
+								hinterface_history = hinterface_history_tmp;
+							} // closing inner join bracket (2)
+								// ###############################
 
-						/**
-						 * [tJDBCOutput_4 main ] start
-						 */
+						} // end of Var scope
 
-						currentComponent = "tJDBCOutput_4";
+						rejectedInnerJoin_tMap_4 = false;
 
-						whetherReject_tJDBCOutput_4 = false;
-						if (hinterface_history.history_datetime != null) {
-							pstmt_tJDBCOutput_4.setTimestamp(
-									1,
-									new java.sql.Timestamp(
-											hinterface_history.history_datetime
-													.getTime()));
-						} else {
-							pstmt_tJDBCOutput_4.setNull(1, java.sql.Types.DATE);
-						}
-
-						if (hinterface_history.host_interface_id == null) {
-							pstmt_tJDBCOutput_4
-									.setNull(2, java.sql.Types.OTHER);
-						} else {
-							pstmt_tJDBCOutput_4.setObject(2,
-									hinterface_history.host_interface_id);
-						}
-
-						if (hinterface_history.receive_rate_percent == null) {
-							pstmt_tJDBCOutput_4.setNull(3,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_4.setShort(3,
-									hinterface_history.receive_rate_percent);
-						}
-
-						if (hinterface_history.transmit_rate_percent == null) {
-							pstmt_tJDBCOutput_4.setNull(4,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_4.setShort(4,
-									hinterface_history.transmit_rate_percent);
-						}
-
-						if (hinterface_history.host_interface_configuration_version == null) {
-							pstmt_tJDBCOutput_4.setNull(5,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_4
-									.setInt(5,
-											hinterface_history.host_interface_configuration_version);
-						}
-
-						try {
-							insertedCount_tJDBCOutput_4 = insertedCount_tJDBCOutput_4
-									+ pstmt_tJDBCOutput_4.executeUpdate();
-							nb_line_tJDBCOutput_4++;
-						} catch (java.lang.Exception e) {
-							whetherReject_tJDBCOutput_4 = true;
-							throw (e);
-						}
-
-						tos_count_tJDBCOutput_4++;
+						tos_count_tMap_4++;
 
 						/**
-						 * [tJDBCOutput_4 main ] stop
+						 * [tMap_4 main ] stop
+						 */
+						// Start of branch "hinterface_history"
+						if (hinterface_history != null) {
+
+							/**
+							 * [tJDBCOutput_4 main ] start
+							 */
+
+							currentComponent = "tJDBCOutput_4";
+
+							whetherReject_tJDBCOutput_4 = false;
+							if (hinterface_history.history_datetime != null) {
+								pstmt_tJDBCOutput_4
+										.setTimestamp(
+												1,
+												new java.sql.Timestamp(
+														hinterface_history.history_datetime
+																.getTime()));
+							} else {
+								pstmt_tJDBCOutput_4.setNull(1,
+										java.sql.Types.DATE);
+							}
+
+							if (hinterface_history.host_interface_id == null) {
+								pstmt_tJDBCOutput_4.setNull(2,
+										java.sql.Types.OTHER);
+							} else {
+								pstmt_tJDBCOutput_4.setObject(2,
+										hinterface_history.host_interface_id);
+							}
+
+							if (hinterface_history.receive_rate_percent == null) {
+								pstmt_tJDBCOutput_4.setNull(3,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_4
+										.setShort(
+												3,
+												hinterface_history.receive_rate_percent);
+							}
+
+							if (hinterface_history.transmit_rate_percent == null) {
+								pstmt_tJDBCOutput_4.setNull(4,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_4
+										.setShort(
+												4,
+												hinterface_history.transmit_rate_percent);
+							}
+
+							if (hinterface_history.host_interface_configuration_version == null) {
+								pstmt_tJDBCOutput_4.setNull(5,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_4
+										.setInt(5,
+												hinterface_history.host_interface_configuration_version);
+							}
+
+							try {
+								insertedCount_tJDBCOutput_4 = insertedCount_tJDBCOutput_4
+										+ pstmt_tJDBCOutput_4.executeUpdate();
+								nb_line_tJDBCOutput_4++;
+							} catch (java.lang.Exception e) {
+								whetherReject_tJDBCOutput_4 = true;
+								throw (e);
+							}
+
+							tos_count_tJDBCOutput_4++;
+
+							/**
+							 * [tJDBCOutput_4 main ] stop
+							 */
+
+						} // End of branch "hinterface_history"
+
+						/**
+						 * [tJDBCInput_8 end ] start
 						 */
 
-					} // End of branch "hinterface_history"
+						currentComponent = "tJDBCInput_8";
 
-					/**
-					 * [tJDBCInput_8 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_8";
+					}
+				} finally {
+					rs_tJDBCInput_8.close();
+					stmt_tJDBCInput_8.close();
 
 				}
-				rs_tJDBCInput_8.close();
-				stmt_tJDBCInput_8.close();
-
 				globalMap.put("tJDBCInput_8_NB_LINE", nb_line_tJDBCInput_8);
 
 				ok_Hash.put("tJDBCInput_8", true);
@@ -7726,16 +7888,56 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tMap_4"
 			globalMap.remove("tHash_Lookup_row45");
 
+			try {
+
+				/**
+				 * [tJDBCInput_8 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_8";
+
+				/**
+				 * [tJDBCInput_8 finally ] stop
+				 */
+
+				/**
+				 * [tMap_4 finally ] start
+				 */
+
+				currentComponent = "tMap_4";
+
+				/**
+				 * [tMap_4 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_4 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_4";
+
+				/**
+				 * [tJDBCOutput_4 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_8_SUBPROCESS_STATE", 1);
@@ -7794,8 +7996,10 @@ public class StatisticsSync implements TalendJob {
 			if (this.host_interface_join_id == null) {
 				if (other.host_interface_join_id != null)
 					return false;
+
 			} else if (!this.host_interface_join_id
 					.equals(other.host_interface_join_id))
+
 				return false;
 
 			return true;
@@ -7997,6 +8201,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -8017,6 +8222,7 @@ public class StatisticsSync implements TalendJob {
 				ok_Hash.put("tAdvancedHash_row45", false);
 				start_Hash.put("tAdvancedHash_row45",
 						System.currentTimeMillis());
+
 				currentComponent = "tAdvancedHash_row45";
 
 				int tos_count_tAdvancedHash_row45 = 0;
@@ -8045,6 +8251,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_13", false);
 				start_Hash.put("tJDBCInput_13", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_13";
 
 				int tos_count_tJDBCInput_13 = 0;
@@ -8053,14 +8260,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_13 = null;
 				conn_tJDBCInput_13 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == conn_tJDBCInput_13) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_13 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_13 = dataSources_tJDBCInput_13.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_2",
-					// conn_tJDBCInput_13);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_13 = conn_tJDBCInput_13
 						.createStatement();
@@ -8068,101 +8267,100 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_13 = "SELECT history_id, upper(cast(host_interface_id as char(36))) as host_interface_join_id  FROM v3_4_latest_configuration_hosts_interfaces";
 
 				globalMap.put("tJDBCInput_13_QUERY", dbquery_tJDBCInput_13);
+				java.sql.ResultSet rs_tJDBCInput_13 = null;
+				try {
+					rs_tJDBCInput_13 = stmt_tJDBCInput_13
+							.executeQuery(dbquery_tJDBCInput_13);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_13 = rs_tJDBCInput_13
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_13 = rsmd_tJDBCInput_13
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_13 = stmt_tJDBCInput_13
-						.executeQuery(dbquery_tJDBCInput_13);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_13 = rs_tJDBCInput_13
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_13 = rsmd_tJDBCInput_13
-						.getColumnCount();
+					String tmpContent_tJDBCInput_13 = null;
+					int column_index_tJDBCInput_13 = 1;
 
-				String tmpContent_tJDBCInput_13 = null;
-				int column_index_tJDBCInput_13 = 1;
-				while (rs_tJDBCInput_13.next()) {
-					nb_line_tJDBCInput_13++;
+					while (rs_tJDBCInput_13.next()) {
+						nb_line_tJDBCInput_13++;
 
-					column_index_tJDBCInput_13 = 1;
+						column_index_tJDBCInput_13 = 1;
 
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row45.history_id = null;
-					} else {
-
-						if (rs_tJDBCInput_13
-								.getObject(column_index_tJDBCInput_13) != null) {
-							row45.history_id = rs_tJDBCInput_13
-									.getInt(column_index_tJDBCInput_13);
-						} else {
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
 							row45.history_id = null;
-						}
-
-						if (rs_tJDBCInput_13.wasNull()) {
-							row45.history_id = null;
-						}
-					}
-					column_index_tJDBCInput_13 = 2;
-
-					if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
-						row45.host_interface_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_13 = rs_tJDBCInput_13
-								.getString(column_index_tJDBCInput_13);
-						if (tmpContent_tJDBCInput_13 != null) {
-							row45.host_interface_join_id = tmpContent_tJDBCInput_13;
 						} else {
-							row45.host_interface_join_id = null;
+
+							if (rs_tJDBCInput_13
+									.getObject(column_index_tJDBCInput_13) != null) {
+								row45.history_id = rs_tJDBCInput_13
+										.getInt(column_index_tJDBCInput_13);
+							} else {
+								row45.history_id = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_13.wasNull()) {
+						column_index_tJDBCInput_13 = 2;
+
+						if (colQtyInRs_tJDBCInput_13 < column_index_tJDBCInput_13) {
 							row45.host_interface_join_id = null;
+						} else {
+
+							tmpContent_tJDBCInput_13 = rs_tJDBCInput_13
+									.getString(column_index_tJDBCInput_13);
+							if (tmpContent_tJDBCInput_13 != null) {
+								row45.host_interface_join_id = tmpContent_tJDBCInput_13;
+							} else {
+								row45.host_interface_join_id = null;
+							}
+
 						}
+
+						/**
+						 * [tJDBCInput_13 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_13 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_13";
+
+						tos_count_tJDBCInput_13++;
+
+						/**
+						 * [tJDBCInput_13 main ] stop
+						 */
+
+						/**
+						 * [tAdvancedHash_row45 main ] start
+						 */
+
+						currentComponent = "tAdvancedHash_row45";
+
+						row45Struct row45_HashRow = new row45Struct();
+
+						row45_HashRow.history_id = row45.history_id;
+
+						row45_HashRow.host_interface_join_id = row45.host_interface_join_id;
+
+						tHash_Lookup_row45.put(row45_HashRow);
+
+						tos_count_tAdvancedHash_row45++;
+
+						/**
+						 * [tAdvancedHash_row45 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_13 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_13";
+
 					}
-
-					/**
-					 * [tJDBCInput_13 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_13 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_13";
-
-					tos_count_tJDBCInput_13++;
-
-					/**
-					 * [tJDBCInput_13 main ] stop
-					 */
-
-					/**
-					 * [tAdvancedHash_row45 main ] start
-					 */
-
-					currentComponent = "tAdvancedHash_row45";
-
-					row45Struct row45_HashRow = new row45Struct();
-
-					row45_HashRow.history_id = row45.history_id;
-
-					row45_HashRow.host_interface_join_id = row45.host_interface_join_id;
-
-					tHash_Lookup_row45.put(row45_HashRow);
-
-					tos_count_tAdvancedHash_row45++;
-
-					/**
-					 * [tAdvancedHash_row45 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_13 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_13";
+				} finally {
+					rs_tJDBCInput_13.close();
+					stmt_tJDBCInput_13.close();
 
 				}
-				rs_tJDBCInput_13.close();
-				stmt_tJDBCInput_13.close();
-
 				globalMap.put("tJDBCInput_13_NB_LINE", nb_line_tJDBCInput_13);
 
 				ok_Hash.put("tJDBCInput_13", true);
@@ -8191,12 +8389,43 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_13 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_13";
+
+				/**
+				 * [tJDBCInput_13 finally ] stop
+				 */
+
+				/**
+				 * [tAdvancedHash_row45 finally ] start
+				 */
+
+				currentComponent = "tAdvancedHash_row45";
+
+				/**
+				 * [tAdvancedHash_row45 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_13_SUBPROCESS_STATE", 1);
@@ -9517,6 +9746,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -9541,6 +9771,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_5", false);
 				start_Hash.put("tJDBCOutput_5", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_5";
 
 				int tos_count_tJDBCOutput_5 = 0;
@@ -9562,13 +9793,6 @@ public class StatisticsSync implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_5 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == connection_tJDBCOutput_5) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_5 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_5 = dataSources_tJDBCOutput_5
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_5 = 10000;
 				int batchSizeCounter_tJDBCOutput_5 = 0;
 
@@ -9588,6 +9812,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_8", false);
 				start_Hash.put("tJDBCOutput_8", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_8";
 
 				int tos_count_tJDBCOutput_8 = 0;
@@ -9609,13 +9834,6 @@ public class StatisticsSync implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_8 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == connection_tJDBCOutput_8) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_8 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_8 = dataSources_tJDBCOutput_8
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_8 = 10000;
 				int batchSizeCounter_tJDBCOutput_8 = 0;
 
@@ -9635,6 +9853,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tMap_5", false);
 				start_Hash.put("tMap_5", System.currentTimeMillis());
+
 				currentComponent = "tMap_5";
 
 				int tos_count_tMap_5 = 0;
@@ -9678,6 +9897,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_10", false);
 				start_Hash.put("tJDBCInput_10", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_10";
 
 				int tos_count_tJDBCInput_10 = 0;
@@ -9686,14 +9906,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_10 = null;
 				conn_tJDBCInput_10 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_10) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_10 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_10 = dataSources_tJDBCInput_10.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_10);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_10 = conn_tJDBCInput_10
 						.createStatement();
@@ -9701,677 +9913,661 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_10 = "SELECT     vm_id,     upper(cast(vm_id as char(36))) as vm_join_id,    vm_status,     cpu_usage_percent,     memory_usage_percent,     system_cpu_usage_percent,     user_cpu_usage_percent,    disks_usage,    vm_ip,    vm_client_ip,    current_user_name,    user_logged_in_to_guest,    currently_running_on_host,    upper(cast(currently_running_on_host as char(36))) as running_on_host_join_id  FROM dwh_vm_history_view";
 
 				globalMap.put("tJDBCInput_10_QUERY", dbquery_tJDBCInput_10);
+				java.sql.ResultSet rs_tJDBCInput_10 = null;
+				try {
+					rs_tJDBCInput_10 = stmt_tJDBCInput_10
+							.executeQuery(dbquery_tJDBCInput_10);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_10 = rs_tJDBCInput_10
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_10 = rsmd_tJDBCInput_10
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_10 = stmt_tJDBCInput_10
-						.executeQuery(dbquery_tJDBCInput_10);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_10 = rs_tJDBCInput_10
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_10 = rsmd_tJDBCInput_10
-						.getColumnCount();
+					String tmpContent_tJDBCInput_10 = null;
+					int column_index_tJDBCInput_10 = 1;
 
-				String tmpContent_tJDBCInput_10 = null;
-				int column_index_tJDBCInput_10 = 1;
-				while (rs_tJDBCInput_10.next()) {
-					nb_line_tJDBCInput_10++;
+					while (rs_tJDBCInput_10.next()) {
+						nb_line_tJDBCInput_10++;
 
-					column_index_tJDBCInput_10 = 1;
+						column_index_tJDBCInput_10 = 1;
 
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.vm_id = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row12.vm_id = rs_tJDBCInput_10
-									.getObject(column_index_tJDBCInput_10);
-						} else {
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.vm_id = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.vm_id = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 2;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.vm_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
-								.getString(column_index_tJDBCInput_10);
-						if (tmpContent_tJDBCInput_10 != null) {
-							row12.vm_join_id = tmpContent_tJDBCInput_10;
 						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row12.vm_id = rs_tJDBCInput_10
+										.getObject(column_index_tJDBCInput_10);
+							} else {
+								row12.vm_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 2;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.vm_join_id = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.vm_join_id = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 3;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.vm_status = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row12.vm_status = rs_tJDBCInput_10
-									.getShort(column_index_tJDBCInput_10);
 						} else {
+
+							tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
+									.getString(column_index_tJDBCInput_10);
+							if (tmpContent_tJDBCInput_10 != null) {
+								row12.vm_join_id = tmpContent_tJDBCInput_10;
+							} else {
+								row12.vm_join_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 3;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.vm_status = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.vm_status = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 4;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row12.cpu_usage_percent = rs_tJDBCInput_10
-									.getShort(column_index_tJDBCInput_10);
 						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row12.vm_status = rs_tJDBCInput_10
+										.getShort(column_index_tJDBCInput_10);
+							} else {
+								row12.vm_status = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 4;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 5;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.memory_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row12.memory_usage_percent = rs_tJDBCInput_10
-									.getShort(column_index_tJDBCInput_10);
 						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row12.cpu_usage_percent = rs_tJDBCInput_10
+										.getShort(column_index_tJDBCInput_10);
+							} else {
+								row12.cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 5;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.memory_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.memory_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 6;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.system_cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row12.system_cpu_usage_percent = rs_tJDBCInput_10
-									.getShort(column_index_tJDBCInput_10);
 						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row12.memory_usage_percent = rs_tJDBCInput_10
+										.getShort(column_index_tJDBCInput_10);
+							} else {
+								row12.memory_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 6;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.system_cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.system_cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 7;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.user_cpu_usage_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row12.user_cpu_usage_percent = rs_tJDBCInput_10
-									.getShort(column_index_tJDBCInput_10);
 						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row12.system_cpu_usage_percent = rs_tJDBCInput_10
+										.getShort(column_index_tJDBCInput_10);
+							} else {
+								row12.system_cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 7;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.user_cpu_usage_percent = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.user_cpu_usage_percent = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 8;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.disks_usage = null;
-					} else {
-
-						tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
-								.getString(column_index_tJDBCInput_10);
-						if (tmpContent_tJDBCInput_10 != null) {
-							row12.disks_usage = tmpContent_tJDBCInput_10;
 						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row12.user_cpu_usage_percent = rs_tJDBCInput_10
+										.getShort(column_index_tJDBCInput_10);
+							} else {
+								row12.user_cpu_usage_percent = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 8;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.disks_usage = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.disks_usage = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 9;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.vm_ip = null;
-					} else {
-
-						tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
-								.getString(column_index_tJDBCInput_10);
-						if (tmpContent_tJDBCInput_10 != null) {
-							row12.vm_ip = tmpContent_tJDBCInput_10;
 						} else {
+
+							tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
+									.getString(column_index_tJDBCInput_10);
+							if (tmpContent_tJDBCInput_10 != null) {
+								row12.disks_usage = tmpContent_tJDBCInput_10;
+							} else {
+								row12.disks_usage = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 9;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.vm_ip = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.vm_ip = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 10;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.vm_client_ip = null;
-					} else {
-
-						tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
-								.getString(column_index_tJDBCInput_10);
-						if (tmpContent_tJDBCInput_10 != null) {
-							row12.vm_client_ip = tmpContent_tJDBCInput_10;
 						} else {
+
+							tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
+									.getString(column_index_tJDBCInput_10);
+							if (tmpContent_tJDBCInput_10 != null) {
+								row12.vm_ip = tmpContent_tJDBCInput_10;
+							} else {
+								row12.vm_ip = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 10;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.vm_client_ip = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.vm_client_ip = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 11;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.current_user_name = null;
-					} else {
-
-						tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
-								.getString(column_index_tJDBCInput_10);
-						if (tmpContent_tJDBCInput_10 != null) {
-							row12.current_user_name = tmpContent_tJDBCInput_10;
 						} else {
+
+							tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
+									.getString(column_index_tJDBCInput_10);
+							if (tmpContent_tJDBCInput_10 != null) {
+								row12.vm_client_ip = tmpContent_tJDBCInput_10;
+							} else {
+								row12.vm_client_ip = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 11;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.current_user_name = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.current_user_name = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 12;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.user_logged_in_to_guest = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row12.user_logged_in_to_guest = rs_tJDBCInput_10
-									.getBoolean(column_index_tJDBCInput_10);
 						} else {
+
+							tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
+									.getString(column_index_tJDBCInput_10);
+							if (tmpContent_tJDBCInput_10 != null) {
+								row12.current_user_name = tmpContent_tJDBCInput_10;
+							} else {
+								row12.current_user_name = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 12;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.user_logged_in_to_guest = null;
-						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.user_logged_in_to_guest = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 13;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.currently_running_on_host = null;
-					} else {
-
-						if (rs_tJDBCInput_10
-								.getObject(column_index_tJDBCInput_10) != null) {
-							row12.currently_running_on_host = rs_tJDBCInput_10
-									.getObject(column_index_tJDBCInput_10);
 						} else {
-							row12.currently_running_on_host = null;
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row12.user_logged_in_to_guest = rs_tJDBCInput_10
+										.getBoolean(column_index_tJDBCInput_10);
+							} else {
+								row12.user_logged_in_to_guest = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_10.wasNull()) {
+						column_index_tJDBCInput_10 = 13;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.currently_running_on_host = null;
-						}
-					}
-					column_index_tJDBCInput_10 = 14;
-
-					if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
-						row12.running_on_host_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
-								.getString(column_index_tJDBCInput_10);
-						if (tmpContent_tJDBCInput_10 != null) {
-							row12.running_on_host_join_id = tmpContent_tJDBCInput_10;
 						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row12.currently_running_on_host = rs_tJDBCInput_10
+										.getObject(column_index_tJDBCInput_10);
+							} else {
+								row12.currently_running_on_host = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 14;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row12.running_on_host_join_id = null;
+						} else {
+
+							tmpContent_tJDBCInput_10 = rs_tJDBCInput_10
+									.getString(column_index_tJDBCInput_10);
+							if (tmpContent_tJDBCInput_10 != null) {
+								row12.running_on_host_join_id = tmpContent_tJDBCInput_10;
+							} else {
+								row12.running_on_host_join_id = null;
+							}
+
 						}
-
-						if (rs_tJDBCInput_10.wasNull()) {
-							row12.running_on_host_join_id = null;
-						}
-					}
-
-					/**
-					 * [tJDBCInput_10 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_10 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_10";
-
-					tos_count_tJDBCInput_10++;
-
-					/**
-					 * [tJDBCInput_10 main ] stop
-					 */
-
-					/**
-					 * [tMap_5 main ] start
-					 */
-
-					currentComponent = "tMap_5";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_5 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_5 = false;
-					boolean mainRowRejected_tMap_5 = false;
-
-					if (
-
-					(
-
-					row12.vm_status != -1 && row12.vm_status != 6
-
-					)
-
-					) { // G_TM_M_280
-
-						// CALL close main tMap filter for table 'row12'
-
-						// /////////////////////////////////////////////
-						// Starting Lookup Table "row47"
-						// /////////////////////////////////////////////
-
-						boolean forceLooprow47 = false;
-
-						row47Struct row47ObjectFromLookup = null;
-
-						if (!rejectedInnerJoin_tMap_5) { // G_TM_M_020
-
-							hasCasePrimitiveKeyWithNull_tMap_5 = false;
-
-							row47HashKey.vm_join_id = row12.vm_join_id;
-
-							row47HashKey.hashCodeDirty = true;
-
-							tHash_Lookup_row47.lookup(row47HashKey);
-
-							if (!tHash_Lookup_row47.hasNext()) { // G_TM_M_090
-
-								rejectedInnerJoin_tMap_5 = true;
-
-							} // G_TM_M_090
-
-						} // G_TM_M_020
-
-						if (tHash_Lookup_row47 != null
-								&& tHash_Lookup_row47.getCount(row47HashKey) > 1) { // G
-																					// 071
-
-							// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row47' and it contains more one result from keys :  row47.vm_join_id = '"
-							// + row47HashKey.vm_join_id + "'");
-						} // G 071
-
-						row47Struct row47 = null;
-
-						row47Struct fromLookup_row47 = null;
-						row47 = row47Default;
-
-						if (tHash_Lookup_row47 != null
-								&& tHash_Lookup_row47.hasNext()) { // G 099
-
-							fromLookup_row47 = tHash_Lookup_row47.next();
-
-						} // G 099
-
-						if (fromLookup_row47 != null) {
-							row47 = fromLookup_row47;
-						}
-
-						// /////////////////////////////////////////////
-						// Starting Lookup Table "row48"
-						// /////////////////////////////////////////////
-
-						boolean forceLooprow48 = false;
-
-						row48Struct row48ObjectFromLookup = null;
-
-						if (!rejectedInnerJoin_tMap_5) { // G_TM_M_020
-
-							hasCasePrimitiveKeyWithNull_tMap_5 = false;
-
-							row48HashKey.host_join_id = row12.running_on_host_join_id;
-
-							row48HashKey.hashCodeDirty = true;
-
-							tHash_Lookup_row48.lookup(row48HashKey);
-
-						} // G_TM_M_020
-
-						if (tHash_Lookup_row48 != null
-								&& tHash_Lookup_row48.getCount(row48HashKey) > 1) { // G
-																					// 071
-
-							// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row48' and it contains more one result from keys :  row48.host_join_id = '"
-							// + row48HashKey.host_join_id + "'");
-						} // G 071
-
-						row48Struct row48 = null;
-
-						row48Struct fromLookup_row48 = null;
-						row48 = row48Default;
-
-						if (tHash_Lookup_row48 != null
-								&& tHash_Lookup_row48.hasNext()) { // G 099
-
-							fromLookup_row48 = tHash_Lookup_row48.next();
-
-						} // G 099
-
-						if (fromLookup_row48 != null) {
-							row48 = fromLookup_row48;
-						}
-
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_5__Struct Var = Var__tMap_5;// ###############################
-							// ###############################
-							// # Output tables
-
-							vm_history = null;
-							disk_usage_history = null;
-
-							if (!rejectedInnerJoin_tMap_5) {
-
-								// # Output table : 'vm_history'
-								vm_history_tmp.history_datetime = context.runTime;
-								vm_history_tmp.vm_id = row12.vm_id;
-								vm_history_tmp.vm_status = (row12.vm_status == 0
-										|| row12.vm_status == 15 || row12.vm_status == 9) ? (short) 0
-										: (row12.vm_status == 1
-												|| row12.vm_status == 2
-												|| row12.vm_status == 3
-												|| row12.vm_status == 5
-												|| row12.vm_status == 10
-												|| row12.vm_status == 11
-												|| row12.vm_status == 12 || row12.vm_status == 16) ? (short) 1
-												: (row12.vm_status == 4 || row12.vm_status == 13) ? (short) 2
-														: (row12.vm_status == 14
-																|| row12.vm_status == 7 || row12.vm_status == 8) ? (short) 3
-																: (short) -1;
-								vm_history_tmp.minutes_in_status = context.runInterleave
-										.doubleValue() / 60;
-								vm_history_tmp.cpu_usage_percent = row12.cpu_usage_percent;
-								vm_history_tmp.memory_usage_percent = row12.memory_usage_percent;
-								vm_history_tmp.user_cpu_usage_percent = row12.user_cpu_usage_percent;
-								vm_history_tmp.system_cpu_usage_percent = row12.system_cpu_usage_percent;
-								vm_history_tmp.vm_ip = row12.vm_ip;
-								vm_history_tmp.vm_client_ip = row12.vm_client_ip;
-								vm_history_tmp.current_user_name = row12.current_user_name;
-								vm_history_tmp.user_logged_in_to_guest = row12.user_logged_in_to_guest;
-								vm_history_tmp.currently_running_on_host = row12.currently_running_on_host;
-								vm_history_tmp.vm_configuration_version = row47.history_id;
-								vm_history_tmp.current_host_configuration_version = row48.history_id;
-								vm_history = vm_history_tmp;
-
-								// # Output table : 'disk_usage_history'
-								disk_usage_history_tmp.history_datetime = context.runTime;
-								disk_usage_history_tmp.vm_id = row12.vm_id;
-								disk_usage_history_tmp.disks_usage = row12.disks_usage;
-								disk_usage_history = disk_usage_history_tmp;
-							} // closing inner join bracket (2)
-								// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_5 = false;
-
-						tos_count_tMap_5++;
 
 						/**
-						 * [tMap_5 main ] stop
+						 * [tJDBCInput_10 begin ] stop
 						 */
-						// Start of branch "vm_history"
-						if (vm_history != null) {
+						/**
+						 * [tJDBCInput_10 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_10";
+
+						tos_count_tJDBCInput_10++;
+
+						/**
+						 * [tJDBCInput_10 main ] stop
+						 */
+
+						/**
+						 * [tMap_5 main ] start
+						 */
+
+						currentComponent = "tMap_5";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_5 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_5 = false;
+						boolean mainRowRejected_tMap_5 = false;
+
+						if (
+
+						(
+
+						row12.vm_status != -1 && row12.vm_status != 6
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row12'
+
+							// /////////////////////////////////////////////
+							// Starting Lookup Table "row47"
+							// /////////////////////////////////////////////
+
+							boolean forceLooprow47 = false;
+
+							row47Struct row47ObjectFromLookup = null;
+
+							if (!rejectedInnerJoin_tMap_5) { // G_TM_M_020
+
+								hasCasePrimitiveKeyWithNull_tMap_5 = false;
+
+								row47HashKey.vm_join_id = row12.vm_join_id;
+
+								row47HashKey.hashCodeDirty = true;
+
+								tHash_Lookup_row47.lookup(row47HashKey);
+
+								if (!tHash_Lookup_row47.hasNext()) { // G_TM_M_090
+
+									rejectedInnerJoin_tMap_5 = true;
+
+								} // G_TM_M_090
+
+							} // G_TM_M_020
+
+							if (tHash_Lookup_row47 != null
+									&& tHash_Lookup_row47
+											.getCount(row47HashKey) > 1) { // G
+																			// 071
+
+								// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row47' and it contains more one result from keys :  row47.vm_join_id = '"
+								// + row47HashKey.vm_join_id + "'");
+							} // G 071
+
+							row47Struct row47 = null;
+
+							row47Struct fromLookup_row47 = null;
+							row47 = row47Default;
+
+							if (tHash_Lookup_row47 != null
+									&& tHash_Lookup_row47.hasNext()) { // G 099
+
+								fromLookup_row47 = tHash_Lookup_row47.next();
+
+							} // G 099
+
+							if (fromLookup_row47 != null) {
+								row47 = fromLookup_row47;
+							}
+
+							// /////////////////////////////////////////////
+							// Starting Lookup Table "row48"
+							// /////////////////////////////////////////////
+
+							boolean forceLooprow48 = false;
+
+							row48Struct row48ObjectFromLookup = null;
+
+							if (!rejectedInnerJoin_tMap_5) { // G_TM_M_020
+
+								hasCasePrimitiveKeyWithNull_tMap_5 = false;
+
+								row48HashKey.host_join_id = row12.running_on_host_join_id;
+
+								row48HashKey.hashCodeDirty = true;
+
+								tHash_Lookup_row48.lookup(row48HashKey);
+
+							} // G_TM_M_020
+
+							if (tHash_Lookup_row48 != null
+									&& tHash_Lookup_row48
+											.getCount(row48HashKey) > 1) { // G
+																			// 071
+
+								// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row48' and it contains more one result from keys :  row48.host_join_id = '"
+								// + row48HashKey.host_join_id + "'");
+							} // G 071
+
+							row48Struct row48 = null;
+
+							row48Struct fromLookup_row48 = null;
+							row48 = row48Default;
+
+							if (tHash_Lookup_row48 != null
+									&& tHash_Lookup_row48.hasNext()) { // G 099
+
+								fromLookup_row48 = tHash_Lookup_row48.next();
+
+							} // G 099
+
+							if (fromLookup_row48 != null) {
+								row48 = fromLookup_row48;
+							}
+
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_5__Struct Var = Var__tMap_5;// ###############################
+								// ###############################
+								// # Output tables
+
+								vm_history = null;
+								disk_usage_history = null;
+
+								if (!rejectedInnerJoin_tMap_5) {
+
+									// # Output table : 'vm_history'
+									vm_history_tmp.history_datetime = context.runTime;
+									vm_history_tmp.vm_id = row12.vm_id;
+									vm_history_tmp.vm_status = (row12.vm_status == 0
+											|| row12.vm_status == 15 || row12.vm_status == 9) ? (short) 0
+											: (row12.vm_status == 1
+													|| row12.vm_status == 2
+													|| row12.vm_status == 3
+													|| row12.vm_status == 5
+													|| row12.vm_status == 10
+													|| row12.vm_status == 11
+													|| row12.vm_status == 12 || row12.vm_status == 16) ? (short) 1
+													: (row12.vm_status == 4 || row12.vm_status == 13) ? (short) 2
+															: (row12.vm_status == 14
+																	|| row12.vm_status == 7 || row12.vm_status == 8) ? (short) 3
+																	: (short) -1;
+									vm_history_tmp.minutes_in_status = context.runInterleave
+											.doubleValue() / 60;
+									vm_history_tmp.cpu_usage_percent = row12.cpu_usage_percent;
+									vm_history_tmp.memory_usage_percent = row12.memory_usage_percent;
+									vm_history_tmp.user_cpu_usage_percent = row12.user_cpu_usage_percent;
+									vm_history_tmp.system_cpu_usage_percent = row12.system_cpu_usage_percent;
+									vm_history_tmp.vm_ip = row12.vm_ip;
+									vm_history_tmp.vm_client_ip = row12.vm_client_ip;
+									vm_history_tmp.current_user_name = row12.current_user_name;
+									vm_history_tmp.user_logged_in_to_guest = row12.user_logged_in_to_guest;
+									vm_history_tmp.currently_running_on_host = row12.currently_running_on_host;
+									vm_history_tmp.vm_configuration_version = row47.history_id;
+									vm_history_tmp.current_host_configuration_version = row48.history_id;
+									vm_history = vm_history_tmp;
+
+									// # Output table : 'disk_usage_history'
+									disk_usage_history_tmp.history_datetime = context.runTime;
+									disk_usage_history_tmp.vm_id = row12.vm_id;
+									disk_usage_history_tmp.disks_usage = row12.disks_usage;
+									disk_usage_history = disk_usage_history_tmp;
+								} // closing inner join bracket (2)
+									// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_5 = false;
+
+							tos_count_tMap_5++;
 
 							/**
-							 * [tJDBCOutput_5 main ] start
+							 * [tMap_5 main ] stop
 							 */
+							// Start of branch "vm_history"
+							if (vm_history != null) {
 
-							currentComponent = "tJDBCOutput_5";
+								/**
+								 * [tJDBCOutput_5 main ] start
+								 */
 
-							whetherReject_tJDBCOutput_5 = false;
-							if (vm_history.history_datetime != null) {
-								pstmt_tJDBCOutput_5.setTimestamp(
-										1,
-										new java.sql.Timestamp(
-												vm_history.history_datetime
-														.getTime()));
-							} else {
-								pstmt_tJDBCOutput_5.setNull(1,
-										java.sql.Types.DATE);
-							}
+								currentComponent = "tJDBCOutput_5";
 
-							if (vm_history.vm_id == null) {
-								pstmt_tJDBCOutput_5.setNull(2,
-										java.sql.Types.OTHER);
-							} else {
-								pstmt_tJDBCOutput_5.setObject(2,
-										vm_history.vm_id);
-							}
+								whetherReject_tJDBCOutput_5 = false;
+								if (vm_history.history_datetime != null) {
+									pstmt_tJDBCOutput_5.setTimestamp(
+											1,
+											new java.sql.Timestamp(
+													vm_history.history_datetime
+															.getTime()));
+								} else {
+									pstmt_tJDBCOutput_5.setNull(1,
+											java.sql.Types.DATE);
+								}
 
-							pstmt_tJDBCOutput_5.setShort(3,
-									vm_history.vm_status);
+								if (vm_history.vm_id == null) {
+									pstmt_tJDBCOutput_5.setNull(2,
+											java.sql.Types.OTHER);
+								} else {
+									pstmt_tJDBCOutput_5.setObject(2,
+											vm_history.vm_id);
+								}
 
-							pstmt_tJDBCOutput_5.setDouble(4,
-									vm_history.minutes_in_status);
+								pstmt_tJDBCOutput_5.setShort(3,
+										vm_history.vm_status);
 
-							if (vm_history.cpu_usage_percent == null) {
-								pstmt_tJDBCOutput_5.setNull(5,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_5.setShort(5,
-										vm_history.cpu_usage_percent);
-							}
+								pstmt_tJDBCOutput_5.setDouble(4,
+										vm_history.minutes_in_status);
 
-							if (vm_history.memory_usage_percent == null) {
-								pstmt_tJDBCOutput_5.setNull(6,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_5.setShort(6,
-										vm_history.memory_usage_percent);
-							}
+								if (vm_history.cpu_usage_percent == null) {
+									pstmt_tJDBCOutput_5.setNull(5,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_5.setShort(5,
+											vm_history.cpu_usage_percent);
+								}
 
-							if (vm_history.user_cpu_usage_percent == null) {
-								pstmt_tJDBCOutput_5.setNull(7,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_5.setShort(7,
-										vm_history.user_cpu_usage_percent);
-							}
+								if (vm_history.memory_usage_percent == null) {
+									pstmt_tJDBCOutput_5.setNull(6,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_5.setShort(6,
+											vm_history.memory_usage_percent);
+								}
 
-							if (vm_history.system_cpu_usage_percent == null) {
-								pstmt_tJDBCOutput_5.setNull(8,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_5.setShort(8,
-										vm_history.system_cpu_usage_percent);
-							}
+								if (vm_history.user_cpu_usage_percent == null) {
+									pstmt_tJDBCOutput_5.setNull(7,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_5.setShort(7,
+											vm_history.user_cpu_usage_percent);
+								}
 
-							if (vm_history.vm_ip == null) {
-								pstmt_tJDBCOutput_5.setNull(9,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_5.setString(9,
-										vm_history.vm_ip);
-							}
+								if (vm_history.system_cpu_usage_percent == null) {
+									pstmt_tJDBCOutput_5.setNull(8,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_5
+											.setShort(
+													8,
+													vm_history.system_cpu_usage_percent);
+								}
 
-							if (vm_history.vm_client_ip == null) {
-								pstmt_tJDBCOutput_5.setNull(10,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_5.setString(10,
-										vm_history.vm_client_ip);
-							}
+								if (vm_history.vm_ip == null) {
+									pstmt_tJDBCOutput_5.setNull(9,
+											java.sql.Types.VARCHAR);
+								} else {
+									pstmt_tJDBCOutput_5.setString(9,
+											vm_history.vm_ip);
+								}
 
-							if (vm_history.current_user_name == null) {
-								pstmt_tJDBCOutput_5.setNull(11,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_5.setString(11,
-										vm_history.current_user_name);
-							}
+								if (vm_history.vm_client_ip == null) {
+									pstmt_tJDBCOutput_5.setNull(10,
+											java.sql.Types.VARCHAR);
+								} else {
+									pstmt_tJDBCOutput_5.setString(10,
+											vm_history.vm_client_ip);
+								}
 
-							if (vm_history.user_logged_in_to_guest == null) {
-								pstmt_tJDBCOutput_5.setNull(12,
-										java.sql.Types.BOOLEAN);
-							} else {
-								pstmt_tJDBCOutput_5.setBoolean(12,
-										vm_history.user_logged_in_to_guest);
-							}
+								if (vm_history.current_user_name == null) {
+									pstmt_tJDBCOutput_5.setNull(11,
+											java.sql.Types.VARCHAR);
+								} else {
+									pstmt_tJDBCOutput_5.setString(11,
+											vm_history.current_user_name);
+								}
 
-							if (vm_history.currently_running_on_host == null) {
-								pstmt_tJDBCOutput_5.setNull(13,
-										java.sql.Types.OTHER);
-							} else {
-								pstmt_tJDBCOutput_5.setObject(13,
-										vm_history.currently_running_on_host);
-							}
+								if (vm_history.user_logged_in_to_guest == null) {
+									pstmt_tJDBCOutput_5.setNull(12,
+											java.sql.Types.BOOLEAN);
+								} else {
+									pstmt_tJDBCOutput_5.setBoolean(12,
+											vm_history.user_logged_in_to_guest);
+								}
 
-							if (vm_history.vm_configuration_version == null) {
-								pstmt_tJDBCOutput_5.setNull(14,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_5.setInt(14,
-										vm_history.vm_configuration_version);
-							}
+								if (vm_history.currently_running_on_host == null) {
+									pstmt_tJDBCOutput_5.setNull(13,
+											java.sql.Types.OTHER);
+								} else {
+									pstmt_tJDBCOutput_5
+											.setObject(
+													13,
+													vm_history.currently_running_on_host);
+								}
 
-							if (vm_history.current_host_configuration_version == null) {
-								pstmt_tJDBCOutput_5.setNull(15,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_5
-										.setInt(15,
-												vm_history.current_host_configuration_version);
-							}
+								if (vm_history.vm_configuration_version == null) {
+									pstmt_tJDBCOutput_5.setNull(14,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_5
+											.setInt(14,
+													vm_history.vm_configuration_version);
+								}
 
-							try {
-								insertedCount_tJDBCOutput_5 = insertedCount_tJDBCOutput_5
-										+ pstmt_tJDBCOutput_5.executeUpdate();
-								nb_line_tJDBCOutput_5++;
-							} catch (java.lang.Exception e) {
-								whetherReject_tJDBCOutput_5 = true;
-								throw (e);
-							}
+								if (vm_history.current_host_configuration_version == null) {
+									pstmt_tJDBCOutput_5.setNull(15,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_5
+											.setInt(15,
+													vm_history.current_host_configuration_version);
+								}
 
-							tos_count_tJDBCOutput_5++;
+								try {
+									insertedCount_tJDBCOutput_5 = insertedCount_tJDBCOutput_5
+											+ pstmt_tJDBCOutput_5
+													.executeUpdate();
+									nb_line_tJDBCOutput_5++;
+								} catch (java.lang.Exception e) {
+									whetherReject_tJDBCOutput_5 = true;
+									throw (e);
+								}
 
-							/**
-							 * [tJDBCOutput_5 main ] stop
-							 */
+								tos_count_tJDBCOutput_5++;
 
-						} // End of branch "vm_history"
+								/**
+								 * [tJDBCOutput_5 main ] stop
+								 */
 
-						// Start of branch "disk_usage_history"
-						if (disk_usage_history != null) {
+							} // End of branch "vm_history"
 
-							/**
-							 * [tJDBCOutput_8 main ] start
-							 */
+							// Start of branch "disk_usage_history"
+							if (disk_usage_history != null) {
 
-							currentComponent = "tJDBCOutput_8";
+								/**
+								 * [tJDBCOutput_8 main ] start
+								 */
 
-							whetherReject_tJDBCOutput_8 = false;
-							if (disk_usage_history.history_datetime != null) {
-								pstmt_tJDBCOutput_8
-										.setTimestamp(
-												1,
-												new java.sql.Timestamp(
-														disk_usage_history.history_datetime
-																.getTime()));
-							} else {
-								pstmt_tJDBCOutput_8.setNull(1,
-										java.sql.Types.DATE);
-							}
+								currentComponent = "tJDBCOutput_8";
 
-							if (disk_usage_history.vm_id == null) {
-								pstmt_tJDBCOutput_8.setNull(2,
-										java.sql.Types.OTHER);
-							} else {
-								pstmt_tJDBCOutput_8.setObject(2,
-										disk_usage_history.vm_id);
-							}
+								whetherReject_tJDBCOutput_8 = false;
+								if (disk_usage_history.history_datetime != null) {
+									pstmt_tJDBCOutput_8
+											.setTimestamp(
+													1,
+													new java.sql.Timestamp(
+															disk_usage_history.history_datetime
+																	.getTime()));
+								} else {
+									pstmt_tJDBCOutput_8.setNull(1,
+											java.sql.Types.DATE);
+								}
 
-							if (disk_usage_history.disks_usage == null) {
-								pstmt_tJDBCOutput_8.setNull(3,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_8.setString(3,
-										disk_usage_history.disks_usage);
-							}
+								if (disk_usage_history.vm_id == null) {
+									pstmt_tJDBCOutput_8.setNull(2,
+											java.sql.Types.OTHER);
+								} else {
+									pstmt_tJDBCOutput_8.setObject(2,
+											disk_usage_history.vm_id);
+								}
 
-							try {
-								insertedCount_tJDBCOutput_8 = insertedCount_tJDBCOutput_8
-										+ pstmt_tJDBCOutput_8.executeUpdate();
-								nb_line_tJDBCOutput_8++;
-							} catch (java.lang.Exception e) {
-								whetherReject_tJDBCOutput_8 = true;
-								throw (e);
-							}
+								if (disk_usage_history.disks_usage == null) {
+									pstmt_tJDBCOutput_8.setNull(3,
+											java.sql.Types.VARCHAR);
+								} else {
+									pstmt_tJDBCOutput_8.setString(3,
+											disk_usage_history.disks_usage);
+								}
 
-							tos_count_tJDBCOutput_8++;
+								try {
+									insertedCount_tJDBCOutput_8 = insertedCount_tJDBCOutput_8
+											+ pstmt_tJDBCOutput_8
+													.executeUpdate();
+									nb_line_tJDBCOutput_8++;
+								} catch (java.lang.Exception e) {
+									whetherReject_tJDBCOutput_8 = true;
+									throw (e);
+								}
 
-							/**
-							 * [tJDBCOutput_8 main ] stop
-							 */
+								tos_count_tJDBCOutput_8++;
 
-						} // End of branch "disk_usage_history"
+								/**
+								 * [tJDBCOutput_8 main ] stop
+								 */
 
-					} // G_TM_M_280 close main tMap filter for table 'row12'
+							} // End of branch "disk_usage_history"
 
-					/**
-					 * [tJDBCInput_10 end ] start
-					 */
+						} // G_TM_M_280 close main tMap filter for table 'row12'
 
-					currentComponent = "tJDBCInput_10";
+						/**
+						 * [tJDBCInput_10 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_10";
+
+					}
+				} finally {
+					rs_tJDBCInput_10.close();
+					stmt_tJDBCInput_10.close();
 
 				}
-				rs_tJDBCInput_10.close();
-				stmt_tJDBCInput_10.close();
-
 				globalMap.put("tJDBCInput_10_NB_LINE", nb_line_tJDBCInput_10);
 
 				ok_Hash.put("tJDBCInput_10", true);
@@ -10406,44 +10602,6 @@ public class StatisticsSync implements TalendJob {
 
 				/**
 				 * [tMap_5 end ] stop
-				 */
-
-				/**
-				 * [tJDBCOutput_8 end ] start
-				 */
-
-				currentComponent = "tJDBCOutput_8";
-
-				if (pstmt_tJDBCOutput_8 != null) {
-
-					pstmt_tJDBCOutput_8.close();
-
-				}
-
-				nb_line_deleted_tJDBCOutput_8 = nb_line_deleted_tJDBCOutput_8
-						+ deletedCount_tJDBCOutput_8;
-				nb_line_update_tJDBCOutput_8 = nb_line_update_tJDBCOutput_8
-						+ updatedCount_tJDBCOutput_8;
-				nb_line_inserted_tJDBCOutput_8 = nb_line_inserted_tJDBCOutput_8
-						+ insertedCount_tJDBCOutput_8;
-				nb_line_rejected_tJDBCOutput_8 = nb_line_rejected_tJDBCOutput_8
-						+ rejectedCount_tJDBCOutput_8;
-
-				globalMap.put("tJDBCOutput_8_NB_LINE", nb_line_tJDBCOutput_8);
-				globalMap.put("tJDBCOutput_8_NB_LINE_UPDATED",
-						nb_line_update_tJDBCOutput_8);
-				globalMap.put("tJDBCOutput_8_NB_LINE_INSERTED",
-						nb_line_inserted_tJDBCOutput_8);
-				globalMap.put("tJDBCOutput_8_NB_LINE_DELETED",
-						nb_line_deleted_tJDBCOutput_8);
-				globalMap.put("tJDBCOutput_8_NB_LINE_REJECTED",
-						nb_line_rejected_tJDBCOutput_8);
-
-				ok_Hash.put("tJDBCOutput_8", true);
-				end_Hash.put("tJDBCOutput_8", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCOutput_8 end ] stop
 				 */
 
 				/**
@@ -10484,23 +10642,111 @@ public class StatisticsSync implements TalendJob {
 				 * [tJDBCOutput_5 end ] stop
 				 */
 
+				/**
+				 * [tJDBCOutput_8 end ] start
+				 */
+
+				currentComponent = "tJDBCOutput_8";
+
+				if (pstmt_tJDBCOutput_8 != null) {
+
+					pstmt_tJDBCOutput_8.close();
+
+				}
+
+				nb_line_deleted_tJDBCOutput_8 = nb_line_deleted_tJDBCOutput_8
+						+ deletedCount_tJDBCOutput_8;
+				nb_line_update_tJDBCOutput_8 = nb_line_update_tJDBCOutput_8
+						+ updatedCount_tJDBCOutput_8;
+				nb_line_inserted_tJDBCOutput_8 = nb_line_inserted_tJDBCOutput_8
+						+ insertedCount_tJDBCOutput_8;
+				nb_line_rejected_tJDBCOutput_8 = nb_line_rejected_tJDBCOutput_8
+						+ rejectedCount_tJDBCOutput_8;
+
+				globalMap.put("tJDBCOutput_8_NB_LINE", nb_line_tJDBCOutput_8);
+				globalMap.put("tJDBCOutput_8_NB_LINE_UPDATED",
+						nb_line_update_tJDBCOutput_8);
+				globalMap.put("tJDBCOutput_8_NB_LINE_INSERTED",
+						nb_line_inserted_tJDBCOutput_8);
+				globalMap.put("tJDBCOutput_8_NB_LINE_DELETED",
+						nb_line_deleted_tJDBCOutput_8);
+				globalMap.put("tJDBCOutput_8_NB_LINE_REJECTED",
+						nb_line_rejected_tJDBCOutput_8);
+
+				ok_Hash.put("tJDBCOutput_8", true);
+				end_Hash.put("tJDBCOutput_8", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCOutput_8 end ] stop
+				 */
+
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tMap_5"
 			globalMap.remove("tHash_Lookup_row47");
 
 			// free memory for "tMap_5"
 			globalMap.remove("tHash_Lookup_row48");
 
+			try {
+
+				/**
+				 * [tJDBCInput_10 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_10";
+
+				/**
+				 * [tJDBCInput_10 finally ] stop
+				 */
+
+				/**
+				 * [tMap_5 finally ] start
+				 */
+
+				currentComponent = "tMap_5";
+
+				/**
+				 * [tMap_5 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_5 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_5";
+
+				/**
+				 * [tJDBCOutput_5 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_8 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_8";
+
+				/**
+				 * [tJDBCOutput_8 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", 1);
@@ -10559,7 +10805,9 @@ public class StatisticsSync implements TalendJob {
 			if (this.vm_join_id == null) {
 				if (other.vm_join_id != null)
 					return false;
+
 			} else if (!this.vm_join_id.equals(other.vm_join_id))
+
 				return false;
 
 			return true;
@@ -10761,6 +11009,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -10781,6 +11030,7 @@ public class StatisticsSync implements TalendJob {
 				ok_Hash.put("tAdvancedHash_row47", false);
 				start_Hash.put("tAdvancedHash_row47",
 						System.currentTimeMillis());
+
 				currentComponent = "tAdvancedHash_row47";
 
 				int tos_count_tAdvancedHash_row47 = 0;
@@ -10809,6 +11059,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_9", false);
 				start_Hash.put("tJDBCInput_9", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_9";
 
 				int tos_count_tJDBCInput_9 = 0;
@@ -10817,14 +11068,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_9 = null;
 				conn_tJDBCInput_9 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == conn_tJDBCInput_9) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_9 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_9 = dataSources_tJDBCInput_9.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_2",
-					// conn_tJDBCInput_9);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_9 = conn_tJDBCInput_9
 						.createStatement();
@@ -10832,101 +11075,100 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_9 = "SELECT history_id, upper(cast(vm_id as char(36))) as vm_join_id  FROM  v3_4_latest_configuration_vms";
 
 				globalMap.put("tJDBCInput_9_QUERY", dbquery_tJDBCInput_9);
+				java.sql.ResultSet rs_tJDBCInput_9 = null;
+				try {
+					rs_tJDBCInput_9 = stmt_tJDBCInput_9
+							.executeQuery(dbquery_tJDBCInput_9);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_9 = rs_tJDBCInput_9
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_9 = rsmd_tJDBCInput_9
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_9 = stmt_tJDBCInput_9
-						.executeQuery(dbquery_tJDBCInput_9);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_9 = rs_tJDBCInput_9
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_9 = rsmd_tJDBCInput_9
-						.getColumnCount();
+					String tmpContent_tJDBCInput_9 = null;
+					int column_index_tJDBCInput_9 = 1;
 
-				String tmpContent_tJDBCInput_9 = null;
-				int column_index_tJDBCInput_9 = 1;
-				while (rs_tJDBCInput_9.next()) {
-					nb_line_tJDBCInput_9++;
+					while (rs_tJDBCInput_9.next()) {
+						nb_line_tJDBCInput_9++;
 
-					column_index_tJDBCInput_9 = 1;
+						column_index_tJDBCInput_9 = 1;
 
-					if (colQtyInRs_tJDBCInput_9 < column_index_tJDBCInput_9) {
-						row47.history_id = null;
-					} else {
-
-						if (rs_tJDBCInput_9
-								.getObject(column_index_tJDBCInput_9) != null) {
-							row47.history_id = rs_tJDBCInput_9
-									.getInt(column_index_tJDBCInput_9);
-						} else {
+						if (colQtyInRs_tJDBCInput_9 < column_index_tJDBCInput_9) {
 							row47.history_id = null;
-						}
-
-						if (rs_tJDBCInput_9.wasNull()) {
-							row47.history_id = null;
-						}
-					}
-					column_index_tJDBCInput_9 = 2;
-
-					if (colQtyInRs_tJDBCInput_9 < column_index_tJDBCInput_9) {
-						row47.vm_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_9 = rs_tJDBCInput_9
-								.getString(column_index_tJDBCInput_9);
-						if (tmpContent_tJDBCInput_9 != null) {
-							row47.vm_join_id = tmpContent_tJDBCInput_9;
 						} else {
-							row47.vm_join_id = null;
+
+							if (rs_tJDBCInput_9
+									.getObject(column_index_tJDBCInput_9) != null) {
+								row47.history_id = rs_tJDBCInput_9
+										.getInt(column_index_tJDBCInput_9);
+							} else {
+								row47.history_id = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_9.wasNull()) {
+						column_index_tJDBCInput_9 = 2;
+
+						if (colQtyInRs_tJDBCInput_9 < column_index_tJDBCInput_9) {
 							row47.vm_join_id = null;
+						} else {
+
+							tmpContent_tJDBCInput_9 = rs_tJDBCInput_9
+									.getString(column_index_tJDBCInput_9);
+							if (tmpContent_tJDBCInput_9 != null) {
+								row47.vm_join_id = tmpContent_tJDBCInput_9;
+							} else {
+								row47.vm_join_id = null;
+							}
+
 						}
+
+						/**
+						 * [tJDBCInput_9 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_9 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_9";
+
+						tos_count_tJDBCInput_9++;
+
+						/**
+						 * [tJDBCInput_9 main ] stop
+						 */
+
+						/**
+						 * [tAdvancedHash_row47 main ] start
+						 */
+
+						currentComponent = "tAdvancedHash_row47";
+
+						row47Struct row47_HashRow = new row47Struct();
+
+						row47_HashRow.history_id = row47.history_id;
+
+						row47_HashRow.vm_join_id = row47.vm_join_id;
+
+						tHash_Lookup_row47.put(row47_HashRow);
+
+						tos_count_tAdvancedHash_row47++;
+
+						/**
+						 * [tAdvancedHash_row47 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_9 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_9";
+
 					}
-
-					/**
-					 * [tJDBCInput_9 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_9 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_9";
-
-					tos_count_tJDBCInput_9++;
-
-					/**
-					 * [tJDBCInput_9 main ] stop
-					 */
-
-					/**
-					 * [tAdvancedHash_row47 main ] start
-					 */
-
-					currentComponent = "tAdvancedHash_row47";
-
-					row47Struct row47_HashRow = new row47Struct();
-
-					row47_HashRow.history_id = row47.history_id;
-
-					row47_HashRow.vm_join_id = row47.vm_join_id;
-
-					tHash_Lookup_row47.put(row47_HashRow);
-
-					tos_count_tAdvancedHash_row47++;
-
-					/**
-					 * [tAdvancedHash_row47 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_9 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_9";
+				} finally {
+					rs_tJDBCInput_9.close();
+					stmt_tJDBCInput_9.close();
 
 				}
-				rs_tJDBCInput_9.close();
-				stmt_tJDBCInput_9.close();
-
 				globalMap.put("tJDBCInput_9_NB_LINE", nb_line_tJDBCInput_9);
 
 				ok_Hash.put("tJDBCInput_9", true);
@@ -10955,12 +11197,43 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_9 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_9";
+
+				/**
+				 * [tJDBCInput_9 finally ] stop
+				 */
+
+				/**
+				 * [tAdvancedHash_row47 finally ] start
+				 */
+
+				currentComponent = "tAdvancedHash_row47";
+
+				/**
+				 * [tAdvancedHash_row47 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", 1);
@@ -11019,7 +11292,9 @@ public class StatisticsSync implements TalendJob {
 			if (this.host_join_id == null) {
 				if (other.host_join_id != null)
 					return false;
+
 			} else if (!this.host_join_id.equals(other.host_join_id))
+
 				return false;
 
 			return true;
@@ -11221,6 +11496,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -11241,6 +11517,7 @@ public class StatisticsSync implements TalendJob {
 				ok_Hash.put("tAdvancedHash_row48", false);
 				start_Hash.put("tAdvancedHash_row48",
 						System.currentTimeMillis());
+
 				currentComponent = "tAdvancedHash_row48";
 
 				int tos_count_tAdvancedHash_row48 = 0;
@@ -11269,6 +11546,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_14", false);
 				start_Hash.put("tJDBCInput_14", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_14";
 
 				int tos_count_tJDBCInput_14 = 0;
@@ -11277,14 +11555,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_14 = null;
 				conn_tJDBCInput_14 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == conn_tJDBCInput_14) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_14 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_14 = dataSources_tJDBCInput_14.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_2",
-					// conn_tJDBCInput_14);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_14 = conn_tJDBCInput_14
 						.createStatement();
@@ -11292,101 +11562,100 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_14 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id  FROM v3_4_latest_configuration_hosts";
 
 				globalMap.put("tJDBCInput_14_QUERY", dbquery_tJDBCInput_14);
+				java.sql.ResultSet rs_tJDBCInput_14 = null;
+				try {
+					rs_tJDBCInput_14 = stmt_tJDBCInput_14
+							.executeQuery(dbquery_tJDBCInput_14);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_14 = rs_tJDBCInput_14
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_14 = rsmd_tJDBCInput_14
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_14 = stmt_tJDBCInput_14
-						.executeQuery(dbquery_tJDBCInput_14);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_14 = rs_tJDBCInput_14
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_14 = rsmd_tJDBCInput_14
-						.getColumnCount();
+					String tmpContent_tJDBCInput_14 = null;
+					int column_index_tJDBCInput_14 = 1;
 
-				String tmpContent_tJDBCInput_14 = null;
-				int column_index_tJDBCInput_14 = 1;
-				while (rs_tJDBCInput_14.next()) {
-					nb_line_tJDBCInput_14++;
+					while (rs_tJDBCInput_14.next()) {
+						nb_line_tJDBCInput_14++;
 
-					column_index_tJDBCInput_14 = 1;
+						column_index_tJDBCInput_14 = 1;
 
-					if (colQtyInRs_tJDBCInput_14 < column_index_tJDBCInput_14) {
-						row48.history_id = null;
-					} else {
-
-						if (rs_tJDBCInput_14
-								.getObject(column_index_tJDBCInput_14) != null) {
-							row48.history_id = rs_tJDBCInput_14
-									.getInt(column_index_tJDBCInput_14);
-						} else {
+						if (colQtyInRs_tJDBCInput_14 < column_index_tJDBCInput_14) {
 							row48.history_id = null;
-						}
-
-						if (rs_tJDBCInput_14.wasNull()) {
-							row48.history_id = null;
-						}
-					}
-					column_index_tJDBCInput_14 = 2;
-
-					if (colQtyInRs_tJDBCInput_14 < column_index_tJDBCInput_14) {
-						row48.host_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_14 = rs_tJDBCInput_14
-								.getString(column_index_tJDBCInput_14);
-						if (tmpContent_tJDBCInput_14 != null) {
-							row48.host_join_id = tmpContent_tJDBCInput_14;
 						} else {
-							row48.host_join_id = null;
+
+							if (rs_tJDBCInput_14
+									.getObject(column_index_tJDBCInput_14) != null) {
+								row48.history_id = rs_tJDBCInput_14
+										.getInt(column_index_tJDBCInput_14);
+							} else {
+								row48.history_id = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_14.wasNull()) {
+						column_index_tJDBCInput_14 = 2;
+
+						if (colQtyInRs_tJDBCInput_14 < column_index_tJDBCInput_14) {
 							row48.host_join_id = null;
+						} else {
+
+							tmpContent_tJDBCInput_14 = rs_tJDBCInput_14
+									.getString(column_index_tJDBCInput_14);
+							if (tmpContent_tJDBCInput_14 != null) {
+								row48.host_join_id = tmpContent_tJDBCInput_14;
+							} else {
+								row48.host_join_id = null;
+							}
+
 						}
+
+						/**
+						 * [tJDBCInput_14 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_14 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_14";
+
+						tos_count_tJDBCInput_14++;
+
+						/**
+						 * [tJDBCInput_14 main ] stop
+						 */
+
+						/**
+						 * [tAdvancedHash_row48 main ] start
+						 */
+
+						currentComponent = "tAdvancedHash_row48";
+
+						row48Struct row48_HashRow = new row48Struct();
+
+						row48_HashRow.history_id = row48.history_id;
+
+						row48_HashRow.host_join_id = row48.host_join_id;
+
+						tHash_Lookup_row48.put(row48_HashRow);
+
+						tos_count_tAdvancedHash_row48++;
+
+						/**
+						 * [tAdvancedHash_row48 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_14 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_14";
+
 					}
-
-					/**
-					 * [tJDBCInput_14 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_14 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_14";
-
-					tos_count_tJDBCInput_14++;
-
-					/**
-					 * [tJDBCInput_14 main ] stop
-					 */
-
-					/**
-					 * [tAdvancedHash_row48 main ] start
-					 */
-
-					currentComponent = "tAdvancedHash_row48";
-
-					row48Struct row48_HashRow = new row48Struct();
-
-					row48_HashRow.history_id = row48.history_id;
-
-					row48_HashRow.host_join_id = row48.host_join_id;
-
-					tHash_Lookup_row48.put(row48_HashRow);
-
-					tos_count_tAdvancedHash_row48++;
-
-					/**
-					 * [tAdvancedHash_row48 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_14 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_14";
+				} finally {
+					rs_tJDBCInput_14.close();
+					stmt_tJDBCInput_14.close();
 
 				}
-				rs_tJDBCInput_14.close();
-				stmt_tJDBCInput_14.close();
-
 				globalMap.put("tJDBCInput_14_NB_LINE", nb_line_tJDBCInput_14);
 
 				ok_Hash.put("tJDBCInput_14", true);
@@ -11415,12 +11684,43 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_14 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_14";
+
+				/**
+				 * [tJDBCInput_14 finally ] stop
+				 */
+
+				/**
+				 * [tAdvancedHash_row48 finally ] start
+				 */
+
+				currentComponent = "tAdvancedHash_row48";
+
+				/**
+				 * [tAdvancedHash_row48 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_14_SUBPROCESS_STATE", 1);
@@ -12021,6 +12321,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -12043,6 +12344,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_6", false);
 				start_Hash.put("tJDBCOutput_6", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_6";
 
 				int tos_count_tJDBCOutput_6 = 0;
@@ -12064,13 +12366,6 @@ public class StatisticsSync implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_6 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == connection_tJDBCOutput_6) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_6 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_6 = dataSources_tJDBCOutput_6
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_6 = 10000;
 				int batchSizeCounter_tJDBCOutput_6 = 0;
 
@@ -12090,6 +12385,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tMap_6", false);
 				start_Hash.put("tMap_6", System.currentTimeMillis());
+
 				currentComponent = "tMap_6";
 
 				int tos_count_tMap_6 = 0;
@@ -12126,6 +12422,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_12", false);
 				start_Hash.put("tJDBCInput_12", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_12";
 
 				int tos_count_tJDBCInput_12 = 0;
@@ -12134,14 +12431,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_12 = null;
 				conn_tJDBCInput_12 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_12) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_12 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_12 = dataSources_tJDBCInput_12.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_12);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_12 = conn_tJDBCInput_12
 						.createStatement();
@@ -12149,283 +12438,284 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_12 = "SELECT     vm_interface_id,     upper(cast(vm_interface_id as char(36))) as vm_interface_join_id,    receive_rate_percent,     transmit_rate_percent  FROM dwh_vm_interface_history_view";
 
 				globalMap.put("tJDBCInput_12_QUERY", dbquery_tJDBCInput_12);
+				java.sql.ResultSet rs_tJDBCInput_12 = null;
+				try {
+					rs_tJDBCInput_12 = stmt_tJDBCInput_12
+							.executeQuery(dbquery_tJDBCInput_12);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_12 = rs_tJDBCInput_12
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_12 = rsmd_tJDBCInput_12
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_12 = stmt_tJDBCInput_12
-						.executeQuery(dbquery_tJDBCInput_12);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_12 = rs_tJDBCInput_12
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_12 = rsmd_tJDBCInput_12
-						.getColumnCount();
+					String tmpContent_tJDBCInput_12 = null;
+					int column_index_tJDBCInput_12 = 1;
 
-				String tmpContent_tJDBCInput_12 = null;
-				int column_index_tJDBCInput_12 = 1;
-				while (rs_tJDBCInput_12.next()) {
-					nb_line_tJDBCInput_12++;
+					while (rs_tJDBCInput_12.next()) {
+						nb_line_tJDBCInput_12++;
 
-					column_index_tJDBCInput_12 = 1;
+						column_index_tJDBCInput_12 = 1;
 
-					if (colQtyInRs_tJDBCInput_12 < column_index_tJDBCInput_12) {
-						row13.vm_interface_id = null;
-					} else {
-
-						if (rs_tJDBCInput_12
-								.getObject(column_index_tJDBCInput_12) != null) {
-							row13.vm_interface_id = rs_tJDBCInput_12
-									.getObject(column_index_tJDBCInput_12);
-						} else {
+						if (colQtyInRs_tJDBCInput_12 < column_index_tJDBCInput_12) {
 							row13.vm_interface_id = null;
-						}
-
-						if (rs_tJDBCInput_12.wasNull()) {
-							row13.vm_interface_id = null;
-						}
-					}
-					column_index_tJDBCInput_12 = 2;
-
-					if (colQtyInRs_tJDBCInput_12 < column_index_tJDBCInput_12) {
-						row13.vm_interface_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_12 = rs_tJDBCInput_12
-								.getString(column_index_tJDBCInput_12);
-						if (tmpContent_tJDBCInput_12 != null) {
-							row13.vm_interface_join_id = tmpContent_tJDBCInput_12;
 						} else {
+
+							if (rs_tJDBCInput_12
+									.getObject(column_index_tJDBCInput_12) != null) {
+								row13.vm_interface_id = rs_tJDBCInput_12
+										.getObject(column_index_tJDBCInput_12);
+							} else {
+								row13.vm_interface_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_12 = 2;
+
+						if (colQtyInRs_tJDBCInput_12 < column_index_tJDBCInput_12) {
 							row13.vm_interface_join_id = null;
-						}
-
-						if (rs_tJDBCInput_12.wasNull()) {
-							row13.vm_interface_join_id = null;
-						}
-					}
-					column_index_tJDBCInput_12 = 3;
-
-					if (colQtyInRs_tJDBCInput_12 < column_index_tJDBCInput_12) {
-						row13.receive_rate_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_12
-								.getObject(column_index_tJDBCInput_12) != null) {
-							row13.receive_rate_percent = rs_tJDBCInput_12
-									.getShort(column_index_tJDBCInput_12);
 						} else {
-							row13.receive_rate_percent = null;
+
+							tmpContent_tJDBCInput_12 = rs_tJDBCInput_12
+									.getString(column_index_tJDBCInput_12);
+							if (tmpContent_tJDBCInput_12 != null) {
+								row13.vm_interface_join_id = tmpContent_tJDBCInput_12;
+							} else {
+								row13.vm_interface_join_id = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_12.wasNull()) {
+						column_index_tJDBCInput_12 = 3;
+
+						if (colQtyInRs_tJDBCInput_12 < column_index_tJDBCInput_12) {
 							row13.receive_rate_percent = null;
-						}
-					}
-					column_index_tJDBCInput_12 = 4;
-
-					if (colQtyInRs_tJDBCInput_12 < column_index_tJDBCInput_12) {
-						row13.transmit_rate_percent = null;
-					} else {
-
-						if (rs_tJDBCInput_12
-								.getObject(column_index_tJDBCInput_12) != null) {
-							row13.transmit_rate_percent = rs_tJDBCInput_12
-									.getShort(column_index_tJDBCInput_12);
 						} else {
-							row13.transmit_rate_percent = null;
+
+							if (rs_tJDBCInput_12
+									.getObject(column_index_tJDBCInput_12) != null) {
+								row13.receive_rate_percent = rs_tJDBCInput_12
+										.getShort(column_index_tJDBCInput_12);
+							} else {
+								row13.receive_rate_percent = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_12.wasNull()) {
+						column_index_tJDBCInput_12 = 4;
+
+						if (colQtyInRs_tJDBCInput_12 < column_index_tJDBCInput_12) {
 							row13.transmit_rate_percent = null;
+						} else {
+
+							if (rs_tJDBCInput_12
+									.getObject(column_index_tJDBCInput_12) != null) {
+								row13.transmit_rate_percent = rs_tJDBCInput_12
+										.getShort(column_index_tJDBCInput_12);
+							} else {
+								row13.transmit_rate_percent = null;
+							}
+
 						}
-					}
 
-					/**
-					 * [tJDBCInput_12 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_12 main ] start
-					 */
+						/**
+						 * [tJDBCInput_12 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_12 main ] start
+						 */
 
-					currentComponent = "tJDBCInput_12";
+						currentComponent = "tJDBCInput_12";
 
-					tos_count_tJDBCInput_12++;
+						tos_count_tJDBCInput_12++;
 
-					/**
-					 * [tJDBCInput_12 main ] stop
-					 */
+						/**
+						 * [tJDBCInput_12 main ] stop
+						 */
 
-					/**
-					 * [tMap_6 main ] start
-					 */
+						/**
+						 * [tMap_6 main ] start
+						 */
 
-					currentComponent = "tMap_6";
+						currentComponent = "tMap_6";
 
-					boolean hasCasePrimitiveKeyWithNull_tMap_6 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_6 = false;
-					boolean mainRowRejected_tMap_6 = false;
-
-					// /////////////////////////////////////////////
-					// Starting Lookup Table "row50"
-					// /////////////////////////////////////////////
-
-					boolean forceLooprow50 = false;
-
-					row50Struct row50ObjectFromLookup = null;
-
-					if (!rejectedInnerJoin_tMap_6) { // G_TM_M_020
-
-						hasCasePrimitiveKeyWithNull_tMap_6 = false;
-
-						row50HashKey.vm_interface_join_id = row13.vm_interface_join_id;
-
-						row50HashKey.hashCodeDirty = true;
-
-						tHash_Lookup_row50.lookup(row50HashKey);
-
-						if (!tHash_Lookup_row50.hasNext()) { // G_TM_M_090
-
-							rejectedInnerJoin_tMap_6 = true;
-
-						} // G_TM_M_090
-
-					} // G_TM_M_020
-
-					if (tHash_Lookup_row50 != null
-							&& tHash_Lookup_row50.getCount(row50HashKey) > 1) { // G
-																				// 071
-
-						// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row50' and it contains more one result from keys :  row50.vm_interface_join_id = '"
-						// + row50HashKey.vm_interface_join_id + "'");
-					} // G 071
-
-					row50Struct row50 = null;
-
-					row50Struct fromLookup_row50 = null;
-					row50 = row50Default;
-
-					if (tHash_Lookup_row50 != null
-							&& tHash_Lookup_row50.hasNext()) { // G 099
-
-						fromLookup_row50 = tHash_Lookup_row50.next();
-
-					} // G 099
-
-					if (fromLookup_row50 != null) {
-						row50 = fromLookup_row50;
-					}
-
-					// ###############################
-					{ // start of Var scope
+						boolean hasCasePrimitiveKeyWithNull_tMap_6 = false;
 
 						// ###############################
-						// # Vars tables
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_6 = false;
+						boolean mainRowRejected_tMap_6 = false;
 
-						Var__tMap_6__Struct Var = Var__tMap_6;// ###############################
+						// /////////////////////////////////////////////
+						// Starting Lookup Table "row50"
+						// /////////////////////////////////////////////
+
+						boolean forceLooprow50 = false;
+
+						row50Struct row50ObjectFromLookup = null;
+
+						if (!rejectedInnerJoin_tMap_6) { // G_TM_M_020
+
+							hasCasePrimitiveKeyWithNull_tMap_6 = false;
+
+							row50HashKey.vm_interface_join_id = row13.vm_interface_join_id;
+
+							row50HashKey.hashCodeDirty = true;
+
+							tHash_Lookup_row50.lookup(row50HashKey);
+
+							if (!tHash_Lookup_row50.hasNext()) { // G_TM_M_090
+
+								rejectedInnerJoin_tMap_6 = true;
+
+							} // G_TM_M_090
+
+						} // G_TM_M_020
+
+						if (tHash_Lookup_row50 != null
+								&& tHash_Lookup_row50.getCount(row50HashKey) > 1) { // G
+																					// 071
+
+							// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row50' and it contains more one result from keys :  row50.vm_interface_join_id = '"
+							// + row50HashKey.vm_interface_join_id + "'");
+						} // G 071
+
+						row50Struct row50 = null;
+
+						row50Struct fromLookup_row50 = null;
+						row50 = row50Default;
+
+						if (tHash_Lookup_row50 != null
+								&& tHash_Lookup_row50.hasNext()) { // G 099
+
+							fromLookup_row50 = tHash_Lookup_row50.next();
+
+						} // G 099
+
+						if (fromLookup_row50 != null) {
+							row50 = fromLookup_row50;
+						}
+
 						// ###############################
-						// # Output tables
+						{ // start of Var scope
 
-						vinterface_history = null;
-
-						if (!rejectedInnerJoin_tMap_6) {
-
-							// # Output table : 'vinterface_history'
-							vinterface_history_tmp.history_datetime = context.runTime;
-							vinterface_history_tmp.vm_interface_id = row13.vm_interface_id;
-							vinterface_history_tmp.receive_rate_percent = row13.receive_rate_percent;
-							vinterface_history_tmp.transmit_rate_percent = row13.transmit_rate_percent;
-							vinterface_history_tmp.vm_interface_configuration_version = row50.history_id;
-							vinterface_history = vinterface_history_tmp;
-						} // closing inner join bracket (2)
 							// ###############################
+							// # Vars tables
 
-					} // end of Var scope
+							Var__tMap_6__Struct Var = Var__tMap_6;// ###############################
+							// ###############################
+							// # Output tables
 
-					rejectedInnerJoin_tMap_6 = false;
+							vinterface_history = null;
 
-					tos_count_tMap_6++;
+							if (!rejectedInnerJoin_tMap_6) {
 
-					/**
-					 * [tMap_6 main ] stop
-					 */
-					// Start of branch "vinterface_history"
-					if (vinterface_history != null) {
+								// # Output table : 'vinterface_history'
+								vinterface_history_tmp.history_datetime = context.runTime;
+								vinterface_history_tmp.vm_interface_id = row13.vm_interface_id;
+								vinterface_history_tmp.receive_rate_percent = row13.receive_rate_percent;
+								vinterface_history_tmp.transmit_rate_percent = row13.transmit_rate_percent;
+								vinterface_history_tmp.vm_interface_configuration_version = row50.history_id;
+								vinterface_history = vinterface_history_tmp;
+							} // closing inner join bracket (2)
+								// ###############################
 
-						/**
-						 * [tJDBCOutput_6 main ] start
-						 */
+						} // end of Var scope
 
-						currentComponent = "tJDBCOutput_6";
+						rejectedInnerJoin_tMap_6 = false;
 
-						whetherReject_tJDBCOutput_6 = false;
-						if (vinterface_history.history_datetime != null) {
-							pstmt_tJDBCOutput_6.setTimestamp(
-									1,
-									new java.sql.Timestamp(
-											vinterface_history.history_datetime
-													.getTime()));
-						} else {
-							pstmt_tJDBCOutput_6.setNull(1, java.sql.Types.DATE);
-						}
-
-						if (vinterface_history.vm_interface_id == null) {
-							pstmt_tJDBCOutput_6
-									.setNull(2, java.sql.Types.OTHER);
-						} else {
-							pstmt_tJDBCOutput_6.setObject(2,
-									vinterface_history.vm_interface_id);
-						}
-
-						if (vinterface_history.receive_rate_percent == null) {
-							pstmt_tJDBCOutput_6.setNull(3,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_6.setShort(3,
-									vinterface_history.receive_rate_percent);
-						}
-
-						if (vinterface_history.transmit_rate_percent == null) {
-							pstmt_tJDBCOutput_6.setNull(4,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_6.setShort(4,
-									vinterface_history.transmit_rate_percent);
-						}
-
-						if (vinterface_history.vm_interface_configuration_version == null) {
-							pstmt_tJDBCOutput_6.setNull(5,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_6
-									.setInt(5,
-											vinterface_history.vm_interface_configuration_version);
-						}
-
-						try {
-							insertedCount_tJDBCOutput_6 = insertedCount_tJDBCOutput_6
-									+ pstmt_tJDBCOutput_6.executeUpdate();
-							nb_line_tJDBCOutput_6++;
-						} catch (java.lang.Exception e) {
-							whetherReject_tJDBCOutput_6 = true;
-							throw (e);
-						}
-
-						tos_count_tJDBCOutput_6++;
+						tos_count_tMap_6++;
 
 						/**
-						 * [tJDBCOutput_6 main ] stop
+						 * [tMap_6 main ] stop
+						 */
+						// Start of branch "vinterface_history"
+						if (vinterface_history != null) {
+
+							/**
+							 * [tJDBCOutput_6 main ] start
+							 */
+
+							currentComponent = "tJDBCOutput_6";
+
+							whetherReject_tJDBCOutput_6 = false;
+							if (vinterface_history.history_datetime != null) {
+								pstmt_tJDBCOutput_6
+										.setTimestamp(
+												1,
+												new java.sql.Timestamp(
+														vinterface_history.history_datetime
+																.getTime()));
+							} else {
+								pstmt_tJDBCOutput_6.setNull(1,
+										java.sql.Types.DATE);
+							}
+
+							if (vinterface_history.vm_interface_id == null) {
+								pstmt_tJDBCOutput_6.setNull(2,
+										java.sql.Types.OTHER);
+							} else {
+								pstmt_tJDBCOutput_6.setObject(2,
+										vinterface_history.vm_interface_id);
+							}
+
+							if (vinterface_history.receive_rate_percent == null) {
+								pstmt_tJDBCOutput_6.setNull(3,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_6
+										.setShort(
+												3,
+												vinterface_history.receive_rate_percent);
+							}
+
+							if (vinterface_history.transmit_rate_percent == null) {
+								pstmt_tJDBCOutput_6.setNull(4,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_6
+										.setShort(
+												4,
+												vinterface_history.transmit_rate_percent);
+							}
+
+							if (vinterface_history.vm_interface_configuration_version == null) {
+								pstmt_tJDBCOutput_6.setNull(5,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_6
+										.setInt(5,
+												vinterface_history.vm_interface_configuration_version);
+							}
+
+							try {
+								insertedCount_tJDBCOutput_6 = insertedCount_tJDBCOutput_6
+										+ pstmt_tJDBCOutput_6.executeUpdate();
+								nb_line_tJDBCOutput_6++;
+							} catch (java.lang.Exception e) {
+								whetherReject_tJDBCOutput_6 = true;
+								throw (e);
+							}
+
+							tos_count_tJDBCOutput_6++;
+
+							/**
+							 * [tJDBCOutput_6 main ] stop
+							 */
+
+						} // End of branch "vinterface_history"
+
+						/**
+						 * [tJDBCInput_12 end ] start
 						 */
 
-					} // End of branch "vinterface_history"
+						currentComponent = "tJDBCInput_12";
 
-					/**
-					 * [tJDBCInput_12 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_12";
+					}
+				} finally {
+					rs_tJDBCInput_12.close();
+					stmt_tJDBCInput_12.close();
 
 				}
-				rs_tJDBCInput_12.close();
-				stmt_tJDBCInput_12.close();
-
 				globalMap.put("tJDBCInput_12_NB_LINE", nb_line_tJDBCInput_12);
 
 				ok_Hash.put("tJDBCInput_12", true);
@@ -12499,16 +12789,56 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tMap_6"
 			globalMap.remove("tHash_Lookup_row50");
 
+			try {
+
+				/**
+				 * [tJDBCInput_12 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_12";
+
+				/**
+				 * [tJDBCInput_12 finally ] stop
+				 */
+
+				/**
+				 * [tMap_6 finally ] start
+				 */
+
+				currentComponent = "tMap_6";
+
+				/**
+				 * [tMap_6 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_6 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_6";
+
+				/**
+				 * [tJDBCOutput_6 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_12_SUBPROCESS_STATE", 1);
@@ -12567,8 +12897,10 @@ public class StatisticsSync implements TalendJob {
 			if (this.vm_interface_join_id == null) {
 				if (other.vm_interface_join_id != null)
 					return false;
+
 			} else if (!this.vm_interface_join_id
 					.equals(other.vm_interface_join_id))
+
 				return false;
 
 			return true;
@@ -12770,6 +13102,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -12790,6 +13123,7 @@ public class StatisticsSync implements TalendJob {
 				ok_Hash.put("tAdvancedHash_row50", false);
 				start_Hash.put("tAdvancedHash_row50",
 						System.currentTimeMillis());
+
 				currentComponent = "tAdvancedHash_row50";
 
 				int tos_count_tAdvancedHash_row50 = 0;
@@ -12818,6 +13152,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_15", false);
 				start_Hash.put("tJDBCInput_15", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_15";
 
 				int tos_count_tJDBCInput_15 = 0;
@@ -12826,14 +13161,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_15 = null;
 				conn_tJDBCInput_15 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == conn_tJDBCInput_15) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_15 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_15 = dataSources_tJDBCInput_15.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_2",
-					// conn_tJDBCInput_15);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_15 = conn_tJDBCInput_15
 						.createStatement();
@@ -12841,101 +13168,100 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_15 = "SELECT history_id, upper(cast(vm_interface_id as char(36))) as vm_interface_join_id  FROM  v3_4_latest_configuration_vms_interfaces";
 
 				globalMap.put("tJDBCInput_15_QUERY", dbquery_tJDBCInput_15);
+				java.sql.ResultSet rs_tJDBCInput_15 = null;
+				try {
+					rs_tJDBCInput_15 = stmt_tJDBCInput_15
+							.executeQuery(dbquery_tJDBCInput_15);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_15 = rs_tJDBCInput_15
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_15 = rsmd_tJDBCInput_15
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_15 = stmt_tJDBCInput_15
-						.executeQuery(dbquery_tJDBCInput_15);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_15 = rs_tJDBCInput_15
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_15 = rsmd_tJDBCInput_15
-						.getColumnCount();
+					String tmpContent_tJDBCInput_15 = null;
+					int column_index_tJDBCInput_15 = 1;
 
-				String tmpContent_tJDBCInput_15 = null;
-				int column_index_tJDBCInput_15 = 1;
-				while (rs_tJDBCInput_15.next()) {
-					nb_line_tJDBCInput_15++;
+					while (rs_tJDBCInput_15.next()) {
+						nb_line_tJDBCInput_15++;
 
-					column_index_tJDBCInput_15 = 1;
+						column_index_tJDBCInput_15 = 1;
 
-					if (colQtyInRs_tJDBCInput_15 < column_index_tJDBCInput_15) {
-						row50.history_id = null;
-					} else {
-
-						if (rs_tJDBCInput_15
-								.getObject(column_index_tJDBCInput_15) != null) {
-							row50.history_id = rs_tJDBCInput_15
-									.getInt(column_index_tJDBCInput_15);
-						} else {
+						if (colQtyInRs_tJDBCInput_15 < column_index_tJDBCInput_15) {
 							row50.history_id = null;
-						}
-
-						if (rs_tJDBCInput_15.wasNull()) {
-							row50.history_id = null;
-						}
-					}
-					column_index_tJDBCInput_15 = 2;
-
-					if (colQtyInRs_tJDBCInput_15 < column_index_tJDBCInput_15) {
-						row50.vm_interface_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_15 = rs_tJDBCInput_15
-								.getString(column_index_tJDBCInput_15);
-						if (tmpContent_tJDBCInput_15 != null) {
-							row50.vm_interface_join_id = tmpContent_tJDBCInput_15;
 						} else {
-							row50.vm_interface_join_id = null;
+
+							if (rs_tJDBCInput_15
+									.getObject(column_index_tJDBCInput_15) != null) {
+								row50.history_id = rs_tJDBCInput_15
+										.getInt(column_index_tJDBCInput_15);
+							} else {
+								row50.history_id = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_15.wasNull()) {
+						column_index_tJDBCInput_15 = 2;
+
+						if (colQtyInRs_tJDBCInput_15 < column_index_tJDBCInput_15) {
 							row50.vm_interface_join_id = null;
+						} else {
+
+							tmpContent_tJDBCInput_15 = rs_tJDBCInput_15
+									.getString(column_index_tJDBCInput_15);
+							if (tmpContent_tJDBCInput_15 != null) {
+								row50.vm_interface_join_id = tmpContent_tJDBCInput_15;
+							} else {
+								row50.vm_interface_join_id = null;
+							}
+
 						}
+
+						/**
+						 * [tJDBCInput_15 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_15 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_15";
+
+						tos_count_tJDBCInput_15++;
+
+						/**
+						 * [tJDBCInput_15 main ] stop
+						 */
+
+						/**
+						 * [tAdvancedHash_row50 main ] start
+						 */
+
+						currentComponent = "tAdvancedHash_row50";
+
+						row50Struct row50_HashRow = new row50Struct();
+
+						row50_HashRow.history_id = row50.history_id;
+
+						row50_HashRow.vm_interface_join_id = row50.vm_interface_join_id;
+
+						tHash_Lookup_row50.put(row50_HashRow);
+
+						tos_count_tAdvancedHash_row50++;
+
+						/**
+						 * [tAdvancedHash_row50 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_15 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_15";
+
 					}
-
-					/**
-					 * [tJDBCInput_15 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_15 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_15";
-
-					tos_count_tJDBCInput_15++;
-
-					/**
-					 * [tJDBCInput_15 main ] stop
-					 */
-
-					/**
-					 * [tAdvancedHash_row50 main ] start
-					 */
-
-					currentComponent = "tAdvancedHash_row50";
-
-					row50Struct row50_HashRow = new row50Struct();
-
-					row50_HashRow.history_id = row50.history_id;
-
-					row50_HashRow.vm_interface_join_id = row50.vm_interface_join_id;
-
-					tHash_Lookup_row50.put(row50_HashRow);
-
-					tos_count_tAdvancedHash_row50++;
-
-					/**
-					 * [tAdvancedHash_row50 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_15 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_15";
+				} finally {
+					rs_tJDBCInput_15.close();
+					stmt_tJDBCInput_15.close();
 
 				}
-				rs_tJDBCInput_15.close();
-				stmt_tJDBCInput_15.close();
-
 				globalMap.put("tJDBCInput_15_NB_LINE", nb_line_tJDBCInput_15);
 
 				ok_Hash.put("tJDBCInput_15", true);
@@ -12964,12 +13290,43 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_15 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_15";
+
+				/**
+				 * [tJDBCInput_15 finally ] stop
+				 */
+
+				/**
+				 * [tAdvancedHash_row50 finally ] start
+				 */
+
+				currentComponent = "tAdvancedHash_row50";
+
+				/**
+				 * [tAdvancedHash_row50 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_15_SUBPROCESS_STATE", 1);
@@ -13933,6 +14290,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -13955,6 +14313,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCOutput_7", false);
 				start_Hash.put("tJDBCOutput_7", System.currentTimeMillis());
+
 				currentComponent = "tJDBCOutput_7";
 
 				int tos_count_tJDBCOutput_7 = 0;
@@ -13976,13 +14335,6 @@ public class StatisticsSync implements TalendJob {
 
 				java.sql.Connection connection_tJDBCOutput_7 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == connection_tJDBCOutput_7) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCOutput_7 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					connection_tJDBCOutput_7 = dataSources_tJDBCOutput_7
-							.get("").getConnection();
-				}
-
 				int batchSize_tJDBCOutput_7 = 10000;
 				int batchSizeCounter_tJDBCOutput_7 = 0;
 
@@ -14002,6 +14354,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tMap_7", false);
 				start_Hash.put("tMap_7", System.currentTimeMillis());
+
 				currentComponent = "tMap_7";
 
 				int tos_count_tMap_7 = 0;
@@ -14038,6 +14391,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_18", false);
 				start_Hash.put("tJDBCInput_18", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_18";
 
 				int tos_count_tJDBCInput_18 = 0;
@@ -14046,14 +14400,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_18 = null;
 				conn_tJDBCInput_18 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_18) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_18 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_18 = dataSources_tJDBCInput_18.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_18);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_18 = conn_tJDBCInput_18
 						.createStatement();
@@ -14061,446 +14407,432 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_18 = "SELECT vm_disk_id, 		upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,         image_id, 		vm_disk_status, 		vm_disk_actual_size_mb, 		read_rate_bytes_per_second, 		read_latency_seconds, 		write_rate_bytes_per_second, 		write_latency_seconds, 		flush_latency_seconds FROM dwh_vm_disks_history_view";
 
 				globalMap.put("tJDBCInput_18_QUERY", dbquery_tJDBCInput_18);
+				java.sql.ResultSet rs_tJDBCInput_18 = null;
+				try {
+					rs_tJDBCInput_18 = stmt_tJDBCInput_18
+							.executeQuery(dbquery_tJDBCInput_18);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_18 = rs_tJDBCInput_18
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_18 = rsmd_tJDBCInput_18
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_18 = stmt_tJDBCInput_18
-						.executeQuery(dbquery_tJDBCInput_18);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_18 = rs_tJDBCInput_18
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_18 = rsmd_tJDBCInput_18
-						.getColumnCount();
+					String tmpContent_tJDBCInput_18 = null;
+					int column_index_tJDBCInput_18 = 1;
 
-				String tmpContent_tJDBCInput_18 = null;
-				int column_index_tJDBCInput_18 = 1;
-				while (rs_tJDBCInput_18.next()) {
-					nb_line_tJDBCInput_18++;
+					while (rs_tJDBCInput_18.next()) {
+						nb_line_tJDBCInput_18++;
 
-					column_index_tJDBCInput_18 = 1;
+						column_index_tJDBCInput_18 = 1;
 
-					if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
-						row1.vm_disk_id = null;
-					} else {
-
-						if (rs_tJDBCInput_18
-								.getObject(column_index_tJDBCInput_18) != null) {
-							row1.vm_disk_id = rs_tJDBCInput_18
-									.getObject(column_index_tJDBCInput_18);
-						} else {
+						if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
 							row1.vm_disk_id = null;
-						}
-
-						if (rs_tJDBCInput_18.wasNull()) {
-							row1.vm_disk_id = null;
-						}
-					}
-					column_index_tJDBCInput_18 = 2;
-
-					if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
-						row1.vm_disk_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_18 = rs_tJDBCInput_18
-								.getString(column_index_tJDBCInput_18);
-						if (tmpContent_tJDBCInput_18 != null) {
-							row1.vm_disk_join_id = tmpContent_tJDBCInput_18;
 						} else {
+
+							if (rs_tJDBCInput_18
+									.getObject(column_index_tJDBCInput_18) != null) {
+								row1.vm_disk_id = rs_tJDBCInput_18
+										.getObject(column_index_tJDBCInput_18);
+							} else {
+								row1.vm_disk_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_18 = 2;
+
+						if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
 							row1.vm_disk_join_id = null;
-						}
-
-						if (rs_tJDBCInput_18.wasNull()) {
-							row1.vm_disk_join_id = null;
-						}
-					}
-					column_index_tJDBCInput_18 = 3;
-
-					if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
-						row1.image_id = null;
-					} else {
-
-						if (rs_tJDBCInput_18
-								.getObject(column_index_tJDBCInput_18) != null) {
-							row1.image_id = rs_tJDBCInput_18
-									.getObject(column_index_tJDBCInput_18);
 						} else {
+
+							tmpContent_tJDBCInput_18 = rs_tJDBCInput_18
+									.getString(column_index_tJDBCInput_18);
+							if (tmpContent_tJDBCInput_18 != null) {
+								row1.vm_disk_join_id = tmpContent_tJDBCInput_18;
+							} else {
+								row1.vm_disk_join_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_18 = 3;
+
+						if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
 							row1.image_id = null;
-						}
-
-						if (rs_tJDBCInput_18.wasNull()) {
-							row1.image_id = null;
-						}
-					}
-					column_index_tJDBCInput_18 = 4;
-
-					if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
-						row1.vm_disk_status = null;
-					} else {
-
-						if (rs_tJDBCInput_18
-								.getObject(column_index_tJDBCInput_18) != null) {
-							row1.vm_disk_status = rs_tJDBCInput_18
-									.getShort(column_index_tJDBCInput_18);
 						} else {
+
+							if (rs_tJDBCInput_18
+									.getObject(column_index_tJDBCInput_18) != null) {
+								row1.image_id = rs_tJDBCInput_18
+										.getObject(column_index_tJDBCInput_18);
+							} else {
+								row1.image_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_18 = 4;
+
+						if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
 							row1.vm_disk_status = null;
-						}
-
-						if (rs_tJDBCInput_18.wasNull()) {
-							row1.vm_disk_status = null;
-						}
-					}
-					column_index_tJDBCInput_18 = 5;
-
-					if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
-						row1.vm_disk_actual_size_mb = null;
-					} else {
-
-						if (rs_tJDBCInput_18
-								.getObject(column_index_tJDBCInput_18) != null) {
-							row1.vm_disk_actual_size_mb = rs_tJDBCInput_18
-									.getInt(column_index_tJDBCInput_18);
 						} else {
+
+							if (rs_tJDBCInput_18
+									.getObject(column_index_tJDBCInput_18) != null) {
+								row1.vm_disk_status = rs_tJDBCInput_18
+										.getShort(column_index_tJDBCInput_18);
+							} else {
+								row1.vm_disk_status = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_18 = 5;
+
+						if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
 							row1.vm_disk_actual_size_mb = null;
-						}
-
-						if (rs_tJDBCInput_18.wasNull()) {
-							row1.vm_disk_actual_size_mb = null;
-						}
-					}
-					column_index_tJDBCInput_18 = 6;
-
-					if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
-						row1.read_rate_bytes_per_second = null;
-					} else {
-
-						if (rs_tJDBCInput_18
-								.getObject(column_index_tJDBCInput_18) != null) {
-							row1.read_rate_bytes_per_second = rs_tJDBCInput_18
-									.getInt(column_index_tJDBCInput_18);
 						} else {
+
+							if (rs_tJDBCInput_18
+									.getObject(column_index_tJDBCInput_18) != null) {
+								row1.vm_disk_actual_size_mb = rs_tJDBCInput_18
+										.getInt(column_index_tJDBCInput_18);
+							} else {
+								row1.vm_disk_actual_size_mb = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_18 = 6;
+
+						if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
 							row1.read_rate_bytes_per_second = null;
-						}
-
-						if (rs_tJDBCInput_18.wasNull()) {
-							row1.read_rate_bytes_per_second = null;
-						}
-					}
-					column_index_tJDBCInput_18 = 7;
-
-					if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
-						row1.read_latency_seconds = null;
-					} else {
-
-						if (rs_tJDBCInput_18
-								.getObject(column_index_tJDBCInput_18) != null) {
-							row1.read_latency_seconds = rs_tJDBCInput_18
-									.getDouble(column_index_tJDBCInput_18);
 						} else {
+
+							if (rs_tJDBCInput_18
+									.getObject(column_index_tJDBCInput_18) != null) {
+								row1.read_rate_bytes_per_second = rs_tJDBCInput_18
+										.getInt(column_index_tJDBCInput_18);
+							} else {
+								row1.read_rate_bytes_per_second = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_18 = 7;
+
+						if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
 							row1.read_latency_seconds = null;
-						}
-
-						if (rs_tJDBCInput_18.wasNull()) {
-							row1.read_latency_seconds = null;
-						}
-					}
-					column_index_tJDBCInput_18 = 8;
-
-					if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
-						row1.write_rate_bytes_per_second = null;
-					} else {
-
-						if (rs_tJDBCInput_18
-								.getObject(column_index_tJDBCInput_18) != null) {
-							row1.write_rate_bytes_per_second = rs_tJDBCInput_18
-									.getInt(column_index_tJDBCInput_18);
 						} else {
+
+							if (rs_tJDBCInput_18
+									.getObject(column_index_tJDBCInput_18) != null) {
+								row1.read_latency_seconds = rs_tJDBCInput_18
+										.getDouble(column_index_tJDBCInput_18);
+							} else {
+								row1.read_latency_seconds = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_18 = 8;
+
+						if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
 							row1.write_rate_bytes_per_second = null;
-						}
-
-						if (rs_tJDBCInput_18.wasNull()) {
-							row1.write_rate_bytes_per_second = null;
-						}
-					}
-					column_index_tJDBCInput_18 = 9;
-
-					if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
-						row1.write_latency_seconds = null;
-					} else {
-
-						if (rs_tJDBCInput_18
-								.getObject(column_index_tJDBCInput_18) != null) {
-							row1.write_latency_seconds = rs_tJDBCInput_18
-									.getDouble(column_index_tJDBCInput_18);
 						} else {
-							row1.write_latency_seconds = null;
+
+							if (rs_tJDBCInput_18
+									.getObject(column_index_tJDBCInput_18) != null) {
+								row1.write_rate_bytes_per_second = rs_tJDBCInput_18
+										.getInt(column_index_tJDBCInput_18);
+							} else {
+								row1.write_rate_bytes_per_second = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_18.wasNull()) {
+						column_index_tJDBCInput_18 = 9;
+
+						if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
 							row1.write_latency_seconds = null;
-						}
-					}
-					column_index_tJDBCInput_18 = 10;
-
-					if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
-						row1.flush_latency_seconds = null;
-					} else {
-
-						if (rs_tJDBCInput_18
-								.getObject(column_index_tJDBCInput_18) != null) {
-							row1.flush_latency_seconds = rs_tJDBCInput_18
-									.getDouble(column_index_tJDBCInput_18);
 						} else {
-							row1.flush_latency_seconds = null;
+
+							if (rs_tJDBCInput_18
+									.getObject(column_index_tJDBCInput_18) != null) {
+								row1.write_latency_seconds = rs_tJDBCInput_18
+										.getDouble(column_index_tJDBCInput_18);
+							} else {
+								row1.write_latency_seconds = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_18.wasNull()) {
+						column_index_tJDBCInput_18 = 10;
+
+						if (colQtyInRs_tJDBCInput_18 < column_index_tJDBCInput_18) {
 							row1.flush_latency_seconds = null;
+						} else {
+
+							if (rs_tJDBCInput_18
+									.getObject(column_index_tJDBCInput_18) != null) {
+								row1.flush_latency_seconds = rs_tJDBCInput_18
+										.getDouble(column_index_tJDBCInput_18);
+							} else {
+								row1.flush_latency_seconds = null;
+							}
+
 						}
-					}
 
-					/**
-					 * [tJDBCInput_18 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_18 main ] start
-					 */
+						/**
+						 * [tJDBCInput_18 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_18 main ] start
+						 */
 
-					currentComponent = "tJDBCInput_18";
+						currentComponent = "tJDBCInput_18";
 
-					tos_count_tJDBCInput_18++;
+						tos_count_tJDBCInput_18++;
 
-					/**
-					 * [tJDBCInput_18 main ] stop
-					 */
+						/**
+						 * [tJDBCInput_18 main ] stop
+						 */
 
-					/**
-					 * [tMap_7 main ] start
-					 */
+						/**
+						 * [tMap_7 main ] start
+						 */
 
-					currentComponent = "tMap_7";
+						currentComponent = "tMap_7";
 
-					boolean hasCasePrimitiveKeyWithNull_tMap_7 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_7 = false;
-					boolean mainRowRejected_tMap_7 = false;
-
-					// /////////////////////////////////////////////
-					// Starting Lookup Table "row3"
-					// /////////////////////////////////////////////
-
-					boolean forceLooprow3 = false;
-
-					row3Struct row3ObjectFromLookup = null;
-
-					if (!rejectedInnerJoin_tMap_7) { // G_TM_M_020
-
-						hasCasePrimitiveKeyWithNull_tMap_7 = false;
-
-						row3HashKey.vm_disk_join_id = row1.vm_disk_join_id;
-
-						row3HashKey.hashCodeDirty = true;
-
-						tHash_Lookup_row3.lookup(row3HashKey);
-
-						if (!tHash_Lookup_row3.hasNext()) { // G_TM_M_090
-
-							rejectedInnerJoin_tMap_7 = true;
-
-						} // G_TM_M_090
-
-					} // G_TM_M_020
-
-					if (tHash_Lookup_row3 != null
-							&& tHash_Lookup_row3.getCount(row3HashKey) > 1) { // G
-																				// 071
-
-						// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row3' and it contains more one result from keys :  row3.vm_disk_join_id = '"
-						// + row3HashKey.vm_disk_join_id + "'");
-					} // G 071
-
-					row3Struct row3 = null;
-
-					row3Struct fromLookup_row3 = null;
-					row3 = row3Default;
-
-					if (tHash_Lookup_row3 != null
-							&& tHash_Lookup_row3.hasNext()) { // G 099
-
-						fromLookup_row3 = tHash_Lookup_row3.next();
-
-					} // G 099
-
-					if (fromLookup_row3 != null) {
-						row3 = fromLookup_row3;
-					}
-
-					// ###############################
-					{ // start of Var scope
+						boolean hasCasePrimitiveKeyWithNull_tMap_7 = false;
 
 						// ###############################
-						// # Vars tables
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_7 = false;
+						boolean mainRowRejected_tMap_7 = false;
 
-						Var__tMap_7__Struct Var = Var__tMap_7;// ###############################
+						// /////////////////////////////////////////////
+						// Starting Lookup Table "row3"
+						// /////////////////////////////////////////////
+
+						boolean forceLooprow3 = false;
+
+						row3Struct row3ObjectFromLookup = null;
+
+						if (!rejectedInnerJoin_tMap_7) { // G_TM_M_020
+
+							hasCasePrimitiveKeyWithNull_tMap_7 = false;
+
+							row3HashKey.vm_disk_join_id = row1.vm_disk_join_id;
+
+							row3HashKey.hashCodeDirty = true;
+
+							tHash_Lookup_row3.lookup(row3HashKey);
+
+							if (!tHash_Lookup_row3.hasNext()) { // G_TM_M_090
+
+								rejectedInnerJoin_tMap_7 = true;
+
+							} // G_TM_M_090
+
+						} // G_TM_M_020
+
+						if (tHash_Lookup_row3 != null
+								&& tHash_Lookup_row3.getCount(row3HashKey) > 1) { // G
+																					// 071
+
+							// System.out.println("WARNING: UNIQUE MATCH is configured for the lookup 'row3' and it contains more one result from keys :  row3.vm_disk_join_id = '"
+							// + row3HashKey.vm_disk_join_id + "'");
+						} // G 071
+
+						row3Struct row3 = null;
+
+						row3Struct fromLookup_row3 = null;
+						row3 = row3Default;
+
+						if (tHash_Lookup_row3 != null
+								&& tHash_Lookup_row3.hasNext()) { // G 099
+
+							fromLookup_row3 = tHash_Lookup_row3.next();
+
+						} // G 099
+
+						if (fromLookup_row3 != null) {
+							row3 = fromLookup_row3;
+						}
+
 						// ###############################
-						// # Output tables
+						{ // start of Var scope
 
-						vm_disk_history = null;
-
-						if (!rejectedInnerJoin_tMap_7) {
-
-							// # Output table : 'vm_disk_history'
-							vm_disk_history_tmp.history_datetime = context.runTime;
-							vm_disk_history_tmp.vm_disk_id = row1.vm_disk_id;
-							vm_disk_history_tmp.image_id = row1.image_id;
-							vm_disk_history_tmp.vm_disk_status = row1.vm_disk_status;
-							vm_disk_history_tmp.minutes_in_status = context.runInterleave
-									.doubleValue() / 60;
-							vm_disk_history_tmp.vm_disk_actual_size_mb = row1.vm_disk_actual_size_mb;
-							vm_disk_history_tmp.read_rate_bytes_per_second = row1.read_rate_bytes_per_second;
-							vm_disk_history_tmp.read_latency_seconds = row1.read_latency_seconds;
-							vm_disk_history_tmp.write_rate_bytes_per_second = row1.write_rate_bytes_per_second;
-							vm_disk_history_tmp.write_latency_seconds = row1.write_latency_seconds;
-							vm_disk_history_tmp.flush_latency_seconds = row1.flush_latency_seconds;
-							vm_disk_history_tmp.vm_disk_configuration_version = row3.history_id;
-							vm_disk_history = vm_disk_history_tmp;
-						} // closing inner join bracket (2)
 							// ###############################
+							// # Vars tables
 
-					} // end of Var scope
+							Var__tMap_7__Struct Var = Var__tMap_7;// ###############################
+							// ###############################
+							// # Output tables
 
-					rejectedInnerJoin_tMap_7 = false;
+							vm_disk_history = null;
 
-					tos_count_tMap_7++;
+							if (!rejectedInnerJoin_tMap_7) {
 
-					/**
-					 * [tMap_7 main ] stop
-					 */
-					// Start of branch "vm_disk_history"
-					if (vm_disk_history != null) {
+								// # Output table : 'vm_disk_history'
+								vm_disk_history_tmp.history_datetime = context.runTime;
+								vm_disk_history_tmp.vm_disk_id = row1.vm_disk_id;
+								vm_disk_history_tmp.image_id = row1.image_id;
+								vm_disk_history_tmp.vm_disk_status = row1.vm_disk_status;
+								vm_disk_history_tmp.minutes_in_status = context.runInterleave
+										.doubleValue() / 60;
+								vm_disk_history_tmp.vm_disk_actual_size_mb = row1.vm_disk_actual_size_mb;
+								vm_disk_history_tmp.read_rate_bytes_per_second = row1.read_rate_bytes_per_second;
+								vm_disk_history_tmp.read_latency_seconds = row1.read_latency_seconds;
+								vm_disk_history_tmp.write_rate_bytes_per_second = row1.write_rate_bytes_per_second;
+								vm_disk_history_tmp.write_latency_seconds = row1.write_latency_seconds;
+								vm_disk_history_tmp.flush_latency_seconds = row1.flush_latency_seconds;
+								vm_disk_history_tmp.vm_disk_configuration_version = row3.history_id;
+								vm_disk_history = vm_disk_history_tmp;
+							} // closing inner join bracket (2)
+								// ###############################
 
-						/**
-						 * [tJDBCOutput_7 main ] start
-						 */
+						} // end of Var scope
 
-						currentComponent = "tJDBCOutput_7";
+						rejectedInnerJoin_tMap_7 = false;
 
-						whetherReject_tJDBCOutput_7 = false;
-						if (vm_disk_history.history_datetime != null) {
-							pstmt_tJDBCOutput_7.setTimestamp(
-									1,
-									new java.sql.Timestamp(
-											vm_disk_history.history_datetime
-													.getTime()));
-						} else {
-							pstmt_tJDBCOutput_7.setNull(1, java.sql.Types.DATE);
-						}
-
-						if (vm_disk_history.vm_disk_id == null) {
-							pstmt_tJDBCOutput_7
-									.setNull(2, java.sql.Types.OTHER);
-						} else {
-							pstmt_tJDBCOutput_7.setObject(2,
-									vm_disk_history.vm_disk_id);
-						}
-
-						if (vm_disk_history.image_id == null) {
-							pstmt_tJDBCOutput_7
-									.setNull(3, java.sql.Types.OTHER);
-						} else {
-							pstmt_tJDBCOutput_7.setObject(3,
-									vm_disk_history.image_id);
-						}
-
-						if (vm_disk_history.vm_disk_status == null) {
-							pstmt_tJDBCOutput_7.setNull(4,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_7.setShort(4,
-									vm_disk_history.vm_disk_status);
-						}
-
-						pstmt_tJDBCOutput_7.setDouble(5,
-								vm_disk_history.minutes_in_status);
-
-						pstmt_tJDBCOutput_7.setInt(6,
-								vm_disk_history.vm_disk_actual_size_mb);
-
-						if (vm_disk_history.read_rate_bytes_per_second == null) {
-							pstmt_tJDBCOutput_7.setNull(7,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_7.setInt(7,
-									vm_disk_history.read_rate_bytes_per_second);
-						}
-
-						if (vm_disk_history.read_latency_seconds == null) {
-							pstmt_tJDBCOutput_7.setNull(8,
-									java.sql.Types.DOUBLE);
-						} else {
-							pstmt_tJDBCOutput_7.setDouble(8,
-									vm_disk_history.read_latency_seconds);
-						}
-
-						if (vm_disk_history.write_rate_bytes_per_second == null) {
-							pstmt_tJDBCOutput_7.setNull(9,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_7
-									.setInt(9,
-											vm_disk_history.write_rate_bytes_per_second);
-						}
-
-						if (vm_disk_history.write_latency_seconds == null) {
-							pstmt_tJDBCOutput_7.setNull(10,
-									java.sql.Types.DOUBLE);
-						} else {
-							pstmt_tJDBCOutput_7.setDouble(10,
-									vm_disk_history.write_latency_seconds);
-						}
-
-						if (vm_disk_history.flush_latency_seconds == null) {
-							pstmt_tJDBCOutput_7.setNull(11,
-									java.sql.Types.DOUBLE);
-						} else {
-							pstmt_tJDBCOutput_7.setDouble(11,
-									vm_disk_history.flush_latency_seconds);
-						}
-
-						if (vm_disk_history.vm_disk_configuration_version == null) {
-							pstmt_tJDBCOutput_7.setNull(12,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_7
-									.setInt(12,
-											vm_disk_history.vm_disk_configuration_version);
-						}
-
-						try {
-							insertedCount_tJDBCOutput_7 = insertedCount_tJDBCOutput_7
-									+ pstmt_tJDBCOutput_7.executeUpdate();
-							nb_line_tJDBCOutput_7++;
-						} catch (java.lang.Exception e) {
-							whetherReject_tJDBCOutput_7 = true;
-							throw (e);
-						}
-
-						tos_count_tJDBCOutput_7++;
+						tos_count_tMap_7++;
 
 						/**
-						 * [tJDBCOutput_7 main ] stop
+						 * [tMap_7 main ] stop
+						 */
+						// Start of branch "vm_disk_history"
+						if (vm_disk_history != null) {
+
+							/**
+							 * [tJDBCOutput_7 main ] start
+							 */
+
+							currentComponent = "tJDBCOutput_7";
+
+							whetherReject_tJDBCOutput_7 = false;
+							if (vm_disk_history.history_datetime != null) {
+								pstmt_tJDBCOutput_7
+										.setTimestamp(
+												1,
+												new java.sql.Timestamp(
+														vm_disk_history.history_datetime
+																.getTime()));
+							} else {
+								pstmt_tJDBCOutput_7.setNull(1,
+										java.sql.Types.DATE);
+							}
+
+							if (vm_disk_history.vm_disk_id == null) {
+								pstmt_tJDBCOutput_7.setNull(2,
+										java.sql.Types.OTHER);
+							} else {
+								pstmt_tJDBCOutput_7.setObject(2,
+										vm_disk_history.vm_disk_id);
+							}
+
+							if (vm_disk_history.image_id == null) {
+								pstmt_tJDBCOutput_7.setNull(3,
+										java.sql.Types.OTHER);
+							} else {
+								pstmt_tJDBCOutput_7.setObject(3,
+										vm_disk_history.image_id);
+							}
+
+							if (vm_disk_history.vm_disk_status == null) {
+								pstmt_tJDBCOutput_7.setNull(4,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_7.setShort(4,
+										vm_disk_history.vm_disk_status);
+							}
+
+							pstmt_tJDBCOutput_7.setDouble(5,
+									vm_disk_history.minutes_in_status);
+
+							pstmt_tJDBCOutput_7.setInt(6,
+									vm_disk_history.vm_disk_actual_size_mb);
+
+							if (vm_disk_history.read_rate_bytes_per_second == null) {
+								pstmt_tJDBCOutput_7.setNull(7,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_7
+										.setInt(7,
+												vm_disk_history.read_rate_bytes_per_second);
+							}
+
+							if (vm_disk_history.read_latency_seconds == null) {
+								pstmt_tJDBCOutput_7.setNull(8,
+										java.sql.Types.DOUBLE);
+							} else {
+								pstmt_tJDBCOutput_7.setDouble(8,
+										vm_disk_history.read_latency_seconds);
+							}
+
+							if (vm_disk_history.write_rate_bytes_per_second == null) {
+								pstmt_tJDBCOutput_7.setNull(9,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_7
+										.setInt(9,
+												vm_disk_history.write_rate_bytes_per_second);
+							}
+
+							if (vm_disk_history.write_latency_seconds == null) {
+								pstmt_tJDBCOutput_7.setNull(10,
+										java.sql.Types.DOUBLE);
+							} else {
+								pstmt_tJDBCOutput_7.setDouble(10,
+										vm_disk_history.write_latency_seconds);
+							}
+
+							if (vm_disk_history.flush_latency_seconds == null) {
+								pstmt_tJDBCOutput_7.setNull(11,
+										java.sql.Types.DOUBLE);
+							} else {
+								pstmt_tJDBCOutput_7.setDouble(11,
+										vm_disk_history.flush_latency_seconds);
+							}
+
+							if (vm_disk_history.vm_disk_configuration_version == null) {
+								pstmt_tJDBCOutput_7.setNull(12,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_7
+										.setInt(12,
+												vm_disk_history.vm_disk_configuration_version);
+							}
+
+							try {
+								insertedCount_tJDBCOutput_7 = insertedCount_tJDBCOutput_7
+										+ pstmt_tJDBCOutput_7.executeUpdate();
+								nb_line_tJDBCOutput_7++;
+							} catch (java.lang.Exception e) {
+								whetherReject_tJDBCOutput_7 = true;
+								throw (e);
+							}
+
+							tos_count_tJDBCOutput_7++;
+
+							/**
+							 * [tJDBCOutput_7 main ] stop
+							 */
+
+						} // End of branch "vm_disk_history"
+
+						/**
+						 * [tJDBCInput_18 end ] start
 						 */
 
-					} // End of branch "vm_disk_history"
+						currentComponent = "tJDBCInput_18";
 
-					/**
-					 * [tJDBCInput_18 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_18";
+					}
+				} finally {
+					rs_tJDBCInput_18.close();
+					stmt_tJDBCInput_18.close();
 
 				}
-				rs_tJDBCInput_18.close();
-				stmt_tJDBCInput_18.close();
-
 				globalMap.put("tJDBCInput_18_NB_LINE", nb_line_tJDBCInput_18);
 
 				ok_Hash.put("tJDBCInput_18", true);
@@ -14574,16 +14906,56 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
-
+			throw error;
 		} finally {
+
 			// free memory for "tMap_7"
 			globalMap.remove("tHash_Lookup_row3");
 
+			try {
+
+				/**
+				 * [tJDBCInput_18 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_18";
+
+				/**
+				 * [tJDBCInput_18 finally ] stop
+				 */
+
+				/**
+				 * [tMap_7 finally ] start
+				 */
+
+				currentComponent = "tMap_7";
+
+				/**
+				 * [tMap_7 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_7 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_7";
+
+				/**
+				 * [tJDBCOutput_7 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_18_SUBPROCESS_STATE", 1);
@@ -14642,7 +15014,9 @@ public class StatisticsSync implements TalendJob {
 			if (this.vm_disk_join_id == null) {
 				if (other.vm_disk_join_id != null)
 					return false;
+
 			} else if (!this.vm_disk_join_id.equals(other.vm_disk_join_id))
+
 				return false;
 
 			return true;
@@ -14844,6 +15218,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -14864,6 +15239,7 @@ public class StatisticsSync implements TalendJob {
 				ok_Hash.put("tAdvancedHash_row3", false);
 				start_Hash
 						.put("tAdvancedHash_row3", System.currentTimeMillis());
+
 				currentComponent = "tAdvancedHash_row3";
 
 				int tos_count_tAdvancedHash_row3 = 0;
@@ -14892,6 +15268,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_20", false);
 				start_Hash.put("tJDBCInput_20", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_20";
 
 				int tos_count_tJDBCInput_20 = 0;
@@ -14900,14 +15277,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_20 = null;
 				conn_tJDBCInput_20 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == conn_tJDBCInput_20) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_20 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_20 = dataSources_tJDBCInput_20.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_2",
-					// conn_tJDBCInput_20);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_20 = conn_tJDBCInput_20
 						.createStatement();
@@ -14915,101 +15284,100 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_20 = "SELECT history_id, upper(cast(vm_disk_id as char(36))) as vm_disk_join_id  FROM  v3_4_latest_configuration_vms_disks";
 
 				globalMap.put("tJDBCInput_20_QUERY", dbquery_tJDBCInput_20);
+				java.sql.ResultSet rs_tJDBCInput_20 = null;
+				try {
+					rs_tJDBCInput_20 = stmt_tJDBCInput_20
+							.executeQuery(dbquery_tJDBCInput_20);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_20 = rs_tJDBCInput_20
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_20 = rsmd_tJDBCInput_20
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_20 = stmt_tJDBCInput_20
-						.executeQuery(dbquery_tJDBCInput_20);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_20 = rs_tJDBCInput_20
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_20 = rsmd_tJDBCInput_20
-						.getColumnCount();
+					String tmpContent_tJDBCInput_20 = null;
+					int column_index_tJDBCInput_20 = 1;
 
-				String tmpContent_tJDBCInput_20 = null;
-				int column_index_tJDBCInput_20 = 1;
-				while (rs_tJDBCInput_20.next()) {
-					nb_line_tJDBCInput_20++;
+					while (rs_tJDBCInput_20.next()) {
+						nb_line_tJDBCInput_20++;
 
-					column_index_tJDBCInput_20 = 1;
+						column_index_tJDBCInput_20 = 1;
 
-					if (colQtyInRs_tJDBCInput_20 < column_index_tJDBCInput_20) {
-						row3.history_id = null;
-					} else {
-
-						if (rs_tJDBCInput_20
-								.getObject(column_index_tJDBCInput_20) != null) {
-							row3.history_id = rs_tJDBCInput_20
-									.getInt(column_index_tJDBCInput_20);
-						} else {
+						if (colQtyInRs_tJDBCInput_20 < column_index_tJDBCInput_20) {
 							row3.history_id = null;
-						}
-
-						if (rs_tJDBCInput_20.wasNull()) {
-							row3.history_id = null;
-						}
-					}
-					column_index_tJDBCInput_20 = 2;
-
-					if (colQtyInRs_tJDBCInput_20 < column_index_tJDBCInput_20) {
-						row3.vm_disk_join_id = null;
-					} else {
-
-						tmpContent_tJDBCInput_20 = rs_tJDBCInput_20
-								.getString(column_index_tJDBCInput_20);
-						if (tmpContent_tJDBCInput_20 != null) {
-							row3.vm_disk_join_id = tmpContent_tJDBCInput_20;
 						} else {
-							row3.vm_disk_join_id = null;
+
+							if (rs_tJDBCInput_20
+									.getObject(column_index_tJDBCInput_20) != null) {
+								row3.history_id = rs_tJDBCInput_20
+										.getInt(column_index_tJDBCInput_20);
+							} else {
+								row3.history_id = null;
+							}
+
 						}
 
-						if (rs_tJDBCInput_20.wasNull()) {
+						column_index_tJDBCInput_20 = 2;
+
+						if (colQtyInRs_tJDBCInput_20 < column_index_tJDBCInput_20) {
 							row3.vm_disk_join_id = null;
+						} else {
+
+							tmpContent_tJDBCInput_20 = rs_tJDBCInput_20
+									.getString(column_index_tJDBCInput_20);
+							if (tmpContent_tJDBCInput_20 != null) {
+								row3.vm_disk_join_id = tmpContent_tJDBCInput_20;
+							} else {
+								row3.vm_disk_join_id = null;
+							}
+
 						}
+
+						/**
+						 * [tJDBCInput_20 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_20 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_20";
+
+						tos_count_tJDBCInput_20++;
+
+						/**
+						 * [tJDBCInput_20 main ] stop
+						 */
+
+						/**
+						 * [tAdvancedHash_row3 main ] start
+						 */
+
+						currentComponent = "tAdvancedHash_row3";
+
+						row3Struct row3_HashRow = new row3Struct();
+
+						row3_HashRow.history_id = row3.history_id;
+
+						row3_HashRow.vm_disk_join_id = row3.vm_disk_join_id;
+
+						tHash_Lookup_row3.put(row3_HashRow);
+
+						tos_count_tAdvancedHash_row3++;
+
+						/**
+						 * [tAdvancedHash_row3 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_20 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_20";
+
 					}
-
-					/**
-					 * [tJDBCInput_20 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_20 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_20";
-
-					tos_count_tJDBCInput_20++;
-
-					/**
-					 * [tJDBCInput_20 main ] stop
-					 */
-
-					/**
-					 * [tAdvancedHash_row3 main ] start
-					 */
-
-					currentComponent = "tAdvancedHash_row3";
-
-					row3Struct row3_HashRow = new row3Struct();
-
-					row3_HashRow.history_id = row3.history_id;
-
-					row3_HashRow.vm_disk_join_id = row3.vm_disk_join_id;
-
-					tHash_Lookup_row3.put(row3_HashRow);
-
-					tos_count_tAdvancedHash_row3++;
-
-					/**
-					 * [tAdvancedHash_row3 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_20 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_20";
+				} finally {
+					rs_tJDBCInput_20.close();
+					stmt_tJDBCInput_20.close();
 
 				}
-				rs_tJDBCInput_20.close();
-				stmt_tJDBCInput_20.close();
-
 				globalMap.put("tJDBCInput_20_NB_LINE", nb_line_tJDBCInput_20);
 
 				ok_Hash.put("tJDBCInput_20", true);
@@ -15038,12 +15406,43 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_20 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_20";
+
+				/**
+				 * [tJDBCInput_20 finally ] stop
+				 */
+
+				/**
+				 * [tAdvancedHash_row3 finally ] start
+				 */
+
+				currentComponent = "tAdvancedHash_row3";
+
+				/**
+				 * [tAdvancedHash_row3 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_20_SUBPROCESS_STATE", 1);
@@ -15058,6 +15457,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -15075,6 +15475,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tPrejob_1", false);
 				start_Hash.put("tPrejob_1", System.currentTimeMillis());
+
 				currentComponent = "tPrejob_1";
 
 				int tos_count_tPrejob_1 = 0;
@@ -15107,17 +15508,36 @@ public class StatisticsSync implements TalendJob {
 				/**
 				 * [tPrejob_1 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tPrejob_1 finally ] start
+				 */
+
+				currentComponent = "tPrejob_1";
+
+				/**
+				 * [tPrejob_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tPrejob_1_SUBPROCESS_STATE", 1);
@@ -15133,6 +15553,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -15150,6 +15571,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCConnection_1", false);
 				start_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
+
 				currentComponent = "tJDBCConnection_1";
 
 				int tos_count_tJDBCConnection_1 = 0;
@@ -15207,17 +15629,36 @@ public class StatisticsSync implements TalendJob {
 				/**
 				 * [tJDBCConnection_1 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCConnection_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_1";
+
+				/**
+				 * [tJDBCConnection_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", 1);
@@ -15233,6 +15674,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -15250,6 +15692,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCConnection_2", false);
 				start_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
+
 				currentComponent = "tJDBCConnection_2";
 
 				int tos_count_tJDBCConnection_2 = 0;
@@ -15307,17 +15750,36 @@ public class StatisticsSync implements TalendJob {
 				/**
 				 * [tJDBCConnection_2 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCConnection_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_2";
+
+				/**
+				 * [tJDBCConnection_2 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCConnection_2_SUBPROCESS_STATE", 1);
@@ -15492,6 +15954,7 @@ public class StatisticsSync implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -15511,9 +15974,11 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tContextLoad_1", false);
 				start_Hash.put("tContextLoad_1", System.currentTimeMillis());
+
 				currentComponent = "tContextLoad_1";
 
 				int tos_count_tContextLoad_1 = 0;
+
 				java.util.List<String> assignList_tContextLoad_1 = new java.util.ArrayList<String>();
 				java.util.List<String> newPropertyList_tContextLoad_1 = new java.util.ArrayList<String>();
 				java.util.List<String> noAssignList_tContextLoad_1 = new java.util.ArrayList<String>();
@@ -15529,6 +15994,7 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_21", false);
 				start_Hash.put("tJDBCInput_21", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_21";
 
 				int tos_count_tJDBCInput_21 = 0;
@@ -15537,14 +16003,6 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_21 = null;
 				conn_tJDBCInput_21 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == conn_tJDBCInput_21) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_21 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_21 = dataSources_tJDBCInput_21.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_2",
-					// conn_tJDBCInput_21);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_21 = conn_tJDBCInput_21
 						.createStatement();
@@ -15552,223 +16010,226 @@ public class StatisticsSync implements TalendJob {
 				String dbquery_tJDBCInput_21 = "select distinct 'runTime', CURRENT_TIMESTAMP(6)";
 
 				globalMap.put("tJDBCInput_21_QUERY", dbquery_tJDBCInput_21);
+				java.sql.ResultSet rs_tJDBCInput_21 = null;
+				try {
+					rs_tJDBCInput_21 = stmt_tJDBCInput_21
+							.executeQuery(dbquery_tJDBCInput_21);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_21 = rs_tJDBCInput_21
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_21 = rsmd_tJDBCInput_21
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_21 = stmt_tJDBCInput_21
-						.executeQuery(dbquery_tJDBCInput_21);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_21 = rs_tJDBCInput_21
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_21 = rsmd_tJDBCInput_21
-						.getColumnCount();
+					String tmpContent_tJDBCInput_21 = null;
+					int column_index_tJDBCInput_21 = 1;
 
-				String tmpContent_tJDBCInput_21 = null;
-				int column_index_tJDBCInput_21 = 1;
-				while (rs_tJDBCInput_21.next()) {
-					nb_line_tJDBCInput_21++;
+					while (rs_tJDBCInput_21.next()) {
+						nb_line_tJDBCInput_21++;
 
-					column_index_tJDBCInput_21 = 1;
+						column_index_tJDBCInput_21 = 1;
 
-					if (colQtyInRs_tJDBCInput_21 < column_index_tJDBCInput_21) {
-						row2.key = null;
-					} else {
-
-						tmpContent_tJDBCInput_21 = rs_tJDBCInput_21
-								.getString(column_index_tJDBCInput_21);
-						if (tmpContent_tJDBCInput_21 != null) {
-							row2.key = tmpContent_tJDBCInput_21;
-						} else {
+						if (colQtyInRs_tJDBCInput_21 < column_index_tJDBCInput_21) {
 							row2.key = null;
-						}
-
-						if (rs_tJDBCInput_21.wasNull()) {
-							row2.key = null;
-						}
-					}
-					column_index_tJDBCInput_21 = 2;
-
-					if (colQtyInRs_tJDBCInput_21 < column_index_tJDBCInput_21) {
-						row2.value = null;
-					} else {
-
-						java.util.Date date_tJDBCInput_21 = null;
-						try {
-							date_tJDBCInput_21 = rs_tJDBCInput_21
-									.getTimestamp(column_index_tJDBCInput_21);
-						} catch (java.lang.Exception e) {
-							date_tJDBCInput_21 = rs_tJDBCInput_21
-									.getDate(column_index_tJDBCInput_21);
-						}
-						row2.value = date_tJDBCInput_21;
-
-						if (rs_tJDBCInput_21.wasNull()) {
-							row2.value = null;
-						}
-					}
-
-					/**
-					 * [tJDBCInput_21 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_21 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_21";
-
-					tos_count_tJDBCInput_21++;
-
-					/**
-					 * [tJDBCInput_21 main ] stop
-					 */
-
-					/**
-					 * [tContextLoad_1 main ] start
-					 */
-
-					currentComponent = "tContextLoad_1";
-
-					// ////////////////////////
-					String tmp_key_tContextLoad_1 = null;
-
-					String key_tContextLoad_1 = null;
-					if (row2.key != null) {
-						tmp_key_tContextLoad_1 = row2.key.trim();
-						if ((tmp_key_tContextLoad_1.startsWith("#") || tmp_key_tContextLoad_1
-								.startsWith("!"))) {
-							tmp_key_tContextLoad_1 = null;
 						} else {
-							row2.key = tmp_key_tContextLoad_1;
-						}
-					}
-					if (row2.key != null) {
 
-						key_tContextLoad_1 =
-
-						row2.key;
-
-					}
-
-					String value_tContextLoad_1 = null;
-					if (row2.value != null) {
-
-						value_tContextLoad_1 =
-
-						FormatterUtils.format_Date(row2.value,
-								"yyyy-MM-dd HH:mm:ss.SSSSSS");
-
-					}
-
-					if (tmp_key_tContextLoad_1 != null) {
-						try {
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineDbDriverClass"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineDbDriverClass = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineDbPassword"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineDbPassword = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineDbUser"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineDbUser = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineDbJdbcConnection"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineDbJdbcConnection = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineHistoryDbJdbcConnection"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineHistoryDbDriverClass"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineHistoryDbPassword"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineHistoryDbPassword = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineHistoryDbUser"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineHistoryDbUser = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "runInterleave"
-											.equals(key_tContextLoad_1)) {
-
-								context.runInterleave = Integer
-										.parseInt(value_tContextLoad_1);
-
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "runTime".equals(key_tContextLoad_1)) {
-								String context_runTime_value = context
-										.getProperty("runTime");
-								if (context_runTime_value == null)
-									context_runTime_value = "";
-								int context_runTime_pos = context_runTime_value
-										.indexOf(";");
-								String context_runTime_pattern = "yyyy-MM-dd HH:mm:ss";
-								if (context_runTime_pos > -1) {
-									context_runTime_pattern = context_runTime_value
-											.substring(0, context_runTime_pos);
-								}
-								context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
-										context_runTime_pattern)
-										.parse(value_tContextLoad_1));
-
-							}
-
-							if (context.getProperty(key_tContextLoad_1) != null) {
-								assignList_tContextLoad_1
-										.add(key_tContextLoad_1);
+							tmpContent_tJDBCInput_21 = rs_tJDBCInput_21
+									.getString(column_index_tJDBCInput_21);
+							if (tmpContent_tJDBCInput_21 != null) {
+								row2.key = tmpContent_tJDBCInput_21;
 							} else {
-								newPropertyList_tContextLoad_1
-										.add(key_tContextLoad_1);
+								row2.key = null;
 							}
-							context.setProperty(key_tContextLoad_1,
-									value_tContextLoad_1);
-						} catch (java.lang.Exception e) {
-							System.err.println("Set value for key: "
-									+ key_tContextLoad_1
-									+ " failed, error message: "
-									+ e.getMessage());
+
 						}
-						nb_line_tContextLoad_1++;
+
+						column_index_tJDBCInput_21 = 2;
+
+						if (colQtyInRs_tJDBCInput_21 < column_index_tJDBCInput_21) {
+							row2.value = null;
+						} else {
+
+							java.util.Date date_tJDBCInput_21 = null;
+							try {
+								date_tJDBCInput_21 = rs_tJDBCInput_21
+										.getTimestamp(column_index_tJDBCInput_21);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_21 = rs_tJDBCInput_21
+										.getDate(column_index_tJDBCInput_21);
+							}
+							row2.value = date_tJDBCInput_21;
+
+						}
+
+						/**
+						 * [tJDBCInput_21 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_21 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_21";
+
+						tos_count_tJDBCInput_21++;
+
+						/**
+						 * [tJDBCInput_21 main ] stop
+						 */
+
+						/**
+						 * [tContextLoad_1 main ] start
+						 */
+
+						currentComponent = "tContextLoad_1";
+
+						// ////////////////////////
+						String tmp_key_tContextLoad_1 = null;
+
+						String key_tContextLoad_1 = null;
+						if (row2.key != null) {
+							tmp_key_tContextLoad_1 = row2.key.trim();
+							if ((tmp_key_tContextLoad_1.startsWith("#") || tmp_key_tContextLoad_1
+									.startsWith("!"))) {
+								tmp_key_tContextLoad_1 = null;
+							} else {
+								row2.key = tmp_key_tContextLoad_1;
+							}
+						}
+						if (row2.key != null) {
+
+							key_tContextLoad_1 =
+
+							row2.key;
+
+						}
+
+						String value_tContextLoad_1 = null;
+						if (row2.value != null) {
+
+							value_tContextLoad_1 =
+
+							FormatterUtils.format_Date(row2.value,
+									"yyyy-MM-dd HH:mm:ss.SSSSSS");
+
+						}
+
+						if (tmp_key_tContextLoad_1 != null) {
+							try {
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineDbDriverClass"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineDbDriverClass = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineDbPassword"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineDbPassword = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineDbUser"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineDbUser = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineDbJdbcConnection"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineDbJdbcConnection = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineHistoryDbJdbcConnection"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineHistoryDbDriverClass"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineHistoryDbPassword"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineHistoryDbPassword = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineHistoryDbUser"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineHistoryDbUser = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "runInterleave"
+												.equals(key_tContextLoad_1)) {
+
+									context.runInterleave = Integer
+											.parseInt(value_tContextLoad_1);
+
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "runTime".equals(key_tContextLoad_1)) {
+									String context_runTime_value = context
+											.getProperty("runTime");
+									if (context_runTime_value == null)
+										context_runTime_value = "";
+									int context_runTime_pos = context_runTime_value
+											.indexOf(";");
+									String context_runTime_pattern = "yyyy-MM-dd HH:mm:ss";
+									if (context_runTime_pos > -1) {
+										context_runTime_pattern = context_runTime_value
+												.substring(0,
+														context_runTime_pos);
+									}
+									context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
+											context_runTime_pattern)
+											.parse(value_tContextLoad_1));
+
+								}
+
+								if (context.getProperty(key_tContextLoad_1) != null) {
+									assignList_tContextLoad_1
+											.add(key_tContextLoad_1);
+								} else {
+									newPropertyList_tContextLoad_1
+											.add(key_tContextLoad_1);
+								}
+								context.setProperty(key_tContextLoad_1,
+										value_tContextLoad_1);
+							} catch (java.lang.Exception e) {
+
+								System.err
+										.println("Setting a value for the key \""
+												+ key_tContextLoad_1
+												+ "\" has failed. Error message: "
+												+ e.getMessage());
+							}
+							nb_line_tContextLoad_1++;
+
+						}
+						// ////////////////////////
+
+						tos_count_tContextLoad_1++;
+
+						/**
+						 * [tContextLoad_1 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_21 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_21";
+
 					}
-					// ////////////////////////
-
-					tos_count_tContextLoad_1++;
-
-					/**
-					 * [tContextLoad_1 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_21 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_21";
+				} finally {
+					rs_tJDBCInput_21.close();
+					stmt_tJDBCInput_21.close();
 
 				}
-				rs_tJDBCInput_21.close();
-				stmt_tJDBCInput_21.close();
-
 				globalMap.put("tJDBCInput_21_NB_LINE", nb_line_tJDBCInput_21);
 
 				ok_Hash.put("tJDBCInput_21", true);
@@ -15829,12 +16290,43 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_21 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_21";
+
+				/**
+				 * [tJDBCInput_21 finally ] stop
+				 */
+
+				/**
+				 * [tContextLoad_1 finally ] start
+				 */
+
+				currentComponent = "tContextLoad_1";
+
+				/**
+				 * [tContextLoad_1 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_21_SUBPROCESS_STATE", 1);
@@ -16157,10 +16649,12 @@ public class StatisticsSync implements TalendJob {
 		globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -16181,6 +16675,9 @@ public class StatisticsSync implements TalendJob {
 				ok_Hash.put("talendLogs_CONSOLE", false);
 				start_Hash
 						.put("talendLogs_CONSOLE", System.currentTimeMillis());
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
+
 				currentComponent = "talendLogs_CONSOLE";
 
 				int tos_count_talendLogs_CONSOLE = 0;
@@ -16204,6 +16701,9 @@ public class StatisticsSync implements TalendJob {
 
 				ok_Hash.put("talendLogs_LOGS", false);
 				start_Hash.put("talendLogs_LOGS", System.currentTimeMillis());
+
+				currentVirtualComponent = "talendLogs_LOGS";
+
 				currentComponent = "talendLogs_LOGS";
 
 				int tos_count_talendLogs_LOGS = 0;
@@ -16236,6 +16736,8 @@ public class StatisticsSync implements TalendJob {
 					 * [talendLogs_LOGS main ] start
 					 */
 
+					currentVirtualComponent = "talendLogs_LOGS";
+
 					currentComponent = "talendLogs_LOGS";
 
 					tos_count_talendLogs_LOGS++;
@@ -16247,6 +16749,8 @@ public class StatisticsSync implements TalendJob {
 					/**
 					 * [talendLogs_CONSOLE main ] start
 					 */
+
+					currentVirtualComponent = "talendLogs_CONSOLE";
 
 					currentComponent = "talendLogs_CONSOLE";
 
@@ -16391,6 +16895,8 @@ public class StatisticsSync implements TalendJob {
 					 * [talendLogs_LOGS end ] start
 					 */
 
+					currentVirtualComponent = "talendLogs_LOGS";
+
 					currentComponent = "talendLogs_LOGS";
 
 				}
@@ -16405,6 +16911,8 @@ public class StatisticsSync implements TalendJob {
 				/**
 				 * [talendLogs_CONSOLE end ] start
 				 */
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
 
 				currentComponent = "talendLogs_CONSOLE";
 
@@ -16426,12 +16934,49 @@ public class StatisticsSync implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [talendLogs_LOGS finally ] start
+				 */
+
+				currentVirtualComponent = "talendLogs_LOGS";
+
+				currentComponent = "talendLogs_LOGS";
+
+				/**
+				 * [talendLogs_LOGS finally ] stop
+				 */
+
+				/**
+				 * [talendLogs_CONSOLE finally ] start
+				 */
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
+
+				currentComponent = "talendLogs_CONSOLE";
+
+				/**
+				 * [talendLogs_CONSOLE finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 1);
@@ -16457,6 +17002,7 @@ public class StatisticsSync implements TalendJob {
 	public String fatherNode = null;
 	public long startTime = 0;
 	public boolean isChildJob = false;
+	public String log4jLevel = "";
 
 	private boolean execStat = true;
 
@@ -16492,6 +17038,7 @@ public class StatisticsSync implements TalendJob {
 		final StatisticsSync StatisticsSyncClass = new StatisticsSync();
 
 		int exitCode = StatisticsSyncClass.runJobInTOS(args);
+
 		System.exit(exitCode);
 	}
 
@@ -16504,6 +17051,8 @@ public class StatisticsSync implements TalendJob {
 	}
 
 	public int runJobInTOS(String[] args) {
+		// reset status
+		status = "";
 
 		String lastStr = "";
 		for (String arg : args) {
@@ -16685,9 +17234,9 @@ public class StatisticsSync implements TalendJob {
 				status = "end";
 			}
 		} catch (TalendException e_tPrejob_1) {
+			globalMap.put("tPrejob_1_SUBPROCESS_STATE", -1);
 
 			e_tPrejob_1.printStackTrace();
-			globalMap.put("tPrejob_1_SUBPROCESS_STATE", -1);
 
 		}
 
@@ -16710,14 +17259,14 @@ public class StatisticsSync implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_2) {
+					globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_2.printStackTrace();
-					globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_2) {
+					globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_2.printStackTrace();
-					globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -16756,14 +17305,14 @@ public class StatisticsSync implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_4) {
+					globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_4.printStackTrace();
-					globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_4) {
+					globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_4.printStackTrace();
-					globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -16802,14 +17351,14 @@ public class StatisticsSync implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_5) {
+					globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_5.printStackTrace();
-					globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_5) {
+					globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_5.printStackTrace();
-					globalMap.put("tJDBCInput_5_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -16848,14 +17397,14 @@ public class StatisticsSync implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_8) {
+					globalMap.put("tJDBCInput_8_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_8.printStackTrace();
-					globalMap.put("tJDBCInput_8_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_8) {
+					globalMap.put("tJDBCInput_8_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_8.printStackTrace();
-					globalMap.put("tJDBCInput_8_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -16894,14 +17443,14 @@ public class StatisticsSync implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_10) {
+					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_10.printStackTrace();
-					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_10) {
+					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_10.printStackTrace();
-					globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -16940,14 +17489,14 @@ public class StatisticsSync implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_12) {
+					globalMap.put("tJDBCInput_12_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_12.printStackTrace();
-					globalMap.put("tJDBCInput_12_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_12) {
+					globalMap.put("tJDBCInput_12_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_12.printStackTrace();
-					globalMap.put("tJDBCInput_12_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -16986,14 +17535,14 @@ public class StatisticsSync implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCInput_18) {
+					globalMap.put("tJDBCInput_18_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_18.printStackTrace();
-					globalMap.put("tJDBCInput_18_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCInput_18) {
+					globalMap.put("tJDBCInput_18_SUBPROCESS_STATE", -1);
 
 					e_tJDBCInput_18.printStackTrace();
-					globalMap.put("tJDBCInput_18_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -17102,6 +17651,8 @@ public class StatisticsSync implements TalendJob {
 							keyValue.substring(index + 1));
 				}
 			}
+		} else if (arg.startsWith("--log4jLevel=")) {
+			log4jLevel = arg.substring(13);
 		}
 
 	}
@@ -17131,6 +17682,6 @@ public class StatisticsSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 489358 characters generated by Talend Open Studio for Data Integration on the
- * January 5, 2014 3:16:41 PM IST
+ * 493036 characters generated by Talend Open Studio for Data Integration on the
+ * January 21, 2014 3:54:30 PM IST
  ************************************************************************************************/

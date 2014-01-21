@@ -46,7 +46,7 @@ import java.util.Comparator;
  * Job: MinimalVersionCheck Purpose: <br>
  * Description:  <br>
  * @author ydary@redhat.com
- * @version 5.3.0.r101800
+ * @version 5.4.1.r111943
  * @status 
  */
 public class MinimalVersionCheck implements TalendJob {
@@ -242,10 +242,12 @@ public class MinimalVersionCheck implements TalendJob {
 	private final String projectName = "OVIRT_ENGINE_DWH";
 	public Integer errorCode = null;
 	private String currentComponent = "";
+
+	private final java.util.Map<String, Object> globalMap = new java.util.HashMap<String, Object>();
+
 	private final java.util.Map<String, Long> start_Hash = new java.util.HashMap<String, Long>();
 	private final java.util.Map<String, Long> end_Hash = new java.util.HashMap<String, Long>();
 	private final java.util.Map<String, Boolean> ok_Hash = new java.util.HashMap<String, Boolean>();
-	private final java.util.Map<String, Object> globalMap = new java.util.HashMap<String, Object>();
 	public final java.util.List<String[]> globalBuffer = new java.util.ArrayList<String[]>();
 
 	public boolean isExportedAsOSGI = false;
@@ -296,6 +298,11 @@ public class MinimalVersionCheck implements TalendJob {
 		private java.util.Map<String, Object> globalMap = null;
 		private java.lang.Exception e = null;
 		private String currentComponent = null;
+		private String virtualComponentName = null;
+
+		public void setVirtualComponentName(String virtualComponentName) {
+			this.virtualComponentName = virtualComponentName;
+		}
 
 		private TalendException(java.lang.Exception e, String errorComponent,
 				final java.util.Map<String, Object> globalMap) {
@@ -312,11 +319,34 @@ public class MinimalVersionCheck implements TalendJob {
 			return this.currentComponent;
 		}
 
+		public String getExceptionCauseMessage(java.lang.Exception e) {
+			Throwable cause = e;
+			String message = null;
+			int i = 10;
+			while (null != cause && 0 < i--) {
+				message = cause.getMessage();
+				if (null == message) {
+					cause = cause.getCause();
+				} else {
+					break;
+				}
+			}
+			if (null == message) {
+				message = e.getClass().getName();
+			}
+			return message;
+		}
+
 		@Override
 		public void printStackTrace() {
 			if (!(e instanceof TalendException || e instanceof TDieException)) {
+				if (virtualComponentName != null
+						&& currentComponent.indexOf(virtualComponentName + "_") == 0) {
+					globalMap.put(virtualComponentName + "_ERROR_MESSAGE",
+							getExceptionCauseMessage(e));
+				}
 				globalMap.put(currentComponent + "_ERROR_MESSAGE",
-						e.getMessage());
+						getExceptionCauseMessage(e));
 				System.err
 						.println("Exception in component " + currentComponent);
 			}
@@ -357,10 +387,6 @@ public class MinimalVersionCheck implements TalendJob {
 				} catch (TalendException e) {
 					// do nothing
 				}
-
-			} else {
-
-				status = "failure";
 
 			}
 		}
@@ -553,6 +579,7 @@ public class MinimalVersionCheck implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -570,6 +597,7 @@ public class MinimalVersionCheck implements TalendJob {
 
 				ok_Hash.put("tJDBCConnection_1", false);
 				start_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
+
 				currentComponent = "tJDBCConnection_1";
 
 				int tos_count_tJDBCConnection_1 = 0;
@@ -627,17 +655,36 @@ public class MinimalVersionCheck implements TalendJob {
 				/**
 				 * [tJDBCConnection_1 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCConnection_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_1";
+
+				/**
+				 * [tJDBCConnection_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", 1);
@@ -653,6 +700,7 @@ public class MinimalVersionCheck implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -670,6 +718,7 @@ public class MinimalVersionCheck implements TalendJob {
 
 				ok_Hash.put("tJDBCConnection_2", false);
 				start_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
+
 				currentComponent = "tJDBCConnection_2";
 
 				int tos_count_tJDBCConnection_2 = 0;
@@ -727,17 +776,36 @@ public class MinimalVersionCheck implements TalendJob {
 				/**
 				 * [tJDBCConnection_2 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCConnection_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_2";
+
+				/**
+				 * [tJDBCConnection_2 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCConnection_2_SUBPROCESS_STATE", 1);
@@ -890,6 +958,7 @@ public class MinimalVersionCheck implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -909,9 +978,11 @@ public class MinimalVersionCheck implements TalendJob {
 
 				ok_Hash.put("tContextLoad_1", false);
 				start_Hash.put("tContextLoad_1", System.currentTimeMillis());
+
 				currentComponent = "tContextLoad_1";
 
 				int tos_count_tContextLoad_1 = 0;
+
 				java.util.List<String> assignList_tContextLoad_1 = new java.util.ArrayList<String>();
 				java.util.List<String> newPropertyList_tContextLoad_1 = new java.util.ArrayList<String>();
 				java.util.List<String> noAssignList_tContextLoad_1 = new java.util.ArrayList<String>();
@@ -927,6 +998,7 @@ public class MinimalVersionCheck implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_1", false);
 				start_Hash.put("tJDBCInput_1", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_1";
 
 				int tos_count_tJDBCInput_1 = 0;
@@ -935,14 +1007,6 @@ public class MinimalVersionCheck implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_1 = null;
 				conn_tJDBCInput_1 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_1");
-				if (null == conn_tJDBCInput_1) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_1 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_1 = dataSources_tJDBCInput_1.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_1",
-					// conn_tJDBCInput_1);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_1 = conn_tJDBCInput_1
 						.createStatement();
@@ -950,209 +1014,212 @@ public class MinimalVersionCheck implements TalendJob {
 				String dbquery_tJDBCInput_1 = "select distinct 'ovirtMinimalETL', option_value  from vdc_options  where option_name = 'MinimalETLVersion'";
 
 				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
+				java.sql.ResultSet rs_tJDBCInput_1 = null;
+				try {
+					rs_tJDBCInput_1 = stmt_tJDBCInput_1
+							.executeQuery(dbquery_tJDBCInput_1);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_1 = rs_tJDBCInput_1
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_1 = rsmd_tJDBCInput_1
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_1 = stmt_tJDBCInput_1
-						.executeQuery(dbquery_tJDBCInput_1);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_1 = rs_tJDBCInput_1
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_1 = rsmd_tJDBCInput_1
-						.getColumnCount();
+					String tmpContent_tJDBCInput_1 = null;
+					int column_index_tJDBCInput_1 = 1;
 
-				String tmpContent_tJDBCInput_1 = null;
-				int column_index_tJDBCInput_1 = 1;
-				while (rs_tJDBCInput_1.next()) {
-					nb_line_tJDBCInput_1++;
+					while (rs_tJDBCInput_1.next()) {
+						nb_line_tJDBCInput_1++;
 
-					column_index_tJDBCInput_1 = 1;
+						column_index_tJDBCInput_1 = 1;
 
-					if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
-						row1.key = null;
-					} else {
-
-						tmpContent_tJDBCInput_1 = rs_tJDBCInput_1
-								.getString(column_index_tJDBCInput_1);
-						if (tmpContent_tJDBCInput_1 != null) {
-							row1.key = tmpContent_tJDBCInput_1;
-						} else {
+						if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
 							row1.key = null;
-						}
-
-						if (rs_tJDBCInput_1.wasNull()) {
-							row1.key = null;
-						}
-					}
-					column_index_tJDBCInput_1 = 2;
-
-					if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
-						row1.value = null;
-					} else {
-
-						tmpContent_tJDBCInput_1 = rs_tJDBCInput_1
-								.getString(column_index_tJDBCInput_1);
-						if (tmpContent_tJDBCInput_1 != null) {
-							row1.value = tmpContent_tJDBCInput_1;
 						} else {
-							row1.value = null;
-						}
 
-						if (rs_tJDBCInput_1.wasNull()) {
-							row1.value = null;
-						}
-					}
-
-					/**
-					 * [tJDBCInput_1 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_1 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_1";
-
-					tos_count_tJDBCInput_1++;
-
-					/**
-					 * [tJDBCInput_1 main ] stop
-					 */
-
-					/**
-					 * [tContextLoad_1 main ] start
-					 */
-
-					currentComponent = "tContextLoad_1";
-
-					// ////////////////////////
-					String tmp_key_tContextLoad_1 = null;
-
-					String key_tContextLoad_1 = null;
-					if (row1.key != null) {
-						tmp_key_tContextLoad_1 = row1.key.trim();
-						if ((tmp_key_tContextLoad_1.startsWith("#") || tmp_key_tContextLoad_1
-								.startsWith("!"))) {
-							tmp_key_tContextLoad_1 = null;
-						} else {
-							row1.key = tmp_key_tContextLoad_1;
-						}
-					}
-					if (row1.key != null) {
-
-						key_tContextLoad_1 =
-
-						row1.key;
-
-					}
-
-					String value_tContextLoad_1 = null;
-					if (row1.value != null) {
-
-						value_tContextLoad_1 =
-
-						row1.value;
-
-					}
-
-					if (tmp_key_tContextLoad_1 != null) {
-						try {
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineHistoryMinimalETL"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineHistoryMinimalETL = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtMinimalETL"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtMinimalETL = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "etlVersion".equals(key_tContextLoad_1)) {
-								context.etlVersion = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineDbDriverClass"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineDbDriverClass = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineHistoryDbDriverClass"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineHistoryDbJdbcConnection"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineHistoryDbPassword"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineHistoryDbPassword = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineHistoryDbUser"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineHistoryDbUser = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineDbJdbcConnection"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineDbJdbcConnection = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineDbPassword"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineDbPassword = value_tContextLoad_1;
-							}
-
-							if (key_tContextLoad_1 != null
-									&& "ovirtEngineDbUser"
-											.equals(key_tContextLoad_1)) {
-								context.ovirtEngineDbUser = value_tContextLoad_1;
-							}
-
-							if (context.getProperty(key_tContextLoad_1) != null) {
-								assignList_tContextLoad_1
-										.add(key_tContextLoad_1);
+							tmpContent_tJDBCInput_1 = rs_tJDBCInput_1
+									.getString(column_index_tJDBCInput_1);
+							if (tmpContent_tJDBCInput_1 != null) {
+								row1.key = tmpContent_tJDBCInput_1;
 							} else {
-								newPropertyList_tContextLoad_1
-										.add(key_tContextLoad_1);
+								row1.key = null;
 							}
-							context.setProperty(key_tContextLoad_1,
-									value_tContextLoad_1);
-						} catch (java.lang.Exception e) {
-							System.err.println("Set value for key: "
-									+ key_tContextLoad_1
-									+ " failed, error message: "
-									+ e.getMessage());
+
 						}
-						nb_line_tContextLoad_1++;
+
+						column_index_tJDBCInput_1 = 2;
+
+						if (colQtyInRs_tJDBCInput_1 < column_index_tJDBCInput_1) {
+							row1.value = null;
+						} else {
+
+							tmpContent_tJDBCInput_1 = rs_tJDBCInput_1
+									.getString(column_index_tJDBCInput_1);
+							if (tmpContent_tJDBCInput_1 != null) {
+								row1.value = tmpContent_tJDBCInput_1;
+							} else {
+								row1.value = null;
+							}
+
+						}
+
+						/**
+						 * [tJDBCInput_1 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_1 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_1";
+
+						tos_count_tJDBCInput_1++;
+
+						/**
+						 * [tJDBCInput_1 main ] stop
+						 */
+
+						/**
+						 * [tContextLoad_1 main ] start
+						 */
+
+						currentComponent = "tContextLoad_1";
+
+						// ////////////////////////
+						String tmp_key_tContextLoad_1 = null;
+
+						String key_tContextLoad_1 = null;
+						if (row1.key != null) {
+							tmp_key_tContextLoad_1 = row1.key.trim();
+							if ((tmp_key_tContextLoad_1.startsWith("#") || tmp_key_tContextLoad_1
+									.startsWith("!"))) {
+								tmp_key_tContextLoad_1 = null;
+							} else {
+								row1.key = tmp_key_tContextLoad_1;
+							}
+						}
+						if (row1.key != null) {
+
+							key_tContextLoad_1 =
+
+							row1.key;
+
+						}
+
+						String value_tContextLoad_1 = null;
+						if (row1.value != null) {
+
+							value_tContextLoad_1 =
+
+							row1.value;
+
+						}
+
+						if (tmp_key_tContextLoad_1 != null) {
+							try {
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineHistoryMinimalETL"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineHistoryMinimalETL = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtMinimalETL"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtMinimalETL = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "etlVersion"
+												.equals(key_tContextLoad_1)) {
+									context.etlVersion = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineDbDriverClass"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineDbDriverClass = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineHistoryDbDriverClass"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineHistoryDbJdbcConnection"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineHistoryDbPassword"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineHistoryDbPassword = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineHistoryDbUser"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineHistoryDbUser = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineDbJdbcConnection"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineDbJdbcConnection = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineDbPassword"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineDbPassword = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "ovirtEngineDbUser"
+												.equals(key_tContextLoad_1)) {
+									context.ovirtEngineDbUser = value_tContextLoad_1;
+								}
+
+								if (context.getProperty(key_tContextLoad_1) != null) {
+									assignList_tContextLoad_1
+											.add(key_tContextLoad_1);
+								} else {
+									newPropertyList_tContextLoad_1
+											.add(key_tContextLoad_1);
+								}
+								context.setProperty(key_tContextLoad_1,
+										value_tContextLoad_1);
+							} catch (java.lang.Exception e) {
+
+								System.err
+										.println("Setting a value for the key \""
+												+ key_tContextLoad_1
+												+ "\" has failed. Error message: "
+												+ e.getMessage());
+							}
+							nb_line_tContextLoad_1++;
+
+						}
+						// ////////////////////////
+
+						tos_count_tContextLoad_1++;
+
+						/**
+						 * [tContextLoad_1 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_1 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_1";
+
 					}
-					// ////////////////////////
-
-					tos_count_tContextLoad_1++;
-
-					/**
-					 * [tContextLoad_1 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_1 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_1";
+				} finally {
+					rs_tJDBCInput_1.close();
+					stmt_tJDBCInput_1.close();
 
 				}
-				rs_tJDBCInput_1.close();
-				stmt_tJDBCInput_1.close();
-
 				globalMap.put("tJDBCInput_1_NB_LINE", nb_line_tJDBCInput_1);
 
 				ok_Hash.put("tJDBCInput_1", true);
@@ -1231,12 +1298,43 @@ public class MinimalVersionCheck implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_1";
+
+				/**
+				 * [tJDBCInput_1 finally ] stop
+				 */
+
+				/**
+				 * [tContextLoad_1 finally ] start
+				 */
+
+				currentComponent = "tContextLoad_1";
+
+				/**
+				 * [tContextLoad_1 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", 1);
@@ -1389,6 +1487,7 @@ public class MinimalVersionCheck implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -1408,9 +1507,11 @@ public class MinimalVersionCheck implements TalendJob {
 
 				ok_Hash.put("tContextLoad_2", false);
 				start_Hash.put("tContextLoad_2", System.currentTimeMillis());
+
 				currentComponent = "tContextLoad_2";
 
 				int tos_count_tContextLoad_2 = 0;
+
 				java.util.List<String> assignList_tContextLoad_2 = new java.util.ArrayList<String>();
 				java.util.List<String> newPropertyList_tContextLoad_2 = new java.util.ArrayList<String>();
 				java.util.List<String> noAssignList_tContextLoad_2 = new java.util.ArrayList<String>();
@@ -1426,6 +1527,7 @@ public class MinimalVersionCheck implements TalendJob {
 
 				ok_Hash.put("tJDBCInput_2", false);
 				start_Hash.put("tJDBCInput_2", System.currentTimeMillis());
+
 				currentComponent = "tJDBCInput_2";
 
 				int tos_count_tJDBCInput_2 = 0;
@@ -1434,14 +1536,6 @@ public class MinimalVersionCheck implements TalendJob {
 				java.sql.Connection conn_tJDBCInput_2 = null;
 				conn_tJDBCInput_2 = (java.sql.Connection) globalMap
 						.get("conn_tJDBCConnection_2");
-				if (null == conn_tJDBCInput_2) {
-					java.util.Map<String, routines.system.TalendDataSource> dataSources_tJDBCInput_2 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
-							.get(KEY_DB_DATASOURCES);
-					conn_tJDBCInput_2 = dataSources_tJDBCInput_2.get("")
-							.getConnection();
-					// globalMap.put("conn_tJDBCConnection_2",
-					// conn_tJDBCInput_2);
-				}
 
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
@@ -1449,209 +1543,212 @@ public class MinimalVersionCheck implements TalendJob {
 				String dbquery_tJDBCInput_2 = "select distinct 'ovirtEngineHistoryMinimalETL', var_value  from history_configuration  where var_name = 'MinimalETLVersion'";
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
+				java.sql.ResultSet rs_tJDBCInput_2 = null;
+				try {
+					rs_tJDBCInput_2 = stmt_tJDBCInput_2
+							.executeQuery(dbquery_tJDBCInput_2);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_2 = rs_tJDBCInput_2
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_2 = rsmd_tJDBCInput_2
+							.getColumnCount();
 
-				java.sql.ResultSet rs_tJDBCInput_2 = stmt_tJDBCInput_2
-						.executeQuery(dbquery_tJDBCInput_2);
-				java.sql.ResultSetMetaData rsmd_tJDBCInput_2 = rs_tJDBCInput_2
-						.getMetaData();
-				int colQtyInRs_tJDBCInput_2 = rsmd_tJDBCInput_2
-						.getColumnCount();
+					String tmpContent_tJDBCInput_2 = null;
+					int column_index_tJDBCInput_2 = 1;
 
-				String tmpContent_tJDBCInput_2 = null;
-				int column_index_tJDBCInput_2 = 1;
-				while (rs_tJDBCInput_2.next()) {
-					nb_line_tJDBCInput_2++;
+					while (rs_tJDBCInput_2.next()) {
+						nb_line_tJDBCInput_2++;
 
-					column_index_tJDBCInput_2 = 1;
+						column_index_tJDBCInput_2 = 1;
 
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.key = null;
-					} else {
-
-						tmpContent_tJDBCInput_2 = rs_tJDBCInput_2
-								.getString(column_index_tJDBCInput_2);
-						if (tmpContent_tJDBCInput_2 != null) {
-							row2.key = tmpContent_tJDBCInput_2;
-						} else {
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.key = null;
-						}
-
-						if (rs_tJDBCInput_2.wasNull()) {
-							row2.key = null;
-						}
-					}
-					column_index_tJDBCInput_2 = 2;
-
-					if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-						row2.value = null;
-					} else {
-
-						tmpContent_tJDBCInput_2 = rs_tJDBCInput_2
-								.getString(column_index_tJDBCInput_2);
-						if (tmpContent_tJDBCInput_2 != null) {
-							row2.value = tmpContent_tJDBCInput_2;
 						} else {
-							row2.value = null;
-						}
 
-						if (rs_tJDBCInput_2.wasNull()) {
-							row2.value = null;
-						}
-					}
-
-					/**
-					 * [tJDBCInput_2 begin ] stop
-					 */
-					/**
-					 * [tJDBCInput_2 main ] start
-					 */
-
-					currentComponent = "tJDBCInput_2";
-
-					tos_count_tJDBCInput_2++;
-
-					/**
-					 * [tJDBCInput_2 main ] stop
-					 */
-
-					/**
-					 * [tContextLoad_2 main ] start
-					 */
-
-					currentComponent = "tContextLoad_2";
-
-					// ////////////////////////
-					String tmp_key_tContextLoad_2 = null;
-
-					String key_tContextLoad_2 = null;
-					if (row2.key != null) {
-						tmp_key_tContextLoad_2 = row2.key.trim();
-						if ((tmp_key_tContextLoad_2.startsWith("#") || tmp_key_tContextLoad_2
-								.startsWith("!"))) {
-							tmp_key_tContextLoad_2 = null;
-						} else {
-							row2.key = tmp_key_tContextLoad_2;
-						}
-					}
-					if (row2.key != null) {
-
-						key_tContextLoad_2 =
-
-						row2.key;
-
-					}
-
-					String value_tContextLoad_2 = null;
-					if (row2.value != null) {
-
-						value_tContextLoad_2 =
-
-						row2.value;
-
-					}
-
-					if (tmp_key_tContextLoad_2 != null) {
-						try {
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineHistoryMinimalETL"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineHistoryMinimalETL = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtMinimalETL"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtMinimalETL = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "etlVersion".equals(key_tContextLoad_2)) {
-								context.etlVersion = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineDbDriverClass"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineDbDriverClass = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineHistoryDbDriverClass"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineHistoryDbJdbcConnection"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineHistoryDbPassword"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineHistoryDbPassword = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineHistoryDbUser"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineHistoryDbUser = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineDbJdbcConnection"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineDbJdbcConnection = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineDbPassword"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineDbPassword = value_tContextLoad_2;
-							}
-
-							if (key_tContextLoad_2 != null
-									&& "ovirtEngineDbUser"
-											.equals(key_tContextLoad_2)) {
-								context.ovirtEngineDbUser = value_tContextLoad_2;
-							}
-
-							if (context.getProperty(key_tContextLoad_2) != null) {
-								assignList_tContextLoad_2
-										.add(key_tContextLoad_2);
+							tmpContent_tJDBCInput_2 = rs_tJDBCInput_2
+									.getString(column_index_tJDBCInput_2);
+							if (tmpContent_tJDBCInput_2 != null) {
+								row2.key = tmpContent_tJDBCInput_2;
 							} else {
-								newPropertyList_tContextLoad_2
-										.add(key_tContextLoad_2);
+								row2.key = null;
 							}
-							context.setProperty(key_tContextLoad_2,
-									value_tContextLoad_2);
-						} catch (java.lang.Exception e) {
-							System.err.println("Set value for key: "
-									+ key_tContextLoad_2
-									+ " failed, error message: "
-									+ e.getMessage());
+
 						}
-						nb_line_tContextLoad_2++;
+
+						column_index_tJDBCInput_2 = 2;
+
+						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
+							row2.value = null;
+						} else {
+
+							tmpContent_tJDBCInput_2 = rs_tJDBCInput_2
+									.getString(column_index_tJDBCInput_2);
+							if (tmpContent_tJDBCInput_2 != null) {
+								row2.value = tmpContent_tJDBCInput_2;
+							} else {
+								row2.value = null;
+							}
+
+						}
+
+						/**
+						 * [tJDBCInput_2 begin ] stop
+						 */
+						/**
+						 * [tJDBCInput_2 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_2";
+
+						tos_count_tJDBCInput_2++;
+
+						/**
+						 * [tJDBCInput_2 main ] stop
+						 */
+
+						/**
+						 * [tContextLoad_2 main ] start
+						 */
+
+						currentComponent = "tContextLoad_2";
+
+						// ////////////////////////
+						String tmp_key_tContextLoad_2 = null;
+
+						String key_tContextLoad_2 = null;
+						if (row2.key != null) {
+							tmp_key_tContextLoad_2 = row2.key.trim();
+							if ((tmp_key_tContextLoad_2.startsWith("#") || tmp_key_tContextLoad_2
+									.startsWith("!"))) {
+								tmp_key_tContextLoad_2 = null;
+							} else {
+								row2.key = tmp_key_tContextLoad_2;
+							}
+						}
+						if (row2.key != null) {
+
+							key_tContextLoad_2 =
+
+							row2.key;
+
+						}
+
+						String value_tContextLoad_2 = null;
+						if (row2.value != null) {
+
+							value_tContextLoad_2 =
+
+							row2.value;
+
+						}
+
+						if (tmp_key_tContextLoad_2 != null) {
+							try {
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineHistoryMinimalETL"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineHistoryMinimalETL = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtMinimalETL"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtMinimalETL = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "etlVersion"
+												.equals(key_tContextLoad_2)) {
+									context.etlVersion = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineDbDriverClass"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineDbDriverClass = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineHistoryDbDriverClass"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineHistoryDbJdbcConnection"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineHistoryDbPassword"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineHistoryDbPassword = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineHistoryDbUser"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineHistoryDbUser = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineDbJdbcConnection"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineDbJdbcConnection = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineDbPassword"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineDbPassword = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineDbUser"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineDbUser = value_tContextLoad_2;
+								}
+
+								if (context.getProperty(key_tContextLoad_2) != null) {
+									assignList_tContextLoad_2
+											.add(key_tContextLoad_2);
+								} else {
+									newPropertyList_tContextLoad_2
+											.add(key_tContextLoad_2);
+								}
+								context.setProperty(key_tContextLoad_2,
+										value_tContextLoad_2);
+							} catch (java.lang.Exception e) {
+
+								System.err
+										.println("Setting a value for the key \""
+												+ key_tContextLoad_2
+												+ "\" has failed. Error message: "
+												+ e.getMessage());
+							}
+							nb_line_tContextLoad_2++;
+
+						}
+						// ////////////////////////
+
+						tos_count_tContextLoad_2++;
+
+						/**
+						 * [tContextLoad_2 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_2 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_2";
+
 					}
-					// ////////////////////////
-
-					tos_count_tContextLoad_2++;
-
-					/**
-					 * [tContextLoad_2 main ] stop
-					 */
-
-					/**
-					 * [tJDBCInput_2 end ] start
-					 */
-
-					currentComponent = "tJDBCInput_2";
+				} finally {
+					rs_tJDBCInput_2.close();
+					stmt_tJDBCInput_2.close();
 
 				}
-				rs_tJDBCInput_2.close();
-				stmt_tJDBCInput_2.close();
-
 				globalMap.put("tJDBCInput_2_NB_LINE", nb_line_tJDBCInput_2);
 
 				ok_Hash.put("tJDBCInput_2", true);
@@ -1722,12 +1819,43 @@ public class MinimalVersionCheck implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCInput_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_2";
+
+				/**
+				 * [tJDBCInput_2 finally ] stop
+				 */
+
+				/**
+				 * [tContextLoad_2 finally ] start
+				 */
+
+				currentComponent = "tContextLoad_2";
+
+				/**
+				 * [tContextLoad_2 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", 1);
@@ -1742,6 +1870,7 @@ public class MinimalVersionCheck implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -1759,6 +1888,7 @@ public class MinimalVersionCheck implements TalendJob {
 
 				ok_Hash.put("tDie_2", false);
 				start_Hash.put("tDie_2", System.currentTimeMillis());
+
 				currentComponent = "tDie_2";
 
 				int tos_count_tDie_2 = 0;
@@ -1820,17 +1950,36 @@ public class MinimalVersionCheck implements TalendJob {
 				/**
 				 * [tDie_2 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tDie_2 finally ] start
+				 */
+
+				currentComponent = "tDie_2";
+
+				/**
+				 * [tDie_2 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tDie_2_SUBPROCESS_STATE", 1);
@@ -1845,6 +1994,7 @@ public class MinimalVersionCheck implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -1862,6 +2012,7 @@ public class MinimalVersionCheck implements TalendJob {
 
 				ok_Hash.put("tDie_1", false);
 				start_Hash.put("tDie_1", System.currentTimeMillis());
+
 				currentComponent = "tDie_1";
 
 				int tos_count_tDie_1 = 0;
@@ -1923,17 +2074,36 @@ public class MinimalVersionCheck implements TalendJob {
 				/**
 				 * [tDie_1 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tDie_1 finally ] start
+				 */
+
+				currentComponent = "tDie_1";
+
+				/**
+				 * [tDie_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tDie_1_SUBPROCESS_STATE", 1);
@@ -2257,10 +2427,12 @@ public class MinimalVersionCheck implements TalendJob {
 		globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -2281,6 +2453,9 @@ public class MinimalVersionCheck implements TalendJob {
 				ok_Hash.put("talendLogs_CONSOLE", false);
 				start_Hash
 						.put("talendLogs_CONSOLE", System.currentTimeMillis());
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
+
 				currentComponent = "talendLogs_CONSOLE";
 
 				int tos_count_talendLogs_CONSOLE = 0;
@@ -2304,6 +2479,9 @@ public class MinimalVersionCheck implements TalendJob {
 
 				ok_Hash.put("talendLogs_LOGS", false);
 				start_Hash.put("talendLogs_LOGS", System.currentTimeMillis());
+
+				currentVirtualComponent = "talendLogs_LOGS";
+
 				currentComponent = "talendLogs_LOGS";
 
 				int tos_count_talendLogs_LOGS = 0;
@@ -2336,6 +2514,8 @@ public class MinimalVersionCheck implements TalendJob {
 					 * [talendLogs_LOGS main ] start
 					 */
 
+					currentVirtualComponent = "talendLogs_LOGS";
+
 					currentComponent = "talendLogs_LOGS";
 
 					tos_count_talendLogs_LOGS++;
@@ -2347,6 +2527,8 @@ public class MinimalVersionCheck implements TalendJob {
 					/**
 					 * [talendLogs_CONSOLE main ] start
 					 */
+
+					currentVirtualComponent = "talendLogs_CONSOLE";
 
 					currentComponent = "talendLogs_CONSOLE";
 
@@ -2491,6 +2673,8 @@ public class MinimalVersionCheck implements TalendJob {
 					 * [talendLogs_LOGS end ] start
 					 */
 
+					currentVirtualComponent = "talendLogs_LOGS";
+
 					currentComponent = "talendLogs_LOGS";
 
 				}
@@ -2505,6 +2689,8 @@ public class MinimalVersionCheck implements TalendJob {
 				/**
 				 * [talendLogs_CONSOLE end ] start
 				 */
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
 
 				currentComponent = "talendLogs_CONSOLE";
 
@@ -2526,12 +2712,49 @@ public class MinimalVersionCheck implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [talendLogs_LOGS finally ] start
+				 */
+
+				currentVirtualComponent = "talendLogs_LOGS";
+
+				currentComponent = "talendLogs_LOGS";
+
+				/**
+				 * [talendLogs_LOGS finally ] stop
+				 */
+
+				/**
+				 * [talendLogs_CONSOLE finally ] start
+				 */
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
+
+				currentComponent = "talendLogs_CONSOLE";
+
+				/**
+				 * [talendLogs_CONSOLE finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 1);
@@ -2557,6 +2780,7 @@ public class MinimalVersionCheck implements TalendJob {
 	public String fatherNode = null;
 	public long startTime = 0;
 	public boolean isChildJob = false;
+	public String log4jLevel = "";
 
 	private boolean execStat = true;
 
@@ -2578,6 +2802,7 @@ public class MinimalVersionCheck implements TalendJob {
 		final MinimalVersionCheck MinimalVersionCheckClass = new MinimalVersionCheck();
 
 		int exitCode = MinimalVersionCheckClass.runJobInTOS(args);
+
 		System.exit(exitCode);
 	}
 
@@ -2590,6 +2815,8 @@ public class MinimalVersionCheck implements TalendJob {
 	}
 
 	public int runJobInTOS(String[] args) {
+		// reset status
+		status = "";
 
 		String lastStr = "";
 		for (String arg : args) {
@@ -2756,9 +2983,9 @@ public class MinimalVersionCheck implements TalendJob {
 				status = "end";
 			}
 		} catch (TalendException e_tJDBCConnection_1) {
+			globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", -1);
 
 			e_tJDBCConnection_1.printStackTrace();
-			globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", -1);
 
 		}
 
@@ -2842,6 +3069,8 @@ public class MinimalVersionCheck implements TalendJob {
 							keyValue.substring(index + 1));
 				}
 			}
+		} else if (arg.startsWith("--log4jLevel=")) {
+			log4jLevel = arg.substring(13);
 		}
 
 	}
@@ -2871,6 +3100,6 @@ public class MinimalVersionCheck implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 81792 characters generated by Talend Open Studio for Data Integration on the
- * June 23, 2013 12:08:23 PM IDT
+ * 86536 characters generated by Talend Open Studio for Data Integration on the
+ * January 21, 2014 3:54:37 PM IST
  ************************************************************************************************/

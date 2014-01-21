@@ -208,16 +208,15 @@ public class TalendDate {
         sdf.setLenient(false);
         
         java.util.Date testDate = null;
-        ParsePosition pos = new ParsePosition(0);
 
-        testDate = sdf.parse(stringDate,pos);
-        
-        if(testDate == null) {
-            return false;
-        }
-        
+        try {
+			testDate = sdf.parse(stringDate);
+		} catch (ParseException e) {
+			return false;
+		}
+		
         String formatDate = sdf.format(testDate);
-        if(formatDate.equalsIgnoreCase(stringDate) || pos.getIndex() == stringDate.length()) {
+        if(formatDate.equalsIgnoreCase(stringDate) || formatDate.length()== stringDate.length()) {
             return true;
         }
 

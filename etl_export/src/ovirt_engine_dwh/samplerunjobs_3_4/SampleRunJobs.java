@@ -46,7 +46,7 @@ import java.util.Comparator;
  * Job: SampleRunJobs Purpose: <br>
  * Description:  <br>
  * @author ydary@redhat.com
- * @version 5.3.0.r101800
+ * @version 5.4.1.r111943
  * @status 
  */
 public class SampleRunJobs implements TalendJob {
@@ -245,14 +245,16 @@ public class SampleRunJobs implements TalendJob {
 	private final String projectName = "OVIRT_ENGINE_DWH";
 	public Integer errorCode = null;
 	private String currentComponent = "";
+
+	private final java.util.Map<String, Object> globalMap = java.util.Collections
+			.synchronizedMap(new java.util.HashMap<String, Object>());
+
 	private final java.util.Map<String, Long> start_Hash = java.util.Collections
 			.synchronizedMap(new java.util.HashMap<String, Long>());
 	private final java.util.Map<String, Long> end_Hash = java.util.Collections
 			.synchronizedMap(new java.util.HashMap<String, Long>());
 	private final java.util.Map<String, Boolean> ok_Hash = java.util.Collections
 			.synchronizedMap(new java.util.HashMap<String, Boolean>());
-	private final java.util.Map<String, Object> globalMap = java.util.Collections
-			.synchronizedMap(new java.util.HashMap<String, Object>());
 	public final java.util.List<String[]> globalBuffer = java.util.Collections
 			.synchronizedList(new java.util.ArrayList<String[]>());
 
@@ -304,6 +306,11 @@ public class SampleRunJobs implements TalendJob {
 		private java.util.Map<String, Object> globalMap = null;
 		private java.lang.Exception e = null;
 		private String currentComponent = null;
+		private String virtualComponentName = null;
+
+		public void setVirtualComponentName(String virtualComponentName) {
+			this.virtualComponentName = virtualComponentName;
+		}
 
 		private TalendException(java.lang.Exception e, String errorComponent,
 				final java.util.Map<String, Object> globalMap) {
@@ -320,11 +327,34 @@ public class SampleRunJobs implements TalendJob {
 			return this.currentComponent;
 		}
 
+		public String getExceptionCauseMessage(java.lang.Exception e) {
+			Throwable cause = e;
+			String message = null;
+			int i = 10;
+			while (null != cause && 0 < i--) {
+				message = cause.getMessage();
+				if (null == message) {
+					cause = cause.getCause();
+				} else {
+					break;
+				}
+			}
+			if (null == message) {
+				message = e.getClass().getName();
+			}
+			return message;
+		}
+
 		@Override
 		public void printStackTrace() {
 			if (!(e instanceof TalendException || e instanceof TDieException)) {
+				if (virtualComponentName != null
+						&& currentComponent.indexOf(virtualComponentName + "_") == 0) {
+					globalMap.put(virtualComponentName + "_ERROR_MESSAGE",
+							getExceptionCauseMessage(e));
+				}
 				globalMap.put(currentComponent + "_ERROR_MESSAGE",
-						e.getMessage());
+						getExceptionCauseMessage(e));
 				System.err
 						.println("Exception in component " + currentComponent);
 			}
@@ -365,10 +395,6 @@ public class SampleRunJobs implements TalendJob {
 				} catch (TalendException e) {
 					// do nothing
 				}
-
-			} else {
-
-				((java.util.Map) threadLocal.get()).put("status", "failure");
 
 			}
 		}
@@ -541,6 +567,7 @@ public class SampleRunJobs implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -558,6 +585,7 @@ public class SampleRunJobs implements TalendJob {
 
 				ok_Hash.put("tJDBCConnection_1", false);
 				start_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
+
 				currentComponent = "tJDBCConnection_1";
 
 				int tos_count_tJDBCConnection_1 = 0;
@@ -615,17 +643,36 @@ public class SampleRunJobs implements TalendJob {
 				/**
 				 * [tJDBCConnection_1 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCConnection_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_1";
+
+				/**
+				 * [tJDBCConnection_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", 1);
@@ -641,6 +688,7 @@ public class SampleRunJobs implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -658,6 +706,7 @@ public class SampleRunJobs implements TalendJob {
 
 				ok_Hash.put("tJDBCConnection_2", false);
 				start_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
+
 				currentComponent = "tJDBCConnection_2";
 
 				int tos_count_tJDBCConnection_2 = 0;
@@ -715,17 +764,36 @@ public class SampleRunJobs implements TalendJob {
 				/**
 				 * [tJDBCConnection_2 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tJDBCConnection_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_2";
+
+				/**
+				 * [tJDBCConnection_2 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tJDBCConnection_2_SUBPROCESS_STATE", 1);
@@ -740,6 +808,7 @@ public class SampleRunJobs implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -757,6 +826,7 @@ public class SampleRunJobs implements TalendJob {
 
 				ok_Hash.put("tRunJob_4", false);
 				start_Hash.put("tRunJob_4", System.currentTimeMillis());
+
 				currentComponent = "tRunJob_4";
 
 				int tos_count_tRunJob_4 = 0;
@@ -854,9 +924,11 @@ public class SampleRunJobs implements TalendJob {
 					childJob_tRunJob_4.setDataSources(dataSources_tRunJob_4);
 				}
 				childJob_tRunJob_4.parentContextMap = parentContextMap_tRunJob_4;
+
 				String[][] childReturn_tRunJob_4 = childJob_tRunJob_4
 						.runJob((String[]) paraList_tRunJob_4
 								.toArray(new String[paraList_tRunJob_4.size()]));
+
 				((java.util.Map) threadLocal.get()).put("errorCode",
 						childJob_tRunJob_4.getErrorCode());
 
@@ -870,11 +942,14 @@ public class SampleRunJobs implements TalendJob {
 					globalMap.put("tRunJob_4_CHILD_RETURN_CODE",
 							childJob_tRunJob_4.getErrorCode());
 				}
-				globalMap.put("tRunJob_4_CHILD_EXCEPTION_STACKTRACE",
-						childJob_tRunJob_4.getExceptionStackTrace());
+				if (childJob_tRunJob_4.getExceptionStackTrace() != null) {
+					globalMap.put("tRunJob_4_CHILD_EXCEPTION_STACKTRACE",
+							childJob_tRunJob_4.getExceptionStackTrace());
+				}
 
 				if (childJob_tRunJob_4.getErrorCode() != null
 						|| ("failure").equals(childJob_tRunJob_4.getStatus())) {
+
 					throw new RuntimeException("Child job running failed");
 				}
 
@@ -895,7 +970,6 @@ public class SampleRunJobs implements TalendJob {
 				/**
 				 * [tRunJob_4 end ] stop
 				 */
-
 			}// end the resume
 
 			if (resumeEntryMethodName == null || globalResumeTicket) {
@@ -909,12 +983,32 @@ public class SampleRunJobs implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tRunJob_4 finally ] start
+				 */
+
+				currentComponent = "tRunJob_4";
+
+				/**
+				 * [tRunJob_4 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tRunJob_4_SUBPROCESS_STATE", 1);
@@ -929,6 +1023,7 @@ public class SampleRunJobs implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -946,6 +1041,7 @@ public class SampleRunJobs implements TalendJob {
 
 				ok_Hash.put("tRunJob_1", false);
 				start_Hash.put("tRunJob_1", System.currentTimeMillis());
+
 				currentComponent = "tRunJob_1";
 
 				int tos_count_tRunJob_1 = 0;
@@ -1043,9 +1139,11 @@ public class SampleRunJobs implements TalendJob {
 					childJob_tRunJob_1.setDataSources(dataSources_tRunJob_1);
 				}
 				childJob_tRunJob_1.parentContextMap = parentContextMap_tRunJob_1;
+
 				String[][] childReturn_tRunJob_1 = childJob_tRunJob_1
 						.runJob((String[]) paraList_tRunJob_1
 								.toArray(new String[paraList_tRunJob_1.size()]));
+
 				((java.util.Map) threadLocal.get()).put("errorCode",
 						childJob_tRunJob_1.getErrorCode());
 
@@ -1059,11 +1157,14 @@ public class SampleRunJobs implements TalendJob {
 					globalMap.put("tRunJob_1_CHILD_RETURN_CODE",
 							childJob_tRunJob_1.getErrorCode());
 				}
-				globalMap.put("tRunJob_1_CHILD_EXCEPTION_STACKTRACE",
-						childJob_tRunJob_1.getExceptionStackTrace());
+				if (childJob_tRunJob_1.getExceptionStackTrace() != null) {
+					globalMap.put("tRunJob_1_CHILD_EXCEPTION_STACKTRACE",
+							childJob_tRunJob_1.getExceptionStackTrace());
+				}
 
 				if (childJob_tRunJob_1.getErrorCode() != null
 						|| ("failure").equals(childJob_tRunJob_1.getStatus())) {
+
 					throw new RuntimeException("Child job running failed");
 				}
 
@@ -1084,7 +1185,6 @@ public class SampleRunJobs implements TalendJob {
 				/**
 				 * [tRunJob_1 end ] stop
 				 */
-
 			}// end the resume
 
 			if (resumeEntryMethodName == null || globalResumeTicket) {
@@ -1098,12 +1198,32 @@ public class SampleRunJobs implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tRunJob_1 finally ] start
+				 */
+
+				currentComponent = "tRunJob_1";
+
+				/**
+				 * [tRunJob_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tRunJob_1_SUBPROCESS_STATE", 1);
@@ -1118,6 +1238,7 @@ public class SampleRunJobs implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -1135,6 +1256,7 @@ public class SampleRunJobs implements TalendJob {
 
 				ok_Hash.put("tRunJob_6", false);
 				start_Hash.put("tRunJob_6", System.currentTimeMillis());
+
 				currentComponent = "tRunJob_6";
 
 				int tos_count_tRunJob_6 = 0;
@@ -1232,9 +1354,11 @@ public class SampleRunJobs implements TalendJob {
 					childJob_tRunJob_6.setDataSources(dataSources_tRunJob_6);
 				}
 				childJob_tRunJob_6.parentContextMap = parentContextMap_tRunJob_6;
+
 				String[][] childReturn_tRunJob_6 = childJob_tRunJob_6
 						.runJob((String[]) paraList_tRunJob_6
 								.toArray(new String[paraList_tRunJob_6.size()]));
+
 				((java.util.Map) threadLocal.get()).put("errorCode",
 						childJob_tRunJob_6.getErrorCode());
 
@@ -1248,11 +1372,14 @@ public class SampleRunJobs implements TalendJob {
 					globalMap.put("tRunJob_6_CHILD_RETURN_CODE",
 							childJob_tRunJob_6.getErrorCode());
 				}
-				globalMap.put("tRunJob_6_CHILD_EXCEPTION_STACKTRACE",
-						childJob_tRunJob_6.getExceptionStackTrace());
+				if (childJob_tRunJob_6.getExceptionStackTrace() != null) {
+					globalMap.put("tRunJob_6_CHILD_EXCEPTION_STACKTRACE",
+							childJob_tRunJob_6.getExceptionStackTrace());
+				}
 
 				if (childJob_tRunJob_6.getErrorCode() != null
 						|| ("failure").equals(childJob_tRunJob_6.getStatus())) {
+
 					throw new RuntimeException("Child job running failed");
 				}
 
@@ -1273,7 +1400,6 @@ public class SampleRunJobs implements TalendJob {
 				/**
 				 * [tRunJob_6 end ] stop
 				 */
-
 			}// end the resume
 
 			if (resumeEntryMethodName == null || globalResumeTicket) {
@@ -1287,12 +1413,32 @@ public class SampleRunJobs implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tRunJob_6 finally ] start
+				 */
+
+				currentComponent = "tRunJob_6";
+
+				/**
+				 * [tRunJob_6 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tRunJob_6_SUBPROCESS_STATE", 1);
@@ -1307,6 +1453,7 @@ public class SampleRunJobs implements TalendJob {
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -1324,6 +1471,7 @@ public class SampleRunJobs implements TalendJob {
 
 				ok_Hash.put("tRunJob_5", false);
 				start_Hash.put("tRunJob_5", System.currentTimeMillis());
+
 				currentComponent = "tRunJob_5";
 
 				int tos_count_tRunJob_5 = 0;
@@ -1421,9 +1569,11 @@ public class SampleRunJobs implements TalendJob {
 					childJob_tRunJob_5.setDataSources(dataSources_tRunJob_5);
 				}
 				childJob_tRunJob_5.parentContextMap = parentContextMap_tRunJob_5;
+
 				String[][] childReturn_tRunJob_5 = childJob_tRunJob_5
 						.runJob((String[]) paraList_tRunJob_5
 								.toArray(new String[paraList_tRunJob_5.size()]));
+
 				((java.util.Map) threadLocal.get()).put("errorCode",
 						childJob_tRunJob_5.getErrorCode());
 
@@ -1437,11 +1587,14 @@ public class SampleRunJobs implements TalendJob {
 					globalMap.put("tRunJob_5_CHILD_RETURN_CODE",
 							childJob_tRunJob_5.getErrorCode());
 				}
-				globalMap.put("tRunJob_5_CHILD_EXCEPTION_STACKTRACE",
-						childJob_tRunJob_5.getExceptionStackTrace());
+				if (childJob_tRunJob_5.getExceptionStackTrace() != null) {
+					globalMap.put("tRunJob_5_CHILD_EXCEPTION_STACKTRACE",
+							childJob_tRunJob_5.getExceptionStackTrace());
+				}
 
 				if (childJob_tRunJob_5.getErrorCode() != null
 						|| ("failure").equals(childJob_tRunJob_5.getStatus())) {
+
 					throw new RuntimeException("Child job running failed");
 				}
 
@@ -1462,17 +1615,36 @@ public class SampleRunJobs implements TalendJob {
 				/**
 				 * [tRunJob_5 end ] stop
 				 */
-
 			}// end the resume
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [tRunJob_5 finally ] start
+				 */
+
+				currentComponent = "tRunJob_5";
+
+				/**
+				 * [tRunJob_5 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("tRunJob_5_SUBPROCESS_STATE", 1);
@@ -1795,10 +1967,12 @@ public class SampleRunJobs implements TalendJob {
 		globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
 		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
 		try {
 
@@ -1819,6 +1993,9 @@ public class SampleRunJobs implements TalendJob {
 				ok_Hash.put("talendLogs_CONSOLE", false);
 				start_Hash
 						.put("talendLogs_CONSOLE", System.currentTimeMillis());
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
+
 				currentComponent = "talendLogs_CONSOLE";
 
 				int tos_count_talendLogs_CONSOLE = 0;
@@ -1842,6 +2019,9 @@ public class SampleRunJobs implements TalendJob {
 
 				ok_Hash.put("talendLogs_LOGS", false);
 				start_Hash.put("talendLogs_LOGS", System.currentTimeMillis());
+
+				currentVirtualComponent = "talendLogs_LOGS";
+
 				currentComponent = "talendLogs_LOGS";
 
 				int tos_count_talendLogs_LOGS = 0;
@@ -1874,6 +2054,8 @@ public class SampleRunJobs implements TalendJob {
 					 * [talendLogs_LOGS main ] start
 					 */
 
+					currentVirtualComponent = "talendLogs_LOGS";
+
 					currentComponent = "talendLogs_LOGS";
 
 					tos_count_talendLogs_LOGS++;
@@ -1885,6 +2067,8 @@ public class SampleRunJobs implements TalendJob {
 					/**
 					 * [talendLogs_CONSOLE main ] start
 					 */
+
+					currentVirtualComponent = "talendLogs_CONSOLE";
 
 					currentComponent = "talendLogs_CONSOLE";
 
@@ -2029,6 +2213,8 @@ public class SampleRunJobs implements TalendJob {
 					 * [talendLogs_LOGS end ] start
 					 */
 
+					currentVirtualComponent = "talendLogs_LOGS";
+
 					currentComponent = "talendLogs_LOGS";
 
 				}
@@ -2043,6 +2229,8 @@ public class SampleRunJobs implements TalendJob {
 				/**
 				 * [talendLogs_CONSOLE end ] start
 				 */
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
 
 				currentComponent = "talendLogs_CONSOLE";
 
@@ -2064,12 +2252,49 @@ public class SampleRunJobs implements TalendJob {
 
 		} catch (java.lang.Exception e) {
 
-			throw new TalendException(e, currentComponent, globalMap);
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
+			throw te;
 		} catch (java.lang.Error error) {
 
-			throw new java.lang.Error(error);
+			throw error;
+		} finally {
 
+			try {
+
+				/**
+				 * [talendLogs_LOGS finally ] start
+				 */
+
+				currentVirtualComponent = "talendLogs_LOGS";
+
+				currentComponent = "talendLogs_LOGS";
+
+				/**
+				 * [talendLogs_LOGS finally ] stop
+				 */
+
+				/**
+				 * [talendLogs_CONSOLE finally ] start
+				 */
+
+				currentVirtualComponent = "talendLogs_CONSOLE";
+
+				currentComponent = "talendLogs_CONSOLE";
+
+				/**
+				 * [talendLogs_CONSOLE finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
 		}
 
 		globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 1);
@@ -2095,6 +2320,7 @@ public class SampleRunJobs implements TalendJob {
 	public String fatherNode = null;
 	public long startTime = 0;
 	public boolean isChildJob = false;
+	public String log4jLevel = "";
 
 	private boolean execStat = true;
 
@@ -2130,6 +2356,7 @@ public class SampleRunJobs implements TalendJob {
 		final SampleRunJobs SampleRunJobsClass = new SampleRunJobs();
 
 		int exitCode = SampleRunJobsClass.runJobInTOS(args);
+
 		System.exit(exitCode);
 	}
 
@@ -2142,6 +2369,8 @@ public class SampleRunJobs implements TalendJob {
 	}
 
 	public int runJobInTOS(String[] args) {
+		// reset status
+		status = "";
 
 		String lastStr = "";
 		for (String arg : args) {
@@ -2335,14 +2564,14 @@ public class SampleRunJobs implements TalendJob {
 								.put("status", "end");
 					}
 				} catch (TalendException e_tJDBCConnection_1) {
+					globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", -1);
 
 					e_tJDBCConnection_1.printStackTrace();
-					globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", -1);
 
 				} catch (Error e_tJDBCConnection_1) {
+					globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", -1);
 
 					e_tJDBCConnection_1.printStackTrace();
-					globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", -1);
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -2451,6 +2680,8 @@ public class SampleRunJobs implements TalendJob {
 							keyValue.substring(index + 1));
 				}
 			}
+		} else if (arg.startsWith("--log4jLevel=")) {
+			log4jLevel = arg.substring(13);
 		}
 
 	}
@@ -2480,6 +2711,6 @@ public class SampleRunJobs implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 74524 characters generated by Talend Open Studio for Data Integration on the
- * September 17, 2013 5:29:03 PM IDT
+ * 79958 characters generated by Talend Open Studio for Data Integration on the
+ * January 21, 2014 3:54:32 PM IST
  ************************************************************************************************/

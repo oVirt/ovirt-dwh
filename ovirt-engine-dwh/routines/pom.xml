@@ -11,7 +11,7 @@
   <groupId>org.ovirt.engine.dwh</groupId>
   <artifactId>routines</artifactId>
   <packaging>jar</packaging>
-  <version>5.3.0</version>
+  <version>5.4.1.r111943</version>
   <name>Talend's Routines</name>
   <description>The talend routines required for etl jobs</description>
 
