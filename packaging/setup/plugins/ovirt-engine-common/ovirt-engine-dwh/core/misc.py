@@ -47,6 +47,12 @@ class Plugin(plugin.PluginBase):
         self.environment[
             osetupcons.CoreEnv.SETUP_ATTRS_MODULES
         ].append(odwhcons)
+        self.logger.debug(
+            'dwh version: %s-%s (%s)\n',
+            odwhcons.Const.PACKAGE_NAME,
+            odwhcons.Const.PACKAGE_VERSION,
+            odwhcons.Const.DISPLAY_VERSION,
+        )
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
