@@ -140,6 +140,10 @@ fi
 %config(noreplace) %attr(-, %{engine_user}, %{engine_group}) %{_sysconfdir}/ovirt-engine/%{dwh_name}/Default.properties
 
 %changelog
+* Sun Jan 26 2014 Yaniv Dary <ydary@redhat.com> - 3.3.0
+Fixed issue:
+- fixed issue with user_logged_in_to_guest column null handling (#1057412)
+
 * Thu Jan 09 2014 Yaniv Dary <ydary@redhat.com> - 3.3
 Refixed issue:
 - fix ugprade with remote db (#1046676)
