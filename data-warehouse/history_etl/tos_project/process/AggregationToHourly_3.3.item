@@ -2634,7 +2634,7 @@
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_users_aggregate_history">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row13.history_datetime) " type="id_Date"/>
@@ -2811,7 +2811,7 @@
       <outputTables sizeState="INTERMEDIATE" name="complete_aggregation">
         <mapperTableEntries name="history_datetime" expression="row14.history_datetime" type="id_Date"/>
         <mapperTableEntries name="user_name" expression="row14.user_name" type="id_String" nullable="true"/>
-        <mapperTableEntries name="user_logged_in_to_guest" expression="row14.user_logged_in_to_guest > 0" type="id_Boolean" nullable="true"/>
+        <mapperTableEntries name="user_logged_in_to_guest" expression="row14.user_logged_in_to_guest != null ? row14.user_logged_in_to_guest > 0 : null" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="vm_id" expression="row14.vm_id" type="id_Object"/>
         <mapperTableEntries name="session_time_in_minutes" expression="row14.session_time_in_minutes" type="id_Double"/>
         <mapperTableEntries name="cpu_usage_percent" expression="row14.cpu_usage_percent" type="id_Short" nullable="true"/>

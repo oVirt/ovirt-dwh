@@ -76,7 +76,7 @@
     <variables name="row11.var_value" value="null" talendType="id_String" nullable="true"/>
     <variables name="row11.var_datetime" value="null" talendType="id_Date" nullable="true"/>
   </expression:EMFExpression>
-  <expression:EMFExpression id="null=>complete_aggregation=>user_logged_in_to_guest" expression="row14.user_logged_in_to_guest == 1">
+  <expression:EMFExpression id="null=>complete_aggregation=>user_logged_in_to_guest" expression="row14.user_logged_in_to_guest != null ? row14.user_logged_in_to_guest > 0 : null">
     <variables name="row14.history_datetime" value="null" talendType="id_Date"/>
     <variables name="row14.user_name" value="null" talendType="id_String" nullable="true"/>
     <variables name="row14.user_logged_in_to_guest" value="null" talendType="id_Integer" nullable="true"/>
