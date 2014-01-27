@@ -45,6 +45,13 @@ class Plugin(plugin.PluginBase):
     )
     def _setup(self):
         self.environment[
+            osetupcons.CoreEnv.REGISTER_UNINSTALL_GROUPS
+        ].createGroup(
+            group='ovirt_dwh_files',
+            description='DWH files',
+            optional=True,
+        )
+        self.environment[
             osetupcons.CoreEnv.SETUP_ATTRS_MODULES
         ].append(odwhcons)
         self.logger.debug(

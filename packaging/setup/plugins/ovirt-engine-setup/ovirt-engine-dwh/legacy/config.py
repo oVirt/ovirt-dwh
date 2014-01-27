@@ -32,6 +32,7 @@ from otopi import plugin
 from ovirt_engine import configfile
 
 
+from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup import dwhconstants as odwhcons
 from ovirt_engine_setup import database
 
@@ -97,6 +98,13 @@ class Plugin(plugin.PluginBase):
                 if legacy.get(old) != current.get(new):
                     fixups.append('%s="%s"' % (new, legacy.get(old)))
             if fixups:
+                uninstall_files = []
+                self.environment[
+                    osetupcons.CoreEnv.REGISTER_UNINSTALL_GROUPS
+                ].addFiles(
+                    group='ovirt_dwh_files',
+                    fileList=uninstall_files,
+                )
                 self.environment[
                     otopicons.CoreEnv.MAIN_TRANSACTION
                 ].append(
@@ -106,9 +114,7 @@ class Plugin(plugin.PluginBase):
                             OVIRT_ENGINE_DWHD_SERVICE_CONFIG_LEGACY
                         ),
                         content=fixups,
-                        modifiedList=self.environment[
-                            otopicons.CoreEnv.MODIFIED_FILES
-                        ],
+                        modifiedList=uninstall_files,
                     )
                 )
 

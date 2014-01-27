@@ -100,6 +100,13 @@ class Plugin(plugin.PluginBase):
         condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
     )
     def _misc(self):
+        uninstall_files = []
+        self.environment[
+            osetupcons.CoreEnv.REGISTER_UNINSTALL_GROUPS
+        ].addFiles(
+            group='ovirt_dwh_files',
+            fileList=uninstall_files,
+        )
         self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
             filetransaction.FileTransaction(
                 name=(
@@ -135,9 +142,7 @@ class Plugin(plugin.PluginBase):
                         ],
                     ),
                 ),
-                modifiedList=self.environment[
-                    otopicons.CoreEnv.MODIFIED_FILES
-                ],
+                modifiedList=uninstall_files,
             )
         )
 
