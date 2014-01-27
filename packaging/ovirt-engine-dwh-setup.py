@@ -564,7 +564,7 @@ def main(options):
                             )
                         )
 
-            if dbExists:
+            if hasData:
                 try:
                     if options['BACKUP_DB'] is None:
                         doBackup = utils.performBackup(
@@ -610,6 +610,7 @@ def main(options):
                     utils.startEtl()
                     sys.exit(0)
 
+            if dbExists:
                 if utils.localHost(db_dict['host']) and not owned:
                     if not userExists(db_dict['username']):
                         utils.createUser(
