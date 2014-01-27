@@ -163,7 +163,7 @@ class DBEnv(object):
     @osetupattrs(
         answerfile=True,
         summary=True,
-        description=_('DWH datbase port'),
+        description=_('DWH database port'),
     )
     def PORT(self):
         return 'OVESETUP_DWH_DB/port'
