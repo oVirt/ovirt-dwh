@@ -141,6 +141,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -379,7 +380,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  datacenter_id, &#xD;&#xA;  datacenter_name, &#xD;&#xA;  datacenter_description, &#xD;&#xA;  storage_type, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_datacenter_configuration_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  datacenter_id, &#xD;&#xA;  datacenter_name, &#xD;&#xA;  datacenter_description, &#xD;&#xA;  is_local_storage, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_datacenter_configuration_history_view&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -395,7 +396,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="datacenter_description"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="storage_type"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_local_storage"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="create_date"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -411,7 +412,7 @@
       <column comment="" key="false" length="16" name="datacenter_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="datacenter_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="datacenter_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="storage_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="is_local_storage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
@@ -425,6 +426,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -433,18 +435,18 @@
       <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="datacenter_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="datacenter_description" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="storage_type" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="is_local_storage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="datacenter_configuration">
         <mapperTableEntries name="datacenter_id" expression="row3.datacenter_id" type="id_Object"/>
         <mapperTableEntries name="datacenter_name" expression="StringHandling.TRIM(row3.datacenter_name) " type="id_String"/>
         <mapperTableEntries name="datacenter_description" expression="StringHandling.TRIM(row3.datacenter_description)" type="id_String"/>
-        <mapperTableEntries name="storage_type" expression="row3.storage_type " type="id_Short"/>
+        <mapperTableEntries name="is_local_storage" expression="row3.is_local_storage " type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="create_date" expression="row3.create_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="row3.update_date" type="id_Date" nullable="true"/>
       </outputTables>
@@ -452,7 +454,7 @@
         <mapperTableEntries name="datacenter_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="datacenter_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="datacenter_description" type="id_String" nullable="true"/>
-        <mapperTableEntries name="storage_type" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="is_local_storage" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="create_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" type="id_Date" nullable="true"/>
       </inputTables>
@@ -496,7 +498,7 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="storage_type"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_local_storage"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -524,7 +526,7 @@
       <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="datacenter_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="datacenter_description" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="storage_type" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="is_local_storage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
@@ -532,7 +534,7 @@
       <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="datacenter_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="datacenter_description" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="storage_type" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="is_local_storage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
@@ -600,6 +602,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -614,7 +617,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="storage_configuration">
         <mapperTableEntries name="storage_domain_id" expression="row5.storage_domain_id" type="id_Object"/>
@@ -829,6 +832,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -1235,6 +1239,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -1617,6 +1622,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -1652,7 +1658,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_configuration">
         <mapperTableEntries name="vm_id" expression="row4.vm_id" type="id_Object"/>
@@ -2118,6 +2124,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -2374,6 +2381,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -2596,7 +2604,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;datacenter_id, &#xD;&#xA;&#x9;&#x9;upper(cast(datacenter_id as char(36))) as datacenter_join_id,&#xD;&#xA;&#x9;&#x9;datacenter_name, &#xD;&#xA;&#x9;&#x9;datacenter_description, &#xD;&#xA;       &#x9;storage_type, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM  v3_4_latest_configuration_datacenters&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;datacenter_id, &#xD;&#xA;&#x9;&#x9;upper(cast(datacenter_id as char(36))) as datacenter_join_id,&#xD;&#xA;&#x9;&#x9;datacenter_name, &#xD;&#xA;&#x9;&#x9;datacenter_description, &#xD;&#xA;       &#x9;is_local_storage, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM  v3_4_latest_configuration_datacenters&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -2616,7 +2624,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="datacenter_description"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="storage_type"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_local_storage"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="create_date"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -2634,7 +2642,7 @@
       <column comment="" key="false" name="datacenter_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="datacenter_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="datacenter_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="storage_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="is_local_storage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
@@ -2648,6 +2656,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -2656,19 +2665,19 @@
       <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="datacenter_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="datacenter_description" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="storage_type" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="is_local_storage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_datacenters" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="datacenter_id" expression="row14.datacenter_id" type="id_Object"/>
         <mapperTableEntries name="datacenter_name" expression="row14.datacenter_name" type="id_String"/>
         <mapperTableEntries name="datacenter_description" expression="row14.datacenter_description" type="id_String"/>
-        <mapperTableEntries name="storage_type" expression="row14.storage_type" type="id_Short"/>
+        <mapperTableEntries name="is_local_storage" expression="row14.is_local_storage" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="create_date" expression="row14.create_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="context.runTime" type="id_Date" nullable="true"/>
         <mapperTableEntries name="delete_date" expression="context.runTime" type="id_Date" nullable="true"/>
@@ -2679,7 +2688,7 @@
         <mapperTableEntries name="datacenter_join_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="datacenter_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="datacenter_description" type="id_String" nullable="true"/>
-        <mapperTableEntries name="storage_type" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="is_local_storage" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="create_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" type="id_Date" nullable="true"/>
       </inputTables>
@@ -2764,7 +2773,7 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="storage_type"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="is_local_storage"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -2797,7 +2806,7 @@
       <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="datacenter_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="datacenter_description" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="storage_type" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="is_local_storage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -2806,7 +2815,7 @@
       <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="datacenter_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="datacenter_description" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="storage_type" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="2" name="is_local_storage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -2928,6 +2937,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -3191,6 +3201,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -3469,6 +3480,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -3840,6 +3852,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -4263,6 +4276,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -4298,7 +4312,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_vms" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="vm_id" expression="row25.vm_id" type="id_Object"/>
@@ -4723,6 +4737,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -5024,6 +5039,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -5236,6 +5252,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -5433,6 +5450,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -5637,6 +5655,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -5896,6 +5915,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -6107,6 +6127,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -6395,6 +6416,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -6582,6 +6604,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -6856,6 +6879,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -7131,6 +7155,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -7330,6 +7355,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -7546,6 +7572,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -7993,7 +8020,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="datacenter_description"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="storage_type"/>
+      <elementValue elementRef="TRACE_COLUMN" value="is_local_storage"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="create_date"/>
@@ -8031,7 +8058,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="datacenter_description"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="storage_type"/>
+      <elementValue elementRef="TRACE_COLUMN" value="is_local_storage"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="create_date"/>
@@ -8957,7 +8984,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="datacenter_description"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="storage_type"/>
+      <elementValue elementRef="TRACE_COLUMN" value="is_local_storage"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="create_date"/>

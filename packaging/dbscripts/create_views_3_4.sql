@@ -20,7 +20,7 @@ SELECT
       datacenter_id as datacenter_id,
       datacenter_name as datacenter_name,
       datacenter_description as datacenter_description,
-      storage_type as storage_type,
+      is_local_storage as is_local_storage,
       create_date as create_date,
       update_date as update_date,
       delete_date as delete_date
@@ -33,7 +33,7 @@ SELECT
       datacenter_id as datacenter_id,
       datacenter_name as datacenter_name,
       datacenter_description as datacenter_description,
-      storage_type as storage_type,
+      is_local_storage as is_local_storage,
       create_date as create_date,
       update_date as update_date
 FROM datacenter_configuration

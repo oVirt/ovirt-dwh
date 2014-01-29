@@ -20,7 +20,10 @@ SELECT
       datacenter_id as datacenter_id,
       datacenter_name as datacenter_name,
       datacenter_description as datacenter_description,
-      storage_type as storage_type,
+      CASE
+          WHEN is_local_storage THEN  CAST(4 AS smallint)
+          ELSE CAST(6 AS smallint)
+      END as storage_type,
       create_date as create_date,
       update_date as update_date,
       delete_date as delete_date
@@ -33,7 +36,10 @@ SELECT
       datacenter_id as datacenter_id,
       datacenter_name as datacenter_name,
       datacenter_description as datacenter_description,
-      storage_type as storage_type,
+      CASE
+          WHEN is_local_storage THEN  CAST(4 AS smallint)
+          ELSE CAST(6 AS smallint)
+      END as storage_type,
       create_date as create_date,
       update_date as update_date
 FROM datacenter_configuration

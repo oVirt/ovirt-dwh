@@ -2459,225 +2459,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.datacenter_description;
 		}
 
-		public short storage_type;
+		public Boolean is_local_storage;
 
-		public short getStorage_type() {
-			return this.storage_type;
-		}
-
-		public java.util.Date create_date;
-
-		public java.util.Date getCreate_date() {
-			return this.create_date;
-		}
-
-		public java.util.Date update_date;
-
-		public java.util.Date getUpdate_date() {
-			return this.update_date;
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync.length) {
-					if (length < 1024
-							&& commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync.length == 0) {
-						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[1024];
-					} else {
-						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[2 * length];
-					}
-				}
-				dis.readFully(
-						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync, 0,
-						length);
-				strReturn = new String(
-						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync, 0,
-						length, utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		private java.util.Date readDate(ObjectInputStream dis)
-				throws IOException {
-			java.util.Date dateReturn = null;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				dateReturn = null;
-			} else {
-				dateReturn = new Date(dis.readLong());
-			}
-			return dateReturn;
-		}
-
-		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
-				throws IOException {
-			if (date1 == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeLong(date1.getTime());
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync) {
-
-				try {
-
-					int length = 0;
-
-					this.datacenter_id = (Object) dis.readObject();
-
-					this.datacenter_name = readString(dis);
-
-					this.datacenter_description = readString(dis);
-
-					this.storage_type = dis.readShort();
-
-					this.create_date = readDate(dis);
-
-					this.update_date = readDate(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				} catch (ClassNotFoundException eCNFE) {
-					throw new RuntimeException(eCNFE);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// Object
-
-				dos.writeObject(this.datacenter_id);
-
-				// String
-
-				writeString(this.datacenter_name, dos);
-
-				// String
-
-				writeString(this.datacenter_description, dos);
-
-				// short
-
-				dos.writeShort(this.storage_type);
-
-				// java.util.Date
-
-				writeDate(this.create_date, dos);
-
-				// java.util.Date
-
-				writeDate(this.update_date, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("datacenter_id=" + String.valueOf(datacenter_id));
-			sb.append(",datacenter_name=" + datacenter_name);
-			sb.append(",datacenter_description=" + datacenter_description);
-			sb.append(",storage_type=" + String.valueOf(storage_type));
-			sb.append(",create_date=" + String.valueOf(create_date));
-			sb.append(",update_date=" + String.valueOf(update_date));
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(datacenter_configurationStruct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(),
-						object2.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
-	public static class row3Struct implements
-			routines.system.IPersistableRow<row3Struct> {
-		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
-		static byte[] commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
-
-		public Object datacenter_id;
-
-		public Object getDatacenter_id() {
-			return this.datacenter_id;
-		}
-
-		public String datacenter_name;
-
-		public String getDatacenter_name() {
-			return this.datacenter_name;
-		}
-
-		public String datacenter_description;
-
-		public String getDatacenter_description() {
-			return this.datacenter_description;
-		}
-
-		public Short storage_type;
-
-		public Short getStorage_type() {
-			return this.storage_type;
+		public Boolean getIs_local_storage() {
+			return this.is_local_storage;
 		}
 
 		public java.util.Date create_date;
@@ -2767,9 +2552,9 @@ public class ConfigurationSync implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.storage_type = null;
+						this.is_local_storage = null;
 					} else {
-						this.storage_type = dis.readShort();
+						this.is_local_storage = dis.readBoolean();
 					}
 
 					this.create_date = readDate(dis);
@@ -2803,13 +2588,13 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.datacenter_description, dos);
 
-				// Short
+				// Boolean
 
-				if (this.storage_type == null) {
+				if (this.is_local_storage == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.storage_type);
+					dos.writeBoolean(this.is_local_storage);
 				}
 
 				// java.util.Date
@@ -2834,7 +2619,232 @@ public class ConfigurationSync implements TalendJob {
 			sb.append("datacenter_id=" + String.valueOf(datacenter_id));
 			sb.append(",datacenter_name=" + datacenter_name);
 			sb.append(",datacenter_description=" + datacenter_description);
-			sb.append(",storage_type=" + String.valueOf(storage_type));
+			sb.append(",is_local_storage=" + String.valueOf(is_local_storage));
+			sb.append(",create_date=" + String.valueOf(create_date));
+			sb.append(",update_date=" + String.valueOf(update_date));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(datacenter_configurationStruct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class row3Struct implements
+			routines.system.IPersistableRow<row3Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
+
+		public Object datacenter_id;
+
+		public Object getDatacenter_id() {
+			return this.datacenter_id;
+		}
+
+		public String datacenter_name;
+
+		public String getDatacenter_name() {
+			return this.datacenter_name;
+		}
+
+		public String datacenter_description;
+
+		public String getDatacenter_description() {
+			return this.datacenter_description;
+		}
+
+		public Boolean is_local_storage;
+
+		public Boolean getIs_local_storage() {
+			return this.is_local_storage;
+		}
+
+		public java.util.Date create_date;
+
+		public java.util.Date getCreate_date() {
+			return this.create_date;
+		}
+
+		public java.util.Date update_date;
+
+		public java.util.Date getUpdate_date() {
+			return this.update_date;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[2 * length];
+					}
+				}
+				dis.readFully(
+						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync, 0,
+						length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync, 0,
+						length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync) {
+
+				try {
+
+					int length = 0;
+
+					this.datacenter_id = (Object) dis.readObject();
+
+					this.datacenter_name = readString(dis);
+
+					this.datacenter_description = readString(dis);
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.is_local_storage = null;
+					} else {
+						this.is_local_storage = dis.readBoolean();
+					}
+
+					this.create_date = readDate(dis);
+
+					this.update_date = readDate(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				} catch (ClassNotFoundException eCNFE) {
+					throw new RuntimeException(eCNFE);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// Object
+
+				dos.writeObject(this.datacenter_id);
+
+				// String
+
+				writeString(this.datacenter_name, dos);
+
+				// String
+
+				writeString(this.datacenter_description, dos);
+
+				// Boolean
+
+				if (this.is_local_storage == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeBoolean(this.is_local_storage);
+				}
+
+				// java.util.Date
+
+				writeDate(this.create_date, dos);
+
+				// java.util.Date
+
+				writeDate(this.update_date, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("datacenter_id=" + String.valueOf(datacenter_id));
+			sb.append(",datacenter_name=" + datacenter_name);
+			sb.append(",datacenter_description=" + datacenter_description);
+			sb.append(",is_local_storage=" + String.valueOf(is_local_storage));
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -2934,7 +2944,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_2 = "INSERT INTO "
 						+ "datacenter_configuration"
-						+ " (datacenter_id,datacenter_name,datacenter_description,storage_type,create_date,update_date) VALUES (?,?,?,?,?,?)";
+						+ " (datacenter_id,datacenter_name,datacenter_description,is_local_storage,create_date,update_date) VALUES (?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_2 = connection_tJDBCOutput_2
 						.prepareStatement(insert_tJDBCOutput_2);
 
@@ -2992,7 +3002,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
 
-				String dbquery_tJDBCInput_2 = "SELECT     datacenter_id,     datacenter_name,     datacenter_description,     storage_type,     create_date,     update_date  FROM dwh_datacenter_configuration_history_view";
+				String dbquery_tJDBCInput_2 = "SELECT     datacenter_id,     datacenter_name,     datacenter_description,     is_local_storage,     create_date,     update_date  FROM dwh_datacenter_configuration_history_view";
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
 				java.sql.ResultSet rs_tJDBCInput_2 = null;
@@ -3061,15 +3071,15 @@ public class ConfigurationSync implements TalendJob {
 						column_index_tJDBCInput_2 = 4;
 
 						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-							row3.storage_type = null;
+							row3.is_local_storage = null;
 						} else {
 
 							if (rs_tJDBCInput_2
 									.getObject(column_index_tJDBCInput_2) != null) {
-								row3.storage_type = rs_tJDBCInput_2
-										.getShort(column_index_tJDBCInput_2);
+								row3.is_local_storage = rs_tJDBCInput_2
+										.getBoolean(column_index_tJDBCInput_2);
 							} else {
-								row3.storage_type = null;
+								row3.is_local_storage = null;
 							}
 
 						}
@@ -3170,7 +3180,7 @@ public class ConfigurationSync implements TalendJob {
 										.TRIM(row3.datacenter_name);
 								datacenter_configuration_tmp.datacenter_description = StringHandling
 										.TRIM(row3.datacenter_description);
-								datacenter_configuration_tmp.storage_type = row3.storage_type;
+								datacenter_configuration_tmp.is_local_storage = row3.is_local_storage;
 								datacenter_configuration_tmp.create_date = row3.create_date;
 								datacenter_configuration_tmp.update_date = row3.update_date;
 								datacenter_configuration = datacenter_configuration_tmp;
@@ -3225,8 +3235,15 @@ public class ConfigurationSync implements TalendJob {
 													datacenter_configuration.datacenter_description);
 								}
 
-								pstmt_tJDBCOutput_2.setShort(4,
-										datacenter_configuration.storage_type);
+								if (datacenter_configuration.is_local_storage == null) {
+									pstmt_tJDBCOutput_2.setNull(4,
+											java.sql.Types.BOOLEAN);
+								} else {
+									pstmt_tJDBCOutput_2
+											.setBoolean(
+													4,
+													datacenter_configuration.is_local_storage);
+								}
 
 								if (datacenter_configuration.create_date != null) {
 									pstmt_tJDBCOutput_2
@@ -3437,10 +3454,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.datacenter_description;
 		}
 
-		public short storage_type;
+		public Boolean is_local_storage;
 
-		public short getStorage_type() {
-			return this.storage_type;
+		public Boolean getIs_local_storage() {
+			return this.is_local_storage;
 		}
 
 		public java.util.Date create_date;
@@ -3534,7 +3551,12 @@ public class ConfigurationSync implements TalendJob {
 
 					this.datacenter_description = readString(dis);
 
-					this.storage_type = dis.readShort();
+					length = dis.readByte();
+					if (length == -1) {
+						this.is_local_storage = null;
+					} else {
+						this.is_local_storage = dis.readBoolean();
+					}
 
 					this.create_date = readDate(dis);
 
@@ -3569,9 +3591,14 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.datacenter_description, dos);
 
-				// short
+				// Boolean
 
-				dos.writeShort(this.storage_type);
+				if (this.is_local_storage == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeBoolean(this.is_local_storage);
+				}
 
 				// java.util.Date
 
@@ -3599,7 +3626,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append("datacenter_id=" + String.valueOf(datacenter_id));
 			sb.append(",datacenter_name=" + datacenter_name);
 			sb.append(",datacenter_description=" + datacenter_description);
-			sb.append(",storage_type=" + String.valueOf(storage_type));
+			sb.append(",is_local_storage=" + String.valueOf(is_local_storage));
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append(",delete_date=" + String.valueOf(delete_date));
@@ -3677,10 +3704,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.datacenter_description;
 		}
 
-		public Short storage_type;
+		public Boolean is_local_storage;
 
-		public Short getStorage_type() {
-			return this.storage_type;
+		public Boolean getIs_local_storage() {
+			return this.is_local_storage;
 		}
 
 		public java.util.Date create_date;
@@ -3796,9 +3823,9 @@ public class ConfigurationSync implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.storage_type = null;
+						this.is_local_storage = null;
 					} else {
-						this.storage_type = dis.readShort();
+						this.is_local_storage = dis.readBoolean();
 					}
 
 					this.create_date = readDate(dis);
@@ -3840,13 +3867,13 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.datacenter_description, dos);
 
-				// Short
+				// Boolean
 
-				if (this.storage_type == null) {
+				if (this.is_local_storage == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.storage_type);
+					dos.writeBoolean(this.is_local_storage);
 				}
 
 				// java.util.Date
@@ -3873,7 +3900,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",datacenter_join_id=" + datacenter_join_id);
 			sb.append(",datacenter_name=" + datacenter_name);
 			sb.append(",datacenter_description=" + datacenter_description);
-			sb.append(",storage_type=" + String.valueOf(storage_type));
+			sb.append(",is_local_storage=" + String.valueOf(is_local_storage));
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -3950,10 +3977,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.datacenter_description;
 		}
 
-		public Short storage_type;
+		public Boolean is_local_storage;
 
-		public Short getStorage_type() {
-			return this.storage_type;
+		public Boolean getIs_local_storage() {
+			return this.is_local_storage;
 		}
 
 		public java.util.Date create_date;
@@ -4069,9 +4096,9 @@ public class ConfigurationSync implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.storage_type = null;
+						this.is_local_storage = null;
 					} else {
-						this.storage_type = dis.readShort();
+						this.is_local_storage = dis.readBoolean();
 					}
 
 					this.create_date = readDate(dis);
@@ -4113,13 +4140,13 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.datacenter_description, dos);
 
-				// Short
+				// Boolean
 
-				if (this.storage_type == null) {
+				if (this.is_local_storage == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.storage_type);
+					dos.writeBoolean(this.is_local_storage);
 				}
 
 				// java.util.Date
@@ -4146,7 +4173,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",datacenter_join_id=" + datacenter_join_id);
 			sb.append(",datacenter_name=" + datacenter_name);
 			sb.append(",datacenter_description=" + datacenter_description);
-			sb.append(",storage_type=" + String.valueOf(storage_type));
+			sb.append(",is_local_storage=" + String.valueOf(is_local_storage));
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -4248,7 +4275,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_14 = "INSERT INTO "
 						+ "datacenter_configuration"
-						+ " (datacenter_id,datacenter_name,datacenter_description,storage_type,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?)";
+						+ " (datacenter_id,datacenter_name,datacenter_description,is_local_storage,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_14 = connection_tJDBCOutput_14
 						.prepareStatement(insert_tJDBCOutput_14);
 
@@ -4312,7 +4339,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_15 = conn_tJDBCInput_15
 						.createStatement();
 
-				String dbquery_tJDBCInput_15 = "SELECT history_id,   		datacenter_id,   		upper(cast(datacenter_id as char(36))) as datacenter_join_id,  		datacenter_name,   		datacenter_description,          	storage_type,   		create_date,   		update_date  FROM  v3_4_latest_configuration_datacenters";
+				String dbquery_tJDBCInput_15 = "SELECT history_id,   		datacenter_id,   		upper(cast(datacenter_id as char(36))) as datacenter_join_id,  		datacenter_name,   		datacenter_description,          	is_local_storage,   		create_date,   		update_date  FROM  v3_4_latest_configuration_datacenters";
 
 				globalMap.put("tJDBCInput_15_QUERY", dbquery_tJDBCInput_15);
 				java.sql.ResultSet rs_tJDBCInput_15 = null;
@@ -4413,15 +4440,15 @@ public class ConfigurationSync implements TalendJob {
 						column_index_tJDBCInput_15 = 6;
 
 						if (colQtyInRs_tJDBCInput_15 < column_index_tJDBCInput_15) {
-							row14.storage_type = null;
+							row14.is_local_storage = null;
 						} else {
 
 							if (rs_tJDBCInput_15
 									.getObject(column_index_tJDBCInput_15) != null) {
-								row14.storage_type = rs_tJDBCInput_15
-										.getShort(column_index_tJDBCInput_15);
+								row14.is_local_storage = rs_tJDBCInput_15
+										.getBoolean(column_index_tJDBCInput_15);
 							} else {
-								row14.storage_type = null;
+								row14.is_local_storage = null;
 							}
 
 						}
@@ -4562,7 +4589,7 @@ public class ConfigurationSync implements TalendJob {
 								delete_datacenters_tmp.datacenter_id = row14.datacenter_id;
 								delete_datacenters_tmp.datacenter_name = row14.datacenter_name;
 								delete_datacenters_tmp.datacenter_description = row14.datacenter_description;
-								delete_datacenters_tmp.storage_type = row14.storage_type;
+								delete_datacenters_tmp.is_local_storage = row14.is_local_storage;
 								delete_datacenters_tmp.create_date = row14.create_date;
 								delete_datacenters_tmp.update_date = context.runTime;
 								delete_datacenters_tmp.delete_date = context.runTime;
@@ -4615,8 +4642,13 @@ public class ConfigurationSync implements TalendJob {
 												delete_datacenters.datacenter_description);
 							}
 
-							pstmt_tJDBCOutput_14.setShort(4,
-									delete_datacenters.storage_type);
+							if (delete_datacenters.is_local_storage == null) {
+								pstmt_tJDBCOutput_14.setNull(4,
+										java.sql.Types.BOOLEAN);
+							} else {
+								pstmt_tJDBCOutput_14.setBoolean(4,
+										delete_datacenters.is_local_storage);
+							}
 
 							if (delete_datacenters.create_date != null) {
 								pstmt_tJDBCOutput_14.setTimestamp(
@@ -61107,6 +61139,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1664584 characters generated by Talend Open Studio for Data Integration on
- * the January 21, 2014 3:54:29 PM IST
+ * 1665767 characters generated by Talend Open Studio for Data Integration on
+ * the January 29, 2014 6:13:15 PM IST
  ************************************************************************************************/
