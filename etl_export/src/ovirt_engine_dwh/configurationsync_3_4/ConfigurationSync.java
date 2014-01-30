@@ -21841,12 +21841,6 @@ public class ConfigurationSync implements TalendJob {
 			return this.operating_system;
 		}
 
-		public String ad_domain;
-
-		public String getAd_domain() {
-			return this.ad_domain;
-		}
-
 		public Object default_host;
 
 		public Object getDefault_host() {
@@ -22069,8 +22063,6 @@ public class ConfigurationSync implements TalendJob {
 
 					this.operating_system = dis.readShort();
 
-					this.ad_domain = readString(dis);
-
 					this.default_host = (Object) dis.readObject();
 
 					length = dis.readByte();
@@ -22202,10 +22194,6 @@ public class ConfigurationSync implements TalendJob {
 
 				dos.writeShort(this.operating_system);
 
-				// String
-
-				writeString(this.ad_domain, dos);
-
 				// Object
 
 				dos.writeObject(this.default_host);
@@ -22317,7 +22305,6 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
 			sb.append(",memory_size_mb=" + String.valueOf(memory_size_mb));
 			sb.append(",operating_system=" + String.valueOf(operating_system));
-			sb.append(",ad_domain=" + ad_domain);
 			sb.append(",default_host=" + String.valueOf(default_host));
 			sb.append(",high_availability=" + String.valueOf(high_availability));
 			sb.append(",initialized=" + String.valueOf(initialized));
@@ -22453,12 +22440,6 @@ public class ConfigurationSync implements TalendJob {
 			return this.operating_system;
 		}
 
-		public String ad_domain;
-
-		public String getAd_domain() {
-			return this.ad_domain;
-		}
-
 		public Object default_host;
 
 		public Object getDefault_host() {
@@ -22676,8 +22657,6 @@ public class ConfigurationSync implements TalendJob {
 						this.operating_system = dis.readShort();
 					}
 
-					this.ad_domain = readString(dis);
-
 					this.default_host = (Object) dis.readObject();
 
 					this.default_host_join_id = readString(dis);
@@ -22814,10 +22793,6 @@ public class ConfigurationSync implements TalendJob {
 					dos.writeShort(this.operating_system);
 				}
 
-				// String
-
-				writeString(this.ad_domain, dos);
-
 				// Object
 
 				dos.writeObject(this.default_host);
@@ -22922,7 +22897,6 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
 			sb.append(",memory_size_mb=" + String.valueOf(memory_size_mb));
 			sb.append(",operating_system=" + String.valueOf(operating_system));
-			sb.append(",ad_domain=" + ad_domain);
 			sb.append(",default_host=" + String.valueOf(default_host));
 			sb.append(",default_host_join_id=" + default_host_join_id);
 			sb.append(",high_availability=" + String.valueOf(high_availability));
@@ -23054,12 +23028,6 @@ public class ConfigurationSync implements TalendJob {
 			return this.operating_system;
 		}
 
-		public String ad_domain;
-
-		public String getAd_domain() {
-			return this.ad_domain;
-		}
-
 		public Object default_host;
 
 		public Object getDefault_host() {
@@ -23277,8 +23245,6 @@ public class ConfigurationSync implements TalendJob {
 						this.operating_system = dis.readShort();
 					}
 
-					this.ad_domain = readString(dis);
-
 					this.default_host = (Object) dis.readObject();
 
 					this.default_host_join_id = readString(dis);
@@ -23415,10 +23381,6 @@ public class ConfigurationSync implements TalendJob {
 					dos.writeShort(this.operating_system);
 				}
 
-				// String
-
-				writeString(this.ad_domain, dos);
-
 				// Object
 
 				dos.writeObject(this.default_host);
@@ -23523,7 +23485,6 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
 			sb.append(",memory_size_mb=" + String.valueOf(memory_size_mb));
 			sb.append(",operating_system=" + String.valueOf(operating_system));
-			sb.append(",ad_domain=" + ad_domain);
 			sb.append(",default_host=" + String.valueOf(default_host));
 			sb.append(",default_host_join_id=" + default_host_join_id);
 			sb.append(",high_availability=" + String.valueOf(high_availability));
@@ -23639,7 +23600,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_6 = "INSERT INTO "
 						+ "vm_configuration"
-						+ " (vm_id,vm_name,vm_description,vm_type,cluster_id,template_id,template_name,cpu_per_socket,number_of_sockets,memory_size_mb,operating_system,ad_domain,default_host,high_availability,initialized,stateless,fail_back,usb_policy,time_zone,vm_pool_id,vm_pool_name,created_by_user_id,created_by_user_name,cluster_configuration_version,default_host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (vm_id,vm_name,vm_description,vm_type,cluster_id,template_id,template_name,cpu_per_socket,number_of_sockets,memory_size_mb,operating_system,default_host,high_availability,initialized,stateless,fail_back,usb_policy,time_zone,vm_pool_id,vm_pool_name,created_by_user_id,created_by_user_name,cluster_configuration_version,default_host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_6 = connection_tJDBCOutput_6
 						.prepareStatement(insert_tJDBCOutput_6);
 
@@ -23709,7 +23670,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_6 = conn_tJDBCInput_6
 						.createStatement();
 
-				String dbquery_tJDBCInput_6 = "SELECT     vm_id,     vm_name,     vm_description,     vm_type,     cluster_id,    upper(cast(cluster_id as char(36))) as cluster_join_id,      template_id,     template_name,     cpu_per_socket,     number_of_sockets,     memory_size_mb,     operating_system,     ad_domain,     default_host,    upper(cast(default_host as char(36))) as default_host_join_id,      high_availability,     initialized,     stateless,     fail_back,      usb_policy,     time_zone,    vm_pool_id,   vm_pool_name,   created_by_user_id,   created_by_user_name,    create_date,     update_date  FROM dwh_vm_configuration_history_view";
+				String dbquery_tJDBCInput_6 = "SELECT     vm_id,     vm_name,     vm_description,     vm_type,     cluster_id,    upper(cast(cluster_id as char(36))) as cluster_join_id,      template_id,     template_name,     cpu_per_socket,     number_of_sockets,     memory_size_mb,     operating_system,     default_host,    upper(cast(default_host as char(36))) as default_host_join_id,      high_availability,     initialized,     stateless,     fail_back,      usb_policy,     time_zone,    vm_pool_id,   vm_pool_name,   created_by_user_id,   created_by_user_name,    create_date,     update_date  FROM dwh_vm_configuration_history_view";
 
 				globalMap.put("tJDBCInput_6_QUERY", dbquery_tJDBCInput_6);
 				java.sql.ResultSet rs_tJDBCInput_6 = null;
@@ -23922,22 +23883,6 @@ public class ConfigurationSync implements TalendJob {
 						column_index_tJDBCInput_6 = 13;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
-							row4.ad_domain = null;
-						} else {
-
-							tmpContent_tJDBCInput_6 = rs_tJDBCInput_6
-									.getString(column_index_tJDBCInput_6);
-							if (tmpContent_tJDBCInput_6 != null) {
-								row4.ad_domain = tmpContent_tJDBCInput_6;
-							} else {
-								row4.ad_domain = null;
-							}
-
-						}
-
-						column_index_tJDBCInput_6 = 14;
-
-						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.default_host = null;
 						} else {
 
@@ -23951,7 +23896,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 15;
+						column_index_tJDBCInput_6 = 14;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.default_host_join_id = null;
@@ -23967,7 +23912,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 16;
+						column_index_tJDBCInput_6 = 15;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.high_availability = null;
@@ -23983,7 +23928,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 17;
+						column_index_tJDBCInput_6 = 16;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.initialized = null;
@@ -23999,7 +23944,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 18;
+						column_index_tJDBCInput_6 = 17;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.stateless = null;
@@ -24015,7 +23960,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 19;
+						column_index_tJDBCInput_6 = 18;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.fail_back = null;
@@ -24031,7 +23976,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 20;
+						column_index_tJDBCInput_6 = 19;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.usb_policy = null;
@@ -24047,7 +23992,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 21;
+						column_index_tJDBCInput_6 = 20;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.time_zone = null;
@@ -24063,7 +24008,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 22;
+						column_index_tJDBCInput_6 = 21;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.vm_pool_id = null;
@@ -24079,7 +24024,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 23;
+						column_index_tJDBCInput_6 = 22;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.vm_pool_name = null;
@@ -24095,7 +24040,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 24;
+						column_index_tJDBCInput_6 = 23;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.created_by_user_id = null;
@@ -24111,7 +24056,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 25;
+						column_index_tJDBCInput_6 = 24;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.created_by_user_name = null;
@@ -24127,7 +24072,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 26;
+						column_index_tJDBCInput_6 = 25;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.create_date = null;
@@ -24145,7 +24090,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_6 = 27;
+						column_index_tJDBCInput_6 = 26;
 
 						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
 							row4.update_date = null;
@@ -24323,8 +24268,6 @@ public class ConfigurationSync implements TalendJob {
 								vm_configuration_tmp.number_of_sockets = row4.number_of_sockets;
 								vm_configuration_tmp.memory_size_mb = row4.memory_size_mb;
 								vm_configuration_tmp.operating_system = row4.operating_system;
-								vm_configuration_tmp.ad_domain = StringHandling
-										.TRIM(row4.ad_domain);
 								vm_configuration_tmp.default_host = row4.default_host;
 								vm_configuration_tmp.high_availability = row4.high_availability;
 								vm_configuration_tmp.initialized = row4.initialized;
@@ -24447,157 +24390,149 @@ public class ConfigurationSync implements TalendJob {
 								pstmt_tJDBCOutput_6.setShort(11,
 										vm_configuration.operating_system);
 
-								if (vm_configuration.ad_domain == null) {
-									pstmt_tJDBCOutput_6.setNull(12,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmt_tJDBCOutput_6.setString(12,
-											vm_configuration.ad_domain);
-								}
-
 								if (vm_configuration.default_host == null) {
-									pstmt_tJDBCOutput_6.setNull(13,
+									pstmt_tJDBCOutput_6.setNull(12,
 											java.sql.Types.OTHER);
 								} else {
-									pstmt_tJDBCOutput_6.setObject(13,
+									pstmt_tJDBCOutput_6.setObject(12,
 											vm_configuration.default_host);
 								}
 
 								if (vm_configuration.high_availability == null) {
-									pstmt_tJDBCOutput_6.setNull(14,
+									pstmt_tJDBCOutput_6.setNull(13,
 											java.sql.Types.BOOLEAN);
 								} else {
-									pstmt_tJDBCOutput_6.setBoolean(14,
+									pstmt_tJDBCOutput_6.setBoolean(13,
 											vm_configuration.high_availability);
 								}
 
 								if (vm_configuration.initialized == null) {
-									pstmt_tJDBCOutput_6.setNull(15,
+									pstmt_tJDBCOutput_6.setNull(14,
 											java.sql.Types.BOOLEAN);
 								} else {
-									pstmt_tJDBCOutput_6.setBoolean(15,
+									pstmt_tJDBCOutput_6.setBoolean(14,
 											vm_configuration.initialized);
 								}
 
 								if (vm_configuration.stateless == null) {
-									pstmt_tJDBCOutput_6.setNull(16,
+									pstmt_tJDBCOutput_6.setNull(15,
 											java.sql.Types.BOOLEAN);
 								} else {
-									pstmt_tJDBCOutput_6.setBoolean(16,
+									pstmt_tJDBCOutput_6.setBoolean(15,
 											vm_configuration.stateless);
 								}
 
 								if (vm_configuration.fail_back == null) {
-									pstmt_tJDBCOutput_6.setNull(17,
+									pstmt_tJDBCOutput_6.setNull(16,
 											java.sql.Types.BOOLEAN);
 								} else {
-									pstmt_tJDBCOutput_6.setBoolean(17,
+									pstmt_tJDBCOutput_6.setBoolean(16,
 											vm_configuration.fail_back);
 								}
 
 								if (vm_configuration.usb_policy == null) {
-									pstmt_tJDBCOutput_6.setNull(18,
+									pstmt_tJDBCOutput_6.setNull(17,
 											java.sql.Types.INTEGER);
 								} else {
-									pstmt_tJDBCOutput_6.setShort(18,
+									pstmt_tJDBCOutput_6.setShort(17,
 											vm_configuration.usb_policy);
 								}
 
 								if (vm_configuration.time_zone == null) {
-									pstmt_tJDBCOutput_6.setNull(19,
+									pstmt_tJDBCOutput_6.setNull(18,
 											java.sql.Types.VARCHAR);
 								} else {
-									pstmt_tJDBCOutput_6.setString(19,
+									pstmt_tJDBCOutput_6.setString(18,
 											vm_configuration.time_zone);
 								}
 
 								if (vm_configuration.vm_pool_id == null) {
-									pstmt_tJDBCOutput_6.setNull(20,
+									pstmt_tJDBCOutput_6.setNull(19,
 											java.sql.Types.OTHER);
 								} else {
-									pstmt_tJDBCOutput_6.setObject(20,
+									pstmt_tJDBCOutput_6.setObject(19,
 											vm_configuration.vm_pool_id);
 								}
 
 								if (vm_configuration.vm_pool_name == null) {
-									pstmt_tJDBCOutput_6.setNull(21,
+									pstmt_tJDBCOutput_6.setNull(20,
 											java.sql.Types.VARCHAR);
 								} else {
-									pstmt_tJDBCOutput_6.setString(21,
+									pstmt_tJDBCOutput_6.setString(20,
 											vm_configuration.vm_pool_name);
 								}
 
 								if (vm_configuration.created_by_user_id == null) {
-									pstmt_tJDBCOutput_6.setNull(22,
+									pstmt_tJDBCOutput_6.setNull(21,
 											java.sql.Types.OTHER);
 								} else {
 									pstmt_tJDBCOutput_6
 											.setObject(
-													22,
+													21,
 													vm_configuration.created_by_user_id);
 								}
 
 								if (vm_configuration.created_by_user_name == null) {
-									pstmt_tJDBCOutput_6.setNull(23,
+									pstmt_tJDBCOutput_6.setNull(22,
 											java.sql.Types.VARCHAR);
 								} else {
 									pstmt_tJDBCOutput_6
 											.setString(
-													23,
+													22,
 													vm_configuration.created_by_user_name);
 								}
 
 								if (vm_configuration.cluster_configuration_version == null) {
+									pstmt_tJDBCOutput_6.setNull(23,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_6
+											.setInt(23,
+													vm_configuration.cluster_configuration_version);
+								}
+
+								if (vm_configuration.default_host_configuration_version == null) {
 									pstmt_tJDBCOutput_6.setNull(24,
 											java.sql.Types.INTEGER);
 								} else {
 									pstmt_tJDBCOutput_6
 											.setInt(24,
-													vm_configuration.cluster_configuration_version);
-								}
-
-								if (vm_configuration.default_host_configuration_version == null) {
-									pstmt_tJDBCOutput_6.setNull(25,
-											java.sql.Types.INTEGER);
-								} else {
-									pstmt_tJDBCOutput_6
-											.setInt(25,
 													vm_configuration.default_host_configuration_version);
 								}
 
 								if (vm_configuration.create_date != null) {
 									pstmt_tJDBCOutput_6
 											.setTimestamp(
-													26,
+													25,
 													new java.sql.Timestamp(
 															vm_configuration.create_date
 																	.getTime()));
 								} else {
-									pstmt_tJDBCOutput_6.setNull(26,
+									pstmt_tJDBCOutput_6.setNull(25,
 											java.sql.Types.DATE);
 								}
 
 								if (vm_configuration.update_date != null) {
 									pstmt_tJDBCOutput_6
 											.setTimestamp(
-													27,
+													26,
 													new java.sql.Timestamp(
 															vm_configuration.update_date
 																	.getTime()));
 								} else {
-									pstmt_tJDBCOutput_6.setNull(27,
+									pstmt_tJDBCOutput_6.setNull(26,
 											java.sql.Types.DATE);
 								}
 
 								if (vm_configuration.delete_date != null) {
 									pstmt_tJDBCOutput_6
 											.setTimestamp(
-													28,
+													27,
 													new java.sql.Timestamp(
 															vm_configuration.delete_date
 																	.getTime()));
 								} else {
-									pstmt_tJDBCOutput_6.setNull(28,
+									pstmt_tJDBCOutput_6.setNull(27,
 											java.sql.Types.DATE);
 								}
 
@@ -24850,12 +24785,6 @@ public class ConfigurationSync implements TalendJob {
 			return this.operating_system;
 		}
 
-		public String ad_domain;
-
-		public String getAd_domain() {
-			return this.ad_domain;
-		}
-
 		public Object default_host;
 
 		public Object getDefault_host() {
@@ -25078,8 +25007,6 @@ public class ConfigurationSync implements TalendJob {
 
 					this.operating_system = dis.readShort();
 
-					this.ad_domain = readString(dis);
-
 					this.default_host = (Object) dis.readObject();
 
 					length = dis.readByte();
@@ -25211,10 +25138,6 @@ public class ConfigurationSync implements TalendJob {
 
 				dos.writeShort(this.operating_system);
 
-				// String
-
-				writeString(this.ad_domain, dos);
-
 				// Object
 
 				dos.writeObject(this.default_host);
@@ -25326,7 +25249,6 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
 			sb.append(",memory_size_mb=" + String.valueOf(memory_size_mb));
 			sb.append(",operating_system=" + String.valueOf(operating_system));
-			sb.append(",ad_domain=" + ad_domain);
 			sb.append(",default_host=" + String.valueOf(default_host));
 			sb.append(",high_availability=" + String.valueOf(high_availability));
 			sb.append(",initialized=" + String.valueOf(initialized));
@@ -25468,12 +25390,6 @@ public class ConfigurationSync implements TalendJob {
 			return this.operating_system;
 		}
 
-		public String ad_domain;
-
-		public String getAd_domain() {
-			return this.ad_domain;
-		}
-
 		public Object default_host;
 
 		public Object getDefault_host() {
@@ -25699,8 +25615,6 @@ public class ConfigurationSync implements TalendJob {
 						this.operating_system = dis.readShort();
 					}
 
-					this.ad_domain = readString(dis);
-
 					this.default_host = (Object) dis.readObject();
 
 					length = dis.readByte();
@@ -25843,10 +25757,6 @@ public class ConfigurationSync implements TalendJob {
 					dos.writeShort(this.operating_system);
 				}
 
-				// String
-
-				writeString(this.ad_domain, dos);
-
 				// Object
 
 				dos.writeObject(this.default_host);
@@ -25956,7 +25866,6 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
 			sb.append(",memory_size_mb=" + String.valueOf(memory_size_mb));
 			sb.append(",operating_system=" + String.valueOf(operating_system));
-			sb.append(",ad_domain=" + ad_domain);
 			sb.append(",default_host=" + String.valueOf(default_host));
 			sb.append(",high_availability=" + String.valueOf(high_availability));
 			sb.append(",initialized=" + String.valueOf(initialized));
@@ -26097,12 +26006,6 @@ public class ConfigurationSync implements TalendJob {
 			return this.operating_system;
 		}
 
-		public String ad_domain;
-
-		public String getAd_domain() {
-			return this.ad_domain;
-		}
-
 		public Object default_host;
 
 		public Object getDefault_host() {
@@ -26328,8 +26231,6 @@ public class ConfigurationSync implements TalendJob {
 						this.operating_system = dis.readShort();
 					}
 
-					this.ad_domain = readString(dis);
-
 					this.default_host = (Object) dis.readObject();
 
 					length = dis.readByte();
@@ -26472,10 +26373,6 @@ public class ConfigurationSync implements TalendJob {
 					dos.writeShort(this.operating_system);
 				}
 
-				// String
-
-				writeString(this.ad_domain, dos);
-
 				// Object
 
 				dos.writeObject(this.default_host);
@@ -26585,7 +26482,6 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
 			sb.append(",memory_size_mb=" + String.valueOf(memory_size_mb));
 			sb.append(",operating_system=" + String.valueOf(operating_system));
-			sb.append(",ad_domain=" + ad_domain);
 			sb.append(",default_host=" + String.valueOf(default_host));
 			sb.append(",high_availability=" + String.valueOf(high_availability));
 			sb.append(",initialized=" + String.valueOf(initialized));
@@ -26703,7 +26599,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_19 = "INSERT INTO "
 						+ "vm_configuration"
-						+ " (vm_id,vm_name,vm_description,vm_type,cluster_id,template_id,template_name,cpu_per_socket,number_of_sockets,memory_size_mb,operating_system,ad_domain,default_host,high_availability,initialized,stateless,fail_back,usb_policy,time_zone,vm_pool_id,vm_pool_name,created_by_user_id,created_by_user_name,cluster_configuration_version,default_host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (vm_id,vm_name,vm_description,vm_type,cluster_id,template_id,template_name,cpu_per_socket,number_of_sockets,memory_size_mb,operating_system,default_host,high_availability,initialized,stateless,fail_back,usb_policy,time_zone,vm_pool_id,vm_pool_name,created_by_user_id,created_by_user_name,cluster_configuration_version,default_host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_19 = connection_tJDBCOutput_19
 						.prepareStatement(insert_tJDBCOutput_19);
 
@@ -26767,7 +26663,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_26 = conn_tJDBCInput_26
 						.createStatement();
 
-				String dbquery_tJDBCInput_26 = "SELECT history_id,   		vm_id,   		upper(cast(vm_id as char(36))) as vm_join_id,  		vm_name,   		vm_description,   		vm_type,   		cluster_id,   		template_id,   		template_name,   		cpu_per_socket,   		number_of_sockets,   		memory_size_mb,   		operating_system,   		ad_domain,   		default_host,   		high_availability,   		initialized,   		stateless,   		fail_back,   		usb_policy,   		time_zone,  		vm_pool_id,  		vm_pool_name, 		created_by_user_id, 		created_by_user_name,  		cluster_configuration_version,   		default_host_configuration_version,   		create_date,   		update_date  FROM v3_4_latest_configuration_vms";
+				String dbquery_tJDBCInput_26 = "SELECT history_id,   		vm_id,   		upper(cast(vm_id as char(36))) as vm_join_id,  		vm_name,   		vm_description,   		vm_type,   		cluster_id,   		template_id,   		template_name,   		cpu_per_socket,   		number_of_sockets,   		memory_size_mb,   		operating_system,   		default_host,   		high_availability,   		initialized,   		stateless,   		fail_back,   		usb_policy,   		time_zone,  		vm_pool_id,  		vm_pool_name, 		created_by_user_id, 		created_by_user_name,  		cluster_configuration_version,   		default_host_configuration_version,   		create_date,   		update_date  FROM v3_4_latest_configuration_vms";
 
 				globalMap.put("tJDBCInput_26_QUERY", dbquery_tJDBCInput_26);
 				java.sql.ResultSet rs_tJDBCInput_26 = null;
@@ -26996,22 +26892,6 @@ public class ConfigurationSync implements TalendJob {
 						column_index_tJDBCInput_26 = 14;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
-							row25.ad_domain = null;
-						} else {
-
-							tmpContent_tJDBCInput_26 = rs_tJDBCInput_26
-									.getString(column_index_tJDBCInput_26);
-							if (tmpContent_tJDBCInput_26 != null) {
-								row25.ad_domain = tmpContent_tJDBCInput_26;
-							} else {
-								row25.ad_domain = null;
-							}
-
-						}
-
-						column_index_tJDBCInput_26 = 15;
-
-						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.default_host = null;
 						} else {
 
@@ -27025,7 +26905,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 16;
+						column_index_tJDBCInput_26 = 15;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.high_availability = null;
@@ -27041,7 +26921,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 17;
+						column_index_tJDBCInput_26 = 16;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.initialized = null;
@@ -27057,7 +26937,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 18;
+						column_index_tJDBCInput_26 = 17;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.stateless = null;
@@ -27073,7 +26953,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 19;
+						column_index_tJDBCInput_26 = 18;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.fail_back = null;
@@ -27089,7 +26969,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 20;
+						column_index_tJDBCInput_26 = 19;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.usb_policy = null;
@@ -27105,7 +26985,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 21;
+						column_index_tJDBCInput_26 = 20;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.time_zone = null;
@@ -27121,7 +27001,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 22;
+						column_index_tJDBCInput_26 = 21;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.vm_pool_id = null;
@@ -27137,7 +27017,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 23;
+						column_index_tJDBCInput_26 = 22;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.vm_pool_name = null;
@@ -27153,7 +27033,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 24;
+						column_index_tJDBCInput_26 = 23;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.created_by_user_id = null;
@@ -27169,7 +27049,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 25;
+						column_index_tJDBCInput_26 = 24;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.created_by_user_name = null;
@@ -27185,7 +27065,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 26;
+						column_index_tJDBCInput_26 = 25;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.cluster_configuration_version = null;
@@ -27201,7 +27081,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 27;
+						column_index_tJDBCInput_26 = 26;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.default_host_configuration_version = null;
@@ -27217,7 +27097,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 28;
+						column_index_tJDBCInput_26 = 27;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.create_date = null;
@@ -27235,7 +27115,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_26 = 29;
+						column_index_tJDBCInput_26 = 28;
 
 						if (colQtyInRs_tJDBCInput_26 < column_index_tJDBCInput_26) {
 							row25.update_date = null;
@@ -27361,7 +27241,6 @@ public class ConfigurationSync implements TalendJob {
 								delete_vms_tmp.number_of_sockets = row25.number_of_sockets;
 								delete_vms_tmp.memory_size_mb = row25.memory_size_mb;
 								delete_vms_tmp.operating_system = row25.operating_system;
-								delete_vms_tmp.ad_domain = row25.ad_domain;
 								delete_vms_tmp.default_host = row25.default_host;
 								delete_vms_tmp.high_availability = row25.high_availability;
 								delete_vms_tmp.initialized = row25.initialized;
@@ -27484,150 +27363,142 @@ public class ConfigurationSync implements TalendJob {
 							pstmt_tJDBCOutput_19.setShort(11,
 									delete_vms.operating_system);
 
-							if (delete_vms.ad_domain == null) {
-								pstmt_tJDBCOutput_19.setNull(12,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_19.setString(12,
-										delete_vms.ad_domain);
-							}
-
 							if (delete_vms.default_host == null) {
-								pstmt_tJDBCOutput_19.setNull(13,
+								pstmt_tJDBCOutput_19.setNull(12,
 										java.sql.Types.OTHER);
 							} else {
-								pstmt_tJDBCOutput_19.setObject(13,
+								pstmt_tJDBCOutput_19.setObject(12,
 										delete_vms.default_host);
 							}
 
 							if (delete_vms.high_availability == null) {
-								pstmt_tJDBCOutput_19.setNull(14,
+								pstmt_tJDBCOutput_19.setNull(13,
 										java.sql.Types.BOOLEAN);
 							} else {
-								pstmt_tJDBCOutput_19.setBoolean(14,
+								pstmt_tJDBCOutput_19.setBoolean(13,
 										delete_vms.high_availability);
 							}
 
 							if (delete_vms.initialized == null) {
-								pstmt_tJDBCOutput_19.setNull(15,
+								pstmt_tJDBCOutput_19.setNull(14,
 										java.sql.Types.BOOLEAN);
 							} else {
-								pstmt_tJDBCOutput_19.setBoolean(15,
+								pstmt_tJDBCOutput_19.setBoolean(14,
 										delete_vms.initialized);
 							}
 
 							if (delete_vms.stateless == null) {
-								pstmt_tJDBCOutput_19.setNull(16,
+								pstmt_tJDBCOutput_19.setNull(15,
 										java.sql.Types.BOOLEAN);
 							} else {
-								pstmt_tJDBCOutput_19.setBoolean(16,
+								pstmt_tJDBCOutput_19.setBoolean(15,
 										delete_vms.stateless);
 							}
 
 							if (delete_vms.fail_back == null) {
-								pstmt_tJDBCOutput_19.setNull(17,
+								pstmt_tJDBCOutput_19.setNull(16,
 										java.sql.Types.BOOLEAN);
 							} else {
-								pstmt_tJDBCOutput_19.setBoolean(17,
+								pstmt_tJDBCOutput_19.setBoolean(16,
 										delete_vms.fail_back);
 							}
 
 							if (delete_vms.usb_policy == null) {
-								pstmt_tJDBCOutput_19.setNull(18,
+								pstmt_tJDBCOutput_19.setNull(17,
 										java.sql.Types.INTEGER);
 							} else {
-								pstmt_tJDBCOutput_19.setShort(18,
+								pstmt_tJDBCOutput_19.setShort(17,
 										delete_vms.usb_policy);
 							}
 
 							if (delete_vms.time_zone == null) {
-								pstmt_tJDBCOutput_19.setNull(19,
+								pstmt_tJDBCOutput_19.setNull(18,
 										java.sql.Types.VARCHAR);
 							} else {
-								pstmt_tJDBCOutput_19.setString(19,
+								pstmt_tJDBCOutput_19.setString(18,
 										delete_vms.time_zone);
 							}
 
 							if (delete_vms.vm_pool_id == null) {
-								pstmt_tJDBCOutput_19.setNull(20,
+								pstmt_tJDBCOutput_19.setNull(19,
 										java.sql.Types.OTHER);
 							} else {
-								pstmt_tJDBCOutput_19.setObject(20,
+								pstmt_tJDBCOutput_19.setObject(19,
 										delete_vms.vm_pool_id);
 							}
 
 							if (delete_vms.vm_pool_name == null) {
-								pstmt_tJDBCOutput_19.setNull(21,
+								pstmt_tJDBCOutput_19.setNull(20,
 										java.sql.Types.VARCHAR);
 							} else {
-								pstmt_tJDBCOutput_19.setString(21,
+								pstmt_tJDBCOutput_19.setString(20,
 										delete_vms.vm_pool_name);
 							}
 
 							if (delete_vms.created_by_user_id == null) {
-								pstmt_tJDBCOutput_19.setNull(22,
+								pstmt_tJDBCOutput_19.setNull(21,
 										java.sql.Types.OTHER);
 							} else {
-								pstmt_tJDBCOutput_19.setObject(22,
+								pstmt_tJDBCOutput_19.setObject(21,
 										delete_vms.created_by_user_id);
 							}
 
 							if (delete_vms.created_by_user_name == null) {
-								pstmt_tJDBCOutput_19.setNull(23,
+								pstmt_tJDBCOutput_19.setNull(22,
 										java.sql.Types.VARCHAR);
 							} else {
-								pstmt_tJDBCOutput_19.setString(23,
+								pstmt_tJDBCOutput_19.setString(22,
 										delete_vms.created_by_user_name);
 							}
 
 							if (delete_vms.cluster_configuration_version == null) {
+								pstmt_tJDBCOutput_19.setNull(23,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_19
+										.setInt(23,
+												delete_vms.cluster_configuration_version);
+							}
+
+							if (delete_vms.default_host_configuration_version == null) {
 								pstmt_tJDBCOutput_19.setNull(24,
 										java.sql.Types.INTEGER);
 							} else {
 								pstmt_tJDBCOutput_19
 										.setInt(24,
-												delete_vms.cluster_configuration_version);
-							}
-
-							if (delete_vms.default_host_configuration_version == null) {
-								pstmt_tJDBCOutput_19.setNull(25,
-										java.sql.Types.INTEGER);
-							} else {
-								pstmt_tJDBCOutput_19
-										.setInt(25,
 												delete_vms.default_host_configuration_version);
 							}
 
 							if (delete_vms.create_date != null) {
 								pstmt_tJDBCOutput_19.setTimestamp(
-										26,
+										25,
 										new java.sql.Timestamp(
 												delete_vms.create_date
+														.getTime()));
+							} else {
+								pstmt_tJDBCOutput_19.setNull(25,
+										java.sql.Types.DATE);
+							}
+
+							if (delete_vms.update_date != null) {
+								pstmt_tJDBCOutput_19.setTimestamp(
+										26,
+										new java.sql.Timestamp(
+												delete_vms.update_date
 														.getTime()));
 							} else {
 								pstmt_tJDBCOutput_19.setNull(26,
 										java.sql.Types.DATE);
 							}
 
-							if (delete_vms.update_date != null) {
-								pstmt_tJDBCOutput_19.setTimestamp(
-										27,
-										new java.sql.Timestamp(
-												delete_vms.update_date
-														.getTime()));
-							} else {
-								pstmt_tJDBCOutput_19.setNull(27,
-										java.sql.Types.DATE);
-							}
-
 							if (delete_vms.delete_date != null) {
 								pstmt_tJDBCOutput_19.setTimestamp(
-										28,
+										27,
 										new java.sql.Timestamp(
 												delete_vms.delete_date
 														.getTime()));
 							} else {
-								pstmt_tJDBCOutput_19.setNull(28,
+								pstmt_tJDBCOutput_19.setNull(27,
 										java.sql.Types.DATE);
 							}
 
@@ -61139,6 +61010,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1665767 characters generated by Talend Open Studio for Data Integration on
- * the January 29, 2014 6:13:15 PM IST
+ * 1662494 characters generated by Talend Open Studio for Data Integration on
+ * the January 30, 2014 1:34:31 PM IST
  ************************************************************************************************/

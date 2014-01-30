@@ -440,7 +440,7 @@
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="datacenter_configuration">
         <mapperTableEntries name="datacenter_id" expression="row3.datacenter_id" type="id_Object"/>
@@ -617,7 +617,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="storage_configuration">
         <mapperTableEntries name="storage_domain_id" expression="row5.storage_domain_id" type="id_Object"/>
@@ -1513,7 +1513,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_name, &#xD;&#xA;  vm_description, &#xD;&#xA;  vm_type, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  template_id, &#xD;&#xA;  template_name, &#xD;&#xA;  cpu_per_socket, &#xD;&#xA;  number_of_sockets, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  operating_system, &#xD;&#xA;  ad_domain, &#xD;&#xA;  default_host,&#xD;&#xA;  upper(cast(default_host as char(36))) as default_host_join_id,  &#xD;&#xA;  high_availability, &#xD;&#xA;  initialized, &#xD;&#xA;  stateless, &#xD;&#xA;  fail_back,  &#xD;&#xA;  usb_policy, &#xD;&#xA;  time_zone, &#xA;  vm_pool_id,&#xA;  vm_pool_name,&#xA;  created_by_user_id,&#xA;  created_by_user_name,&#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_vm_configuration_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_name, &#xD;&#xA;  vm_description, &#xD;&#xA;  vm_type, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  template_id, &#xD;&#xA;  template_name, &#xD;&#xA;  cpu_per_socket, &#xD;&#xA;  number_of_sockets, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  operating_system, &#xD;&#xA;  default_host,&#xD;&#xA;  upper(cast(default_host as char(36))) as default_host_join_id,  &#xD;&#xA;  high_availability, &#xD;&#xA;  initialized, &#xD;&#xA;  stateless, &#xD;&#xA;  fail_back,  &#xD;&#xA;  usb_policy, &#xD;&#xA;  time_zone, &#xA;  vm_pool_id,&#xA;  vm_pool_name,&#xA;  created_by_user_id,&#xA;  created_by_user_name,&#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_vm_configuration_history_view&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1546,8 +1546,6 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="memory_size_mb"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="operating_system"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="ad_domain"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="default_host"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1596,7 +1594,6 @@
       <column comment="" key="false" length="2" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="operating_system" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="40" name="ad_domain" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="default_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" name="default_host_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="high_availability" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
@@ -1639,7 +1636,6 @@
       <column comment="" key="false" length="2" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="operating_system" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="40" name="ad_domain" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="default_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="high_availability" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
@@ -1658,7 +1654,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_configuration">
         <mapperTableEntries name="vm_id" expression="row4.vm_id" type="id_Object"/>
@@ -1672,7 +1668,6 @@
         <mapperTableEntries name="number_of_sockets" expression="row4.number_of_sockets" type="id_Short" nullable="true"/>
         <mapperTableEntries name="memory_size_mb" expression="row4.memory_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="operating_system" expression="row4.operating_system" type="id_Short"/>
-        <mapperTableEntries name="ad_domain" expression="StringHandling.TRIM(row4.ad_domain)" type="id_String" nullable="true"/>
         <mapperTableEntries name="default_host" expression="row4.default_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="high_availability" expression="row4.high_availability" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="initialized" expression="row4.initialized" type="id_Boolean" nullable="true"/>
@@ -1703,7 +1698,6 @@
         <mapperTableEntries name="number_of_sockets" type="id_Short" nullable="true"/>
         <mapperTableEntries name="memory_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="operating_system" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="ad_domain" type="id_String" nullable="true"/>
         <mapperTableEntries name="default_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="default_host_join_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="high_availability" type="id_Boolean" nullable="true"/>
@@ -1889,11 +1883,6 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="ad_domain"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="default_host"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1994,7 +1983,6 @@
       <column comment="" key="false" length="2" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="operating_system" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="40" name="ad_domain" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="default_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="high_availability" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
@@ -2024,7 +2012,6 @@
       <column comment="" key="false" length="2" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="operating_system" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="40" name="ad_domain" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="default_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="high_availability" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
@@ -2671,7 +2658,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_datacenters" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="datacenter_id" expression="row14.datacenter_id" type="id_Object"/>
@@ -4123,7 +4110,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;vm_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;&#x9;&#x9;vm_name, &#xD;&#xA;&#x9;&#x9;vm_description, &#xD;&#xA;&#x9;&#x9;vm_type, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;template_id, &#xD;&#xA;&#x9;&#x9;template_name, &#xD;&#xA;&#x9;&#x9;cpu_per_socket, &#xD;&#xA;&#x9;&#x9;number_of_sockets, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;operating_system, &#xD;&#xA;&#x9;&#x9;ad_domain, &#xD;&#xA;&#x9;&#x9;default_host, &#xD;&#xA;&#x9;&#x9;high_availability, &#xD;&#xA;&#x9;&#x9;initialized, &#xD;&#xA;&#x9;&#x9;stateless, &#xD;&#xA;&#x9;&#x9;fail_back, &#xD;&#xA;&#x9;&#x9;usb_policy, &#xD;&#xA;&#x9;&#x9;time_zone, &#xA;&#x9;&#x9;vm_pool_id, &#xA;&#x9;&#x9;vm_pool_name,&#xA;&#x9;&#x9;created_by_user_id,&#xA;&#x9;&#x9;created_by_user_name,&#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;default_host_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v3_4_latest_configuration_vms&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;vm_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;&#x9;&#x9;vm_name, &#xD;&#xA;&#x9;&#x9;vm_description, &#xD;&#xA;&#x9;&#x9;vm_type, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;template_id, &#xD;&#xA;&#x9;&#x9;template_name, &#xD;&#xA;&#x9;&#x9;cpu_per_socket, &#xD;&#xA;&#x9;&#x9;number_of_sockets, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;operating_system, &#xD;&#xA;&#x9;&#x9;default_host, &#xD;&#xA;&#x9;&#x9;high_availability, &#xD;&#xA;&#x9;&#x9;initialized, &#xD;&#xA;&#x9;&#x9;stateless, &#xD;&#xA;&#x9;&#x9;fail_back, &#xD;&#xA;&#x9;&#x9;usb_policy, &#xD;&#xA;&#x9;&#x9;time_zone, &#xA;&#x9;&#x9;vm_pool_id, &#xA;&#x9;&#x9;vm_pool_name,&#xA;&#x9;&#x9;created_by_user_id,&#xA;&#x9;&#x9;created_by_user_name,&#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;default_host_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v3_4_latest_configuration_vms&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -4158,8 +4145,6 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="memory_size_mb"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="operating_system"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="ad_domain"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="default_host"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -4211,7 +4196,6 @@
       <column comment="" key="false" length="2" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="operating_system" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="40" name="ad_domain" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="default_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="high_availability" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
@@ -4293,7 +4277,6 @@
       <column comment="" key="false" length="2" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="operating_system" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="40" name="ad_domain" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="default_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="high_availability" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
@@ -4312,7 +4295,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_vms" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="vm_id" expression="row25.vm_id" type="id_Object"/>
@@ -4326,7 +4309,6 @@
         <mapperTableEntries name="number_of_sockets" expression="row25.number_of_sockets" type="id_Short" nullable="true"/>
         <mapperTableEntries name="memory_size_mb" expression="row25.memory_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="operating_system" expression="row25.operating_system" type="id_Short"/>
-        <mapperTableEntries name="ad_domain" expression="row25.ad_domain" type="id_String" nullable="true"/>
         <mapperTableEntries name="default_host" expression="row25.default_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="high_availability" expression="row25.high_availability" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="initialized" expression="row25.initialized" type="id_Boolean" nullable="true"/>
@@ -4358,7 +4340,6 @@
         <mapperTableEntries name="number_of_sockets" type="id_Short" nullable="true"/>
         <mapperTableEntries name="memory_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="operating_system" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="ad_domain" type="id_String" nullable="true"/>
         <mapperTableEntries name="default_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="high_availability" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="initialized" type="id_Boolean" nullable="true"/>
@@ -4454,11 +4435,6 @@
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="operating_system"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="ad_domain"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -4563,7 +4539,6 @@
       <column comment="" key="false" length="2" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="operating_system" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="40" name="ad_domain" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="default_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="high_availability" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
@@ -4593,7 +4568,6 @@
       <column comment="" key="false" length="2" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="memory_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="operating_system" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="40" name="ad_domain" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="default_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="high_availability" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="initialized" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
