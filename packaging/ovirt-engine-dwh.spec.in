@@ -140,6 +140,12 @@ fi
 %config(noreplace) %attr(-, %{engine_user}, %{engine_group}) %{_sysconfdir}/ovirt-engine/%{dwh_name}/Default.properties
 
 %changelog
+* Mon Feb 03 2014 Yaniv Dary <ydary@redhat.com> - 3.3
+Fixed issues:
+- dwh-setup confusingly informs about doing upgrade when doing clean remote install (#1059270)
+- remote user password is asked twice for authentication (#1057281)
+- when asking user and password in remote db installation, error is displayed. (#1057280)
+
 * Sun Jan 26 2014 Yaniv Dary <ydary@redhat.com> - 3.3
 Fixed issue:
 - fixed issue with user_logged_in_to_guest column null handling (#1057412)
