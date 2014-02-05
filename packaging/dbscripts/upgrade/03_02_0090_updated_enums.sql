@@ -1,3 +1,5 @@
+SET standard_conforming_strings TO on;
+
 SELECT update_enum_translator(cast('DATACENTER_STATUS' as varchar(40)),cast(-1 as smallint),cast('ja' as varchar(40)),cast(U&'\4E0D\660E\306E\30B9\30C6\30FC\30BF\30B9' as text));
 SELECT update_enum_translator(cast('DATACENTER_STATUS' as varchar(40)),cast(-1 as smallint),cast('de' as varchar(40)),cast(U&'Unbekannter Status' as text));
 SELECT update_enum_translator(cast('DATACENTER_STATUS' as varchar(40)),cast(-1 as smallint),cast('en_US' as varchar(40)),cast(U&'Unknown Status' as text));
