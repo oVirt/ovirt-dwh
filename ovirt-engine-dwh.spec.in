@@ -2,14 +2,6 @@
 # CUSTOMIZATION-BEGIN
 #
 # ovirt_build_extra_flags
-# ovirt_build_ut
-%if 0%{!?ovirt_build_ut:1}
-%if 0%{?_ovirt_build_ut:1}
-%global ovirt_build_ut %{_ovirt_build_ut}
-%else
-%global ovirt_build_ut 1
-%endif
-%endif
 #
 # CUSTOMIZATION-END
 #
@@ -25,15 +17,15 @@
 %if 0%{?fedora}
 %global ovirt_install_systemd 1
 %global ovirt_install_systemv 0
-%global ovirt_install_poms 1
-%global ovirt_require_maven 1
+%global commons_collections apache-commons-collections
+%global dom4j dom4j
 %endif
 
 %if 0%{?rhel}
 %global ovirt_install_systemd 0
 %global ovirt_install_systemv 1
-%global ovirt_install_poms 0
-%global ovirt_require_maven 0
+%global commons_collections commons-collections
+%global dom4j dom4j-eap6
 %endif
 
 %global product_name Data warehouse package for oVirt Virtualization Suite
@@ -62,7 +54,6 @@ getent passwd %1 >/dev/null || useradd -r -u %2 -g %3 -c %5 -s /sbin/nologin -d 
 
 %global make_common_opts \\\
 	-j1 \\\
-	BUILD_UT=%{ovirt_build_ut} \\\
 	BUILD_VALIDATION=0 \\\
 	PACKAGE_NAME=%{name} \\\
 	RPM_VERSION=%{version} \\\
@@ -77,7 +68,6 @@ getent passwd %1 >/dev/null || useradd -r -u %2 -g %3 -c %5 -s /sbin/nologin -d 
 	PYTHON=%{__python} \\\
 	PYTHON_DIR=%{python_sitelib} \\\
 	JAVA_DIR=%{_javadir} \\\
-	MAVENPOM_DIR=%{_mavenpomdir} \\\
 	PKG_USER=%{engine_user} \\\
 	PKG_GROUP=%{engine_group} \\\
 	%{?EXTRA_BUILD_FLAGS:EXTRA_BUILD_FLAGS="%{EXTRA_BUILD_FLAGS}"}
@@ -92,22 +82,25 @@ URL:		http://www.ovirt.org
 BuildArch:	noarch
 Source:		http://ovirt.org/releases/stable/src/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
 
+BuildRequires:	%{commons_collections}
+BuildRequires:	%{dom4j}
+BuildRequires:	ant
+BuildRequires:	java-1.7.0-openjdk-devel
 BuildRequires:	jpackage-utils
 BuildRequires:	make
-%if %{ovirt_require_maven}
-BuildRequires:	maven
-%endif
-Requires:	python
-Requires:	java-1.7.0-openjdk
-Requires:	jboss-as >= 7.1.1-9.3
-Requires:	jpackage-utils
-Requires:	postgresql-jdbc
-Requires:	logrotate
-Requires:	%{name}-setup >= %{version}-%{release}
-Requires:	ovirt-engine
+
 %if %{ovirt_install_systemd}
 BuildRequires:	systemd
 %endif
+
+Requires:	%{commons_collections}
+Requires:	%{dom4j}
+Requires:	%{name}-setup >= %{version}-%{release}
+Requires:	java-1.7.0-openjdk
+Requires:	jpackage-utils
+Requires:	logrotate
+Requires:	ovirt-engine
+Requires:	postgresql-jdbc
 
 %description
 The %{product_description} package provides
@@ -158,51 +151,16 @@ while read lib_path; do
 	mv "%{buildroot}/${lib_path}" "%{buildroot}/${java_path}"
 	ln -s "${java_path}" "%{buildroot}${lib_path}"
 done << __EOF__
-%{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/advancedPersistentLookupLib.jar
-%{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/etltermination.jar
-%{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/historyETL.jar
-%{_datadir}/ovirt-engine-dwh/modules/org/ovirt/engine/dwh/main/routines.jar
+%{_datadir}/ovirt-engine-dwh/lib/advancedPersistentLookupLib.jar
+%{_datadir}/ovirt-engine-dwh/lib/etltermination.jar
+%{_datadir}/ovirt-engine-dwh/lib/historyETL.jar
+%{_datadir}/ovirt-engine-dwh/lib/routines.jar
 __EOF__
 
 # Needed for compatibility if package is different than the directory structure
 %if "%{name}" != "ovirt-engine-dwh"
 ln -s "ovirt-engine-dwh" "%{buildroot}%{_javadir}/ovirt-engine-dwh/../%{name}"
 %endif
-
-#
-# Register poms
-#
-%if !%{ovirt_install_poms}
-rm -fr "%{buildroot}%{_mavenpomdir}"
-%else
-for pom in %{buildroot}%{_mavenpomdir}/*.pom; do
-	pomdir="$(dirname "${pom}")"
-	pom="$(basename "${pom}")"
-	jpppom="JPP.${pom}"
-	mv "${pomdir}/${pom}" "${pomdir}/${jpppom}"
-	artifact_id="$(echo "${pom}" | sed -e 's/^%{name}-//' -e 's/\.pom//')"
-	if [ -f "%{buildroot}%{_javadir}/ovirt-engine-dwh/${artifact_id}.jar" ]; then
-		%add_maven_depmap "${jpppom}" "%{name}/${artifact_id}.jar"
-	else
-		%add_maven_depmap "${jpppom}"
-	fi
-done
-%endif
-
-#
-# Link dependencies to system provided
-#
-while read dst src; do
-	[ -z "${dst}" ] && continue
-	[ -z "${src}" ] && src="$(basename "${dst}")"
-
-	dst="%{_datadir}/ovirt-engine-dwh/modules/${dst}"
-	src="%{_javadir}/${src}"
-	rm -f "%{buildroot}${dst}"
-	ln -s "${src}" "%{buildroot}${dst}"
-done << __EOF__
-org/postgresql/main/postgresql.jar postgresql-jdbc.jar
-__EOF__
 
 #
 # Register services
@@ -224,12 +182,6 @@ cp "%{buildroot}%{_datadir}/ovirt-engine-dwh/services/ovirt-engine-dwhd/ovirt-en
 install -d "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh"
 touch "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properties"
 
-%post
-
-%if %{ovirt_install_poms}
-%update_maven_depmap
-%endif
-
 %preun
 %ovirt_create_user_engine
 %if %{ovirt_install_systemv}
@@ -247,9 +199,6 @@ fi
 %if %{ovirt_install_systemd}
 %systemd_postun ovirt-engine-dwhd.service
 %endif
-%if %{ovirt_install_poms}
-%update_maven_depmap
-%endif
 
 %files
 
@@ -265,11 +214,6 @@ fi
 
 %if "%{name}" != "ovirt-engine-dwh"
 %{_javadir}/%{name}
-%endif
-
-%if %{ovirt_install_poms}
-%{_mavendepmapfragdir}/%{name}
-%{_mavenpomdir}/JPP.%{name}-*
 %endif
 
 %if %{ovirt_install_systemd}

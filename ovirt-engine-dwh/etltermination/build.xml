@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="ETL Termination" default="all">
+	<property name="build.output" location="lib"/>
+	<property name="local.output" value="${build.output}/etltermination.jar"/>
+
+	<path id="local.classpath">
+		<pathelement path="${dependencies.extra}"/>
+	</path>
+
+	<target name="all">
+		<mkdir dir="target"/>
+		<mkdir dir="${build.output}"/>
+		<javac
+			srcdir="src"
+			destdir="target"
+			includeAntRuntime="no"
+			encoding="utf-8"
+			classpathref="local.classpath"
+		/>
+		<jar
+			destfile="${local.output}"
+			basedir="target"
+			includes="**/*.class"
+		/>
+	</target>
+
+	<target name="clean">
+		<delete dir="target"/>
+		<delete file="${local.output}"/>
+	</target>
+</project>

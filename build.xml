@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="oVirt Engine Data Warehouse" default="all">
+	<property file="build.properties"/>
+	<property name="build.root" location="."/>
+	<property name="build.output" value="${build.root}/lib"/>
+
+	<target name="dependencies">
+		<exec
+			executable='packaging/bin/dwh-classpath.sh'
+			outputproperty="dependencies.extra"
+			failonerror="true"
+		>
+			<arg value="build"/>
+		</exec>
+		<echo message="classpath: ${dependencies.extra}"/>
+	</target>
+
+	<target name="all" depends="dependencies">
+		<antcall target="jars">
+			<param name="target" value="all"/>
+		</antcall>
+	</target>
+
+	<target name="clean">
+		<antcall target="jars">
+			<param name="target" value="clean"/>
+		</antcall>
+		<delete dir="${build.output}"/>
+	</target>
+
+	<target name="jars">
+		<echo message="etltermination"/>
+		<ant dir="ovirt-engine-dwh/etltermination" target="${target}"/>
+		<echo message="routines"/>
+		<ant dir="ovirt-engine-dwh/routines" target="${target}"/>
+		<echo message="advancedPersistentLookupLib"/>
+		<ant dir="ovirt-engine-dwh/advancedPersistentLookupLib" target="${target}"/>
+		<echo message="historyETL"/>
+		<ant dir="ovirt-engine-dwh/historyETL" target="${target}"/>
+	</target>
+
+</project>

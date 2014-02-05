@@ -15,8 +15,7 @@ PKG_SYSCONF_DIR="@PKG_SYSCONF_DIR@"
 PKG_LOG_DIR="@PKG_LOG_DIR@"
 PKG_STATE_DIR="@PKG_STATE_DIR@"
 PKG_DATA_DIR="@PKG_DATA_DIR@"
-PKG_JBOSS_MODULES="@PKG_JBOSS_MODULES@"
-JBOSS_HOME="@JBOSS_HOME@"
+PKG_JAVA_LIB="@PKG_JAVA_LIB@"
 
 #
 # Daemon settings
@@ -67,16 +66,6 @@ DWH_PROPERTIES=""
 # Extra Java arguments to be added to command-line.
 #
 DWH_JVM_ARGS=""
-
-#
-# Module path
-#
-# Colon separated list of paths.
-#
-# JBoss is always appended, cannot be appended here
-# as it may be resolved to different value.
-#
-DWH_JAVA_MODULEPATH="${PKG_JBOSS_MODULES}"
 
 #
 # dwh version

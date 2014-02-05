@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="History's ETL Procedure" default="all">
+	<property name="build.output" location="lib"/>
+	<property name="local.output" value="${build.output}/historyETL.jar"/>
+
+	<path id="local.classpath">
+		<pathelement path="${build.output}/etltermination.jar"/>
+		<pathelement path="${build.output}/routines.jar"/>
+		<pathelement path="${build.output}/advancedPersistentLookupLib.jar"/>
+	</path>
+
+	<target name="all">
+		<mkdir dir="target"/>
+		<mkdir dir="${build.output}"/>
+		<javac
+			srcdir="src"
+			destdir="target"
+			includeAntRuntime="no"
+			encoding="utf-8"
+			classpathref="local.classpath"
+		/>
+		<jar destfile="${local.output}">
+			<fileset dir="target"/>
+			<fileset dir="src/main/resources"/>
+		</jar>
+	</target>
+
+	<target name="clean">
+		<delete dir="target"/>
+		<delete file="${local.output}"/>
+	</target>
+</project>

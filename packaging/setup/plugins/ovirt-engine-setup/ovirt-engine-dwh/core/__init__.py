@@ -20,7 +20,6 @@ from otopi import util
 
 
 from . import config
-from . import jboss
 from . import misc
 from . import service
 
@@ -28,7 +27,6 @@ from . import service
 @util.export
 def createPlugins(context):
     config.Plugin(context=context)
-    jboss.Plugin(context=context)
     misc.Plugin(context=context)
     service.Plugin(context=context)
 

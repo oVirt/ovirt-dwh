@@ -18,6 +18,7 @@
 import os
 import sys
 import shlex
+import subprocess
 import gettext
 _ = lambda m: gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
@@ -43,20 +44,33 @@ class Daemon(service.Daemon):
             )
         )
 
+    def _getClasspath(self):
+        p = subprocess.Popen(
+            args=(
+                os.path.join(
+                    self._config.get('PKG_DATA_DIR'),
+                    'bin',
+                    'dwh-classpath.sh',
+                ),
+                'run',
+            ),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            close_fds=True,
+        )
+        stdout, stderr = p.communicate()
+        stdout = stdout.decode('utf-8', 'replace').splitlines()
+        stderr = stderr.decode('utf-8', 'replace').splitlines()
+        if p.returncode != 0:
+            raise RuntimeError(_('Cannot setup classpath (%s)') % stderr)
+        classpath = stdout[0]
+        self.logger.debug('classpath: %s', classpath)
+        return classpath
+
     def _checkInstallation(
         self,
         pidfile,
-        jbossModulesJar,
     ):
-        # Check the required JBoss directories and files:
-        self.check(
-            name=self._config.get('JBOSS_HOME'),
-            directory=True,
-        )
-        self.check(
-            name=jbossModulesJar,
-        )
-
         # Check the required directories and files:
         self.check(
             os.path.join(
@@ -69,6 +83,12 @@ class Daemon(service.Daemon):
             self._config.get('PKG_LOG_DIR'),
             directory=True,
             writable=True,
+        )
+        self.check(
+            os.path.join(
+                self._config.get('PKG_JAVA_LIB'),
+                'historyETL.jar',
+            ),
         )
         for log in ('ovirt-engine-dwhd.log',):
             self.check(
@@ -119,14 +139,8 @@ class Daemon(service.Daemon):
             'java',
         )
 
-        jbossModulesJar = os.path.join(
-            self._config.get('JBOSS_HOME'),
-            'jboss-modules.jar',
-        )
-
         self._checkInstallation(
             pidfile=self.pidfile,
-            jbossModulesJar=jbossModulesJar,
         )
 
         self._tempDir = service.TempDir()
@@ -150,7 +164,6 @@ class Daemon(service.Daemon):
 
         self._serviceArgs = [
             'ovirt-engine-dwhd',
-            '-Djboss.modules.write-indexes=false',
             '-Dorg.ovirt.engine.dwh.settings=%s' % settings,
         ]
 
@@ -183,9 +196,14 @@ class Daemon(service.Daemon):
             ])
 
         self._serviceArgs.extend([
-            '-jar', jbossModulesJar,
-            '-dependencies', 'org.ovirt.engine.dwh',
-            '-class', 'ovirt_engine_dwh.historyetl_3_4.HistoryETL',
+            '-classpath', '%s:%s' % (
+                os.path.join(
+                    self._config.get('PKG_JAVA_LIB'),
+                    '*',
+                ),
+                self._getClasspath(),
+            ),
+            'ovirt_engine_dwh.historyetl_3_4.HistoryETL',
             '--context=Default',
         ])
 
@@ -197,14 +215,6 @@ class Daemon(service.Daemon):
             ),
             'LANG': 'en_US.UTF-8',
             'LC_ALL': 'en_US.UTF-8',
-            'CLASSPATH': '',
-            'JAVA_MODULEPATH': '%s:%s' % (
-                self._config.get('DWH_JAVA_MODULEPATH'),
-                os.path.join(
-                    self._config.get('JBOSS_HOME'),
-                    'modules',
-                )
-            ),
         })
 
     def daemonStdHandles(self):
