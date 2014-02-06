@@ -25,7 +25,11 @@
 %global ovirt_install_systemd 0
 %global ovirt_install_systemv 1
 %global commons_collections commons-collections
+%if 0%{?centos}
+%global dom4j dom4j
+%else
 %global dom4j dom4j-eap6
+%endif
 %endif
 
 %global product_name Data warehouse package for oVirt Virtualization Suite
