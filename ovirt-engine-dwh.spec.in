@@ -186,12 +186,22 @@ cp "%{buildroot}%{_datadir}/ovirt-engine-dwh/services/ovirt-engine-dwhd/ovirt-en
 install -d "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh"
 touch "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properties"
 
-%preun
+%pre
 %ovirt_create_user_engine
+
+%post
+%if %{ovirt_install_systemv}
+chkconfig --add ovirt-engine-dwhd
+%endif
+%if %{ovirt_install_systemd}
+%systemd_post ovirt-engine-dwhd.service
+%endif
+
+%preun
 %if %{ovirt_install_systemv}
 if [ "$1" -eq 0 ]; then
-	/sbin/service ovirt-engine-dwhd stop > /dev/null 2>&1 || true
-	/sbin/chkconfig --del ovirt-engine-dwhd > /dev/null 2>&1 || true
+	service ovirt-engine-dwhd stop > /dev/null 2>&1 || true
+	chkconfig --del ovirt-engine-dwhd
 fi
 %endif
 %if %{ovirt_install_systemd}
@@ -199,7 +209,6 @@ fi
 %endif
 
 %postun
-
 %if %{ovirt_install_systemd}
 %systemd_postun ovirt-engine-dwhd.service
 %endif
