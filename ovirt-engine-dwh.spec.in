@@ -242,6 +242,17 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed Feb 12 2014 Yaniv Dary <ydary@redhat.com> - 3.4.0
+Features added:
+967350/1058012 - port dwh installer to otopi
+1030466 - ovirt-engine-dwh-setup should stored values provided in interactive setup in the answer file
+1023754 - add trigger to stop etl connection via engine db value
+1052383 - collect the "created_by" field of a VM into it's configuration history
+848410 - alternate method for service shutdown
+
+Fixed issues:
+1057239 - dwh-setup fails because of unexpected output in login shell without reasonable error message
+
 * Thu Jan 09 2014 Yaniv Dary <ydary@redhat.com> - 3.3
 Refixed issue:
 - fix ugprade with remote db (#1046676)
