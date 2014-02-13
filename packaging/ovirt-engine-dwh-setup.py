@@ -68,6 +68,8 @@ PGPASS_TEMP = ''
 OVIRT_UID = pwd.getpwnam('ovirt')[2]
 OVIRT_GID = grp.getgrnam('ovirt')[2]
 
+INVALID_PASSWORD_CHARS = '"\\$#'
+
 # DB messages
 DB_FILE = (
     "The DB was backed up as '{dbfile}'"
@@ -203,6 +205,11 @@ def getPassFromUser(prompt, validate=True):
         print "Cannot accept an empty password"
         return getPassFromUser(prompt)
 
+    for c in INVALID_PASSWORD_CHARS:
+        if c in userInput:
+            print "Password must not contain [%s]" % c
+            return getPassFromUser(prompt)
+
     if validate:
         try:
             cracklib.FascistCheck(userInput)
@@ -272,7 +279,20 @@ def getDbDictFromOptions():
             ):
                 s = handler.getParam(v)
                 if s is not None:
-                    db_dict[k] = s.strip('"')
+                    if s[0]=='"' and s[-1]=='"':
+                        s = s[1:-1]
+                    for c in INVALID_PASSWORD_CHARS:
+                        if c in s:
+                            logging.debug(
+                                'invalid chars: {file}:{param}'.format(
+                                    file=file,
+                                    param=v,
+                                )
+                            )
+                            msg = 'invalid character found in db credentials'
+                            print msg
+                            raise RuntimeError(msg)
+                    db_dict[k] = s
             handler.close()
 
     return db_dict
