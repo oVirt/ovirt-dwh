@@ -21,7 +21,7 @@ VERSION=3.4.0
 # - master
 # - <none>
 #
-MILESTONE=master
+MILESTONE=beta3
 
 # RPM release is manually specified,
 # For pre-release:
@@ -32,4 +32,4 @@ MILESTONE=master
 # RPM_RELEASE=N
 # while N is incremented each re-release
 #
-RPM_RELEASE=1
+RPM_RELEASE=0.3

@@ -84,7 +84,7 @@ Summary:	%{product_name}
 Group:		Virtualization/Management
 URL:		http://www.ovirt.org
 BuildArch:	noarch
-Source:		http://ovirt.org/releases/stable/src/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
+Source:		http://resources.ovirt.org/releases/3.4.0_pre/src/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
 
 BuildRequires:	%{commons_collections}
 BuildRequires:	%{dom4j}
@@ -401,7 +401,7 @@ Fixed issues:
 Reverted:
 913384 - Upgrade - Error Can't start the ovirt-engine-dwhd service (Upgrade from si25.4 to si27.1)
 
-Change on the engine side caused engine DB deadlock of nested transactions attempting to update the same 
+Change on the engine side caused engine DB deadlock of nested transactions attempting to update the same
 record. Without that change this patch will not work.
 
 * Wed Mar 06 2013 Yaniv Dary <ydary@redhat.com> - 3.2.0
