@@ -84,7 +84,7 @@ Summary:	%{product_name}
 Group:		Virtualization/Management
 URL:		http://www.ovirt.org
 BuildArch:	noarch
-Source:		http://resources.ovirt.org/releases/3.4.0_pre/src/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
+Source:		http://ovirt.org/releases/stable/src/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
 
 BuildRequires:	%{commons_collections}
 BuildRequires:	%{dom4j}
