@@ -5,13 +5,13 @@
   <parent>
           <groupId>ovirt_engine_dwh</groupId>
       <artifactId>etl_sources</artifactId>
-          <version>3.3.3</version>
+          <version>3.3.4</version>
   </parent>
 
   <groupId>ovirt_engine_dwh</groupId>
   <artifactId>historyETLProcedure</artifactId>
   <packaging>jar</packaging>
-  <version>3.3.3</version>
+  <version>3.3.4</version>
   <name>History's ETL Procedure</name>
   <description>The jar that contains the oVirt Engine History DB ETL module</description>
 

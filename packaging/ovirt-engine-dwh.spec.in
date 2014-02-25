@@ -34,7 +34,7 @@ Summary: %{product_name}
 Group: Virtualization/Management
 URL: http://www.ovirt.org
 BuildArch: noarch
-Source: @PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
+Source: http://ovirt.org/releases/stable/src/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
 
 BuildRequires: jpackage-utils
 BuildRequires: make
@@ -140,6 +140,9 @@ fi
 %config(noreplace) %attr(-, %{engine_user}, %{engine_group}) %{_sysconfdir}/ovirt-engine/%{dwh_name}/Default.properties
 
 %changelog
+* Tue Feb 25 2014 Sandro Bonazzola <sbonazzo@redhat.com> - 3.3.4-1
+- 3.3.4-1
+
 * Mon Feb 03 2014 Yaniv Dary <ydary@redhat.com> - 3.3
 Fixed issues:
 - dwh-setup confusingly informs about doing upgrade when doing clean remote install (#1059270)
@@ -298,7 +301,7 @@ Fixed issues:
 Reverted:
 913384 - Upgrade - Error Can't start the ovirt-engine-dwhd service (Upgrade from si25.4 to si27.1)
 
-Change on the engine side caused engine DB deadlock of nested transactions attempting to update the same 
+Change on the engine side caused engine DB deadlock of nested transactions attempting to update the same
 record. Without that change this patch will not work.
 
 * Wed Mar 06 2013 Yaniv Dary <ydary@redhat.com> - 3.2.0
