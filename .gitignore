@@ -1,6 +1,8 @@
 lib
 target
 tmp.*
+*.scripts.md5
+*.log
 
 build/python-check.sh
 ovirt-engine-dwh.spec

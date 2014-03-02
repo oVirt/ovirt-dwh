@@ -177,60 +177,27 @@ class Plugin(plugin.PluginBase):
     @plugin.event(
         stage=plugin.Stages.STAGE_MISC,
         name=odwhcons.Stages.DB_SCHEMA,
-        condition=lambda self: (
-            self.environment[odwhcons.CoreEnv.ENABLE] and
-            self.environment[
-                odwhcons.DBEnv.NEW_DATABASE
-            ]
-        ),
-    )
-    def _miscInstall(self):
-        self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
-            self.SchemaTransaction(
-                parent=self,
-            )
-        )
-
-        self.logger.info(_('Creating DWH database schema'))
-        self.execute(
-            args=[
-                odwhcons.FileLocations.OVIRT_ENGINE_DWH_DB_CREATE,
-                '-l', self.environment[otopicons.CoreEnv.LOG_FILE_NAME],
-                '-s', self.environment[odwhcons.DBEnv.HOST],
-                '-p', str(self.environment[odwhcons.DBEnv.PORT]),
-                '-d', self.environment[odwhcons.DBEnv.DATABASE],
-                '-u', self.environment[odwhcons.DBEnv.USER],
-                '-g',
-            ],
-            envAppend={
-                'ENGINE_PGPASS': self.environment[
-                    odwhcons.DBEnv.PGPASS_FILE
-                ]
-            },
-        )
-
-    @plugin.event(
-        stage=plugin.Stages.STAGE_MISC,
-        name=odwhcons.Stages.DB_SCHEMA,
-        condition=lambda self: (
-            self.environment[odwhcons.CoreEnv.ENABLE] and
-            not self.environment[
-                odwhcons.DBEnv.NEW_DATABASE
-            ]
-        ),
+        condition=lambda self: self.environment[
+            odwhcons.CoreEnv.ENABLE
+        ],
         after=(
             odwhcons.Stages.DB_CREDENTIALS_AVAILABLE,
         ),
     )
-    def _miscUpgrade(self):
-        dbovirtutils = database.OvirtUtils(
-            plugin=self,
-            dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
-        )
-        backupFile = dbovirtutils.backup(
-            dir=odwhcons.FileLocations.OVIRT_ENGINE_DWH_DB_BACKUP_DIR,
-            prefix=odwhcons.Const.OVIRT_ENGINE_DWH_DB_BACKUP_PREFIX,
-        )
+    def _misc(self):
+        backupFile = None
+
+        if not self.environment[
+            odwhcons.DBEnv.NEW_DATABASE
+        ]:
+            dbovirtutils = database.OvirtUtils(
+                plugin=self,
+                dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
+            )
+            backupFile = dbovirtutils.backup(
+                dir=odwhcons.FileLocations.OVIRT_ENGINE_DWH_DB_BACKUP_DIR,
+                prefix=odwhcons.Const.OVIRT_ENGINE_DWH_DB_BACKUP_PREFIX,
+            )
 
         self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
             self.SchemaTransaction(
@@ -239,19 +206,41 @@ class Plugin(plugin.PluginBase):
             )
         )
 
-        self.logger.info(_('Updating DWH database schema'))
+        self.logger.info(_('Creating/refreshing DWH database schema'))
+        args = [
+            odwhcons.FileLocations.OVIRT_ENGINE_DWH_DB_SCHMA_TOOL,
+            '-s', self.environment[odwhcons.DBEnv.HOST],
+            '-p', str(self.environment[odwhcons.DBEnv.PORT]),
+            '-u', self.environment[odwhcons.DBEnv.USER],
+            '-d', self.environment[odwhcons.DBEnv.DATABASE],
+            '-l', self.environment[otopicons.CoreEnv.LOG_FILE_NAME],
+            '-c', 'apply',
+        ]
+        if self.environment[
+            osetupcons.CoreEnv.DEVELOPER_MODE
+        ]:
+            if not os.path.exists(
+                osetupcons.FileLocations.OVIRT_ENGINE_DB_MD5_DIR
+            ):
+                os.makedirs(
+                    osetupcons.FileLocations.OVIRT_ENGINE_DB_MD5_DIR
+                )
+            args.extend(
+                [
+                    '-m',
+                    os.path.join(
+                        osetupcons.FileLocations.OVIRT_ENGINE_DB_MD5_DIR,
+                        '%s-%s.scripts.md5' % (
+                            self.environment[odwhcons.DBEnv.HOST],
+                            self.environment[odwhcons.DBEnv.DATABASE],
+                        ),
+                    ),
+                ]
+            )
         self.execute(
-            args=[
-                odwhcons.FileLocations.OVIRT_ENGINE_DWH_DB_UPGRADE,
-                '-s', self.environment[odwhcons.DBEnv.HOST],
-                '-p', str(self.environment[odwhcons.DBEnv.PORT]),
-                '-u', self.environment[odwhcons.DBEnv.USER],
-                '-d', self.environment[odwhcons.DBEnv.DATABASE],
-                '-l', self.environment[otopicons.CoreEnv.LOG_FILE_NAME],
-                '-g',
-            ],
+            args=args,
             envAppend={
-                'ENGINE_PGPASS': self.environment[
+                'DBFUNC_DB_PGPASSFILE': self.environment[
                     odwhcons.DBEnv.PGPASS_FILE
                 ]
             },

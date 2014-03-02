@@ -101,13 +101,9 @@ class FileLocations(object):
         PKG_DATA_DIR,
         'dbscripts',
     )
-    OVIRT_ENGINE_DWH_DB_CREATE = os.path.join(
+    OVIRT_ENGINE_DWH_DB_SCHMA_TOOL = os.path.join(
         OVIRT_ENGINE_DWH_DB_DIR,
-        'create_schema.sh',
-    )
-    OVIRT_ENGINE_DWH_DB_UPGRADE = os.path.join(
-        OVIRT_ENGINE_DWH_DB_DIR,
-        'upgrade.sh',
+        'schema.sh',
     )
     OVIRT_ENGINE_DWH_DB_BACKUP_DIR = os.path.join(
         PKG_STATE_DIR,
