@@ -264,7 +264,7 @@ def getDbDictFromOptions():
 
         if os.path.exists(file):
             handler = utils.TextConfigFileHandler(file)
-            handler.open()
+            handler.open(useconfigfile=True)
 
             for k, v in (
                 ('dbname', 'DWH_DB_DATABASE'),
@@ -279,19 +279,6 @@ def getDbDictFromOptions():
             ):
                 s = handler.getParam(v)
                 if s is not None:
-                    if s[0]=='"' and s[-1]=='"':
-                        s = s[1:-1]
-                    for c in INVALID_PASSWORD_CHARS:
-                        if c in s:
-                            logging.debug(
-                                'invalid chars: {file}:{param}'.format(
-                                    file=file,
-                                    param=v,
-                                )
-                            )
-                            msg = 'invalid character found in db credentials'
-                            print msg
-                            raise RuntimeError(msg)
                     db_dict[k] = s
             handler.close()
 

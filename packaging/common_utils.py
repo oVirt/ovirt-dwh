@@ -20,6 +20,10 @@ import tempfile
 import random
 import string
 
+
+from ovirt_engine import configfile
+
+
 #text colors
 RED = "\033[0;31m"
 GREEN = "\033[92m"
@@ -320,10 +324,13 @@ class TextConfigFileHandler(ConfigFileHandler):
         self.data = []
         self.sep = sep
 
-    def open(self):
+    def open(self, useconfigfile=False):
         fd = file(self.filepath)
         self.data = fd.readlines()
         fd.close()
+        self._useconfigfile = useconfigfile
+        if self._useconfigfile:
+            self._configfile = configfile.ConfigFile([self.filepath])
 
     def close(self):
         fd = file(self.filepath, 'w')
@@ -333,11 +340,14 @@ class TextConfigFileHandler(ConfigFileHandler):
 
     def getParam(self, param):
         value = None
-        for line in self.data:
-            if not re.match("\s*#", line):
-                found = re.match("\s*%s\s*\%s\s*(.+)$" % (param, self.sep), line)
-                if found:
-                    value = found.group(1)
+        if self._useconfigfile:
+            value = self._configfile.get(param)
+        else:
+            for line in self.data:
+                if not re.match("\s*#", line):
+                    found = re.match("\s*%s\s*\%s\s*(.+)$" % (param, self.sep), line)
+                    if found:
+                        value = found.group(1)
         return value
 
     def editParam(self, param, value):
@@ -700,7 +710,7 @@ def getDbAdminUser():
     Use default settings if file is not found.
     """
     file_handler = TextConfigFileHandler(FILE_DB_CONN)
-    file_handler.open()
+    file_handler.open(useconfigfile=True)
     return file_handler.getParam('ENGINE_DB_USER') or DB_ADMIN
 
 def getDbHostName():
@@ -709,7 +719,7 @@ def getDbHostName():
     Use default settings if file is not found, or '*' was used.
     """
     file_handler = TextConfigFileHandler(FILE_DB_CONN)
-    file_handler.open()
+    file_handler.open(useconfigfile=True)
     return file_handler.getParam('ENGINE_DB_HOST') or DB_HOST
 
 def getDbPort():
@@ -717,7 +727,7 @@ def getDbPort():
     Retrieve DB port number from .pgpass file on the system.
     """
     file_handler = TextConfigFileHandler(FILE_DB_CONN)
-    file_handler.open()
+    file_handler.open(useconfigfile=True)
     return file_handler.getParam('ENGINE_DB_PORT') or DB_PORT
 
 def getPassFromFile():
@@ -725,7 +735,7 @@ def getPassFromFile():
     get the DB password
     '''
     file_handler = TextConfigFileHandler(FILE_DB_CONN)
-    file_handler.open()
+    file_handler.open(useconfigfile=True)
     return file_handler.getParam('ENGINE_DB_PASSWORD')
 
 def dropDB(db_dict):
@@ -1498,16 +1508,23 @@ def runPostgresSuQuery(query, database=None, failOnError=True):
         stdIn=stdIn,
     )
 
+def escape(s, chars):
+    ret = ''
+    for c in s:
+        if c in chars:
+            ret += '\\'
+        ret += c
+    return ret
 
 def saveConfig(configFile, username, password, dbname, readonly, uid, gid, perms):
     with open(configFile, 'w') as fdwh:
         content = (
             'DWH_DB_USER={user}\n'
-            'DWH_DB_PASSWORD={password}\n'
+            'DWH_DB_PASSWORD="{password}"\n'
             'DWH_DB_DATABASE={database}\n'
         ).format(
             user=username,
-            password=password,
+            password=escape(password,'"\\$'),
             database=dbname,
         )
         if readonly is not None:
