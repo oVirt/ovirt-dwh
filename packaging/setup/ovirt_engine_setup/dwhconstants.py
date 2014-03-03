@@ -233,4 +233,12 @@ class ProvisioningEnv(object):
         return 'OVESETUP_DWH_PROVISIONING/postgresProvisioningEnabled'
 
 
+@util.export
+@util.codegen
+@osetupattrsclass
+class RPMDistroEnv(object):
+    PACKAGES = 'OVESETUP_DWH_RPMDISRO_PACKAGES'
+    PACKAGES_SETUP = 'OVESETUP_DWH_RPMDISRO_PACKAGES_SETUP'
+
+
 # vim: expandtab tabstop=4 shiftwidth=4

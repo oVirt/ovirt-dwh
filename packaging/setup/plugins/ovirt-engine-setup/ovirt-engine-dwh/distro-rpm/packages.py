@@ -42,6 +42,19 @@ class Plugin(plugin.PluginBase):
         super(Plugin, self).__init__(context=context)
 
     @plugin.event(
+        stage=plugin.Stages.STAGE_INIT,
+    )
+    def _init(self):
+        self.environment.setdefault(
+            odwhcons.RPMDistroEnv.PACKAGES,
+            odwhcons.Const.OVIRT_ENGINE_DWH_PACKAGE_NAME
+        )
+        self.environment.setdefault(
+            odwhcons.RPMDistroEnv.PACKAGES_SETUP,
+            odwhcons.Const.OVIRT_ENGINE_DWH_SETUP_PACKAGE_NAME
+        )
+
+    @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
         after=(
             odwhcons.Stages.CORE_ENABLE,
@@ -51,10 +64,13 @@ class Plugin(plugin.PluginBase):
         )
     )
     def _customization(self):
+        def tolist(s):
+            return [e.strip() for e in s.split(',')]
+
         self.environment[
             osetupcons.RPMDistroEnv.PACKAGES_SETUP
-        ].append(
-            odwhcons.Const.OVIRT_ENGINE_DWH_SETUP_PACKAGE_NAME,
+        ].extend(
+            tolist(self.environment[odwhcons.RPMDistroEnv.PACKAGES_SETUP])
         )
 
         if self.environment[odwhcons.CoreEnv.ENABLE]:
@@ -62,8 +78,10 @@ class Plugin(plugin.PluginBase):
                 osetupcons.RPMDistroEnv.PACKAGES_UPGRADE_LIST
             ].append(
                 {
-                    'packages': (
-                        odwhcons.Const.OVIRT_ENGINE_DWH_PACKAGE_NAME,
+                    'packages': tolist(
+                        self.environment[
+                            odwhcons.RPMDistroEnv.PACKAGES
+                        ]
                     ),
                 },
             )
