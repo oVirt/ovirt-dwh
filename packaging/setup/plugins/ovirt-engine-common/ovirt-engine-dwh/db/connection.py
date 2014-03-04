@@ -48,7 +48,7 @@ class Plugin(plugin.PluginBase):
     )
     def _boot(self):
         self.environment[
-            otopicons.BaseEnv.SUPPRESS_ENVIRONMENT_KEYS
+            otopicons.CoreEnv.LOG_FILTER_KEYS
         ].append(
             odwhcons.DBEnv.PASSWORD
         )
@@ -131,10 +131,6 @@ class Plugin(plugin.PluginBase):
                     )
                 ):
                     dbenv[e] = config.getboolean(k)
-
-                self.environment[otopicons.CoreEnv.LOG_FILTER].append(
-                    dbenv[odwhcons.DBEnv.PASSWORD]
-                )
 
                 dbovirtutils = database.OvirtUtils(
                     plugin=self,
