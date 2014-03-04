@@ -24,9 +24,6 @@ import gettext
 _ = lambda m: gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
 
-import psycopg2
-
-
 from otopi import constants as otopicons
 from otopi import transaction
 from otopi import util
@@ -294,22 +291,16 @@ class Plugin(plugin.PluginBase):
         ),
     )
     def _connection(self):
-        # must be here as we do not have database at validation
-        self.environment[
-            odwhcons.DBEnv.CONNECTION
-        ] = psycopg2.connect(
-            host=self.environment[odwhcons.DBEnv.HOST],
-            port=self.environment[odwhcons.DBEnv.PORT],
-            user=self.environment[odwhcons.DBEnv.USER],
-            password=self.environment[odwhcons.DBEnv.PASSWORD],
-            database=self.environment[odwhcons.DBEnv.DATABASE],
-        )
         self.environment[
             odwhcons.DBEnv.STATEMENT
         ] = database.Statement(
             environment=self.environment,
             dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
         )
+        # must be here as we do not have database at validation
+        self.environment[
+            odwhcons.DBEnv.CONNECTION
+        ] = self.environment[odwhcons.DBEnv.STATEMENT].connect()
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
