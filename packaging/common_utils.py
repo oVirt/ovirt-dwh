@@ -263,14 +263,7 @@ class Service():
     def status(self):
         logging.debug("getting status for %s", self.name)
         (output, rc) = self._serviceFacility("status")
-        for st in ('dead', 'inactive', 'stopped'):
-            if st in output:
-                self.lastStateUp = False
-                break
-        else:
-            for st in ('running', 'active'):
-                if st in output:
-                    self.lastStateUp = True
+        self.lastStateUp = (rc == 0)
         return (output, rc)
 
     def _serviceFacility(self, action):
