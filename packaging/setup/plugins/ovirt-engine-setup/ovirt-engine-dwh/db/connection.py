@@ -132,18 +132,21 @@ class Plugin(plugin.PluginBase):
                     "ATTENTION\n"
                     "\n"
                     "Manual action required.\n"
-                    "Please create database for ovirt-engine-dwh use. "
+                    "Please create database for ovirt-engine use. "
                     "Use the following commands as an example:\n"
                     "\n"
-                    "create role engine_history with login encrypted password "
-                    "'engine_history';"
-                    "create database engine_history owner engine_history "
-                    "template template0\n"
-                    "encoding 'UTF8' lc_collate 'en_US.UTF-8'\n"
-                    "lc_ctype 'en_US.UTF-8';\n"
+                    "create role {user} with login encrypted password '{user}'"
+                    ";\n"
+                    "create {database} engine owner {user}\n"
+                    " template template0\n"
+                    " encoding 'UTF8' lc_collate 'en_US.UTF-8'\n"
+                    " lc_ctype 'en_US.UTF-8';\n"
                     "\n"
                     "Make sure that database can be accessed remotely.\n"
                     "\n"
+                ).format(
+                    user=odwhcons.Defaults.DEFAULT_DB_USER,
+                    database=odwhcons.Defaults.DEFAULT_DB_DATABASE,
                 ),
             )
 
