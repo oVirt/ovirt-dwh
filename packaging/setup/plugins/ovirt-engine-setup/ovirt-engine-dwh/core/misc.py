@@ -54,7 +54,7 @@ class Plugin(plugin.PluginBase):
                 dialog=self.dialog,
                 name='OVESETUP_DWH_ENABLE',
                 note=_(
-                    'Install Data Warehouse on this host '
+                    'Configure Data Warehouse on this host '
                     '(@VALUES@) [@DEFAULT@]: '
                 ),
                 prompt=True,
