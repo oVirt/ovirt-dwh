@@ -242,6 +242,13 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed Feb 12 2014 Yaniv Dary <ydary@redhat.com> - 3.4.0-1
+3.4.0 GA release.
+
+Fixed issues:
+1070757 - support postgres user length within schema version
+1065730 - No option to setup with diffrrent name as it looks for upstream packages names always
+
 * Wed Feb 12 2014 Yaniv Dary <ydary@redhat.com> - 3.4.0
 Features added:
 967350/1058012 - port dwh installer to otopi
