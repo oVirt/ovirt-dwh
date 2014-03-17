@@ -285,7 +285,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  host_id, &#xD;&#xA;  host_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  memory_usage_percent, &#xA;  ksm_shared_memory_percent,&#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  ksm_cpu_percent,  &#xD;&#xA;  active_vms,  &#xD;&#xA;  total_vms, &#xD;&#xA;  total_vms_vcpus, &#xD;&#xA;  cpu_load, &#xD;&#xA;  system_cpu_usage_percent,  &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  swap_used_mb,  &#xD;&#xA;  host_configuration_version&#xD;&#xA;FROM host_hourly_history&#xD;&#xA;WHERE history_datetime >= (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;&#x9;&#x9; host_id,&#xD;&#xA;      &#x9; host_status&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  host_id, &#xD;&#xA;  host_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  memory_usage_percent, &#xA;  ksm_shared_memory_mb,&#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  ksm_cpu_percent,  &#xD;&#xA;  active_vms,  &#xD;&#xA;  total_vms, &#xD;&#xA;  total_vms_vcpus, &#xD;&#xA;  cpu_load, &#xD;&#xA;  system_cpu_usage_percent,  &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  swap_used_mb,  &#xD;&#xA;  host_configuration_version&#xD;&#xA;FROM host_hourly_history&#xD;&#xA;WHERE history_datetime >= (SELECT var_datetime&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   FROM history_configuration&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;   WHERE var_name = 'lastDayAggr')&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;&#x9;&#x9; host_id,&#xD;&#xA;      &#x9; host_status&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -307,7 +307,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="memory_usage_percent"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="ksm_shared_memory_percent"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ksm_shared_memory_mb"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="cpu_usage_percent"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -341,7 +341,7 @@
       <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="ksm_shared_memory_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="19" name="ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="active_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -374,7 +374,7 @@
       <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="ksm_shared_memory_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="19" name="ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="active_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -395,7 +395,7 @@
         <mapperTableEntries name="host_status" expression="row2.host_status" type="id_Short"/>
         <mapperTableEntries name="minutes_in_status" expression="row2.minutes_in_status" type="id_Double"/>
         <mapperTableEntries name="memory_usage_percent" expression="row2.memory_usage_percent" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="ksm_shared_memory_percent" expression="row2.ksm_shared_memory_percent " type="id_Short" nullable="true"/>
+        <mapperTableEntries name="ksm_shared_memory_mb" expression="row2.ksm_shared_memory_mb " type="id_Long" nullable="true"/>
         <mapperTableEntries name="cpu_usage_percent" expression="row2.cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="ksm_cpu_percent" expression="row2.ksm_cpu_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="active_vms" expression="row2.active_vms" type="id_Short" nullable="true"/>
@@ -414,7 +414,7 @@
         <mapperTableEntries name="host_status" type="id_Short"/>
         <mapperTableEntries name="minutes_in_status" type="id_Double"/>
         <mapperTableEntries name="memory_usage_percent" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="ksm_shared_memory_percent" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="ksm_shared_memory_mb" type="id_Long" nullable="true"/>
         <mapperTableEntries name="cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="ksm_cpu_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="active_vms" type="id_Short" nullable="true"/>
@@ -527,13 +527,13 @@
       <elementValue elementRef="FUNCTION" value="last"/>
       <elementValue elementRef="INPUT_COLUMN" value="host_configuration_version"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
-      <elementValue elementRef="OUTPUT_COLUMN" value="ksm_shared_memory_percent"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="ksm_shared_memory_mb"/>
       <elementValue elementRef="FUNCTION" value="avg"/>
-      <elementValue elementRef="INPUT_COLUMN" value="ksm_shared_memory_percent"/>
+      <elementValue elementRef="INPUT_COLUMN" value="ksm_shared_memory_mb"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
-      <elementValue elementRef="OUTPUT_COLUMN" value="max_ksm_shared_memory_percent"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="max_ksm_shared_memory_mb"/>
       <elementValue elementRef="FUNCTION" value="max"/>
-      <elementValue elementRef="INPUT_COLUMN" value="ksm_shared_memory_percent"/>
+      <elementValue elementRef="INPUT_COLUMN" value="ksm_shared_memory_mb"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LIST_DELIMITER" value="&quot;,&quot;"/>
@@ -551,8 +551,8 @@
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="max_memory_usage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="ksm_shared_memory_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_ksm_shared_memory_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="19" name="ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="19" name="max_ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="max_cpu_usage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -627,12 +627,12 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="ksm_shared_memory_percent"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ksm_shared_memory_mb"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="max_ksm_shared_memory_percent"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="max_ksm_shared_memory_mb"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -747,8 +747,8 @@
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="max_memory_usage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="ksm_shared_memory_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_ksm_shared_memory_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="19" name="ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="19" name="max_ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="max_cpu_usage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -776,8 +776,8 @@
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="max_memory_usage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="ksm_shared_memory_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_ksm_shared_memory_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="19" name="ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="19" name="max_ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="max_cpu_usage" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -2843,7 +2843,7 @@
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="complete_aggregate_users">
         <mapperTableEntries name="history_datetime" expression="row14.history_datetime" type="id_Date"/>
@@ -3192,7 +3192,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="max_usage_cpu"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="ksm_shared_memory_percent"/>
+      <elementValue elementRef="TRACE_COLUMN" value="ksm_shared_memory_mb"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -3286,7 +3286,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="max_ksm_cpu_percent"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="ksm_shared_memory_percent"/>
+      <elementValue elementRef="TRACE_COLUMN" value="ksm_shared_memory_mb"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -3380,10 +3380,10 @@
       <elementValue elementRef="TRACE_COLUMN" value="max_total_vms"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="max_ksm_shared_memory_percent"/>
+      <elementValue elementRef="TRACE_COLUMN" value="max_ksm_shared_memory_mb"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="ksm_shared_memory_percent"/>
+      <elementValue elementRef="TRACE_COLUMN" value="ksm_shared_memory_mb"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>

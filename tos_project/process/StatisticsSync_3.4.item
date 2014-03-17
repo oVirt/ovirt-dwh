@@ -142,6 +142,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -307,6 +308,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -490,7 +492,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_id,&#xD;&#xA;  upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;  host_status, &#xD;&#xA;  memory_usage_percent, &#xA;  ksm_shared_memory_percent,&#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  ksm_cpu_percent, &#xD;&#xA;  cpu_load, &#xD;&#xA;  system_cpu_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  swap_used_mb, &#xD;&#xA;  vm_active, &#xD;&#xA;  total_vms, &#xD;&#xA;  total_vms_vcpus&#xD;&#xA;FROM dwh_host_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_id,&#xD;&#xA;  upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;  host_status, &#xD;&#xA;  memory_usage_percent, &#xA;  ksm_shared_memory_mb,&#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  ksm_cpu_percent, &#xD;&#xA;  cpu_load, &#xD;&#xA;  system_cpu_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  swap_used_mb, &#xD;&#xA;  vm_active, &#xD;&#xA;  total_vms, &#xD;&#xA;  total_vms_vcpus&#xD;&#xA;FROM dwh_host_history_view&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -508,7 +510,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="memory_usage_percent"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="ksm_shared_memory_percent"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ksm_shared_memory_mb"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="cpu_usage_percent"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -539,7 +541,7 @@
       <column comment="" key="false" name="host_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="host_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="ksm_shared_memory_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="19" name="ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="cpu_load" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -560,6 +562,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -570,7 +573,7 @@
       <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="ksm_shared_memory_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="19" name="ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="active_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -591,7 +594,7 @@
         <mapperTableEntries name="host_status" expression="(row10.host_status == 3 || row10.host_status == 8 || row10.host_status ==  12 || row10.host_status == 9) ? (short) 1 :&#xD;&#xA;(row10.host_status == 2 || row10.host_status == 6 || row10.host_status == 11) ? (short) 2 :&#xD;&#xA;(row10.host_status == 5 || row10.host_status == 10 || row10.host_status == 4 || row10.host_status == 7 || row10.host_status == 1 || row10.host_status == 13) ? (short) 3 :&#xD;&#xA;(short) -1    " type="id_Short"/>
         <mapperTableEntries name="minutes_in_status" expression="context.runInterleave.doubleValue()/60" type="id_Double"/>
         <mapperTableEntries name="memory_usage_percent" expression="row10.memory_usage_percent" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="ksm_shared_memory_percent" expression="row10.ksm_shared_memory_percent " type="id_Short" nullable="true"/>
+        <mapperTableEntries name="ksm_shared_memory_mb" expression="row10.ksm_shared_memory_mb " type="id_Long" nullable="true"/>
         <mapperTableEntries name="cpu_usage_percent" expression="row10.cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="ksm_cpu_percent" expression="row10.ksm_cpu_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="active_vms" expression="row10.vm_active" type="id_Short" nullable="true"/>
@@ -608,7 +611,7 @@
         <mapperTableEntries name="host_join_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="host_status" type="id_Short" nullable="true"/>
         <mapperTableEntries name="memory_usage_percent" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="ksm_shared_memory_percent" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="ksm_shared_memory_mb" type="id_Long" nullable="true"/>
         <mapperTableEntries name="cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="ksm_cpu_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="cpu_load" type="id_Integer" nullable="true"/>
@@ -714,7 +717,7 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="ksm_shared_memory_percent"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="ksm_shared_memory_mb"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -784,7 +787,7 @@
       <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="ksm_shared_memory_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="19" name="ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="active_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -802,7 +805,7 @@
       <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="ksm_shared_memory_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="19" name="ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="ksm_cpu_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="active_vms" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -873,6 +876,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -1107,6 +1111,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -1526,6 +1531,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -1796,6 +1802,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -2275,7 +2282,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="host_join_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="ksm_shared_memory_percent"/>
+      <elementValue elementRef="TRACE_COLUMN" value="ksm_shared_memory_mb"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -2342,7 +2349,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="swap_used_mb"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="ksm_shared_memory_percent"/>
+      <elementValue elementRef="TRACE_COLUMN" value="ksm_shared_memory_mb"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>

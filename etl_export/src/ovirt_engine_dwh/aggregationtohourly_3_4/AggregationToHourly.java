@@ -2711,16 +2711,16 @@ public class AggregationToHourly implements TalendJob {
 			return this.max_memory_usage;
 		}
 
-		public Short ksm_shared_memory_percent;
+		public Long ksm_shared_memory_mb;
 
-		public Short getKsm_shared_memory_percent() {
-			return this.ksm_shared_memory_percent;
+		public Long getKsm_shared_memory_mb() {
+			return this.ksm_shared_memory_mb;
 		}
 
-		public Short max_ksm_shared_memory_percent;
+		public Long max_ksm_shared_memory_mb;
 
-		public Short getMax_ksm_shared_memory_percent() {
-			return this.max_ksm_shared_memory_percent;
+		public Long getMax_ksm_shared_memory_mb() {
+			return this.max_ksm_shared_memory_mb;
 		}
 
 		public Short cpu_usage_percent;
@@ -2914,16 +2914,16 @@ public class AggregationToHourly implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.ksm_shared_memory_percent = null;
+						this.ksm_shared_memory_mb = null;
 					} else {
-						this.ksm_shared_memory_percent = dis.readShort();
+						this.ksm_shared_memory_mb = dis.readLong();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.max_ksm_shared_memory_percent = null;
+						this.max_ksm_shared_memory_mb = null;
 					} else {
-						this.max_ksm_shared_memory_percent = dis.readShort();
+						this.max_ksm_shared_memory_mb = dis.readLong();
 					}
 
 					length = dis.readByte();
@@ -3073,22 +3073,22 @@ public class AggregationToHourly implements TalendJob {
 					dos.writeShort(this.max_memory_usage);
 				}
 
-				// Short
+				// Long
 
-				if (this.ksm_shared_memory_percent == null) {
+				if (this.ksm_shared_memory_mb == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.ksm_shared_memory_percent);
+					dos.writeLong(this.ksm_shared_memory_mb);
 				}
 
-				// Short
+				// Long
 
-				if (this.max_ksm_shared_memory_percent == null) {
+				if (this.max_ksm_shared_memory_mb == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.max_ksm_shared_memory_percent);
+					dos.writeLong(this.max_ksm_shared_memory_mb);
 				}
 
 				// Short
@@ -3245,10 +3245,10 @@ public class AggregationToHourly implements TalendJob {
 			sb.append(",memory_usage_percent="
 					+ String.valueOf(memory_usage_percent));
 			sb.append(",max_memory_usage=" + String.valueOf(max_memory_usage));
-			sb.append(",ksm_shared_memory_percent="
-					+ String.valueOf(ksm_shared_memory_percent));
-			sb.append(",max_ksm_shared_memory_percent="
-					+ String.valueOf(max_ksm_shared_memory_percent));
+			sb.append(",ksm_shared_memory_mb="
+					+ String.valueOf(ksm_shared_memory_mb));
+			sb.append(",max_ksm_shared_memory_mb="
+					+ String.valueOf(max_ksm_shared_memory_mb));
 			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
 			sb.append(",max_cpu_usage=" + String.valueOf(max_cpu_usage));
 			sb.append(",ksm_cpu_percent=" + String.valueOf(ksm_cpu_percent));
@@ -3355,16 +3355,16 @@ public class AggregationToHourly implements TalendJob {
 			return this.max_memory_usage;
 		}
 
-		public Short ksm_shared_memory_percent;
+		public Long ksm_shared_memory_mb;
 
-		public Short getKsm_shared_memory_percent() {
-			return this.ksm_shared_memory_percent;
+		public Long getKsm_shared_memory_mb() {
+			return this.ksm_shared_memory_mb;
 		}
 
-		public Short max_ksm_shared_memory_percent;
+		public Long max_ksm_shared_memory_mb;
 
-		public Short getMax_ksm_shared_memory_percent() {
-			return this.max_ksm_shared_memory_percent;
+		public Long getMax_ksm_shared_memory_mb() {
+			return this.max_ksm_shared_memory_mb;
 		}
 
 		public Short cpu_usage_percent;
@@ -3558,16 +3558,16 @@ public class AggregationToHourly implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.ksm_shared_memory_percent = null;
+						this.ksm_shared_memory_mb = null;
 					} else {
-						this.ksm_shared_memory_percent = dis.readShort();
+						this.ksm_shared_memory_mb = dis.readLong();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.max_ksm_shared_memory_percent = null;
+						this.max_ksm_shared_memory_mb = null;
 					} else {
-						this.max_ksm_shared_memory_percent = dis.readShort();
+						this.max_ksm_shared_memory_mb = dis.readLong();
 					}
 
 					length = dis.readByte();
@@ -3717,22 +3717,22 @@ public class AggregationToHourly implements TalendJob {
 					dos.writeShort(this.max_memory_usage);
 				}
 
-				// Short
+				// Long
 
-				if (this.ksm_shared_memory_percent == null) {
+				if (this.ksm_shared_memory_mb == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.ksm_shared_memory_percent);
+					dos.writeLong(this.ksm_shared_memory_mb);
 				}
 
-				// Short
+				// Long
 
-				if (this.max_ksm_shared_memory_percent == null) {
+				if (this.max_ksm_shared_memory_mb == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.max_ksm_shared_memory_percent);
+					dos.writeLong(this.max_ksm_shared_memory_mb);
 				}
 
 				// Short
@@ -3889,10 +3889,10 @@ public class AggregationToHourly implements TalendJob {
 			sb.append(",memory_usage_percent="
 					+ String.valueOf(memory_usage_percent));
 			sb.append(",max_memory_usage=" + String.valueOf(max_memory_usage));
-			sb.append(",ksm_shared_memory_percent="
-					+ String.valueOf(ksm_shared_memory_percent));
-			sb.append(",max_ksm_shared_memory_percent="
-					+ String.valueOf(max_ksm_shared_memory_percent));
+			sb.append(",ksm_shared_memory_mb="
+					+ String.valueOf(ksm_shared_memory_mb));
+			sb.append(",max_ksm_shared_memory_mb="
+					+ String.valueOf(max_ksm_shared_memory_mb));
 			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
 			sb.append(",max_cpu_usage=" + String.valueOf(max_cpu_usage));
 			sb.append(",ksm_cpu_percent=" + String.valueOf(ksm_cpu_percent));
@@ -3993,10 +3993,10 @@ public class AggregationToHourly implements TalendJob {
 			return this.memory_usage_percent;
 		}
 
-		public Short ksm_shared_memory_percent;
+		public Long ksm_shared_memory_mb;
 
-		public Short getKsm_shared_memory_percent() {
-			return this.ksm_shared_memory_percent;
+		public Long getKsm_shared_memory_mb() {
+			return this.ksm_shared_memory_mb;
 		}
 
 		public Short cpu_usage_percent;
@@ -4129,9 +4129,9 @@ public class AggregationToHourly implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.ksm_shared_memory_percent = null;
+						this.ksm_shared_memory_mb = null;
 					} else {
-						this.ksm_shared_memory_percent = dis.readShort();
+						this.ksm_shared_memory_mb = dis.readLong();
 					}
 
 					length = dis.readByte();
@@ -4224,13 +4224,13 @@ public class AggregationToHourly implements TalendJob {
 					dos.writeShort(this.memory_usage_percent);
 				}
 
-				// Short
+				// Long
 
-				if (this.ksm_shared_memory_percent == null) {
+				if (this.ksm_shared_memory_mb == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.ksm_shared_memory_percent);
+					dos.writeLong(this.ksm_shared_memory_mb);
 				}
 
 				// Short
@@ -4320,8 +4320,8 @@ public class AggregationToHourly implements TalendJob {
 			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",memory_usage_percent="
 					+ String.valueOf(memory_usage_percent));
-			sb.append(",ksm_shared_memory_percent="
-					+ String.valueOf(ksm_shared_memory_percent));
+			sb.append(",ksm_shared_memory_mb="
+					+ String.valueOf(ksm_shared_memory_mb));
 			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
 			sb.append(",ksm_cpu_percent=" + String.valueOf(ksm_cpu_percent));
 			sb.append(",active_vms=" + String.valueOf(active_vms));
@@ -4415,10 +4415,10 @@ public class AggregationToHourly implements TalendJob {
 			return this.memory_usage_percent;
 		}
 
-		public Short ksm_shared_memory_percent;
+		public Long ksm_shared_memory_mb;
 
-		public Short getKsm_shared_memory_percent() {
-			return this.ksm_shared_memory_percent;
+		public Long getKsm_shared_memory_mb() {
+			return this.ksm_shared_memory_mb;
 		}
 
 		public Short cpu_usage_percent;
@@ -4553,9 +4553,9 @@ public class AggregationToHourly implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.ksm_shared_memory_percent = null;
+						this.ksm_shared_memory_mb = null;
 					} else {
-						this.ksm_shared_memory_percent = dis.readShort();
+						this.ksm_shared_memory_mb = dis.readLong();
 					}
 
 					length = dis.readByte();
@@ -4652,13 +4652,13 @@ public class AggregationToHourly implements TalendJob {
 					dos.writeShort(this.memory_usage_percent);
 				}
 
-				// Short
+				// Long
 
-				if (this.ksm_shared_memory_percent == null) {
+				if (this.ksm_shared_memory_mb == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.ksm_shared_memory_percent);
+					dos.writeLong(this.ksm_shared_memory_mb);
 				}
 
 				// Short
@@ -4749,8 +4749,8 @@ public class AggregationToHourly implements TalendJob {
 			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",memory_usage_percent="
 					+ String.valueOf(memory_usage_percent));
-			sb.append(",ksm_shared_memory_percent="
-					+ String.valueOf(ksm_shared_memory_percent));
+			sb.append(",ksm_shared_memory_mb="
+					+ String.valueOf(ksm_shared_memory_mb));
 			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
 			sb.append(",ksm_cpu_percent=" + String.valueOf(ksm_cpu_percent));
 			sb.append(",active_vms=" + String.valueOf(active_vms));
@@ -5110,10 +5110,8 @@ public class AggregationToHourly implements TalendJob {
 
 					Integer max_swap_used_mb_max;
 					Integer host_configuration_version_last;
-					Double ksm_shared_memory_percent_sum;
-					int ksm_shared_memory_percent_count = 0;
-
-					Short max_ksm_shared_memory_percent_max;
+					BigDecimal ksm_shared_memory_mb_sum;
+					int ksm_shared_memory_mb_count = 0;
 
 					@Override
 					public int hashCode() {
@@ -5169,6 +5167,11 @@ public class AggregationToHourly implements TalendJob {
 					}
 
 				} // G_OutBegin_AggR_100
+
+				System.err
+						.println(
+
+						"Warning:the operation 'max' for the output column 'max_ksm_shared_memory_mb' can't be processed because of incompatible input and/or output types");
 
 				AggOperationStruct_tAggregateRow_2 operation_result_tAggregateRow_2 = null;
 				AggOperationStruct_tAggregateRow_2 operation_finder_tAggregateRow_2 = new AggOperationStruct_tAggregateRow_2();
@@ -5228,7 +5231,7 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
 
-				String dbquery_tJDBCInput_2 = "SELECT     history_id,     history_datetime,     host_id,     host_status,     minutes_in_status,     memory_usage_percent,    ksm_shared_memory_percent,    cpu_usage_percent,     ksm_cpu_percent,     active_vms,     total_vms,     total_vms_vcpus,     cpu_load,     system_cpu_usage_percent,     user_cpu_usage_percent,     swap_used_mb,     host_configuration_version  FROM host_samples_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastHourAggr')  ORDER BY history_datetime,  		 host_id,        	 host_status";
+				String dbquery_tJDBCInput_2 = "SELECT     history_id,     history_datetime,     host_id,     host_status,     minutes_in_status,     memory_usage_percent,    ksm_shared_memory_mb,    cpu_usage_percent,     ksm_cpu_percent,     active_vms,     total_vms,     total_vms_vcpus,     cpu_load,     system_cpu_usage_percent,     user_cpu_usage_percent,     swap_used_mb,     host_configuration_version  FROM host_samples_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastHourAggr')  ORDER BY history_datetime,  		 host_id,        	 host_status";
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
 				java.sql.ResultSet rs_tJDBCInput_2 = null;
@@ -5355,15 +5358,15 @@ public class AggregationToHourly implements TalendJob {
 						column_index_tJDBCInput_2 = 7;
 
 						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-							row2.ksm_shared_memory_percent = null;
+							row2.ksm_shared_memory_mb = null;
 						} else {
 
 							if (rs_tJDBCInput_2
 									.getObject(column_index_tJDBCInput_2) != null) {
-								row2.ksm_shared_memory_percent = rs_tJDBCInput_2
-										.getShort(column_index_tJDBCInput_2);
+								row2.ksm_shared_memory_mb = rs_tJDBCInput_2
+										.getLong(column_index_tJDBCInput_2);
 							} else {
-								row2.ksm_shared_memory_percent = null;
+								row2.ksm_shared_memory_mb = null;
 							}
 
 						}
@@ -5591,7 +5594,7 @@ public class AggregationToHourly implements TalendJob {
 								host_aggregation_tmp.host_status = row2.host_status;
 								host_aggregation_tmp.minutes_in_status = row2.minutes_in_status;
 								host_aggregation_tmp.memory_usage_percent = row2.memory_usage_percent;
-								host_aggregation_tmp.ksm_shared_memory_percent = row2.ksm_shared_memory_percent;
+								host_aggregation_tmp.ksm_shared_memory_mb = row2.ksm_shared_memory_mb;
 								host_aggregation_tmp.cpu_usage_percent = row2.cpu_usage_percent;
 								host_aggregation_tmp.ksm_cpu_percent = row2.ksm_cpu_percent;
 								host_aggregation_tmp.active_vms = row2.active_vms;
@@ -5903,27 +5906,17 @@ public class AggregationToHourly implements TalendJob {
 
 								} // G_OutMain_AggR_546
 
-								if (host_aggregation.ksm_shared_memory_percent != null) { // G_OutMain_AggR_546
+								if (host_aggregation.ksm_shared_memory_mb != null) { // G_OutMain_AggR_546
 
-									operation_result_tAggregateRow_2.ksm_shared_memory_percent_count++;
+									operation_result_tAggregateRow_2.ksm_shared_memory_mb_count++;
 
-									if (operation_result_tAggregateRow_2.ksm_shared_memory_percent_sum == null) {
-										operation_result_tAggregateRow_2.ksm_shared_memory_percent_sum = (double) 0;
+									if (operation_result_tAggregateRow_2.ksm_shared_memory_mb_sum == null) {
+										operation_result_tAggregateRow_2.ksm_shared_memory_mb_sum = new BigDecimal(
+												0).setScale(0);
 									}
-									operation_result_tAggregateRow_2.ksm_shared_memory_percent_sum = (double) (operation_result_tAggregateRow_2.ksm_shared_memory_percent_sum
-											.doubleValue() + host_aggregation.ksm_shared_memory_percent
-											.shortValue());
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.ksm_shared_memory_percent != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_2.max_ksm_shared_memory_percent_max == null
-											|| host_aggregation.ksm_shared_memory_percent > operation_result_tAggregateRow_2.max_ksm_shared_memory_percent_max
-
-									) {
-										operation_result_tAggregateRow_2.max_ksm_shared_memory_percent_max = host_aggregation.ksm_shared_memory_percent;
-									}
+									operation_result_tAggregateRow_2.ksm_shared_memory_mb_sum = operation_result_tAggregateRow_2.ksm_shared_memory_mb_sum
+											.add(new BigDecimal(
+													String.valueOf(host_aggregation.ksm_shared_memory_mb)));
 
 								} // G_OutMain_AggR_546
 
@@ -6024,7 +6017,7 @@ public class AggregationToHourly implements TalendJob {
 
 				String insert_tJDBCOutput_2 = "INSERT INTO "
 						+ "host_hourly_history"
-						+ " (history_datetime,host_id,host_status,minutes_in_status,memory_usage_percent,max_memory_usage,ksm_shared_memory_percent,max_ksm_shared_memory_percent,cpu_usage_percent,max_cpu_usage,ksm_cpu_percent,max_ksm_cpu_percent,active_vms,max_active_vms,total_vms,max_total_vms,total_vms_vcpus,max_total_vms_vcpus,cpu_load,max_cpu_load,system_cpu_usage_percent,max_system_cpu_usage_percent,user_cpu_usage_percent,max_user_cpu_usage_percent,swap_used_mb,max_swap_used_mb,host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,host_id,host_status,minutes_in_status,memory_usage_percent,max_memory_usage,ksm_shared_memory_mb,max_ksm_shared_memory_mb,cpu_usage_percent,max_cpu_usage,ksm_cpu_percent,max_ksm_cpu_percent,active_vms,max_active_vms,total_vms,max_total_vms,total_vms_vcpus,max_total_vms_vcpus,cpu_load,max_cpu_load,system_cpu_usage_percent,max_system_cpu_usage_percent,user_cpu_usage_percent,max_user_cpu_usage_percent,swap_used_mb,max_swap_used_mb,host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_2 = connection_tJDBCOutput_2
 						.prepareStatement(insert_tJDBCOutput_2);
 
@@ -6096,21 +6089,24 @@ public class AggregationToHourly implements TalendJob {
 
 					}
 					row7.max_memory_usage = aggregated_row_tAggregateRow_2.max_memory_usage_max;
-					if (aggregated_row_tAggregateRow_2.ksm_shared_memory_percent_count > 0) {
+					if (aggregated_row_tAggregateRow_2.ksm_shared_memory_mb_count > 0) {
 
-						double row7_ksm_shared_memory_percent_temp = (double) aggregated_row_tAggregateRow_2.ksm_shared_memory_percent_sum
-								/ (double) aggregated_row_tAggregateRow_2.ksm_shared_memory_percent_count;
+						row7.ksm_shared_memory_mb = aggregated_row_tAggregateRow_2.ksm_shared_memory_mb_sum
+								.divide(new BigDecimal(
+										String.valueOf(aggregated_row_tAggregateRow_2.ksm_shared_memory_mb_count)),
+										10, BigDecimal.ROUND_HALF_UP)
 
-						row7.ksm_shared_memory_percent = (short) row7_ksm_shared_memory_percent_temp;
+								.longValue()
+
+						;
 
 					} else {
 						String count = "0";
 
-						row7.ksm_shared_memory_percent = ParserUtils
-								.parseTo_Short(count);
+						row7.ksm_shared_memory_mb = ParserUtils
+								.parseTo_Long(count);
 
 					}
-					row7.max_ksm_shared_memory_percent = aggregated_row_tAggregateRow_2.max_ksm_shared_memory_percent_max;
 					if (aggregated_row_tAggregateRow_2.cpu_usage_percent_count > 0) {
 
 						double row7_cpu_usage_percent_temp = (double) aggregated_row_tAggregateRow_2.cpu_usage_percent_sum
@@ -6288,18 +6284,18 @@ public class AggregationToHourly implements TalendJob {
 						pstmt_tJDBCOutput_2.setShort(6, row7.max_memory_usage);
 					}
 
-					if (row7.ksm_shared_memory_percent == null) {
+					if (row7.ksm_shared_memory_mb == null) {
 						pstmt_tJDBCOutput_2.setNull(7, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_2.setShort(7,
-								row7.ksm_shared_memory_percent);
+						pstmt_tJDBCOutput_2.setLong(7,
+								row7.ksm_shared_memory_mb);
 					}
 
-					if (row7.max_ksm_shared_memory_percent == null) {
+					if (row7.max_ksm_shared_memory_mb == null) {
 						pstmt_tJDBCOutput_2.setNull(8, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_2.setShort(8,
-								row7.max_ksm_shared_memory_percent);
+						pstmt_tJDBCOutput_2.setLong(8,
+								row7.max_ksm_shared_memory_mb);
 					}
 
 					if (row7.cpu_usage_percent == null) {
@@ -25986,6 +25982,6 @@ public class AggregationToHourly implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 748859 characters generated by Talend Open Studio for Data Integration on the
- * January 26, 2014 2:12:32 PM IST
+ * 747986 characters generated by Talend Open Studio for Data Integration on the
+ * March 17, 2014 2:22:36 PM IST
  ************************************************************************************************/

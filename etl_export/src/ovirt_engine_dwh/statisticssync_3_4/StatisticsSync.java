@@ -4324,10 +4324,10 @@ public class StatisticsSync implements TalendJob {
 			return this.memory_usage_percent;
 		}
 
-		public Short ksm_shared_memory_percent;
+		public Long ksm_shared_memory_mb;
 
-		public Short getKsm_shared_memory_percent() {
-			return this.ksm_shared_memory_percent;
+		public Long getKsm_shared_memory_mb() {
+			return this.ksm_shared_memory_mb;
 		}
 
 		public Short cpu_usage_percent;
@@ -4460,9 +4460,9 @@ public class StatisticsSync implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.ksm_shared_memory_percent = null;
+						this.ksm_shared_memory_mb = null;
 					} else {
-						this.ksm_shared_memory_percent = dis.readShort();
+						this.ksm_shared_memory_mb = dis.readLong();
 					}
 
 					length = dis.readByte();
@@ -4555,13 +4555,13 @@ public class StatisticsSync implements TalendJob {
 					dos.writeShort(this.memory_usage_percent);
 				}
 
-				// Short
+				// Long
 
-				if (this.ksm_shared_memory_percent == null) {
+				if (this.ksm_shared_memory_mb == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.ksm_shared_memory_percent);
+					dos.writeLong(this.ksm_shared_memory_mb);
 				}
 
 				// Short
@@ -4651,8 +4651,8 @@ public class StatisticsSync implements TalendJob {
 			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
 			sb.append(",memory_usage_percent="
 					+ String.valueOf(memory_usage_percent));
-			sb.append(",ksm_shared_memory_percent="
-					+ String.valueOf(ksm_shared_memory_percent));
+			sb.append(",ksm_shared_memory_mb="
+					+ String.valueOf(ksm_shared_memory_mb));
 			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
 			sb.append(",ksm_cpu_percent=" + String.valueOf(ksm_cpu_percent));
 			sb.append(",active_vms=" + String.valueOf(active_vms));
@@ -4734,10 +4734,10 @@ public class StatisticsSync implements TalendJob {
 			return this.memory_usage_percent;
 		}
 
-		public Short ksm_shared_memory_percent;
+		public Long ksm_shared_memory_mb;
 
-		public Short getKsm_shared_memory_percent() {
-			return this.ksm_shared_memory_percent;
+		public Long getKsm_shared_memory_mb() {
+			return this.ksm_shared_memory_mb;
 		}
 
 		public Short cpu_usage_percent;
@@ -4879,9 +4879,9 @@ public class StatisticsSync implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.ksm_shared_memory_percent = null;
+						this.ksm_shared_memory_mb = null;
 					} else {
-						this.ksm_shared_memory_percent = dis.readShort();
+						this.ksm_shared_memory_mb = dis.readLong();
 					}
 
 					length = dis.readByte();
@@ -4973,13 +4973,13 @@ public class StatisticsSync implements TalendJob {
 					dos.writeShort(this.memory_usage_percent);
 				}
 
-				// Short
+				// Long
 
-				if (this.ksm_shared_memory_percent == null) {
+				if (this.ksm_shared_memory_mb == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.ksm_shared_memory_percent);
+					dos.writeLong(this.ksm_shared_memory_mb);
 				}
 
 				// Short
@@ -5064,8 +5064,8 @@ public class StatisticsSync implements TalendJob {
 			sb.append(",host_status=" + String.valueOf(host_status));
 			sb.append(",memory_usage_percent="
 					+ String.valueOf(memory_usage_percent));
-			sb.append(",ksm_shared_memory_percent="
-					+ String.valueOf(ksm_shared_memory_percent));
+			sb.append(",ksm_shared_memory_mb="
+					+ String.valueOf(ksm_shared_memory_mb));
 			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
 			sb.append(",ksm_cpu_percent=" + String.valueOf(ksm_cpu_percent));
 			sb.append(",cpu_load=" + String.valueOf(cpu_load));
@@ -5145,10 +5145,10 @@ public class StatisticsSync implements TalendJob {
 			return this.memory_usage_percent;
 		}
 
-		public Short ksm_shared_memory_percent;
+		public Long ksm_shared_memory_mb;
 
-		public Short getKsm_shared_memory_percent() {
-			return this.ksm_shared_memory_percent;
+		public Long getKsm_shared_memory_mb() {
+			return this.ksm_shared_memory_mb;
 		}
 
 		public Short cpu_usage_percent;
@@ -5290,9 +5290,9 @@ public class StatisticsSync implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.ksm_shared_memory_percent = null;
+						this.ksm_shared_memory_mb = null;
 					} else {
-						this.ksm_shared_memory_percent = dis.readShort();
+						this.ksm_shared_memory_mb = dis.readLong();
 					}
 
 					length = dis.readByte();
@@ -5384,13 +5384,13 @@ public class StatisticsSync implements TalendJob {
 					dos.writeShort(this.memory_usage_percent);
 				}
 
-				// Short
+				// Long
 
-				if (this.ksm_shared_memory_percent == null) {
+				if (this.ksm_shared_memory_mb == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.ksm_shared_memory_percent);
+					dos.writeLong(this.ksm_shared_memory_mb);
 				}
 
 				// Short
@@ -5475,8 +5475,8 @@ public class StatisticsSync implements TalendJob {
 			sb.append(",host_status=" + String.valueOf(host_status));
 			sb.append(",memory_usage_percent="
 					+ String.valueOf(memory_usage_percent));
-			sb.append(",ksm_shared_memory_percent="
-					+ String.valueOf(ksm_shared_memory_percent));
+			sb.append(",ksm_shared_memory_mb="
+					+ String.valueOf(ksm_shared_memory_mb));
 			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
 			sb.append(",ksm_cpu_percent=" + String.valueOf(ksm_cpu_percent));
 			sb.append(",cpu_load=" + String.valueOf(cpu_load));
@@ -5587,7 +5587,7 @@ public class StatisticsSync implements TalendJob {
 
 				String insert_tJDBCOutput_3 = "INSERT INTO "
 						+ "host_samples_history"
-						+ " (history_datetime,host_id,host_status,minutes_in_status,memory_usage_percent,ksm_shared_memory_percent,cpu_usage_percent,ksm_cpu_percent,active_vms,total_vms,total_vms_vcpus,cpu_load,system_cpu_usage_percent,user_cpu_usage_percent,swap_used_mb,host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,host_id,host_status,minutes_in_status,memory_usage_percent,ksm_shared_memory_mb,cpu_usage_percent,ksm_cpu_percent,active_vms,total_vms,total_vms_vcpus,cpu_load,system_cpu_usage_percent,user_cpu_usage_percent,swap_used_mb,host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_3 = connection_tJDBCOutput_3
 						.prepareStatement(insert_tJDBCOutput_3);
 
@@ -5651,7 +5651,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_5 = conn_tJDBCInput_5
 						.createStatement();
 
-				String dbquery_tJDBCInput_5 = "SELECT     host_id,    upper(cast(host_id as char(36))) as host_join_id,    host_status,     memory_usage_percent,    ksm_shared_memory_percent,    cpu_usage_percent,     ksm_cpu_percent,     cpu_load,     system_cpu_usage_percent,     user_cpu_usage_percent,     swap_used_mb,     vm_active,     total_vms,     total_vms_vcpus  FROM dwh_host_history_view";
+				String dbquery_tJDBCInput_5 = "SELECT     host_id,    upper(cast(host_id as char(36))) as host_join_id,    host_status,     memory_usage_percent,    ksm_shared_memory_mb,    cpu_usage_percent,     ksm_cpu_percent,     cpu_load,     system_cpu_usage_percent,     user_cpu_usage_percent,     swap_used_mb,     vm_active,     total_vms,     total_vms_vcpus  FROM dwh_host_history_view";
 
 				globalMap.put("tJDBCInput_5_QUERY", dbquery_tJDBCInput_5);
 				java.sql.ResultSet rs_tJDBCInput_5 = null;
@@ -5736,15 +5736,15 @@ public class StatisticsSync implements TalendJob {
 						column_index_tJDBCInput_5 = 5;
 
 						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-							row10.ksm_shared_memory_percent = null;
+							row10.ksm_shared_memory_mb = null;
 						} else {
 
 							if (rs_tJDBCInput_5
 									.getObject(column_index_tJDBCInput_5) != null) {
-								row10.ksm_shared_memory_percent = rs_tJDBCInput_5
-										.getShort(column_index_tJDBCInput_5);
+								row10.ksm_shared_memory_mb = rs_tJDBCInput_5
+										.getLong(column_index_tJDBCInput_5);
 							} else {
-								row10.ksm_shared_memory_percent = null;
+								row10.ksm_shared_memory_mb = null;
 							}
 
 						}
@@ -6015,7 +6015,7 @@ public class StatisticsSync implements TalendJob {
 									host_history_tmp.minutes_in_status = context.runInterleave
 											.doubleValue() / 60;
 									host_history_tmp.memory_usage_percent = row10.memory_usage_percent;
-									host_history_tmp.ksm_shared_memory_percent = row10.ksm_shared_memory_percent;
+									host_history_tmp.ksm_shared_memory_mb = row10.ksm_shared_memory_mb;
 									host_history_tmp.cpu_usage_percent = row10.cpu_usage_percent;
 									host_history_tmp.ksm_cpu_percent = row10.ksm_cpu_percent;
 									host_history_tmp.active_vms = row10.vm_active;
@@ -6083,14 +6083,12 @@ public class StatisticsSync implements TalendJob {
 											host_history.memory_usage_percent);
 								}
 
-								if (host_history.ksm_shared_memory_percent == null) {
+								if (host_history.ksm_shared_memory_mb == null) {
 									pstmt_tJDBCOutput_3.setNull(6,
 											java.sql.Types.INTEGER);
 								} else {
-									pstmt_tJDBCOutput_3
-											.setShort(
-													6,
-													host_history.ksm_shared_memory_percent);
+									pstmt_tJDBCOutput_3.setLong(6,
+											host_history.ksm_shared_memory_mb);
 								}
 
 								if (host_history.cpu_usage_percent == null) {
@@ -17682,6 +17680,6 @@ public class StatisticsSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 493036 characters generated by Talend Open Studio for Data Integration on the
- * January 21, 2014 3:54:30 PM IST
+ * 492839 characters generated by Talend Open Studio for Data Integration on the
+ * March 17, 2014 2:22:35 PM IST
  ************************************************************************************************/
