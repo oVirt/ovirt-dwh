@@ -103,7 +103,7 @@ Requires:	%{name}-setup >= %{version}-%{release}
 Requires:	java-1.7.0-openjdk
 Requires:	jpackage-utils
 Requires:	logrotate
-Requires:	ovirt-engine
+Requires:	ovirt-engine >= 3.4.0
 Requires:	postgresql-jdbc
 
 %description
