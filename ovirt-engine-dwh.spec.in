@@ -242,6 +242,16 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Mon Mar 24 2014 Yaniv Dary <ydary@redhat.com> - 3.4.0-2
+Fixed issues:
+- move connect to database library (#1067058)
+- suppress password based on env key (#1072476)
+- align manual instructions with defaults (#1067548)
+- 'Install' is now 'Configure' in DWH/Reports questions (#1064876)
+- updated ksm_shared_memory_percent to mb (#1076902)
+- preserve custom db users permissions on upgrade (#1073471)
+- read legacy config with trivial parser (#1079911)
+
 * Wed Feb 12 2014 Yaniv Dary <ydary@redhat.com> - 3.4.0-1
 3.4.0 GA release.
 
