@@ -19,6 +19,8 @@
 import os
 import re
 import datetime
+import configparser
+import io
 import gettext
 _ = lambda m: gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
@@ -40,14 +42,14 @@ from ovirt_engine_setup import database
 @util.export
 class Plugin(plugin.PluginBase):
 
-    _RE_JDBC_URL = re.compile(
+    _RE_LEGACY_JDBC_URL = re.compile(
         flags=re.VERBOSE,
         pattern=r"""
-            jdbc:
-            postgresql:
+            jdbc\\:
+            postgresql\\:
             //
             (?P<host>[^:/]+)
-            (:(?P<port>\d+))?
+            (\\:(?P<port>\d+))?
             /
             (?P<database>\w+)
             (\?(?P<extra>.*))?
@@ -57,6 +59,13 @@ class Plugin(plugin.PluginBase):
     def __init__(self, context):
         super(Plugin, self).__init__(context=context)
 
+    def _parse_legacy_conf(self, filename):
+        config = configparser.ConfigParser()
+        config.optionxform = str
+        with open(filename) as f:
+            config.readfp(io.StringIO('[default]' + f.read()))
+        return dict(config.items('default'))
+
     @plugin.event(
         stage=plugin.Stages.STAGE_SETUP,
         condition=lambda self: os.path.exists(
@@ -64,11 +73,7 @@ class Plugin(plugin.PluginBase):
         ),
     )
     def _setup(self):
-        legacy = configfile.ConfigFile(
-            files=[
-                odwhcons.FileLocations.LEGACY_CONFIG,
-            ],
-        )
+        legacy = self._parse_legacy_conf(odwhcons.FileLocations.LEGACY_CONFIG)
         current = configfile.ConfigFile(
             files=[
                 odwhcons.FileLocations.
@@ -118,7 +123,7 @@ class Plugin(plugin.PluginBase):
                     )
                 )
 
-            jdbcurl = self._RE_JDBC_URL.match(
+            jdbcurl = self._RE_LEGACY_JDBC_URL.match(
                 legacy.get('ovirtEngineHistoryDbJdbcConnection')
             )
             if (
