@@ -207,6 +207,20 @@ class DBEnv(object):
     PGPASS_FILE = 'OVESETUP_DWH_DB/pgPassFile'
     NEW_DATABASE = 'OVESETUP_DWH_DB/newDatabase'
 
+    @osetupattrs(
+        answerfile=True,
+        summary=True,
+        description=_('Backup DWH database'),
+    )
+    def PERFORM_BACKUP(self):
+        return 'OVESETUP_DWH_DB/performBackup'
+
+    @osetupattrs(
+        answerfile=True,
+    )
+    def RESTORE_BACKUP_LATE:
+        return 'OVESETUP_DWH_DB/restoreBackupLate'
+
 
 @util.export
 @util.codegen
