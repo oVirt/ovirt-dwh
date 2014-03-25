@@ -33,6 +33,7 @@ from otopi import transaction
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup import dwhconstants as odwhcons
 from ovirt_engine_setup import database
+from ovirt_engine_setup import dialog
 
 
 @util.export
@@ -42,9 +43,8 @@ class Plugin(plugin.PluginBase):
     class SchemaTransaction(transaction.TransactionElement):
         """yum transaction element."""
 
-        def __init__(self, parent, backup=None):
+        def __init__(self, parent):
             self._parent = parent
-            self._backup = backup
 
         def __str__(self):
             return _("DWH schema Transaction")
@@ -53,39 +53,19 @@ class Plugin(plugin.PluginBase):
             pass
 
         def abort(self):
-            self._parent.logger.info(_('Rolling back DWH database schema'))
-            try:
-                dbovirtutils = database.OvirtUtils(
-                    plugin=self._parent,
-                    dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
+            if (
+                self._parent.environment[
+                    odwhcons.DBEnv.RESTORE_BACKUP_LATE
+                ] and
+                self._parent._backup
+            ):
+                self._parent._needRollback = True
+                self._parent.logger.warning(
+                    _('Rollback of DWH database postponed to Stage "Clean up"')
                 )
-                self._parent.logger.info(
-                    _('Clearing DWH database {database}').format(
-                        database=self._parent.environment[
-                            odwhcons.DBEnv.DATABASE
-                        ],
-                    )
-                )
-                dbovirtutils.clearDatabase()
-                if self._backup is not None and os.path.exists(self._backup):
-                    self._parent.logger.info(
-                        _('Restoring DWH database {database}').format(
-                            database=self._parent.environment[
-                                odwhcons.DBEnv.DATABASE
-                            ],
-                        )
-                    )
-                    dbovirtutils.restore(backupFile=self._backup)
-            except Exception as e:
-                self._parent.logger.debug(
-                    'Exception during DWH database restore',
-                    exc_info=True,
-                )
-                self._parent.logger.error(
-                    _('DWH database rollback failed: {error}').format(
-                        error=e,
-                    )
-                )
+            else:
+                self._parent.logger.info(_('Rolling back DWH database schema'))
+                self._parent._rollbackDatabase()
 
         def commit(self):
             pass
@@ -159,6 +139,160 @@ class Plugin(plugin.PluginBase):
                 )
             )
 
+    def _rollbackDatabase(self):
+        try:
+            dbovirtutils = database.OvirtUtils(
+                plugin=self,
+                dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
+            )
+            self.logger.info(
+                _('Clearing DWH database {database}').format(
+                    database=self.environment[
+                        odwhcons.DBEnv.DATABASE
+                    ],
+                )
+            )
+            dbovirtutils.clearDatabase()
+            if self._backup is not None and os.path.exists(self._backup):
+                self.logger.info(
+                    _('Restoring DWH database {database}').format(
+                        database=self.environment[
+                            odwhcons.DBEnv.DATABASE
+                        ],
+                    )
+                )
+                dbovirtutils.restore(backupFile=self._backup)
+        except Exception as e:
+            self.logger.debug(
+                'Exception during DWH database restore',
+                exc_info=True,
+            )
+            self.logger.error(
+                _('DWH database rollback failed: {error}').format(
+                    error=e,
+                )
+            )
+
+    def _getDBSize(self):
+        # Returns db size in bytes
+        statement = database.Statement(
+            dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
+            environment=self.environment,
+        )
+        result = statement.execute(
+            statement="SELECT pg_database_size(%(db)s) as size",
+            args=dict(
+                db=self.environment[odwhcons.DBEnv.DATABASE],
+            ),
+            ownConnection=True,
+            transaction=False,
+        )
+        return int(result[0]['size'])
+
+    def _HumanReadableSize(self, bytes):
+        size_in_mb = bytes / pow(2,20)
+        return (
+            _('{size} MB').format(size=size_in_mb)
+            if size_in_mb  < 1024
+            else _('{size:1.1f} GB').format(
+                size=size_in_mb/1024.0,
+            )
+        )
+
+    @plugin.event(
+        stage=plugin.Stages.STAGE_INIT,
+    )
+    def _init(self):
+        self.environment.setdefault(
+            odwhcons.DBEnv.PERFORM_BACKUP,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.DBEnv.RESTORE_BACKUP_LATE,
+            True
+        )
+        self._needRollback = False
+
+    @plugin.event(
+        stage=plugin.Stages.STAGE_CUSTOMIZATION,
+        condition=lambda self: not self.environment[
+            odwhcons.DBEnv.NEW_DATABASE
+        ],
+        before=(
+            osetupcons.Stages.DIALOG_TITLES_E_DATABASE,
+        ),
+        after=(
+            odwhcons.Stages.DB_CONNECTION_CUSTOMIZATION,
+        ),
+    )
+    def _customization(self):
+        if self.environment[odwhcons.DBEnv.PERFORM_BACKUP] is None:
+            perform_backup = dialog.queryBoolean(
+                dialog=self.dialog,
+                name='OVESETUP_DWH_PERFORM_BACKUP',
+                note=_(
+                    'The detected DWH database size is {dbsize}.\n'
+                    'Setup can backup the existing database. The time and '
+                    'space required for the database backup depend on its '
+                    'size. This process '
+                    'takes time, and in some cases (for instance, when the '
+                    'size is few GBs) may take several hours to complete.\n'
+                    'If you choose to not back up the database, and Setup '
+                    'later fails for some reason, it will not be able to '
+                    'restore the database and all DWH data will be lost.\n'
+                    'Would you like to backup the existing database before '
+                    'upgrading it? '
+                    '(@VALUES@) [@DEFAULT@]: '
+                ).format(
+                    dbsize=self._HumanReadableSize(self._getDBSize()),
+                ),
+                prompt=True,
+                true=_('Yes'),
+                false=_('No'),
+                default=True,
+            )
+            if not perform_backup:
+                self.logger.warning(
+                    _(
+                        'Are you sure you do not want to backup the DWH '
+                        'database?'
+                    )
+                )
+                perform_backup = not dialog.queryBoolean(
+                    dialog=self.dialog,
+                    name='OVESETUP_DWH_VERIFY_NO_BACKUP',
+                    note=_(
+                        'A positive reply makes sense only if '
+                        'you do not need the data in DWH, or have some other, '
+                        'external means to restore it to a working state.\n'
+                        'Are you sure you do not want to backup the DWH '
+                        'database?'
+                        '(@VALUES@) [@DEFAULT@]: '
+                    ).format(
+                        dbsize=self._HumanReadableSize(self._getDBSize()),
+                    ),
+                    prompt=True,
+                    true=_('Yes'),
+                    false=_('No'),
+                    default=False,
+                )
+                if perform_backup:
+                    self.dialog.note(
+                        text=_(
+                            'The DWH Database will be backed up prior to upgrade.'
+                        ),
+                    )
+            if not perform_backup:
+                self.logger.warning(
+                    _(
+                        'DWH Database will not be backed up. Rollback in case '
+                        'of failure will not be possible.'
+                    )
+                )
+            self.environment[
+                odwhcons.DBEnv.PERFORM_BACKUP
+            ] = perform_backup
+
     @plugin.event(
         stage=plugin.Stages.STAGE_VALIDATION,
         after=(
@@ -185,16 +319,18 @@ class Plugin(plugin.PluginBase):
         ),
     )
     def _misc(self):
-        backupFile = None
+        self._backup = None
 
         if not self.environment[
             odwhcons.DBEnv.NEW_DATABASE
+        ] and self.environment[
+            odwhcons.DBEnv.PERFORM_BACKUP
         ]:
             dbovirtutils = database.OvirtUtils(
                 plugin=self,
                 dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
             )
-            backupFile = dbovirtutils.backup(
+            self._backup = dbovirtutils.backup(
                 dir=odwhcons.FileLocations.OVIRT_ENGINE_DWH_DB_BACKUP_DIR,
                 prefix=odwhcons.Const.OVIRT_ENGINE_DWH_DB_BACKUP_PREFIX,
             )
@@ -202,7 +338,6 @@ class Plugin(plugin.PluginBase):
         self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
             self.SchemaTransaction(
                 parent=self,
-                backup=backupFile,
             )
         )
 
@@ -245,6 +380,23 @@ class Plugin(plugin.PluginBase):
                 ]
             },
         )
+
+    @plugin.event(
+        stage=plugin.Stages.STAGE_CLEANUP,
+        priority=plugin.Stages.PRIORITY_LAST,
+        condition=lambda self: self._needRollback,
+    )
+    def _rollback(self):
+        self.logger.warning(
+            _('Rollback of DWH database started')
+        )
+        self.dialog.note(
+            text=_(
+                'This might be a long process, but it should be safe to '
+                'start the engine service before it finishes, if needed.'
+            ),
+        )
+        self._rollbackDatabase()
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
