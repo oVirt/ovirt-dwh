@@ -63,7 +63,7 @@ class Plugin(plugin.PluginBase):
         config = configparser.ConfigParser()
         config.optionxform = str
         with open(filename) as f:
-            config.readfp(io.StringIO('[default]' + f.read()))
+            config.readfp(io.StringIO(u'[default]' + f.read()))
         return dict(config.items('default'))
 
     @plugin.event(
