@@ -242,6 +242,11 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Sun Mar 30 2014 Yaniv Dary <ydary@redhat.com> - 3.4.1
+Fixed issues:
+- io.StringIO needs unicode (See releated BZ #1079911)
+- fixed generated code issue (#1076902)
+
 * Mon Mar 24 2014 Yaniv Dary <ydary@redhat.com> - 3.4.0-2
 Fixed issues:
 - move connect to database library (#1067058)
