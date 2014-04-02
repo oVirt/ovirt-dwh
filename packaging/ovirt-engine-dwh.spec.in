@@ -140,6 +140,10 @@ fi
 %config(noreplace) %attr(-, %{engine_user}, %{engine_group}) %{_sysconfdir}/ovirt-engine/%{dwh_name}/Default.properties
 
 %changelog
+* Wed Apr 2 2014 Yaniv Dary <ydary@redhat.com> - 3.3.5
+Fixed issue:
+- On DB upgrade, readonly user and client custom users losses permissions to db views (#1078129)
+
 * Mon Mar 10 2014 Yaniv Dary <ydary@redhat.com> - 3.3.5
 Fixed issues:
 1065781 - dwh-setup drops '"' from read db password
