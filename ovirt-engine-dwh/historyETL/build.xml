@@ -17,6 +17,8 @@
 			destdir="target"
 			includeAntRuntime="no"
 			encoding="utf-8"
+			debug="true"
+			debuglevel="lines,vars,source"
 			classpathref="local.classpath"
 		/>
 		<jar destfile="${local.output}">
