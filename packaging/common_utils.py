@@ -1404,28 +1404,31 @@ def updatePgHba(database, user):
     with open(FILE_PG_HBA, 'w') as pghba:
         pghba.write('\n'.join(content))
 
+_RE_POSTGRES_PGHBA_LOCAL = re.compile(
+    flags=re.VERBOSE,
+    pattern=r"""
+        ^
+        (?P<host>local)
+        \s+
+        .*
+        \s+
+        (?P<param>\w+)
+        $
+    """,
+)
+
 def configHbaIdent(orig='md5', newval='ident'):
     content = []
     logging.debug('Updating pghba postgres use')
-    contentline = (
-        'local   '
-        'all         '
-        'all                               '
-        '{value}'
-    )
 
     with open(FILE_PG_HBA, 'r') as pghba:
         for line in pghba.read().splitlines():
-            if line.startswith(
-                contentline.format(value=newval)
-            ):
-                return False
-
-            if line.startswith(
-                contentline.format(value=orig)
-            ):
-                line=contentline.format(value=newval)
-
+            matcher = _RE_POSTGRES_PGHBA_LOCAL.match(line)
+            if matcher is not None:
+                if matcher.group('param') == newval:
+                    return False
+                if matcher.group('param') == orig:
+                    line = line.replace(matcher.group('param'), newval)
             content.append(line)
 
     with open(FILE_PG_HBA, 'w') as pghba:
