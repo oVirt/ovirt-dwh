@@ -21,7 +21,7 @@ FIX_RELEASE=5
 # - master
 # - <none>
 #
-MILESTONE=rc
+MILESTONE=
 
 # RPM release is manually specified,
 # For pre-release:
@@ -32,4 +32,4 @@ MILESTONE=rc
 # RPM_RELEASE=N
 # while N is incremented each re-release
 #
-RPM_RELEASE=0.1
+RPM_RELEASE=1
