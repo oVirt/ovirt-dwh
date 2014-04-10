@@ -1224,7 +1224,8 @@ def createUser(user, password, option='', database='', validate=True):
 
         execCmd(
             cmdList=cmd,
-            failOnError=True
+            failOnError=True,
+            maskList=[password],
         )
 
 
