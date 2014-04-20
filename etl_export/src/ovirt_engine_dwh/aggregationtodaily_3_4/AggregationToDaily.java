@@ -137,6 +137,26 @@ public class AggregationToDaily implements TalendJob {
 
 			}
 
+			if (lastDayAggr != null) {
+
+				String pattern_lastDayAggr = "yyyy-MM-dd HH:mm:ss";
+				String value_lastDayAggr = "yyyy-MM-dd HH:mm:ss;2000-01-01 00:00:00";
+				String[] parts_lastDayAggr = value_lastDayAggr.split(";");
+				if (parts_lastDayAggr.length > 1) {
+					pattern_lastDayAggr = parts_lastDayAggr[0];
+					this.setProperty(
+							"lastDayAggr",
+							pattern_lastDayAggr
+									+ ";"
+									+ FormatterUtils.format_Date(lastDayAggr,
+											pattern_lastDayAggr));
+				} else {
+					this.setProperty("lastDayAggr", FormatterUtils.format_Date(
+							lastDayAggr, pattern_lastDayAggr));
+				}
+
+			}
+
 		}
 
 		public String ovirtEngineHistoryDbJdbcConnection;
@@ -167,6 +187,12 @@ public class AggregationToDaily implements TalendJob {
 
 		public java.util.Date getRunTime() {
 			return this.runTime;
+		}
+
+		public java.util.Date lastDayAggr;
+
+		public java.util.Date getLastDayAggr() {
+			return this.lastDayAggr;
 		}
 	}
 
@@ -576,24 +602,14 @@ public class AggregationToDaily implements TalendJob {
 		tPostjob_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tJDBCInput_6_error(java.lang.Exception exception,
+	public void tRowGenerator_1_error(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		end_Hash.put("tJDBCInput_6", System.currentTimeMillis());
+		end_Hash.put("tRowGenerator_1", System.currentTimeMillis());
 
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
-		tJDBCInput_6_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tMap_6_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tMap_6", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCInput_6_onSubJobError(exception, errorComponent, globalMap);
+		tRowGenerator_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tJDBCOutput_6_error(java.lang.Exception exception,
@@ -603,7 +619,7 @@ public class AggregationToDaily implements TalendJob {
 
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
-		tJDBCInput_6_onSubJobError(exception, errorComponent, globalMap);
+		tRowGenerator_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tJDBCInput_9_error(java.lang.Exception exception,
@@ -966,7 +982,7 @@ public class AggregationToDaily implements TalendJob {
 
 	}
 
-	public void tJDBCInput_6_onSubJobError(java.lang.Exception exception,
+	public void tRowGenerator_1_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -2074,7 +2090,11 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_1 = conn_tJDBCInput_1
 						.createStatement();
 
-				String dbquery_tJDBCInput_1 = "SELECT     history_id,     history_datetime,     datacenter_id,     datacenter_status,     minutes_in_status,     datacenter_configuration_version  FROM datacenter_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 datacenter_id,        	 datacenter_status";
+				String dbquery_tJDBCInput_1 = "SELECT     history_id,     history_datetime,     datacenter_id,     datacenter_status,     minutes_in_status,     datacenter_configuration_version  FROM datacenter_hourly_history  WHERE history_datetime >= '"
+						+ context.lastDayAggr
+						+ "' AND history_datetime < '"
+						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ "'  ORDER BY history_datetime,        	 datacenter_id,        	 datacenter_status";
 
 				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
 				java.sql.ResultSet rs_tJDBCInput_1 = null;
@@ -2228,110 +2248,92 @@ public class AggregationToDaily implements TalendJob {
 						boolean rejectedInnerJoin_tMap_1 = false;
 						boolean mainRowRejected_tMap_1 = false;
 
-						if (
+						// ###############################
+						{ // start of Var scope
 
-						(
-
-						routines.RoutineHistoryETL.dateCompare(
-								row1.history_datetime,
-								routines.RoutineHistoryETL.manipulateDate(
-										routines.RoutineHistoryETL
-												.startOfDay(context.runTime),
-										-1, "dd")) < 0
-
-						)
-
-						) { // G_TM_M_280
-
-							// CALL close main tMap filter for table 'row1'
 							// ###############################
-							{ // start of Var scope
+							// # Vars tables
 
-								// ###############################
-								// # Vars tables
+							Var__tMap_1__Struct Var = Var__tMap_1;// ###############################
+							// ###############################
+							// # Output tables
 
-								Var__tMap_1__Struct Var = Var__tMap_1;// ###############################
-								// ###############################
-								// # Output tables
+							dc_history_aggregate = null;
 
-								dc_history_aggregate = null;
+							// # Output table : 'dc_history_aggregate'
+							dc_history_aggregate_tmp.history_datetime = RoutineHistoryETL
+									.startOfDay(row1.history_datetime);
+							dc_history_aggregate_tmp.datacenter_id = row1.datacenter_id;
+							dc_history_aggregate_tmp.datacenter_status = row1.datacenter_status;
+							dc_history_aggregate_tmp.minutes_in_status = row1.minutes_in_status;
+							dc_history_aggregate_tmp.datacenter_configuration_version = row1.datacenter_configuration_version;
+							dc_history_aggregate = dc_history_aggregate_tmp;
+							// ###############################
 
-								// # Output table : 'dc_history_aggregate'
-								dc_history_aggregate_tmp.history_datetime = RoutineHistoryETL
-										.startOfDay(row1.history_datetime);
-								dc_history_aggregate_tmp.datacenter_id = row1.datacenter_id;
-								dc_history_aggregate_tmp.datacenter_status = row1.datacenter_status;
-								dc_history_aggregate_tmp.minutes_in_status = row1.minutes_in_status;
-								dc_history_aggregate_tmp.datacenter_configuration_version = row1.datacenter_configuration_version;
-								dc_history_aggregate = dc_history_aggregate_tmp;
-								// ###############################
+						} // end of Var scope
 
-							} // end of Var scope
+						rejectedInnerJoin_tMap_1 = false;
 
-							rejectedInnerJoin_tMap_1 = false;
+						tos_count_tMap_1++;
 
-							tos_count_tMap_1++;
+						/**
+						 * [tMap_1 main ] stop
+						 */
+						// Start of branch "dc_history_aggregate"
+						if (dc_history_aggregate != null) {
 
 							/**
-							 * [tMap_1 main ] stop
+							 * [tAggregateRow_1_AGGOUT main ] start
 							 */
-							// Start of branch "dc_history_aggregate"
-							if (dc_history_aggregate != null) {
 
-								/**
-								 * [tAggregateRow_1_AGGOUT main ] start
-								 */
+							currentVirtualComponent = "tAggregateRow_1";
 
-								currentVirtualComponent = "tAggregateRow_1";
+							currentComponent = "tAggregateRow_1_AGGOUT";
 
-								currentComponent = "tAggregateRow_1_AGGOUT";
+							operation_finder_tAggregateRow_1.history_datetime = dc_history_aggregate.history_datetime;
+							operation_finder_tAggregateRow_1.datacenter_id = dc_history_aggregate.datacenter_id;
+							operation_finder_tAggregateRow_1.datacenter_status = dc_history_aggregate.datacenter_status;
 
-								operation_finder_tAggregateRow_1.history_datetime = dc_history_aggregate.history_datetime;
-								operation_finder_tAggregateRow_1.datacenter_id = dc_history_aggregate.datacenter_id;
-								operation_finder_tAggregateRow_1.datacenter_status = dc_history_aggregate.datacenter_status;
+							operation_finder_tAggregateRow_1.hashCodeDirty = true;
 
-								operation_finder_tAggregateRow_1.hashCodeDirty = true;
+							operation_result_tAggregateRow_1 = hash_tAggregateRow_1
+									.get(operation_finder_tAggregateRow_1);
 
-								operation_result_tAggregateRow_1 = hash_tAggregateRow_1
-										.get(operation_finder_tAggregateRow_1);
+							boolean isFirstAdd_tAggregateRow_1 = false;
 
-								boolean isFirstAdd_tAggregateRow_1 = false;
+							if (operation_result_tAggregateRow_1 == null) { // G_OutMain_AggR_001
 
-								if (operation_result_tAggregateRow_1 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_1 = new AggOperationStruct_tAggregateRow_1();
 
-									operation_result_tAggregateRow_1 = new AggOperationStruct_tAggregateRow_1();
+								operation_result_tAggregateRow_1.history_datetime = operation_finder_tAggregateRow_1.history_datetime;
+								operation_result_tAggregateRow_1.datacenter_id = operation_finder_tAggregateRow_1.datacenter_id;
+								operation_result_tAggregateRow_1.datacenter_status = operation_finder_tAggregateRow_1.datacenter_status;
 
-									operation_result_tAggregateRow_1.history_datetime = operation_finder_tAggregateRow_1.history_datetime;
-									operation_result_tAggregateRow_1.datacenter_id = operation_finder_tAggregateRow_1.datacenter_id;
-									operation_result_tAggregateRow_1.datacenter_status = operation_finder_tAggregateRow_1.datacenter_status;
+								isFirstAdd_tAggregateRow_1 = true;
 
-									isFirstAdd_tAggregateRow_1 = true;
+								hash_tAggregateRow_1.put(
+										operation_result_tAggregateRow_1,
+										operation_result_tAggregateRow_1);
 
-									hash_tAggregateRow_1.put(
-											operation_result_tAggregateRow_1,
-											operation_result_tAggregateRow_1);
+							} // G_OutMain_AggR_001
 
-								} // G_OutMain_AggR_001
+							if (operation_result_tAggregateRow_1.minutes_in_status_sum == null) {
+								operation_result_tAggregateRow_1.minutes_in_status_sum = new BigDecimal(
+										0).setScale(0);
+							}
+							operation_result_tAggregateRow_1.minutes_in_status_sum = operation_result_tAggregateRow_1.minutes_in_status_sum
+									.add(new BigDecimal(
+											String.valueOf(dc_history_aggregate.minutes_in_status)));
 
-								if (operation_result_tAggregateRow_1.minutes_in_status_sum == null) {
-									operation_result_tAggregateRow_1.minutes_in_status_sum = new BigDecimal(
-											0).setScale(0);
-								}
-								operation_result_tAggregateRow_1.minutes_in_status_sum = operation_result_tAggregateRow_1.minutes_in_status_sum
-										.add(new BigDecimal(
-												String.valueOf(dc_history_aggregate.minutes_in_status)));
+							operation_result_tAggregateRow_1.datacenter_configuration_version_last = dc_history_aggregate.datacenter_configuration_version;
 
-								operation_result_tAggregateRow_1.datacenter_configuration_version_last = dc_history_aggregate.datacenter_configuration_version;
+							tos_count_tAggregateRow_1_AGGOUT++;
 
-								tos_count_tAggregateRow_1_AGGOUT++;
+							/**
+							 * [tAggregateRow_1_AGGOUT main ] stop
+							 */
 
-								/**
-								 * [tAggregateRow_1_AGGOUT main ] stop
-								 */
-
-							} // End of branch "dc_history_aggregate"
-
-						} // G_TM_M_280 close main tMap filter for table 'row1'
+						} // End of branch "dc_history_aggregate"
 
 						/**
 						 * [tJDBCInput_1 end ] start
@@ -5228,7 +5230,11 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
 
-				String dbquery_tJDBCInput_2 = "SELECT     history_id,     history_datetime,     host_id,     host_status,     minutes_in_status,     memory_usage_percent,    ksm_shared_memory_mb,    cpu_usage_percent,     ksm_cpu_percent,      active_vms,      total_vms,     total_vms_vcpus,     cpu_load,     system_cpu_usage_percent,      user_cpu_usage_percent,     swap_used_mb,      host_configuration_version  FROM host_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,  		 host_id,        	 host_status";
+				String dbquery_tJDBCInput_2 = "SELECT     history_id,     history_datetime,     host_id,     host_status,     minutes_in_status,     memory_usage_percent,    ksm_shared_memory_mb,    cpu_usage_percent,     ksm_cpu_percent,      active_vms,      total_vms,     total_vms_vcpus,     cpu_load,     system_cpu_usage_percent,      user_cpu_usage_percent,     swap_used_mb,      host_configuration_version  FROM host_hourly_history  WHERE history_datetime >= '"
+						+ context.lastDayAggr
+						+ "' AND history_datetime < '"
+						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ "'  ORDER BY history_datetime,  		 host_id,        	 host_status";
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
 				java.sql.ResultSet rs_tJDBCInput_2 = null;
@@ -5556,387 +5562,369 @@ public class AggregationToDaily implements TalendJob {
 						boolean rejectedInnerJoin_tMap_2 = false;
 						boolean mainRowRejected_tMap_2 = false;
 
-						if (
+						// ###############################
+						{ // start of Var scope
 
-						(
-
-						routines.RoutineHistoryETL.dateCompare(
-								row2.history_datetime,
-								routines.RoutineHistoryETL.manipulateDate(
-										routines.RoutineHistoryETL
-												.startOfDay(context.runTime),
-										-1, "dd")) < 0
-
-						)
-
-						) { // G_TM_M_280
-
-							// CALL close main tMap filter for table 'row2'
 							// ###############################
-							{ // start of Var scope
+							// # Vars tables
 
-								// ###############################
-								// # Vars tables
+							Var__tMap_2__Struct Var = Var__tMap_2;// ###############################
+							// ###############################
+							// # Output tables
 
-								Var__tMap_2__Struct Var = Var__tMap_2;// ###############################
-								// ###############################
-								// # Output tables
+							host_aggregation = null;
 
-								host_aggregation = null;
+							// # Output table : 'host_aggregation'
+							host_aggregation_tmp.history_datetime = RoutineHistoryETL
+									.startOfDay(row2.history_datetime);
+							host_aggregation_tmp.host_id = row2.host_id;
+							host_aggregation_tmp.host_status = row2.host_status;
+							host_aggregation_tmp.minutes_in_status = row2.minutes_in_status;
+							host_aggregation_tmp.memory_usage_percent = row2.memory_usage_percent;
+							host_aggregation_tmp.ksm_shared_memory_mb = row2.ksm_shared_memory_mb;
+							host_aggregation_tmp.cpu_usage_percent = row2.cpu_usage_percent;
+							host_aggregation_tmp.ksm_cpu_percent = row2.ksm_cpu_percent;
+							host_aggregation_tmp.active_vms = row2.active_vms;
+							host_aggregation_tmp.total_vms = row2.total_vms;
+							host_aggregation_tmp.total_vms_vcpus = row2.total_vms_vcpus;
+							host_aggregation_tmp.cpu_load = row2.cpu_load;
+							host_aggregation_tmp.system_cpu_usage_percent = row2.system_cpu_usage_percent;
+							host_aggregation_tmp.user_cpu_usage_percent = row2.user_cpu_usage_percent;
+							host_aggregation_tmp.swap_used_mb = row2.swap_used_mb;
+							host_aggregation_tmp.host_configuration_version = row2.host_configuration_version;
+							host_aggregation = host_aggregation_tmp;
+							// ###############################
 
-								// # Output table : 'host_aggregation'
-								host_aggregation_tmp.history_datetime = RoutineHistoryETL
-										.startOfDay(row2.history_datetime);
-								host_aggregation_tmp.host_id = row2.host_id;
-								host_aggregation_tmp.host_status = row2.host_status;
-								host_aggregation_tmp.minutes_in_status = row2.minutes_in_status;
-								host_aggregation_tmp.memory_usage_percent = row2.memory_usage_percent;
-								host_aggregation_tmp.ksm_shared_memory_mb = row2.ksm_shared_memory_mb;
-								host_aggregation_tmp.cpu_usage_percent = row2.cpu_usage_percent;
-								host_aggregation_tmp.ksm_cpu_percent = row2.ksm_cpu_percent;
-								host_aggregation_tmp.active_vms = row2.active_vms;
-								host_aggregation_tmp.total_vms = row2.total_vms;
-								host_aggregation_tmp.total_vms_vcpus = row2.total_vms_vcpus;
-								host_aggregation_tmp.cpu_load = row2.cpu_load;
-								host_aggregation_tmp.system_cpu_usage_percent = row2.system_cpu_usage_percent;
-								host_aggregation_tmp.user_cpu_usage_percent = row2.user_cpu_usage_percent;
-								host_aggregation_tmp.swap_used_mb = row2.swap_used_mb;
-								host_aggregation_tmp.host_configuration_version = row2.host_configuration_version;
-								host_aggregation = host_aggregation_tmp;
-								// ###############################
+						} // end of Var scope
 
-							} // end of Var scope
+						rejectedInnerJoin_tMap_2 = false;
 
-							rejectedInnerJoin_tMap_2 = false;
+						tos_count_tMap_2++;
 
-							tos_count_tMap_2++;
+						/**
+						 * [tMap_2 main ] stop
+						 */
+						// Start of branch "host_aggregation"
+						if (host_aggregation != null) {
 
 							/**
-							 * [tMap_2 main ] stop
+							 * [tAggregateRow_2_AGGOUT main ] start
 							 */
-							// Start of branch "host_aggregation"
-							if (host_aggregation != null) {
 
-								/**
-								 * [tAggregateRow_2_AGGOUT main ] start
-								 */
+							currentVirtualComponent = "tAggregateRow_2";
 
-								currentVirtualComponent = "tAggregateRow_2";
+							currentComponent = "tAggregateRow_2_AGGOUT";
 
-								currentComponent = "tAggregateRow_2_AGGOUT";
+							operation_finder_tAggregateRow_2.history_datetime = host_aggregation.history_datetime;
+							operation_finder_tAggregateRow_2.host_id = host_aggregation.host_id;
+							operation_finder_tAggregateRow_2.host_status = host_aggregation.host_status;
 
-								operation_finder_tAggregateRow_2.history_datetime = host_aggregation.history_datetime;
-								operation_finder_tAggregateRow_2.host_id = host_aggregation.host_id;
-								operation_finder_tAggregateRow_2.host_status = host_aggregation.host_status;
+							operation_finder_tAggregateRow_2.hashCodeDirty = true;
 
-								operation_finder_tAggregateRow_2.hashCodeDirty = true;
+							operation_result_tAggregateRow_2 = hash_tAggregateRow_2
+									.get(operation_finder_tAggregateRow_2);
 
-								operation_result_tAggregateRow_2 = hash_tAggregateRow_2
-										.get(operation_finder_tAggregateRow_2);
+							boolean isFirstAdd_tAggregateRow_2 = false;
 
-								boolean isFirstAdd_tAggregateRow_2 = false;
+							if (operation_result_tAggregateRow_2 == null) { // G_OutMain_AggR_001
 
-								if (operation_result_tAggregateRow_2 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_2 = new AggOperationStruct_tAggregateRow_2();
 
-									operation_result_tAggregateRow_2 = new AggOperationStruct_tAggregateRow_2();
+								operation_result_tAggregateRow_2.history_datetime = operation_finder_tAggregateRow_2.history_datetime;
+								operation_result_tAggregateRow_2.host_id = operation_finder_tAggregateRow_2.host_id;
+								operation_result_tAggregateRow_2.host_status = operation_finder_tAggregateRow_2.host_status;
 
-									operation_result_tAggregateRow_2.history_datetime = operation_finder_tAggregateRow_2.history_datetime;
-									operation_result_tAggregateRow_2.host_id = operation_finder_tAggregateRow_2.host_id;
-									operation_result_tAggregateRow_2.host_status = operation_finder_tAggregateRow_2.host_status;
+								isFirstAdd_tAggregateRow_2 = true;
 
-									isFirstAdd_tAggregateRow_2 = true;
+								hash_tAggregateRow_2.put(
+										operation_result_tAggregateRow_2,
+										operation_result_tAggregateRow_2);
 
-									hash_tAggregateRow_2.put(
-											operation_result_tAggregateRow_2,
-											operation_result_tAggregateRow_2);
+							} // G_OutMain_AggR_001
 
-								} // G_OutMain_AggR_001
+							if (operation_result_tAggregateRow_2.minutes_in_status_sum == null) {
+								operation_result_tAggregateRow_2.minutes_in_status_sum = new BigDecimal(
+										0).setScale(0);
+							}
+							operation_result_tAggregateRow_2.minutes_in_status_sum = operation_result_tAggregateRow_2.minutes_in_status_sum
+									.add(new BigDecimal(
+											String.valueOf(host_aggregation.minutes_in_status)));
 
-								if (operation_result_tAggregateRow_2.minutes_in_status_sum == null) {
-									operation_result_tAggregateRow_2.minutes_in_status_sum = new BigDecimal(
+							if (host_aggregation.memory_usage_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_2.memory_usage_percent_count++;
+
+								if (operation_result_tAggregateRow_2.memory_usage_percent_sum == null) {
+									operation_result_tAggregateRow_2.memory_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_2.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_2.memory_usage_percent_sum
+										.doubleValue() + host_aggregation.memory_usage_percent
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.memory_usage_percent != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_2.max_memory_usage_max == null
+										|| host_aggregation.memory_usage_percent > operation_result_tAggregateRow_2.max_memory_usage_max
+
+								) {
+									operation_result_tAggregateRow_2.max_memory_usage_max = host_aggregation.memory_usage_percent;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_2.cpu_usage_percent_count++;
+
+								if (operation_result_tAggregateRow_2.cpu_usage_percent_sum == null) {
+									operation_result_tAggregateRow_2.cpu_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_2.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_2.cpu_usage_percent_sum
+										.doubleValue() + host_aggregation.cpu_usage_percent
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_2.max_cpu_usage_max == null
+										|| host_aggregation.cpu_usage_percent > operation_result_tAggregateRow_2.max_cpu_usage_max
+
+								) {
+									operation_result_tAggregateRow_2.max_cpu_usage_max = host_aggregation.cpu_usage_percent;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.ksm_cpu_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_2.ksm_cpu_percent_count++;
+
+								if (operation_result_tAggregateRow_2.ksm_cpu_percent_sum == null) {
+									operation_result_tAggregateRow_2.ksm_cpu_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_2.ksm_cpu_percent_sum = (double) (operation_result_tAggregateRow_2.ksm_cpu_percent_sum
+										.doubleValue() + host_aggregation.ksm_cpu_percent
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.ksm_cpu_percent != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_2.max_ksm_cpu_percent_max == null
+										|| host_aggregation.ksm_cpu_percent > operation_result_tAggregateRow_2.max_ksm_cpu_percent_max
+
+								) {
+									operation_result_tAggregateRow_2.max_ksm_cpu_percent_max = host_aggregation.ksm_cpu_percent;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.active_vms != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_2.active_vms_count++;
+
+								if (operation_result_tAggregateRow_2.active_vms_sum == null) {
+									operation_result_tAggregateRow_2.active_vms_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_2.active_vms_sum = (double) (operation_result_tAggregateRow_2.active_vms_sum
+										.doubleValue() + host_aggregation.active_vms
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.active_vms != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_2.max_active_vms_max == null
+										|| host_aggregation.active_vms > operation_result_tAggregateRow_2.max_active_vms_max
+
+								) {
+									operation_result_tAggregateRow_2.max_active_vms_max = host_aggregation.active_vms;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.total_vms != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_2.total_vms_count++;
+
+								if (operation_result_tAggregateRow_2.total_vms_sum == null) {
+									operation_result_tAggregateRow_2.total_vms_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_2.total_vms_sum = (double) (operation_result_tAggregateRow_2.total_vms_sum
+										.doubleValue() + host_aggregation.total_vms
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.total_vms != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_2.max_total_vms_max == null
+										|| host_aggregation.total_vms > operation_result_tAggregateRow_2.max_total_vms_max
+
+								) {
+									operation_result_tAggregateRow_2.max_total_vms_max = host_aggregation.total_vms;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.total_vms_vcpus != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_2.total_vms_vcpus_count++;
+
+								if (operation_result_tAggregateRow_2.total_vms_vcpus_sum == null) {
+									operation_result_tAggregateRow_2.total_vms_vcpus_sum = (double) 0;
+								}
+
+								if (host_aggregation.total_vms_vcpus != null)
+									operation_result_tAggregateRow_2.total_vms_vcpus_sum += host_aggregation.total_vms_vcpus;
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.total_vms_vcpus != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_2.max_total_vms_vcpus_max == null
+										|| host_aggregation.total_vms_vcpus > operation_result_tAggregateRow_2.max_total_vms_vcpus_max
+
+								) {
+									operation_result_tAggregateRow_2.max_total_vms_vcpus_max = host_aggregation.total_vms_vcpus;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.cpu_load != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_2.cpu_load_count++;
+
+								if (operation_result_tAggregateRow_2.cpu_load_sum == null) {
+									operation_result_tAggregateRow_2.cpu_load_sum = (double) 0;
+								}
+
+								if (host_aggregation.cpu_load != null)
+									operation_result_tAggregateRow_2.cpu_load_sum += host_aggregation.cpu_load;
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.cpu_load != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_2.max_cpu_load_max == null
+										|| host_aggregation.cpu_load > operation_result_tAggregateRow_2.max_cpu_load_max
+
+								) {
+									operation_result_tAggregateRow_2.max_cpu_load_max = host_aggregation.cpu_load;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_2.system_cpu_usage_percent_count++;
+
+								if (operation_result_tAggregateRow_2.system_cpu_usage_percent_sum == null) {
+									operation_result_tAggregateRow_2.system_cpu_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_2.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_2.system_cpu_usage_percent_sum
+										.doubleValue() + host_aggregation.system_cpu_usage_percent
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_2.max_system_cpu_usage_percent_max == null
+										|| host_aggregation.system_cpu_usage_percent > operation_result_tAggregateRow_2.max_system_cpu_usage_percent_max
+
+								) {
+									operation_result_tAggregateRow_2.max_system_cpu_usage_percent_max = host_aggregation.system_cpu_usage_percent;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_2.user_cpu_usage_percent_count++;
+
+								if (operation_result_tAggregateRow_2.user_cpu_usage_percent_sum == null) {
+									operation_result_tAggregateRow_2.user_cpu_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_2.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_2.user_cpu_usage_percent_sum
+										.doubleValue() + host_aggregation.user_cpu_usage_percent
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_2.max_user_cpu_usage_percent_max == null
+										|| host_aggregation.user_cpu_usage_percent > operation_result_tAggregateRow_2.max_user_cpu_usage_percent_max
+
+								) {
+									operation_result_tAggregateRow_2.max_user_cpu_usage_percent_max = host_aggregation.user_cpu_usage_percent;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.swap_used_mb != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_2.swap_used_mb_count++;
+
+								if (operation_result_tAggregateRow_2.swap_used_mb_sum == null) {
+									operation_result_tAggregateRow_2.swap_used_mb_sum = (double) 0;
+								}
+
+								if (host_aggregation.swap_used_mb != null)
+									operation_result_tAggregateRow_2.swap_used_mb_sum += host_aggregation.swap_used_mb;
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.swap_used_mb != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_2.max_swap_used_mb_max == null
+										|| host_aggregation.swap_used_mb > operation_result_tAggregateRow_2.max_swap_used_mb_max
+
+								) {
+									operation_result_tAggregateRow_2.max_swap_used_mb_max = host_aggregation.swap_used_mb;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.host_configuration_version != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_2.host_configuration_version_last = host_aggregation.host_configuration_version;
+
+							} // G_OutMain_AggR_546
+
+							if (host_aggregation.ksm_shared_memory_mb != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_2.ksm_shared_memory_mb_count++;
+
+								if (operation_result_tAggregateRow_2.ksm_shared_memory_mb_sum == null) {
+									operation_result_tAggregateRow_2.ksm_shared_memory_mb_sum = new BigDecimal(
 											0).setScale(0);
 								}
-								operation_result_tAggregateRow_2.minutes_in_status_sum = operation_result_tAggregateRow_2.minutes_in_status_sum
+								operation_result_tAggregateRow_2.ksm_shared_memory_mb_sum = operation_result_tAggregateRow_2.ksm_shared_memory_mb_sum
 										.add(new BigDecimal(
-												String.valueOf(host_aggregation.minutes_in_status)));
+												String.valueOf(host_aggregation.ksm_shared_memory_mb)));
 
-								if (host_aggregation.memory_usage_percent != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									operation_result_tAggregateRow_2.memory_usage_percent_count++;
+							if (host_aggregation.ksm_shared_memory_mb != null) { // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_2.memory_usage_percent_sum == null) {
-										operation_result_tAggregateRow_2.memory_usage_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_2.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_2.memory_usage_percent_sum
-											.doubleValue() + host_aggregation.memory_usage_percent
-											.shortValue());
+								if (operation_result_tAggregateRow_2.max_ksm_shared_memory_mb_max == null
+										|| host_aggregation.ksm_shared_memory_mb > operation_result_tAggregateRow_2.max_ksm_shared_memory_mb_max
 
-								} // G_OutMain_AggR_546
+								) {
+									operation_result_tAggregateRow_2.max_ksm_shared_memory_mb_max = host_aggregation.ksm_shared_memory_mb;
+								}
 
-								if (host_aggregation.memory_usage_percent != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_2.max_memory_usage_max == null
-											|| host_aggregation.memory_usage_percent > operation_result_tAggregateRow_2.max_memory_usage_max
+							tos_count_tAggregateRow_2_AGGOUT++;
 
-									) {
-										operation_result_tAggregateRow_2.max_memory_usage_max = host_aggregation.memory_usage_percent;
-									}
+							/**
+							 * [tAggregateRow_2_AGGOUT main ] stop
+							 */
 
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_2.cpu_usage_percent_count++;
-
-									if (operation_result_tAggregateRow_2.cpu_usage_percent_sum == null) {
-										operation_result_tAggregateRow_2.cpu_usage_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_2.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_2.cpu_usage_percent_sum
-											.doubleValue() + host_aggregation.cpu_usage_percent
-											.shortValue());
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_2.max_cpu_usage_max == null
-											|| host_aggregation.cpu_usage_percent > operation_result_tAggregateRow_2.max_cpu_usage_max
-
-									) {
-										operation_result_tAggregateRow_2.max_cpu_usage_max = host_aggregation.cpu_usage_percent;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.ksm_cpu_percent != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_2.ksm_cpu_percent_count++;
-
-									if (operation_result_tAggregateRow_2.ksm_cpu_percent_sum == null) {
-										operation_result_tAggregateRow_2.ksm_cpu_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_2.ksm_cpu_percent_sum = (double) (operation_result_tAggregateRow_2.ksm_cpu_percent_sum
-											.doubleValue() + host_aggregation.ksm_cpu_percent
-											.shortValue());
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.ksm_cpu_percent != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_2.max_ksm_cpu_percent_max == null
-											|| host_aggregation.ksm_cpu_percent > operation_result_tAggregateRow_2.max_ksm_cpu_percent_max
-
-									) {
-										operation_result_tAggregateRow_2.max_ksm_cpu_percent_max = host_aggregation.ksm_cpu_percent;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.active_vms != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_2.active_vms_count++;
-
-									if (operation_result_tAggregateRow_2.active_vms_sum == null) {
-										operation_result_tAggregateRow_2.active_vms_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_2.active_vms_sum = (double) (operation_result_tAggregateRow_2.active_vms_sum
-											.doubleValue() + host_aggregation.active_vms
-											.shortValue());
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.active_vms != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_2.max_active_vms_max == null
-											|| host_aggregation.active_vms > operation_result_tAggregateRow_2.max_active_vms_max
-
-									) {
-										operation_result_tAggregateRow_2.max_active_vms_max = host_aggregation.active_vms;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.total_vms != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_2.total_vms_count++;
-
-									if (operation_result_tAggregateRow_2.total_vms_sum == null) {
-										operation_result_tAggregateRow_2.total_vms_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_2.total_vms_sum = (double) (operation_result_tAggregateRow_2.total_vms_sum
-											.doubleValue() + host_aggregation.total_vms
-											.shortValue());
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.total_vms != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_2.max_total_vms_max == null
-											|| host_aggregation.total_vms > operation_result_tAggregateRow_2.max_total_vms_max
-
-									) {
-										operation_result_tAggregateRow_2.max_total_vms_max = host_aggregation.total_vms;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.total_vms_vcpus != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_2.total_vms_vcpus_count++;
-
-									if (operation_result_tAggregateRow_2.total_vms_vcpus_sum == null) {
-										operation_result_tAggregateRow_2.total_vms_vcpus_sum = (double) 0;
-									}
-
-									if (host_aggregation.total_vms_vcpus != null)
-										operation_result_tAggregateRow_2.total_vms_vcpus_sum += host_aggregation.total_vms_vcpus;
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.total_vms_vcpus != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_2.max_total_vms_vcpus_max == null
-											|| host_aggregation.total_vms_vcpus > operation_result_tAggregateRow_2.max_total_vms_vcpus_max
-
-									) {
-										operation_result_tAggregateRow_2.max_total_vms_vcpus_max = host_aggregation.total_vms_vcpus;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.cpu_load != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_2.cpu_load_count++;
-
-									if (operation_result_tAggregateRow_2.cpu_load_sum == null) {
-										operation_result_tAggregateRow_2.cpu_load_sum = (double) 0;
-									}
-
-									if (host_aggregation.cpu_load != null)
-										operation_result_tAggregateRow_2.cpu_load_sum += host_aggregation.cpu_load;
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.cpu_load != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_2.max_cpu_load_max == null
-											|| host_aggregation.cpu_load > operation_result_tAggregateRow_2.max_cpu_load_max
-
-									) {
-										operation_result_tAggregateRow_2.max_cpu_load_max = host_aggregation.cpu_load;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_2.system_cpu_usage_percent_count++;
-
-									if (operation_result_tAggregateRow_2.system_cpu_usage_percent_sum == null) {
-										operation_result_tAggregateRow_2.system_cpu_usage_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_2.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_2.system_cpu_usage_percent_sum
-											.doubleValue() + host_aggregation.system_cpu_usage_percent
-											.shortValue());
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_2.max_system_cpu_usage_percent_max == null
-											|| host_aggregation.system_cpu_usage_percent > operation_result_tAggregateRow_2.max_system_cpu_usage_percent_max
-
-									) {
-										operation_result_tAggregateRow_2.max_system_cpu_usage_percent_max = host_aggregation.system_cpu_usage_percent;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_2.user_cpu_usage_percent_count++;
-
-									if (operation_result_tAggregateRow_2.user_cpu_usage_percent_sum == null) {
-										operation_result_tAggregateRow_2.user_cpu_usage_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_2.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_2.user_cpu_usage_percent_sum
-											.doubleValue() + host_aggregation.user_cpu_usage_percent
-											.shortValue());
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_2.max_user_cpu_usage_percent_max == null
-											|| host_aggregation.user_cpu_usage_percent > operation_result_tAggregateRow_2.max_user_cpu_usage_percent_max
-
-									) {
-										operation_result_tAggregateRow_2.max_user_cpu_usage_percent_max = host_aggregation.user_cpu_usage_percent;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.swap_used_mb != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_2.swap_used_mb_count++;
-
-									if (operation_result_tAggregateRow_2.swap_used_mb_sum == null) {
-										operation_result_tAggregateRow_2.swap_used_mb_sum = (double) 0;
-									}
-
-									if (host_aggregation.swap_used_mb != null)
-										operation_result_tAggregateRow_2.swap_used_mb_sum += host_aggregation.swap_used_mb;
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.swap_used_mb != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_2.max_swap_used_mb_max == null
-											|| host_aggregation.swap_used_mb > operation_result_tAggregateRow_2.max_swap_used_mb_max
-
-									) {
-										operation_result_tAggregateRow_2.max_swap_used_mb_max = host_aggregation.swap_used_mb;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.host_configuration_version != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_2.host_configuration_version_last = host_aggregation.host_configuration_version;
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.ksm_shared_memory_mb != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_2.ksm_shared_memory_mb_count++;
-
-									if (operation_result_tAggregateRow_2.ksm_shared_memory_mb_sum == null) {
-										operation_result_tAggregateRow_2.ksm_shared_memory_mb_sum = new BigDecimal(
-												0).setScale(0);
-									}
-									operation_result_tAggregateRow_2.ksm_shared_memory_mb_sum = operation_result_tAggregateRow_2.ksm_shared_memory_mb_sum
-											.add(new BigDecimal(
-													String.valueOf(host_aggregation.ksm_shared_memory_mb)));
-
-								} // G_OutMain_AggR_546
-
-								if (host_aggregation.ksm_shared_memory_mb != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_2.max_ksm_shared_memory_mb_max == null
-											|| host_aggregation.ksm_shared_memory_mb > operation_result_tAggregateRow_2.max_ksm_shared_memory_mb_max
-
-									) {
-										operation_result_tAggregateRow_2.max_ksm_shared_memory_mb_max = host_aggregation.ksm_shared_memory_mb;
-									}
-
-								} // G_OutMain_AggR_546
-
-								tos_count_tAggregateRow_2_AGGOUT++;
-
-								/**
-								 * [tAggregateRow_2_AGGOUT main ] stop
-								 */
-
-							} // End of branch "host_aggregation"
-
-						} // G_TM_M_280 close main tMap filter for table 'row2'
+						} // End of branch "host_aggregation"
 
 						/**
 						 * [tJDBCInput_2 end ] start
@@ -7920,7 +7908,11 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_3 = conn_tJDBCInput_3
 						.createStatement();
 
-				String dbquery_tJDBCInput_3 = "SELECT    history_id,    history_datetime,    host_interface_id,    receive_rate_percent,     transmit_rate_percent,     host_interface_configuration_version  FROM host_interface_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 host_interface_id";
+				String dbquery_tJDBCInput_3 = "SELECT    history_id,    history_datetime,    host_interface_id,    receive_rate_percent,     transmit_rate_percent,     host_interface_configuration_version  FROM host_interface_hourly_history  WHERE history_datetime >= '"
+						+ context.lastDayAggr
+						+ "' AND history_datetime < '"
+						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ "'  ORDER BY history_datetime,        	 host_interface_id";
 
 				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
 				java.sql.ResultSet rs_tJDBCInput_3 = null;
@@ -8068,153 +8060,134 @@ public class AggregationToDaily implements TalendJob {
 						boolean rejectedInnerJoin_tMap_3 = false;
 						boolean mainRowRejected_tMap_3 = false;
 
-						if (
+						// ###############################
+						{ // start of Var scope
 
-						(
-
-						routines.RoutineHistoryETL.dateCompare(
-								row3.history_datetime,
-								routines.RoutineHistoryETL.manipulateDate(
-										routines.RoutineHistoryETL
-												.startOfDay(context.runTime),
-										-1, "dd")) < 0
-
-						)
-
-						) { // G_TM_M_280
-
-							// CALL close main tMap filter for table 'row3'
 							// ###############################
-							{ // start of Var scope
+							// # Vars tables
 
-								// ###############################
-								// # Vars tables
+							Var__tMap_3__Struct Var = Var__tMap_3;// ###############################
+							// ###############################
+							// # Output tables
 
-								Var__tMap_3__Struct Var = Var__tMap_3;// ###############################
-								// ###############################
-								// # Output tables
+							host_history_history_aggregate = null;
 
-								host_history_history_aggregate = null;
+							// # Output table : 'host_history_history_aggregate'
+							host_history_history_aggregate_tmp.history_datetime = RoutineHistoryETL
+									.startOfDay(row3.history_datetime);
+							host_history_history_aggregate_tmp.host_interface_id = row3.host_interface_id;
+							host_history_history_aggregate_tmp.receive_rate_percent = row3.receive_rate_percent;
+							host_history_history_aggregate_tmp.transmit_rate_percent = row3.transmit_rate_percent;
+							host_history_history_aggregate_tmp.host_interface_configuration_version = row3.host_interface_configuration_version;
+							host_history_history_aggregate = host_history_history_aggregate_tmp;
+							// ###############################
 
-								// # Output table :
-								// 'host_history_history_aggregate'
-								host_history_history_aggregate_tmp.history_datetime = RoutineHistoryETL
-										.startOfDay(row3.history_datetime);
-								host_history_history_aggregate_tmp.host_interface_id = row3.host_interface_id;
-								host_history_history_aggregate_tmp.receive_rate_percent = row3.receive_rate_percent;
-								host_history_history_aggregate_tmp.transmit_rate_percent = row3.transmit_rate_percent;
-								host_history_history_aggregate_tmp.host_interface_configuration_version = row3.host_interface_configuration_version;
-								host_history_history_aggregate = host_history_history_aggregate_tmp;
-								// ###############################
+						} // end of Var scope
 
-							} // end of Var scope
+						rejectedInnerJoin_tMap_3 = false;
 
-							rejectedInnerJoin_tMap_3 = false;
+						tos_count_tMap_3++;
 
-							tos_count_tMap_3++;
+						/**
+						 * [tMap_3 main ] stop
+						 */
+						// Start of branch "host_history_history_aggregate"
+						if (host_history_history_aggregate != null) {
 
 							/**
-							 * [tMap_3 main ] stop
+							 * [tAggregateRow_3_AGGOUT main ] start
 							 */
-							// Start of branch "host_history_history_aggregate"
-							if (host_history_history_aggregate != null) {
 
-								/**
-								 * [tAggregateRow_3_AGGOUT main ] start
-								 */
+							currentVirtualComponent = "tAggregateRow_3";
 
-								currentVirtualComponent = "tAggregateRow_3";
+							currentComponent = "tAggregateRow_3_AGGOUT";
 
-								currentComponent = "tAggregateRow_3_AGGOUT";
+							operation_finder_tAggregateRow_3.history_datetime = host_history_history_aggregate.history_datetime;
+							operation_finder_tAggregateRow_3.host_interface_id = host_history_history_aggregate.host_interface_id;
 
-								operation_finder_tAggregateRow_3.history_datetime = host_history_history_aggregate.history_datetime;
-								operation_finder_tAggregateRow_3.host_interface_id = host_history_history_aggregate.host_interface_id;
+							operation_finder_tAggregateRow_3.hashCodeDirty = true;
 
-								operation_finder_tAggregateRow_3.hashCodeDirty = true;
+							operation_result_tAggregateRow_3 = hash_tAggregateRow_3
+									.get(operation_finder_tAggregateRow_3);
 
-								operation_result_tAggregateRow_3 = hash_tAggregateRow_3
-										.get(operation_finder_tAggregateRow_3);
+							boolean isFirstAdd_tAggregateRow_3 = false;
 
-								boolean isFirstAdd_tAggregateRow_3 = false;
+							if (operation_result_tAggregateRow_3 == null) { // G_OutMain_AggR_001
 
-								if (operation_result_tAggregateRow_3 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_3 = new AggOperationStruct_tAggregateRow_3();
 
-									operation_result_tAggregateRow_3 = new AggOperationStruct_tAggregateRow_3();
+								operation_result_tAggregateRow_3.history_datetime = operation_finder_tAggregateRow_3.history_datetime;
+								operation_result_tAggregateRow_3.host_interface_id = operation_finder_tAggregateRow_3.host_interface_id;
 
-									operation_result_tAggregateRow_3.history_datetime = operation_finder_tAggregateRow_3.history_datetime;
-									operation_result_tAggregateRow_3.host_interface_id = operation_finder_tAggregateRow_3.host_interface_id;
+								isFirstAdd_tAggregateRow_3 = true;
 
-									isFirstAdd_tAggregateRow_3 = true;
+								hash_tAggregateRow_3.put(
+										operation_result_tAggregateRow_3,
+										operation_result_tAggregateRow_3);
 
-									hash_tAggregateRow_3.put(
-											operation_result_tAggregateRow_3,
-											operation_result_tAggregateRow_3);
+							} // G_OutMain_AggR_001
 
-								} // G_OutMain_AggR_001
+							if (host_history_history_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
 
-								if (host_history_history_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
+								operation_result_tAggregateRow_3.receive_rate_percent_count++;
 
-									operation_result_tAggregateRow_3.receive_rate_percent_count++;
+								if (operation_result_tAggregateRow_3.receive_rate_percent_sum == null) {
+									operation_result_tAggregateRow_3.receive_rate_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_3.receive_rate_percent_sum = (double) (operation_result_tAggregateRow_3.receive_rate_percent_sum
+										.doubleValue() + host_history_history_aggregate.receive_rate_percent
+										.shortValue());
 
-									if (operation_result_tAggregateRow_3.receive_rate_percent_sum == null) {
-										operation_result_tAggregateRow_3.receive_rate_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_3.receive_rate_percent_sum = (double) (operation_result_tAggregateRow_3.receive_rate_percent_sum
-											.doubleValue() + host_history_history_aggregate.receive_rate_percent
-											.shortValue());
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (host_history_history_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
 
-								if (host_history_history_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
+								if (operation_result_tAggregateRow_3.max_receive_rate_percent_max == null
+										|| host_history_history_aggregate.receive_rate_percent > operation_result_tAggregateRow_3.max_receive_rate_percent_max
 
-									if (operation_result_tAggregateRow_3.max_receive_rate_percent_max == null
-											|| host_history_history_aggregate.receive_rate_percent > operation_result_tAggregateRow_3.max_receive_rate_percent_max
+								) {
+									operation_result_tAggregateRow_3.max_receive_rate_percent_max = host_history_history_aggregate.receive_rate_percent;
+								}
 
-									) {
-										operation_result_tAggregateRow_3.max_receive_rate_percent_max = host_history_history_aggregate.receive_rate_percent;
-									}
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (host_history_history_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
 
-								if (host_history_history_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
+								operation_result_tAggregateRow_3.transmit_rate_percent_count++;
 
-									operation_result_tAggregateRow_3.transmit_rate_percent_count++;
+								if (operation_result_tAggregateRow_3.transmit_rate_percent_sum == null) {
+									operation_result_tAggregateRow_3.transmit_rate_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_3.transmit_rate_percent_sum = (double) (operation_result_tAggregateRow_3.transmit_rate_percent_sum
+										.doubleValue() + host_history_history_aggregate.transmit_rate_percent
+										.shortValue());
 
-									if (operation_result_tAggregateRow_3.transmit_rate_percent_sum == null) {
-										operation_result_tAggregateRow_3.transmit_rate_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_3.transmit_rate_percent_sum = (double) (operation_result_tAggregateRow_3.transmit_rate_percent_sum
-											.doubleValue() + host_history_history_aggregate.transmit_rate_percent
-											.shortValue());
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (host_history_history_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
 
-								if (host_history_history_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
+								if (operation_result_tAggregateRow_3.max_transmit_rate_percent_max == null
+										|| host_history_history_aggregate.transmit_rate_percent > operation_result_tAggregateRow_3.max_transmit_rate_percent_max
 
-									if (operation_result_tAggregateRow_3.max_transmit_rate_percent_max == null
-											|| host_history_history_aggregate.transmit_rate_percent > operation_result_tAggregateRow_3.max_transmit_rate_percent_max
+								) {
+									operation_result_tAggregateRow_3.max_transmit_rate_percent_max = host_history_history_aggregate.transmit_rate_percent;
+								}
 
-									) {
-										operation_result_tAggregateRow_3.max_transmit_rate_percent_max = host_history_history_aggregate.transmit_rate_percent;
-									}
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (host_history_history_aggregate.host_interface_configuration_version != null) { // G_OutMain_AggR_546
 
-								if (host_history_history_aggregate.host_interface_configuration_version != null) { // G_OutMain_AggR_546
+								operation_result_tAggregateRow_3.host_interface_configuration_version_last = host_history_history_aggregate.host_interface_configuration_version;
 
-									operation_result_tAggregateRow_3.host_interface_configuration_version_last = host_history_history_aggregate.host_interface_configuration_version;
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							tos_count_tAggregateRow_3_AGGOUT++;
 
-								tos_count_tAggregateRow_3_AGGOUT++;
+							/**
+							 * [tAggregateRow_3_AGGOUT main ] stop
+							 */
 
-								/**
-								 * [tAggregateRow_3_AGGOUT main ] stop
-								 */
-
-							} // End of branch "host_history_history_aggregate"
-
-						} // G_TM_M_280 close main tMap filter for table 'row3'
+						} // End of branch "host_history_history_aggregate"
 
 						/**
 						 * [tJDBCInput_3 end ] start
@@ -10698,7 +10671,11 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_4 = conn_tJDBCInput_4
 						.createStatement();
 
-				String dbquery_tJDBCInput_4 = "SELECT     history_id,     history_datetime,     vm_id,     vm_status,     minutes_in_status,     cpu_usage_percent,      memory_usage_percent,     user_cpu_usage_percent,     system_cpu_usage_percent,    vm_ip,     current_user_name,     currently_running_on_host,     vm_configuration_version,     current_host_configuration_version  FROM vm_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 vm_id,  		 vm_status";
+				String dbquery_tJDBCInput_4 = "SELECT     history_id,     history_datetime,     vm_id,     vm_status,     minutes_in_status,     cpu_usage_percent,      memory_usage_percent,     user_cpu_usage_percent,     system_cpu_usage_percent,    vm_ip,     current_user_name,     currently_running_on_host,     vm_configuration_version,     current_host_configuration_version  FROM vm_hourly_history  WHERE history_datetime >= '"
+						+ context.lastDayAggr
+						+ "' AND history_datetime < '"
+						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ "'  ORDER BY history_datetime,        	 vm_id,  		 vm_status";
 
 				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
 				java.sql.ResultSet rs_tJDBCInput_4 = null;
@@ -10978,242 +10955,224 @@ public class AggregationToDaily implements TalendJob {
 						boolean rejectedInnerJoin_tMap_4 = false;
 						boolean mainRowRejected_tMap_4 = false;
 
-						if (
+						// ###############################
+						{ // start of Var scope
 
-						(
-
-						routines.RoutineHistoryETL.dateCompare(
-								row4.history_datetime,
-								routines.RoutineHistoryETL.manipulateDate(
-										routines.RoutineHistoryETL
-												.startOfDay(context.runTime),
-										-1, "dd")) < 0
-
-						)
-
-						) { // G_TM_M_280
-
-							// CALL close main tMap filter for table 'row4'
 							// ###############################
-							{ // start of Var scope
+							// # Vars tables
 
-								// ###############################
-								// # Vars tables
+							Var__tMap_4__Struct Var = Var__tMap_4;// ###############################
+							// ###############################
+							// # Output tables
 
-								Var__tMap_4__Struct Var = Var__tMap_4;// ###############################
-								// ###############################
-								// # Output tables
+							vm_aggregate_history = null;
 
-								vm_aggregate_history = null;
+							// # Output table : 'vm_aggregate_history'
+							vm_aggregate_history_tmp.history_datetime = RoutineHistoryETL
+									.startOfDay(row4.history_datetime);
+							vm_aggregate_history_tmp.vm_id = row4.vm_id;
+							vm_aggregate_history_tmp.vm_status = row4.vm_status;
+							vm_aggregate_history_tmp.minutes_in_status = row4.minutes_in_status;
+							vm_aggregate_history_tmp.cpu_usage_percent = row4.cpu_usage_percent;
+							vm_aggregate_history_tmp.memory_usage_percent = row4.memory_usage_percent;
+							vm_aggregate_history_tmp.user_cpu_usage_percent = row4.user_cpu_usage_percent;
+							vm_aggregate_history_tmp.system_cpu_usage_percent = row4.system_cpu_usage_percent;
+							vm_aggregate_history_tmp.vm_ip = row4.vm_ip;
+							vm_aggregate_history_tmp.current_user_name = row4.current_user_name;
+							vm_aggregate_history_tmp.currently_running_on_host = row4.currently_running_on_host;
+							vm_aggregate_history_tmp.vm_configuration_version = row4.vm_configuration_version;
+							vm_aggregate_history_tmp.current_host_configuration_version = row4.current_host_configuration_version;
+							vm_aggregate_history = vm_aggregate_history_tmp;
+							// ###############################
 
-								// # Output table : 'vm_aggregate_history'
-								vm_aggregate_history_tmp.history_datetime = RoutineHistoryETL
-										.startOfDay(row4.history_datetime);
-								vm_aggregate_history_tmp.vm_id = row4.vm_id;
-								vm_aggregate_history_tmp.vm_status = row4.vm_status;
-								vm_aggregate_history_tmp.minutes_in_status = row4.minutes_in_status;
-								vm_aggregate_history_tmp.cpu_usage_percent = row4.cpu_usage_percent;
-								vm_aggregate_history_tmp.memory_usage_percent = row4.memory_usage_percent;
-								vm_aggregate_history_tmp.user_cpu_usage_percent = row4.user_cpu_usage_percent;
-								vm_aggregate_history_tmp.system_cpu_usage_percent = row4.system_cpu_usage_percent;
-								vm_aggregate_history_tmp.vm_ip = row4.vm_ip;
-								vm_aggregate_history_tmp.current_user_name = row4.current_user_name;
-								vm_aggregate_history_tmp.currently_running_on_host = row4.currently_running_on_host;
-								vm_aggregate_history_tmp.vm_configuration_version = row4.vm_configuration_version;
-								vm_aggregate_history_tmp.current_host_configuration_version = row4.current_host_configuration_version;
-								vm_aggregate_history = vm_aggregate_history_tmp;
-								// ###############################
+						} // end of Var scope
 
-							} // end of Var scope
+						rejectedInnerJoin_tMap_4 = false;
 
-							rejectedInnerJoin_tMap_4 = false;
+						tos_count_tMap_4++;
 
-							tos_count_tMap_4++;
+						/**
+						 * [tMap_4 main ] stop
+						 */
+						// Start of branch "vm_aggregate_history"
+						if (vm_aggregate_history != null) {
 
 							/**
-							 * [tMap_4 main ] stop
+							 * [tAggregateRow_4_AGGOUT main ] start
 							 */
-							// Start of branch "vm_aggregate_history"
-							if (vm_aggregate_history != null) {
 
-								/**
-								 * [tAggregateRow_4_AGGOUT main ] start
-								 */
+							currentVirtualComponent = "tAggregateRow_4";
 
-								currentVirtualComponent = "tAggregateRow_4";
+							currentComponent = "tAggregateRow_4_AGGOUT";
 
-								currentComponent = "tAggregateRow_4_AGGOUT";
+							operation_finder_tAggregateRow_4.history_datetime = vm_aggregate_history.history_datetime;
+							operation_finder_tAggregateRow_4.vm_id = vm_aggregate_history.vm_id;
+							operation_finder_tAggregateRow_4.vm_status = vm_aggregate_history.vm_status;
 
-								operation_finder_tAggregateRow_4.history_datetime = vm_aggregate_history.history_datetime;
-								operation_finder_tAggregateRow_4.vm_id = vm_aggregate_history.vm_id;
-								operation_finder_tAggregateRow_4.vm_status = vm_aggregate_history.vm_status;
+							operation_finder_tAggregateRow_4.hashCodeDirty = true;
 
-								operation_finder_tAggregateRow_4.hashCodeDirty = true;
+							operation_result_tAggregateRow_4 = hash_tAggregateRow_4
+									.get(operation_finder_tAggregateRow_4);
 
-								operation_result_tAggregateRow_4 = hash_tAggregateRow_4
-										.get(operation_finder_tAggregateRow_4);
+							boolean isFirstAdd_tAggregateRow_4 = false;
 
-								boolean isFirstAdd_tAggregateRow_4 = false;
+							if (operation_result_tAggregateRow_4 == null) { // G_OutMain_AggR_001
 
-								if (operation_result_tAggregateRow_4 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_4 = new AggOperationStruct_tAggregateRow_4();
 
-									operation_result_tAggregateRow_4 = new AggOperationStruct_tAggregateRow_4();
+								operation_result_tAggregateRow_4.history_datetime = operation_finder_tAggregateRow_4.history_datetime;
+								operation_result_tAggregateRow_4.vm_id = operation_finder_tAggregateRow_4.vm_id;
+								operation_result_tAggregateRow_4.vm_status = operation_finder_tAggregateRow_4.vm_status;
 
-									operation_result_tAggregateRow_4.history_datetime = operation_finder_tAggregateRow_4.history_datetime;
-									operation_result_tAggregateRow_4.vm_id = operation_finder_tAggregateRow_4.vm_id;
-									operation_result_tAggregateRow_4.vm_status = operation_finder_tAggregateRow_4.vm_status;
+								isFirstAdd_tAggregateRow_4 = true;
 
-									isFirstAdd_tAggregateRow_4 = true;
+								hash_tAggregateRow_4.put(
+										operation_result_tAggregateRow_4,
+										operation_result_tAggregateRow_4);
 
-									hash_tAggregateRow_4.put(
-											operation_result_tAggregateRow_4,
-											operation_result_tAggregateRow_4);
+							} // G_OutMain_AggR_001
 
-								} // G_OutMain_AggR_001
+							if (operation_result_tAggregateRow_4.minutes_in_status_sum == null) {
+								operation_result_tAggregateRow_4.minutes_in_status_sum = new BigDecimal(
+										0).setScale(0);
+							}
+							operation_result_tAggregateRow_4.minutes_in_status_sum = operation_result_tAggregateRow_4.minutes_in_status_sum
+									.add(new BigDecimal(
+											String.valueOf(vm_aggregate_history.minutes_in_status)));
 
-								if (operation_result_tAggregateRow_4.minutes_in_status_sum == null) {
-									operation_result_tAggregateRow_4.minutes_in_status_sum = new BigDecimal(
-											0).setScale(0);
+							if (vm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_4.cpu_usage_percent_count++;
+
+								if (operation_result_tAggregateRow_4.cpu_usage_percent_sum == null) {
+									operation_result_tAggregateRow_4.cpu_usage_percent_sum = (double) 0;
 								}
-								operation_result_tAggregateRow_4.minutes_in_status_sum = operation_result_tAggregateRow_4.minutes_in_status_sum
-										.add(new BigDecimal(
-												String.valueOf(vm_aggregate_history.minutes_in_status)));
+								operation_result_tAggregateRow_4.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_4.cpu_usage_percent_sum
+										.doubleValue() + vm_aggregate_history.cpu_usage_percent
+										.shortValue());
 
-								if (vm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									operation_result_tAggregateRow_4.cpu_usage_percent_count++;
+							if (vm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_4.cpu_usage_percent_sum == null) {
-										operation_result_tAggregateRow_4.cpu_usage_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_4.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_4.cpu_usage_percent_sum
-											.doubleValue() + vm_aggregate_history.cpu_usage_percent
-											.shortValue());
+								if (operation_result_tAggregateRow_4.max_cpu_usage_max == null
+										|| vm_aggregate_history.cpu_usage_percent > operation_result_tAggregateRow_4.max_cpu_usage_max
 
-								} // G_OutMain_AggR_546
+								) {
+									operation_result_tAggregateRow_4.max_cpu_usage_max = vm_aggregate_history.cpu_usage_percent;
+								}
 
-								if (vm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_4.max_cpu_usage_max == null
-											|| vm_aggregate_history.cpu_usage_percent > operation_result_tAggregateRow_4.max_cpu_usage_max
+							if (vm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
 
-									) {
-										operation_result_tAggregateRow_4.max_cpu_usage_max = vm_aggregate_history.cpu_usage_percent;
-									}
+								operation_result_tAggregateRow_4.memory_usage_percent_count++;
 
-								} // G_OutMain_AggR_546
+								if (operation_result_tAggregateRow_4.memory_usage_percent_sum == null) {
+									operation_result_tAggregateRow_4.memory_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_4.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_4.memory_usage_percent_sum
+										.doubleValue() + vm_aggregate_history.memory_usage_percent
+										.shortValue());
 
-								if (vm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									operation_result_tAggregateRow_4.memory_usage_percent_count++;
+							if (vm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_4.memory_usage_percent_sum == null) {
-										operation_result_tAggregateRow_4.memory_usage_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_4.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_4.memory_usage_percent_sum
-											.doubleValue() + vm_aggregate_history.memory_usage_percent
-											.shortValue());
+								if (operation_result_tAggregateRow_4.max_memory_usage_max == null
+										|| vm_aggregate_history.memory_usage_percent > operation_result_tAggregateRow_4.max_memory_usage_max
 
-								} // G_OutMain_AggR_546
+								) {
+									operation_result_tAggregateRow_4.max_memory_usage_max = vm_aggregate_history.memory_usage_percent;
+								}
 
-								if (vm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_4.max_memory_usage_max == null
-											|| vm_aggregate_history.memory_usage_percent > operation_result_tAggregateRow_4.max_memory_usage_max
+							if (vm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-									) {
-										operation_result_tAggregateRow_4.max_memory_usage_max = vm_aggregate_history.memory_usage_percent;
-									}
+								operation_result_tAggregateRow_4.user_cpu_usage_percent_count++;
 
-								} // G_OutMain_AggR_546
+								if (operation_result_tAggregateRow_4.user_cpu_usage_percent_sum == null) {
+									operation_result_tAggregateRow_4.user_cpu_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_4.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_4.user_cpu_usage_percent_sum
+										.doubleValue() + vm_aggregate_history.user_cpu_usage_percent
+										.shortValue());
 
-								if (vm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									operation_result_tAggregateRow_4.user_cpu_usage_percent_count++;
+							if (vm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_4.user_cpu_usage_percent_sum == null) {
-										operation_result_tAggregateRow_4.user_cpu_usage_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_4.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_4.user_cpu_usage_percent_sum
-											.doubleValue() + vm_aggregate_history.user_cpu_usage_percent
-											.shortValue());
+								if (operation_result_tAggregateRow_4.max_user_cpu_usage_percent_max == null
+										|| vm_aggregate_history.user_cpu_usage_percent > operation_result_tAggregateRow_4.max_user_cpu_usage_percent_max
 
-								} // G_OutMain_AggR_546
+								) {
+									operation_result_tAggregateRow_4.max_user_cpu_usage_percent_max = vm_aggregate_history.user_cpu_usage_percent;
+								}
 
-								if (vm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_4.max_user_cpu_usage_percent_max == null
-											|| vm_aggregate_history.user_cpu_usage_percent > operation_result_tAggregateRow_4.max_user_cpu_usage_percent_max
+							if (vm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-									) {
-										operation_result_tAggregateRow_4.max_user_cpu_usage_percent_max = vm_aggregate_history.user_cpu_usage_percent;
-									}
+								operation_result_tAggregateRow_4.system_cpu_usage_percent_count++;
 
-								} // G_OutMain_AggR_546
+								if (operation_result_tAggregateRow_4.system_cpu_usage_percent_sum == null) {
+									operation_result_tAggregateRow_4.system_cpu_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_4.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_4.system_cpu_usage_percent_sum
+										.doubleValue() + vm_aggregate_history.system_cpu_usage_percent
+										.shortValue());
 
-								if (vm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									operation_result_tAggregateRow_4.system_cpu_usage_percent_count++;
+							if (vm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_4.system_cpu_usage_percent_sum == null) {
-										operation_result_tAggregateRow_4.system_cpu_usage_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_4.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_4.system_cpu_usage_percent_sum
-											.doubleValue() + vm_aggregate_history.system_cpu_usage_percent
-											.shortValue());
+								if (operation_result_tAggregateRow_4.max_system_cpu_usage_percent_max == null
+										|| vm_aggregate_history.system_cpu_usage_percent > operation_result_tAggregateRow_4.max_system_cpu_usage_percent_max
 
-								} // G_OutMain_AggR_546
+								) {
+									operation_result_tAggregateRow_4.max_system_cpu_usage_percent_max = vm_aggregate_history.system_cpu_usage_percent;
+								}
 
-								if (vm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_4.max_system_cpu_usage_percent_max == null
-											|| vm_aggregate_history.system_cpu_usage_percent > operation_result_tAggregateRow_4.max_system_cpu_usage_percent_max
+							if (vm_aggregate_history.vm_ip != null) { // G_OutMain_AggR_546
 
-									) {
-										operation_result_tAggregateRow_4.max_system_cpu_usage_percent_max = vm_aggregate_history.system_cpu_usage_percent;
-									}
+								operation_result_tAggregateRow_4.vm_ip_last = vm_aggregate_history.vm_ip;
 
-								} // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-								if (vm_aggregate_history.vm_ip != null) { // G_OutMain_AggR_546
+							if (vm_aggregate_history.current_user_name != null) { // G_OutMain_AggR_546
 
-									operation_result_tAggregateRow_4.vm_ip_last = vm_aggregate_history.vm_ip;
+								operation_result_tAggregateRow_4.current_user_name_last = vm_aggregate_history.current_user_name;
 
-								} // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-								if (vm_aggregate_history.current_user_name != null) { // G_OutMain_AggR_546
+							if (vm_aggregate_history.currently_running_on_host != null) { // G_OutMain_AggR_546
 
-									operation_result_tAggregateRow_4.current_user_name_last = vm_aggregate_history.current_user_name;
+								operation_result_tAggregateRow_4.currently_running_on_host_last = vm_aggregate_history.currently_running_on_host;
 
-								} // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-								if (vm_aggregate_history.currently_running_on_host != null) { // G_OutMain_AggR_546
+							if (vm_aggregate_history.vm_configuration_version != null) { // G_OutMain_AggR_546
 
-									operation_result_tAggregateRow_4.currently_running_on_host_last = vm_aggregate_history.currently_running_on_host;
+								operation_result_tAggregateRow_4.vm_configuration_version_last = vm_aggregate_history.vm_configuration_version;
 
-								} // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-								if (vm_aggregate_history.vm_configuration_version != null) { // G_OutMain_AggR_546
+							if (vm_aggregate_history.current_host_configuration_version != null) { // G_OutMain_AggR_546
 
-									operation_result_tAggregateRow_4.vm_configuration_version_last = vm_aggregate_history.vm_configuration_version;
+								operation_result_tAggregateRow_4.current_host_configuration_version_last = vm_aggregate_history.current_host_configuration_version;
 
-								} // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-								if (vm_aggregate_history.current_host_configuration_version != null) { // G_OutMain_AggR_546
+							tos_count_tAggregateRow_4_AGGOUT++;
 
-									operation_result_tAggregateRow_4.current_host_configuration_version_last = vm_aggregate_history.current_host_configuration_version;
+							/**
+							 * [tAggregateRow_4_AGGOUT main ] stop
+							 */
 
-								} // G_OutMain_AggR_546
-
-								tos_count_tAggregateRow_4_AGGOUT++;
-
-								/**
-								 * [tAggregateRow_4_AGGOUT main ] stop
-								 */
-
-							} // End of branch "vm_aggregate_history"
-
-						} // G_TM_M_280 close main tMap filter for table 'row4'
+						} // End of branch "vm_aggregate_history"
 
 						/**
 						 * [tJDBCInput_4 end ] start
@@ -13035,7 +12994,11 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_5 = conn_tJDBCInput_5
 						.createStatement();
 
-				String dbquery_tJDBCInput_5 = "SELECT     history_id,     history_datetime,     vm_interface_id,     receive_rate_percent,      transmit_rate_percent,      vm_interface_configuration_version  FROM vm_interface_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,  		 vm_interface_id";
+				String dbquery_tJDBCInput_5 = "SELECT     history_id,     history_datetime,     vm_interface_id,     receive_rate_percent,      transmit_rate_percent,      vm_interface_configuration_version  FROM vm_interface_hourly_history  WHERE history_datetime >= '"
+						+ context.lastDayAggr
+						+ "' AND history_datetime < '"
+						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ "'  ORDER BY history_datetime,  		 vm_interface_id";
 
 				globalMap.put("tJDBCInput_5_QUERY", dbquery_tJDBCInput_5);
 				java.sql.ResultSet rs_tJDBCInput_5 = null;
@@ -13183,152 +13146,134 @@ public class AggregationToDaily implements TalendJob {
 						boolean rejectedInnerJoin_tMap_5 = false;
 						boolean mainRowRejected_tMap_5 = false;
 
-						if (
+						// ###############################
+						{ // start of Var scope
 
-						(
-
-						routines.RoutineHistoryETL.dateCompare(
-								row5.history_datetime,
-								routines.RoutineHistoryETL.manipulateDate(
-										routines.RoutineHistoryETL
-												.startOfDay(context.runTime),
-										-1, "dd")) < 0
-
-						)
-
-						) { // G_TM_M_280
-
-							// CALL close main tMap filter for table 'row5'
 							// ###############################
-							{ // start of Var scope
+							// # Vars tables
 
-								// ###############################
-								// # Vars tables
+							Var__tMap_5__Struct Var = Var__tMap_5;// ###############################
+							// ###############################
+							// # Output tables
 
-								Var__tMap_5__Struct Var = Var__tMap_5;// ###############################
-								// ###############################
-								// # Output tables
+							vm_interface_aggregate = null;
 
-								vm_interface_aggregate = null;
+							// # Output table : 'vm_interface_aggregate'
+							vm_interface_aggregate_tmp.history_datetime = RoutineHistoryETL
+									.startOfDay(row5.history_datetime);
+							vm_interface_aggregate_tmp.vm_interface_id = row5.vm_interface_id;
+							vm_interface_aggregate_tmp.receive_rate_percent = row5.receive_rate_percent;
+							vm_interface_aggregate_tmp.transmit_rate_percent = row5.transmit_rate_percent;
+							vm_interface_aggregate_tmp.vm_interface_configuration_version = row5.vm_interface_configuration_version;
+							vm_interface_aggregate = vm_interface_aggregate_tmp;
+							// ###############################
 
-								// # Output table : 'vm_interface_aggregate'
-								vm_interface_aggregate_tmp.history_datetime = RoutineHistoryETL
-										.startOfDay(row5.history_datetime);
-								vm_interface_aggregate_tmp.vm_interface_id = row5.vm_interface_id;
-								vm_interface_aggregate_tmp.receive_rate_percent = row5.receive_rate_percent;
-								vm_interface_aggregate_tmp.transmit_rate_percent = row5.transmit_rate_percent;
-								vm_interface_aggregate_tmp.vm_interface_configuration_version = row5.vm_interface_configuration_version;
-								vm_interface_aggregate = vm_interface_aggregate_tmp;
-								// ###############################
+						} // end of Var scope
 
-							} // end of Var scope
+						rejectedInnerJoin_tMap_5 = false;
 
-							rejectedInnerJoin_tMap_5 = false;
+						tos_count_tMap_5++;
 
-							tos_count_tMap_5++;
+						/**
+						 * [tMap_5 main ] stop
+						 */
+						// Start of branch "vm_interface_aggregate"
+						if (vm_interface_aggregate != null) {
 
 							/**
-							 * [tMap_5 main ] stop
+							 * [tAggregateRow_5_AGGOUT main ] start
 							 */
-							// Start of branch "vm_interface_aggregate"
-							if (vm_interface_aggregate != null) {
 
-								/**
-								 * [tAggregateRow_5_AGGOUT main ] start
-								 */
+							currentVirtualComponent = "tAggregateRow_5";
 
-								currentVirtualComponent = "tAggregateRow_5";
+							currentComponent = "tAggregateRow_5_AGGOUT";
 
-								currentComponent = "tAggregateRow_5_AGGOUT";
+							operation_finder_tAggregateRow_5.history_datetime = vm_interface_aggregate.history_datetime;
+							operation_finder_tAggregateRow_5.vm_interface_id = vm_interface_aggregate.vm_interface_id;
 
-								operation_finder_tAggregateRow_5.history_datetime = vm_interface_aggregate.history_datetime;
-								operation_finder_tAggregateRow_5.vm_interface_id = vm_interface_aggregate.vm_interface_id;
+							operation_finder_tAggregateRow_5.hashCodeDirty = true;
 
-								operation_finder_tAggregateRow_5.hashCodeDirty = true;
+							operation_result_tAggregateRow_5 = hash_tAggregateRow_5
+									.get(operation_finder_tAggregateRow_5);
 
-								operation_result_tAggregateRow_5 = hash_tAggregateRow_5
-										.get(operation_finder_tAggregateRow_5);
+							boolean isFirstAdd_tAggregateRow_5 = false;
 
-								boolean isFirstAdd_tAggregateRow_5 = false;
+							if (operation_result_tAggregateRow_5 == null) { // G_OutMain_AggR_001
 
-								if (operation_result_tAggregateRow_5 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_5 = new AggOperationStruct_tAggregateRow_5();
 
-									operation_result_tAggregateRow_5 = new AggOperationStruct_tAggregateRow_5();
+								operation_result_tAggregateRow_5.history_datetime = operation_finder_tAggregateRow_5.history_datetime;
+								operation_result_tAggregateRow_5.vm_interface_id = operation_finder_tAggregateRow_5.vm_interface_id;
 
-									operation_result_tAggregateRow_5.history_datetime = operation_finder_tAggregateRow_5.history_datetime;
-									operation_result_tAggregateRow_5.vm_interface_id = operation_finder_tAggregateRow_5.vm_interface_id;
+								isFirstAdd_tAggregateRow_5 = true;
 
-									isFirstAdd_tAggregateRow_5 = true;
+								hash_tAggregateRow_5.put(
+										operation_result_tAggregateRow_5,
+										operation_result_tAggregateRow_5);
 
-									hash_tAggregateRow_5.put(
-											operation_result_tAggregateRow_5,
-											operation_result_tAggregateRow_5);
+							} // G_OutMain_AggR_001
 
-								} // G_OutMain_AggR_001
+							if (vm_interface_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
 
-								if (vm_interface_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
+								operation_result_tAggregateRow_5.receive_rate_percent_count++;
 
-									operation_result_tAggregateRow_5.receive_rate_percent_count++;
+								if (operation_result_tAggregateRow_5.receive_rate_percent_sum == null) {
+									operation_result_tAggregateRow_5.receive_rate_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_5.receive_rate_percent_sum = (double) (operation_result_tAggregateRow_5.receive_rate_percent_sum
+										.doubleValue() + vm_interface_aggregate.receive_rate_percent
+										.shortValue());
 
-									if (operation_result_tAggregateRow_5.receive_rate_percent_sum == null) {
-										operation_result_tAggregateRow_5.receive_rate_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_5.receive_rate_percent_sum = (double) (operation_result_tAggregateRow_5.receive_rate_percent_sum
-											.doubleValue() + vm_interface_aggregate.receive_rate_percent
-											.shortValue());
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_interface_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
 
-								if (vm_interface_aggregate.receive_rate_percent != null) { // G_OutMain_AggR_546
+								if (operation_result_tAggregateRow_5.max_receive_rate_percent_max == null
+										|| vm_interface_aggregate.receive_rate_percent > operation_result_tAggregateRow_5.max_receive_rate_percent_max
 
-									if (operation_result_tAggregateRow_5.max_receive_rate_percent_max == null
-											|| vm_interface_aggregate.receive_rate_percent > operation_result_tAggregateRow_5.max_receive_rate_percent_max
+								) {
+									operation_result_tAggregateRow_5.max_receive_rate_percent_max = vm_interface_aggregate.receive_rate_percent;
+								}
 
-									) {
-										operation_result_tAggregateRow_5.max_receive_rate_percent_max = vm_interface_aggregate.receive_rate_percent;
-									}
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_interface_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
 
-								if (vm_interface_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
+								operation_result_tAggregateRow_5.transmit_rate_percent_count++;
 
-									operation_result_tAggregateRow_5.transmit_rate_percent_count++;
+								if (operation_result_tAggregateRow_5.transmit_rate_percent_sum == null) {
+									operation_result_tAggregateRow_5.transmit_rate_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_5.transmit_rate_percent_sum = (double) (operation_result_tAggregateRow_5.transmit_rate_percent_sum
+										.doubleValue() + vm_interface_aggregate.transmit_rate_percent
+										.shortValue());
 
-									if (operation_result_tAggregateRow_5.transmit_rate_percent_sum == null) {
-										operation_result_tAggregateRow_5.transmit_rate_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_5.transmit_rate_percent_sum = (double) (operation_result_tAggregateRow_5.transmit_rate_percent_sum
-											.doubleValue() + vm_interface_aggregate.transmit_rate_percent
-											.shortValue());
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_interface_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
 
-								if (vm_interface_aggregate.transmit_rate_percent != null) { // G_OutMain_AggR_546
+								if (operation_result_tAggregateRow_5.max_transmit_rate_percent_max == null
+										|| vm_interface_aggregate.transmit_rate_percent > operation_result_tAggregateRow_5.max_transmit_rate_percent_max
 
-									if (operation_result_tAggregateRow_5.max_transmit_rate_percent_max == null
-											|| vm_interface_aggregate.transmit_rate_percent > operation_result_tAggregateRow_5.max_transmit_rate_percent_max
+								) {
+									operation_result_tAggregateRow_5.max_transmit_rate_percent_max = vm_interface_aggregate.transmit_rate_percent;
+								}
 
-									) {
-										operation_result_tAggregateRow_5.max_transmit_rate_percent_max = vm_interface_aggregate.transmit_rate_percent;
-									}
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_interface_aggregate.vm_interface_configuration_version != null) { // G_OutMain_AggR_546
 
-								if (vm_interface_aggregate.vm_interface_configuration_version != null) { // G_OutMain_AggR_546
+								operation_result_tAggregateRow_5.vm_interface_configuration_version_last = vm_interface_aggregate.vm_interface_configuration_version;
 
-									operation_result_tAggregateRow_5.vm_interface_configuration_version_last = vm_interface_aggregate.vm_interface_configuration_version;
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							tos_count_tAggregateRow_5_AGGOUT++;
 
-								tos_count_tAggregateRow_5_AGGOUT++;
+							/**
+							 * [tAggregateRow_5_AGGOUT main ] stop
+							 */
 
-								/**
-								 * [tAggregateRow_5_AGGOUT main ] stop
-								 */
-
-							} // End of branch "vm_interface_aggregate"
-
-						} // G_TM_M_280 close main tMap filter for table 'row5'
+						} // End of branch "vm_interface_aggregate"
 
 						/**
 						 * [tJDBCInput_5 end ] start
@@ -14979,7 +14924,11 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_11 = conn_tJDBCInput_11
 						.createStatement();
 
-				String dbquery_tJDBCInput_11 = "SELECT     history_id,     history_datetime,     storage_domain_id,    storage_domain_status,   minutes_in_status,    available_disk_size_gb,     used_disk_size_gb,     storage_configuration_version  FROM storage_domain_hourly_history  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 storage_domain_id";
+				String dbquery_tJDBCInput_11 = "SELECT     history_id,     history_datetime,     storage_domain_id,    storage_domain_status,   minutes_in_status,    available_disk_size_gb,     used_disk_size_gb,     storage_configuration_version  FROM storage_domain_hourly_history  WHERE history_datetime >= '"
+						+ context.lastDayAggr
+						+ "' AND history_datetime < '"
+						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ "'  ORDER BY history_datetime,        	 storage_domain_id";
 
 				globalMap.put("tJDBCInput_11_QUERY", dbquery_tJDBCInput_11);
 				java.sql.ResultSet rs_tJDBCInput_11 = null;
@@ -15163,138 +15112,120 @@ public class AggregationToDaily implements TalendJob {
 						boolean rejectedInnerJoin_tMap_11 = false;
 						boolean mainRowRejected_tMap_11 = false;
 
-						if (
+						// ###############################
+						{ // start of Var scope
 
-						(
-
-						routines.RoutineHistoryETL.dateCompare(
-								row16.history_datetime,
-								routines.RoutineHistoryETL.manipulateDate(
-										routines.RoutineHistoryETL
-												.startOfDay(context.runTime),
-										-1, "dd")) < 0
-
-						)
-
-						) { // G_TM_M_280
-
-							// CALL close main tMap filter for table 'row16'
 							// ###############################
-							{ // start of Var scope
+							// # Vars tables
 
-								// ###############################
-								// # Vars tables
+							Var__tMap_11__Struct Var = Var__tMap_11;// ###############################
+							// ###############################
+							// # Output tables
 
-								Var__tMap_11__Struct Var = Var__tMap_11;// ###############################
-								// ###############################
-								// # Output tables
+							storage_aggregate = null;
 
-								storage_aggregate = null;
+							// # Output table : 'storage_aggregate'
+							storage_aggregate_tmp.history_datetime = RoutineHistoryETL
+									.startOfDay(row16.history_datetime);
+							storage_aggregate_tmp.storage_domain_id = row16.storage_domain_id;
+							storage_aggregate_tmp.storage_domain_status = row16.storage_domain_status;
+							storage_aggregate_tmp.minutes_in_status = row16.minutes_in_status;
+							storage_aggregate_tmp.available_disk_size_gb = row16.available_disk_size_gb;
+							storage_aggregate_tmp.used_disk_size_gb = row16.used_disk_size_gb;
+							storage_aggregate_tmp.storage_configuration_version = row16.storage_configuration_version;
+							storage_aggregate = storage_aggregate_tmp;
+							// ###############################
 
-								// # Output table : 'storage_aggregate'
-								storage_aggregate_tmp.history_datetime = RoutineHistoryETL
-										.startOfDay(row16.history_datetime);
-								storage_aggregate_tmp.storage_domain_id = row16.storage_domain_id;
-								storage_aggregate_tmp.storage_domain_status = row16.storage_domain_status;
-								storage_aggregate_tmp.minutes_in_status = row16.minutes_in_status;
-								storage_aggregate_tmp.available_disk_size_gb = row16.available_disk_size_gb;
-								storage_aggregate_tmp.used_disk_size_gb = row16.used_disk_size_gb;
-								storage_aggregate_tmp.storage_configuration_version = row16.storage_configuration_version;
-								storage_aggregate = storage_aggregate_tmp;
-								// ###############################
+						} // end of Var scope
 
-							} // end of Var scope
+						rejectedInnerJoin_tMap_11 = false;
 
-							rejectedInnerJoin_tMap_11 = false;
+						tos_count_tMap_11++;
 
-							tos_count_tMap_11++;
+						/**
+						 * [tMap_11 main ] stop
+						 */
+						// Start of branch "storage_aggregate"
+						if (storage_aggregate != null) {
 
 							/**
-							 * [tMap_11 main ] stop
+							 * [tAggregateRow_6_AGGOUT main ] start
 							 */
-							// Start of branch "storage_aggregate"
-							if (storage_aggregate != null) {
 
-								/**
-								 * [tAggregateRow_6_AGGOUT main ] start
-								 */
+							currentVirtualComponent = "tAggregateRow_6";
 
-								currentVirtualComponent = "tAggregateRow_6";
+							currentComponent = "tAggregateRow_6_AGGOUT";
 
-								currentComponent = "tAggregateRow_6_AGGOUT";
+							operation_finder_tAggregateRow_6.history_datetime = storage_aggregate.history_datetime;
+							operation_finder_tAggregateRow_6.storage_domain_id = storage_aggregate.storage_domain_id;
+							operation_finder_tAggregateRow_6.storage_domain_status = storage_aggregate.storage_domain_status;
 
-								operation_finder_tAggregateRow_6.history_datetime = storage_aggregate.history_datetime;
-								operation_finder_tAggregateRow_6.storage_domain_id = storage_aggregate.storage_domain_id;
-								operation_finder_tAggregateRow_6.storage_domain_status = storage_aggregate.storage_domain_status;
+							operation_finder_tAggregateRow_6.hashCodeDirty = true;
 
-								operation_finder_tAggregateRow_6.hashCodeDirty = true;
+							operation_result_tAggregateRow_6 = hash_tAggregateRow_6
+									.get(operation_finder_tAggregateRow_6);
 
-								operation_result_tAggregateRow_6 = hash_tAggregateRow_6
-										.get(operation_finder_tAggregateRow_6);
+							boolean isFirstAdd_tAggregateRow_6 = false;
 
-								boolean isFirstAdd_tAggregateRow_6 = false;
+							if (operation_result_tAggregateRow_6 == null) { // G_OutMain_AggR_001
 
-								if (operation_result_tAggregateRow_6 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_6 = new AggOperationStruct_tAggregateRow_6();
 
-									operation_result_tAggregateRow_6 = new AggOperationStruct_tAggregateRow_6();
+								operation_result_tAggregateRow_6.history_datetime = operation_finder_tAggregateRow_6.history_datetime;
+								operation_result_tAggregateRow_6.storage_domain_id = operation_finder_tAggregateRow_6.storage_domain_id;
+								operation_result_tAggregateRow_6.storage_domain_status = operation_finder_tAggregateRow_6.storage_domain_status;
 
-									operation_result_tAggregateRow_6.history_datetime = operation_finder_tAggregateRow_6.history_datetime;
-									operation_result_tAggregateRow_6.storage_domain_id = operation_finder_tAggregateRow_6.storage_domain_id;
-									operation_result_tAggregateRow_6.storage_domain_status = operation_finder_tAggregateRow_6.storage_domain_status;
+								isFirstAdd_tAggregateRow_6 = true;
 
-									isFirstAdd_tAggregateRow_6 = true;
+								hash_tAggregateRow_6.put(
+										operation_result_tAggregateRow_6,
+										operation_result_tAggregateRow_6);
 
-									hash_tAggregateRow_6.put(
-											operation_result_tAggregateRow_6,
-											operation_result_tAggregateRow_6);
+							} // G_OutMain_AggR_001
 
-								} // G_OutMain_AggR_001
+							if (operation_result_tAggregateRow_6.minutes_in_status_sum == null) {
+								operation_result_tAggregateRow_6.minutes_in_status_sum = new BigDecimal(
+										0).setScale(0);
+							}
+							operation_result_tAggregateRow_6.minutes_in_status_sum = operation_result_tAggregateRow_6.minutes_in_status_sum
+									.add(new BigDecimal(
+											String.valueOf(storage_aggregate.minutes_in_status)));
 
-								if (operation_result_tAggregateRow_6.minutes_in_status_sum == null) {
-									operation_result_tAggregateRow_6.minutes_in_status_sum = new BigDecimal(
-											0).setScale(0);
+							if (storage_aggregate.available_disk_size_gb != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_6.available_disk_size_gb_max == null
+										|| storage_aggregate.available_disk_size_gb > operation_result_tAggregateRow_6.available_disk_size_gb_max
+
+								) {
+									operation_result_tAggregateRow_6.available_disk_size_gb_max = storage_aggregate.available_disk_size_gb;
 								}
-								operation_result_tAggregateRow_6.minutes_in_status_sum = operation_result_tAggregateRow_6.minutes_in_status_sum
-										.add(new BigDecimal(
-												String.valueOf(storage_aggregate.minutes_in_status)));
 
-								if (storage_aggregate.available_disk_size_gb != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_6.available_disk_size_gb_max == null
-											|| storage_aggregate.available_disk_size_gb > operation_result_tAggregateRow_6.available_disk_size_gb_max
+							if (storage_aggregate.used_disk_size_gb != null) { // G_OutMain_AggR_546
 
-									) {
-										operation_result_tAggregateRow_6.available_disk_size_gb_max = storage_aggregate.available_disk_size_gb;
-									}
+								if (operation_result_tAggregateRow_6.used_disk_size_gb_max == null
+										|| storage_aggregate.used_disk_size_gb > operation_result_tAggregateRow_6.used_disk_size_gb_max
 
-								} // G_OutMain_AggR_546
+								) {
+									operation_result_tAggregateRow_6.used_disk_size_gb_max = storage_aggregate.used_disk_size_gb;
+								}
 
-								if (storage_aggregate.used_disk_size_gb != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_6.used_disk_size_gb_max == null
-											|| storage_aggregate.used_disk_size_gb > operation_result_tAggregateRow_6.used_disk_size_gb_max
+							if (storage_aggregate.storage_configuration_version != null) { // G_OutMain_AggR_546
 
-									) {
-										operation_result_tAggregateRow_6.used_disk_size_gb_max = storage_aggregate.used_disk_size_gb;
-									}
+								operation_result_tAggregateRow_6.storage_configuration_version_last = storage_aggregate.storage_configuration_version;
 
-								} // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-								if (storage_aggregate.storage_configuration_version != null) { // G_OutMain_AggR_546
+							tos_count_tAggregateRow_6_AGGOUT++;
 
-									operation_result_tAggregateRow_6.storage_configuration_version_last = storage_aggregate.storage_configuration_version;
+							/**
+							 * [tAggregateRow_6_AGGOUT main ] stop
+							 */
 
-								} // G_OutMain_AggR_546
-
-								tos_count_tAggregateRow_6_AGGOUT++;
-
-								/**
-								 * [tAggregateRow_6_AGGOUT main ] stop
-								 */
-
-							} // End of branch "storage_aggregate"
-
-						} // G_TM_M_280 close main tMap filter for table 'row16'
+						} // End of branch "storage_aggregate"
 
 						/**
 						 * [tJDBCInput_11 end ] start
@@ -17689,7 +17620,11 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_13 = conn_tJDBCInput_13
 						.createStatement();
 
-				String dbquery_tJDBCInput_13 = "SELECT history_datetime, 		vm_disk_id,         image_id, 		vm_disk_status,  		minutes_in_status, 		vm_disk_actual_size_mb, 		read_rate_bytes_per_second, 		read_latency_seconds, 		write_rate_bytes_per_second, 		write_latency_seconds, 		flush_latency_seconds, 		vm_disk_configuration_version  FROM vm_disk_hourly_history WHERE history_datetime >= (SELECT var_datetime 						   FROM history_configuration 						   WHERE var_name = 'lastDayAggr') ORDER BY history_datetime, 		 vm_disk_id,    		 vm_disk_status";
+				String dbquery_tJDBCInput_13 = "SELECT history_datetime, 		vm_disk_id,         image_id, 		vm_disk_status,  		minutes_in_status, 		vm_disk_actual_size_mb, 		read_rate_bytes_per_second, 		read_latency_seconds, 		write_rate_bytes_per_second, 		write_latency_seconds, 		flush_latency_seconds, 		vm_disk_configuration_version  FROM vm_disk_hourly_history WHERE history_datetime >= '"
+						+ context.lastDayAggr
+						+ "' AND history_datetime < '"
+						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ "' ORDER BY history_datetime, 		 vm_disk_id,    		 vm_disk_status";
 
 				globalMap.put("tJDBCInput_13_QUERY", dbquery_tJDBCInput_13);
 				java.sql.ResultSet rs_tJDBCInput_13 = null;
@@ -17937,256 +17872,238 @@ public class AggregationToDaily implements TalendJob {
 						boolean rejectedInnerJoin_tMap_13 = false;
 						boolean mainRowRejected_tMap_13 = false;
 
-						if (
+						// ###############################
+						{ // start of Var scope
 
-						(
-
-						routines.RoutineHistoryETL.dateCompare(
-								row19.history_datetime,
-								routines.RoutineHistoryETL.manipulateDate(
-										routines.RoutineHistoryETL
-												.startOfDay(context.runTime),
-										-1, "dd")) < 0
-
-						)
-
-						) { // G_TM_M_280
-
-							// CALL close main tMap filter for table 'row19'
 							// ###############################
-							{ // start of Var scope
+							// # Vars tables
 
-								// ###############################
-								// # Vars tables
+							Var__tMap_13__Struct Var = Var__tMap_13;// ###############################
+							// ###############################
+							// # Output tables
 
-								Var__tMap_13__Struct Var = Var__tMap_13;// ###############################
-								// ###############################
-								// # Output tables
+							vm_disk_aggregate = null;
 
-								vm_disk_aggregate = null;
+							// # Output table : 'vm_disk_aggregate'
+							vm_disk_aggregate_tmp.history_datetime = RoutineHistoryETL
+									.startOfDay(row19.history_datetime);
+							vm_disk_aggregate_tmp.vm_disk_id = row19.vm_disk_id;
+							vm_disk_aggregate_tmp.image_id = row19.image_id;
+							vm_disk_aggregate_tmp.vm_disk_status = row19.vm_disk_status;
+							vm_disk_aggregate_tmp.minutes_in_status = row19.minutes_in_status;
+							vm_disk_aggregate_tmp.vm_disk_actual_size_mb = row19.vm_disk_actual_size_mb;
+							vm_disk_aggregate_tmp.read_rate_bytes_per_second = row19.read_rate_bytes_per_second;
+							vm_disk_aggregate_tmp.read_latency_seconds = row19.read_latency_seconds;
+							vm_disk_aggregate_tmp.write_rate_bytes_per_second = row19.write_rate_bytes_per_second;
+							vm_disk_aggregate_tmp.write_latency_seconds = row19.write_latency_seconds;
+							vm_disk_aggregate_tmp.flush_latency_seconds = row19.flush_latency_seconds;
+							vm_disk_aggregate_tmp.vm_disk_configuration_version = row19.vm_disk_configuration_version;
+							vm_disk_aggregate = vm_disk_aggregate_tmp;
+							// ###############################
 
-								// # Output table : 'vm_disk_aggregate'
-								vm_disk_aggregate_tmp.history_datetime = RoutineHistoryETL
-										.startOfDay(row19.history_datetime);
-								vm_disk_aggregate_tmp.vm_disk_id = row19.vm_disk_id;
-								vm_disk_aggregate_tmp.image_id = row19.image_id;
-								vm_disk_aggregate_tmp.vm_disk_status = row19.vm_disk_status;
-								vm_disk_aggregate_tmp.minutes_in_status = row19.minutes_in_status;
-								vm_disk_aggregate_tmp.vm_disk_actual_size_mb = row19.vm_disk_actual_size_mb;
-								vm_disk_aggregate_tmp.read_rate_bytes_per_second = row19.read_rate_bytes_per_second;
-								vm_disk_aggregate_tmp.read_latency_seconds = row19.read_latency_seconds;
-								vm_disk_aggregate_tmp.write_rate_bytes_per_second = row19.write_rate_bytes_per_second;
-								vm_disk_aggregate_tmp.write_latency_seconds = row19.write_latency_seconds;
-								vm_disk_aggregate_tmp.flush_latency_seconds = row19.flush_latency_seconds;
-								vm_disk_aggregate_tmp.vm_disk_configuration_version = row19.vm_disk_configuration_version;
-								vm_disk_aggregate = vm_disk_aggregate_tmp;
-								// ###############################
+						} // end of Var scope
 
-							} // end of Var scope
+						rejectedInnerJoin_tMap_13 = false;
 
-							rejectedInnerJoin_tMap_13 = false;
+						tos_count_tMap_13++;
 
-							tos_count_tMap_13++;
+						/**
+						 * [tMap_13 main ] stop
+						 */
+						// Start of branch "vm_disk_aggregate"
+						if (vm_disk_aggregate != null) {
 
 							/**
-							 * [tMap_13 main ] stop
+							 * [tAggregateRow_7_AGGOUT main ] start
 							 */
-							// Start of branch "vm_disk_aggregate"
-							if (vm_disk_aggregate != null) {
 
-								/**
-								 * [tAggregateRow_7_AGGOUT main ] start
-								 */
+							currentVirtualComponent = "tAggregateRow_7";
 
-								currentVirtualComponent = "tAggregateRow_7";
+							currentComponent = "tAggregateRow_7_AGGOUT";
 
-								currentComponent = "tAggregateRow_7_AGGOUT";
+							operation_finder_tAggregateRow_7.history_datetime = vm_disk_aggregate.history_datetime;
+							operation_finder_tAggregateRow_7.vm_disk_id = vm_disk_aggregate.vm_disk_id;
+							operation_finder_tAggregateRow_7.vm_disk_status = vm_disk_aggregate.vm_disk_status;
 
-								operation_finder_tAggregateRow_7.history_datetime = vm_disk_aggregate.history_datetime;
-								operation_finder_tAggregateRow_7.vm_disk_id = vm_disk_aggregate.vm_disk_id;
-								operation_finder_tAggregateRow_7.vm_disk_status = vm_disk_aggregate.vm_disk_status;
+							operation_finder_tAggregateRow_7.hashCodeDirty = true;
 
-								operation_finder_tAggregateRow_7.hashCodeDirty = true;
+							operation_result_tAggregateRow_7 = hash_tAggregateRow_7
+									.get(operation_finder_tAggregateRow_7);
 
-								operation_result_tAggregateRow_7 = hash_tAggregateRow_7
-										.get(operation_finder_tAggregateRow_7);
+							boolean isFirstAdd_tAggregateRow_7 = false;
 
-								boolean isFirstAdd_tAggregateRow_7 = false;
+							if (operation_result_tAggregateRow_7 == null) { // G_OutMain_AggR_001
 
-								if (operation_result_tAggregateRow_7 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_7 = new AggOperationStruct_tAggregateRow_7();
 
-									operation_result_tAggregateRow_7 = new AggOperationStruct_tAggregateRow_7();
+								operation_result_tAggregateRow_7.history_datetime = operation_finder_tAggregateRow_7.history_datetime;
+								operation_result_tAggregateRow_7.vm_disk_id = operation_finder_tAggregateRow_7.vm_disk_id;
+								operation_result_tAggregateRow_7.vm_disk_status = operation_finder_tAggregateRow_7.vm_disk_status;
 
-									operation_result_tAggregateRow_7.history_datetime = operation_finder_tAggregateRow_7.history_datetime;
-									operation_result_tAggregateRow_7.vm_disk_id = operation_finder_tAggregateRow_7.vm_disk_id;
-									operation_result_tAggregateRow_7.vm_disk_status = operation_finder_tAggregateRow_7.vm_disk_status;
+								isFirstAdd_tAggregateRow_7 = true;
 
-									isFirstAdd_tAggregateRow_7 = true;
+								hash_tAggregateRow_7.put(
+										operation_result_tAggregateRow_7,
+										operation_result_tAggregateRow_7);
 
-									hash_tAggregateRow_7.put(
-											operation_result_tAggregateRow_7,
-											operation_result_tAggregateRow_7);
+							} // G_OutMain_AggR_001
 
-								} // G_OutMain_AggR_001
+							if (operation_result_tAggregateRow_7.minutes_in_status_sum == null) {
+								operation_result_tAggregateRow_7.minutes_in_status_sum = new BigDecimal(
+										0).setScale(2);
+							}
+							operation_result_tAggregateRow_7.minutes_in_status_sum = operation_result_tAggregateRow_7.minutes_in_status_sum
+									.add(new BigDecimal(
+											String.valueOf(vm_disk_aggregate.minutes_in_status)));
 
-								if (operation_result_tAggregateRow_7.minutes_in_status_sum == null) {
-									operation_result_tAggregateRow_7.minutes_in_status_sum = new BigDecimal(
-											0).setScale(2);
+							operation_result_tAggregateRow_7.vm_disk_actual_size_mb_count++;
+
+							operation_result_tAggregateRow_7.vm_disk_actual_size_mb_sum += vm_disk_aggregate.vm_disk_actual_size_mb;
+
+							if (vm_disk_aggregate.read_rate_bytes_per_second != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_7.read_rate_bytes_per_second_count++;
+
+								if (operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum == null) {
+									operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum = new BigDecimal(
+											0).setScale(0);
 								}
-								operation_result_tAggregateRow_7.minutes_in_status_sum = operation_result_tAggregateRow_7.minutes_in_status_sum
+								operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum = operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum
 										.add(new BigDecimal(
-												String.valueOf(vm_disk_aggregate.minutes_in_status)));
+												String.valueOf(vm_disk_aggregate.read_rate_bytes_per_second)));
 
-								operation_result_tAggregateRow_7.vm_disk_actual_size_mb_count++;
+							} // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_7.vm_disk_actual_size_mb_sum += vm_disk_aggregate.vm_disk_actual_size_mb;
+							if (vm_disk_aggregate.read_rate_bytes_per_second != null) { // G_OutMain_AggR_546
 
-								if (vm_disk_aggregate.read_rate_bytes_per_second != null) { // G_OutMain_AggR_546
+								if (operation_result_tAggregateRow_7.max_read_rate_bytes_per_second_max == null
+										|| vm_disk_aggregate.read_rate_bytes_per_second > operation_result_tAggregateRow_7.max_read_rate_bytes_per_second_max
 
-									operation_result_tAggregateRow_7.read_rate_bytes_per_second_count++;
+								) {
+									operation_result_tAggregateRow_7.max_read_rate_bytes_per_second_max = vm_disk_aggregate.read_rate_bytes_per_second;
+								}
 
-									if (operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum == null) {
-										operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum = new BigDecimal(
-												0).setScale(0);
-									}
-									operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum = operation_result_tAggregateRow_7.read_rate_bytes_per_second_sum
-											.add(new BigDecimal(
-													String.valueOf(vm_disk_aggregate.read_rate_bytes_per_second)));
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_disk_aggregate.read_latency_seconds != null) { // G_OutMain_AggR_546
 
-								if (vm_disk_aggregate.read_rate_bytes_per_second != null) { // G_OutMain_AggR_546
+								operation_result_tAggregateRow_7.read_latency_seconds_count++;
 
-									if (operation_result_tAggregateRow_7.max_read_rate_bytes_per_second_max == null
-											|| vm_disk_aggregate.read_rate_bytes_per_second > operation_result_tAggregateRow_7.max_read_rate_bytes_per_second_max
+								if (operation_result_tAggregateRow_7.read_latency_seconds_sum == null) {
+									operation_result_tAggregateRow_7.read_latency_seconds_sum = new BigDecimal(
+											0).setScale(9);
+								}
+								operation_result_tAggregateRow_7.read_latency_seconds_sum = operation_result_tAggregateRow_7.read_latency_seconds_sum
+										.add(new BigDecimal(
+												String.valueOf(vm_disk_aggregate.read_latency_seconds)));
 
-									) {
-										operation_result_tAggregateRow_7.max_read_rate_bytes_per_second_max = vm_disk_aggregate.read_rate_bytes_per_second;
-									}
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_disk_aggregate.read_latency_seconds != null) { // G_OutMain_AggR_546
 
-								if (vm_disk_aggregate.read_latency_seconds != null) { // G_OutMain_AggR_546
+								if (operation_result_tAggregateRow_7.max_read_latency_seconds_max == null
+										|| vm_disk_aggregate.read_latency_seconds > operation_result_tAggregateRow_7.max_read_latency_seconds_max
 
-									operation_result_tAggregateRow_7.read_latency_seconds_count++;
+								) {
+									operation_result_tAggregateRow_7.max_read_latency_seconds_max = vm_disk_aggregate.read_latency_seconds;
+								}
 
-									if (operation_result_tAggregateRow_7.read_latency_seconds_sum == null) {
-										operation_result_tAggregateRow_7.read_latency_seconds_sum = new BigDecimal(
-												0).setScale(9);
-									}
-									operation_result_tAggregateRow_7.read_latency_seconds_sum = operation_result_tAggregateRow_7.read_latency_seconds_sum
-											.add(new BigDecimal(
-													String.valueOf(vm_disk_aggregate.read_latency_seconds)));
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_disk_aggregate.write_rate_bytes_per_second != null) { // G_OutMain_AggR_546
 
-								if (vm_disk_aggregate.read_latency_seconds != null) { // G_OutMain_AggR_546
+								operation_result_tAggregateRow_7.write_rate_bytes_per_second_count++;
 
-									if (operation_result_tAggregateRow_7.max_read_latency_seconds_max == null
-											|| vm_disk_aggregate.read_latency_seconds > operation_result_tAggregateRow_7.max_read_latency_seconds_max
+								if (operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum == null) {
+									operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum = new BigDecimal(
+											0).setScale(0);
+								}
+								operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum = operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum
+										.add(new BigDecimal(
+												String.valueOf(vm_disk_aggregate.write_rate_bytes_per_second)));
 
-									) {
-										operation_result_tAggregateRow_7.max_read_latency_seconds_max = vm_disk_aggregate.read_latency_seconds;
-									}
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_disk_aggregate.write_rate_bytes_per_second != null) { // G_OutMain_AggR_546
 
-								if (vm_disk_aggregate.write_rate_bytes_per_second != null) { // G_OutMain_AggR_546
+								if (operation_result_tAggregateRow_7.max_write_rate_bytes_per_second_max == null
+										|| vm_disk_aggregate.write_rate_bytes_per_second > operation_result_tAggregateRow_7.max_write_rate_bytes_per_second_max
 
-									operation_result_tAggregateRow_7.write_rate_bytes_per_second_count++;
+								) {
+									operation_result_tAggregateRow_7.max_write_rate_bytes_per_second_max = vm_disk_aggregate.write_rate_bytes_per_second;
+								}
 
-									if (operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum == null) {
-										operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum = new BigDecimal(
-												0).setScale(0);
-									}
-									operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum = operation_result_tAggregateRow_7.write_rate_bytes_per_second_sum
-											.add(new BigDecimal(
-													String.valueOf(vm_disk_aggregate.write_rate_bytes_per_second)));
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_disk_aggregate.write_latency_seconds != null) { // G_OutMain_AggR_546
 
-								if (vm_disk_aggregate.write_rate_bytes_per_second != null) { // G_OutMain_AggR_546
+								operation_result_tAggregateRow_7.write_latency_seconds_count++;
 
-									if (operation_result_tAggregateRow_7.max_write_rate_bytes_per_second_max == null
-											|| vm_disk_aggregate.write_rate_bytes_per_second > operation_result_tAggregateRow_7.max_write_rate_bytes_per_second_max
+								if (operation_result_tAggregateRow_7.write_latency_seconds_sum == null) {
+									operation_result_tAggregateRow_7.write_latency_seconds_sum = new BigDecimal(
+											0).setScale(9);
+								}
+								operation_result_tAggregateRow_7.write_latency_seconds_sum = operation_result_tAggregateRow_7.write_latency_seconds_sum
+										.add(new BigDecimal(
+												String.valueOf(vm_disk_aggregate.write_latency_seconds)));
 
-									) {
-										operation_result_tAggregateRow_7.max_write_rate_bytes_per_second_max = vm_disk_aggregate.write_rate_bytes_per_second;
-									}
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_disk_aggregate.write_latency_seconds != null) { // G_OutMain_AggR_546
 
-								if (vm_disk_aggregate.write_latency_seconds != null) { // G_OutMain_AggR_546
+								if (operation_result_tAggregateRow_7.max_write_latency_seconds_max == null
+										|| vm_disk_aggregate.write_latency_seconds > operation_result_tAggregateRow_7.max_write_latency_seconds_max
 
-									operation_result_tAggregateRow_7.write_latency_seconds_count++;
+								) {
+									operation_result_tAggregateRow_7.max_write_latency_seconds_max = vm_disk_aggregate.write_latency_seconds;
+								}
 
-									if (operation_result_tAggregateRow_7.write_latency_seconds_sum == null) {
-										operation_result_tAggregateRow_7.write_latency_seconds_sum = new BigDecimal(
-												0).setScale(9);
-									}
-									operation_result_tAggregateRow_7.write_latency_seconds_sum = operation_result_tAggregateRow_7.write_latency_seconds_sum
-											.add(new BigDecimal(
-													String.valueOf(vm_disk_aggregate.write_latency_seconds)));
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_disk_aggregate.flush_latency_seconds != null) { // G_OutMain_AggR_546
 
-								if (vm_disk_aggregate.write_latency_seconds != null) { // G_OutMain_AggR_546
+								operation_result_tAggregateRow_7.flush_latency_seconds_count++;
 
-									if (operation_result_tAggregateRow_7.max_write_latency_seconds_max == null
-											|| vm_disk_aggregate.write_latency_seconds > operation_result_tAggregateRow_7.max_write_latency_seconds_max
+								if (operation_result_tAggregateRow_7.flush_latency_seconds_sum == null) {
+									operation_result_tAggregateRow_7.flush_latency_seconds_sum = new BigDecimal(
+											0).setScale(9);
+								}
+								operation_result_tAggregateRow_7.flush_latency_seconds_sum = operation_result_tAggregateRow_7.flush_latency_seconds_sum
+										.add(new BigDecimal(
+												String.valueOf(vm_disk_aggregate.flush_latency_seconds)));
 
-									) {
-										operation_result_tAggregateRow_7.max_write_latency_seconds_max = vm_disk_aggregate.write_latency_seconds;
-									}
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_disk_aggregate.flush_latency_seconds != null) { // G_OutMain_AggR_546
 
-								if (vm_disk_aggregate.flush_latency_seconds != null) { // G_OutMain_AggR_546
+								if (operation_result_tAggregateRow_7.max_flush_latency_seconds_max == null
+										|| vm_disk_aggregate.flush_latency_seconds > operation_result_tAggregateRow_7.max_flush_latency_seconds_max
 
-									operation_result_tAggregateRow_7.flush_latency_seconds_count++;
+								) {
+									operation_result_tAggregateRow_7.max_flush_latency_seconds_max = vm_disk_aggregate.flush_latency_seconds;
+								}
 
-									if (operation_result_tAggregateRow_7.flush_latency_seconds_sum == null) {
-										operation_result_tAggregateRow_7.flush_latency_seconds_sum = new BigDecimal(
-												0).setScale(9);
-									}
-									operation_result_tAggregateRow_7.flush_latency_seconds_sum = operation_result_tAggregateRow_7.flush_latency_seconds_sum
-											.add(new BigDecimal(
-													String.valueOf(vm_disk_aggregate.flush_latency_seconds)));
+							} // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+							if (vm_disk_aggregate.vm_disk_configuration_version != null) { // G_OutMain_AggR_546
 
-								if (vm_disk_aggregate.flush_latency_seconds != null) { // G_OutMain_AggR_546
+								operation_result_tAggregateRow_7.vm_disk_configuration_version_last = vm_disk_aggregate.vm_disk_configuration_version;
 
-									if (operation_result_tAggregateRow_7.max_flush_latency_seconds_max == null
-											|| vm_disk_aggregate.flush_latency_seconds > operation_result_tAggregateRow_7.max_flush_latency_seconds_max
+							} // G_OutMain_AggR_546
 
-									) {
-										operation_result_tAggregateRow_7.max_flush_latency_seconds_max = vm_disk_aggregate.flush_latency_seconds;
-									}
+							if (vm_disk_aggregate.image_id != null) { // G_OutMain_AggR_546
 
-								} // G_OutMain_AggR_546
+								operation_result_tAggregateRow_7.image_id_last = vm_disk_aggregate.image_id;
 
-								if (vm_disk_aggregate.vm_disk_configuration_version != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									operation_result_tAggregateRow_7.vm_disk_configuration_version_last = vm_disk_aggregate.vm_disk_configuration_version;
+							tos_count_tAggregateRow_7_AGGOUT++;
 
-								} // G_OutMain_AggR_546
+							/**
+							 * [tAggregateRow_7_AGGOUT main ] stop
+							 */
 
-								if (vm_disk_aggregate.image_id != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_7.image_id_last = vm_disk_aggregate.image_id;
-
-								} // G_OutMain_AggR_546
-
-								tos_count_tAggregateRow_7_AGGOUT++;
-
-								/**
-								 * [tAggregateRow_7_AGGOUT main ] stop
-								 */
-
-							} // End of branch "vm_disk_aggregate"
-
-						} // G_TM_M_280 close main tMap filter for table 'row19'
+						} // End of branch "vm_disk_aggregate"
 
 						/**
 						 * [tJDBCInput_13 end ] start
@@ -18994,7 +18911,7 @@ public class AggregationToDaily implements TalendJob {
 				ok_Hash.put("tPostjob_1", true);
 				end_Hash.put("tPostjob_1", System.currentTimeMillis());
 
-				tJDBCInput_6Process(globalMap);
+				tRowGenerator_1Process(globalMap);
 
 				/**
 				 * [tPostjob_1 end ] stop
@@ -19034,8 +18951,8 @@ public class AggregationToDaily implements TalendJob {
 		globalMap.put("tPostjob_1_SUBPROCESS_STATE", 1);
 	}
 
-	public static class dc_aggregate_dateStruct implements
-			routines.system.IPersistableRow<dc_aggregate_dateStruct> {
+	public static class row11Struct implements
+			routines.system.IPersistableRow<row11Struct> {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[0];
 		protected static final int DEFAULT_HASHCODE = 1;
@@ -19049,12 +18966,6 @@ public class AggregationToDaily implements TalendJob {
 
 		public String getVar_name() {
 			return this.var_name;
-		}
-
-		public String var_value;
-
-		public String getVar_value() {
-			return this.var_value;
 		}
 
 		public java.util.Date var_datetime;
@@ -19088,7 +18999,7 @@ public class AggregationToDaily implements TalendJob {
 				return false;
 			if (getClass() != obj.getClass())
 				return false;
-			final dc_aggregate_dateStruct other = (dc_aggregate_dateStruct) obj;
+			final row11Struct other = (row11Struct) obj;
 
 			if (this.var_name == null) {
 				if (other.var_name != null)
@@ -19101,15 +19012,14 @@ public class AggregationToDaily implements TalendJob {
 			return true;
 		}
 
-		public void copyDataTo(dc_aggregate_dateStruct other) {
+		public void copyDataTo(row11Struct other) {
 
 			other.var_name = this.var_name;
-			other.var_value = this.var_value;
 			other.var_datetime = this.var_datetime;
 
 		}
 
-		public void copyKeysDataTo(dc_aggregate_dateStruct other) {
+		public void copyKeysDataTo(row11Struct other) {
 
 			other.var_name = this.var_name;
 
@@ -19184,8 +19094,6 @@ public class AggregationToDaily implements TalendJob {
 
 					this.var_name = readString(dis);
 
-					this.var_value = readString(dis);
-
 					this.var_datetime = readDate(dis);
 
 				} catch (IOException e) {
@@ -19204,10 +19112,6 @@ public class AggregationToDaily implements TalendJob {
 
 				writeString(this.var_name, dos);
 
-				// String
-
-				writeString(this.var_value, dos);
-
 				// java.util.Date
 
 				writeDate(this.var_datetime, dos);
@@ -19224,7 +19128,6 @@ public class AggregationToDaily implements TalendJob {
 			sb.append(super.toString());
 			sb.append("[");
 			sb.append("var_name=" + var_name);
-			sb.append(",var_value=" + var_value);
 			sb.append(",var_datetime=" + String.valueOf(var_datetime));
 			sb.append("]");
 
@@ -19234,7 +19137,7 @@ public class AggregationToDaily implements TalendJob {
 		/**
 		 * Compare keys
 		 */
-		public int compareTo(dc_aggregate_dateStruct other) {
+		public int compareTo(row11Struct other) {
 
 			int returnValue = -1;
 
@@ -19270,183 +19173,10 @@ public class AggregationToDaily implements TalendJob {
 
 	}
 
-	public static class row11Struct implements
-			routines.system.IPersistableRow<row11Struct> {
-		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[0];
-		static byte[] commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[0];
-
-		public String var_name;
-
-		public String getVar_name() {
-			return this.var_name;
-		}
-
-		public String var_value;
-
-		public String getVar_value() {
-			return this.var_value;
-		}
-
-		public java.util.Date var_datetime;
-
-		public java.util.Date getVar_datetime() {
-			return this.var_datetime;
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily.length) {
-					if (length < 1024
-							&& commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily.length == 0) {
-						commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[1024];
-					} else {
-						commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[2 * length];
-					}
-				}
-				dis.readFully(
-						commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily, 0,
-						length);
-				strReturn = new String(
-						commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily, 0,
-						length, utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		private java.util.Date readDate(ObjectInputStream dis)
-				throws IOException {
-			java.util.Date dateReturn = null;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				dateReturn = null;
-			} else {
-				dateReturn = new Date(dis.readLong());
-			}
-			return dateReturn;
-		}
-
-		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
-				throws IOException {
-			if (date1 == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeLong(date1.getTime());
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToDaily) {
-
-				try {
-
-					int length = 0;
-
-					this.var_name = readString(dis);
-
-					this.var_value = readString(dis);
-
-					this.var_datetime = readDate(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// String
-
-				writeString(this.var_name, dos);
-
-				// String
-
-				writeString(this.var_value, dos);
-
-				// java.util.Date
-
-				writeDate(this.var_datetime, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("var_name=" + var_name);
-			sb.append(",var_value=" + var_value);
-			sb.append(",var_datetime=" + String.valueOf(var_datetime));
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(row11Struct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(),
-						object2.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
-	public void tJDBCInput_6Process(
+	public void tRowGenerator_1Process(
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", 0);
+		globalMap.put("tRowGenerator_1_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -19466,7 +19196,6 @@ public class AggregationToDaily implements TalendJob {
 				globalResumeTicket = true;
 
 				row11Struct row11 = new row11Struct();
-				dc_aggregate_dateStruct dc_aggregate_date = new dc_aggregate_dateStruct();
 
 				/**
 				 * [tJDBCOutput_6 begin ] start
@@ -19507,7 +19236,7 @@ public class AggregationToDaily implements TalendJob {
 
 				String update_tJDBCOutput_6 = "UPDATE "
 						+ "history_configuration"
-						+ " SET var_value = ?,var_datetime = ? WHERE var_name = ?";
+						+ " SET var_datetime = ? WHERE var_name = ?";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_6 = connection_tJDBCOutput_6
 						.prepareStatement(update_tJDBCOutput_6);
 
@@ -19516,272 +19245,109 @@ public class AggregationToDaily implements TalendJob {
 				 */
 
 				/**
-				 * [tMap_6 begin ] start
+				 * [tRowGenerator_1 begin ] start
 				 */
 
-				ok_Hash.put("tMap_6", false);
-				start_Hash.put("tMap_6", System.currentTimeMillis());
+				ok_Hash.put("tRowGenerator_1", false);
+				start_Hash.put("tRowGenerator_1", System.currentTimeMillis());
 
-				currentComponent = "tMap_6";
+				currentComponent = "tRowGenerator_1";
 
-				int tos_count_tMap_6 = 0;
+				int tos_count_tRowGenerator_1 = 0;
 
-				// ###############################
-				// # Lookup's keys initialization
-				// ###############################
+				int nb_line_tRowGenerator_1 = 0;
+				int nb_max_row_tRowGenerator_1 = 1;
 
-				// ###############################
-				// # Vars initialization
-				class Var__tMap_6__Struct {
-				}
-				Var__tMap_6__Struct Var__tMap_6 = new Var__tMap_6__Struct();
-				// ###############################
+				class tRowGenerator_1Randomizer {
+					public String getRandomvar_name() {
 
-				// ###############################
-				// # Outputs initialization
-				dc_aggregate_dateStruct dc_aggregate_date_tmp = new dc_aggregate_dateStruct();
-				// ###############################
-
-				/**
-				 * [tMap_6 begin ] stop
-				 */
-
-				/**
-				 * [tJDBCInput_6 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCInput_6", false);
-				start_Hash.put("tJDBCInput_6", System.currentTimeMillis());
-
-				currentComponent = "tJDBCInput_6";
-
-				int tos_count_tJDBCInput_6 = 0;
-
-				int nb_line_tJDBCInput_6 = 0;
-				java.sql.Connection conn_tJDBCInput_6 = null;
-				conn_tJDBCInput_6 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_1");
-
-				java.sql.Statement stmt_tJDBCInput_6 = conn_tJDBCInput_6
-						.createStatement();
-
-				String dbquery_tJDBCInput_6 = "SELECT *  FROM history_configuration  WHERE var_name = 'lastDayAggr'";
-
-				globalMap.put("tJDBCInput_6_QUERY", dbquery_tJDBCInput_6);
-				java.sql.ResultSet rs_tJDBCInput_6 = null;
-				try {
-					rs_tJDBCInput_6 = stmt_tJDBCInput_6
-							.executeQuery(dbquery_tJDBCInput_6);
-					java.sql.ResultSetMetaData rsmd_tJDBCInput_6 = rs_tJDBCInput_6
-							.getMetaData();
-					int colQtyInRs_tJDBCInput_6 = rsmd_tJDBCInput_6
-							.getColumnCount();
-
-					String tmpContent_tJDBCInput_6 = null;
-					int column_index_tJDBCInput_6 = 1;
-
-					while (rs_tJDBCInput_6.next()) {
-						nb_line_tJDBCInput_6++;
-
-						column_index_tJDBCInput_6 = 1;
-
-						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
-							row11.var_name = null;
-						} else {
-
-							tmpContent_tJDBCInput_6 = rs_tJDBCInput_6
-									.getString(column_index_tJDBCInput_6);
-							if (tmpContent_tJDBCInput_6 != null) {
-								row11.var_name = tmpContent_tJDBCInput_6;
-							} else {
-								row11.var_name = null;
-							}
-
-						}
-
-						column_index_tJDBCInput_6 = 2;
-
-						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
-							row11.var_value = null;
-						} else {
-
-							tmpContent_tJDBCInput_6 = rs_tJDBCInput_6
-									.getString(column_index_tJDBCInput_6);
-							if (tmpContent_tJDBCInput_6 != null) {
-								row11.var_value = tmpContent_tJDBCInput_6;
-							} else {
-								row11.var_value = null;
-							}
-
-						}
-
-						column_index_tJDBCInput_6 = 3;
-
-						if (colQtyInRs_tJDBCInput_6 < column_index_tJDBCInput_6) {
-							row11.var_datetime = null;
-						} else {
-
-							java.util.Date date_tJDBCInput_6 = null;
-							try {
-								date_tJDBCInput_6 = rs_tJDBCInput_6
-										.getTimestamp(column_index_tJDBCInput_6);
-							} catch (java.lang.Exception e) {
-								date_tJDBCInput_6 = rs_tJDBCInput_6
-										.getDate(column_index_tJDBCInput_6);
-							}
-							row11.var_datetime = date_tJDBCInput_6;
-
-						}
-
-						/**
-						 * [tJDBCInput_6 begin ] stop
-						 */
-						/**
-						 * [tJDBCInput_6 main ] start
-						 */
-
-						currentComponent = "tJDBCInput_6";
-
-						tos_count_tJDBCInput_6++;
-
-						/**
-						 * [tJDBCInput_6 main ] stop
-						 */
-
-						/**
-						 * [tMap_6 main ] start
-						 */
-
-						currentComponent = "tMap_6";
-
-						boolean hasCasePrimitiveKeyWithNull_tMap_6 = false;
-
-						// ###############################
-						// # Input tables (lookups)
-						boolean rejectedInnerJoin_tMap_6 = false;
-						boolean mainRowRejected_tMap_6 = false;
-
-						// ###############################
-						{ // start of Var scope
-
-							// ###############################
-							// # Vars tables
-
-							Var__tMap_6__Struct Var = Var__tMap_6;// ###############################
-							// ###############################
-							// # Output tables
-
-							dc_aggregate_date = null;
-
-							// # Output table : 'dc_aggregate_date'
-							dc_aggregate_date_tmp.var_name = row11.var_name;
-							dc_aggregate_date_tmp.var_value = row11.var_value;
-							dc_aggregate_date_tmp.var_datetime = TalendDate
-									.addDate(routines.RoutineHistoryETL
-											.startOfDay(context.runTime), -1,
-											"dd");
-							dc_aggregate_date = dc_aggregate_date_tmp;
-							// ###############################
-
-						} // end of Var scope
-
-						rejectedInnerJoin_tMap_6 = false;
-
-						tos_count_tMap_6++;
-
-						/**
-						 * [tMap_6 main ] stop
-						 */
-						// Start of branch "dc_aggregate_date"
-						if (dc_aggregate_date != null) {
-
-							/**
-							 * [tJDBCOutput_6 main ] start
-							 */
-
-							currentComponent = "tJDBCOutput_6";
-
-							whetherReject_tJDBCOutput_6 = false;
-							if (dc_aggregate_date.var_value == null) {
-								pstmt_tJDBCOutput_6.setNull(1,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_6.setString(1,
-										dc_aggregate_date.var_value);
-							}
-
-							if (dc_aggregate_date.var_datetime != null) {
-								pstmt_tJDBCOutput_6.setTimestamp(
-										2,
-										new java.sql.Timestamp(
-												dc_aggregate_date.var_datetime
-														.getTime()));
-							} else {
-								pstmt_tJDBCOutput_6.setNull(2,
-										java.sql.Types.DATE);
-							}
-
-							if (dc_aggregate_date.var_name == null) {
-								pstmt_tJDBCOutput_6.setNull(3,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_6.setString(3,
-										dc_aggregate_date.var_name);
-							}
-
-							try {
-								updatedCount_tJDBCOutput_6 = updatedCount_tJDBCOutput_6
-										+ pstmt_tJDBCOutput_6.executeUpdate();
-								nb_line_tJDBCOutput_6++;
-							} catch (java.lang.Exception e) {
-								whetherReject_tJDBCOutput_6 = true;
-								throw (e);
-							}
-
-							tos_count_tJDBCOutput_6++;
-
-							/**
-							 * [tJDBCOutput_6 main ] stop
-							 */
-
-						} // End of branch "dc_aggregate_date"
-
-						/**
-						 * [tJDBCInput_6 end ] start
-						 */
-
-						currentComponent = "tJDBCInput_6";
+						return "lastDayAggr";
 
 					}
-				} finally {
-					rs_tJDBCInput_6.close();
-					stmt_tJDBCInput_6.close();
+
+					public java.util.Date getRandomvar_datetime() {
+
+						return TalendDate.addDate(context.lastDayAggr, 1, "dd");
+
+					}
+				}
+				tRowGenerator_1Randomizer randtRowGenerator_1 = new tRowGenerator_1Randomizer();
+
+				for (int itRowGenerator_1 = 0; itRowGenerator_1 < nb_max_row_tRowGenerator_1; itRowGenerator_1++) {
+					row11.var_name = randtRowGenerator_1.getRandomvar_name();
+
+					row11.var_datetime = randtRowGenerator_1
+							.getRandomvar_datetime();
+
+					nb_line_tRowGenerator_1++;
+
+					/**
+					 * [tRowGenerator_1 begin ] stop
+					 */
+					/**
+					 * [tRowGenerator_1 main ] start
+					 */
+
+					currentComponent = "tRowGenerator_1";
+
+					tos_count_tRowGenerator_1++;
+
+					/**
+					 * [tRowGenerator_1 main ] stop
+					 */
+
+					/**
+					 * [tJDBCOutput_6 main ] start
+					 */
+
+					currentComponent = "tJDBCOutput_6";
+
+					whetherReject_tJDBCOutput_6 = false;
+					if (row11.var_datetime != null) {
+						pstmt_tJDBCOutput_6.setTimestamp(
+								1,
+								new java.sql.Timestamp(row11.var_datetime
+										.getTime()));
+					} else {
+						pstmt_tJDBCOutput_6.setNull(1, java.sql.Types.DATE);
+					}
+
+					if (row11.var_name == null) {
+						pstmt_tJDBCOutput_6.setNull(2, java.sql.Types.VARCHAR);
+					} else {
+						pstmt_tJDBCOutput_6.setString(2, row11.var_name);
+					}
+
+					try {
+						updatedCount_tJDBCOutput_6 = updatedCount_tJDBCOutput_6
+								+ pstmt_tJDBCOutput_6.executeUpdate();
+						nb_line_tJDBCOutput_6++;
+					} catch (java.lang.Exception e) {
+						whetherReject_tJDBCOutput_6 = true;
+						throw (e);
+					}
+
+					tos_count_tJDBCOutput_6++;
+
+					/**
+					 * [tJDBCOutput_6 main ] stop
+					 */
+
+					/**
+					 * [tRowGenerator_1 end ] start
+					 */
+
+					currentComponent = "tRowGenerator_1";
 
 				}
-				globalMap.put("tJDBCInput_6_NB_LINE", nb_line_tJDBCInput_6);
+				globalMap.put("tRowGenerator_1_NB_LINE",
+						nb_line_tRowGenerator_1);
 
-				ok_Hash.put("tJDBCInput_6", true);
-				end_Hash.put("tJDBCInput_6", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCInput_6 end ] stop
-				 */
+				ok_Hash.put("tRowGenerator_1", true);
+				end_Hash.put("tRowGenerator_1", System.currentTimeMillis());
 
 				/**
-				 * [tMap_6 end ] start
-				 */
-
-				currentComponent = "tMap_6";
-
-				// ###############################
-				// # Lookup hashes releasing
-				// ###############################
-
-				ok_Hash.put("tMap_6", true);
-				end_Hash.put("tMap_6", System.currentTimeMillis());
-
-				/**
-				 * [tMap_6 end ] stop
+				 * [tRowGenerator_1 end ] stop
 				 */
 
 				/**
@@ -19838,23 +19404,13 @@ public class AggregationToDaily implements TalendJob {
 			try {
 
 				/**
-				 * [tJDBCInput_6 finally ] start
+				 * [tRowGenerator_1 finally ] start
 				 */
 
-				currentComponent = "tJDBCInput_6";
+				currentComponent = "tRowGenerator_1";
 
 				/**
-				 * [tJDBCInput_6 finally ] stop
-				 */
-
-				/**
-				 * [tMap_6 finally ] start
-				 */
-
-				currentComponent = "tMap_6";
-
-				/**
-				 * [tMap_6 finally ] stop
+				 * [tRowGenerator_1 finally ] stop
 				 */
 
 				/**
@@ -19875,7 +19431,7 @@ public class AggregationToDaily implements TalendJob {
 			resourceMap = null;
 		}
 
-		globalMap.put("tJDBCInput_6_SUBPROCESS_STATE", 1);
+		globalMap.put("tRowGenerator_1_SUBPROCESS_STATE", 1);
 	}
 
 	public static class disks_usage_dailyStruct implements
@@ -20346,7 +19902,11 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_9 = conn_tJDBCInput_9
 						.createStatement();
 
-				String dbquery_tJDBCInput_9 = "SELECT date_trunc('day', history_datetime), vm_id, disks_usage  FROM vm_disks_usage_hourly_history  WHERE history_id in (SELECT max(history_id)                       FROM vm_disks_usage_hourly_history                       GROUP BY vm_id, date_trunc('day', history_datetime))         AND history_datetime >= (SELECT var_datetime                                 FROM history_configuration                                 WHERE var_name = 'lastDayAggr')";
+				String dbquery_tJDBCInput_9 = "SELECT date_trunc('day', history_datetime), vm_id, disks_usage FROM vm_disks_usage_hourly_history WHERE history_id in (SELECT max(history_id)                       FROM vm_disks_usage_hourly_history                       GROUP BY vm_id, date_trunc('day', history_datetime))  AND history_datetime >= '"
+						+ context.lastDayAggr
+						+ "' AND history_datetime < '"
+						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ "' ";
 
 				globalMap.put("tJDBCInput_9_QUERY", dbquery_tJDBCInput_9);
 				java.sql.ResultSet rs_tJDBCInput_9 = null;
@@ -20444,107 +20004,88 @@ public class AggregationToDaily implements TalendJob {
 						boolean rejectedInnerJoin_tMap_9 = false;
 						boolean mainRowRejected_tMap_9 = false;
 
-						if (
+						// ###############################
+						{ // start of Var scope
 
-						(
-
-						routines.RoutineHistoryETL.dateCompare(
-								row12.history_datetime,
-								routines.RoutineHistoryETL.manipulateDate(
-										routines.RoutineHistoryETL
-												.startOfDay(context.runTime),
-										-1, "dd")) < 0
-
-						)
-
-						) { // G_TM_M_280
-
-							// CALL close main tMap filter for table 'row12'
 							// ###############################
-							{ // start of Var scope
+							// # Vars tables
 
-								// ###############################
-								// # Vars tables
+							Var__tMap_9__Struct Var = Var__tMap_9;// ###############################
+							// ###############################
+							// # Output tables
 
-								Var__tMap_9__Struct Var = Var__tMap_9;// ###############################
-								// ###############################
-								// # Output tables
+							disks_usage_daily = null;
 
-								disks_usage_daily = null;
+							// # Output table : 'disks_usage_daily'
+							disks_usage_daily_tmp.history_datetime = row12.history_datetime;
+							disks_usage_daily_tmp.vm_id = row12.vm_id;
+							disks_usage_daily_tmp.disks_usage = row12.disks_usage;
+							disks_usage_daily = disks_usage_daily_tmp;
+							// ###############################
 
-								// # Output table : 'disks_usage_daily'
-								disks_usage_daily_tmp.history_datetime = row12.history_datetime;
-								disks_usage_daily_tmp.vm_id = row12.vm_id;
-								disks_usage_daily_tmp.disks_usage = row12.disks_usage;
-								disks_usage_daily = disks_usage_daily_tmp;
-								// ###############################
+						} // end of Var scope
 
-							} // end of Var scope
+						rejectedInnerJoin_tMap_9 = false;
 
-							rejectedInnerJoin_tMap_9 = false;
+						tos_count_tMap_9++;
 
-							tos_count_tMap_9++;
+						/**
+						 * [tMap_9 main ] stop
+						 */
+						// Start of branch "disks_usage_daily"
+						if (disks_usage_daily != null) {
 
 							/**
-							 * [tMap_9 main ] stop
+							 * [tJDBCOutput_9 main ] start
 							 */
-							// Start of branch "disks_usage_daily"
-							if (disks_usage_daily != null) {
 
-								/**
-								 * [tJDBCOutput_9 main ] start
-								 */
+							currentComponent = "tJDBCOutput_9";
 
-								currentComponent = "tJDBCOutput_9";
+							whetherReject_tJDBCOutput_9 = false;
+							if (disks_usage_daily.history_datetime != null) {
+								pstmt_tJDBCOutput_9
+										.setTimestamp(
+												1,
+												new java.sql.Timestamp(
+														disks_usage_daily.history_datetime
+																.getTime()));
+							} else {
+								pstmt_tJDBCOutput_9.setNull(1,
+										java.sql.Types.DATE);
+							}
 
-								whetherReject_tJDBCOutput_9 = false;
-								if (disks_usage_daily.history_datetime != null) {
-									pstmt_tJDBCOutput_9
-											.setTimestamp(
-													1,
-													new java.sql.Timestamp(
-															disks_usage_daily.history_datetime
-																	.getTime()));
-								} else {
-									pstmt_tJDBCOutput_9.setNull(1,
-											java.sql.Types.DATE);
-								}
+							if (disks_usage_daily.vm_id == null) {
+								pstmt_tJDBCOutput_9.setNull(2,
+										java.sql.Types.OTHER);
+							} else {
+								pstmt_tJDBCOutput_9.setObject(2,
+										disks_usage_daily.vm_id);
+							}
 
-								if (disks_usage_daily.vm_id == null) {
-									pstmt_tJDBCOutput_9.setNull(2,
-											java.sql.Types.OTHER);
-								} else {
-									pstmt_tJDBCOutput_9.setObject(2,
-											disks_usage_daily.vm_id);
-								}
+							if (disks_usage_daily.disks_usage == null) {
+								pstmt_tJDBCOutput_9.setNull(3,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_9.setString(3,
+										disks_usage_daily.disks_usage);
+							}
 
-								if (disks_usage_daily.disks_usage == null) {
-									pstmt_tJDBCOutput_9.setNull(3,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmt_tJDBCOutput_9.setString(3,
-											disks_usage_daily.disks_usage);
-								}
+							try {
+								insertedCount_tJDBCOutput_9 = insertedCount_tJDBCOutput_9
+										+ pstmt_tJDBCOutput_9.executeUpdate();
+								nb_line_tJDBCOutput_9++;
+							} catch (java.lang.Exception e) {
+								whetherReject_tJDBCOutput_9 = true;
+								throw (e);
+							}
 
-								try {
-									insertedCount_tJDBCOutput_9 = insertedCount_tJDBCOutput_9
-											+ pstmt_tJDBCOutput_9
-													.executeUpdate();
-									nb_line_tJDBCOutput_9++;
-								} catch (java.lang.Exception e) {
-									whetherReject_tJDBCOutput_9 = true;
-									throw (e);
-								}
+							tos_count_tJDBCOutput_9++;
 
-								tos_count_tJDBCOutput_9++;
+							/**
+							 * [tJDBCOutput_9 main ] stop
+							 */
 
-								/**
-								 * [tJDBCOutput_9 main ] stop
-								 */
-
-							} // End of branch "disks_usage_daily"
-
-						} // G_TM_M_280 close main tMap filter for table 'row12'
+						} // End of branch "disks_usage_daily"
 
 						/**
 						 * [tJDBCInput_9 end ] start
@@ -23377,7 +22918,11 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_10 = conn_tJDBCInput_10
 						.createStatement();
 
-				String dbquery_tJDBCInput_10 = "SELECT    history_id,    history_datetime,   user_name,   cast(user_logged_in_to_guest as int),    vm_id,    session_time_in_minutes,    cpu_usage_percent,    memory_usage_percent,    user_cpu_usage_percent,    system_cpu_usage_percent,    vm_ip,   vm_client_ip,    currently_running_on_host,    vm_configuration_version,    current_host_configuration_version  FROM statistics_vms_users_usage_hourly  WHERE history_datetime >= (SELECT var_datetime  						   FROM history_configuration  						   WHERE var_name = 'lastDayAggr')  ORDER BY history_datetime,        	 user_name,  		 vm_id";
+				String dbquery_tJDBCInput_10 = "SELECT    history_id,    history_datetime,   user_name,   cast(user_logged_in_to_guest as int),    vm_id,    session_time_in_minutes,    cpu_usage_percent,    memory_usage_percent,    user_cpu_usage_percent,    system_cpu_usage_percent,    vm_ip,   vm_client_ip,    currently_running_on_host,    vm_configuration_version,    current_host_configuration_version  FROM statistics_vms_users_usage_hourly  WHERE history_datetime >= '"
+						+ context.lastDayAggr
+						+ "' 	AND history_datetime < '"
+						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ "'  ORDER BY     history_datetime,      user_name,      vm_id";
 
 				globalMap.put("tJDBCInput_10_QUERY", dbquery_tJDBCInput_10);
 				java.sql.ResultSet rs_tJDBCInput_10 = null;
@@ -23671,246 +23216,228 @@ public class AggregationToDaily implements TalendJob {
 						boolean rejectedInnerJoin_tMap_10 = false;
 						boolean mainRowRejected_tMap_10 = false;
 
-						if (
+						// ###############################
+						{ // start of Var scope
 
-						(
-
-						routines.RoutineHistoryETL.dateCompare(
-								row13.history_datetime,
-								routines.RoutineHistoryETL.manipulateDate(
-										routines.RoutineHistoryETL
-												.startOfDay(context.runTime),
-										-1, "dd")) < 0
-
-						)
-
-						) { // G_TM_M_280
-
-							// CALL close main tMap filter for table 'row13'
 							// ###############################
-							{ // start of Var scope
+							// # Vars tables
 
-								// ###############################
-								// # Vars tables
+							Var__tMap_10__Struct Var = Var__tMap_10;// ###############################
+							// ###############################
+							// # Output tables
 
-								Var__tMap_10__Struct Var = Var__tMap_10;// ###############################
-								// ###############################
-								// # Output tables
+							copyOfvm_aggregate_history = null;
 
-								copyOfvm_aggregate_history = null;
+							// # Output table : 'copyOfvm_aggregate_history'
+							copyOfvm_aggregate_history_tmp.history_datetime = RoutineHistoryETL
+									.startOfDay(row13.history_datetime);
+							copyOfvm_aggregate_history_tmp.user_name = row13.user_name;
+							copyOfvm_aggregate_history_tmp.user_logged_in_to_guest = row13.user_logged_in_to_guest;
+							copyOfvm_aggregate_history_tmp.vm_id = row13.vm_id;
+							copyOfvm_aggregate_history_tmp.session_time_in_minutes = row13.session_time_in_minutes;
+							copyOfvm_aggregate_history_tmp.cpu_usage_percent = row13.cpu_usage_percent;
+							copyOfvm_aggregate_history_tmp.memory_usage_percent = row13.memory_usage_percent;
+							copyOfvm_aggregate_history_tmp.user_cpu_usage_percent = row13.user_cpu_usage_percent;
+							copyOfvm_aggregate_history_tmp.system_cpu_usage_percent = row13.system_cpu_usage_percent;
+							copyOfvm_aggregate_history_tmp.vm_ip = row13.vm_ip;
+							copyOfvm_aggregate_history_tmp.vm_client_ip = row13.vm_client_ip;
+							copyOfvm_aggregate_history_tmp.currently_running_on_host = row13.currently_running_on_host;
+							copyOfvm_aggregate_history_tmp.vm_configuration_version = row13.vm_configuration_version;
+							copyOfvm_aggregate_history_tmp.current_host_configuration_version = row13.current_host_configuration_version;
+							copyOfvm_aggregate_history = copyOfvm_aggregate_history_tmp;
+							// ###############################
 
-								// # Output table : 'copyOfvm_aggregate_history'
-								copyOfvm_aggregate_history_tmp.history_datetime = RoutineHistoryETL
-										.startOfDay(row13.history_datetime);
-								copyOfvm_aggregate_history_tmp.user_name = row13.user_name;
-								copyOfvm_aggregate_history_tmp.user_logged_in_to_guest = row13.user_logged_in_to_guest;
-								copyOfvm_aggregate_history_tmp.vm_id = row13.vm_id;
-								copyOfvm_aggregate_history_tmp.session_time_in_minutes = row13.session_time_in_minutes;
-								copyOfvm_aggregate_history_tmp.cpu_usage_percent = row13.cpu_usage_percent;
-								copyOfvm_aggregate_history_tmp.memory_usage_percent = row13.memory_usage_percent;
-								copyOfvm_aggregate_history_tmp.user_cpu_usage_percent = row13.user_cpu_usage_percent;
-								copyOfvm_aggregate_history_tmp.system_cpu_usage_percent = row13.system_cpu_usage_percent;
-								copyOfvm_aggregate_history_tmp.vm_ip = row13.vm_ip;
-								copyOfvm_aggregate_history_tmp.vm_client_ip = row13.vm_client_ip;
-								copyOfvm_aggregate_history_tmp.currently_running_on_host = row13.currently_running_on_host;
-								copyOfvm_aggregate_history_tmp.vm_configuration_version = row13.vm_configuration_version;
-								copyOfvm_aggregate_history_tmp.current_host_configuration_version = row13.current_host_configuration_version;
-								copyOfvm_aggregate_history = copyOfvm_aggregate_history_tmp;
-								// ###############################
+						} // end of Var scope
 
-							} // end of Var scope
+						rejectedInnerJoin_tMap_10 = false;
 
-							rejectedInnerJoin_tMap_10 = false;
+						tos_count_tMap_10++;
 
-							tos_count_tMap_10++;
+						/**
+						 * [tMap_10 main ] stop
+						 */
+						// Start of branch "copyOfvm_aggregate_history"
+						if (copyOfvm_aggregate_history != null) {
 
 							/**
-							 * [tMap_10 main ] stop
+							 * [tAggregateRow_8_AGGOUT main ] start
 							 */
-							// Start of branch "copyOfvm_aggregate_history"
-							if (copyOfvm_aggregate_history != null) {
 
-								/**
-								 * [tAggregateRow_8_AGGOUT main ] start
-								 */
+							currentVirtualComponent = "tAggregateRow_8";
 
-								currentVirtualComponent = "tAggregateRow_8";
+							currentComponent = "tAggregateRow_8_AGGOUT";
 
-								currentComponent = "tAggregateRow_8_AGGOUT";
+							operation_finder_tAggregateRow_8.history_datetime = copyOfvm_aggregate_history.history_datetime;
+							operation_finder_tAggregateRow_8.user_name = copyOfvm_aggregate_history.user_name;
+							operation_finder_tAggregateRow_8.vm_id = copyOfvm_aggregate_history.vm_id;
 
-								operation_finder_tAggregateRow_8.history_datetime = copyOfvm_aggregate_history.history_datetime;
-								operation_finder_tAggregateRow_8.user_name = copyOfvm_aggregate_history.user_name;
-								operation_finder_tAggregateRow_8.vm_id = copyOfvm_aggregate_history.vm_id;
+							operation_finder_tAggregateRow_8.hashCodeDirty = true;
 
-								operation_finder_tAggregateRow_8.hashCodeDirty = true;
+							operation_result_tAggregateRow_8 = hash_tAggregateRow_8
+									.get(operation_finder_tAggregateRow_8);
 
-								operation_result_tAggregateRow_8 = hash_tAggregateRow_8
-										.get(operation_finder_tAggregateRow_8);
+							boolean isFirstAdd_tAggregateRow_8 = false;
 
-								boolean isFirstAdd_tAggregateRow_8 = false;
+							if (operation_result_tAggregateRow_8 == null) { // G_OutMain_AggR_001
 
-								if (operation_result_tAggregateRow_8 == null) { // G_OutMain_AggR_001
+								operation_result_tAggregateRow_8 = new AggOperationStruct_tAggregateRow_8();
 
-									operation_result_tAggregateRow_8 = new AggOperationStruct_tAggregateRow_8();
+								operation_result_tAggregateRow_8.history_datetime = operation_finder_tAggregateRow_8.history_datetime;
+								operation_result_tAggregateRow_8.user_name = operation_finder_tAggregateRow_8.user_name;
+								operation_result_tAggregateRow_8.vm_id = operation_finder_tAggregateRow_8.vm_id;
 
-									operation_result_tAggregateRow_8.history_datetime = operation_finder_tAggregateRow_8.history_datetime;
-									operation_result_tAggregateRow_8.user_name = operation_finder_tAggregateRow_8.user_name;
-									operation_result_tAggregateRow_8.vm_id = operation_finder_tAggregateRow_8.vm_id;
+								isFirstAdd_tAggregateRow_8 = true;
 
-									isFirstAdd_tAggregateRow_8 = true;
+								hash_tAggregateRow_8.put(
+										operation_result_tAggregateRow_8,
+										operation_result_tAggregateRow_8);
 
-									hash_tAggregateRow_8.put(
-											operation_result_tAggregateRow_8,
-											operation_result_tAggregateRow_8);
+							} // G_OutMain_AggR_001
 
-								} // G_OutMain_AggR_001
+							if (operation_result_tAggregateRow_8.session_time_in_minutes_sum == null) {
+								operation_result_tAggregateRow_8.session_time_in_minutes_sum = new BigDecimal(
+										0).setScale(0);
+							}
+							operation_result_tAggregateRow_8.session_time_in_minutes_sum = operation_result_tAggregateRow_8.session_time_in_minutes_sum
+									.add(new BigDecimal(
+											String.valueOf(copyOfvm_aggregate_history.session_time_in_minutes)));
 
-								if (operation_result_tAggregateRow_8.session_time_in_minutes_sum == null) {
-									operation_result_tAggregateRow_8.session_time_in_minutes_sum = new BigDecimal(
-											0).setScale(0);
+							if (copyOfvm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.cpu_usage_percent_count++;
+
+								if (operation_result_tAggregateRow_8.cpu_usage_percent_sum == null) {
+									operation_result_tAggregateRow_8.cpu_usage_percent_sum = (double) 0;
 								}
-								operation_result_tAggregateRow_8.session_time_in_minutes_sum = operation_result_tAggregateRow_8.session_time_in_minutes_sum
-										.add(new BigDecimal(
-												String.valueOf(copyOfvm_aggregate_history.session_time_in_minutes)));
+								operation_result_tAggregateRow_8.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.cpu_usage_percent_sum
+										.doubleValue() + copyOfvm_aggregate_history.cpu_usage_percent
+										.shortValue());
 
-								if (copyOfvm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
+							} // G_OutMain_AggR_546
 
-									operation_result_tAggregateRow_8.cpu_usage_percent_count++;
+							if (copyOfvm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
 
-									if (operation_result_tAggregateRow_8.cpu_usage_percent_sum == null) {
-										operation_result_tAggregateRow_8.cpu_usage_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_8.cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.cpu_usage_percent_sum
-											.doubleValue() + copyOfvm_aggregate_history.cpu_usage_percent
-											.shortValue());
-
-								} // G_OutMain_AggR_546
-
-								if (copyOfvm_aggregate_history.cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_8.max_cpu_usage_max == null
-											|| copyOfvm_aggregate_history.cpu_usage_percent > operation_result_tAggregateRow_8.max_cpu_usage_max
-
-									) {
-										operation_result_tAggregateRow_8.max_cpu_usage_max = copyOfvm_aggregate_history.cpu_usage_percent;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (copyOfvm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_8.memory_usage_percent_count++;
-
-									if (operation_result_tAggregateRow_8.memory_usage_percent_sum == null) {
-										operation_result_tAggregateRow_8.memory_usage_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_8.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_8.memory_usage_percent_sum
-											.doubleValue() + copyOfvm_aggregate_history.memory_usage_percent
-											.shortValue());
-
-								} // G_OutMain_AggR_546
-
-								if (copyOfvm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_8.max_memory_usage_max == null
-											|| copyOfvm_aggregate_history.memory_usage_percent > operation_result_tAggregateRow_8.max_memory_usage_max
-
-									) {
-										operation_result_tAggregateRow_8.max_memory_usage_max = copyOfvm_aggregate_history.memory_usage_percent;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (copyOfvm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_8.user_cpu_usage_percent_count++;
-
-									if (operation_result_tAggregateRow_8.user_cpu_usage_percent_sum == null) {
-										operation_result_tAggregateRow_8.user_cpu_usage_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_8.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.user_cpu_usage_percent_sum
-											.doubleValue() + copyOfvm_aggregate_history.user_cpu_usage_percent
-											.shortValue());
-
-								} // G_OutMain_AggR_546
-
-								if (copyOfvm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max == null
-											|| copyOfvm_aggregate_history.user_cpu_usage_percent > operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max
-
-									) {
-										operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max = copyOfvm_aggregate_history.user_cpu_usage_percent;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (copyOfvm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_8.system_cpu_usage_percent_count++;
-
-									if (operation_result_tAggregateRow_8.system_cpu_usage_percent_sum == null) {
-										operation_result_tAggregateRow_8.system_cpu_usage_percent_sum = (double) 0;
-									}
-									operation_result_tAggregateRow_8.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.system_cpu_usage_percent_sum
-											.doubleValue() + copyOfvm_aggregate_history.system_cpu_usage_percent
-											.shortValue());
-
-								} // G_OutMain_AggR_546
-
-								if (copyOfvm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
-
-									if (operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max == null
-											|| copyOfvm_aggregate_history.system_cpu_usage_percent > operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max
-
-									) {
-										operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max = copyOfvm_aggregate_history.system_cpu_usage_percent;
-									}
-
-								} // G_OutMain_AggR_546
-
-								if (copyOfvm_aggregate_history.vm_ip != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_8.vm_ip_last = copyOfvm_aggregate_history.vm_ip;
-
-								} // G_OutMain_AggR_546
-
-								operation_result_tAggregateRow_8.vm_client_ip_last = copyOfvm_aggregate_history.vm_client_ip;
-
-								if (copyOfvm_aggregate_history.currently_running_on_host != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_8.currently_running_on_host_last = copyOfvm_aggregate_history.currently_running_on_host;
-
-								} // G_OutMain_AggR_546
-
-								if (copyOfvm_aggregate_history.vm_configuration_version != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_8.vm_configuration_version_last = copyOfvm_aggregate_history.vm_configuration_version;
-
-								} // G_OutMain_AggR_546
-
-								if (copyOfvm_aggregate_history.current_host_configuration_version != null) { // G_OutMain_AggR_546
-
-									operation_result_tAggregateRow_8.current_host_configuration_version_last = copyOfvm_aggregate_history.current_host_configuration_version;
-
-								} // G_OutMain_AggR_546
-
-								if (operation_result_tAggregateRow_8.user_logged_in_to_guest_max == null
-										|| copyOfvm_aggregate_history.user_logged_in_to_guest > operation_result_tAggregateRow_8.user_logged_in_to_guest_max
+								if (operation_result_tAggregateRow_8.max_cpu_usage_max == null
+										|| copyOfvm_aggregate_history.cpu_usage_percent > operation_result_tAggregateRow_8.max_cpu_usage_max
 
 								) {
-									operation_result_tAggregateRow_8.user_logged_in_to_guest_max = copyOfvm_aggregate_history.user_logged_in_to_guest;
+									operation_result_tAggregateRow_8.max_cpu_usage_max = copyOfvm_aggregate_history.cpu_usage_percent;
 								}
 
-								tos_count_tAggregateRow_8_AGGOUT++;
+							} // G_OutMain_AggR_546
 
-								/**
-								 * [tAggregateRow_8_AGGOUT main ] stop
-								 */
+							if (copyOfvm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
 
-							} // End of branch "copyOfvm_aggregate_history"
+								operation_result_tAggregateRow_8.memory_usage_percent_count++;
 
-						} // G_TM_M_280 close main tMap filter for table 'row13'
+								if (operation_result_tAggregateRow_8.memory_usage_percent_sum == null) {
+									operation_result_tAggregateRow_8.memory_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_8.memory_usage_percent_sum = (double) (operation_result_tAggregateRow_8.memory_usage_percent_sum
+										.doubleValue() + copyOfvm_aggregate_history.memory_usage_percent
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.memory_usage_percent != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_8.max_memory_usage_max == null
+										|| copyOfvm_aggregate_history.memory_usage_percent > operation_result_tAggregateRow_8.max_memory_usage_max
+
+								) {
+									operation_result_tAggregateRow_8.max_memory_usage_max = copyOfvm_aggregate_history.memory_usage_percent;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.user_cpu_usage_percent_count++;
+
+								if (operation_result_tAggregateRow_8.user_cpu_usage_percent_sum == null) {
+									operation_result_tAggregateRow_8.user_cpu_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_8.user_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.user_cpu_usage_percent_sum
+										.doubleValue() + copyOfvm_aggregate_history.user_cpu_usage_percent
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.user_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max == null
+										|| copyOfvm_aggregate_history.user_cpu_usage_percent > operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max
+
+								) {
+									operation_result_tAggregateRow_8.max_user_cpu_usage_percent_max = copyOfvm_aggregate_history.user_cpu_usage_percent;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.system_cpu_usage_percent_count++;
+
+								if (operation_result_tAggregateRow_8.system_cpu_usage_percent_sum == null) {
+									operation_result_tAggregateRow_8.system_cpu_usage_percent_sum = (double) 0;
+								}
+								operation_result_tAggregateRow_8.system_cpu_usage_percent_sum = (double) (operation_result_tAggregateRow_8.system_cpu_usage_percent_sum
+										.doubleValue() + copyOfvm_aggregate_history.system_cpu_usage_percent
+										.shortValue());
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.system_cpu_usage_percent != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max == null
+										|| copyOfvm_aggregate_history.system_cpu_usage_percent > operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max
+
+								) {
+									operation_result_tAggregateRow_8.max_system_cpu_usage_percent_max = copyOfvm_aggregate_history.system_cpu_usage_percent;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.vm_ip != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.vm_ip_last = copyOfvm_aggregate_history.vm_ip;
+
+							} // G_OutMain_AggR_546
+
+							operation_result_tAggregateRow_8.vm_client_ip_last = copyOfvm_aggregate_history.vm_client_ip;
+
+							if (copyOfvm_aggregate_history.currently_running_on_host != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.currently_running_on_host_last = copyOfvm_aggregate_history.currently_running_on_host;
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.vm_configuration_version != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.vm_configuration_version_last = copyOfvm_aggregate_history.vm_configuration_version;
+
+							} // G_OutMain_AggR_546
+
+							if (copyOfvm_aggregate_history.current_host_configuration_version != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.current_host_configuration_version_last = copyOfvm_aggregate_history.current_host_configuration_version;
+
+							} // G_OutMain_AggR_546
+
+							if (operation_result_tAggregateRow_8.user_logged_in_to_guest_max == null
+									|| copyOfvm_aggregate_history.user_logged_in_to_guest > operation_result_tAggregateRow_8.user_logged_in_to_guest_max
+
+							) {
+								operation_result_tAggregateRow_8.user_logged_in_to_guest_max = copyOfvm_aggregate_history.user_logged_in_to_guest;
+							}
+
+							tos_count_tAggregateRow_8_AGGOUT++;
+
+							/**
+							 * [tAggregateRow_8_AGGOUT main ] stop
+							 */
+
+						} // End of branch "copyOfvm_aggregate_history"
 
 						/**
 						 * [tJDBCInput_10 end ] start
@@ -25381,6 +24908,29 @@ public class AggregationToDaily implements TalendJob {
 			} catch (ParseException e) {
 				context.runTime = null;
 			}
+			try {
+				String context_lastDayAggr_value = context
+						.getProperty("lastDayAggr");
+				if (context_lastDayAggr_value == null) {
+					context_lastDayAggr_value = "";
+				}
+				int context_lastDayAggr_pos = context_lastDayAggr_value
+						.indexOf(";");
+				String context_lastDayAggr_pattern = "yyyy-MM-dd HH:mm:ss";
+				if (context_lastDayAggr_pos > -1) {
+					context_lastDayAggr_pattern = context_lastDayAggr_value
+							.substring(0, context_lastDayAggr_pos);
+					context_lastDayAggr_value = context_lastDayAggr_value
+							.substring(context_lastDayAggr_pos + 1);
+				}
+
+				context.lastDayAggr = (java.util.Date) (new java.text.SimpleDateFormat(
+						context_lastDayAggr_pattern)
+						.parse(context_lastDayAggr_value));
+
+			} catch (ParseException e) {
+				context.lastDayAggr = null;
+			}
 		} catch (java.io.IOException ie) {
 			System.err.println("Could not load context " + contextStr);
 			ie.printStackTrace();
@@ -25408,6 +24958,10 @@ public class AggregationToDaily implements TalendJob {
 			if (parentContextMap.containsKey("runTime")) {
 				context.runTime = (java.util.Date) parentContextMap
 						.get("runTime");
+			}
+			if (parentContextMap.containsKey("lastDayAggr")) {
+				context.lastDayAggr = (java.util.Date) parentContextMap
+						.get("lastDayAggr");
 			}
 		}
 
@@ -25996,6 +25550,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 748381 characters generated by Talend Open Studio for Data Integration on the
- * March 17, 2014 2:22:37 PM IST
+ * 735916 characters generated by Talend Open Studio for Data Integration on the
+ * April 29, 2014 2:25:39 PM IDT
  ************************************************************************************************/
