@@ -242,6 +242,9 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed Apr 23 2014 Yaniv Dary <ydary@redhat.com> - 3.4.1
+updated enum translations
+
 * Sun Mar 30 2014 Yaniv Dary <ydary@redhat.com> - 3.4.1
 Fixed issues:
 - io.StringIO needs unicode (See releated BZ #1079911)
