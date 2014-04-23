@@ -278,7 +278,7 @@ SELECT update_enum_translator(cast('ENTITY_TYPE' as varchar(40)),cast(2 as small
 SELECT update_enum_translator(cast('ENTITY_TYPE' as varchar(40)),cast(3 as smallint),cast('fr' as varchar(40)),cast(U&'H\00F4te' as text));
 SELECT update_enum_translator(cast('ENTITY_TYPE' as varchar(40)),cast(5 as smallint),cast('fr' as varchar(40)),cast(U&'VM Pool' as text));
 SELECT update_enum_translator(cast('ENTITY_TYPE' as varchar(40)),cast(15 as smallint),cast('fr' as varchar(40)),cast(U&'Utilisateur' as text));
-SELECT update_enum_translator(cast('ENTITY_TYPE' as varchar(40)),cast(17 as smallint),cast('fr' as varchar(40)),cast(U&'Groupe d\'utilisateurs' as text));
+SELECT update_enum_translator(cast('ENTITY_TYPE' as varchar(40)),cast(17 as smallint),cast('fr' as varchar(40)),cast(U&'Groupe d''utilisateurs' as text));
 SELECT update_enum_translator(cast('ENTITY_TYPE' as varchar(40)),cast(18 as smallint),cast('fr' as varchar(40)),cast(U&'Balise' as text));
 SELECT update_enum_translator(cast('HOST_STATUS' as varchar(40)),cast(-1 as smallint),cast('fr' as varchar(40)),cast(U&'Statut inconnu' as text));
 SELECT update_enum_translator(cast('HOST_STATUS' as varchar(40)),cast(1 as smallint),cast('fr' as varchar(40)),cast(U&'En cours' as text));
