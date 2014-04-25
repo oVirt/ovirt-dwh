@@ -218,7 +218,7 @@ class DBEnv(object):
     @osetupattrs(
         answerfile=True,
     )
-    def RESTORE_BACKUP_LATE:
+    def RESTORE_BACKUP_LATE(self):
         return 'OVESETUP_DWH_DB/restoreBackupLate'
 
 
