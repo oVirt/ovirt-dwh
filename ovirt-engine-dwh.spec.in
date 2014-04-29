@@ -242,6 +242,11 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Apr 29 2014 Yaniv Dary <ydary@redhat.com> - 3.4.1
+Fixed issues:
+- Fixed message in MinimalVersionCheck job (#1090914)
+- Ask whether to backup the database (#1059286)
+
 * Wed Apr 23 2014 Yaniv Dary <ydary@redhat.com> - 3.4.1
 updated enum translations
 
