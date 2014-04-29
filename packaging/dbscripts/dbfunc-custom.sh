@@ -28,6 +28,8 @@ dbfunc_common_hook_views_refresh() {
 	dbfunc_psql_die --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_3_3.sql" > /dev/null
 	echo "Creating views API 3.4..."
 	dbfunc_psql_die --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_3_4.sql" > /dev/null
+	echo "Creating views API 3.5..."
+	dbfunc_psql_die --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_3_5.sql" > /dev/null
 	echo "Creating ovirt engine reports views..."
 	dbfunc_psql_die --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_reports_views.sql" > /dev/null
 }
