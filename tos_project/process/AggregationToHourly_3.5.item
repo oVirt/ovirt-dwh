@@ -1046,7 +1046,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  system_cpu_usage_percent,&#xD;&#xA;  vm_ip, &#xD;&#xA;  current_user_name, &#xA;  user_logged_in_to_guest,&#xD;&#xA;  currently_running_on_host, &#xD;&#xA;  vm_configuration_version, &#xD;&#xA;  current_host_configuration_version&#xD;&#xA;FROM vm_samples_history&#xD;&#xA;WHERE history_datetime >= '&quot;+context.lastHourAggr+&quot;'&#xA;AND history_datetime &lt; '&quot;+TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;)+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; vm_id,&#xD;&#xA;&#x9;&#x9; vm_status&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  system_cpu_usage_percent,&#xD;&#xA;  vm_ip, &#xA;  current_user_id,&#xA;  user_logged_in_to_guest,&#xD;&#xA;  currently_running_on_host, &#xD;&#xA;  vm_configuration_version, &#xD;&#xA;  current_host_configuration_version&#xD;&#xA;FROM vm_samples_history&#xD;&#xA;WHERE history_datetime >= '&quot;+context.lastHourAggr+&quot;'&#xA;AND history_datetime &lt; '&quot;+TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;)+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; vm_id,&#xD;&#xA;&#x9;&#x9; vm_status&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1076,7 +1076,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_ip"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="current_user_name"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="current_user_id"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="user_logged_in_to_guest"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1102,7 +1102,7 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="current_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
       <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -1133,7 +1133,7 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="current_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -1151,7 +1151,7 @@
         <mapperTableEntries name="user_cpu_usage_percent" expression="row4.user_cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="system_cpu_usage_percent" expression="row4.system_cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="vm_ip" expression="row4.vm_ip" type="id_String" nullable="true"/>
-        <mapperTableEntries name="current_user_name" expression="row4.current_user_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="current_user_id" expression="row4.current_user_id " type="id_Object" nullable="true"/>
         <mapperTableEntries name="currently_running_on_host" expression="row4.currently_running_on_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_configuration_version" expression="row4.vm_configuration_version" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="current_host_configuration_version" expression="row4.current_host_configuration_version" type="id_Integer" nullable="true"/>
@@ -1167,7 +1167,7 @@
         <mapperTableEntries name="user_cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="system_cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="vm_ip" type="id_String" nullable="true"/>
-        <mapperTableEntries name="current_user_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="current_user_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="user_logged_in_to_guest" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="currently_running_on_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_configuration_version" type="id_Integer" nullable="true"/>
@@ -1226,9 +1226,9 @@
       <elementValue elementRef="FUNCTION" value="last"/>
       <elementValue elementRef="INPUT_COLUMN" value="vm_ip"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
-      <elementValue elementRef="OUTPUT_COLUMN" value="current_user_name"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="current_user_id"/>
       <elementValue elementRef="FUNCTION" value="last"/>
-      <elementValue elementRef="INPUT_COLUMN" value="current_user_name"/>
+      <elementValue elementRef="INPUT_COLUMN" value="current_user_id"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="currently_running_on_host"/>
       <elementValue elementRef="FUNCTION" value="last"/>
@@ -1265,7 +1265,7 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="current_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -1359,7 +1359,7 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="current_user_name"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="current_user_id"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -1401,7 +1401,7 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="current_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -1420,7 +1420,7 @@
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="max_system_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" name="vm_ip" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="current_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -2446,7 +2446,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id,&#xD;&#xA;  history_datetime,&#xA;  current_user_name,&#xA;  cast(user_logged_in_to_guest as int),&#xD;&#xA;  vm_id,&#xD;&#xA;  minutes_in_status,&#xD;&#xA;  cpu_usage_percent,&#xD;&#xA;  memory_usage_percent,&#xD;&#xA;  user_cpu_usage_percent,&#xD;&#xA;  system_cpu_usage_percent,&#xD;&#xA;  vm_ip,&#xA;  vm_client_ip,&#xD;&#xA;  currently_running_on_host,&#xD;&#xA;  vm_configuration_version,&#xD;&#xA;  current_host_configuration_version&#xD;&#xA;FROM vm_samples_history&#xD;&#xA;WHERE vm_status = 1&#xA;AND history_datetime >= '&quot;+context.lastHourAggr+&quot;'&#xA;AND history_datetime &lt; '&quot;+TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;)+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xA;         current_user_name,&#xD;&#xA;      &#x9; vm_id&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id,&#xD;&#xA;  history_datetime,&#xA;  current_user_id,&#xA;  current_user_name,&#xA;  cast(user_logged_in_to_guest as int),&#xD;&#xA;  vm_id,&#xD;&#xA;  minutes_in_status,&#xD;&#xA;  cpu_usage_percent,&#xD;&#xA;  memory_usage_percent,&#xD;&#xA;  user_cpu_usage_percent,&#xD;&#xA;  system_cpu_usage_percent,&#xD;&#xA;  vm_ip,&#xA;  vm_client_ip,&#xD;&#xA;  currently_running_on_host,&#xD;&#xA;  vm_configuration_version,&#xD;&#xA;  current_host_configuration_version&#xD;&#xA;FROM vm_samples_history&#xD;&#xA;WHERE vm_status = 1&#xA;AND history_datetime >= '&quot;+context.lastHourAggr+&quot;'&#xA;AND history_datetime &lt; '&quot;+TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;)+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xA;         current_user_name,&#xD;&#xA;      &#x9; vm_id&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -2459,6 +2459,8 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="history_datetime"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="current_user_id"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="current_user_name"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -2494,7 +2496,8 @@
     <metadata connector="FLOW" label="vm_samples_history" name="tJDBCInput_10">
       <column comment="" defaultValue="&quot;nextval('vm_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="current_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
@@ -2525,7 +2528,8 @@
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="vm_users_aggregate_history">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="session_time_in_minutes" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
@@ -2540,11 +2544,12 @@
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_users_aggregate_history">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row13.history_datetime) " type="id_Date"/>
-        <mapperTableEntries name="user_name" expression="row13.current_user_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_id" expression="row13.current_user_id " type="id_Object" nullable="true"/>
+        <mapperTableEntries name="user_name" expression="row13.current_user_name " type="id_String" nullable="true"/>
         <mapperTableEntries name="user_logged_in_to_guest" expression="row13.user_logged_in_to_guest " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="vm_id" expression="row13.vm_id" type="id_Object"/>
         <mapperTableEntries name="session_time_in_minutes" expression="row13.minutes_in_status" type="id_Double"/>
@@ -2561,6 +2566,7 @@
       <inputTables sizeState="INTERMEDIATE" name="row13" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="history_id" type="id_Integer"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
+        <mapperTableEntries name="current_user_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="current_user_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="user_logged_in_to_guest" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="vm_id" type="id_Object"/>
@@ -2582,6 +2588,8 @@
     <elementParameter field="TABLE" name="GROUPBYS">
       <elementValue elementRef="OUTPUT_COLUMN" value="history_datetime"/>
       <elementValue elementRef="INPUT_COLUMN" value="history_datetime"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="user_id"/>
+      <elementValue elementRef="INPUT_COLUMN" value="user_id"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="user_name"/>
       <elementValue elementRef="INPUT_COLUMN" value="user_name"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="vm_id"/>
@@ -2631,7 +2639,7 @@
       <elementValue elementRef="OUTPUT_COLUMN" value="vm_client_ip"/>
       <elementValue elementRef="FUNCTION" value="last"/>
       <elementValue elementRef="INPUT_COLUMN" value="vm_client_ip"/>
-      <elementValue elementRef="IGNORE_NULL" value="false"/>
+      <elementValue elementRef="IGNORE_NULL" value="true"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="currently_running_on_host"/>
       <elementValue elementRef="FUNCTION" value="last"/>
       <elementValue elementRef="INPUT_COLUMN" value="currently_running_on_host"/>
@@ -2645,9 +2653,9 @@
       <elementValue elementRef="INPUT_COLUMN" value="current_host_configuration_version"/>
       <elementValue elementRef="IGNORE_NULL" value="true"/>
       <elementValue elementRef="OUTPUT_COLUMN" value="user_logged_in_to_guest"/>
-      <elementValue elementRef="FUNCTION" value="max"/>
+      <elementValue elementRef="FUNCTION" value="last"/>
       <elementValue elementRef="INPUT_COLUMN" value="user_logged_in_to_guest"/>
-      <elementValue elementRef="IGNORE_NULL" value="false"/>
+      <elementValue elementRef="IGNORE_NULL" value="true"/>
     </elementParameter>
     <elementParameter field="TEXT" name="LIST_DELIMITER" value="&quot;,&quot;"/>
     <elementParameter field="CHECK" name="USE_FINANCIAL_PRECISION" value="true"/>
@@ -2659,7 +2667,8 @@
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tAggregateRow_8">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="session_time_in_minutes" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
@@ -2694,7 +2703,8 @@
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="complete_aggregation">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="session_time_in_minutes" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
@@ -2713,11 +2723,12 @@
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="complete_aggregation">
         <mapperTableEntries name="history_datetime" expression="row14.history_datetime" type="id_Date"/>
-        <mapperTableEntries name="user_name" expression="row14.user_name" type="id_String" nullable="true"/>
+        <mapperTableEntries name="user_id" expression="row14.user_id " type="id_Object" nullable="true"/>
+        <mapperTableEntries name="user_name" expression="row14.user_name " type="id_String" nullable="true"/>
         <mapperTableEntries name="user_logged_in_to_guest" expression="row14.user_logged_in_to_guest != null ?row14.user_logged_in_to_guest > 0 : null" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="vm_id" expression="row14.vm_id" type="id_Object"/>
         <mapperTableEntries name="session_time_in_minutes" expression="row14.session_time_in_minutes" type="id_Double"/>
@@ -2737,6 +2748,7 @@
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row14" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="history_datetime" type="id_Date"/>
+        <mapperTableEntries name="user_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="user_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="user_logged_in_to_guest" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="vm_id" type="id_Object"/>
@@ -2781,6 +2793,11 @@
     <elementParameter field="CHECK" name="USE_FIELD_OPTIONS" value="false"/>
     <elementParameter field="TABLE" name="FIELD_OPTIONS">
       <elementValue elementRef="SCHEMA_COLUMN" value="history_datetime"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="user_id"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
@@ -2880,7 +2897,8 @@
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tJDBCOutput_10">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="session_time_in_minutes" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
@@ -2900,7 +2918,8 @@
     </metadata>
     <metadata connector="REJECT" label="vm_hourly_history" name="REJECT">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="user_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
+      <column comment="" key="false" length="255" name="user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="session_time_in_minutes" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
@@ -3616,6 +3635,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="user_logged_in_to_guest"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="current_user_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -3678,6 +3700,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="system_cpu_usage_percent"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="current_user_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -3748,6 +3773,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="max_system_cpu_usage_percent"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="current_user_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -4415,6 +4443,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="user_logged_in_to_guest"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="current_user_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="current_user_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -4485,6 +4519,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="user_logged_in_to_guest"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="user_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -4552,6 +4589,9 @@
       <elementValue elementRef="TRACE_COLUMN" value="current_host_configuration_version"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="user_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
@@ -4617,6 +4657,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="current_host_configuration_version"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="user_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>

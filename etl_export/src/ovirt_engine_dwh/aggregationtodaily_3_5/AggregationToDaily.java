@@ -8656,10 +8656,10 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_ip;
 		}
 
-		public String current_user_name;
+		public Object current_user_id;
 
-		public String getCurrent_user_name() {
-			return this.current_user_name;
+		public Object getCurrent_user_id() {
+			return this.current_user_id;
 		}
 
 		public Object currently_running_on_host;
@@ -8835,7 +8835,7 @@ public class AggregationToDaily implements TalendJob {
 
 					this.vm_ip = readString(dis);
 
-					this.current_user_name = readString(dis);
+					this.current_user_id = (Object) dis.readObject();
 
 					this.currently_running_on_host = (Object) dis.readObject();
 
@@ -8950,9 +8950,9 @@ public class AggregationToDaily implements TalendJob {
 
 				writeString(this.vm_ip, dos);
 
-				// String
+				// Object
 
-				writeString(this.current_user_name, dos);
+				dos.writeObject(this.current_user_id);
 
 				// Object
 
@@ -8995,7 +8995,7 @@ public class AggregationToDaily implements TalendJob {
 			sb.append(",max_system_cpu_usage_percent="
 					+ String.valueOf(max_system_cpu_usage_percent));
 			sb.append(",vm_ip=" + vm_ip);
-			sb.append(",current_user_name=" + current_user_name);
+			sb.append(",current_user_id=" + String.valueOf(current_user_id));
 			sb.append(",currently_running_on_host="
 					+ String.valueOf(currently_running_on_host));
 			sb.append(",vm_configuration_version="
@@ -9124,10 +9124,10 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_ip;
 		}
 
-		public String current_user_name;
+		public Object current_user_id;
 
-		public String getCurrent_user_name() {
-			return this.current_user_name;
+		public Object getCurrent_user_id() {
+			return this.current_user_id;
 		}
 
 		public Object currently_running_on_host;
@@ -9303,7 +9303,7 @@ public class AggregationToDaily implements TalendJob {
 
 					this.vm_ip = readString(dis);
 
-					this.current_user_name = readString(dis);
+					this.current_user_id = (Object) dis.readObject();
 
 					this.currently_running_on_host = (Object) dis.readObject();
 
@@ -9418,9 +9418,9 @@ public class AggregationToDaily implements TalendJob {
 
 				writeString(this.vm_ip, dos);
 
-				// String
+				// Object
 
-				writeString(this.current_user_name, dos);
+				dos.writeObject(this.current_user_id);
 
 				// Object
 
@@ -9463,7 +9463,7 @@ public class AggregationToDaily implements TalendJob {
 			sb.append(",max_system_cpu_usage_percent="
 					+ String.valueOf(max_system_cpu_usage_percent));
 			sb.append(",vm_ip=" + vm_ip);
-			sb.append(",current_user_name=" + current_user_name);
+			sb.append(",current_user_id=" + String.valueOf(current_user_id));
 			sb.append(",currently_running_on_host="
 					+ String.valueOf(currently_running_on_host));
 			sb.append(",vm_configuration_version="
@@ -9568,10 +9568,10 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_ip;
 		}
 
-		public String current_user_name;
+		public Object current_user_id;
 
-		public String getCurrent_user_name() {
-			return this.current_user_name;
+		public Object getCurrent_user_id() {
+			return this.current_user_id;
 		}
 
 		public Object currently_running_on_host;
@@ -9719,7 +9719,7 @@ public class AggregationToDaily implements TalendJob {
 
 					this.vm_ip = readString(dis);
 
-					this.current_user_name = readString(dis);
+					this.current_user_id = (Object) dis.readObject();
 
 					this.currently_running_on_host = (Object) dis.readObject();
 
@@ -9798,9 +9798,9 @@ public class AggregationToDaily implements TalendJob {
 
 				writeString(this.vm_ip, dos);
 
-				// String
+				// Object
 
-				writeString(this.current_user_name, dos);
+				dos.writeObject(this.current_user_id);
 
 				// Object
 
@@ -9837,7 +9837,7 @@ public class AggregationToDaily implements TalendJob {
 			sb.append(",system_cpu_usage_percent="
 					+ String.valueOf(system_cpu_usage_percent));
 			sb.append(",vm_ip=" + vm_ip);
-			sb.append(",current_user_name=" + current_user_name);
+			sb.append(",current_user_id=" + String.valueOf(current_user_id));
 			sb.append(",currently_running_on_host="
 					+ String.valueOf(currently_running_on_host));
 			sb.append(",vm_configuration_version="
@@ -9948,10 +9948,10 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_ip;
 		}
 
-		public String current_user_name;
+		public Object current_user_id;
 
-		public String getCurrent_user_name() {
-			return this.current_user_name;
+		public Object getCurrent_user_id() {
+			return this.current_user_id;
 		}
 
 		public Object currently_running_on_host;
@@ -10101,7 +10101,7 @@ public class AggregationToDaily implements TalendJob {
 
 					this.vm_ip = readString(dis);
 
-					this.current_user_name = readString(dis);
+					this.current_user_id = (Object) dis.readObject();
 
 					this.currently_running_on_host = (Object) dis.readObject();
 
@@ -10184,9 +10184,9 @@ public class AggregationToDaily implements TalendJob {
 
 				writeString(this.vm_ip, dos);
 
-				// String
+				// Object
 
-				writeString(this.current_user_name, dos);
+				dos.writeObject(this.current_user_id);
 
 				// Object
 
@@ -10224,7 +10224,7 @@ public class AggregationToDaily implements TalendJob {
 			sb.append(",system_cpu_usage_percent="
 					+ String.valueOf(system_cpu_usage_percent));
 			sb.append(",vm_ip=" + vm_ip);
-			sb.append(",current_user_name=" + current_user_name);
+			sb.append(",current_user_id=" + String.valueOf(current_user_id));
 			sb.append(",currently_running_on_host="
 					+ String.valueOf(currently_running_on_host));
 			sb.append(",vm_configuration_version="
@@ -10553,7 +10553,7 @@ public class AggregationToDaily implements TalendJob {
 
 					Short max_system_cpu_usage_percent_max;
 					String vm_ip_last;
-					String current_user_name_last;
+					Object current_user_id_last;
 					Object currently_running_on_host_last;
 					Integer vm_configuration_version_last;
 					Integer current_host_configuration_version_last;
@@ -10671,7 +10671,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_4 = conn_tJDBCInput_4
 						.createStatement();
 
-				String dbquery_tJDBCInput_4 = "SELECT     history_id,     history_datetime,     vm_id,     vm_status,     minutes_in_status,     cpu_usage_percent,      memory_usage_percent,     user_cpu_usage_percent,     system_cpu_usage_percent,    vm_ip,     current_user_name,     currently_running_on_host,     vm_configuration_version,     current_host_configuration_version  FROM vm_hourly_history  WHERE history_datetime >= '"
+				String dbquery_tJDBCInput_4 = "SELECT     history_id,     history_datetime,     vm_id,     vm_status,     minutes_in_status,     cpu_usage_percent,      memory_usage_percent,     user_cpu_usage_percent,     system_cpu_usage_percent,    vm_ip,    current_user_id,    currently_running_on_host,     vm_configuration_version,     current_host_configuration_version  FROM vm_hourly_history  WHERE history_datetime >= '"
 						+ context.lastDayAggr
 						+ "' AND history_datetime < '"
 						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
@@ -10866,15 +10866,15 @@ public class AggregationToDaily implements TalendJob {
 						column_index_tJDBCInput_4 = 11;
 
 						if (colQtyInRs_tJDBCInput_4 < column_index_tJDBCInput_4) {
-							row4.current_user_name = null;
+							row4.current_user_id = null;
 						} else {
 
-							tmpContent_tJDBCInput_4 = rs_tJDBCInput_4
-									.getString(column_index_tJDBCInput_4);
-							if (tmpContent_tJDBCInput_4 != null) {
-								row4.current_user_name = tmpContent_tJDBCInput_4;
+							if (rs_tJDBCInput_4
+									.getObject(column_index_tJDBCInput_4) != null) {
+								row4.current_user_id = rs_tJDBCInput_4
+										.getObject(column_index_tJDBCInput_4);
 							} else {
-								row4.current_user_name = null;
+								row4.current_user_id = null;
 							}
 
 						}
@@ -10978,7 +10978,7 @@ public class AggregationToDaily implements TalendJob {
 							vm_aggregate_history_tmp.user_cpu_usage_percent = row4.user_cpu_usage_percent;
 							vm_aggregate_history_tmp.system_cpu_usage_percent = row4.system_cpu_usage_percent;
 							vm_aggregate_history_tmp.vm_ip = row4.vm_ip;
-							vm_aggregate_history_tmp.current_user_name = row4.current_user_name;
+							vm_aggregate_history_tmp.current_user_id = row4.current_user_id;
 							vm_aggregate_history_tmp.currently_running_on_host = row4.currently_running_on_host;
 							vm_aggregate_history_tmp.vm_configuration_version = row4.vm_configuration_version;
 							vm_aggregate_history_tmp.current_host_configuration_version = row4.current_host_configuration_version;
@@ -11142,9 +11142,9 @@ public class AggregationToDaily implements TalendJob {
 
 							} // G_OutMain_AggR_546
 
-							if (vm_aggregate_history.current_user_name != null) { // G_OutMain_AggR_546
+							if (vm_aggregate_history.current_user_id != null) { // G_OutMain_AggR_546
 
-								operation_result_tAggregateRow_4.current_user_name_last = vm_aggregate_history.current_user_name;
+								operation_result_tAggregateRow_4.current_user_id_last = vm_aggregate_history.current_user_id;
 
 							} // G_OutMain_AggR_546
 
@@ -11261,7 +11261,7 @@ public class AggregationToDaily implements TalendJob {
 
 				String insert_tJDBCOutput_4 = "INSERT INTO "
 						+ "vm_daily_history"
-						+ " (history_datetime,vm_id,vm_status,minutes_in_status,cpu_usage_percent,max_cpu_usage,memory_usage_percent,max_memory_usage,user_cpu_usage_percent,max_user_cpu_usage_percent,system_cpu_usage_percent,max_system_cpu_usage_percent,vm_ip,current_user_name,currently_running_on_host,vm_configuration_version,current_host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,vm_id,vm_status,minutes_in_status,cpu_usage_percent,max_cpu_usage,memory_usage_percent,max_memory_usage,user_cpu_usage_percent,max_user_cpu_usage_percent,system_cpu_usage_percent,max_system_cpu_usage_percent,vm_ip,current_user_id,currently_running_on_host,vm_configuration_version,current_host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_4 = connection_tJDBCOutput_4
 						.prepareStatement(insert_tJDBCOutput_4);
 
@@ -11379,7 +11379,7 @@ public class AggregationToDaily implements TalendJob {
 					}
 					row9.max_system_cpu_usage_percent = aggregated_row_tAggregateRow_4.max_system_cpu_usage_percent_max;
 					row9.vm_ip = aggregated_row_tAggregateRow_4.vm_ip_last;
-					row9.current_user_name = aggregated_row_tAggregateRow_4.current_user_name_last;
+					row9.current_user_id = aggregated_row_tAggregateRow_4.current_user_id_last;
 					row9.currently_running_on_host = aggregated_row_tAggregateRow_4.currently_running_on_host_last;
 					row9.vm_configuration_version = aggregated_row_tAggregateRow_4.vm_configuration_version_last;
 					row9.current_host_configuration_version = aggregated_row_tAggregateRow_4.current_host_configuration_version_last;
@@ -11475,11 +11475,10 @@ public class AggregationToDaily implements TalendJob {
 						pstmt_tJDBCOutput_4.setString(13, row9.vm_ip);
 					}
 
-					if (row9.current_user_name == null) {
-						pstmt_tJDBCOutput_4.setNull(14, java.sql.Types.VARCHAR);
+					if (row9.current_user_id == null) {
+						pstmt_tJDBCOutput_4.setNull(14, java.sql.Types.OTHER);
 					} else {
-						pstmt_tJDBCOutput_4.setString(14,
-								row9.current_user_name);
+						pstmt_tJDBCOutput_4.setObject(14, row9.current_user_id);
 					}
 
 					if (row9.currently_running_on_host == null) {
@@ -20230,6 +20229,12 @@ public class AggregationToDaily implements TalendJob {
 			return this.history_datetime;
 		}
 
+		public Object user_id;
+
+		public Object getUser_id() {
+			return this.user_id;
+		}
+
 		public String user_name;
 
 		public String getUser_name() {
@@ -20423,6 +20428,8 @@ public class AggregationToDaily implements TalendJob {
 
 					this.history_datetime = readDate(dis);
 
+					this.user_id = (Object) dis.readObject();
+
 					this.user_name = readString(dis);
 
 					length = dis.readByte();
@@ -20520,6 +20527,10 @@ public class AggregationToDaily implements TalendJob {
 				// java.util.Date
 
 				writeDate(this.history_datetime, dos);
+
+				// Object
+
+				dos.writeObject(this.user_id);
 
 				// String
 
@@ -20646,6 +20657,7 @@ public class AggregationToDaily implements TalendJob {
 			sb.append(super.toString());
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
+			sb.append(",user_id=" + String.valueOf(user_id));
 			sb.append(",user_name=" + user_name);
 			sb.append(",user_logged_in_to_guest="
 					+ String.valueOf(user_logged_in_to_guest));
@@ -20723,6 +20735,12 @@ public class AggregationToDaily implements TalendJob {
 			return this.history_datetime;
 		}
 
+		public Object user_id;
+
+		public Object getUser_id() {
+			return this.user_id;
+		}
+
 		public String user_name;
 
 		public String getUser_name() {
@@ -20916,6 +20934,8 @@ public class AggregationToDaily implements TalendJob {
 
 					this.history_datetime = readDate(dis);
 
+					this.user_id = (Object) dis.readObject();
+
 					this.user_name = readString(dis);
 
 					length = dis.readByte();
@@ -21013,6 +21033,10 @@ public class AggregationToDaily implements TalendJob {
 				// java.util.Date
 
 				writeDate(this.history_datetime, dos);
+
+				// Object
+
+				dos.writeObject(this.user_id);
 
 				// String
 
@@ -21139,6 +21163,7 @@ public class AggregationToDaily implements TalendJob {
 			sb.append(super.toString());
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
+			sb.append(",user_id=" + String.valueOf(user_id));
 			sb.append(",user_name=" + user_name);
 			sb.append(",user_logged_in_to_guest="
 					+ String.valueOf(user_logged_in_to_guest));
@@ -21216,6 +21241,12 @@ public class AggregationToDaily implements TalendJob {
 			return this.history_datetime;
 		}
 
+		public Object user_id;
+
+		public Object getUser_id() {
+			return this.user_id;
+		}
+
 		public String user_name;
 
 		public String getUser_name() {
@@ -21409,6 +21440,8 @@ public class AggregationToDaily implements TalendJob {
 
 					this.history_datetime = readDate(dis);
 
+					this.user_id = (Object) dis.readObject();
+
 					this.user_name = readString(dis);
 
 					length = dis.readByte();
@@ -21506,6 +21539,10 @@ public class AggregationToDaily implements TalendJob {
 				// java.util.Date
 
 				writeDate(this.history_datetime, dos);
+
+				// Object
+
+				dos.writeObject(this.user_id);
 
 				// String
 
@@ -21632,6 +21669,7 @@ public class AggregationToDaily implements TalendJob {
 			sb.append(super.toString());
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
+			sb.append(",user_id=" + String.valueOf(user_id));
 			sb.append(",user_name=" + user_name);
 			sb.append(",user_logged_in_to_guest="
 					+ String.valueOf(user_logged_in_to_guest));
@@ -21707,6 +21745,12 @@ public class AggregationToDaily implements TalendJob {
 
 		public java.util.Date getHistory_datetime() {
 			return this.history_datetime;
+		}
+
+		public Object user_id;
+
+		public Object getUser_id() {
+			return this.user_id;
 		}
 
 		public String user_name;
@@ -21878,6 +21922,8 @@ public class AggregationToDaily implements TalendJob {
 
 					this.history_datetime = readDate(dis);
 
+					this.user_id = (Object) dis.readObject();
+
 					this.user_name = readString(dis);
 
 					length = dis.readByte();
@@ -21947,6 +21993,10 @@ public class AggregationToDaily implements TalendJob {
 				// java.util.Date
 
 				writeDate(this.history_datetime, dos);
+
+				// Object
+
+				dos.writeObject(this.user_id);
 
 				// String
 
@@ -22037,6 +22087,7 @@ public class AggregationToDaily implements TalendJob {
 			sb.append(super.toString());
 			sb.append("[");
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
+			sb.append(",user_id=" + String.valueOf(user_id));
 			sb.append(",user_name=" + user_name);
 			sb.append(",user_logged_in_to_guest="
 					+ String.valueOf(user_logged_in_to_guest));
@@ -22112,6 +22163,12 @@ public class AggregationToDaily implements TalendJob {
 
 		public java.util.Date getHistory_datetime() {
 			return this.history_datetime;
+		}
+
+		public Object user_id;
+
+		public Object getUser_id() {
+			return this.user_id;
 		}
 
 		public String user_name;
@@ -22285,6 +22342,8 @@ public class AggregationToDaily implements TalendJob {
 
 					this.history_datetime = readDate(dis);
 
+					this.user_id = (Object) dis.readObject();
+
 					this.user_name = readString(dis);
 
 					length = dis.readByte();
@@ -22358,6 +22417,10 @@ public class AggregationToDaily implements TalendJob {
 				// java.util.Date
 
 				writeDate(this.history_datetime, dos);
+
+				// Object
+
+				dos.writeObject(this.user_id);
 
 				// String
 
@@ -22449,6 +22512,7 @@ public class AggregationToDaily implements TalendJob {
 			sb.append("[");
 			sb.append("history_id=" + String.valueOf(history_id));
 			sb.append(",history_datetime=" + String.valueOf(history_datetime));
+			sb.append(",user_id=" + String.valueOf(user_id));
 			sb.append(",user_name=" + user_name);
 			sb.append(",user_logged_in_to_guest="
 					+ String.valueOf(user_logged_in_to_guest));
@@ -22772,6 +22836,7 @@ public class AggregationToDaily implements TalendJob {
 					public boolean hashCodeDirty = true;
 
 					java.util.Date history_datetime;
+					Object user_id;
 					String user_name;
 					Object vm_id;
 					BigDecimal session_time_in_minutes_sum;
@@ -22797,7 +22862,7 @@ public class AggregationToDaily implements TalendJob {
 					Object currently_running_on_host_last;
 					Integer vm_configuration_version_last;
 					Integer current_host_configuration_version_last;
-					Short user_logged_in_to_guest_max;
+					Short user_logged_in_to_guest_last;
 
 					@Override
 					public int hashCode() {
@@ -22809,6 +22874,11 @@ public class AggregationToDaily implements TalendJob {
 									* result
 									+ ((this.history_datetime == null) ? 0
 											: this.history_datetime.hashCode());
+
+							result = prime
+									* result
+									+ ((this.user_id == null) ? 0
+											: this.user_id.hashCode());
 
 							result = prime
 									* result
@@ -22841,6 +22911,12 @@ public class AggregationToDaily implements TalendJob {
 								return false;
 						} else if (!this.history_datetime
 								.equals(other.history_datetime))
+							return false;
+
+						if (this.user_id == null) {
+							if (other.user_id != null)
+								return false;
+						} else if (!this.user_id.equals(other.user_id))
 							return false;
 
 						if (this.user_name == null) {
@@ -22918,7 +22994,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_10 = conn_tJDBCInput_10
 						.createStatement();
 
-				String dbquery_tJDBCInput_10 = "SELECT    history_id,    history_datetime,   user_name,   cast(user_logged_in_to_guest as int),    vm_id,    session_time_in_minutes,    cpu_usage_percent,    memory_usage_percent,    user_cpu_usage_percent,    system_cpu_usage_percent,    vm_ip,   vm_client_ip,    currently_running_on_host,    vm_configuration_version,    current_host_configuration_version  FROM statistics_vms_users_usage_hourly  WHERE history_datetime >= '"
+				String dbquery_tJDBCInput_10 = "SELECT    history_id,    history_datetime,   user_id,   user_name,   cast(user_logged_in_to_guest as int),    vm_id,    session_time_in_minutes,    cpu_usage_percent,    memory_usage_percent,    user_cpu_usage_percent,    system_cpu_usage_percent,    vm_ip,   vm_client_ip,    currently_running_on_host,    vm_configuration_version,    current_host_configuration_version  FROM statistics_vms_users_usage_hourly  WHERE history_datetime >= '"
 						+ context.lastDayAggr
 						+ "' 	AND history_datetime < '"
 						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
@@ -22979,6 +23055,22 @@ public class AggregationToDaily implements TalendJob {
 						column_index_tJDBCInput_10 = 3;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
+							row13.user_id = null;
+						} else {
+
+							if (rs_tJDBCInput_10
+									.getObject(column_index_tJDBCInput_10) != null) {
+								row13.user_id = rs_tJDBCInput_10
+										.getObject(column_index_tJDBCInput_10);
+							} else {
+								row13.user_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_10 = 4;
+
+						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.user_name = null;
 						} else {
 
@@ -22992,7 +23084,7 @@ public class AggregationToDaily implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_10 = 4;
+						column_index_tJDBCInput_10 = 5;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.user_logged_in_to_guest = null;
@@ -23008,7 +23100,7 @@ public class AggregationToDaily implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_10 = 5;
+						column_index_tJDBCInput_10 = 6;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.vm_id = null;
@@ -23026,7 +23118,7 @@ public class AggregationToDaily implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_10 = 6;
+						column_index_tJDBCInput_10 = 7;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.session_time_in_minutes = 0;
@@ -23044,7 +23136,7 @@ public class AggregationToDaily implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_10 = 7;
+						column_index_tJDBCInput_10 = 8;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.cpu_usage_percent = null;
@@ -23060,7 +23152,7 @@ public class AggregationToDaily implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_10 = 8;
+						column_index_tJDBCInput_10 = 9;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.memory_usage_percent = null;
@@ -23076,7 +23168,7 @@ public class AggregationToDaily implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_10 = 9;
+						column_index_tJDBCInput_10 = 10;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.user_cpu_usage_percent = null;
@@ -23092,7 +23184,7 @@ public class AggregationToDaily implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_10 = 10;
+						column_index_tJDBCInput_10 = 11;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.system_cpu_usage_percent = null;
@@ -23108,7 +23200,7 @@ public class AggregationToDaily implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_10 = 11;
+						column_index_tJDBCInput_10 = 12;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.vm_ip = null;
@@ -23124,7 +23216,7 @@ public class AggregationToDaily implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_10 = 12;
+						column_index_tJDBCInput_10 = 13;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.vm_client_ip = null;
@@ -23140,7 +23232,7 @@ public class AggregationToDaily implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_10 = 13;
+						column_index_tJDBCInput_10 = 14;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.currently_running_on_host = null;
@@ -23156,7 +23248,7 @@ public class AggregationToDaily implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_10 = 14;
+						column_index_tJDBCInput_10 = 15;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.vm_configuration_version = null;
@@ -23172,7 +23264,7 @@ public class AggregationToDaily implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_10 = 15;
+						column_index_tJDBCInput_10 = 16;
 
 						if (colQtyInRs_tJDBCInput_10 < column_index_tJDBCInput_10) {
 							row13.current_host_configuration_version = null;
@@ -23231,6 +23323,7 @@ public class AggregationToDaily implements TalendJob {
 							// # Output table : 'copyOfvm_aggregate_history'
 							copyOfvm_aggregate_history_tmp.history_datetime = RoutineHistoryETL
 									.startOfDay(row13.history_datetime);
+							copyOfvm_aggregate_history_tmp.user_id = row13.user_id;
 							copyOfvm_aggregate_history_tmp.user_name = row13.user_name;
 							copyOfvm_aggregate_history_tmp.user_logged_in_to_guest = row13.user_logged_in_to_guest;
 							copyOfvm_aggregate_history_tmp.vm_id = row13.vm_id;
@@ -23268,6 +23361,7 @@ public class AggregationToDaily implements TalendJob {
 							currentComponent = "tAggregateRow_8_AGGOUT";
 
 							operation_finder_tAggregateRow_8.history_datetime = copyOfvm_aggregate_history.history_datetime;
+							operation_finder_tAggregateRow_8.user_id = copyOfvm_aggregate_history.user_id;
 							operation_finder_tAggregateRow_8.user_name = copyOfvm_aggregate_history.user_name;
 							operation_finder_tAggregateRow_8.vm_id = copyOfvm_aggregate_history.vm_id;
 
@@ -23283,6 +23377,7 @@ public class AggregationToDaily implements TalendJob {
 								operation_result_tAggregateRow_8 = new AggOperationStruct_tAggregateRow_8();
 
 								operation_result_tAggregateRow_8.history_datetime = operation_finder_tAggregateRow_8.history_datetime;
+								operation_result_tAggregateRow_8.user_id = operation_finder_tAggregateRow_8.user_id;
 								operation_result_tAggregateRow_8.user_name = operation_finder_tAggregateRow_8.user_name;
 								operation_result_tAggregateRow_8.vm_id = operation_finder_tAggregateRow_8.vm_id;
 
@@ -23404,7 +23499,11 @@ public class AggregationToDaily implements TalendJob {
 
 							} // G_OutMain_AggR_546
 
-							operation_result_tAggregateRow_8.vm_client_ip_last = copyOfvm_aggregate_history.vm_client_ip;
+							if (copyOfvm_aggregate_history.vm_client_ip != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_8.vm_client_ip_last = copyOfvm_aggregate_history.vm_client_ip;
+
+							} // G_OutMain_AggR_546
 
 							if (copyOfvm_aggregate_history.currently_running_on_host != null) { // G_OutMain_AggR_546
 
@@ -23424,12 +23523,11 @@ public class AggregationToDaily implements TalendJob {
 
 							} // G_OutMain_AggR_546
 
-							if (operation_result_tAggregateRow_8.user_logged_in_to_guest_max == null
-									|| copyOfvm_aggregate_history.user_logged_in_to_guest > operation_result_tAggregateRow_8.user_logged_in_to_guest_max
+							if (copyOfvm_aggregate_history.user_logged_in_to_guest != null) { // G_OutMain_AggR_546
 
-							) {
-								operation_result_tAggregateRow_8.user_logged_in_to_guest_max = copyOfvm_aggregate_history.user_logged_in_to_guest;
-							}
+								operation_result_tAggregateRow_8.user_logged_in_to_guest_last = copyOfvm_aggregate_history.user_logged_in_to_guest;
+
+							} // G_OutMain_AggR_546
 
 							tos_count_tAggregateRow_8_AGGOUT++;
 
@@ -23526,7 +23624,7 @@ public class AggregationToDaily implements TalendJob {
 
 				String insert_tJDBCOutput_10 = "INSERT INTO "
 						+ "statistics_vms_users_usage_daily"
-						+ " (history_datetime,user_name,user_logged_in_to_guest,vm_id,session_time_in_minutes,cpu_usage_percent,max_cpu_usage,memory_usage_percent,max_memory_usage,user_cpu_usage_percent,max_user_cpu_usage_percent,system_cpu_usage_percent,max_system_cpu_usage_percent,vm_ip,vm_client_ip,currently_running_on_host,vm_configuration_version,current_host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,user_id,user_name,user_logged_in_to_guest,vm_id,session_time_in_minutes,cpu_usage_percent,max_cpu_usage,memory_usage_percent,max_memory_usage,user_cpu_usage_percent,max_user_cpu_usage_percent,system_cpu_usage_percent,max_system_cpu_usage_percent,vm_ip,vm_client_ip,currently_running_on_host,vm_configuration_version,current_host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_10 = connection_tJDBCOutput_10
 						.prepareStatement(insert_tJDBCOutput_10);
 
@@ -23600,9 +23698,11 @@ public class AggregationToDaily implements TalendJob {
 
 					row14.history_datetime = aggregated_row_tAggregateRow_8.history_datetime;
 
+					row14.user_id = aggregated_row_tAggregateRow_8.user_id;
+
 					row14.user_name = aggregated_row_tAggregateRow_8.user_name;
 
-					row14.user_logged_in_to_guest = aggregated_row_tAggregateRow_8.user_logged_in_to_guest_max;
+					row14.user_logged_in_to_guest = aggregated_row_tAggregateRow_8.user_logged_in_to_guest_last;
 					row14.vm_id = aggregated_row_tAggregateRow_8.vm_id;
 
 					if (aggregated_row_tAggregateRow_8.session_time_in_minutes_sum != null) {
@@ -23714,6 +23814,7 @@ public class AggregationToDaily implements TalendJob {
 
 						// # Output table : 'complete_aggregate_users'
 						complete_aggregate_users_tmp.history_datetime = row14.history_datetime;
+						complete_aggregate_users_tmp.user_id = row14.user_id;
 						complete_aggregate_users_tmp.user_name = row14.user_name;
 						complete_aggregate_users_tmp.user_logged_in_to_guest = row14.user_logged_in_to_guest != null ? row14.user_logged_in_to_guest > 0
 								: null;
@@ -23766,152 +23867,160 @@ public class AggregationToDaily implements TalendJob {
 									.setNull(1, java.sql.Types.DATE);
 						}
 
-						if (complete_aggregate_users.user_name == null) {
+						if (complete_aggregate_users.user_id == null) {
 							pstmt_tJDBCOutput_10.setNull(2,
+									java.sql.Types.OTHER);
+						} else {
+							pstmt_tJDBCOutput_10.setObject(2,
+									complete_aggregate_users.user_id);
+						}
+
+						if (complete_aggregate_users.user_name == null) {
+							pstmt_tJDBCOutput_10.setNull(3,
 									java.sql.Types.VARCHAR);
 						} else {
-							pstmt_tJDBCOutput_10.setString(2,
+							pstmt_tJDBCOutput_10.setString(3,
 									complete_aggregate_users.user_name);
 						}
 
 						if (complete_aggregate_users.user_logged_in_to_guest == null) {
-							pstmt_tJDBCOutput_10.setNull(3,
+							pstmt_tJDBCOutput_10.setNull(4,
 									java.sql.Types.BOOLEAN);
 						} else {
 							pstmt_tJDBCOutput_10
 									.setBoolean(
-											3,
+											4,
 											complete_aggregate_users.user_logged_in_to_guest);
 						}
 
 						if (complete_aggregate_users.vm_id == null) {
-							pstmt_tJDBCOutput_10.setNull(4,
+							pstmt_tJDBCOutput_10.setNull(5,
 									java.sql.Types.OTHER);
 						} else {
-							pstmt_tJDBCOutput_10.setObject(4,
+							pstmt_tJDBCOutput_10.setObject(5,
 									complete_aggregate_users.vm_id);
 						}
 
 						pstmt_tJDBCOutput_10
 								.setDouble(
-										5,
+										6,
 										complete_aggregate_users.session_time_in_minutes);
 
 						if (complete_aggregate_users.cpu_usage_percent == null) {
-							pstmt_tJDBCOutput_10.setNull(6,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_10.setShort(6,
-									complete_aggregate_users.cpu_usage_percent);
-						}
-
-						if (complete_aggregate_users.max_cpu_usage == null) {
 							pstmt_tJDBCOutput_10.setNull(7,
 									java.sql.Types.INTEGER);
 						} else {
 							pstmt_tJDBCOutput_10.setShort(7,
+									complete_aggregate_users.cpu_usage_percent);
+						}
+
+						if (complete_aggregate_users.max_cpu_usage == null) {
+							pstmt_tJDBCOutput_10.setNull(8,
+									java.sql.Types.INTEGER);
+						} else {
+							pstmt_tJDBCOutput_10.setShort(8,
 									complete_aggregate_users.max_cpu_usage);
 						}
 
 						if (complete_aggregate_users.memory_usage_percent == null) {
-							pstmt_tJDBCOutput_10.setNull(8,
+							pstmt_tJDBCOutput_10.setNull(9,
 									java.sql.Types.INTEGER);
 						} else {
 							pstmt_tJDBCOutput_10
 									.setShort(
-											8,
+											9,
 											complete_aggregate_users.memory_usage_percent);
 						}
 
 						if (complete_aggregate_users.max_memory_usage == null) {
-							pstmt_tJDBCOutput_10.setNull(9,
+							pstmt_tJDBCOutput_10.setNull(10,
 									java.sql.Types.INTEGER);
 						} else {
-							pstmt_tJDBCOutput_10.setShort(9,
+							pstmt_tJDBCOutput_10.setShort(10,
 									complete_aggregate_users.max_memory_usage);
 						}
 
 						if (complete_aggregate_users.user_cpu_usage_percent == null) {
-							pstmt_tJDBCOutput_10.setNull(10,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_10
-									.setShort(
-											10,
-											complete_aggregate_users.user_cpu_usage_percent);
-						}
-
-						if (complete_aggregate_users.max_user_cpu_usage_percent == null) {
 							pstmt_tJDBCOutput_10.setNull(11,
 									java.sql.Types.INTEGER);
 						} else {
 							pstmt_tJDBCOutput_10
 									.setShort(
 											11,
-											complete_aggregate_users.max_user_cpu_usage_percent);
+											complete_aggregate_users.user_cpu_usage_percent);
 						}
 
-						if (complete_aggregate_users.system_cpu_usage_percent == null) {
+						if (complete_aggregate_users.max_user_cpu_usage_percent == null) {
 							pstmt_tJDBCOutput_10.setNull(12,
 									java.sql.Types.INTEGER);
 						} else {
 							pstmt_tJDBCOutput_10
 									.setShort(
 											12,
-											complete_aggregate_users.system_cpu_usage_percent);
+											complete_aggregate_users.max_user_cpu_usage_percent);
 						}
 
-						if (complete_aggregate_users.max_system_cpu_usage_percent == null) {
+						if (complete_aggregate_users.system_cpu_usage_percent == null) {
 							pstmt_tJDBCOutput_10.setNull(13,
 									java.sql.Types.INTEGER);
 						} else {
 							pstmt_tJDBCOutput_10
 									.setShort(
 											13,
+											complete_aggregate_users.system_cpu_usage_percent);
+						}
+
+						if (complete_aggregate_users.max_system_cpu_usage_percent == null) {
+							pstmt_tJDBCOutput_10.setNull(14,
+									java.sql.Types.INTEGER);
+						} else {
+							pstmt_tJDBCOutput_10
+									.setShort(
+											14,
 											complete_aggregate_users.max_system_cpu_usage_percent);
 						}
 
 						if (complete_aggregate_users.vm_ip == null) {
-							pstmt_tJDBCOutput_10.setNull(14,
-									java.sql.Types.VARCHAR);
-						} else {
-							pstmt_tJDBCOutput_10.setString(14,
-									complete_aggregate_users.vm_ip);
-						}
-
-						if (complete_aggregate_users.vm_client_ip == null) {
 							pstmt_tJDBCOutput_10.setNull(15,
 									java.sql.Types.VARCHAR);
 						} else {
 							pstmt_tJDBCOutput_10.setString(15,
+									complete_aggregate_users.vm_ip);
+						}
+
+						if (complete_aggregate_users.vm_client_ip == null) {
+							pstmt_tJDBCOutput_10.setNull(16,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmt_tJDBCOutput_10.setString(16,
 									complete_aggregate_users.vm_client_ip);
 						}
 
 						if (complete_aggregate_users.currently_running_on_host == null) {
-							pstmt_tJDBCOutput_10.setNull(16,
+							pstmt_tJDBCOutput_10.setNull(17,
 									java.sql.Types.OTHER);
 						} else {
 							pstmt_tJDBCOutput_10
 									.setObject(
-											16,
+											17,
 											complete_aggregate_users.currently_running_on_host);
 						}
 
 						if (complete_aggregate_users.vm_configuration_version == null) {
-							pstmt_tJDBCOutput_10.setNull(17,
-									java.sql.Types.INTEGER);
-						} else {
-							pstmt_tJDBCOutput_10
-									.setInt(17,
-											complete_aggregate_users.vm_configuration_version);
-						}
-
-						if (complete_aggregate_users.current_host_configuration_version == null) {
 							pstmt_tJDBCOutput_10.setNull(18,
 									java.sql.Types.INTEGER);
 						} else {
 							pstmt_tJDBCOutput_10
 									.setInt(18,
+											complete_aggregate_users.vm_configuration_version);
+						}
+
+						if (complete_aggregate_users.current_host_configuration_version == null) {
+							pstmt_tJDBCOutput_10.setNull(19,
+									java.sql.Types.INTEGER);
+						} else {
+							pstmt_tJDBCOutput_10
+									.setInt(19,
 											complete_aggregate_users.current_host_configuration_version);
 						}
 
@@ -25550,6 +25659,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 735916 characters generated by Talend Open Studio for Data Integration on the
- * April 29, 2014 2:25:39 PM IDT
+ * 738823 characters generated by Talend Open Studio for Data Integration on the
+ * May 13, 2014 4:05:01 PM IDT
  ************************************************************************************************/

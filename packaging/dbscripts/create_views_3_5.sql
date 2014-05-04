@@ -456,7 +456,6 @@ SELECT
       vm_pool_id,
       vm_pool_name,
       created_by_user_id,
-      created_by_user_name,
       cluster_configuration_version as cluster_configuration_version,
       default_host_configuration_version as default_host_configuration_version,
       create_date as create_date,
@@ -489,7 +488,6 @@ SELECT
       vm_pool_id,
       vm_pool_name,
       created_by_user_id,
-      created_by_user_name,
       cluster_configuration_version as cluster_configuration_version,
       default_host_configuration_version as default_host_configuration_version,
       create_date as create_date,
@@ -513,7 +511,7 @@ SELECT
     a.vm_ip as vm_ip,
     a.vm_client_ip,
     a.currently_running_on_host as currently_running_on_host,
-    a.current_user_name as current_user_name,
+    a.current_user_id as current_user_id,
     a.user_logged_in_to_guest,
     b.disks_usage as disks_usage,
     a.vm_configuration_version as vm_configuration_version,
@@ -540,7 +538,7 @@ SELECT
     a.max_system_cpu_usage_percent as max_system_cpu_usage_percent,
     a.vm_ip as vm_ip,
     a.currently_running_on_host as currently_running_on_host,
-    a.current_user_name as current_user_name,
+    a.current_user_id as current_user_id,
     b.disks_usage as disks_usage,
     a.vm_configuration_version as vm_configuration_version,
     a.current_host_configuration_version as current_host_configuration_version
@@ -566,7 +564,7 @@ SELECT
     a.max_system_cpu_usage_percent as max_system_cpu_usage_percent,
     a.vm_ip as vm_ip,
     a.currently_running_on_host as currently_running_on_host,
-    a.current_user_name as current_user_name,
+    a.current_user_id as current_user_id,
     b.disks_usage as disks_usage,
     a.vm_configuration_version as vm_configuration_version,
     a.current_host_configuration_version as current_host_configuration_version
@@ -578,7 +576,7 @@ CREATE OR REPLACE VIEW v3_5_statistics_vms_users_usage_hourly
  AS
 SELECT history_id,
        history_datetime,
-       user_name,
+       user_id,
        vm_id,
        session_time_in_minutes,
        cpu_usage_percent,
@@ -601,7 +599,7 @@ CREATE OR REPLACE VIEW v3_5_statistics_vms_users_usage_daily
  AS
 SELECT history_id,
        history_datetime,
-       user_name,
+       user_id,
        vm_id,
        session_time_in_minutes,
        cpu_usage_percent,
@@ -836,6 +834,43 @@ FROM vm_device_history
 WHERE history_id in (SELECT max(a.history_id) FROM vm_device_history as a GROUP BY a.vm_id, a.device_id)
       and delete_date IS NULL;
 
+CREATE OR REPLACE VIEW v3_5_users_details_history
+ AS
+SELECT
+      user_id,
+      first_name,
+      last_name,
+      domain,
+      username,
+      department,
+      user_role_title,
+      email,
+      external_id,
+      active,
+      create_date,
+      update_date,
+      delete_date
+FROM users_details_history;
+
+CREATE OR REPLACE VIEW v3_5_latest_users_details
+ AS
+SELECT
+      user_id,
+      first_name,
+      last_name,
+      domain,
+      username,
+      department,
+      user_role_title,
+      email,
+      external_id,
+      active,
+      create_date,
+      update_date,
+      delete_date
+FROM users_details_history
+WHERE delete_date IS NULL;
+
 CREATE OR REPLACE VIEW v3_5_tags_relations_history
  AS
 SELECT    history_id as history_id,
@@ -845,7 +880,7 @@ SELECT    history_id as history_id,
         attach_date as attach_date,
         detach_date as detach_date
 FROM         tag_relations_history
-WHERE       entity_type in(3,2,5,18);
+WHERE       entity_type in(3,2,5,18,15);
 
 CREATE OR REPLACE VIEW v3_5_latest_tags_relations
  AS
@@ -856,7 +891,7 @@ SELECT    history_id as history_id,
         attach_date as attach_date,
         detach_date as detach_date
 FROM         tag_relations_history
-WHERE       entity_type in(3,2,5,18)
+WHERE       entity_type in(3,2,5,18,15)
        and history_id in (SELECT max(a.history_id) FROM tag_relations_history as a GROUP BY a.entity_id, a.parent_id)
        and detach_date IS NULL;
 

@@ -434,69 +434,73 @@ FROM host_interface_daily_history;
 CREATE OR REPLACE VIEW v3_4_configuration_history_vms
  AS
 SELECT
-      history_id as history_id,
-      vm_id as vm_id,
-      vm_name as vm_name,
-      vm_description as vm_description,
-      vm_type as vm_type,
-      cluster_id as cluster_id,
-      template_id as template_id,
-      template_name as template_name,
-      cpu_per_socket as cpu_per_socket,
-      number_of_sockets as number_of_sockets,
-      memory_size_mb as memory_size_mb,
-      operating_system as operating_system,
-      default_host as default_host,
-      high_availability as high_availability,
-      initialized as initialized,
-      stateless as stateless,
-      fail_back as fail_back,
-      usb_policy as usb_policy,
-      time_zone as time_zone,
-      vm_pool_id,
-      vm_pool_name,
-      created_by_user_id,
-      created_by_user_name,
-      cluster_configuration_version as cluster_configuration_version,
-      default_host_configuration_version as default_host_configuration_version,
-      create_date as create_date,
-      update_date as update_date,
-      delete_date as delete_date
-FROM vm_configuration;
+      a.history_id as history_id,
+      a.vm_id as vm_id,
+      a.vm_name as vm_name,
+      a.vm_description as vm_description,
+      a.vm_type as vm_type,
+      a.cluster_id as cluster_id,
+      a.template_id as template_id,
+      a.template_name as template_name,
+      a.cpu_per_socket as cpu_per_socket,
+      a.number_of_sockets as number_of_sockets,
+      a.memory_size_mb as memory_size_mb,
+      a.operating_system as operating_system,
+      a.default_host as default_host,
+      a.high_availability as high_availability,
+      a.initialized as initialized,
+      a.stateless as stateless,
+      a.fail_back as fail_back,
+      a.usb_policy as usb_policy,
+      a.time_zone as time_zone,
+      a.vm_pool_id,
+      a.vm_pool_name,
+      a.created_by_user_id,
+      COALESCE(users.username, a.created_by_user_name) as created_by_user_name,
+      a.cluster_configuration_version as cluster_configuration_version,
+      a.default_host_configuration_version as default_host_configuration_version,
+      a.create_date as create_date,
+      a.update_date as update_date,
+      a.delete_date as delete_date
+FROM vm_configuration as a
+    LEFT OUTER JOIN users_details_history as users
+        ON (a.created_by_user_id = users.user_id);
 
 CREATE OR REPLACE VIEW v3_4_latest_configuration_vms
  AS
 SELECT
-      history_id as history_id,
-      vm_id as vm_id,
-      vm_name as vm_name,
-      vm_description as vm_description,
-      vm_type as vm_type,
-      cluster_id as cluster_id,
-      template_id as template_id,
-      template_name as template_name,
-      cpu_per_socket as cpu_per_socket,
-      number_of_sockets as number_of_sockets,
-      memory_size_mb as memory_size_mb,
-      operating_system as operating_system,
-      default_host as default_host,
-      high_availability as high_availability,
-      initialized as initialized,
-      stateless as stateless,
-      fail_back as fail_back,
-      usb_policy as usb_policy,
-      time_zone as time_zone,
-      vm_pool_id,
-      vm_pool_name,
-      created_by_user_id,
-      created_by_user_name,
-      cluster_configuration_version as cluster_configuration_version,
-      default_host_configuration_version as default_host_configuration_version,
-      create_date as create_date,
-      update_date as update_date
-FROM vm_configuration
-WHERE history_id in (SELECT max(a.history_id) FROM vm_configuration as a GROUP BY a.vm_id)
-      and delete_date IS NULL;
+      a.history_id as history_id,
+      a.vm_id as vm_id,
+      a.vm_name as vm_name,
+      a.vm_description as vm_description,
+      a.vm_type as vm_type,
+      a.cluster_id as cluster_id,
+      a.template_id as template_id,
+      a.template_name as template_name,
+      a.cpu_per_socket as cpu_per_socket,
+      a.number_of_sockets as number_of_sockets,
+      a.memory_size_mb as memory_size_mb,
+      a.operating_system as operating_system,
+      a.default_host as default_host,
+      a.high_availability as high_availability,
+      a.initialized as initialized,
+      a.stateless as stateless,
+      a.fail_back as fail_back,
+      a.usb_policy as usb_policy,
+      a.time_zone as time_zone,
+      a.vm_pool_id,
+      a.vm_pool_name,
+      a.created_by_user_id,
+      COALESCE(users.username, a.created_by_user_name) as created_by_user_name,
+      a.cluster_configuration_version as cluster_configuration_version,
+      a.default_host_configuration_version as default_host_configuration_version,
+      a.create_date as create_date,
+      a.update_date as update_date
+FROM vm_configuration as a
+    LEFT OUTER JOIN users_details_history as users
+        ON (a.created_by_user_id = users.user_id)
+WHERE a.history_id in (SELECT max(b.history_id) FROM vm_configuration as b GROUP BY b.vm_id)
+    AND a.delete_date IS NULL;
 
 CREATE OR REPLACE VIEW v3_4_statistics_vms_resources_usage_samples
  AS
@@ -513,14 +517,16 @@ SELECT
     a.vm_ip as vm_ip,
     a.vm_client_ip,
     a.currently_running_on_host as currently_running_on_host,
-    a.current_user_name as current_user_name,
+    COALESCE(users.username, a.current_user_name) as current_user_name,
     a.user_logged_in_to_guest,
     b.disks_usage as disks_usage,
     a.vm_configuration_version as vm_configuration_version,
     a.current_host_configuration_version as current_host_configuration_version
-FROM     vm_samples_history as a
-        LEFT OUTER JOIN vm_disks_usage_samples_history as b
-            ON (a.history_datetime = b.history_datetime AND a.vm_id = b.vm_id);
+FROM vm_samples_history as a
+    LEFT OUTER JOIN vm_disks_usage_samples_history as b
+        ON (a.history_datetime = b.history_datetime AND a.vm_id = b.vm_id)
+    LEFT OUTER JOIN users_details_history as users
+        ON (a.current_user_id = users.user_id);
 
 CREATE OR REPLACE VIEW v3_4_statistics_vms_resources_usage_hourly
  AS
@@ -540,13 +546,15 @@ SELECT
     a.max_system_cpu_usage_percent as max_system_cpu_usage_percent,
     a.vm_ip as vm_ip,
     a.currently_running_on_host as currently_running_on_host,
-    a.current_user_name as current_user_name,
+    COALESCE(users.username, a.current_user_name) as current_user_name,
     b.disks_usage as disks_usage,
     a.vm_configuration_version as vm_configuration_version,
     a.current_host_configuration_version as current_host_configuration_version
-FROM     vm_hourly_history as a
-        LEFT OUTER JOIN vm_disks_usage_hourly_history as b
-            ON (a.history_datetime = b.history_datetime AND a.vm_id = b.vm_id);
+FROM vm_hourly_history as a
+    LEFT OUTER JOIN vm_disks_usage_hourly_history as b
+        ON (a.history_datetime = b.history_datetime AND a.vm_id = b.vm_id)
+    LEFT OUTER JOIN users_details_history as users
+        ON (a.current_user_id = users.user_id);
 
 CREATE OR REPLACE VIEW v3_4_statistics_vms_resources_usage_daily
  AS
@@ -566,59 +574,67 @@ SELECT
     a.max_system_cpu_usage_percent as max_system_cpu_usage_percent,
     a.vm_ip as vm_ip,
     a.currently_running_on_host as currently_running_on_host,
-    a.current_user_name as current_user_name,
+    COALESCE(users.username, a.current_user_name) as current_user_name,
     b.disks_usage as disks_usage,
     a.vm_configuration_version as vm_configuration_version,
     a.current_host_configuration_version as current_host_configuration_version
-FROM     vm_daily_history as a
-        LEFT OUTER JOIN vm_disks_usage_daily_history as b
-            ON (a.history_datetime = b.history_datetime AND a.vm_id = b.vm_id);
+FROM vm_daily_history as a
+    LEFT OUTER JOIN vm_disks_usage_daily_history as b
+        ON (a.history_datetime = b.history_datetime AND a.vm_id = b.vm_id)
+    LEFT OUTER JOIN users_details_history as users
+        ON (a.current_user_id = users.user_id);
 
 CREATE OR REPLACE VIEW v3_4_statistics_vms_users_usage_hourly
  AS
-SELECT history_id,
-       history_datetime,
-       user_name,
-       vm_id,
-       session_time_in_minutes,
-       cpu_usage_percent,
-       max_cpu_usage,
-       memory_usage_percent,
-       max_memory_usage,
-       user_cpu_usage_percent,
-       max_user_cpu_usage_percent,
-       system_cpu_usage_percent,
-       max_system_cpu_usage_percent,
-       vm_ip,
-       vm_client_ip,
-       user_logged_in_to_guest,
-       currently_running_on_host,
-       vm_configuration_version,
-       current_host_configuration_version
-FROM statistics_vms_users_usage_hourly;
+SELECT
+    a.history_id,
+    a.history_datetime,
+    COALESCE(users.username, a.user_name) as user_name,
+    a.vm_id,
+    a.session_time_in_minutes,
+    a.cpu_usage_percent,
+    a.max_cpu_usage,
+    a.memory_usage_percent,
+    a.max_memory_usage,
+    a.user_cpu_usage_percent,
+    a.max_user_cpu_usage_percent,
+    a.system_cpu_usage_percent,
+    a.max_system_cpu_usage_percent,
+    a.vm_ip,
+    a.vm_client_ip,
+    a.user_logged_in_to_guest,
+    a.currently_running_on_host,
+    a.vm_configuration_version,
+    a.current_host_configuration_version
+FROM statistics_vms_users_usage_hourly as a
+    LEFT OUTER JOIN users_details_history as users
+        ON (a.user_id = users.user_id);
 
 CREATE OR REPLACE VIEW v3_4_statistics_vms_users_usage_daily
  AS
-SELECT history_id,
-       history_datetime,
-       user_name,
-       vm_id,
-       session_time_in_minutes,
-       cpu_usage_percent,
-       max_cpu_usage,
-       memory_usage_percent,
-       max_memory_usage,
-       user_cpu_usage_percent,
-       max_user_cpu_usage_percent,
-       system_cpu_usage_percent,
-       max_system_cpu_usage_percent,
-       vm_ip,
-       vm_client_ip,
-       user_logged_in_to_guest,
-       currently_running_on_host,
-       vm_configuration_version,
-       current_host_configuration_version
-FROM statistics_vms_users_usage_daily;
+SELECT
+    a.history_id,
+    a.history_datetime,
+    COALESCE(users.username, a.user_name) as user_name,
+    a.vm_id,
+    a.session_time_in_minutes,
+    a.cpu_usage_percent,
+    a.max_cpu_usage,
+    a.memory_usage_percent,
+    a.max_memory_usage,
+    a.user_cpu_usage_percent,
+    a.max_user_cpu_usage_percent,
+    a.system_cpu_usage_percent,
+    a.max_system_cpu_usage_percent,
+    a.vm_ip,
+    a.vm_client_ip,
+    a.user_logged_in_to_guest,
+    a.currently_running_on_host,
+    a.vm_configuration_version,
+    a.current_host_configuration_version
+FROM statistics_vms_users_usage_daily as a
+    LEFT OUTER JOIN users_details_history as users
+        ON (a.user_id = users.user_id);
 
 CREATE OR REPLACE VIEW v3_4_configuration_history_vms_interfaces
  AS
