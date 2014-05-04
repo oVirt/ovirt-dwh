@@ -190,10 +190,10 @@ class Plugin(plugin.PluginBase):
         return int(result[0]['size'])
 
     def _HumanReadableSize(self, bytes):
-        size_in_mb = bytes / pow(2,20)
+        size_in_mb = bytes / pow(2, 20)
         return (
             _('{size} MB').format(size=size_in_mb)
-            if size_in_mb  < 1024
+            if size_in_mb < 1024
             else _('{size:1.1f} GB').format(
                 size=size_in_mb/1024.0,
             )
@@ -279,7 +279,8 @@ class Plugin(plugin.PluginBase):
                 if perform_backup:
                     self.dialog.note(
                         text=_(
-                            'The DWH Database will be backed up prior to upgrade.'
+                            'The DWH Database will be backed up prior '
+                            'to upgrade.'
                         ),
                     )
             if not perform_backup:
