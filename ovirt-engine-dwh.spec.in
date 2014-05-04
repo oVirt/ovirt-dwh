@@ -78,7 +78,7 @@ getent passwd %1 >/dev/null || useradd -r -u %2 -g %3 -c %5 -s /sbin/nologin -d 
 
 Name:		@PACKAGE_NAME@
 Version:	@RPM_VERSION@
-Release:	@RPM_RELEASE@%{?release_suffix}%{dist}
+Release:	@RPM_RELEASE@%{?release_suffix}%{?dist}
 License:	LGPLv2 and ASL 2.0
 Summary:	%{product_name}
 Group:		Virtualization/Management
