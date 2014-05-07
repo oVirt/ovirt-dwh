@@ -242,6 +242,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed May 7 2014 Shirly Radco <sradco@redhat.com> - 3.4.1
+Fixed issues:
+- added leading question mark to dist tag (#1093599)
+
 * Tue Apr 29 2014 Yaniv Dary <ydary@redhat.com> - 3.4.1
 Fixed issues:
 - Fixed message in MinimalVersionCheck job (#1090914)
