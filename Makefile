@@ -89,6 +89,9 @@ BUILD_FILE=tmp.built
 	-e "s|@PACKAGE_VERSION@|$(PACKAGE_VERSION)|g" \
 	-e "s|@DISPLAY_VERSION@|$(DISPLAY_VERSION)|g" \
 	-e "s|@DWH_VERSION@|$(DWH_VERSION)|g" \
+	-e "s|@VERSION_MAJOR@|$(VERSION_MAJOR)|g" \
+	-e "s|@VERSION_MINOR@|$(VERSION_MINOR)|g" \
+	-e "s|@VERSION_PATCH_LEVEL@|$(VERSION_PATCH_LEVEL)|g" \
 	-e "s|@PEP8@|$(PEP8)|g" \
 	-e "s|@PYFLAKES@|$(PYFLAKES)|g" \
 	$< > $@

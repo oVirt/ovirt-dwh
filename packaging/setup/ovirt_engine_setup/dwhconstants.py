@@ -1,6 +1,6 @@
 #
 # ovirt-engine-setup -- ovirt engine setup
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013-2014 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -41,6 +41,9 @@ class Const(object):
     DISPLAY_VERSION = dwhconfig.DISPLAY_VERSION
     RPM_VERSION = dwhconfig.RPM_VERSION
     RPM_RELEASE = dwhconfig.RPM_RELEASE
+    VERSION_MAJOR = dwhconfig.VERSION_MAJOR
+    VERSION_MINOR = dwhconfig.VERSION_MINOR
+    VERSION_PATCH_LEVEL = dwhconfig.VERSION_PATCH_LEVEL
     SERVICE_NAME = 'ovirt-engine-dwhd'
     OVIRT_ENGINE_DWH_DB_BACKUP_PREFIX = 'dwh'
     OVIRT_ENGINE_DWH_PACKAGE_NAME = 'ovirt-engine-dwh'

@@ -1,6 +1,6 @@
 #
 # ovirt-engine-setup -- ovirt engine setup
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013-2014 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,6 +29,9 @@ PACKAGE_VERSION = '@PACKAGE_VERSION@'
 DISPLAY_VERSION = '@DISPLAY_VERSION@'
 RPM_VERSION = '@RPM_VERSION@'
 RPM_RELEASE = '@RPM_RELEASE@'
+VERSION_MAJOR = '@VERSION_MAJOR@'
+VERSION_MINOR = '@VERSION_MINOR@'
+VERSION_PATCH_LEVEL = '@VERSION_PATCH_LEVEL@'
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
