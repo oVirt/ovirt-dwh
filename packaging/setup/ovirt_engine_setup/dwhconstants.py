@@ -89,10 +89,6 @@ class FileLocations(object):
         OVIRT_ENGINE_DWHD_SERVICE_CONFIGD,
         '10-setup-database.conf',
     )
-    OVIRT_ENGINE_DWHD_SERVICE_CONFIG_JBOSS = os.path.join(
-        OVIRT_ENGINE_DWHD_SERVICE_CONFIGD,
-        '10-setup-jboss.conf',
-    )
     OVIRT_ENGINE_DWHD_SERVICE_CONFIG_LEGACY = os.path.join(
         OVIRT_ENGINE_DWHD_SERVICE_CONFIGD,
         '20-setup-legacy.conf',
