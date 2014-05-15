@@ -1,4 +1,3 @@
--- Bug-Url: https://bugzilla.redhat.com/1078897
 -- Updated retroactivly user and system cpu usage percent,
 -- according to the number of cpus of the vm.
 
