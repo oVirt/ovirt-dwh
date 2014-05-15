@@ -21544,10 +21544,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.mac_address;
 		}
 
-		public String network_name;
+		public String logical_network_name;
 
-		public String getNetwork_name() {
-			return this.network_name;
+		public String getLogical_network_name() {
+			return this.logical_network_name;
 		}
 
 		public String ip_address;
@@ -21710,7 +21710,7 @@ public class ConfigurationSync implements TalendJob {
 
 					this.mac_address = readString(dis);
 
-					this.network_name = readString(dis);
+					this.logical_network_name = readString(dis);
 
 					this.ip_address = readString(dis);
 
@@ -21781,7 +21781,7 @@ public class ConfigurationSync implements TalendJob {
 
 				// String
 
-				writeString(this.network_name, dos);
+				writeString(this.logical_network_name, dos);
 
 				// String
 
@@ -21843,7 +21843,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",host_interface_speed_bps="
 					+ String.valueOf(host_interface_speed_bps));
 			sb.append(",mac_address=" + mac_address);
-			sb.append(",network_name=" + network_name);
+			sb.append(",logical_network_name=" + logical_network_name);
 			sb.append(",ip_address=" + ip_address);
 			sb.append(",gateway=" + gateway);
 			sb.append(",bond=" + String.valueOf(bond));
@@ -21940,10 +21940,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.mac_address;
 		}
 
-		public String network_name;
+		public String logical_network_name;
 
-		public String getNetwork_name() {
-			return this.network_name;
+		public String getLogical_network_name() {
+			return this.logical_network_name;
 		}
 
 		public String ip_address;
@@ -22096,7 +22096,7 @@ public class ConfigurationSync implements TalendJob {
 
 					this.mac_address = readString(dis);
 
-					this.network_name = readString(dis);
+					this.logical_network_name = readString(dis);
 
 					this.ip_address = readString(dis);
 
@@ -22167,7 +22167,7 @@ public class ConfigurationSync implements TalendJob {
 
 				// String
 
-				writeString(this.network_name, dos);
+				writeString(this.logical_network_name, dos);
 
 				// String
 
@@ -22222,7 +22222,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",host_interface_speed_bps="
 					+ String.valueOf(host_interface_speed_bps));
 			sb.append(",mac_address=" + mac_address);
-			sb.append(",network_name=" + network_name);
+			sb.append(",logical_network_name=" + logical_network_name);
 			sb.append(",ip_address=" + ip_address);
 			sb.append(",gateway=" + gateway);
 			sb.append(",bond=" + String.valueOf(bond));
@@ -22316,10 +22316,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.mac_address;
 		}
 
-		public String network_name;
+		public String logical_network_name;
 
-		public String getNetwork_name() {
-			return this.network_name;
+		public String getLogical_network_name() {
+			return this.logical_network_name;
 		}
 
 		public String ip_address;
@@ -22472,7 +22472,7 @@ public class ConfigurationSync implements TalendJob {
 
 					this.mac_address = readString(dis);
 
-					this.network_name = readString(dis);
+					this.logical_network_name = readString(dis);
 
 					this.ip_address = readString(dis);
 
@@ -22543,7 +22543,7 @@ public class ConfigurationSync implements TalendJob {
 
 				// String
 
-				writeString(this.network_name, dos);
+				writeString(this.logical_network_name, dos);
 
 				// String
 
@@ -22598,7 +22598,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",host_interface_speed_bps="
 					+ String.valueOf(host_interface_speed_bps));
 			sb.append(",mac_address=" + mac_address);
-			sb.append(",network_name=" + network_name);
+			sb.append(",logical_network_name=" + logical_network_name);
 			sb.append(",ip_address=" + ip_address);
 			sb.append(",gateway=" + gateway);
 			sb.append(",bond=" + String.valueOf(bond));
@@ -22705,7 +22705,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_5 = "INSERT INTO "
 						+ "host_interface_configuration"
-						+ " (host_interface_id,host_interface_name,host_id,host_interface_type,host_interface_speed_bps,mac_address,network_name,ip_address,gateway,bond,bond_name,vlan_id,host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (host_interface_id,host_interface_name,host_id,host_interface_type,host_interface_speed_bps,mac_address,logical_network_name,ip_address,gateway,bond,bond_name,vlan_id,host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_5 = connection_tJDBCOutput_5
 						.prepareStatement(insert_tJDBCOutput_5);
 
@@ -22769,7 +22769,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_5 = conn_tJDBCInput_5
 						.createStatement();
 
-				String dbquery_tJDBCInput_5 = "SELECT     host_interface_id,     host_interface_name,     host_id,     upper(cast(host_id as char(36))) as host_join_id,    host_interface_type,     host_interface_speed_bps,     mac_address,     network_name,     ip_address,     gateway,     bond,     bond_name,     vlan_id,     create_date,     update_date  FROM dwh_host_interface_configuration_history_view";
+				String dbquery_tJDBCInput_5 = "SELECT     host_interface_id,     host_interface_name,     host_id,     upper(cast(host_id as char(36))) as host_join_id,    host_interface_type,     host_interface_speed_bps,     mac_address,     logical_network_name,     ip_address,     gateway,     bond,     bond_name,     vlan_id,     create_date,     update_date  FROM dwh_host_interface_configuration_history_view";
 
 				globalMap.put("tJDBCInput_5_QUERY", dbquery_tJDBCInput_5);
 				java.sql.ResultSet rs_tJDBCInput_5 = null;
@@ -22902,15 +22902,15 @@ public class ConfigurationSync implements TalendJob {
 						column_index_tJDBCInput_5 = 8;
 
 						if (colQtyInRs_tJDBCInput_5 < column_index_tJDBCInput_5) {
-							row2.network_name = null;
+							row2.logical_network_name = null;
 						} else {
 
 							tmpContent_tJDBCInput_5 = rs_tJDBCInput_5
 									.getString(column_index_tJDBCInput_5);
 							if (tmpContent_tJDBCInput_5 != null) {
-								row2.network_name = tmpContent_tJDBCInput_5;
+								row2.logical_network_name = tmpContent_tJDBCInput_5;
 							} else {
-								row2.network_name = null;
+								row2.logical_network_name = null;
 							}
 
 						}
@@ -23140,8 +23140,8 @@ public class ConfigurationSync implements TalendJob {
 								hinterface_configuration_tmp.host_interface_speed_bps = row2.host_interface_speed_bps;
 								hinterface_configuration_tmp.mac_address = StringHandling
 										.TRIM(row2.mac_address);
-								hinterface_configuration_tmp.network_name = StringHandling
-										.TRIM(row2.network_name);
+								hinterface_configuration_tmp.logical_network_name = StringHandling
+										.TRIM(row2.logical_network_name);
 								hinterface_configuration_tmp.ip_address = StringHandling
 										.TRIM(row2.ip_address);
 								hinterface_configuration_tmp.gateway = StringHandling
@@ -23233,14 +23233,14 @@ public class ConfigurationSync implements TalendJob {
 													hinterface_configuration.mac_address);
 								}
 
-								if (hinterface_configuration.network_name == null) {
+								if (hinterface_configuration.logical_network_name == null) {
 									pstmt_tJDBCOutput_5.setNull(7,
 											java.sql.Types.VARCHAR);
 								} else {
 									pstmt_tJDBCOutput_5
 											.setString(
 													7,
-													hinterface_configuration.network_name);
+													hinterface_configuration.logical_network_name);
 								}
 
 								if (hinterface_configuration.ip_address == null) {
@@ -23541,10 +23541,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.mac_address;
 		}
 
-		public String network_name;
+		public String logical_network_name;
 
-		public String getNetwork_name() {
-			return this.network_name;
+		public String getLogical_network_name() {
+			return this.logical_network_name;
 		}
 
 		public String ip_address;
@@ -23707,7 +23707,7 @@ public class ConfigurationSync implements TalendJob {
 
 					this.mac_address = readString(dis);
 
-					this.network_name = readString(dis);
+					this.logical_network_name = readString(dis);
 
 					this.ip_address = readString(dis);
 
@@ -23778,7 +23778,7 @@ public class ConfigurationSync implements TalendJob {
 
 				// String
 
-				writeString(this.network_name, dos);
+				writeString(this.logical_network_name, dos);
 
 				// String
 
@@ -23840,7 +23840,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",host_interface_speed_bps="
 					+ String.valueOf(host_interface_speed_bps));
 			sb.append(",mac_address=" + mac_address);
-			sb.append(",network_name=" + network_name);
+			sb.append(",logical_network_name=" + logical_network_name);
 			sb.append(",ip_address=" + ip_address);
 			sb.append(",gateway=" + gateway);
 			sb.append(",bond=" + String.valueOf(bond));
@@ -23943,10 +23943,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.mac_address;
 		}
 
-		public String network_name;
+		public String logical_network_name;
 
-		public String getNetwork_name() {
-			return this.network_name;
+		public String getLogical_network_name() {
+			return this.logical_network_name;
 		}
 
 		public String ip_address;
@@ -24107,7 +24107,7 @@ public class ConfigurationSync implements TalendJob {
 
 					this.mac_address = readString(dis);
 
-					this.network_name = readString(dis);
+					this.logical_network_name = readString(dis);
 
 					this.ip_address = readString(dis);
 
@@ -24184,7 +24184,7 @@ public class ConfigurationSync implements TalendJob {
 
 				// String
 
-				writeString(this.network_name, dos);
+				writeString(this.logical_network_name, dos);
 
 				// String
 
@@ -24244,7 +24244,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",host_interface_speed_bps="
 					+ String.valueOf(host_interface_speed_bps));
 			sb.append(",mac_address=" + mac_address);
-			sb.append(",network_name=" + network_name);
+			sb.append(",logical_network_name=" + logical_network_name);
 			sb.append(",ip_address=" + ip_address);
 			sb.append(",gateway=" + gateway);
 			sb.append(",bond=" + String.valueOf(bond));
@@ -24346,10 +24346,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.mac_address;
 		}
 
-		public String network_name;
+		public String logical_network_name;
 
-		public String getNetwork_name() {
-			return this.network_name;
+		public String getLogical_network_name() {
+			return this.logical_network_name;
 		}
 
 		public String ip_address;
@@ -24510,7 +24510,7 @@ public class ConfigurationSync implements TalendJob {
 
 					this.mac_address = readString(dis);
 
-					this.network_name = readString(dis);
+					this.logical_network_name = readString(dis);
 
 					this.ip_address = readString(dis);
 
@@ -24587,7 +24587,7 @@ public class ConfigurationSync implements TalendJob {
 
 				// String
 
-				writeString(this.network_name, dos);
+				writeString(this.logical_network_name, dos);
 
 				// String
 
@@ -24647,7 +24647,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",host_interface_speed_bps="
 					+ String.valueOf(host_interface_speed_bps));
 			sb.append(",mac_address=" + mac_address);
-			sb.append(",network_name=" + network_name);
+			sb.append(",logical_network_name=" + logical_network_name);
 			sb.append(",ip_address=" + ip_address);
 			sb.append(",gateway=" + gateway);
 			sb.append(",bond=" + String.valueOf(bond));
@@ -24756,7 +24756,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_18 = "INSERT INTO "
 						+ "host_interface_configuration"
-						+ " (host_interface_id,host_interface_name,host_id,host_interface_type,host_interface_speed_bps,mac_address,network_name,ip_address,gateway,bond,bond_name,vlan_id,host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (host_interface_id,host_interface_name,host_id,host_interface_type,host_interface_speed_bps,mac_address,logical_network_name,ip_address,gateway,bond,bond_name,vlan_id,host_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_18 = connection_tJDBCOutput_18
 						.prepareStatement(insert_tJDBCOutput_18);
 
@@ -24820,7 +24820,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_24 = conn_tJDBCInput_24
 						.createStatement();
 
-				String dbquery_tJDBCInput_24 = "SELECT     history_id,     host_interface_id,     upper(cast(host_interface_id as char(36))) as host_interface_join_id,    host_interface_name,     host_id,     host_interface_type,     host_interface_speed_bps,     mac_address,     network_name,     ip_address,     gateway,     bond,     bond_name,     vlan_id,     host_configuration_version,     create_date,     update_date  FROM v3_5_latest_configuration_hosts_interfaces";
+				String dbquery_tJDBCInput_24 = "SELECT     history_id,     host_interface_id,     upper(cast(host_interface_id as char(36))) as host_interface_join_id,    host_interface_name,     host_id,     host_interface_type,     host_interface_speed_bps,     mac_address,     logical_network_name,     ip_address,     gateway,     bond,     bond_name,     vlan_id,     host_configuration_version,     create_date,     update_date  FROM v3_5_latest_configuration_hosts_interfaces";
 
 				globalMap.put("tJDBCInput_24_QUERY", dbquery_tJDBCInput_24);
 				java.sql.ResultSet rs_tJDBCInput_24 = null;
@@ -24969,15 +24969,15 @@ public class ConfigurationSync implements TalendJob {
 						column_index_tJDBCInput_24 = 9;
 
 						if (colQtyInRs_tJDBCInput_24 < column_index_tJDBCInput_24) {
-							row23.network_name = null;
+							row23.logical_network_name = null;
 						} else {
 
 							tmpContent_tJDBCInput_24 = rs_tJDBCInput_24
 									.getString(column_index_tJDBCInput_24);
 							if (tmpContent_tJDBCInput_24 != null) {
-								row23.network_name = tmpContent_tJDBCInput_24;
+								row23.logical_network_name = tmpContent_tJDBCInput_24;
 							} else {
-								row23.network_name = null;
+								row23.logical_network_name = null;
 							}
 
 						}
@@ -25217,7 +25217,7 @@ public class ConfigurationSync implements TalendJob {
 								delete_hinterface_tmp.host_interface_type = row23.host_interface_type;
 								delete_hinterface_tmp.host_interface_speed_bps = row23.host_interface_speed_bps;
 								delete_hinterface_tmp.mac_address = row23.mac_address;
-								delete_hinterface_tmp.network_name = row23.network_name;
+								delete_hinterface_tmp.logical_network_name = row23.logical_network_name;
 								delete_hinterface_tmp.ip_address = row23.ip_address;
 								delete_hinterface_tmp.gateway = row23.gateway;
 								delete_hinterface_tmp.bond = row23.bond;
@@ -25299,12 +25299,12 @@ public class ConfigurationSync implements TalendJob {
 										delete_hinterface.mac_address);
 							}
 
-							if (delete_hinterface.network_name == null) {
+							if (delete_hinterface.logical_network_name == null) {
 								pstmt_tJDBCOutput_18.setNull(7,
 										java.sql.Types.VARCHAR);
 							} else {
 								pstmt_tJDBCOutput_18.setString(7,
-										delete_hinterface.network_name);
+										delete_hinterface.logical_network_name);
 							}
 
 							if (delete_hinterface.ip_address == null) {
@@ -37051,10 +37051,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.mac_address;
 		}
 
-		public String network_name;
+		public String logical_network_name;
 
-		public String getNetwork_name() {
-			return this.network_name;
+		public String getLogical_network_name() {
+			return this.logical_network_name;
 		}
 
 		public Integer vm_configuration_version;
@@ -37187,7 +37187,7 @@ public class ConfigurationSync implements TalendJob {
 
 					this.mac_address = readString(dis);
 
-					this.network_name = readString(dis);
+					this.logical_network_name = readString(dis);
 
 					this.vm_configuration_version = readInteger(dis);
 
@@ -37243,7 +37243,7 @@ public class ConfigurationSync implements TalendJob {
 
 				// String
 
-				writeString(this.network_name, dos);
+				writeString(this.logical_network_name, dos);
 
 				// Integer
 
@@ -37279,7 +37279,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",vm_interface_speed_bps="
 					+ String.valueOf(vm_interface_speed_bps));
 			sb.append(",mac_address=" + mac_address);
-			sb.append(",network_name=" + network_name);
+			sb.append(",logical_network_name=" + logical_network_name);
 			sb.append(",vm_configuration_version="
 					+ String.valueOf(vm_configuration_version));
 			sb.append(",create_date=" + String.valueOf(create_date));
@@ -37371,10 +37371,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.mac_address;
 		}
 
-		public String network_name;
+		public String logical_network_name;
 
-		public String getNetwork_name() {
-			return this.network_name;
+		public String getLogical_network_name() {
+			return this.logical_network_name;
 		}
 
 		public java.util.Date create_date;
@@ -37497,7 +37497,7 @@ public class ConfigurationSync implements TalendJob {
 
 					this.mac_address = readString(dis);
 
-					this.network_name = readString(dis);
+					this.logical_network_name = readString(dis);
 
 					this.create_date = readDate(dis);
 
@@ -37553,7 +37553,7 @@ public class ConfigurationSync implements TalendJob {
 
 				// String
 
-				writeString(this.network_name, dos);
+				writeString(this.logical_network_name, dos);
 
 				// java.util.Date
 
@@ -37582,7 +37582,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",vm_interface_speed_bps="
 					+ String.valueOf(vm_interface_speed_bps));
 			sb.append(",mac_address=" + mac_address);
-			sb.append(",network_name=" + network_name);
+			sb.append(",logical_network_name=" + logical_network_name);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -37671,10 +37671,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.mac_address;
 		}
 
-		public String network_name;
+		public String logical_network_name;
 
-		public String getNetwork_name() {
-			return this.network_name;
+		public String getLogical_network_name() {
+			return this.logical_network_name;
 		}
 
 		public java.util.Date create_date;
@@ -37797,7 +37797,7 @@ public class ConfigurationSync implements TalendJob {
 
 					this.mac_address = readString(dis);
 
-					this.network_name = readString(dis);
+					this.logical_network_name = readString(dis);
 
 					this.create_date = readDate(dis);
 
@@ -37853,7 +37853,7 @@ public class ConfigurationSync implements TalendJob {
 
 				// String
 
-				writeString(this.network_name, dos);
+				writeString(this.logical_network_name, dos);
 
 				// java.util.Date
 
@@ -37882,7 +37882,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",vm_interface_speed_bps="
 					+ String.valueOf(vm_interface_speed_bps));
 			sb.append(",mac_address=" + mac_address);
-			sb.append(",network_name=" + network_name);
+			sb.append(",logical_network_name=" + logical_network_name);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -37984,7 +37984,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_8 = "INSERT INTO "
 						+ "vm_interface_configuration"
-						+ " (vm_interface_id,vm_interface_name,vm_id,vm_interface_type,vm_interface_speed_bps,mac_address,network_name,vm_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (vm_interface_id,vm_interface_name,vm_id,vm_interface_type,vm_interface_speed_bps,mac_address,logical_network_name,vm_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_8 = connection_tJDBCOutput_8
 						.prepareStatement(insert_tJDBCOutput_8);
 
@@ -38048,7 +38048,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_8 = conn_tJDBCInput_8
 						.createStatement();
 
-				String dbquery_tJDBCInput_8 = "SELECT     vm_interface_id,     vm_interface_name,     vm_id,     upper(cast(vm_id as char(36))) as vm_join_id,    vm_interface_type,     vm_interface_speed_bps,     mac_address,     network_name,     create_date,     update_date  FROM dwh_vm_interface_configuration_history_view";
+				String dbquery_tJDBCInput_8 = "SELECT     vm_interface_id,     vm_interface_name,     vm_id,     upper(cast(vm_id as char(36))) as vm_join_id,    vm_interface_type,     vm_interface_speed_bps,     mac_address,     logical_network_name,     create_date,     update_date  FROM dwh_vm_interface_configuration_history_view";
 
 				globalMap.put("tJDBCInput_8_QUERY", dbquery_tJDBCInput_8);
 				java.sql.ResultSet rs_tJDBCInput_8 = null;
@@ -38181,15 +38181,15 @@ public class ConfigurationSync implements TalendJob {
 						column_index_tJDBCInput_8 = 8;
 
 						if (colQtyInRs_tJDBCInput_8 < column_index_tJDBCInput_8) {
-							row8.network_name = null;
+							row8.logical_network_name = null;
 						} else {
 
 							tmpContent_tJDBCInput_8 = rs_tJDBCInput_8
 									.getString(column_index_tJDBCInput_8);
 							if (tmpContent_tJDBCInput_8 != null) {
-								row8.network_name = tmpContent_tJDBCInput_8;
+								row8.logical_network_name = tmpContent_tJDBCInput_8;
 							} else {
-								row8.network_name = null;
+								row8.logical_network_name = null;
 							}
 
 						}
@@ -38339,8 +38339,8 @@ public class ConfigurationSync implements TalendJob {
 								vm_interface_configuration_tmp.vm_interface_speed_bps = row8.vm_interface_speed_bps;
 								vm_interface_configuration_tmp.mac_address = StringHandling
 										.TRIM(row8.mac_address);
-								vm_interface_configuration_tmp.network_name = StringHandling
-										.TRIM(row8.network_name);
+								vm_interface_configuration_tmp.logical_network_name = StringHandling
+										.TRIM(row8.logical_network_name);
 								vm_interface_configuration_tmp.vm_configuration_version = row40.history_id;
 								vm_interface_configuration_tmp.create_date = row8.create_date;
 								vm_interface_configuration_tmp.update_date = row8.update_date;
@@ -38424,14 +38424,14 @@ public class ConfigurationSync implements TalendJob {
 													vm_interface_configuration.mac_address);
 								}
 
-								if (vm_interface_configuration.network_name == null) {
+								if (vm_interface_configuration.logical_network_name == null) {
 									pstmt_tJDBCOutput_8.setNull(7,
 											java.sql.Types.VARCHAR);
 								} else {
 									pstmt_tJDBCOutput_8
 											.setString(
 													7,
-													vm_interface_configuration.network_name);
+													vm_interface_configuration.logical_network_name);
 								}
 
 								if (vm_interface_configuration.vm_configuration_version == null) {
@@ -38684,10 +38684,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.mac_address;
 		}
 
-		public String network_name;
+		public String logical_network_name;
 
-		public String getNetwork_name() {
-			return this.network_name;
+		public String getLogical_network_name() {
+			return this.logical_network_name;
 		}
 
 		public Integer vm_configuration_version;
@@ -38818,7 +38818,7 @@ public class ConfigurationSync implements TalendJob {
 
 					this.mac_address = readString(dis);
 
-					this.network_name = readString(dis);
+					this.logical_network_name = readString(dis);
 
 					this.vm_configuration_version = readInteger(dis);
 
@@ -38870,7 +38870,7 @@ public class ConfigurationSync implements TalendJob {
 
 				// String
 
-				writeString(this.network_name, dos);
+				writeString(this.logical_network_name, dos);
 
 				// Integer
 
@@ -38905,7 +38905,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",vm_interface_speed_bps="
 					+ String.valueOf(vm_interface_speed_bps));
 			sb.append(",mac_address=" + mac_address);
-			sb.append(",network_name=" + network_name);
+			sb.append(",logical_network_name=" + logical_network_name);
 			sb.append(",vm_configuration_version="
 					+ String.valueOf(vm_configuration_version));
 			sb.append(",create_date=" + String.valueOf(create_date));
@@ -38997,10 +38997,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.mac_address;
 		}
 
-		public String network_name;
+		public String logical_network_name;
 
-		public String getNetwork_name() {
-			return this.network_name;
+		public String getLogical_network_name() {
+			return this.logical_network_name;
 		}
 
 		public Integer vm_configuration_version;
@@ -39129,7 +39129,7 @@ public class ConfigurationSync implements TalendJob {
 
 					this.mac_address = readString(dis);
 
-					this.network_name = readString(dis);
+					this.logical_network_name = readString(dis);
 
 					this.vm_configuration_version = readInteger(dis);
 
@@ -39187,7 +39187,7 @@ public class ConfigurationSync implements TalendJob {
 
 				// String
 
-				writeString(this.network_name, dos);
+				writeString(this.logical_network_name, dos);
 
 				// Integer
 
@@ -39220,7 +39220,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",vm_interface_speed_bps="
 					+ String.valueOf(vm_interface_speed_bps));
 			sb.append(",mac_address=" + mac_address);
-			sb.append(",network_name=" + network_name);
+			sb.append(",logical_network_name=" + logical_network_name);
 			sb.append(",vm_configuration_version="
 					+ String.valueOf(vm_configuration_version));
 			sb.append(",create_date=" + String.valueOf(create_date));
@@ -39311,10 +39311,10 @@ public class ConfigurationSync implements TalendJob {
 			return this.mac_address;
 		}
 
-		public String network_name;
+		public String logical_network_name;
 
-		public String getNetwork_name() {
-			return this.network_name;
+		public String getLogical_network_name() {
+			return this.logical_network_name;
 		}
 
 		public Integer vm_configuration_version;
@@ -39443,7 +39443,7 @@ public class ConfigurationSync implements TalendJob {
 
 					this.mac_address = readString(dis);
 
-					this.network_name = readString(dis);
+					this.logical_network_name = readString(dis);
 
 					this.vm_configuration_version = readInteger(dis);
 
@@ -39501,7 +39501,7 @@ public class ConfigurationSync implements TalendJob {
 
 				// String
 
-				writeString(this.network_name, dos);
+				writeString(this.logical_network_name, dos);
 
 				// Integer
 
@@ -39534,7 +39534,7 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",vm_interface_speed_bps="
 					+ String.valueOf(vm_interface_speed_bps));
 			sb.append(",mac_address=" + mac_address);
-			sb.append(",network_name=" + network_name);
+			sb.append(",logical_network_name=" + logical_network_name);
 			sb.append(",vm_configuration_version="
 					+ String.valueOf(vm_configuration_version));
 			sb.append(",create_date=" + String.valueOf(create_date));
@@ -39638,7 +39638,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_21 = "INSERT INTO "
 						+ "vm_interface_configuration"
-						+ " (vm_interface_id,vm_interface_name,vm_interface_type,vm_interface_speed_bps,mac_address,network_name,vm_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?)";
+						+ " (vm_interface_id,vm_interface_name,vm_interface_type,vm_interface_speed_bps,mac_address,logical_network_name,vm_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_21 = connection_tJDBCOutput_21
 						.prepareStatement(insert_tJDBCOutput_21);
 
@@ -39702,7 +39702,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_30 = conn_tJDBCInput_30
 						.createStatement();
 
-				String dbquery_tJDBCInput_30 = "SELECT     history_id,     vm_interface_id,     upper(cast(vm_interface_id as char(36))) as vm_interface_join_id,    vm_interface_name,     vm_interface_type,     vm_interface_speed_bps,     mac_address,     network_name,     vm_configuration_version,     create_date,     update_date  FROM v3_5_latest_configuration_vms_interfaces";
+				String dbquery_tJDBCInput_30 = "SELECT     history_id,     vm_interface_id,     upper(cast(vm_interface_id as char(36))) as vm_interface_join_id,    vm_interface_name,     vm_interface_type,     vm_interface_speed_bps,     mac_address,     logical_network_name,     vm_configuration_version,     create_date,     update_date  FROM v3_5_latest_configuration_vms_interfaces";
 
 				globalMap.put("tJDBCInput_30_QUERY", dbquery_tJDBCInput_30);
 				java.sql.ResultSet rs_tJDBCInput_30 = null;
@@ -39835,15 +39835,15 @@ public class ConfigurationSync implements TalendJob {
 						column_index_tJDBCInput_30 = 8;
 
 						if (colQtyInRs_tJDBCInput_30 < column_index_tJDBCInput_30) {
-							row29.network_name = null;
+							row29.logical_network_name = null;
 						} else {
 
 							tmpContent_tJDBCInput_30 = rs_tJDBCInput_30
 									.getString(column_index_tJDBCInput_30);
 							if (tmpContent_tJDBCInput_30 != null) {
-								row29.network_name = tmpContent_tJDBCInput_30;
+								row29.logical_network_name = tmpContent_tJDBCInput_30;
 							} else {
-								row29.network_name = null;
+								row29.logical_network_name = null;
 							}
 
 						}
@@ -40002,7 +40002,7 @@ public class ConfigurationSync implements TalendJob {
 								delete_vm_interface_tmp.vm_interface_type = row29.vm_interface_type;
 								delete_vm_interface_tmp.vm_interface_speed_bps = row29.vm_interface_speed_bps;
 								delete_vm_interface_tmp.mac_address = row29.mac_address;
-								delete_vm_interface_tmp.network_name = row29.network_name;
+								delete_vm_interface_tmp.logical_network_name = row29.logical_network_name;
 								delete_vm_interface_tmp.vm_configuration_version = row29.vm_configuration_version;
 								delete_vm_interface_tmp.create_date = row29.create_date;
 								delete_vm_interface_tmp.update_date = context.runTime;
@@ -40071,12 +40071,14 @@ public class ConfigurationSync implements TalendJob {
 										delete_vm_interface.mac_address);
 							}
 
-							if (delete_vm_interface.network_name == null) {
+							if (delete_vm_interface.logical_network_name == null) {
 								pstmt_tJDBCOutput_21.setNull(6,
 										java.sql.Types.VARCHAR);
 							} else {
-								pstmt_tJDBCOutput_21.setString(6,
-										delete_vm_interface.network_name);
+								pstmt_tJDBCOutput_21
+										.setString(
+												6,
+												delete_vm_interface.logical_network_name);
 							}
 
 							if (delete_vm_interface.vm_configuration_version == null) {
@@ -64765,6 +64767,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1761921 characters generated by Talend Open Studio for Data Integration on
- * the May 11, 2014 3:45:36 PM IDT
+ * 1762881 characters generated by Talend Open Studio for Data Integration on
+ * the May 18, 2014 9:18:25 AM IDT
  ************************************************************************************************/
