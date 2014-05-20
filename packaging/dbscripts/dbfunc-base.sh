@@ -105,4 +105,3 @@ dbfunc_pg_dump() {
 dbfunc_pg_dump_die() {
 	dbfunc_pg_dump "$@" || die "Cannot execute pg_dump command: $*"
 }
-
