@@ -125,7 +125,10 @@ class Plugin(plugin.PluginBase):
                     (odwhcons.DBEnv.PASSWORD, 'DWH_DB_PASSWORD'),
                     (odwhcons.DBEnv.DATABASE, 'DWH_DB_DATABASE'),
                 ):
-                    dbenv[e] = self.environment.get(e, config.get(k))
+                    dbenv[e] = (
+                        self.environment.get(e) if self.environment.get(e) is not None
+                        else config.get(k)
+                    )
                 for e, k in (
                     (odwhcons.DBEnv.SECURED, 'DWH_DB_SECURED'),
                     (
