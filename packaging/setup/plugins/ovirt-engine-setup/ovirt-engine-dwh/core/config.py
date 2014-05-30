@@ -33,7 +33,9 @@ from ovirt_engine import util as outil
 
 
 from ovirt_engine_setup import constants as osetupcons
-from ovirt_engine_setup import dwhconstants as odwhcons
+from ovirt_engine_setup.dwh import dwhconstants as odwhcons
+from ovirt_engine_setup.engine_common \
+    import enginecommonconstants as oengcommcons
 
 
 @util.export
@@ -119,14 +121,26 @@ class Plugin(plugin.PluginBase):
                 content='%s%s' % (
                     self._getDBConfig(
                         prefix='ENGINE',
-                        host=self.environment[osetupcons.DBEnv.HOST],
-                        port=self.environment[osetupcons.DBEnv.PORT],
-                        user=self.environment[osetupcons.DBEnv.USER],
-                        password=self.environment[osetupcons.DBEnv.PASSWORD],
-                        database=self.environment[osetupcons.DBEnv.DATABASE],
-                        secured=self.environment[osetupcons.DBEnv.SECURED],
+                        host=self.environment[
+                            oengcommcons.EngineDBEnv.HOST
+                        ],
+                        port=self.environment[
+                            oengcommcons.EngineDBEnv.PORT
+                        ],
+                        user=self.environment[
+                            oengcommcons.EngineDBEnv.USER
+                        ],
+                        password=self.environment[
+                            oengcommcons.EngineDBEnv.PASSWORD
+                        ],
+                        database=self.environment[
+                            oengcommcons.EngineDBEnv.DATABASE
+                        ],
+                        secured=self.environment[
+                            oengcommcons.EngineDBEnv.SECURED
+                        ],
                         hostValidation=self.environment[
-                            osetupcons.DBEnv.SECURED_HOST_VALIDATION
+                            oengcommcons.EngineDBEnv.SECURED_HOST_VALIDATION
                         ],
                     ),
                     self._getDBConfig(

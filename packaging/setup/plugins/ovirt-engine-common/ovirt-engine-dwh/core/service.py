@@ -25,7 +25,7 @@ from otopi import plugin
 
 
 from ovirt_engine_setup import constants as osetupcons
-from ovirt_engine_setup import dwhconstants as odwhcons
+from ovirt_engine_setup.dwh import dwhconstants as odwhcons
 
 
 @util.export

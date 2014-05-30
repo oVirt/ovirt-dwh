@@ -25,10 +25,10 @@ from otopi import util
 from otopi import plugin
 
 
-from ovirt_engine_setup import constants as osetupcons
-from ovirt_engine_setup import dwhconstants as odwhcons
-from ovirt_engine_setup import dialog
-from ovirt_engine_setup import database
+from ovirt_engine_setup.dwh import dwhconstants as odwhcons
+from ovirt_engine_setup.engine_common import database
+from ovirt_engine_setup.engine_common \
+    import enginecommonconstants as oengcommcons
 
 
 @util.export
@@ -63,18 +63,33 @@ class Plugin(plugin.PluginBase):
         stage=plugin.Stages.STAGE_VALIDATION,
         condition=lambda self: (
             self.environment[odwhcons.CoreEnv.ENABLE] and
-            not self.environment[osetupcons.DBEnv.NEW_DATABASE]
+            not self.environment[oengcommcons.EngineDBEnv.NEW_DATABASE]
         ),
     )
     def _validation(self):
         statement = database.Statement(
-            dbenvkeys=osetupcons.Const.ENGINE_DB_ENV_KEYS,
+            dbenvkeys=oengcommcons.Const.ENGINE_DB_ENV_KEYS,
             environment=self.environment,
         )
-        minimalVersion = statement.getVdcOption(
-            name='MinimalETLVersion',
+
+        # TODO: in the future go for a new API to fetch this value
+        result = statement.execute(
+            statement="""
+                select version, option_value
+                from vdc_options
+                where option_name = %(name)s
+            """,
+            args=dict(
+                name='MinimalETLVersion',
+            ),
             ownConnection=True,
         )
+        if not result:
+            raise RuntimeError(
+                _('Cannot find MinimalETLVersion in vdc_options')
+            )
+        minimalVersion = result[0]['option_value']
+
         minMajor, minMinor, minPatchLevel = self._parseVersionString(
             minimalVersion
         )

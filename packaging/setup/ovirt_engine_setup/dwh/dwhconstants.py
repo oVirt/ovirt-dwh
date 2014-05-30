@@ -16,7 +16,7 @@
 #
 
 
-"""Constants."""
+"""DWH Constants."""
 
 
 import os
@@ -27,7 +27,9 @@ _ = lambda m: gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 from otopi import util
 
 
-from constants import classproperty, osetupattrsclass, osetupattrs
+from ovirt_engine_setup.constants import classproperty
+from ovirt_engine_setup.constants import osetupattrsclass
+from ovirt_engine_setup.constants import osetupattrs
 
 
 from . import dwhconfig
@@ -108,6 +110,12 @@ class FileLocations(object):
         PKG_STATE_DIR,
         'backups',
     )
+
+    OVIRT_ENGINE_DB_MD5_DIR = os.path.join(
+        PKG_STATE_DIR,
+        'dwh_dbmd5',
+    )
+
     LEGACY_CONFIG = os.path.join(
         PKG_SYSCONF_DIR,
         '..',

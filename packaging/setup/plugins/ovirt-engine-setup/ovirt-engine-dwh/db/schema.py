@@ -31,9 +31,11 @@ from otopi import transaction
 
 
 from ovirt_engine_setup import constants as osetupcons
-from ovirt_engine_setup import dwhconstants as odwhcons
-from ovirt_engine_setup import database
+from ovirt_engine_setup.dwh import dwhconstants as odwhcons
+from ovirt_engine_setup.engine_common import database
 from ovirt_engine_setup import dialog
+from ovirt_engine_setup.engine_common \
+    import enginecommonconstants as oengcommcons
 
 
 @util.export
@@ -116,26 +118,6 @@ class Plugin(plugin.PluginBase):
                 _(
                     'Cannot upgrade the DWH database schema due to wrong '
                     'ownership of some database entities.\n'
-                    'Please execute: {command}\n'
-                    'Using the password of the "postgres" user.'
-                ).format(
-                    command=(
-                        '{cmd} '
-                        '-s {server} '
-                        '-p {port} '
-                        '-d {db} '
-                        '-f postgres '
-                        '-t {user}'
-                    ).format(
-                        cmd=(
-                            osetupcons.FileLocations.
-                            OVIRT_ENGINE_DB_CHANGE_OWNER
-                        ),
-                        server=self.environment[odwhcons.DBEnv.HOST],
-                        port=self.environment[odwhcons.DBEnv.PORT],
-                        db=self.environment[odwhcons.DBEnv.DATABASE],
-                        user=self.environment[odwhcons.DBEnv.USER],
-                    ),
                 )
             )
 
@@ -219,7 +201,7 @@ class Plugin(plugin.PluginBase):
             odwhcons.DBEnv.NEW_DATABASE
         ],
         before=(
-            osetupcons.Stages.DIALOG_TITLES_E_DATABASE,
+            oengcommcons.Stages.DIALOG_TITLES_E_DATABASE,
         ),
         after=(
             odwhcons.Stages.DB_CONNECTION_CUSTOMIZATION,
@@ -356,16 +338,16 @@ class Plugin(plugin.PluginBase):
             osetupcons.CoreEnv.DEVELOPER_MODE
         ]:
             if not os.path.exists(
-                osetupcons.FileLocations.OVIRT_ENGINE_DB_MD5_DIR
+                odwhcons.FileLocations.OVIRT_ENGINE_DB_MD5_DIR
             ):
                 os.makedirs(
-                    osetupcons.FileLocations.OVIRT_ENGINE_DB_MD5_DIR
+                    odwhcons.FileLocations.OVIRT_ENGINE_DB_MD5_DIR
                 )
             args.extend(
                 [
                     '-m',
                     os.path.join(
-                        osetupcons.FileLocations.OVIRT_ENGINE_DB_MD5_DIR,
+                        odwhcons.FileLocations.OVIRT_ENGINE_DB_MD5_DIR,
                         '%s-%s.scripts.md5' % (
                             self.environment[odwhcons.DBEnv.HOST],
                             self.environment[odwhcons.DBEnv.DATABASE],

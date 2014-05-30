@@ -238,7 +238,7 @@ fi
 %endif
 
 %files setup
-%{_datadir}/ovirt-engine/setup/ovirt_engine_setup/dwh*
+%{_datadir}/ovirt-engine/setup/ovirt_engine_setup/dwh/
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog

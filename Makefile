@@ -105,7 +105,7 @@ GENERATED = \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.systemd \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv \
 	packaging/services/ovirt-engine-dwhd/ovirt_engine_dwh_watchdog.cron \
-	packaging/setup/ovirt_engine_setup/dwhconfig.py \
+	packaging/setup/ovirt_engine_setup/dwh/dwhconfig.py \
 	packaging/sys-etc/logrotate.d/ovirt-engine-dwhd \
 	$(NULL)
 

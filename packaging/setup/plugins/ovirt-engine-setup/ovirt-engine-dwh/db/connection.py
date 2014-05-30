@@ -30,11 +30,12 @@ from otopi import util
 from otopi import plugin
 
 
-from ovirt_engine_setup import constants as osetupcons
-from ovirt_engine_setup import dwhconstants as odwhcons
-from ovirt_engine_setup import database
+from ovirt_engine_setup.dwh import dwhconstants as odwhcons
+from ovirt_engine_setup.engine_common import database
 from ovirt_engine_setup import dialog
 from ovirt_engine_setup import util as osetuputil
+from ovirt_engine_setup.engine_common \
+    import enginecommonconstants as oengcommcons
 
 
 @util.export
@@ -105,10 +106,10 @@ class Plugin(plugin.PluginBase):
         name=odwhcons.Stages.DB_CONNECTION_CUSTOMIZATION,
         condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
         before=(
-            osetupcons.Stages.DIALOG_TITLES_E_DATABASE,
+            oengcommcons.Stages.DIALOG_TITLES_E_DATABASE,
         ),
         after=(
-            osetupcons.Stages.DIALOG_TITLES_S_DATABASE,
+            oengcommcons.Stages.DIALOG_TITLES_S_DATABASE,
         ),
     )
     def _customization(self):

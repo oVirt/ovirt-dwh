@@ -32,8 +32,8 @@ from ovirt_engine import configfile
 
 
 from ovirt_engine_setup import constants as osetupcons
-from ovirt_engine_setup import dwhconstants as odwhcons
-from ovirt_engine_setup import database
+from ovirt_engine_setup.dwh import dwhconstants as odwhcons
+from ovirt_engine_setup.engine_common import database
 
 
 @util.export
@@ -126,7 +126,8 @@ class Plugin(plugin.PluginBase):
                     (odwhcons.DBEnv.DATABASE, 'DWH_DB_DATABASE'),
                 ):
                     dbenv[e] = (
-                        self.environment.get(e) if self.environment.get(e) is not None
+                        self.environment.get(e)
+                        if self.environment.get(e) is not None
                         else config.get(k)
                     )
                 for e, k in (

@@ -28,9 +28,11 @@ from otopi import plugin
 
 
 from ovirt_engine_setup import constants as osetupcons
-from ovirt_engine_setup import dwhconstants as odwhcons
+from ovirt_engine_setup.dwh import dwhconstants as odwhcons
 from ovirt_engine_setup import dialog
-from ovirt_engine_setup import postgres
+from ovirt_engine_setup.engine_common import postgres
+from ovirt_engine_setup.engine_common \
+    import enginecommonconstants as oengcommcons
 
 
 @util.export
@@ -87,11 +89,11 @@ class Plugin(plugin.PluginBase):
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
         before=(
-            osetupcons.Stages.DIALOG_TITLES_E_DATABASE,
+            oengcommcons.Stages.DIALOG_TITLES_E_DATABASE,
             odwhcons.Stages.DB_CONNECTION_CUSTOMIZATION,
         ),
         after=(
-            osetupcons.Stages.DIALOG_TITLES_S_DATABASE,
+            oengcommcons.Stages.DIALOG_TITLES_S_DATABASE,
             odwhcons.Stages.CORE_ENABLE,
         ),
         condition=lambda self: self._enabled,
@@ -152,7 +154,7 @@ class Plugin(plugin.PluginBase):
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
         priority=plugin.Stages.PRIORITY_LAST,
         condition=lambda self: self.environment[
-            osetupcons.DBEnv.HOST
+            odwhcons.DBEnv.HOST
         ] == 'localhost',
     )
     def _customization_firewall(self):
