@@ -34,8 +34,6 @@ from ovirt_engine import util as outil
 
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.dwh import constants as odwhcons
-from ovirt_engine_setup.engine_common \
-    import constants as oengcommcons
 
 
 @util.export
@@ -122,25 +120,25 @@ class Plugin(plugin.PluginBase):
                     self._getDBConfig(
                         prefix='ENGINE',
                         host=self.environment[
-                            oengcommcons.EngineDBEnv.HOST
+                            odwhcons.EngineDBEnv.HOST
                         ],
                         port=self.environment[
-                            oengcommcons.EngineDBEnv.PORT
+                            odwhcons.EngineDBEnv.PORT
                         ],
                         user=self.environment[
-                            oengcommcons.EngineDBEnv.USER
+                            odwhcons.EngineDBEnv.USER
                         ],
                         password=self.environment[
-                            oengcommcons.EngineDBEnv.PASSWORD
+                            odwhcons.EngineDBEnv.PASSWORD
                         ],
                         database=self.environment[
-                            oengcommcons.EngineDBEnv.DATABASE
+                            odwhcons.EngineDBEnv.DATABASE
                         ],
                         secured=self.environment[
-                            oengcommcons.EngineDBEnv.SECURED
+                            odwhcons.EngineDBEnv.SECURED
                         ],
                         hostValidation=self.environment[
-                            oengcommcons.EngineDBEnv.SECURED_HOST_VALIDATION
+                            odwhcons.EngineDBEnv.SECURED_HOST_VALIDATION
                         ],
                     ),
                     self._getDBConfig(

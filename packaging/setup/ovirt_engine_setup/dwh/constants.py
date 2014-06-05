@@ -63,6 +63,34 @@ class Const(object):
             'database': DBEnv.DATABASE,
             'connection': DBEnv.CONNECTION,
             'pgpassfile': DBEnv.PGPASS_FILE,
+            'newDatabase': DBEnv.NEW_DATABASE,
+        }
+
+    @classproperty
+    def DEFAULT_DWH_DB_ENV_KEYS(self):
+        return {
+            'host': Defaults.DEFAULT_DB_HOST,
+            'port': Defaults.DEFAULT_DB_PORT,
+            'secured': Defaults.DEFAULT_DB_SECURED,
+            'hostValidation': Defaults.DEFAULT_DB_SECURED_HOST_VALIDATION,
+            'user': Defaults.DEFAULT_DB_USER,
+            'password': Defaults.DEFAULT_DB_PASSWORD,
+            'database': Defaults.DEFAULT_DB_DATABASE,
+        }
+
+    @classproperty
+    def ENGINE_DB_ENV_KEYS(self):
+        return {
+            'host': EngineDBEnv.HOST,
+            'port': EngineDBEnv.PORT,
+            'secured': EngineDBEnv.SECURED,
+            'hostValidation': EngineDBEnv.SECURED_HOST_VALIDATION,
+            'user': EngineDBEnv.USER,
+            'password': EngineDBEnv.PASSWORD,
+            'database': EngineDBEnv.DATABASE,
+            'connection': EngineDBEnv.CONNECTION,
+            'pgpassfile': EngineDBEnv.PGPASS_FILE,
+            'newDatabase': EngineDBEnv.NEW_DATABASE,
         }
 
 
@@ -260,6 +288,81 @@ class ProvisioningEnv(object):
 class RPMDistroEnv(object):
     PACKAGES = 'OVESETUP_DWH_RPMDISRO_PACKAGES'
     PACKAGES_SETUP = 'OVESETUP_DWH_RPMDISRO_PACKAGES_SETUP'
+
+
+@util.export
+@util.codegen
+@osetupattrsclass
+class EngineDBEnv(object):
+    """Sync with ovirt-engine"""
+
+    @osetupattrs(
+        answerfile=True,
+        summary=True,
+        description=_('Engine database host'),
+    )
+    def HOST(self):
+        return 'OVESETUP_DB/host'
+
+    @osetupattrs(
+        answerfile=True,
+        summary=True,
+        description=_('Engine database port'),
+    )
+    def PORT(self):
+        return 'OVESETUP_DB/port'
+
+    @osetupattrs(
+        answerfile=True,
+        summary=True,
+        description=_('Engine database secured connection'),
+    )
+    def SECURED(self):
+        return 'OVESETUP_DB/secured'
+
+    @osetupattrs(
+        answerfile=True,
+        summary=True,
+        description=_('Engine database host name validation'),
+    )
+    def SECURED_HOST_VALIDATION(self):
+        return 'OVESETUP_DB/securedHostValidation'
+
+    @osetupattrs(
+        answerfile=True,
+        summary=True,
+        description=_('Engine database name'),
+    )
+    def DATABASE(self):
+        return 'OVESETUP_DB/database'
+
+    @osetupattrs(
+        answerfile=True,
+        summary=True,
+        description=_('Engine database user name'),
+    )
+    def USER(self):
+        return 'OVESETUP_DB/user'
+
+    @osetupattrs(
+        answerfile=True,
+    )
+    def PASSWORD(self):
+        return 'OVESETUP_DB/password'
+
+    CONNECTION = 'OVESETUP_DB/connection'
+    STATEMENT = 'OVESETUP_DB/statement'
+    PGPASS_FILE = 'OVESETUP_DB/pgPassFile'
+    NEW_DATABASE = 'OVESETUP_DB/newDatabase'
+
+
+@util.export
+@util.codegen
+@osetupattrsclass
+class EngineCoreEnv(object):
+    """Sync with ovirt-engine"""
+
+    ENABLE = 'OVESETUP_ENGINE_CORE/enable'
 
 
 # vim: expandtab tabstop=4 shiftwidth=4

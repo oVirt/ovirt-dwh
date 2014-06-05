@@ -27,8 +27,6 @@ from otopi import plugin
 
 from ovirt_engine_setup.dwh import constants as odwhcons
 from ovirt_engine_setup.engine_common import database
-from ovirt_engine_setup.engine_common \
-    import constants as oengcommcons
 
 
 @util.export
@@ -63,12 +61,17 @@ class Plugin(plugin.PluginBase):
         stage=plugin.Stages.STAGE_VALIDATION,
         condition=lambda self: (
             self.environment[odwhcons.CoreEnv.ENABLE] and
-            not self.environment[oengcommcons.EngineDBEnv.NEW_DATABASE]
+            not self.environment[odwhcons.EngineDBEnv.NEW_DATABASE] and
+            # If engine is enabled, we are on same host - do not check
+            # minimal etl, engine-setup will upgrade all together.
+            # TODO - consider doing a more complex check that will work
+            # well and the same in both cases (same/different host).
+            not self.environment[odwhcons.EngineCoreEnv.ENABLE]
         ),
     )
     def _validation(self):
         statement = database.Statement(
-            dbenvkeys=oengcommcons.Const.ENGINE_DB_ENV_KEYS,
+            dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS,
             environment=self.environment,
         )
 

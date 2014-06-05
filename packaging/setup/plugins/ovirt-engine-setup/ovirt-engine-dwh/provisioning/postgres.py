@@ -46,16 +46,7 @@ class Plugin(plugin.PluginBase):
         self._provisioning = postgres.Provisioning(
             plugin=self,
             dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
-            defaults={
-                'user': odwhcons.Defaults.DEFAULT_DB_USER,
-                'database': odwhcons.Defaults.DEFAULT_DB_DATABASE,
-                'port': odwhcons.Defaults.DEFAULT_DB_PORT,
-                'secured': odwhcons.Defaults.DEFAULT_DB_SECURED,
-                'hostValidation': (
-                    odwhcons.Defaults.
-                    DEFAULT_DB_SECURED_HOST_VALIDATION
-                ),
-            },
+            defaults=odwhcons.Const.DEFAULT_DWH_DB_ENV_KEYS,
         )
 
     @plugin.event(
@@ -89,12 +80,10 @@ class Plugin(plugin.PluginBase):
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
         before=(
-            oengcommcons.Stages.DIALOG_TITLES_E_DATABASE,
             odwhcons.Stages.DB_CONNECTION_CUSTOMIZATION,
         ),
         after=(
             oengcommcons.Stages.DIALOG_TITLES_S_DATABASE,
-            odwhcons.Stages.CORE_ENABLE,
         ),
         condition=lambda self: self._enabled,
     )
@@ -161,7 +150,7 @@ class Plugin(plugin.PluginBase):
         self.environment[osetupcons.NetEnv.FIREWALLD_SERVICES].extend([
             {
                 'name': 'ovirt-postgres',
-                'directory': 'ovirt-engine'
+                'directory': 'ovirt-common'
             },
         ])
 

@@ -1,6 +1,6 @@
 #
 # ovirt-engine-setup -- ovirt engine setup
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013-2014 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@
 """Connection plugin."""
 
 
-import socket
 import gettext
 _ = lambda m: gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
@@ -32,8 +31,6 @@ from otopi import plugin
 
 from ovirt_engine_setup.dwh import constants as odwhcons
 from ovirt_engine_setup.engine_common import database
-from ovirt_engine_setup import dialog
-from ovirt_engine_setup import util as osetuputil
 from ovirt_engine_setup.engine_common \
     import constants as oengcommcons
 
@@ -65,31 +62,6 @@ class Plugin(plugin.PluginBase):
             if connection is not None:
                 connection.commit()
 
-    def _checkDbEncoding(self, environment):
-
-        statement = database.Statement(
-            environment=environment,
-            dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
-        )
-        encoding = statement.execute(
-            statement="""
-                show server_encoding
-            """,
-            ownConnection=True,
-            transaction=False,
-        )[0]['server_encoding']
-        if encoding.lower() != 'utf8':
-            raise RuntimeError(
-                _(
-                    'Encoding of the DWH database is {encoding}. '
-                    'Engine installation is only supported on servers '
-                    'with default encoding set to UTF8. Please fix the '
-                    'default DB encoding before you continue'
-                ).format(
-                    encoding=encoding,
-                )
-            )
-
     def __init__(self, context):
         super(Plugin, self).__init__(context=context)
 
@@ -106,7 +78,7 @@ class Plugin(plugin.PluginBase):
         name=odwhcons.Stages.DB_CONNECTION_CUSTOMIZATION,
         condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
         before=(
-            oengcommcons.Stages.DIALOG_TITLES_E_DATABASE,
+            oengcommcons.Stages.DB_OWNERS_CONNECTIONS_CUSTOMIZED,
         ),
         after=(
             oengcommcons.Stages.DIALOG_TITLES_S_DATABASE,
@@ -117,172 +89,43 @@ class Plugin(plugin.PluginBase):
             plugin=self,
             dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
         )
-
-        interactive = None in (
-            self.environment[odwhcons.DBEnv.HOST],
-            self.environment[odwhcons.DBEnv.PORT],
-            self.environment[odwhcons.DBEnv.DATABASE],
-            self.environment[odwhcons.DBEnv.USER],
-            self.environment[odwhcons.DBEnv.PASSWORD],
+        dbovirtutils.getCredentials(
+            name='DWH',
+            queryprefix='OVESETUP_DWH_DB_',
+            defaultdbenvkeys=odwhcons.Const.DEFAULT_DWH_DB_ENV_KEYS,
+            show_create_msg=True,
         )
 
-        if interactive:
-            self.dialog.note(
-                text=_(
-                    "\n"
-                    "ATTENTION\n"
-                    "\n"
-                    "Manual action required.\n"
-                    "Please create database for ovirt-engine use. "
-                    "Use the following commands as an example:\n"
-                    "\n"
-                    "create role {user} with login encrypted password '{user}'"
-                    ";\n"
-                    "create database {database} owner {user}\n"
-                    " template template0\n"
-                    " encoding 'UTF8' lc_collate 'en_US.UTF-8'\n"
-                    " lc_ctype 'en_US.UTF-8';\n"
-                    "\n"
-                    "Make sure that database can be accessed remotely.\n"
-                    "\n"
-                ).format(
-                    user=odwhcons.Defaults.DEFAULT_DB_USER,
-                    database=odwhcons.Defaults.DEFAULT_DB_DATABASE,
-                ),
-            )
-
-        connectionValid = False
-        while not connectionValid:
-            host = self.environment[odwhcons.DBEnv.HOST]
-            port = self.environment[odwhcons.DBEnv.PORT]
-            secured = self.environment[odwhcons.DBEnv.SECURED]
-            securedHostValidation = self.environment[
-                odwhcons.DBEnv.SECURED_HOST_VALIDATION
-            ]
-            db = self.environment[odwhcons.DBEnv.DATABASE]
-            user = self.environment[odwhcons.DBEnv.USER]
-            password = self.environment[odwhcons.DBEnv.PASSWORD]
-
-            if host is None:
-                while True:
-                    host = self.dialog.queryString(
-                        name='OVESETUP_DWH_DB_HOST',
-                        note=_('DWH database host [@DEFAULT@]: '),
-                        prompt=True,
-                        default=odwhcons.Defaults.DEFAULT_DB_HOST,
-                    )
-                    try:
-                        socket.getaddrinfo(host, None)
-                        break  # do while missing in python
-                    except socket.error as e:
-                        self.logger.error(
-                            _('Host is invalid: {error}').format(
-                                error=e.strerror
-                            )
-                        )
-
-            if port is None:
-                while True:
-                    try:
-                        port = osetuputil.parsePort(
-                            self.dialog.queryString(
-                                name='OVESETUP_DWH_DB_PORT',
-                                note=_('DWH database port [@DEFAULT@]: '),
-                                prompt=True,
-                                default=odwhcons.Defaults.DEFAULT_DB_PORT,
-                            )
-                        )
-                        break  # do while missing in python
-                    except ValueError:
-                        pass
-
-            if secured is None:
-                secured = dialog.queryBoolean(
-                    dialog=self.dialog,
-                    name='OVESETUP_DWH_DB_SECURED',
-                    note=_(
-                        'DWH database secured connection (@VALUES@) '
-                        '[@DEFAULT@]: '
-                    ),
-                    prompt=True,
-                    default=odwhcons.Defaults.DEFAULT_DB_SECURED,
-                )
-
-            if not secured:
-                securedHostValidation = False
-
-            if securedHostValidation is None:
-                securedHostValidation = dialog.queryBoolean(
-                    dialog=self.dialog,
-                    name='OVESETUP_DWH_DB_SECURED_HOST_VALIDATION',
-                    note=_(
-                        'DWH database host name validation in secured '
-                        'connection (@VALUES@) [@DEFAULT@]: '
-                    ),
-                    prompt=True,
-                    default=True,
-                ) == 'yes'
-
-            if db is None:
-                db = self.dialog.queryString(
-                    name='OVESETUP_DWH_DB_DATABASE',
-                    note=_('DWH database name [@DEFAULT@]: '),
-                    prompt=True,
-                    default=odwhcons.Defaults.DEFAULT_DB_DATABASE,
-                )
-
-            if user is None:
-                user = self.dialog.queryString(
-                    name='OVESETUP_DWH_DB_USER',
-                    note=_('DWH database user [@DEFAULT@]: '),
-                    prompt=True,
-                    default=odwhcons.Defaults.DEFAULT_DB_USER,
-                )
-
-            if password is None:
-                password = self.dialog.queryString(
-                    name='OVESETUP_DWH_DB_PASSWORD',
-                    note=_('DWH database password: '),
-                    prompt=True,
-                    hidden=True,
-                )
-
-            dbenv = {
-                odwhcons.DBEnv.HOST: host,
-                odwhcons.DBEnv.PORT: port,
-                odwhcons.DBEnv.SECURED: secured,
-                odwhcons.DBEnv.SECURED_HOST_VALIDATION: (
-                    securedHostValidation
-                ),
-                odwhcons.DBEnv.USER: user,
-                odwhcons.DBEnv.PASSWORD: password,
-                odwhcons.DBEnv.DATABASE: db,
-            }
-
-            if interactive:
-                try:
-                    dbovirtutils.tryDatabaseConnect(dbenv)
-                    self._checkDbEncoding(dbenv)
-                    self.environment.update(dbenv)
-                    connectionValid = True
-                except RuntimeError as e:
-                    self.logger.error(
-                        _('Cannot connect to DWH database: {error}').format(
-                            error=e,
-                        )
-                    )
-            else:
-                # this is usally reached in provisioning
-                # or if full ansewr file
-                self.environment.update(dbenv)
-                connectionValid = True
-
-        try:
-            self.environment[
-                odwhcons.DBEnv.NEW_DATABASE
-            ] = dbovirtutils.isNewDatabase()
-        except:
-            self.logger.debug('database connection failed', exc_info=True)
+    @plugin.event(
+        stage=plugin.Stages.STAGE_CUSTOMIZATION,
+        condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
+        before=(
+            oengcommcons.Stages.DIALOG_TITLES_E_DATABASE,
+        ),
+        after=(
+            oengcommcons.Stages.DIALOG_TITLES_S_DATABASE,
+            oengcommcons.Stages.DB_OWNERS_CONNECTIONS_CUSTOMIZED,
+        ),
+    )
+    def _engine_customization(self):
+        dbovirtutils = database.OvirtUtils(
+            plugin=self,
+            dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS,
+        )
+        dbovirtutils.getCredentials(
+            name='Engine',
+            queryprefix='OVESETUP_ENGINE_DB_',
+            defaultdbenvkeys={
+                'host': '',
+                'port': '5432',
+                'secured': '',
+                'hostValidation': False,
+                'user': 'engine',
+                'password': None,
+                'database': 'engine',
+            },
+            show_create_msg=False,
+        )
 
     @plugin.event(
         stage=plugin.Stages.STAGE_MISC,

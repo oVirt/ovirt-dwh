@@ -39,6 +39,7 @@ class Plugin(plugin.PluginBase):
     )
     def _init(self):
         self.environment.setdefault(odwhcons.CoreEnv.ENABLE, None)
+        self.environment.setdefault(odwhcons.EngineCoreEnv.ENABLE, None)
 
     @plugin.event(
         stage=plugin.Stages.STAGE_SETUP,

@@ -86,9 +86,45 @@ class Plugin(plugin.PluginBase):
             None
         )
 
+        # TODO: probably we can add helper function within database.py to get
+        # dbkeys and set all to none, instead of duplicating this.
+
         self.environment[odwhcons.DBEnv.CONNECTION] = None
         self.environment[odwhcons.DBEnv.STATEMENT] = None
         self.environment[odwhcons.DBEnv.NEW_DATABASE] = True
+
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.HOST,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.PORT,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.SECURED,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.SECURED_HOST_VALIDATION,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.USER,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.PASSWORD,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.DATABASE,
+            None
+        )
+
+        self.environment[odwhcons.EngineDBEnv.CONNECTION] = None
+        self.environment[odwhcons.EngineDBEnv.STATEMENT] = None
+        self.environment[odwhcons.EngineDBEnv.NEW_DATABASE] = True
 
     @plugin.event(
         stage=plugin.Stages.STAGE_SETUP,

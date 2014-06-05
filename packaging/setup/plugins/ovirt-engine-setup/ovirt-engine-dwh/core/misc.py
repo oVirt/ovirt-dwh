@@ -1,6 +1,6 @@
 #
 # ovirt-engine-setup -- ovirt engine setup
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013-2014 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -40,7 +40,6 @@ class Plugin(plugin.PluginBase):
         name=odwhcons.Stages.CORE_ENABLE,
         before=(
             osetupcons.Stages.DIALOG_TITLES_E_PRODUCT_OPTIONS,
-            odwhcons.Stages.DB_CONNECTION_CUSTOMIZATION,
         ),
         after=(
             osetupcons.Stages.DIALOG_TITLES_S_PRODUCT_OPTIONS,
