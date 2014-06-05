@@ -242,6 +242,17 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Thu Jun 5 2014 Shirly Radco <sradco@redhat.com> - 3.5
+Fixed issues:
+- Force a minimal ETL version (#1059283)
+- sync users data for user usage tables (#1091687)
+- update user and system cpu usage percent (#1078897)
+- Fixed sleep time for delete/aggregations (#1086389)
+- Change Fields "Network Name" to "Logical Network Name" (#891073)
+- Do not fail on errors while restoring permissions (#1073471)
+- use db creds from answer file (#1094016)
+- engine-setup check remote database is empty (#1056528)
+
 * Sun Mar 30 2014 Yaniv Dary <ydary@redhat.com> - 3.4.1
 Fixed issues:
 - io.StringIO needs unicode (See releated BZ #1079911)
