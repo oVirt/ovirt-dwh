@@ -242,6 +242,14 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Mon Jun 9 2014 Shirly Radco <sradco@redhat.com> - 3.4.2
+oVirt 3.4.2 GA release.
+
+Fixed issues:
+- update user and system cpu usage percent (#1098779)
+- Do not fail on errors while restoring permissions (#1073471)
+- use db creds from env if not None (#1100281)
+
 * Wed May 7 2014 Shirly Radco <sradco@redhat.com> - 3.4.1
 Fixed issues:
 - added leading question mark to dist tag (#1093599)
