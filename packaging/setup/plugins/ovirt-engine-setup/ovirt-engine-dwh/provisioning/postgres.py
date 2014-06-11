@@ -28,11 +28,11 @@ from otopi import plugin
 
 
 from ovirt_engine_setup import constants as osetupcons
-from ovirt_engine_setup.dwh import dwhconstants as odwhcons
+from ovirt_engine_setup.dwh import constants as odwhcons
 from ovirt_engine_setup import dialog
 from ovirt_engine_setup.engine_common import postgres
 from ovirt_engine_setup.engine_common \
-    import enginecommonconstants as oengcommcons
+    import constants as oengcommcons
 
 
 @util.export

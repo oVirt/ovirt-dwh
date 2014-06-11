@@ -32,20 +32,20 @@ from ovirt_engine_setup.constants import osetupattrsclass
 from ovirt_engine_setup.constants import osetupattrs
 
 
-from . import dwhconfig
+from . import config
 
 
 @util.export
 @util.codegen
 class Const(object):
-    PACKAGE_NAME = dwhconfig.PACKAGE_NAME
-    PACKAGE_VERSION = dwhconfig.PACKAGE_VERSION
-    DISPLAY_VERSION = dwhconfig.DISPLAY_VERSION
-    RPM_VERSION = dwhconfig.RPM_VERSION
-    RPM_RELEASE = dwhconfig.RPM_RELEASE
-    VERSION_MAJOR = dwhconfig.VERSION_MAJOR
-    VERSION_MINOR = dwhconfig.VERSION_MINOR
-    VERSION_PATCH_LEVEL = dwhconfig.VERSION_PATCH_LEVEL
+    PACKAGE_NAME = config.PACKAGE_NAME
+    PACKAGE_VERSION = config.PACKAGE_VERSION
+    DISPLAY_VERSION = config.DISPLAY_VERSION
+    RPM_VERSION = config.RPM_VERSION
+    RPM_RELEASE = config.RPM_RELEASE
+    VERSION_MAJOR = config.VERSION_MAJOR
+    VERSION_MINOR = config.VERSION_MINOR
+    VERSION_PATCH_LEVEL = config.VERSION_PATCH_LEVEL
     SERVICE_NAME = 'ovirt-engine-dwhd'
     OVIRT_ENGINE_DWH_DB_BACKUP_PREFIX = 'dwh'
     OVIRT_ENGINE_DWH_PACKAGE_NAME = 'ovirt-engine-dwh'
@@ -81,13 +81,13 @@ class Defaults(object):
 @util.export
 @util.codegen
 class FileLocations(object):
-    PKG_SYSCONF_DIR = dwhconfig.PKG_SYSCONF_DIR
-    PKG_STATE_DIR = dwhconfig.PKG_STATE_DIR
-    PKG_DATA_DIR = dwhconfig.PKG_DATA_DIR
+    PKG_SYSCONF_DIR = config.PKG_SYSCONF_DIR
+    PKG_STATE_DIR = config.PKG_STATE_DIR
+    PKG_DATA_DIR = config.PKG_DATA_DIR
     OVIRT_ENGINE_DWHD_SERVICE_CONFIG = \
-        dwhconfig.OVIRT_ENGINE_DWHD_SERVICE_CONFIG
+        config.OVIRT_ENGINE_DWHD_SERVICE_CONFIG
     OVIRT_ENGINE_DWHD_SERVICE_CONFIG_DEFAULTS = \
-        dwhconfig.OVIRT_ENGINE_DWHD_SERVICE_CONFIG_DEFAULTS
+        config.OVIRT_ENGINE_DWHD_SERVICE_CONFIG_DEFAULTS
     OVIRT_ENGINE_DWHD_SERVICE_CONFIGD = '%s.d' % \
         OVIRT_ENGINE_DWHD_SERVICE_CONFIG
     OVIRT_ENGINE_DWHD_SERVICE_CONFIG_DATABASE = os.path.join(

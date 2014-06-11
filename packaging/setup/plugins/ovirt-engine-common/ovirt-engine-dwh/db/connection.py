@@ -32,7 +32,7 @@ from ovirt_engine import configfile
 
 
 from ovirt_engine_setup import constants as osetupcons
-from ovirt_engine_setup.dwh import dwhconstants as odwhcons
+from ovirt_engine_setup.dwh import constants as odwhcons
 from ovirt_engine_setup.engine_common import database
 
 
