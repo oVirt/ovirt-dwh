@@ -1374,49 +1374,59 @@ def updateDbOwner(db_dict):
         database=db_dict['dbname'],
     )
 
-def updatePgHba(database, user):
-    content = []
-    logging.debug('Updating pghba')
-    with open(FILE_PG_HBA, 'r') as pghba:
-        for line in pghba.read().splitlines():
-            if user in line:
-                return
-
-            if 'engine          engine          0.0.0.0/0' in line:
-                for address in ('0.0.0.0/0', '::0/0'):
-                    content.append(
-                        (
-                            '{host:7} '
-                            '{database:15} '
-                            '{user:15} '
-                            '{address:23} '
-                            '{auth}'
-                        ).format(
-                            host='host',
-                            user=user,
-                            database='all',
-                            address=address,
-                            auth='md5',
-                        )
-                    )
-
-            content.append(line)
-
-    with open(FILE_PG_HBA, 'w') as pghba:
-        pghba.write('\n'.join(content))
-
 _RE_POSTGRES_PGHBA_LOCAL = re.compile(
     flags=re.VERBOSE,
     pattern=r"""
         ^
-        (?P<host>local)
+        (?P<host>\w+)
         \s+
-        .*
+        (?P<database>\w+)
+        \s+
+        (?P<user>\w+)
+        \s+
+        (?P<address>\S+)
         \s+
         (?P<param>\w+)
         $
     """,
 )
+
+def updatePgHba(database, user):
+    content = []
+    logging.debug('Updating pghba')
+    with open(FILE_PG_HBA, 'r') as pghba:
+        for line in pghba.read().splitlines():
+            matcher = _RE_POSTGRES_PGHBA_LOCAL.match(line)
+            if matcher is not None:
+                if matcher.group('host') == 'host' and matcher.group('user') == user:
+                    return
+                if (
+                    matcher.group('host') == 'host' and
+                    matcher.group('database') == 'engine' and
+                    matcher.group('user') == 'engine' and
+                    matcher.group('address') == '0.0.0.0/0'
+                ):
+                    for address in ('0.0.0.0/0', '::0/0'):
+                        content.append(
+                            (
+                                '{host:7} '
+                                '{database:15} '
+                                '{user:15} '
+                                '{address:23} '
+                                '{auth}'
+                            ).format(
+                                host='host',
+                                user=user,
+                                database='all',
+                                address=address,
+                                auth='md5',
+                            )
+                        )
+
+            content.append(line)
+
+    with open(FILE_PG_HBA, 'w') as pghba:
+        pghba.write('\n'.join(content) + '\n')
 
 def configHbaIdent(orig='md5', newval='ident'):
     content = []
@@ -1426,14 +1436,14 @@ def configHbaIdent(orig='md5', newval='ident'):
         for line in pghba.read().splitlines():
             matcher = _RE_POSTGRES_PGHBA_LOCAL.match(line)
             if matcher is not None:
-                if matcher.group('param') == newval:
+                if matcher.group('host') == 'local' and matcher.group('param') == newval:
                     return False
-                if matcher.group('param') == orig:
+                if matcher.group('host') == 'local' and matcher.group('param') == orig:
                     line = line.replace(matcher.group('param'), newval)
             content.append(line)
 
     with open(FILE_PG_HBA, 'w') as pghba:
-        pghba.write('\n'.join(content))
+        pghba.write('\n'.join(content) + '\n')
 
     restartPostgres(newval=='md5')
     return True
