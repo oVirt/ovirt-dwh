@@ -7892,7 +7892,7 @@
       <column comment="" key="false" length="255" name="department" nullable="true" pattern="" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_role_title" nullable="true" pattern="" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email" nullable="true" pattern="" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="2147483647" name="external_id" nullable="true" pattern="" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" name="external_id" nullable="true" pattern="" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="1" name="active" nullable="true" pattern="" precision="0" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="" type="id_Date" usefulColumn="true"/>
@@ -7921,7 +7921,7 @@
       <column comment="" key="false" length="255" name="department" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_role_title" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="2147483647" name="external_id" nullable="false" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" name="external_id" nullable="false" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="active" nullable="true" pattern="" sourceType="" type="id_Boolean" originalLength="1" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
@@ -8059,7 +8059,7 @@
       <column comment="" key="false" length="255" name="department" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_role_title" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="2147483647" name="external_id" nullable="false" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" name="external_id" nullable="false" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="active" nullable="true" pattern="" sourceType="" type="id_Boolean" originalLength="1" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
@@ -8073,7 +8073,7 @@
       <column comment="" key="false" length="255" name="department" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_role_title" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="2147483647" name="external_id" nullable="false" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" name="external_id" nullable="false" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="1" name="active" nullable="true" pattern="" sourceType="" type="id_Boolean" originalLength="1" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
@@ -8145,7 +8145,7 @@
       <column comment="" key="false" length="255" name="department" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_role_title" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="external_id" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" name="external_id" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="1" name="active" nullable="true" pattern="" sourceType="" type="id_Boolean" originalLength="1" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
@@ -8174,7 +8174,7 @@
       <column comment="" key="false" length="255" name="department" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_role_title" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="external_id" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" name="external_id" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="1" name="active" nullable="true" pattern="" sourceType="" type="id_Boolean" originalLength="1" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
@@ -8360,7 +8360,7 @@
       <column comment="" key="false" length="255" name="department" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_role_title" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="external_id" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" name="external_id" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="1" name="active" nullable="true" pattern="" sourceType="" type="id_Boolean" originalLength="1" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
@@ -8375,7 +8375,7 @@
       <column comment="" key="false" length="255" name="department" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="user_role_title" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="email" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="external_id" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
+      <column comment="" key="false" name="external_id" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" defaultValue="" key="false" length="1" name="active" nullable="true" pattern="" sourceType="" type="id_Boolean" originalLength="1" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="create_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
