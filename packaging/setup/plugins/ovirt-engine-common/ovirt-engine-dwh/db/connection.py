@@ -52,6 +52,11 @@ class Plugin(plugin.PluginBase):
         ].append(
             odwhcons.DBEnv.PASSWORD
         )
+        self.environment[
+            otopicons.CoreEnv.LOG_FILTER_KEYS
+        ].append(
+            odwhcons.EngineDBEnv.PASSWORD
+        )
 
     @plugin.event(
         stage=plugin.Stages.STAGE_INIT,
