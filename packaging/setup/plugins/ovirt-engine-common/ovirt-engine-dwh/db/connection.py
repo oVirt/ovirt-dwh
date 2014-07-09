@@ -153,10 +153,7 @@ class Plugin(plugin.PluginBase):
             odwhcons.FileLocations.OVIRT_ENGINE_DWHD_SERVICE_CONFIG_DEFAULTS,
             odwhcons.FileLocations.OVIRT_ENGINE_DWHD_SERVICE_CONFIG,
         ])
-        if (
-            config.get('DWH_DB_PASSWORD') or
-            self.environment.get(odwhcons.DBEnv.PASSWORD)
-        ):
+        if config.get('DWH_DB_PASSWORD'):
             try:
                 dbenv = {}
                 for e, k in (
