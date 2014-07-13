@@ -243,7 +243,17 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
-* Thu Jun 5 2014 Shirly Radco <sradco@redhat.com> - 3.5
+* Sun Jul 13 2014 Shirly Radco <sradco@redhat.com> - 3.5.0
+Fixed issues:
+- test only config file db password (#1094016
+- filter engine db password
+- fixed users external_id type due to engine change (#1113193)
+- Allow dwh on separate host (#1080997)
+- remove dependency loop in setup
+- reorg the per component directory
+- split of engine-setup-plugin
+
+* Thu Jun 5 2014 Shirly Radco <sradco@redhat.com> - 3.5.0
 Fixed issues:
 - Force a minimal ETL version (#1059283)
 - sync users data for user usage tables (#1091687)
