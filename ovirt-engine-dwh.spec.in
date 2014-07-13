@@ -242,6 +242,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Sun Jul 13 2014 Shirly Radco <sradco@redhat.com> - 3.4.3
+Fixed issues:
+- test only config file db password (#1100281)
+
 * Mon Jun 9 2014 Shirly Radco <sradco@redhat.com> - 3.4.2
 oVirt 3.4.2 GA release.
 
