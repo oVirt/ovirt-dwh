@@ -140,6 +140,10 @@ fi
 %config(noreplace) %attr(-, %{engine_user}, %{engine_group}) %{_sysconfdir}/ovirt-engine/%{dwh_name}/Default.properties
 
 %changelog
+* Tue Jul 22 2014 Shirly Radco <sradco@redhat.com> - 3.3.5
+Fixed issues:
+- setup: fix updating pg_hba.conf (#1121644)
+
 * Wed Jun 25 2014 Shirly Radco <sradco@redhat.com> - 3.3.5
 Fixed issue:
 - Refixed less strict parsing of pg_hba.conf (#1084760)
