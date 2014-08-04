@@ -4416,10 +4416,10 @@ public class ConfigurationSync implements TalendJob {
 
 		public String loopKey;
 
-		public String user_join_id;
+		public Object user_id;
 
-		public String getUser_join_id() {
-			return this.user_join_id;
+		public Object getUser_id() {
+			return this.user_id;
 		}
 
 		public String first_name;
@@ -4502,8 +4502,7 @@ public class ConfigurationSync implements TalendJob {
 
 				result = prime
 						* result
-						+ ((this.user_join_id == null) ? 0 : this.user_join_id
-								.hashCode());
+						+ ((this.user_id == null) ? 0 : this.user_id.hashCode());
 
 				this.hashCode = result;
 				this.hashCodeDirty = false;
@@ -4521,11 +4520,11 @@ public class ConfigurationSync implements TalendJob {
 				return false;
 			final delete_usersStruct other = (delete_usersStruct) obj;
 
-			if (this.user_join_id == null) {
-				if (other.user_join_id != null)
+			if (this.user_id == null) {
+				if (other.user_id != null)
 					return false;
 
-			} else if (!this.user_join_id.equals(other.user_join_id))
+			} else if (!this.user_id.equals(other.user_id))
 
 				return false;
 
@@ -4534,7 +4533,7 @@ public class ConfigurationSync implements TalendJob {
 
 		public void copyDataTo(delete_usersStruct other) {
 
-			other.user_join_id = this.user_join_id;
+			other.user_id = this.user_id;
 			other.first_name = this.first_name;
 			other.last_name = this.last_name;
 			other.domain = this.domain;
@@ -4552,7 +4551,7 @@ public class ConfigurationSync implements TalendJob {
 
 		public void copyKeysDataTo(delete_usersStruct other) {
 
-			other.user_join_id = this.user_join_id;
+			other.user_id = this.user_id;
 
 		}
 
@@ -4623,7 +4622,7 @@ public class ConfigurationSync implements TalendJob {
 
 					int length = 0;
 
-					this.user_join_id = readString(dis);
+					this.user_id = (Object) dis.readObject();
 
 					this.first_name = readString(dis);
 
@@ -4657,6 +4656,9 @@ public class ConfigurationSync implements TalendJob {
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
+				} catch (ClassNotFoundException eCNFE) {
+					throw new RuntimeException(eCNFE);
+
 				}
 
 			}
@@ -4666,9 +4668,9 @@ public class ConfigurationSync implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// String
+				// Object
 
-				writeString(this.user_join_id, dos);
+				dos.writeObject(this.user_id);
 
 				// String
 
@@ -4734,7 +4736,7 @@ public class ConfigurationSync implements TalendJob {
 			StringBuilder sb = new StringBuilder();
 			sb.append(super.toString());
 			sb.append("[");
-			sb.append("user_join_id=" + user_join_id);
+			sb.append("user_id=" + String.valueOf(user_id));
 			sb.append(",first_name=" + first_name);
 			sb.append(",last_name=" + last_name);
 			sb.append(",domain=" + domain);
@@ -4759,8 +4761,7 @@ public class ConfigurationSync implements TalendJob {
 
 			int returnValue = -1;
 
-			returnValue = checkNullsAndCompare(this.user_join_id,
-					other.user_join_id);
+			returnValue = checkNullsAndCompare(this.user_id, other.user_id);
 			if (returnValue != 0) {
 				return returnValue;
 			}
@@ -4796,6 +4797,12 @@ public class ConfigurationSync implements TalendJob {
 			routines.system.IPersistableRow<row57Struct> {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
+
+		public Object user_id;
+
+		public Object getUser_id() {
+			return this.user_id;
+		}
 
 		public String user_join_id;
 
@@ -4936,6 +4943,8 @@ public class ConfigurationSync implements TalendJob {
 
 					int length = 0;
 
+					this.user_id = (Object) dis.readObject();
+
 					this.user_join_id = readString(dis);
 
 					this.first_name = readString(dis);
@@ -4968,6 +4977,9 @@ public class ConfigurationSync implements TalendJob {
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
+				} catch (ClassNotFoundException eCNFE) {
+					throw new RuntimeException(eCNFE);
+
 				}
 
 			}
@@ -4976,6 +4988,10 @@ public class ConfigurationSync implements TalendJob {
 
 		public void writeData(ObjectOutputStream dos) {
 			try {
+
+				// Object
+
+				dos.writeObject(this.user_id);
 
 				// String
 
@@ -5041,7 +5057,8 @@ public class ConfigurationSync implements TalendJob {
 			StringBuilder sb = new StringBuilder();
 			sb.append(super.toString());
 			sb.append("[");
-			sb.append("user_join_id=" + user_join_id);
+			sb.append("user_id=" + String.valueOf(user_id));
+			sb.append(",user_join_id=" + user_join_id);
 			sb.append(",first_name=" + first_name);
 			sb.append(",last_name=" + last_name);
 			sb.append(",domain=" + domain);
@@ -5102,6 +5119,12 @@ public class ConfigurationSync implements TalendJob {
 		public boolean hashCodeDirty = true;
 
 		public String loopKey;
+
+		public Object user_id;
+
+		public Object getUser_id() {
+			return this.user_id;
+		}
 
 		public String user_join_id;
 
@@ -5215,6 +5238,7 @@ public class ConfigurationSync implements TalendJob {
 
 		public void copyDataTo(after_tJDBCInput_11Struct other) {
 
+			other.user_id = this.user_id;
 			other.user_join_id = this.user_join_id;
 			other.first_name = this.first_name;
 			other.last_name = this.last_name;
@@ -5303,6 +5327,8 @@ public class ConfigurationSync implements TalendJob {
 
 					int length = 0;
 
+					this.user_id = (Object) dis.readObject();
+
 					this.user_join_id = readString(dis);
 
 					this.first_name = readString(dis);
@@ -5335,6 +5361,9 @@ public class ConfigurationSync implements TalendJob {
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
+				} catch (ClassNotFoundException eCNFE) {
+					throw new RuntimeException(eCNFE);
+
 				}
 
 			}
@@ -5343,6 +5372,10 @@ public class ConfigurationSync implements TalendJob {
 
 		public void writeData(ObjectOutputStream dos) {
 			try {
+
+				// Object
+
+				dos.writeObject(this.user_id);
 
 				// String
 
@@ -5408,7 +5441,8 @@ public class ConfigurationSync implements TalendJob {
 			StringBuilder sb = new StringBuilder();
 			sb.append(super.toString());
 			sb.append("[");
-			sb.append("user_join_id=" + user_join_id);
+			sb.append("user_id=" + String.valueOf(user_id));
+			sb.append(",user_join_id=" + user_join_id);
 			sb.append(",first_name=" + first_name);
 			sb.append(",last_name=" + last_name);
 			sb.append(",domain=" + domain);
@@ -5531,7 +5565,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String update_tJDBCOutput_10 = "UPDATE "
 						+ "users_details_history"
-						+ " SET first_name = ?,last_name = ?,domain = ?,username = ?,department = ?,user_role_title = ?,email = ?,external_id = ?,active = ?,create_date = ?,update_date = ?,delete_date = ? WHERE user_join_id = ?";
+						+ " SET first_name = ?,last_name = ?,domain = ?,username = ?,department = ?,user_role_title = ?,email = ?,external_id = ?,active = ?,create_date = ?,update_date = ?,delete_date = ? WHERE user_id = ?";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_10 = connection_tJDBCOutput_10
 						.prepareStatement(update_tJDBCOutput_10);
 
@@ -5595,7 +5629,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_11 = conn_tJDBCInput_11
 						.createStatement();
 
-				String dbquery_tJDBCInput_11 = "SELECT     upper(cast(user_id as char(36))) as user_join_id,     first_name,     last_name,     domain,     username,     department,     user_role_title,     email,     external_id,     active,     create_date,     update_date FROM v3_5_latest_users_details";
+				String dbquery_tJDBCInput_11 = "SELECT     user_id,     upper(cast(user_id as char(36))) as user_join_id,     first_name,     last_name,     domain,     username,     department,     user_role_title,     email,     external_id,     active,     create_date,     update_date FROM v3_5_latest_users_details";
 
 				globalMap.put("tJDBCInput_11_QUERY", dbquery_tJDBCInput_11);
 				java.sql.ResultSet rs_tJDBCInput_11 = null;
@@ -5616,6 +5650,22 @@ public class ConfigurationSync implements TalendJob {
 						column_index_tJDBCInput_11 = 1;
 
 						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
+							row57.user_id = null;
+						} else {
+
+							if (rs_tJDBCInput_11
+									.getObject(column_index_tJDBCInput_11) != null) {
+								row57.user_id = rs_tJDBCInput_11
+										.getObject(column_index_tJDBCInput_11);
+							} else {
+								row57.user_id = null;
+							}
+
+						}
+
+						column_index_tJDBCInput_11 = 2;
+
+						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row57.user_join_id = null;
 						} else {
 
@@ -5629,7 +5679,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_11 = 2;
+						column_index_tJDBCInput_11 = 3;
 
 						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row57.first_name = null;
@@ -5645,7 +5695,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_11 = 3;
+						column_index_tJDBCInput_11 = 4;
 
 						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row57.last_name = null;
@@ -5661,7 +5711,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_11 = 4;
+						column_index_tJDBCInput_11 = 5;
 
 						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row57.domain = null;
@@ -5677,7 +5727,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_11 = 5;
+						column_index_tJDBCInput_11 = 6;
 
 						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row57.username = null;
@@ -5693,7 +5743,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_11 = 6;
+						column_index_tJDBCInput_11 = 7;
 
 						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row57.department = null;
@@ -5709,7 +5759,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_11 = 7;
+						column_index_tJDBCInput_11 = 8;
 
 						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row57.user_role_title = null;
@@ -5725,7 +5775,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_11 = 8;
+						column_index_tJDBCInput_11 = 9;
 
 						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row57.email = null;
@@ -5741,7 +5791,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_11 = 9;
+						column_index_tJDBCInput_11 = 10;
 
 						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row57.external_id = null;
@@ -5757,7 +5807,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_11 = 10;
+						column_index_tJDBCInput_11 = 11;
 
 						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row57.active = null;
@@ -5773,7 +5823,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_11 = 11;
+						column_index_tJDBCInput_11 = 12;
 
 						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row57.create_date = null;
@@ -5791,7 +5841,7 @@ public class ConfigurationSync implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_11 = 12;
+						column_index_tJDBCInput_11 = 13;
 
 						if (colQtyInRs_tJDBCInput_11 < column_index_tJDBCInput_11) {
 							row57.update_date = null;
@@ -5906,7 +5956,7 @@ public class ConfigurationSync implements TalendJob {
 							// # Output reject table : 'delete_users'
 							// # Filter conditions
 							if (rejectedInnerJoin_tMap_10) {
-								delete_users_tmp.user_join_id = row57.user_join_id;
+								delete_users_tmp.user_id = row57.user_id;
 								delete_users_tmp.first_name = row57.first_name;
 								delete_users_tmp.last_name = row57.last_name;
 								delete_users_tmp.domain = row57.domain;
@@ -6047,12 +6097,12 @@ public class ConfigurationSync implements TalendJob {
 										java.sql.Types.DATE);
 							}
 
-							if (delete_users.user_join_id == null) {
+							if (delete_users.user_id == null) {
 								pstmt_tJDBCOutput_10.setNull(13,
-										java.sql.Types.VARCHAR);
+										java.sql.Types.OTHER);
 							} else {
-								pstmt_tJDBCOutput_10.setString(13,
-										delete_users.user_join_id);
+								pstmt_tJDBCOutput_10.setObject(13,
+										delete_users.user_id);
 							}
 
 							try {
@@ -64767,6 +64817,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1762881 characters generated by Talend Open Studio for Data Integration on
- * the May 18, 2014 9:18:25 AM IDT
+ * 1764228 characters generated by Talend Open Studio for Data Integration on
+ * the August 5, 2014 12:43:10 PM IDT
  ************************************************************************************************/
