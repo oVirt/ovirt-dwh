@@ -243,6 +243,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Aug 05 2014 Shirly Radco <sradco@redhat.com> - 3.5.0
+Fixed issues:
+- fixed etl-update users delete date (#1124458)
+
 * Sun Aug 04 2014 Shirly Radco <sradco@redhat.com> - 3.5.0
 Fixed issues:
 - updated insert_calendar_table_values script
