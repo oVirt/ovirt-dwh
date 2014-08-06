@@ -245,6 +245,7 @@ fi
 * Wed Aug 8 2014 Shirly Radco <sradco@redhat.com> - 3.4.3
 Fixed issues:
 - updated insert_calendar_table_values script
+- add dwh to versionlock
 
 * Sun Jul 13 2014 Shirly Radco <sradco@redhat.com> - 3.4.3
 Fixed issues:
