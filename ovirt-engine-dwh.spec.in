@@ -242,6 +242,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed Aug 8 2014 Shirly Radco <sradco@redhat.com> - 3.4.3
+Fixed issues:
+- updated insert_calendar_table_values script
+
 * Sun Jul 13 2014 Shirly Radco <sradco@redhat.com> - 3.4.3
 Fixed issues:
 - test only config file db password (#1100281)
