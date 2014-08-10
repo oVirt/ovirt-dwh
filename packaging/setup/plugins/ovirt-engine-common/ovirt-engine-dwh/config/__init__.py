@@ -19,16 +19,12 @@
 from otopi import util
 
 
-from . import pgpass
-from . import connection
-from . import engine_connection
+from . import dwh_uuid
 
 
 @util.export
 def createPlugins(context):
-    pgpass.Plugin(context=context)
-    connection.Plugin(context=context)
-    engine_connection.Plugin(context=context)
+    dwh_uuid.Plugin(context=context)
 
 
 # vim: expandtab tabstop=4 shiftwidth=4

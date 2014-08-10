@@ -20,6 +20,7 @@ from otopi import util
 
 
 from . import check_etl
+from . import single_etl
 from . import config
 from . import misc
 from . import service
@@ -28,6 +29,7 @@ from . import service
 @util.export
 def createPlugins(context):
     check_etl.Plugin(context=context)
+    single_etl.Plugin(context=context)
     config.Plugin(context=context)
     misc.Plugin(context=context)
     service.Plugin(context=context)

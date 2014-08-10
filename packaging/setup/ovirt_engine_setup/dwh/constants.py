@@ -122,6 +122,10 @@ class FileLocations(object):
         OVIRT_ENGINE_DWHD_SERVICE_CONFIGD,
         '10-setup-database.conf',
     )
+    OVIRT_ENGINE_DWHD_SERVICE_CONFIG_UUID = os.path.join(
+        OVIRT_ENGINE_DWHD_SERVICE_CONFIGD,
+        '10-setup-uuid.conf',
+    )
     OVIRT_ENGINE_DWHD_SERVICE_CONFIG_LEGACY = os.path.join(
         OVIRT_ENGINE_DWHD_SERVICE_CONFIGD,
         '20-setup-legacy.conf',
@@ -160,6 +164,8 @@ class Stages(object):
     DB_CREDENTIALS_AVAILABLE = 'osetup.dwh.db.connection.credentials'
     DB_CONNECTION_CUSTOMIZATION = 'osetup.dwh.db.connection.customization'
     DB_CONNECTION_AVAILABLE = 'osetup.dwh.db.connection.available'
+    ENGINE_DB_CONNECTION_AVAILABLE = \
+        'osetup.dwh.engine.db.connection.available'
     DB_SCHEMA = 'osetup.dwh.db.schema'
 
 
@@ -176,6 +182,8 @@ class CoreEnv(object):
     )
     def ENABLE(self):
         return 'OVESETUP_DWH_CORE/enable'
+
+    UUID = 'OVESETUP_DWH_CORE/uuid'
 
 
 @util.export
@@ -255,6 +263,12 @@ class DBEnv(object):
     )
     def RESTORE_BACKUP_LATE(self):
         return 'OVESETUP_DWH_DB/restoreBackupLate'
+
+    @osetupattrs(
+        answerfile=True,
+    )
+    def DISCONNECT_EXISTING_DWH(self):
+        return 'OVESETUP_DWH_DB/disconnectExistingDwh'
 
 
 @util.export

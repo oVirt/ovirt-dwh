@@ -46,21 +46,29 @@ class Plugin(plugin.PluginBase):
             self._parent = parent
 
         def __str__(self):
-            return _("DWH database Transaction")
+            return _("DWH Engine database Transaction")
 
         def prepare(self):
             pass
 
         def abort(self):
-            connection = self._parent.environment[odwhcons.DBEnv.CONNECTION]
-            if connection is not None:
-                connection.rollback()
-                self._parent.environment[odwhcons.DBEnv.CONNECTION] = None
+            if not self._parent.environment[odwhcons.EngineCoreEnv.ENABLE]:
+                engine_conn = self._parent.environment[
+                    odwhcons.EngineDBEnv.CONNECTION
+                ]
+                if engine_conn is not None:
+                    engine_conn.rollback()
+                    self._parent.environment[
+                        odwhcons.EngineDBEnv.CONNECTION
+                    ] = None
 
         def commit(self):
-            connection = self._parent.environment[odwhcons.DBEnv.CONNECTION]
-            if connection is not None:
-                connection.commit()
+            if not self._parent.environment[odwhcons.EngineCoreEnv.ENABLE]:
+                engine_conn = self._parent.environment[
+                    odwhcons.EngineDBEnv.CONNECTION
+                ]
+                if engine_conn is not None:
+                    engine_conn.commit()
 
     def __init__(self, context):
         super(Plugin, self).__init__(context=context)
@@ -75,46 +83,59 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
-        name=odwhcons.Stages.DB_CONNECTION_CUSTOMIZATION,
         condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
         before=(
-            oengcommcons.Stages.DB_OWNERS_CONNECTIONS_CUSTOMIZED,
+            oengcommcons.Stages.DIALOG_TITLES_E_DATABASE,
         ),
         after=(
             oengcommcons.Stages.DIALOG_TITLES_S_DATABASE,
+            oengcommcons.Stages.DB_OWNERS_CONNECTIONS_CUSTOMIZED,
         ),
     )
-    def _customization(self):
+    def _engine_customization(self):
         dbovirtutils = database.OvirtUtils(
             plugin=self,
-            dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
+            dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS,
         )
         dbovirtutils.getCredentials(
-            name='DWH',
-            queryprefix='OVESETUP_DWH_DB_',
-            defaultdbenvkeys=odwhcons.Const.DEFAULT_DWH_DB_ENV_KEYS,
-            show_create_msg=True,
+            name='Engine',
+            queryprefix='OVESETUP_ENGINE_DB_',
+            defaultdbenvkeys={
+                'host': '',
+                'port': '5432',
+                'secured': '',
+                'hostValidation': False,
+                'user': 'engine',
+                'password': None,
+                'database': 'engine',
+            },
+            show_create_msg=False,
         )
 
     @plugin.event(
         stage=plugin.Stages.STAGE_MISC,
-        name=odwhcons.Stages.DB_CONNECTION_AVAILABLE,
-        condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
+        name=odwhcons.Stages.ENGINE_DB_CONNECTION_AVAILABLE,
+        condition=lambda self: (
+            self.environment[odwhcons.CoreEnv.ENABLE] and
+            # If engine is enabled, STATEMENT and CONNECTION are set there
+            not self.environment[odwhcons.EngineCoreEnv.ENABLE]
+        ),
         after=(
             odwhcons.Stages.DB_SCHEMA,
+            oengcommcons.Stages.DB_CONNECTION_AVAILABLE,
         ),
     )
-    def _connection(self):
+    def _engine_connection(self):
         self.environment[
-            odwhcons.DBEnv.STATEMENT
+            odwhcons.EngineDBEnv.STATEMENT
         ] = database.Statement(
             environment=self.environment,
-            dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
+            dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS,
         )
         # must be here as we do not have database at validation
         self.environment[
-            odwhcons.DBEnv.CONNECTION
-        ] = self.environment[odwhcons.DBEnv.STATEMENT].connect()
+            odwhcons.EngineDBEnv.CONNECTION
+        ] = self.environment[odwhcons.EngineDBEnv.STATEMENT].connect()
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
