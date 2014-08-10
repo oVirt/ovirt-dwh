@@ -1277,9 +1277,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -1333,7 +1333,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -1347,9 +1347,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -1532,7 +1532,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_1
 									.getObject(column_index_tJDBCInput_1) != null) {
 								row13.history_id = rs_tJDBCInput_1
-										.getInt(column_index_tJDBCInput_1);
+										.getLong(column_index_tJDBCInput_1);
 							} else {
 
 								throw new RuntimeException(
@@ -1563,7 +1563,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_1";
 
 						whetherReject_tJDBCOutput_1 = false;
-						pstmt_tJDBCOutput_1.setInt(1, row13.history_id);
+						pstmt_tJDBCOutput_1.setLong(1, row13.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_1 = deletedCount_tJDBCOutput_1
@@ -1697,9 +1697,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -1753,7 +1753,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -1767,9 +1767,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -1951,7 +1951,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_2
 									.getObject(column_index_tJDBCInput_2) != null) {
 								row5.history_id = rs_tJDBCInput_2
-										.getInt(column_index_tJDBCInput_2);
+										.getLong(column_index_tJDBCInput_2);
 							} else {
 
 								throw new RuntimeException(
@@ -1982,7 +1982,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_2";
 
 						whetherReject_tJDBCOutput_2 = false;
-						pstmt_tJDBCOutput_2.setInt(1, row5.history_id);
+						pstmt_tJDBCOutput_2.setLong(1, row5.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_2 = deletedCount_tJDBCOutput_2
@@ -2116,9 +2116,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -2172,7 +2172,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -2186,9 +2186,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -2371,7 +2371,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_3
 									.getObject(column_index_tJDBCInput_3) != null) {
 								row4.history_id = rs_tJDBCInput_3
-										.getInt(column_index_tJDBCInput_3);
+										.getLong(column_index_tJDBCInput_3);
 							} else {
 
 								throw new RuntimeException(
@@ -2402,7 +2402,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_3";
 
 						whetherReject_tJDBCOutput_3 = false;
-						pstmt_tJDBCOutput_3.setInt(1, row4.history_id);
+						pstmt_tJDBCOutput_3.setLong(1, row4.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_3 = deletedCount_tJDBCOutput_3
@@ -2536,9 +2536,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -2592,7 +2592,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -2606,9 +2606,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -2790,7 +2790,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_4
 									.getObject(column_index_tJDBCInput_4) != null) {
 								row3.history_id = rs_tJDBCInput_4
-										.getInt(column_index_tJDBCInput_4);
+										.getLong(column_index_tJDBCInput_4);
 							} else {
 
 								throw new RuntimeException(
@@ -2821,7 +2821,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_4";
 
 						whetherReject_tJDBCOutput_4 = false;
-						pstmt_tJDBCOutput_4.setInt(1, row3.history_id);
+						pstmt_tJDBCOutput_4.setLong(1, row3.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_4 = deletedCount_tJDBCOutput_4
@@ -2955,9 +2955,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -3011,7 +3011,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -3025,9 +3025,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -3210,7 +3210,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_5
 									.getObject(column_index_tJDBCInput_5) != null) {
 								row2.history_id = rs_tJDBCInput_5
-										.getInt(column_index_tJDBCInput_5);
+										.getLong(column_index_tJDBCInput_5);
 							} else {
 
 								throw new RuntimeException(
@@ -3241,7 +3241,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_5";
 
 						whetherReject_tJDBCOutput_5 = false;
-						pstmt_tJDBCOutput_5.setInt(1, row2.history_id);
+						pstmt_tJDBCOutput_5.setLong(1, row2.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_5 = deletedCount_tJDBCOutput_5
@@ -3375,9 +3375,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -3431,7 +3431,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -3445,9 +3445,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -3629,7 +3629,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_6
 									.getObject(column_index_tJDBCInput_6) != null) {
 								row6.history_id = rs_tJDBCInput_6
-										.getInt(column_index_tJDBCInput_6);
+										.getLong(column_index_tJDBCInput_6);
 							} else {
 
 								throw new RuntimeException(
@@ -3660,7 +3660,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_6";
 
 						whetherReject_tJDBCOutput_6 = false;
-						pstmt_tJDBCOutput_6.setInt(1, row6.history_id);
+						pstmt_tJDBCOutput_6.setLong(1, row6.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_6 = deletedCount_tJDBCOutput_6
@@ -3794,9 +3794,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -3850,7 +3850,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -3864,9 +3864,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -4048,7 +4048,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_7
 									.getObject(column_index_tJDBCInput_7) != null) {
 								row8.history_id = rs_tJDBCInput_7
-										.getInt(column_index_tJDBCInput_7);
+										.getLong(column_index_tJDBCInput_7);
 							} else {
 
 								throw new RuntimeException(
@@ -4079,7 +4079,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_7";
 
 						whetherReject_tJDBCOutput_7 = false;
-						pstmt_tJDBCOutput_7.setInt(1, row8.history_id);
+						pstmt_tJDBCOutput_7.setLong(1, row8.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_7 = deletedCount_tJDBCOutput_7
@@ -4213,9 +4213,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -4269,7 +4269,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -4283,9 +4283,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -4468,7 +4468,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_8
 									.getObject(column_index_tJDBCInput_8) != null) {
 								row9.history_id = rs_tJDBCInput_8
-										.getInt(column_index_tJDBCInput_8);
+										.getLong(column_index_tJDBCInput_8);
 							} else {
 
 								throw new RuntimeException(
@@ -4499,7 +4499,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_8";
 
 						whetherReject_tJDBCOutput_8 = false;
-						pstmt_tJDBCOutput_8.setInt(1, row9.history_id);
+						pstmt_tJDBCOutput_8.setLong(1, row9.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_8 = deletedCount_tJDBCOutput_8
@@ -4633,9 +4633,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -4689,7 +4689,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -4703,9 +4703,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -4887,7 +4887,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_9
 									.getObject(column_index_tJDBCInput_9) != null) {
 								row10.history_id = rs_tJDBCInput_9
-										.getInt(column_index_tJDBCInput_9);
+										.getLong(column_index_tJDBCInput_9);
 							} else {
 
 								throw new RuntimeException(
@@ -4918,7 +4918,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_9";
 
 						whetherReject_tJDBCOutput_9 = false;
-						pstmt_tJDBCOutput_9.setInt(1, row10.history_id);
+						pstmt_tJDBCOutput_9.setLong(1, row10.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_9 = deletedCount_tJDBCOutput_9
@@ -5052,9 +5052,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -5108,7 +5108,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -5122,9 +5122,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -5307,7 +5307,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_10
 									.getObject(column_index_tJDBCInput_10) != null) {
 								row12.history_id = rs_tJDBCInput_10
-										.getInt(column_index_tJDBCInput_10);
+										.getLong(column_index_tJDBCInput_10);
 							} else {
 
 								throw new RuntimeException(
@@ -5338,7 +5338,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_10";
 
 						whetherReject_tJDBCOutput_10 = false;
-						pstmt_tJDBCOutput_10.setInt(1, row12.history_id);
+						pstmt_tJDBCOutput_10.setLong(1, row12.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_10 = deletedCount_tJDBCOutput_10
@@ -5472,9 +5472,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -5528,7 +5528,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -5542,9 +5542,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -5727,7 +5727,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_11
 									.getObject(column_index_tJDBCInput_11) != null) {
 								row11.history_id = rs_tJDBCInput_11
-										.getInt(column_index_tJDBCInput_11);
+										.getLong(column_index_tJDBCInput_11);
 							} else {
 
 								throw new RuntimeException(
@@ -5758,7 +5758,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_11";
 
 						whetherReject_tJDBCOutput_11 = false;
-						pstmt_tJDBCOutput_11.setInt(1, row11.history_id);
+						pstmt_tJDBCOutput_11.setLong(1, row11.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_11 = deletedCount_tJDBCOutput_11
@@ -5892,9 +5892,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -5948,7 +5948,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -5962,9 +5962,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -6147,7 +6147,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_12
 									.getObject(column_index_tJDBCInput_12) != null) {
 								row7.history_id = rs_tJDBCInput_12
-										.getInt(column_index_tJDBCInput_12);
+										.getLong(column_index_tJDBCInput_12);
 							} else {
 
 								throw new RuntimeException(
@@ -6178,7 +6178,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_12";
 
 						whetherReject_tJDBCOutput_12 = false;
-						pstmt_tJDBCOutput_12.setInt(1, row7.history_id);
+						pstmt_tJDBCOutput_12.setLong(1, row7.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_12 = deletedCount_tJDBCOutput_12
@@ -6312,9 +6312,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -6368,7 +6368,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -6382,9 +6382,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -6566,7 +6566,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_13
 									.getObject(column_index_tJDBCInput_13) != null) {
 								row1.history_id = rs_tJDBCInput_13
-										.getInt(column_index_tJDBCInput_13);
+										.getLong(column_index_tJDBCInput_13);
 							} else {
 
 								throw new RuntimeException(
@@ -6597,7 +6597,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_13";
 
 						whetherReject_tJDBCOutput_13 = false;
-						pstmt_tJDBCOutput_13.setInt(1, row1.history_id);
+						pstmt_tJDBCOutput_13.setLong(1, row1.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_13 = deletedCount_tJDBCOutput_13
@@ -6731,9 +6731,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -6787,7 +6787,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -6801,9 +6801,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -6985,7 +6985,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_14
 									.getObject(column_index_tJDBCInput_14) != null) {
 								row14.history_id = rs_tJDBCInput_14
-										.getInt(column_index_tJDBCInput_14);
+										.getLong(column_index_tJDBCInput_14);
 							} else {
 
 								throw new RuntimeException(
@@ -7016,7 +7016,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_14";
 
 						whetherReject_tJDBCOutput_14 = false;
-						pstmt_tJDBCOutput_14.setInt(1, row14.history_id);
+						pstmt_tJDBCOutput_14.setLong(1, row14.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_14 = deletedCount_tJDBCOutput_14
@@ -7569,9 +7569,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -7625,7 +7625,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -7639,9 +7639,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -7824,7 +7824,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_16
 									.getObject(column_index_tJDBCInput_16) != null) {
 								row16.history_id = rs_tJDBCInput_16
-										.getInt(column_index_tJDBCInput_16);
+										.getLong(column_index_tJDBCInput_16);
 							} else {
 
 								throw new RuntimeException(
@@ -7855,7 +7855,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_16";
 
 						whetherReject_tJDBCOutput_16 = false;
-						pstmt_tJDBCOutput_16.setInt(1, row16.history_id);
+						pstmt_tJDBCOutput_16.setLong(1, row16.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_16 = deletedCount_tJDBCOutput_16
@@ -7989,9 +7989,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -8045,7 +8045,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -8059,9 +8059,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -8243,7 +8243,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_17
 									.getObject(column_index_tJDBCInput_17) != null) {
 								row17.history_id = rs_tJDBCInput_17
-										.getInt(column_index_tJDBCInput_17);
+										.getLong(column_index_tJDBCInput_17);
 							} else {
 
 								throw new RuntimeException(
@@ -8274,7 +8274,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_17";
 
 						whetherReject_tJDBCOutput_17 = false;
-						pstmt_tJDBCOutput_17.setInt(1, row17.history_id);
+						pstmt_tJDBCOutput_17.setLong(1, row17.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_17 = deletedCount_tJDBCOutput_17
@@ -8408,9 +8408,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -8464,7 +8464,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -8478,9 +8478,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -8663,7 +8663,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_18
 									.getObject(column_index_tJDBCInput_18) != null) {
 								row18.history_id = rs_tJDBCInput_18
-										.getInt(column_index_tJDBCInput_18);
+										.getLong(column_index_tJDBCInput_18);
 							} else {
 
 								throw new RuntimeException(
@@ -8694,7 +8694,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_18";
 
 						whetherReject_tJDBCOutput_18 = false;
-						pstmt_tJDBCOutput_18.setInt(1, row18.history_id);
+						pstmt_tJDBCOutput_18.setLong(1, row18.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_18 = deletedCount_tJDBCOutput_18
@@ -8828,9 +8828,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -8884,7 +8884,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -8898,9 +8898,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -9082,7 +9082,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_19
 									.getObject(column_index_tJDBCInput_19) != null) {
 								row19.history_id = rs_tJDBCInput_19
-										.getInt(column_index_tJDBCInput_19);
+										.getLong(column_index_tJDBCInput_19);
 							} else {
 
 								throw new RuntimeException(
@@ -9113,7 +9113,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_19";
 
 						whetherReject_tJDBCOutput_19 = false;
-						pstmt_tJDBCOutput_19.setInt(1, row19.history_id);
+						pstmt_tJDBCOutput_19.setLong(1, row19.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_19 = deletedCount_tJDBCOutput_19
@@ -9247,9 +9247,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -9303,7 +9303,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -9317,9 +9317,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -9502,7 +9502,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_20
 									.getObject(column_index_tJDBCInput_20) != null) {
 								row20.history_id = rs_tJDBCInput_20
-										.getInt(column_index_tJDBCInput_20);
+										.getLong(column_index_tJDBCInput_20);
 							} else {
 
 								throw new RuntimeException(
@@ -9533,7 +9533,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_20";
 
 						whetherReject_tJDBCOutput_20 = false;
-						pstmt_tJDBCOutput_20.setInt(1, row20.history_id);
+						pstmt_tJDBCOutput_20.setLong(1, row20.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_20 = deletedCount_tJDBCOutput_20
@@ -9667,9 +9667,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -9723,7 +9723,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -9737,9 +9737,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -9921,7 +9921,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_21
 									.getObject(column_index_tJDBCInput_21) != null) {
 								row21.history_id = rs_tJDBCInput_21
-										.getInt(column_index_tJDBCInput_21);
+										.getLong(column_index_tJDBCInput_21);
 							} else {
 
 								throw new RuntimeException(
@@ -9952,7 +9952,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_21";
 
 						whetherReject_tJDBCOutput_21 = false;
-						pstmt_tJDBCOutput_21.setInt(1, row21.history_id);
+						pstmt_tJDBCOutput_21.setLong(1, row21.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_21 = deletedCount_tJDBCOutput_21
@@ -10300,9 +10300,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -10356,7 +10356,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -10370,9 +10370,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -10555,7 +10555,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_22
 									.getObject(column_index_tJDBCInput_22) != null) {
 								row22.history_id = rs_tJDBCInput_22
-										.getInt(column_index_tJDBCInput_22);
+										.getLong(column_index_tJDBCInput_22);
 							} else {
 
 								throw new RuntimeException(
@@ -10586,7 +10586,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_22";
 
 						whetherReject_tJDBCOutput_22 = false;
-						pstmt_tJDBCOutput_22.setInt(1, row22.history_id);
+						pstmt_tJDBCOutput_22.setLong(1, row22.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_22 = deletedCount_tJDBCOutput_22
@@ -10720,9 +10720,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -10776,7 +10776,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -10790,9 +10790,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -10975,7 +10975,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_23
 									.getObject(column_index_tJDBCInput_23) != null) {
 								row23.history_id = rs_tJDBCInput_23
-										.getInt(column_index_tJDBCInput_23);
+										.getLong(column_index_tJDBCInput_23);
 							} else {
 
 								throw new RuntimeException(
@@ -11006,7 +11006,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_23";
 
 						whetherReject_tJDBCOutput_23 = false;
-						pstmt_tJDBCOutput_23.setInt(1, row23.history_id);
+						pstmt_tJDBCOutput_23.setLong(1, row23.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_23 = deletedCount_tJDBCOutput_23
@@ -11140,9 +11140,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -11196,7 +11196,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -11210,9 +11210,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -11395,7 +11395,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_24
 									.getObject(column_index_tJDBCInput_24) != null) {
 								row24.history_id = rs_tJDBCInput_24
-										.getInt(column_index_tJDBCInput_24);
+										.getLong(column_index_tJDBCInput_24);
 							} else {
 
 								throw new RuntimeException(
@@ -11426,7 +11426,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_24";
 
 						whetherReject_tJDBCOutput_24 = false;
-						pstmt_tJDBCOutput_24.setInt(1, row24.history_id);
+						pstmt_tJDBCOutput_24.setLong(1, row24.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_24 = deletedCount_tJDBCOutput_24
@@ -11560,9 +11560,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -11616,7 +11616,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -11630,9 +11630,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -11815,7 +11815,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_25
 									.getObject(column_index_tJDBCInput_25) != null) {
 								row25.history_id = rs_tJDBCInput_25
-										.getInt(column_index_tJDBCInput_25);
+										.getLong(column_index_tJDBCInput_25);
 							} else {
 
 								throw new RuntimeException(
@@ -11846,7 +11846,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_25";
 
 						whetherReject_tJDBCOutput_25 = false;
-						pstmt_tJDBCOutput_25.setInt(1, row25.history_id);
+						pstmt_tJDBCOutput_25.setLong(1, row25.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_25 = deletedCount_tJDBCOutput_25
@@ -11980,9 +11980,9 @@ public class HistoryDelete implements TalendJob {
 
 		public String loopKey;
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -12036,7 +12036,7 @@ public class HistoryDelete implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -12050,9 +12050,9 @@ public class HistoryDelete implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -12235,7 +12235,7 @@ public class HistoryDelete implements TalendJob {
 							if (rs_tJDBCInput_26
 									.getObject(column_index_tJDBCInput_26) != null) {
 								row26.history_id = rs_tJDBCInput_26
-										.getInt(column_index_tJDBCInput_26);
+										.getLong(column_index_tJDBCInput_26);
 							} else {
 
 								throw new RuntimeException(
@@ -12266,7 +12266,7 @@ public class HistoryDelete implements TalendJob {
 						currentComponent = "tJDBCOutput_26";
 
 						whetherReject_tJDBCOutput_26 = false;
-						pstmt_tJDBCOutput_26.setInt(1, row26.history_id);
+						pstmt_tJDBCOutput_26.setLong(1, row26.history_id);
 
 						try {
 							deletedCount_tJDBCOutput_26 = deletedCount_tJDBCOutput_26
@@ -14616,6 +14616,6 @@ public class HistoryDelete implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 388939 characters generated by Talend Open Studio for Data Integration on the
- * January 21, 2014 3:54:36 PM IST
+ * 389114 characters generated by Talend Open Studio for Data Integration on the
+ * August 10, 2014 3:08:11 PM IDT
  ************************************************************************************************/

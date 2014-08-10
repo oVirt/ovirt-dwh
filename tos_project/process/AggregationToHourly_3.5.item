@@ -112,7 +112,7 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="datacenter_samples_history" name="tJDBCInput_1">
-      <column comment="" defaultValue="&quot;nextval('datacenter_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;nextval('datacenter_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="datacenter_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -152,7 +152,7 @@
         <mapperTableEntries name="datacenter_configuration_version" expression="row1.datacenter_configuration_version" type="id_Integer"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row1" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="history_id" type="id_Integer"/>
+        <mapperTableEntries name="history_id" type="id_Long"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="datacenter_id" type="id_Object"/>
         <mapperTableEntries name="datacenter_status" type="id_Short"/>
@@ -336,7 +336,7 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_samples_history" name="tJDBCInput_2">
-      <column comment="" defaultValue="&quot;nextval('host_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;nextval('host_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -409,7 +409,7 @@
         <mapperTableEntries name="host_configuration_version" expression="row2.host_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row2" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="history_id" type="id_Integer"/>
+        <mapperTableEntries name="history_id" type="id_Long"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="host_id" type="id_Object"/>
         <mapperTableEntries name="host_status" type="id_Short"/>
@@ -846,7 +846,7 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_samples_history" name="tJDBCInput_3">
-      <column comment="" defaultValue="&quot;nextval('host_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;nextval('host_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -886,7 +886,7 @@
         <mapperTableEntries name="host_interface_configuration_version" expression="row3.host_interface_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row3" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="history_id" type="id_Integer"/>
+        <mapperTableEntries name="history_id" type="id_Long"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="host_interface_id" type="id_Object"/>
         <mapperTableEntries name="receive_rate_percent" type="id_Short" nullable="true"/>
@@ -1092,7 +1092,7 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_samples_history" name="tJDBCInput_4">
-      <column comment="" defaultValue="&quot;nextval('vm_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;nextval('vm_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="vm_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -1157,7 +1157,7 @@
         <mapperTableEntries name="current_host_configuration_version" expression="row4.current_host_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row4" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="history_id" type="id_Integer"/>
+        <mapperTableEntries name="history_id" type="id_Long"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="vm_id" type="id_Object"/>
         <mapperTableEntries name="vm_status" type="id_Short"/>
@@ -1472,7 +1472,7 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_interface_samples_history" name="tJDBCInput_5">
-      <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -1512,7 +1512,7 @@
         <mapperTableEntries name="vm_interface_configuration_version" expression="row5.vm_interface_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row5" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="history_id" type="id_Integer"/>
+        <mapperTableEntries name="history_id" type="id_Long"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="vm_interface_id" type="id_Object"/>
         <mapperTableEntries name="receive_rate_percent" type="id_Short" nullable="true"/>
@@ -1704,7 +1704,7 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_samples_history" name="tJDBCInput_11">
-      <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" name="storage_domain_status" nullable="false" pattern="" sourceType="" type="id_Short" usefulColumn="true"/>
@@ -1750,7 +1750,7 @@
         <mapperTableEntries name="storage_configuration_version" expression="row16.storage_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row16" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="history_id" type="id_Integer"/>
+        <mapperTableEntries name="history_id" type="id_Long"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="storage_domain_id" type="id_Object"/>
         <mapperTableEntries name="storage_domain_status" type="id_Short"/>
@@ -2494,7 +2494,7 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_samples_history" name="tJDBCInput_10">
-      <column comment="" defaultValue="&quot;nextval('vm_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;nextval('vm_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="current_user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -2544,7 +2544,7 @@
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_users_aggregate_history">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row13.history_datetime) " type="id_Date"/>
@@ -2564,7 +2564,7 @@
         <mapperTableEntries name="current_host_configuration_version" expression="row13.current_host_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row13" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
-        <mapperTableEntries name="history_id" type="id_Integer"/>
+        <mapperTableEntries name="history_id" type="id_Long"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="current_user_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="current_user_name" type="id_String" nullable="true"/>
@@ -2723,7 +2723,7 @@
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="complete_aggregation">
         <mapperTableEntries name="history_datetime" expression="row14.history_datetime" type="id_Date"/>

@@ -1563,9 +1563,9 @@ public class AggregationToHourly implements TalendJob {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -1630,7 +1630,7 @@ public class AggregationToHourly implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 					this.history_datetime = readDate(dis);
 
@@ -1657,9 +1657,9 @@ public class AggregationToHourly implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 				// java.util.Date
 
@@ -2152,7 +2152,7 @@ public class AggregationToHourly implements TalendJob {
 							if (rs_tJDBCInput_1
 									.getObject(column_index_tJDBCInput_1) != null) {
 								row1.history_id = rs_tJDBCInput_1
-										.getInt(column_index_tJDBCInput_1);
+										.getLong(column_index_tJDBCInput_1);
 							} else {
 
 								throw new RuntimeException(
@@ -4412,9 +4412,9 @@ public class AggregationToHourly implements TalendJob {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -4567,7 +4567,7 @@ public class AggregationToHourly implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 					this.history_datetime = readDate(dis);
 
@@ -4656,9 +4656,9 @@ public class AggregationToHourly implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 				// java.util.Date
 
@@ -5292,7 +5292,7 @@ public class AggregationToHourly implements TalendJob {
 							if (rs_tJDBCInput_2
 									.getObject(column_index_tJDBCInput_2) != null) {
 								row2.history_id = rs_tJDBCInput_2
-										.getInt(column_index_tJDBCInput_2);
+										.getLong(column_index_tJDBCInput_2);
 							} else {
 
 								throw new RuntimeException(
@@ -7338,9 +7338,9 @@ public class AggregationToHourly implements TalendJob {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -7427,7 +7427,7 @@ public class AggregationToHourly implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 					this.history_datetime = readDate(dis);
 
@@ -7464,9 +7464,9 @@ public class AggregationToHourly implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 				// java.util.Date
 
@@ -7970,7 +7970,7 @@ public class AggregationToHourly implements TalendJob {
 							if (rs_tJDBCInput_3
 									.getObject(column_index_tJDBCInput_3) != null) {
 								row3.history_id = rs_tJDBCInput_3
-										.getInt(column_index_tJDBCInput_3);
+										.getLong(column_index_tJDBCInput_3);
 							} else {
 
 								throw new RuntimeException(
@@ -9919,9 +9919,9 @@ public class AggregationToHourly implements TalendJob {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -10098,7 +10098,7 @@ public class AggregationToHourly implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 					this.history_datetime = readDate(dis);
 
@@ -10168,9 +10168,9 @@ public class AggregationToHourly implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 				// java.util.Date
 
@@ -10757,7 +10757,7 @@ public class AggregationToHourly implements TalendJob {
 							if (rs_tJDBCInput_4
 									.getObject(column_index_tJDBCInput_4) != null) {
 								row4.history_id = rs_tJDBCInput_4
-										.getInt(column_index_tJDBCInput_4);
+										.getLong(column_index_tJDBCInput_4);
 							} else {
 
 								throw new RuntimeException(
@@ -12463,9 +12463,9 @@ public class AggregationToHourly implements TalendJob {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -12552,7 +12552,7 @@ public class AggregationToHourly implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 					this.history_datetime = readDate(dis);
 
@@ -12589,9 +12589,9 @@ public class AggregationToHourly implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 				// java.util.Date
 
@@ -13095,7 +13095,7 @@ public class AggregationToHourly implements TalendJob {
 							if (rs_tJDBCInput_5
 									.getObject(column_index_tJDBCInput_5) != null) {
 								row5.history_id = rs_tJDBCInput_5
-										.getInt(column_index_tJDBCInput_5);
+										.getLong(column_index_tJDBCInput_5);
 							} else {
 
 								throw new RuntimeException(
@@ -14384,9 +14384,9 @@ public class AggregationToHourly implements TalendJob {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -14485,7 +14485,7 @@ public class AggregationToHourly implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 					this.history_datetime = readDate(dis);
 
@@ -14516,9 +14516,9 @@ public class AggregationToHourly implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 				// java.util.Date
 
@@ -15025,7 +15025,7 @@ public class AggregationToHourly implements TalendJob {
 							if (rs_tJDBCInput_11
 									.getObject(column_index_tJDBCInput_11) != null) {
 								row16.history_id = rs_tJDBCInput_11
-										.getInt(column_index_tJDBCInput_11);
+										.getLong(column_index_tJDBCInput_11);
 							} else {
 
 								throw new RuntimeException(
@@ -22707,9 +22707,9 @@ public class AggregationToHourly implements TalendJob {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_AggregationToHourly = new byte[0];
 
-		public int history_id;
+		public long history_id;
 
-		public int getHistory_id() {
+		public long getHistory_id() {
 			return this.history_id;
 		}
 
@@ -22892,7 +22892,7 @@ public class AggregationToHourly implements TalendJob {
 
 					int length = 0;
 
-					this.history_id = dis.readInt();
+					this.history_id = dis.readLong();
 
 					this.history_datetime = readDate(dis);
 
@@ -22959,9 +22959,9 @@ public class AggregationToHourly implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
-				// int
+				// long
 
-				dos.writeInt(this.history_id);
+				dos.writeLong(this.history_id);
 
 				// java.util.Date
 
@@ -23568,7 +23568,7 @@ public class AggregationToHourly implements TalendJob {
 							if (rs_tJDBCInput_10
 									.getObject(column_index_tJDBCInput_10) != null) {
 								row13.history_id = rs_tJDBCInput_10
-										.getInt(column_index_tJDBCInput_10);
+										.getLong(column_index_tJDBCInput_10);
 							} else {
 
 								throw new RuntimeException(
@@ -26198,6 +26198,6 @@ public class AggregationToHourly implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 754201 characters generated by Talend Open Studio for Data Integration on the
- * May 13, 2014 4:04:59 PM IDT
+ * 754243 characters generated by Talend Open Studio for Data Integration on the
+ * August 10, 2014 3:08:08 PM IDT
  ************************************************************************************************/
