@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <talendfile:ProcessType xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.talend.org/mapper" xmlns:talendfile="platform:/resource/org.talend.model/model/TalendFile.xsd" defaultContext="Default">
   <context confirmationNeeded="false" name="Default">
+    <contextParameter comment="The UUID random number for the current DWH installation." name="dwhUuid" prompt="dwhUuid?" promptNeeded="false" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value=""/>
     <contextParameter comment="Enter the amout of hour to keep Daily level records." name="hoursToKeepDaily" prompt="How many hours to keep of daily data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="43800"/>
     <contextParameter comment="Enter the amout of hour to keep Hourly level records." name="hoursToKeepHourly" prompt="How many hours to keep of hourly data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="1440"/>
     <contextParameter comment="Enter the amout of hour to keep Samples level records." name="hoursToKeepSamples" prompt="How many hours to keep of samples data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="24"/>
@@ -53,7 +54,7 @@
     <routinesParameter id="_S6lHMEJlEeCWRqOtaF5m-w" name="TalendString"/>
     <routinesParameter id="_V_-9YEgBEeCZFMqypDMoxQ" name="RoutineHistoryETL"/>
   </parameters>
-  <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1088" posY="0">
+  <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineHistoryDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
@@ -77,7 +78,7 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
-  <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="928" posY="0">
+  <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_2"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
@@ -124,7 +125,7 @@
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tRunJob_4"/>
   </node>
-  <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1280" posY="0">
+  <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_3"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineHistoryDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
@@ -148,7 +149,7 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
-  <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1472" posY="0">
+  <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1440" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_4"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineHistoryDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
@@ -172,7 +173,7 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
-  <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1664" posY="0">
+  <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1632" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_5"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineHistoryDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
@@ -480,6 +481,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -581,7 +583,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tRowGenerator" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="608" posY="0">
+  <node componentName="tRowGenerator" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="736" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRowGenerator_6"/>
     <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
@@ -601,7 +603,7 @@
       <column comment="" key="false" name="message" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="608" posY="96">
+  <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="736" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_3"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
@@ -610,6 +612,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -637,7 +640,7 @@
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="608" posY="192">
+  <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="736" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_3"/>
     <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
@@ -755,6 +758,7 @@
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
+    <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
@@ -913,7 +917,7 @@
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
-  <node componentName="tRowGenerator" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="768" posY="0">
+  <node componentName="tRowGenerator" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRowGenerator_7"/>
     <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
@@ -933,7 +937,7 @@
       <column comment="" key="false" name="var_value" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="768" posY="96">
+  <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_5"/>
     <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
@@ -1136,13 +1140,36 @@
       <column comment="" key="false" name="option_value" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
+  <node componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="64" posY="800">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRunJob_1"/>
+    <elementParameter field="CHECK" name="START" value="true"/>
+    <elementParameter field="CHECK" name="USE_DYNAMIC_JOB" value="false"/>
+    <elementParameter field="TEXT" name="CONTEXT_JOB" value=""/>
+    <elementParameter field="PROCESS_TYPE" name="PROCESS" value="ValidateInstallation"/>
+    <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_PROCESS" value="_32iGcDEOEeSx2o9mrBi0rQ"/>
+    <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_VERSION" value="Latest"/>
+    <elementParameter field="TECHNICAL" name="PROCESS:PROCESS_TYPE_CONTEXT" value="Default"/>
+    <elementParameter field="TEXT" name="CONTEXT_NAME" value="Default"/>
+    <elementParameter field="CHECK" name="USE_INDEPENDENT_PROCESS" value="false"/>
+    <elementParameter field="CHECK" name="DIE_ON_CHILD_ERROR" value="true"/>
+    <elementParameter field="CHECK" name="TRANSMIT_WHOLE_CONTEXT" value="true"/>
+    <elementParameter field="TABLE" name="CONTEXTPARAMS"/>
+    <elementParameter field="CHECK" name="PRINT_PARAMETER" value="false"/>
+    <elementParameter field="CHECK" name="TRANSMIT_ORIGINAL_CONTEXT" value="true"/>
+    <elementParameter field="TEXT" name="LABEL" value="__PROCESS__"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
+    <elementParameter field="MEMO" name="COMMENT" value=""/>
+    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
+    <metadata connector="FLOW" name="tRunJob_1"/>
+  </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_1" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_1" target="tJDBCConnection_3">
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2"/>
   </connection>
-  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_2" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_2" target="tJDBCConnection_1">
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_2" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_2" target="tRowGenerator_6">
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk9"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_3" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_3" target="tJDBCConnection_4">
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
@@ -1249,9 +1276,9 @@
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk10"/>
   </connection>
-  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_6" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_6" target="tRowGenerator_6">
+  <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_6" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_6" target="tJDBCConnection_2">
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk7"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1"/>
   </connection>
   <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tRowGenerator_5" offsetLabelX="0" offsetLabelY="0" source="tRowGenerator_5" target="tMap_2">
     <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
@@ -1625,9 +1652,9 @@
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4"/>
   </connection>
-  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tRowGenerator_7" offsetLabelX="0" offsetLabelY="0" source="tRowGenerator_7" target="tJDBCConnection_2">
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tRowGenerator_7" offsetLabelX="0" offsetLabelY="0" source="tRowGenerator_7" target="tJDBCConnection_1">
     <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk14"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk20"/>
   </connection>
   <connection connectorName="FLOW" label="row8" lineStyle="0" metaname="tRowGenerator_8" offsetLabelX="0" offsetLabelY="0" source="tRowGenerator_8" target="tJDBCOutput_6">
     <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
@@ -1827,6 +1854,11 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tLoop_2"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRunJob_1"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
   </subjob>

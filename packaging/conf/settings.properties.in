@@ -17,3 +17,5 @@ hoursToKeepHourly=@DWH_TABLES_KEEP_HOURLY@
 hoursToKeepDaily=@DWH_TABLES_KEEP_DAILY@
 
 timeBetweenErrorEvents=@DWH_ERROR_EVENT_INTERVAL@
+
+dwhUuid=@DWH_UUID@
