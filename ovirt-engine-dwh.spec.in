@@ -243,6 +243,12 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Sun Sep 07 2014 Shirly Radco <sradco@redhat.com> - 3.5.0
+Fixed issues:
+- updated runTime from engine db (#1133608)
+- Prevent more than one dwh per engine (#1118350)
+- updated etl to check valid installation (#1118350)
+
 * Tue Aug 26 2014 Shirly Radco <sradco@redhat.com> - 3.5.0
 Fixed issues:
 - updated statistics history_id to bigint (#1121994)
