@@ -163,12 +163,12 @@ class Plugin(plugin.PluginBase):
         )
 
         engine_db_timekeeping.updateValueInTimekeeping(
-            statement=self._statement,
+            statement=self.environment[odwhcons.EngineDBEnv.STATEMENT],
             name=engine_db_timekeeping.DB_KEY_HOSTNAME,
             value=self.environment[osetupcons.ConfigEnv.FQDN]
         )
         engine_db_timekeeping.updateValueInTimekeeping(
-            statement=self._statement,
+            statement=self.environment[odwhcons.EngineDBEnv.STATEMENT],
             name=engine_db_timekeeping.DB_KEY_UUID,
             value=self.environment[odwhcons.CoreEnv.UUID]
         )
