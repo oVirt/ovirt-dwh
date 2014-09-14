@@ -5,7 +5,7 @@
 # Fix release is manually specified,
 # increment after releasing/branching
 VERSION_MAJOR=3
-VERSION_MINOR=5
+VERSION_MINOR=6
 VERSION_PATCH_LEVEL=0
 VERSION=$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH_LEVEL)
 
@@ -35,4 +35,4 @@ MILESTONE=master
 # RPM_RELEASE=N
 # while N is incremented each re-release
 #
-RPM_RELEASE=0.10.$(MILESTONE).$(shell date -u +%Y%m%d%H%M%S)
+RPM_RELEASE=0.0.$(MILESTONE).$(shell date -u +%Y%m%d%H%M%S)

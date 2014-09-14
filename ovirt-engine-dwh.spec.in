@@ -121,7 +121,7 @@ Requires(postun):	systemd
 Summary:	%{product_name} setup
 Group:		Virtualization/Management
 Requires:	ovirt-engine-setup-plugin-ovirt-engine-common
-Requires:	%{name} >= 3.4.1
+Requires:	%{name} >= 3.5.0
 
 %description setup
 %{product_description} setup package.
