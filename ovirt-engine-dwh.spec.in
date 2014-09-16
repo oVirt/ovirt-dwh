@@ -243,6 +243,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Sep 16 2014 Shirly Radco <sradco@redhat.com> - 3.5.0
+Fixed issues:
+- use env statement at misc in single_etl (#1118350)
+
 * Mon Sep 15 2014 Shirly Radco <sradco@redhat.com> - 3.5.0
 Fixed issues:
 - Refixed updated statistics history_id to bigint (#1121994)
