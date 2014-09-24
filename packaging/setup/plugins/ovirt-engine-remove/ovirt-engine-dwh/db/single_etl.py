@@ -35,36 +35,58 @@ class Plugin(plugin.PluginBase):
         super(Plugin, self).__init__(context=context)
 
     @plugin.event(
+        stage=plugin.Stages.STAGE_INIT,
+    )
+    def _init(self):
+        self.environment.setdefault(
+            odwhcons.RemoveEnv.REMOVE_ENGINE_DATABASE,
+            False,
+        )
+
+    @plugin.event(
         stage=plugin.Stages.STAGE_MISC,
         after=(
             odwhcons.Stages.ENGINE_DB_CONNECTION_AVAILABLE,
         ),
-        condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
+        condition=lambda self: (
+            self.environment[odwhcons.CoreEnv.ENABLE] and
+            not self.environment[odwhcons.RemoveEnv.REMOVE_ENGINE_DATABASE]
+        ),
     )
     def _misc(self):
-        statement = self.environment[odwhcons.EngineDBEnv.STATEMENT]
-        db_dwh_uuid = engine_db_timekeeping.getValueFromTimekeeping(
-            statement=statement,
-            name=engine_db_timekeeping.DB_KEY_UUID
-        )
-        if self.environment[odwhcons.CoreEnv.UUID] != db_dwh_uuid:
-            self.logger.debug('_ is %s' % _)
+        try:
+            statement = self.environment[odwhcons.EngineDBEnv.STATEMENT]
+            db_dwh_uuid = engine_db_timekeeping.getValueFromTimekeeping(
+                statement=statement,
+                name=engine_db_timekeeping.DB_KEY_UUID
+            )
+            if self.environment[odwhcons.CoreEnv.UUID] != db_dwh_uuid:
+                self.logger.debug('_ is %s' % _)
+                self.logger.warning(
+                    _(
+                        'Not updating engine database to disconnect from dwh - '
+                        'seems like a different dwh was already setup for it'
+                    )
+                )
+            else:
+                engine_db_timekeeping.updateValueInTimekeeping(
+                    statement=statement,
+                    name=engine_db_timekeeping.DB_KEY_HOSTNAME,
+                    value=''
+                )
+                engine_db_timekeeping.updateValueInTimekeeping(
+                    statement=statement,
+                    name=engine_db_timekeeping.DB_KEY_UUID,
+                    value=''
+                )
+        except RuntimeError as e:
+            self.logger.debug('exception', exc_info=True)
             self.logger.warning(
                 _(
-                    'Not updating engine database to disconnect from dwh - '
-                    'seems like a different dwh was already setup for it'
+                    'Cannot update Engine database: {error}'
+                ).format(
+                    error=e,
                 )
-            )
-        else:
-            engine_db_timekeeping.updateValueInTimekeeping(
-                statement=statement,
-                name=engine_db_timekeeping.DB_KEY_HOSTNAME,
-                value=''
-            )
-            engine_db_timekeeping.updateValueInTimekeeping(
-                statement=statement,
-                name=engine_db_timekeeping.DB_KEY_UUID,
-                value=''
             )
 
 
