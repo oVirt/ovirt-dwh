@@ -281,6 +281,9 @@ class RemoveEnv(object):
     def REMOVE_DATABASE(self):
         return 'OVESETUP_DWH_REMOVE/database'
 
+    # sync with the engine
+    REMOVE_ENGINE_DATABASE = 'OVESETUP_REMOVE/engineDatabase'
+
 
 @util.export
 @util.codegen
