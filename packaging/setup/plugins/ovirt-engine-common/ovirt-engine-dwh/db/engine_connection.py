@@ -29,6 +29,9 @@ from otopi import util
 from otopi import plugin
 
 
+from ovirt_engine import configfile
+
+
 from ovirt_engine_setup.dwh import constants as odwhcons
 from ovirt_engine_setup.engine_common import database
 from ovirt_engine_setup.engine_common \
@@ -80,6 +83,77 @@ class Plugin(plugin.PluginBase):
         self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
             self.DBTransaction(self)
         )
+
+    @plugin.event(
+        stage=plugin.Stages.STAGE_SETUP,
+        after=(
+            oengcommcons.Stages.DB_CONNECTION_SETUP,
+        ),
+        # If engine is enabled too, we let its plugin read the setup
+        condition=lambda self: not self.environment[
+            odwhcons.EngineCoreEnv.ENABLE
+        ],
+    )
+    def _setup_engine_db_credentials(self):
+        # TODO: refactor the code in this function to be usable by similar
+        # ones
+        config = configfile.ConfigFile([
+            odwhcons.FileLocations.OVIRT_ENGINE_DWHD_SERVICE_CONFIG_DEFAULTS,
+            odwhcons.FileLocations.OVIRT_ENGINE_DWHD_SERVICE_CONFIG,
+        ])
+        if config.get('ENGINE_DB_PASSWORD'):
+            try:
+                dbenv = {}
+                for e, k in (
+                    (odwhcons.EngineDBEnv.HOST, 'ENGINE_DB_HOST'),
+                    (odwhcons.EngineDBEnv.PORT, 'ENGINE_DB_PORT'),
+                    (odwhcons.EngineDBEnv.USER, 'ENGINE_DB_USER'),
+                    (odwhcons.EngineDBEnv.PASSWORD, 'ENGINE_DB_PASSWORD'),
+                    (odwhcons.EngineDBEnv.DATABASE, 'ENGINE_DB_DATABASE'),
+                ):
+                    dbenv[e] = (
+                        self.environment.get(e)
+                        if self.environment.get(e) is not None
+                        else config.get(k)
+                    )
+                for e, k in (
+                    (odwhcons.EngineDBEnv.SECURED, 'ENGINE_DB_SECURED'),
+                    (
+                        odwhcons.EngineDBEnv.SECURED_HOST_VALIDATION,
+                        'ENGINE_DB_SECURED_VALIDATION'
+                    )
+                ):
+                    dbenv[e] = config.getboolean(k)
+
+                dbovirtutils = database.OvirtUtils(
+                    plugin=self,
+                    dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS,
+                )
+                dbovirtutils.tryDatabaseConnect(dbenv)
+                self.environment.update(dbenv)
+                self.environment[
+                    odwhcons.EngineDBEnv.NEW_DATABASE
+                ] = dbovirtutils.isNewDatabase()
+            except RuntimeError as e:
+                self.logger.debug(
+                    'Existing credential use failed',
+                    exc_info=True,
+                )
+                msg = _(
+                    'Cannot connect to Engine database using existing '
+                    'credentials: {user}@{host}:{port}'
+                ).format(
+                    host=dbenv[odwhcons.EngineDBEnv.HOST],
+                    port=dbenv[odwhcons.EngineDBEnv.PORT],
+                    database=dbenv[odwhcons.EngineDBEnv.DATABASE],
+                    user=dbenv[odwhcons.EngineDBEnv.USER],
+                )
+                if self.environment[
+                    osetupcons.CoreEnv.ACTION
+                ] == osetupcons.Const.ACTION_REMOVE:
+                    self.logger.warning(msg)
+                else:
+                    raise RuntimeError(msg)
 
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
