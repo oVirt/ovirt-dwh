@@ -248,6 +248,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Thu Oct 28 2014 Shirly Radco <sradco@redhat.com> - 3.5.1
+- force java-1.7 source and target (#1157748)
+- set engine db credentials from config (#1128787)
+
 * Thu Oct 02 2014 Shirly Radco <sradco@redhat.com> - 3.5.0
 - Update engine db only if not cleared (#1140986)
 
