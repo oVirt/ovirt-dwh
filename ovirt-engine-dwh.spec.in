@@ -22,6 +22,12 @@
 %endif
 
 %if 0%{?rhel}
+%if 0%{?rhel} >= 7
+%global ovirt_install_systemd 1
+%global ovirt_install_systemv 0
+%global commons_collections apache-commons-collections
+%global dom4j dom4j
+%else
 %global ovirt_install_systemd 0
 %global ovirt_install_systemv 1
 %global commons_collections commons-collections
@@ -29,6 +35,7 @@
 %global dom4j dom4j
 %else
 %global dom4j dom4j-eap6
+%endif
 %endif
 %endif
 
@@ -87,7 +94,11 @@ BuildArch:	noarch
 Source:		http://resources.ovirt.org/pub/src/@PACKAGE_NAME@/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
 
 %if 0%{?rhel}
+%if 0%{?rhel} >= 7
+BuildRequires:  java-devel >= 1.7.0
+%else
 BuildRequires:	java7-devel
+%endif
 %endif
 %if 0%{?fedora}
 BuildRequires:	java-devel >= 1.7.0
