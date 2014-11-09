@@ -3,7 +3,7 @@
   <context confirmationNeeded="false" name="Default">
     <contextParameter comment="The UUID random number for the current DWH installation." name="dwhUuid" prompt="dwhUuid?" promptNeeded="false" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value=""/>
     <contextParameter comment="End run time." name="endTime" prompt="endTime?" promptNeeded="false" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Date" value=""/>
-    <contextParameter comment="" name="etlVersion" prompt="etlVersion?" promptNeeded="false" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="3.5.0"/>
+    <contextParameter comment="" name="etlVersion" prompt="etlVersion?" promptNeeded="false" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="3.5.1"/>
     <contextParameter comment="Enter the amout of hour to keep Daily level records." name="hoursToKeepDaily" prompt="How many hours to keep of daily data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="43800"/>
     <contextParameter comment="Enter the amout of hour to keep Hourly level records." name="hoursToKeepHourly" prompt="How many hours to keep of hourly data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="1440"/>
     <contextParameter comment="Enter the amout of hour to keep Samples level records." name="hoursToKeepSamples" prompt="How many hours to keep of samples data?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="24"/>

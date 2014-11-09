@@ -3,7 +3,7 @@
   <context confirmationNeeded="false" name="Default">
     <contextParameter comment="" name="ovirtEngineHistoryMinimalETL" prompt="ovirtEngineHistoryMinimalETL?" promptNeeded="false" type="id_String" value="null"/>
     <contextParameter comment="" name="ovirtMinimalETL" prompt="ovirtMinimalETL?" promptNeeded="false" type="id_String" value="null"/>
-    <contextParameter comment="" name="etlVersion" prompt="etlVersion?" promptNeeded="false" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="3.5.0"/>
+    <contextParameter comment="" name="etlVersion" prompt="etlVersion?" promptNeeded="false" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="3.5.1"/>
     <contextParameter comment="Enter the JDBC driver class for the ovirt database." name="ovirtEngineDbDriverClass" prompt="Enter the JDBC driver class for the ovirt database." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="org.postgresql.Driver"/>
     <contextParameter comment="Enter the JDBC driver class for the ovirt engine history database." name="ovirtEngineHistoryDbDriverClass" prompt="Enter the JDBC driver class for the ovirt engine history database." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="org.postgresql.Driver"/>
     <contextParameter comment="Enter the ovirt engine history JDBC connection URL." name="ovirtEngineHistoryDbJdbcConnection" prompt="Enter the ovirt engine history JDBC connection URL." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="jdbc:postgresql://localhost:5432/ovirt_engine_history?stringtype=unspecified"/>

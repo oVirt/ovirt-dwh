@@ -14,7 +14,7 @@
   <contextParameter comment="Enter the amout of hour to keep Daily level records." name="hoursToKeepDaily" prompt="How many hours to keep of daily data?" promptNeeded="true" type="id_Integer" value="43800"/>
   <contextParameter comment="Enter the amout of hour to keep Samples level records." name="hoursToKeepSamples" prompt="How many hours to keep of samples data?" promptNeeded="true" type="id_Integer" value="24"/>
   <contextParameter comment="End run time." name="endTime" prompt="endTime?" promptNeeded="false" type="id_Date" value=""/>
-  <contextParameter comment="" name="etlVersion" prompt="etlVersion?" promptNeeded="false" type="id_String" value="3.5.0"/>
+  <contextParameter comment="" name="etlVersion" prompt="etlVersion?" promptNeeded="false" type="id_String" value="3.5.1"/>
   <contextParameter comment="Enter the time to run the delete job. Can only run on round hour 24 hours clock." name="runDeleteTime" prompt="runDeleteTime?" promptNeeded="true" type="id_Integer" value="3"/>
   <contextParameter comment="" name="lastErrorSent" prompt="lastErrorSent?" promptNeeded="true" type="id_Date" value="yyyy-MM-dd HH:mm:ss.SSSSSS;2011-07-03 12:46:47.000000"/>
   <contextParameter comment="Enter the amout of to wait between sending error events to audit log" name="timeBetweenErrorEvents" prompt="timeBetweenErrorEvents?" promptNeeded="true" type="id_Long" value="300000"/>
