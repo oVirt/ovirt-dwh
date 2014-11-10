@@ -64,8 +64,8 @@ class Plugin(plugin.PluginBase):
                 self.logger.debug('_ is %s' % _)
                 self.logger.warning(
                     _(
-                        'Not updating engine database to disconnect from dwh - '
-                        'seems like a different dwh was already setup for it'
+                        'Not updating engine database to disconnect from dwh '
+                        '- seems like a different dwh was already setup for it'
                     )
                 )
             else:
