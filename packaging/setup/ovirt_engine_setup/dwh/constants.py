@@ -130,6 +130,12 @@ class FileLocations(object):
         OVIRT_ENGINE_DWHD_SERVICE_CONFIGD,
         '20-setup-legacy.conf',
     )
+    # sync with engine
+    OVIRT_ENGINE_ENGINE_SERVICE_CONFIGD = '/etc/ovirt-engine/engine.conf.d'
+    OVIRT_ENGINE_ENGINE_SERVICE_CONFIG_DATABASE = os.path.join(
+        OVIRT_ENGINE_ENGINE_SERVICE_CONFIGD,
+        '10-setup-database.conf'
+    )
     OVIRT_ENGINE_DWH_DB_DIR = os.path.join(
         PKG_DATA_DIR,
         'dbscripts',

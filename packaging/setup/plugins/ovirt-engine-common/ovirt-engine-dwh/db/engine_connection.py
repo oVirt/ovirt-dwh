@@ -185,6 +185,10 @@ class Plugin(plugin.PluginBase):
                 'database': 'engine',
             },
             show_create_msg=False,
+            credsfile=(
+                odwhcons.FileLocations.
+                OVIRT_ENGINE_ENGINE_SERVICE_CONFIG_DATABASE
+            ),
         )
 
     @plugin.event(
