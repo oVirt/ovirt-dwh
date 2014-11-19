@@ -184,6 +184,7 @@ class CoreEnv(object):
         answerfile=True,
         postinstallfile=True,
         summary=True,
+        reconfigurable=True,
         description=_('DWH installation'),
     )
     def ENABLE(self):
