@@ -29,7 +29,8 @@ from otopi import filetransaction
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup import dialog
 from ovirt_engine_setup.dwh import constants as odwhcons
-from ovirt_engine_setup.dwh import engine_db_timekeeping
+from ovirt_engine_setup.engine_common import dwh_history_timekeeping as \
+    engine_db_timekeeping
 from ovirt_engine_setup.engine_common import database
 
 
