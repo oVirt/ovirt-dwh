@@ -20,11 +20,13 @@ public class Termination {
 
     private Termination() {
         terminate = false;
-        Signal.handle(new Signal("TERM"), new SignalHandler() {
+        SignalHandler sh=new SignalHandler() {
             public void handle(Signal signal) {
                 terminate = true;
             }
-        });
+        };
+        Signal.handle(new Signal("TERM"), sh );
+        Signal.handle(new Signal("INT"), sh );
     }
 
     public boolean shouldTerminate() {
