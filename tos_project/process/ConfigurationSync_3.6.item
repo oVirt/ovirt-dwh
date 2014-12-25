@@ -740,7 +740,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_id, &#xD;&#xA;  host_unique_id, &#xD;&#xA;  host_name, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  host_type, &#xD;&#xA;  fqdn_or_ip, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  swap_size_mb, &#xD;&#xA;  cpu_model,&#xD;&#xA;  number_of_cores, &#xA;  number_of_sockets,&#xA;  cpu_speed_mh,&#xD;&#xA;  host_os, &#xD;&#xA;  pm_ip_address, &#xD;&#xA;  kernel_version, &#xD;&#xA;  kvm_version, &#xD;&#xA;  vdsm_version, &#xD;&#xA;  vdsm_port, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_host_configuration_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_id, &#xD;&#xA;  host_unique_id, &#xD;&#xA;  host_name, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  host_type, &#xD;&#xA;  fqdn_or_ip, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  swap_size_mb, &#xD;&#xA;  cpu_model,&#xD;&#xA;  number_of_cores, &#xA;  number_of_sockets,&#xA;  cpu_speed_mh,&#xD;&#xA;  host_os, &#xD;&#xA;  kernel_version, &#xD;&#xA;  kvm_version, &#xD;&#xA;  vdsm_version, &#xD;&#xA;  vdsm_port, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_host_configuration_history_view&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -778,8 +778,6 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="host_os"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="pm_ip_address"/>
-      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="kernel_version"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="kvm_version"/>
@@ -813,7 +811,6 @@
       <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="pm_ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="kvm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="vdsm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -850,7 +847,6 @@
       <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="pm_ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kvm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="vdsm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -861,7 +857,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="host_configuration">
         <mapperTableEntries name="host_id" expression="row7.host_id" type="id_Object"/>
@@ -877,7 +873,6 @@
         <mapperTableEntries name="number_of_sockets" expression="row7.number_of_sockets" type="id_Short" nullable="true"/>
         <mapperTableEntries name="cpu_speed_mh" expression="row7.cpu_speed_mh" type="id_Double" nullable="true"/>
         <mapperTableEntries name="host_os" expression="StringHandling.TRIM(row7.host_os)" type="id_String" nullable="true"/>
-        <mapperTableEntries name="pm_ip_address" expression="StringHandling.TRIM(row7.pm_ip_address)" type="id_String" nullable="true"/>
         <mapperTableEntries name="kernel_version" expression="StringHandling.TRIM(row7.kernel_version)" type="id_String" nullable="true"/>
         <mapperTableEntries name="kvm_version" expression="StringHandling.TRIM(row7.kvm_version)" type="id_String" nullable="true"/>
         <mapperTableEntries name="vdsm_version" expression="StringHandling.TRIM(row7.vdsm_version)" type="id_String" nullable="true"/>
@@ -902,7 +897,6 @@
         <mapperTableEntries name="number_of_sockets" type="id_Short" nullable="true"/>
         <mapperTableEntries name="cpu_speed_mh" type="id_Double" nullable="true"/>
         <mapperTableEntries name="host_os" type="id_String" nullable="true"/>
-        <mapperTableEntries name="pm_ip_address" type="id_String" nullable="true"/>
         <mapperTableEntries name="kernel_version" type="id_String" nullable="true"/>
         <mapperTableEntries name="kvm_version" type="id_String" nullable="true"/>
         <mapperTableEntries name="vdsm_version" type="id_String" nullable="true"/>
@@ -1004,11 +998,6 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="pm_ip_address"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="kernel_version"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1072,7 +1061,6 @@
       <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="pm_ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kvm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="vdsm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -1096,7 +1084,6 @@
       <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="pm_ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kvm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="vdsm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -3318,7 +3305,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;host_id, &#xD;&#xA;&#x9;&#x9;upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;&#x9;&#x9;host_unique_id, &#xD;&#xA;&#x9;&#x9;host_name, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;host_type, &#xD;&#xA;&#x9;&#x9;fqdn_or_ip, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;swap_size_mb,&#xD;&#xA;&#x9;&#x9;cpu_model, &#xD;&#xA;&#x9;&#x9;number_of_cores, &#xA;        number_of_sockets,&#xA;        cpu_speed_mh,&#xD;&#xA;&#x9;&#x9;host_os, &#xD;&#xA;&#x9;&#x9;pm_ip_address,&#xD;&#xA;&#x9;&#x9;kernel_version, &#xD;&#xA;&#x9;&#x9;kvm_version, &#xD;&#xA;&#x9;&#x9;vdsm_version, &#xD;&#xA;&#x9;&#x9;vdsm_port, &#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v3_6_latest_configuration_hosts&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;host_id, &#xD;&#xA;&#x9;&#x9;upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;&#x9;&#x9;host_unique_id, &#xD;&#xA;&#x9;&#x9;host_name, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;host_type, &#xD;&#xA;&#x9;&#x9;fqdn_or_ip, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;swap_size_mb,&#xD;&#xA;&#x9;&#x9;cpu_model, &#xD;&#xA;&#x9;&#x9;number_of_cores, &#xA;        number_of_sockets,&#xA;        cpu_speed_mh,&#xD;&#xA;&#x9;&#x9;host_os,&#xD;&#xA;&#x9;&#x9;kernel_version, &#xD;&#xA;&#x9;&#x9;kvm_version, &#xD;&#xA;&#x9;&#x9;vdsm_version, &#xD;&#xA;&#x9;&#x9;vdsm_port, &#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v3_6_latest_configuration_hosts&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -3358,8 +3345,6 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="host_os"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="pm_ip_address"/>
-      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="kernel_version"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="kvm_version"/>
@@ -3396,7 +3381,6 @@
       <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="pm_ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kvm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="0" name="vdsm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -3472,7 +3456,6 @@
       <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="pm_ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kvm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="vdsm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -3483,7 +3466,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_hosts" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="host_id" expression="row21.host_id" type="id_Object"/>
@@ -3499,7 +3482,6 @@
         <mapperTableEntries name="number_of_sockets" expression="row21.number_of_sockets" type="id_Short" nullable="true"/>
         <mapperTableEntries name="cpu_speed_mh" expression="row21.cpu_speed_mh" type="id_Double" nullable="true"/>
         <mapperTableEntries name="host_os" expression="row21.host_os" type="id_String" nullable="true"/>
-        <mapperTableEntries name="pm_ip_address" expression="row21.pm_ip_address " type="id_String" nullable="true"/>
         <mapperTableEntries name="kernel_version" expression="row21.kernel_version" type="id_String" nullable="true"/>
         <mapperTableEntries name="kvm_version" expression="row21.kvm_version" type="id_String" nullable="true"/>
         <mapperTableEntries name="vdsm_version" expression="row21.vdsm_version" type="id_String" nullable="true"/>
@@ -3525,7 +3507,6 @@
         <mapperTableEntries name="number_of_sockets" type="id_Short" nullable="true"/>
         <mapperTableEntries name="cpu_speed_mh" type="id_Double" nullable="true"/>
         <mapperTableEntries name="host_os" type="id_String" nullable="true"/>
-        <mapperTableEntries name="pm_ip_address" type="id_String" nullable="true"/>
         <mapperTableEntries name="kernel_version" type="id_String" nullable="true"/>
         <mapperTableEntries name="kvm_version" type="id_String" nullable="true"/>
         <mapperTableEntries name="vdsm_version" type="id_String" nullable="true"/>
@@ -3627,11 +3608,6 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="pm_ip_address"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="kernel_version"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -3694,7 +3670,6 @@
       <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="pm_ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kvm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="vdsm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -3718,7 +3693,6 @@
       <column comment="" key="false" length="5" name="number_of_sockets" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="cpu_speed_mh" nullable="true" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="host_os" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="255" name="pm_ip_address" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kernel_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="kvm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="vdsm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -8184,7 +8158,7 @@
       <column comment="" key="false" length="35" name="delete_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_users" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="user_id" expression="row57.user_id " type="id_Object"/>
@@ -8780,9 +8754,6 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="host_os"/>
-      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
-      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="pm_ip_address"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="kernel_version"/>
@@ -9776,9 +9747,6 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="host_os"/>
-      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
-      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="pm_ip_address"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="subnet_mask"/>

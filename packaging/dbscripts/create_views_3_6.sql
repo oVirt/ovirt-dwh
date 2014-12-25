@@ -210,7 +210,6 @@ SELECT
       number_of_sockets,
       cpu_speed_mh,
       host_os as host_os,
-      pm_ip_address as pm_ip_address,
       kernel_version as kernel_version,
       kvm_version as kvm_version,
       CASE SUBSTR(vdsm_version,1,3)
@@ -243,7 +242,6 @@ SELECT
       number_of_sockets,
       cpu_speed_mh,
       host_os as host_os,
-      pm_ip_address as pm_ip_address,
       kernel_version as kernel_version,
       kvm_version as kvm_version,
       CASE SUBSTR(vdsm_version,1,3)

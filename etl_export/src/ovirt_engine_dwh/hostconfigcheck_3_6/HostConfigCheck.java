@@ -1555,12 +1555,6 @@ public class HostConfigCheck implements TalendJob {
 			return this.host_os;
 		}
 
-		public String pm_ip_address;
-
-		public String getPm_ip_address() {
-			return this.pm_ip_address;
-		}
-
 		public String kernel_version;
 
 		public String getKernel_version() {
@@ -1738,8 +1732,6 @@ public class HostConfigCheck implements TalendJob {
 
 					this.host_os = readString(dis);
 
-					this.pm_ip_address = readString(dis);
-
 					this.kernel_version = readString(dis);
 
 					this.kvm_version = readString(dis);
@@ -1840,10 +1832,6 @@ public class HostConfigCheck implements TalendJob {
 
 				// String
 
-				writeString(this.pm_ip_address, dos);
-
-				// String
-
 				writeString(this.kernel_version, dos);
 
 				// String
@@ -1898,7 +1886,6 @@ public class HostConfigCheck implements TalendJob {
 			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
 			sb.append(",cpu_speed_mh=" + String.valueOf(cpu_speed_mh));
 			sb.append(",host_os=" + host_os);
-			sb.append(",pm_ip_address=" + pm_ip_address);
 			sb.append(",kernel_version=" + kernel_version);
 			sb.append(",kvm_version=" + kvm_version);
 			sb.append(",vdsm_version=" + vdsm_version);
@@ -2042,12 +2029,6 @@ public class HostConfigCheck implements TalendJob {
 			return this.host_os;
 		}
 
-		public String pm_ip_address;
-
-		public String getPm_ip_address() {
-			return this.pm_ip_address;
-		}
-
 		public String kernel_version;
 
 		public String getKernel_version() {
@@ -2222,8 +2203,6 @@ public class HostConfigCheck implements TalendJob {
 
 					this.host_os = readString(dis);
 
-					this.pm_ip_address = readString(dis);
-
 					this.kernel_version = readString(dis);
 
 					this.kvm_version = readString(dis);
@@ -2333,10 +2312,6 @@ public class HostConfigCheck implements TalendJob {
 
 				// String
 
-				writeString(this.pm_ip_address, dos);
-
-				// String
-
 				writeString(this.kernel_version, dos);
 
 				// String
@@ -2385,7 +2360,6 @@ public class HostConfigCheck implements TalendJob {
 			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
 			sb.append(",cpu_speed_mh=" + String.valueOf(cpu_speed_mh));
 			sb.append(",host_os=" + host_os);
-			sb.append(",pm_ip_address=" + pm_ip_address);
 			sb.append(",kernel_version=" + kernel_version);
 			sb.append(",kvm_version=" + kvm_version);
 			sb.append(",vdsm_version=" + vdsm_version);
@@ -2526,12 +2500,6 @@ public class HostConfigCheck implements TalendJob {
 			return this.host_os;
 		}
 
-		public String pm_ip_address;
-
-		public String getPm_ip_address() {
-			return this.pm_ip_address;
-		}
-
 		public String kernel_version;
 
 		public String getKernel_version() {
@@ -2706,8 +2674,6 @@ public class HostConfigCheck implements TalendJob {
 
 					this.host_os = readString(dis);
 
-					this.pm_ip_address = readString(dis);
-
 					this.kernel_version = readString(dis);
 
 					this.kvm_version = readString(dis);
@@ -2817,10 +2783,6 @@ public class HostConfigCheck implements TalendJob {
 
 				// String
 
-				writeString(this.pm_ip_address, dos);
-
-				// String
-
 				writeString(this.kernel_version, dos);
 
 				// String
@@ -2869,7 +2831,6 @@ public class HostConfigCheck implements TalendJob {
 			sb.append(",number_of_sockets=" + String.valueOf(number_of_sockets));
 			sb.append(",cpu_speed_mh=" + String.valueOf(cpu_speed_mh));
 			sb.append(",host_os=" + host_os);
-			sb.append(",pm_ip_address=" + pm_ip_address);
 			sb.append(",kernel_version=" + kernel_version);
 			sb.append(",kvm_version=" + kvm_version);
 			sb.append(",vdsm_version=" + vdsm_version);
@@ -2976,7 +2937,7 @@ public class HostConfigCheck implements TalendJob {
 
 				String insert_tJDBCOutput_1 = "INSERT INTO "
 						+ "host_configuration"
-						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqdn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,number_of_sockets,cpu_speed_mh,host_os,pm_ip_address,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqdn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,number_of_sockets,cpu_speed_mh,host_os,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_1 = connection_tJDBCOutput_1
 						.prepareStatement(insert_tJDBCOutput_1);
 
@@ -3046,7 +3007,7 @@ public class HostConfigCheck implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
 
-				String dbquery_tJDBCInput_2 = "SELECT     host_id,     upper(cast(host_id as char(36))) as host_join_id,    host_unique_id,     host_name,     cluster_id,    upper(cast(cluster_id as char(36))) as cluster_join_id,      host_type,     fqdn_or_ip,     memory_size_mb,     swap_size_mb,     cpu_model,     number_of_cores,   number_of_sockets,   cpu_speed_mh,    host_os,     pm_ip_address,     kernel_version,     kvm_version,     vdsm_version,     vdsm_port,     create_date,     update_date  FROM dwh_host_configuration_full_check_view";
+				String dbquery_tJDBCInput_2 = "SELECT     host_id,     upper(cast(host_id as char(36))) as host_join_id,    host_unique_id,     host_name,     cluster_id,    upper(cast(cluster_id as char(36))) as cluster_join_id,      host_type,     fqdn_or_ip,     memory_size_mb,     swap_size_mb,     cpu_model,     number_of_cores,   number_of_sockets,   cpu_speed_mh,    host_os,    kernel_version,     kvm_version,     vdsm_version,     vdsm_port,     create_date,     update_date  FROM dwh_host_configuration_full_check_view";
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
 				java.sql.ResultSet rs_tJDBCInput_2 = null;
@@ -3307,22 +3268,6 @@ public class HostConfigCheck implements TalendJob {
 						column_index_tJDBCInput_2 = 16;
 
 						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
-							row2.pm_ip_address = null;
-						} else {
-
-							tmpContent_tJDBCInput_2 = rs_tJDBCInput_2
-									.getString(column_index_tJDBCInput_2);
-							if (tmpContent_tJDBCInput_2 != null) {
-								row2.pm_ip_address = tmpContent_tJDBCInput_2;
-							} else {
-								row2.pm_ip_address = null;
-							}
-
-						}
-
-						column_index_tJDBCInput_2 = 17;
-
-						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.kernel_version = null;
 						} else {
 
@@ -3336,7 +3281,7 @@ public class HostConfigCheck implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_2 = 18;
+						column_index_tJDBCInput_2 = 17;
 
 						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.kvm_version = null;
@@ -3352,7 +3297,7 @@ public class HostConfigCheck implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_2 = 19;
+						column_index_tJDBCInput_2 = 18;
 
 						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.vdsm_version = null;
@@ -3368,7 +3313,7 @@ public class HostConfigCheck implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_2 = 20;
+						column_index_tJDBCInput_2 = 19;
 
 						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.vdsm_port = null;
@@ -3384,7 +3329,7 @@ public class HostConfigCheck implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_2 = 21;
+						column_index_tJDBCInput_2 = 20;
 
 						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.create_date = null;
@@ -3402,7 +3347,7 @@ public class HostConfigCheck implements TalendJob {
 
 						}
 
-						column_index_tJDBCInput_2 = 22;
+						column_index_tJDBCInput_2 = 21;
 
 						if (colQtyInRs_tJDBCInput_2 < column_index_tJDBCInput_2) {
 							row2.update_date = null;
@@ -3622,8 +3567,6 @@ public class HostConfigCheck implements TalendJob {
 								host_changes_tmp.cpu_speed_mh = row2.cpu_speed_mh;
 								host_changes_tmp.host_os = StringHandling
 										.TRIM(row2.host_os);
-								host_changes_tmp.pm_ip_address = StringHandling
-										.TRIM(row2.pm_ip_address);
 								host_changes_tmp.kernel_version = StringHandling
 										.TRIM(row2.kernel_version);
 								host_changes_tmp.kvm_version = StringHandling
@@ -3757,80 +3700,72 @@ public class HostConfigCheck implements TalendJob {
 										host_changes.host_os);
 							}
 
-							if (host_changes.pm_ip_address == null) {
+							if (host_changes.kernel_version == null) {
 								pstmt_tJDBCOutput_1.setNull(14,
 										java.sql.Types.VARCHAR);
 							} else {
 								pstmt_tJDBCOutput_1.setString(14,
-										host_changes.pm_ip_address);
-							}
-
-							if (host_changes.kernel_version == null) {
-								pstmt_tJDBCOutput_1.setNull(15,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_1.setString(15,
 										host_changes.kernel_version);
 							}
 
 							if (host_changes.kvm_version == null) {
-								pstmt_tJDBCOutput_1.setNull(16,
+								pstmt_tJDBCOutput_1.setNull(15,
 										java.sql.Types.VARCHAR);
 							} else {
-								pstmt_tJDBCOutput_1.setString(16,
+								pstmt_tJDBCOutput_1.setString(15,
 										host_changes.kvm_version);
 							}
 
 							if (host_changes.vdsm_version == null) {
-								pstmt_tJDBCOutput_1.setNull(17,
+								pstmt_tJDBCOutput_1.setNull(16,
 										java.sql.Types.VARCHAR);
 							} else {
-								pstmt_tJDBCOutput_1.setString(17,
+								pstmt_tJDBCOutput_1.setString(16,
 										host_changes.vdsm_version);
 							}
 
-							pstmt_tJDBCOutput_1.setInt(18,
+							pstmt_tJDBCOutput_1.setInt(17,
 									host_changes.vdsm_port);
 
 							if (host_changes.cluster_configuration_version == null) {
-								pstmt_tJDBCOutput_1.setNull(19,
+								pstmt_tJDBCOutput_1.setNull(18,
 										java.sql.Types.INTEGER);
 							} else {
 								pstmt_tJDBCOutput_1
-										.setInt(19,
+										.setInt(18,
 												host_changes.cluster_configuration_version);
 							}
 
 							if (host_changes.create_date != null) {
 								pstmt_tJDBCOutput_1.setTimestamp(
-										20,
+										19,
 										new java.sql.Timestamp(
 												host_changes.create_date
+														.getTime()));
+							} else {
+								pstmt_tJDBCOutput_1.setNull(19,
+										java.sql.Types.DATE);
+							}
+
+							if (host_changes.update_date != null) {
+								pstmt_tJDBCOutput_1.setTimestamp(
+										20,
+										new java.sql.Timestamp(
+												host_changes.update_date
 														.getTime()));
 							} else {
 								pstmt_tJDBCOutput_1.setNull(20,
 										java.sql.Types.DATE);
 							}
 
-							if (host_changes.update_date != null) {
-								pstmt_tJDBCOutput_1.setTimestamp(
-										21,
-										new java.sql.Timestamp(
-												host_changes.update_date
-														.getTime()));
-							} else {
-								pstmt_tJDBCOutput_1.setNull(21,
-										java.sql.Types.DATE);
-							}
-
 							if (host_changes.delete_date != null) {
 								pstmt_tJDBCOutput_1.setTimestamp(
-										22,
+										21,
 										new java.sql.Timestamp(
 												host_changes.delete_date
 														.getTime()));
 							} else {
-								pstmt_tJDBCOutput_1.setNull(22,
+								pstmt_tJDBCOutput_1.setNull(21,
 										java.sql.Types.DATE);
 							}
 
@@ -7360,6 +7295,6 @@ public class HostConfigCheck implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 203121 characters generated by Talend Open Studio for Data Integration on the
- * January 21, 2014 3:54:30 PM IST
+ * 201363 characters generated by Talend Open Studio for Data Integration on the
+ * December 29, 2014 2:54:41 PM IST
  ************************************************************************************************/

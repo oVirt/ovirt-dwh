@@ -180,7 +180,6 @@ CREATE TABLE host_configuration
    cpu_model VARCHAR(255),
    number_of_cores SMALLINT,
    host_os VARCHAR(255),
-   pm_ip_address VARCHAR(255),
    kernel_version VARCHAR(255),
    kvm_version VARCHAR(255),
    vdsm_version VARCHAR(40),

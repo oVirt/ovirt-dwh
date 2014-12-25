@@ -211,7 +211,7 @@ SELECT
       cpu_model as cpu_model,
       number_of_cores as number_of_cores,
       host_os as host_os,
-      pm_ip_address as pm_ip_address,
+      cast(NULL as VARCHAR(255)) as pm_ip_address,
       kernel_version as kernel_version,
       kvm_version as kvm_version,
       CASE SUBSTR(vdsm_version,1,3)
@@ -242,7 +242,7 @@ SELECT
       cpu_model as cpu_model,
       number_of_cores as number_of_cores,
       host_os as host_os,
-      pm_ip_address as pm_ip_address,
+      cast(NULL as VARCHAR(255)) as pm_ip_address,
       kernel_version as kernel_version,
       kvm_version as kvm_version,
       CASE SUBSTR(vdsm_version,1,3)

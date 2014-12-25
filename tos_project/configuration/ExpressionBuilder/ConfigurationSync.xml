@@ -188,30 +188,6 @@
     <variables name="row36.history_id" value="null" talendType="id_Integer" nullable="true"/>
     <variables name="row36.cluster_join_id" value="null" talendType="id_String"/>
   </expression:EMFExpression>
-  <expression:EMFExpression id="null=>host_configuration=>pm_ip_address" expression="StringHandling.TRIM(row7.ip) == &quot;''&quot; ? null : StringHandling.TRIM(row7.ip) ">
-    <variables name="row7.host_id" value="null" talendType="id_Object"/>
-    <variables name="row7.host_name" value="null" talendType="id_String"/>
-    <variables name="row7.host_unique_id" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.ip" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.fqdn_or_ip" value="null" talendType="id_String"/>
-    <variables name="row7.cluster_id" value="null" talendType="id_Object"/>
-    <variables name="row7.cluster_join_id" value="null" talendType="id_String"/>
-    <variables name="row7.host_type" value="0" talendType="id_Integer"/>
-    <variables name="row7.vdsm_port" value="0" talendType="id_Integer"/>
-    <variables name="row7.host_os" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.kernel_version" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.kvm_version" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.software_version" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.cpu_model" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.cpu_flags" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.vds_id___old" value="0" talendType="id_Integer"/>
-    <variables name="row7.physical_memory" value="null" talendType="id_Integer" nullable="true"/>
-    <variables name="row7.number_of_cores" value="null" talendType="id_Integer" nullable="true"/>
-    <variables name="row7.create_date" value="null" talendType="id_Date" nullable="true"/>
-    <variables name="row7.update_date" value="null" talendType="id_Date" nullable="true"/>
-    <variables name="row36.history_id" value="null" talendType="id_Integer" nullable="true"/>
-    <variables name="row36.cluster_join_id" value="null" talendType="id_String"/>
-  </expression:EMFExpression>
   <expression:EMFExpression id="null=>host_configuration=>kernel_version" expression="StringHandling.TRIM(row7.kernel_version) == &quot;''&quot; ? null : StringHandling.TRIM(row7.kernel_version) ">
     <variables name="row7.host_id" value="null" talendType="id_Object"/>
     <variables name="row7.host_name" value="null" talendType="id_String"/>
@@ -421,7 +397,6 @@
     <variables name="row7.cpu_model" value="null" talendType="id_String" nullable="true"/>
     <variables name="row7.number_of_cores" value="null" talendType="id_Integer" nullable="true"/>
     <variables name="row7.host_os" value="null" talendType="id_String" nullable="true"/>
-    <variables name="row7.pm_ip_address" value="null" talendType="id_String" nullable="true"/>
     <variables name="row7.kernel_version" value="null" talendType="id_String" nullable="true"/>
     <variables name="row7.kvm_version" value="null" talendType="id_String" nullable="true"/>
     <variables name="row7.vdsm_version" value="null" talendType="id_String" nullable="true"/>
