@@ -22,6 +22,11 @@ case "${what}" in
 	*) die "Invalid usage";;
 esac
 
+if [ -z "${JAVA_HOME}" ]; then
+	JAVA_HOME="$(/usr/share/ovirt-engine/bin/java-home)"
+	export JAVA_HOME
+fi
+
 if [ -x /usr/bin/java-config ]; then
 	PACKAGES_BUILD="dom4j-1 commons-collections"
 	PACKAGES_RUNTIME="jdbc-postgresql"
