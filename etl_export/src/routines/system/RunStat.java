@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2013 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2014 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -353,8 +353,8 @@ public class RunStat implements Runnable {
             // since Iterate can be fast, we try to update the UI often.
             long newStatsUpdate = System.currentTimeMillis();
             if (lastStatsUpdate == 0 || lastStatsUpdate + 250 < newStatsUpdate) {
-            sendMessages();
-            lastStatsUpdate = newStatsUpdate;
+                sendMessages();
+                lastStatsUpdate = newStatsUpdate;
             }
             bean.setStartTime(System.currentTimeMillis());
         }
@@ -391,6 +391,44 @@ public class RunStat implements Runnable {
                 }
             }
         }
+        if (keysList.contains(key)) {
+            keysList.remove(key);
+        }
+        keysList.add(key);
+        // System.out.println(connectionId);
+        if (processStats.containsKey(key)) {
+            bean = processStats.get(key);
+        } else {
+            bean = new StatBean(connectionId);
+        }
+        bean.setState(mode);
+        bean.setExec(exec);
+        processStats.put(key, bean);
+
+        // Set a maximum interval for each update of 250ms.
+        // since Iterate can be fast, we try to update the UI often.
+        long newStatsUpdate = System.currentTimeMillis();
+        if (lastStatsUpdate == 0 || lastStatsUpdate + 250 < newStatsUpdate) {
+            sendMessages();
+            lastStatsUpdate = newStatsUpdate;
+        }
+    }
+
+    // for the iterate after tCollector, on server side, both the nbline in exec and the count of different key are
+    // needed for display the iterate count
+    public synchronized void updateStatOnIterate(String connectionId, int mode) {
+        StatBean bean;
+        String key = connectionId + "|" + mode;
+        String exec = "";
+        if (processStats.containsKey(key)) {
+            bean = processStats.get(key);
+        } else {
+            bean = new StatBean(connectionId);
+        }
+        bean.setNbLine(bean.getNbLine() + 1);
+        exec = "exec" + bean.getNbLine();
+        processStats.put(key, bean);
+        key = connectionId + "|" + mode + "|" + exec;
         if (keysList.contains(key)) {
             keysList.remove(key);
         }

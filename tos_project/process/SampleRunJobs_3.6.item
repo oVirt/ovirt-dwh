@@ -79,7 +79,7 @@
     </elementParameter>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="context.ovirtEngineDbDriverClass"/>
     <elementParameter field="TEXT" name="USER" value="context.ovirtEngineDbUser"/>
-    <elementParameter field="TEXT" name="PASS" value="context.ovirtEngineDbPassword"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuc9zMlL/117kANB/gUwWGCke9Ui2L3KRso="/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_SHARED_CONNECTION" value="true"/>
@@ -103,7 +103,7 @@
     </elementParameter>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="context.ovirtEngineHistoryDbDriverClass"/>
     <elementParameter field="TEXT" name="USER" value="context.ovirtEngineHistoryDbUser"/>
-    <elementParameter field="TEXT" name="PASS" value="context.ovirtEngineHistoryDbPassword"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuc9zMlL/117kM6lT2lL+MVFRx8anW17spnd8RIXhxlnpw=="/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_SHARED_CONNECTION" value="true"/>

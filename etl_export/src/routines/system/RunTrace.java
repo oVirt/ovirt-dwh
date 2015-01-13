@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2013 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2014 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -8,16 +8,14 @@
 // You should have received a copy of the agreement
 // along with this program; if not, write to Talend SA
 // 9 rue Pages 92150 Suresnes, France
-//   
+//
 // ============================================================================
 package routines.system;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -29,40 +27,15 @@ public class RunTrace implements Runnable {
         this.openSocket = openSocket;
     }
 
-    private class TraceBean {
-
-        private String componentId;
-
-        private int nbLine;
-
-        public TraceBean(String componentId) {
-            this.componentId = componentId;
-        }
-
-        public String getComponentId() {
-            return this.componentId;
-        }
-
-        public void setComponentId(String componentId) {
-            this.componentId = componentId;
-        }
-
-        public int getNbLine() {
-            return this.nbLine;
-        }
-
-        public void setNbLine(int nbLine) {
-            this.nbLine = nbLine;
-        }
-    }
-
-    private java.util.concurrent.ConcurrentHashMap<String, TraceBean> processTraces = new java.util.concurrent.ConcurrentHashMap<String, TraceBean>();
+    private java.util.concurrent.ConcurrentHashMap<String, TraceDataBean> processTraces = new java.util.concurrent.ConcurrentHashMap<String, TraceDataBean>();
 
     private Map<String, String> subjobMap = new HashMap<String, String>();
 
     private java.net.Socket s;
 
-    private java.io.PrintWriter pred;
+    private NoHeaderObjectOutputStream oos;
+
+    private NoHeaderObjectInputStream ois;
 
     private boolean jobIsFinished = false;
 
@@ -76,7 +49,7 @@ public class RunTrace implements Runnable {
         }
         System.out.println("[trace] connecting to socket on port " + portTraces); //$NON-NLS-1$
         s = new java.net.Socket(clientHost, portTraces);
-        pred = new java.io.PrintWriter(new java.io.BufferedWriter(new java.io.OutputStreamWriter(s.getOutputStream())), true);
+        oos = new NoHeaderObjectOutputStream(s.getOutputStream());
         System.out.println("[trace] connected"); //$NON-NLS-1$
         t = new Thread(this);
         t.start();
@@ -101,60 +74,61 @@ public class RunTrace implements Runnable {
         }
         jobIsFinished = true;
         try {
-            pred.close();
+            oos.close();
             s.close();
             System.out.println("[trace] disconnected"); //$NON-NLS-1$
         } catch (java.io.IOException ie) {
         }
     }
 
-    public boolean isNextRow() {
+    public synchronized boolean isNextRow() {
         if (!openSocket) {
             return false;
         }
-        InputStream in;
         try {
             askForStatus();
-            in = s.getInputStream();
-            LineNumberReader reader = new LineNumberReader(new InputStreamReader(in));
-            return "NEXT_ROW".equals(reader.readLine()); //$NON-NLS-1$
+            ois = new NoHeaderObjectInputStream(s.getInputStream());
+            TraceBean traceBean = (TraceBean) ois.readObject();
+            return traceBean.equals(TraceStatusBean.NEXT_ROW);
         } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public boolean isNextBreakpoint() {
+    public synchronized boolean isNextBreakpoint() {
         if (!openSocket) {
             return false;
         }
-        InputStream in;
         try {
             askForStatus();
-            in = s.getInputStream();
-            LineNumberReader reader = new LineNumberReader(new InputStreamReader(in));
-            // setNextRow();
-            return "NEXT_BREAKPOINT".equals(reader.readLine()); //$NON-NLS-1$
+            ois = new NoHeaderObjectInputStream(s.getInputStream());
+            TraceBean traceBean = (TraceBean) ois.readObject();
+            return traceBean.equals(TraceStatusBean.NEXT_BREAKPOINT);
         } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    public void waitForUserAction() throws InterruptedException {
+    public synchronized void waitForUserAction() throws InterruptedException {
         if (!openSocket) {
             return;
         }
-        InputStream in;
         try {
             boolean action = false;
-            pred.println("UI_STATUS"); //$NON-NLS-1$
+            oos.writeObject(TraceStatusBean.UI_STATUS);
             do {
-                in = s.getInputStream();
-                LineNumberReader reader = new LineNumberReader(new InputStreamReader(in));
-                String line = reader.readLine();
-                if ("STATUS_WAITING".equals(line)) {
-                    pred.println("UI_STATUS");
+                ois = new NoHeaderObjectInputStream(s.getInputStream());
+                TraceBean traceBean = (TraceBean) ois.readObject();
+                if (traceBean.equals(TraceStatusBean.STATUS_WAITING)) {
+                    oos.writeObject(TraceStatusBean.UI_STATUS);
                     Thread.sleep(100);
                 } else {
                     action = true;
@@ -162,41 +136,45 @@ public class RunTrace implements Runnable {
             } while (!action);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
-    public boolean isPause() {
+    public synchronized boolean isPause() {
         if (!openSocket) {
             return false;
         }
-        InputStream in;
         try {
             askForStatus();
-            in = s.getInputStream();
-            LineNumberReader reader = new LineNumberReader(new InputStreamReader(in));
-            return "PAUSE".equals(reader.readLine()); //$NON-NLS-1$
+            ois = new NoHeaderObjectInputStream(s.getInputStream());
+            TraceBean traceBean = (TraceBean) ois.readObject();
+            return traceBean.equals(TraceStatusBean.PAUSE);
         } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
             return false;
         }
     }
 
-    private void askForStatus() {
-        pred.println("ID_STATUS"); //$NON-NLS-1$
+    private synchronized void askForStatus() throws IOException {
+        oos.writeObject(TraceStatusBean.ID_STATUS);
     }
 
-    private String componentName = "";
+    private String connectionId = "";
 
-    public void sendTrace(String componentId, String startNodeCid, String datas) {
+    public synchronized void sendTrace(String connectionId, String startNodeCid, LinkedHashMap datas) throws IOException {
         if (!openSocket) {
             return;
         }
-        subjobMap.put(componentId, startNodeCid);
+        subjobMap.put(connectionId, startNodeCid);
         Iterator<Entry<String, String>> ite = subjobMap.entrySet().iterator();
         boolean sameSub = false;
         while (ite.hasNext()) {
             Entry<String, String> en = ite.next();
-            if (en.getKey().equals(componentId)) {
+            if (en.getKey().equals(connectionId)) {
                 continue;
             }
             if (en.getValue().equals(startNodeCid)) {
@@ -205,21 +183,22 @@ public class RunTrace implements Runnable {
             }
         }
         if (sameSub && processTraces.size() > 1) { // if the connections are more than one, will check
-            if (componentId.equals(componentName)) {
+            if (connectionId.equals(this.connectionId)) {
                 return;
             }
         }
-        TraceBean bean;
-        if (processTraces.containsKey(componentId)) {
-            bean = processTraces.get(componentId);
+        TraceDataBean bean;
+        if (processTraces.containsKey(connectionId)) {
+            bean = processTraces.get(connectionId);
         } else {
-            bean = new TraceBean(componentId);
+            bean = new TraceDataBean(connectionId);
         }
         bean.setNbLine(bean.getNbLine() + 1);
-        processTraces.put(componentId, bean);
+        processTraces.put(connectionId, bean);
+        bean.setData(datas);
 
-        str = bean.getComponentId() + "|" + bean.getNbLine() + "|" + datas; //$NON-NLS-1$ //$NON-NLS-2$
-        pred.println(str); // envoi d'un message
-        componentName = componentId;
+        oos.writeUnshared(bean); // envoi d'un message
+        oos.flush();
+        this.connectionId = connectionId;
     }
 }

@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2013 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2014 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -19,6 +19,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -327,23 +328,36 @@ public class ResumeUtil {
         return str;
     }
 
-    // Util: convert the context variable to json style text.
-    // feature:11296
-    public static String convertToJsonText(Object context) {
+    // to support encrypt the password in the resume
+    public static String convertToJsonText(Object context, List<String> parametersToEncrypt) {
         String jsonText = "";
         try {
-            // first node
             JSONObject firstNode = new JSONObject();
-            // second node
             JSONObject secondNode = new JSONObject(context);
+            if (parametersToEncrypt != null) {
+                for (String parameterToEncrypt : parametersToEncrypt) {
+                    if (secondNode.isNull(parameterToEncrypt)) {
+                        continue;
+                    }
+
+                    secondNode.put(parameterToEncrypt,
+                            routines.system.PasswordEncryptUtil.encryptPassword(secondNode.getString(parameterToEncrypt)));
+                }
+            }
             firstNode.putOpt("context_parameters", secondNode);
-            // System.out.println(firstNode.toString(8));
             jsonText = firstNode.toString(8);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return jsonText;
+    }
+
+    // Util: convert the context variable to json style text.
+    // feature:11296
+    // @Deprecated
+    public static String convertToJsonText(Object context) {
+        return convertToJsonText(context, null);
     }
 
     // 7 fields

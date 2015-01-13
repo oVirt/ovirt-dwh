@@ -58,7 +58,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;dwh_datacenter_history_view&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -102,7 +102,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;v3_6_latest_configuration_datacenters&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -184,7 +184,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="TEXT" name="TABLE" value="&quot;datacenter_samples_history&quot;"/>
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
@@ -259,7 +259,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;dwh_storage_domain_history_view&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -357,7 +357,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;v3_6_latest_configuration_storage_domains&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -397,7 +397,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="TEXT" name="TABLE" value="&quot;storage_domain_samples_history&quot;"/>
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
@@ -486,7 +486,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;dwh_host_history_view&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -638,7 +638,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;v3_6_latest_configuration_hosts&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -678,7 +678,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="TEXT" name="TABLE" value="&quot;host_samples_history&quot;"/>
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
@@ -830,7 +830,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;dwh_host_interface_history_view&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -920,7 +920,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;v3_6_latest_configuration_hosts_interfaces&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -960,7 +960,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="TEXT" name="TABLE" value="&quot;host_interface_samples_history&quot;"/>
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
@@ -1035,7 +1035,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;dwh_vm_history_view&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -1199,7 +1199,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;v3_6_latest_configuration_vms&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -1240,7 +1240,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;v3_6_latest_configuration_hosts&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -1280,7 +1280,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="TEXT" name="TABLE" value="&quot;vm_samples_history&quot;"/>
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
@@ -1424,7 +1424,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="TEXT" name="TABLE" value="&quot;vm_disks_usage_samples_history&quot;"/>
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
@@ -1485,7 +1485,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;dwh_vm_interface_history_view&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -1575,7 +1575,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;v3_6_latest_configuration_vms_interfaces&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -1615,7 +1615,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="TEXT" name="TABLE" value="&quot;vm_interface_samples_history&quot;"/>
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
@@ -1688,7 +1688,7 @@
     </elementParameter>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="context.ovirtEngineDbDriverClass"/>
     <elementParameter field="TEXT" name="USER" value="context.ovirtEngineDbUser"/>
-    <elementParameter field="TEXT" name="PASS" value="context.ovirtEngineDbPassword"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuc9zMlL/117kANB/gUwWGCke9Ui2L3KRso="/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_SHARED_CONNECTION" value="true"/>
@@ -1712,7 +1712,7 @@
     </elementParameter>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="context.ovirtEngineHistoryDbDriverClass"/>
     <elementParameter field="TEXT" name="USER" value="context.ovirtEngineHistoryDbUser"/>
-    <elementParameter field="TEXT" name="PASS" value="context.ovirtEngineHistoryDbPassword"/>
+    <elementParameter field="PASSWORD" name="PASS" value="8pW6Nmy2kuc9zMlL/117kM6lT2lL+MVFRx8anW17spnd8RIXhxlnpw=="/>
     <elementParameter field="ENCODING_TYPE" name="ENCODING" value="&quot;ISO-8859-15&quot;"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
     <elementParameter field="CHECK" name="USE_SHARED_CONNECTION" value="true"/>
@@ -1738,7 +1738,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;dwh_vm_disks_history_view&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -1866,7 +1866,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;v3_6_latest_configuration_vms_disks&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
@@ -1906,7 +1906,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="TEXT" name="TABLE" value="&quot;vm_disk_samples_history&quot;"/>
     <elementParameter field="CLOSED_LIST" name="DATA_ACTION" value="INSERT"/>
     <elementParameter field="CHECK" name="CLEAR_TABLE" value="false"/>
@@ -2037,7 +2037,7 @@
     <elementParameter field="TABLE" name="DRIVER_JAR"/>
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
-    <elementParameter field="TEXT" name="PASS" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
     <elementParameter field="DBTABLE" name="TABLE" value="&quot;&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
