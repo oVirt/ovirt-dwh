@@ -1189,7 +1189,7 @@
   <node componentName="tJavaRow" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="-160" posY="864">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJavaRow_1"/>
     <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="i = &quot;1&quot;.equals(input_row.option_value);&#xA;if ( ((String)globalMap.get(&quot;timesDisconnectDwhFailed&quot;)) != &quot;0&quot; ) {&#xA;    globalMap.put(&quot;timesDisconnectDwhFailed&quot;,&quot;0&quot;);&#xA;}"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="i = &quot;1&quot;.equals(input_row.option_value);&#xA;if (i) {&#xA;System.out.println(&quot;ETL Service will now stop because a flag was raised to disconnect DWH on Engine DB&quot;);&#xA;}&#xA;if ( ((String)globalMap.get(&quot;timesDisconnectDwhFailed&quot;)) != &quot;0&quot; ) {&#xA;    globalMap.put(&quot;timesDisconnectDwhFailed&quot;,&quot;0&quot;);&#xA;}"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>

@@ -50,9 +50,6 @@ import java.util.Comparator;
 //the import part of tJava_1
 //import java.util.List;
 
-//the import part of tJava_3
-//import java.util.List;
-
 //the import part of tJavaFlex_2
 //import java.util.List;
 
@@ -60,6 +57,9 @@ import java.util.Comparator;
 //import java.util.List;
 
 //the import part of tJavaRow_1
+//import java.util.List;
+
+//the import part of tJava_3
 //import java.util.List;
 
 @SuppressWarnings("unused")
@@ -517,106 +517,6 @@ public class HistoryETL implements TalendJob {
 		}
 	}
 
-	public void tJDBCConnection_1_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCConnection_1_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCConnection_3_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tJDBCConnection_3", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCConnection_3_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCConnection_4_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tJDBCConnection_4", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCConnection_4_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCConnection_5_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tJDBCConnection_5", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCConnection_5_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCConnection_2_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCConnection_2_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tRowGenerator_6_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tRowGenerator_6", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tRowGenerator_6_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tMap_3_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tMap_3", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tRowGenerator_6_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCOutput_3_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tJDBCOutput_3", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tRowGenerator_6_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tRowGenerator_7_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tRowGenerator_7", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tRowGenerator_7_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCOutput_5_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tJDBCOutput_5", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tRowGenerator_7_onSubJobError(exception, errorComponent, globalMap);
-	}
-
 	public void tRunJob_4_error(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -767,38 +667,6 @@ public class HistoryETL implements TalendJob {
 		tJDBCClose_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tFileInputProperties_1_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tFileInputProperties_1", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tFileInputProperties_1_onSubJobError(exception, errorComponent,
-				globalMap);
-	}
-
-	public void tContextLoad_1_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tContextLoad_1", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tFileInputProperties_1_onSubJobError(exception, errorComponent,
-				globalMap);
-	}
-
-	public void tJDBCConnection_6_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tJDBCConnection_6", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCConnection_6_onSubJobError(exception, errorComponent, globalMap);
-	}
-
 	public void tPrejob_1_error(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -837,6 +705,148 @@ public class HistoryETL implements TalendJob {
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
 		tRowGenerator_2_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tFileInputProperties_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tFileInputProperties_1", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tFileInputProperties_1_onSubJobError(exception, errorComponent,
+				globalMap);
+	}
+
+	public void tContextLoad_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tContextLoad_1", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tFileInputProperties_1_onSubJobError(exception, errorComponent,
+				globalMap);
+	}
+
+	public void tJDBCConnection_6_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCConnection_6", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCConnection_6_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCConnection_2_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCConnection_2_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tRowGenerator_6_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tRowGenerator_6", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tRowGenerator_6_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tMap_3_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tMap_3", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tRowGenerator_6_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCOutput_3_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCOutput_3", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tRowGenerator_6_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tRowGenerator_7_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tRowGenerator_7", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tRowGenerator_7_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCOutput_5_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCOutput_5", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tRowGenerator_7_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCConnection_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCConnection_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCConnection_3_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCConnection_3", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCConnection_3_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCConnection_4_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCConnection_4", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCConnection_4_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCConnection_5_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCConnection_5", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCConnection_5_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tRunJob_2_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tRunJob_2", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tRunJob_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tLogCatcher_1_error(java.lang.Exception exception,
@@ -879,16 +889,6 @@ public class HistoryETL implements TalendJob {
 		tJava_4_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tJava_1_error(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		end_Hash.put("tJava_1", System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJava_1_onSubJobError(exception, errorComponent, globalMap);
-	}
-
 	public void tLoop_1_error(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -899,14 +899,34 @@ public class HistoryETL implements TalendJob {
 		tLoop_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tJava_3_error(java.lang.Exception exception,
+	public void tJava_1_error(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		end_Hash.put("tJava_3", System.currentTimeMillis());
+		end_Hash.put("tJava_1", System.currentTimeMillis());
 
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
-		tJava_3_onSubJobError(exception, errorComponent, globalMap);
+		tJava_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tRunJob_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tRunJob_1", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tRunJob_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tSetGlobalVar_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tSetGlobalVar_1", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tSetGlobalVar_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tLoop_2_error(java.lang.Exception exception,
@@ -969,14 +989,14 @@ public class HistoryETL implements TalendJob {
 		tLoop_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tSetGlobalVar_1_error(java.lang.Exception exception,
+	public void tJava_3_error(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		end_Hash.put("tSetGlobalVar_1", System.currentTimeMillis());
+		end_Hash.put("tJava_3", System.currentTimeMillis());
 
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
-		tSetGlobalVar_1_onSubJobError(exception, errorComponent, globalMap);
+		tJava_3_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void talendLogs_LOGS_error(java.lang.Exception exception,
@@ -997,83 +1017,6 @@ public class HistoryETL implements TalendJob {
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
 		talendLogs_LOGS_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCConnection_1_onSubJobError(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tJDBCConnection_3_onSubJobError(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tJDBCConnection_4_onSubJobError(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tJDBCConnection_5_onSubJobError(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tJDBCConnection_2_onSubJobError(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tRowGenerator_6_onSubJobError(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tRowGenerator_7_onSubJobError(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
 	}
 
 	public void tRunJob_4_onSubJobError(java.lang.Exception exception,
@@ -1197,29 +1140,6 @@ public class HistoryETL implements TalendJob {
 
 	}
 
-	public void tFileInputProperties_1_onSubJobError(
-			java.lang.Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tJDBCConnection_6_onSubJobError(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
 	public void tPrejob_1_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1253,6 +1173,117 @@ public class HistoryETL implements TalendJob {
 
 	}
 
+	public void tFileInputProperties_1_onSubJobError(
+			java.lang.Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCConnection_6_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCConnection_2_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tRowGenerator_6_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tRowGenerator_7_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCConnection_1_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCConnection_3_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCConnection_4_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCConnection_5_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tRunJob_2_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
 	public void tLogCatcher_1_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1275,17 +1306,6 @@ public class HistoryETL implements TalendJob {
 
 	}
 
-	public void tJava_1_onSubJobError(java.lang.Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
 	public void tLoop_1_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1297,7 +1317,7 @@ public class HistoryETL implements TalendJob {
 
 	}
 
-	public void tJava_3_onSubJobError(java.lang.Exception exception,
+	public void tJava_1_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1308,7 +1328,7 @@ public class HistoryETL implements TalendJob {
 
 	}
 
-	public void tLoop_2_onSubJobError(java.lang.Exception exception,
+	public void tRunJob_1_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1330,7 +1350,7 @@ public class HistoryETL implements TalendJob {
 
 	}
 
-	public void talendLogs_LOGS_onSubJobError(java.lang.Exception exception,
+	public void tLoop_2_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1341,1858 +1361,26 @@ public class HistoryETL implements TalendJob {
 
 	}
 
-	public void tJDBCConnection_1Process(
-			final java.util.Map<String, Object> globalMap)
+	public void tJava_3_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", 0);
 
-		final boolean execStat = this.execStat;
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
 
-		String iterateId = "";
-		int iterateLoop = 0;
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tJDBCConnection_1 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCConnection_1", false);
-				start_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
-
-				currentComponent = "tJDBCConnection_1";
-
-				int tos_count_tJDBCConnection_1 = 0;
-
-				String url_tJDBCConnection_1 = context.ovirtEngineHistoryDbJdbcConnection;
-
-				String userName_tJDBCConnection_1 = context.ovirtEngineHistoryDbUser;
-				String password_tJDBCConnection_1 = context.ovirtEngineHistoryDbPassword;
-
-				java.sql.Connection conn_tJDBCConnection_1 = null;
-
-				String sharedConnectionName_tJDBCConnection_1 = "sample_ovirt_engine_history";
-				conn_tJDBCConnection_1 = SharedDBConnection.getDBConnection(
-						context.ovirtEngineHistoryDbDriverClass,
-						url_tJDBCConnection_1, userName_tJDBCConnection_1,
-						password_tJDBCConnection_1,
-						sharedConnectionName_tJDBCConnection_1);
-				if (null != conn_tJDBCConnection_1) {
-
-					conn_tJDBCConnection_1.setAutoCommit(false);
-				}
-
-				globalMap.put("conn_tJDBCConnection_1", conn_tJDBCConnection_1);
-				globalMap.put("url_tJDBCConnection_1", url_tJDBCConnection_1);
-				// globalMap.put("user_tJDBCConnection_1",
-				// userName_tJDBCConnection_1);
-				// globalMap.put("pass_tJDBCConnection_1",
-				// password_tJDBCConnection_1);
-
-				/**
-				 * [tJDBCConnection_1 begin ] stop
-				 */
-				/**
-				 * [tJDBCConnection_1 main ] start
-				 */
-
-				currentComponent = "tJDBCConnection_1";
-
-				tos_count_tJDBCConnection_1++;
-
-				/**
-				 * [tJDBCConnection_1 main ] stop
-				 */
-				/**
-				 * [tJDBCConnection_1 end ] start
-				 */
-
-				currentComponent = "tJDBCConnection_1";
-
-				ok_Hash.put("tJDBCConnection_1", true);
-				end_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
-
-				tJDBCConnection_3Process(globalMap);
-
-				/**
-				 * [tJDBCConnection_1 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tJDBCConnection_1 finally ] start
-				 */
-
-				currentComponent = "tJDBCConnection_1";
-
-				/**
-				 * [tJDBCConnection_1 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", 1);
 	}
 
-	public void tJDBCConnection_3Process(
-			final java.util.Map<String, Object> globalMap)
+	public void talendLogs_LOGS_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		globalMap.put("tJDBCConnection_3_SUBPROCESS_STATE", 0);
 
-		final boolean execStat = this.execStat;
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
 
-		String iterateId = "";
-		int iterateLoop = 0;
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tJDBCConnection_3 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCConnection_3", false);
-				start_Hash.put("tJDBCConnection_3", System.currentTimeMillis());
-
-				currentComponent = "tJDBCConnection_3";
-
-				int tos_count_tJDBCConnection_3 = 0;
-
-				String url_tJDBCConnection_3 = context.ovirtEngineHistoryDbJdbcConnection;
-
-				String userName_tJDBCConnection_3 = context.ovirtEngineHistoryDbUser;
-				String password_tJDBCConnection_3 = context.ovirtEngineHistoryDbPassword;
-
-				java.sql.Connection conn_tJDBCConnection_3 = null;
-
-				String sharedConnectionName_tJDBCConnection_3 = "hourly_ovirt_engine_history";
-				conn_tJDBCConnection_3 = SharedDBConnection.getDBConnection(
-						context.ovirtEngineHistoryDbDriverClass,
-						url_tJDBCConnection_3, userName_tJDBCConnection_3,
-						password_tJDBCConnection_3,
-						sharedConnectionName_tJDBCConnection_3);
-				if (null != conn_tJDBCConnection_3) {
-
-					conn_tJDBCConnection_3.setAutoCommit(false);
-				}
-
-				globalMap.put("conn_tJDBCConnection_3", conn_tJDBCConnection_3);
-				globalMap.put("url_tJDBCConnection_3", url_tJDBCConnection_3);
-				// globalMap.put("user_tJDBCConnection_3",
-				// userName_tJDBCConnection_3);
-				// globalMap.put("pass_tJDBCConnection_3",
-				// password_tJDBCConnection_3);
-
-				/**
-				 * [tJDBCConnection_3 begin ] stop
-				 */
-				/**
-				 * [tJDBCConnection_3 main ] start
-				 */
-
-				currentComponent = "tJDBCConnection_3";
-
-				tos_count_tJDBCConnection_3++;
-
-				/**
-				 * [tJDBCConnection_3 main ] stop
-				 */
-				/**
-				 * [tJDBCConnection_3 end ] start
-				 */
-
-				currentComponent = "tJDBCConnection_3";
-
-				ok_Hash.put("tJDBCConnection_3", true);
-				end_Hash.put("tJDBCConnection_3", System.currentTimeMillis());
-
-				tJDBCConnection_4Process(globalMap);
-
-				/**
-				 * [tJDBCConnection_3 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tJDBCConnection_3 finally ] start
-				 */
-
-				currentComponent = "tJDBCConnection_3";
-
-				/**
-				 * [tJDBCConnection_3 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tJDBCConnection_3_SUBPROCESS_STATE", 1);
-	}
-
-	public void tJDBCConnection_4Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCConnection_4_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		int iterateLoop = 0;
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tJDBCConnection_4 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCConnection_4", false);
-				start_Hash.put("tJDBCConnection_4", System.currentTimeMillis());
-
-				currentComponent = "tJDBCConnection_4";
-
-				int tos_count_tJDBCConnection_4 = 0;
-
-				String url_tJDBCConnection_4 = context.ovirtEngineHistoryDbJdbcConnection;
-
-				String userName_tJDBCConnection_4 = context.ovirtEngineHistoryDbUser;
-				String password_tJDBCConnection_4 = context.ovirtEngineHistoryDbPassword;
-
-				java.sql.Connection conn_tJDBCConnection_4 = null;
-
-				String sharedConnectionName_tJDBCConnection_4 = "daily_ovirt_engine_history";
-				conn_tJDBCConnection_4 = SharedDBConnection.getDBConnection(
-						context.ovirtEngineHistoryDbDriverClass,
-						url_tJDBCConnection_4, userName_tJDBCConnection_4,
-						password_tJDBCConnection_4,
-						sharedConnectionName_tJDBCConnection_4);
-				if (null != conn_tJDBCConnection_4) {
-
-					conn_tJDBCConnection_4.setAutoCommit(false);
-				}
-
-				globalMap.put("conn_tJDBCConnection_4", conn_tJDBCConnection_4);
-				globalMap.put("url_tJDBCConnection_4", url_tJDBCConnection_4);
-				// globalMap.put("user_tJDBCConnection_4",
-				// userName_tJDBCConnection_4);
-				// globalMap.put("pass_tJDBCConnection_4",
-				// password_tJDBCConnection_4);
-
-				/**
-				 * [tJDBCConnection_4 begin ] stop
-				 */
-				/**
-				 * [tJDBCConnection_4 main ] start
-				 */
-
-				currentComponent = "tJDBCConnection_4";
-
-				tos_count_tJDBCConnection_4++;
-
-				/**
-				 * [tJDBCConnection_4 main ] stop
-				 */
-				/**
-				 * [tJDBCConnection_4 end ] start
-				 */
-
-				currentComponent = "tJDBCConnection_4";
-
-				ok_Hash.put("tJDBCConnection_4", true);
-				end_Hash.put("tJDBCConnection_4", System.currentTimeMillis());
-
-				tJDBCConnection_5Process(globalMap);
-
-				/**
-				 * [tJDBCConnection_4 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tJDBCConnection_4 finally ] start
-				 */
-
-				currentComponent = "tJDBCConnection_4";
-
-				/**
-				 * [tJDBCConnection_4 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tJDBCConnection_4_SUBPROCESS_STATE", 1);
-	}
-
-	public void tJDBCConnection_5Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCConnection_5_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		int iterateLoop = 0;
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tJDBCConnection_5 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCConnection_5", false);
-				start_Hash.put("tJDBCConnection_5", System.currentTimeMillis());
-
-				currentComponent = "tJDBCConnection_5";
-
-				int tos_count_tJDBCConnection_5 = 0;
-
-				String url_tJDBCConnection_5 = context.ovirtEngineHistoryDbJdbcConnection;
-
-				String userName_tJDBCConnection_5 = context.ovirtEngineHistoryDbUser;
-				String password_tJDBCConnection_5 = context.ovirtEngineHistoryDbPassword;
-
-				java.sql.Connection conn_tJDBCConnection_5 = null;
-
-				String sharedConnectionName_tJDBCConnection_5 = "delete_ovirt_engine_history";
-				conn_tJDBCConnection_5 = SharedDBConnection.getDBConnection(
-						context.ovirtEngineHistoryDbDriverClass,
-						url_tJDBCConnection_5, userName_tJDBCConnection_5,
-						password_tJDBCConnection_5,
-						sharedConnectionName_tJDBCConnection_5);
-				if (null != conn_tJDBCConnection_5) {
-
-					conn_tJDBCConnection_5.setAutoCommit(false);
-				}
-
-				globalMap.put("conn_tJDBCConnection_5", conn_tJDBCConnection_5);
-				globalMap.put("url_tJDBCConnection_5", url_tJDBCConnection_5);
-				// globalMap.put("user_tJDBCConnection_5",
-				// userName_tJDBCConnection_5);
-				// globalMap.put("pass_tJDBCConnection_5",
-				// password_tJDBCConnection_5);
-
-				/**
-				 * [tJDBCConnection_5 begin ] stop
-				 */
-				/**
-				 * [tJDBCConnection_5 main ] start
-				 */
-
-				currentComponent = "tJDBCConnection_5";
-
-				tos_count_tJDBCConnection_5++;
-
-				/**
-				 * [tJDBCConnection_5 main ] stop
-				 */
-				/**
-				 * [tJDBCConnection_5 end ] start
-				 */
-
-				currentComponent = "tJDBCConnection_5";
-
-				ok_Hash.put("tJDBCConnection_5", true);
-				end_Hash.put("tJDBCConnection_5", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCConnection_5 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tJDBCConnection_5 finally ] start
-				 */
-
-				currentComponent = "tJDBCConnection_5";
-
-				/**
-				 * [tJDBCConnection_5 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tJDBCConnection_5_SUBPROCESS_STATE", 1);
-	}
-
-	public void tJDBCConnection_2Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCConnection_2_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		int iterateLoop = 0;
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tJDBCConnection_2 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCConnection_2", false);
-				start_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
-
-				currentComponent = "tJDBCConnection_2";
-
-				int tos_count_tJDBCConnection_2 = 0;
-
-				String url_tJDBCConnection_2 = context.ovirtEngineDbJdbcConnection;
-
-				String userName_tJDBCConnection_2 = context.ovirtEngineDbUser;
-				String password_tJDBCConnection_2 = context.ovirtEngineDbPassword;
-
-				java.sql.Connection conn_tJDBCConnection_2 = null;
-
-				String sharedConnectionName_tJDBCConnection_2 = "engine";
-				conn_tJDBCConnection_2 = SharedDBConnection.getDBConnection(
-						context.ovirtEngineDbDriverClass,
-						url_tJDBCConnection_2, userName_tJDBCConnection_2,
-						password_tJDBCConnection_2,
-						sharedConnectionName_tJDBCConnection_2);
-				if (null != conn_tJDBCConnection_2) {
-
-					conn_tJDBCConnection_2.setAutoCommit(false);
-				}
-
-				globalMap.put("conn_tJDBCConnection_2", conn_tJDBCConnection_2);
-				globalMap.put("url_tJDBCConnection_2", url_tJDBCConnection_2);
-				// globalMap.put("user_tJDBCConnection_2",
-				// userName_tJDBCConnection_2);
-				// globalMap.put("pass_tJDBCConnection_2",
-				// password_tJDBCConnection_2);
-
-				/**
-				 * [tJDBCConnection_2 begin ] stop
-				 */
-				/**
-				 * [tJDBCConnection_2 main ] start
-				 */
-
-				currentComponent = "tJDBCConnection_2";
-
-				tos_count_tJDBCConnection_2++;
-
-				/**
-				 * [tJDBCConnection_2 main ] stop
-				 */
-				/**
-				 * [tJDBCConnection_2 end ] start
-				 */
-
-				currentComponent = "tJDBCConnection_2";
-
-				ok_Hash.put("tJDBCConnection_2", true);
-				end_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
-
-				tRowGenerator_6Process(globalMap);
-
-				/**
-				 * [tJDBCConnection_2 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tJDBCConnection_2 finally ] start
-				 */
-
-				currentComponent = "tJDBCConnection_2";
-
-				/**
-				 * [tJDBCConnection_2 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tJDBCConnection_2_SUBPROCESS_STATE", 1);
-	}
-
-	public static class copyOfevent_output_0Struct implements
-			routines.system.IPersistableRow<copyOfevent_output_0Struct> {
-		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
-		static byte[] commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
-
-		public java.util.Date log_time;
-
-		public java.util.Date getLog_time() {
-			return this.log_time;
-		}
-
-		public String log_type_name;
-
-		public String getLog_type_name() {
-			return this.log_type_name;
-		}
-
-		public int log_type;
-
-		public int getLog_type() {
-			return this.log_type;
-		}
-
-		public int severity;
-
-		public int getSeverity() {
-			return this.severity;
-		}
-
-		public String message;
-
-		public String getMessage() {
-			return this.message;
-		}
-
-		private java.util.Date readDate(ObjectInputStream dis)
-				throws IOException {
-			java.util.Date dateReturn = null;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				dateReturn = null;
-			} else {
-				dateReturn = new Date(dis.readLong());
-			}
-			return dateReturn;
-		}
-
-		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
-				throws IOException {
-			if (date1 == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeLong(date1.getTime());
-			}
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length) {
-					if (length < 1024
-							&& commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length == 0) {
-						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[1024];
-					} else {
-						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[2 * length];
-					}
-				}
-				dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0,
-						length);
-				strReturn = new String(
-						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0, length,
-						utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL) {
-
-				try {
-
-					int length = 0;
-
-					this.log_time = readDate(dis);
-
-					this.log_type_name = readString(dis);
-
-					this.log_type = dis.readInt();
-
-					this.severity = dis.readInt();
-
-					this.message = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// java.util.Date
-
-				writeDate(this.log_time, dos);
-
-				// String
-
-				writeString(this.log_type_name, dos);
-
-				// int
-
-				dos.writeInt(this.log_type);
-
-				// int
-
-				dos.writeInt(this.severity);
-
-				// String
-
-				writeString(this.message, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("log_time=" + String.valueOf(log_time));
-			sb.append(",log_type_name=" + log_type_name);
-			sb.append(",log_type=" + String.valueOf(log_type));
-			sb.append(",severity=" + String.valueOf(severity));
-			sb.append(",message=" + message);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(copyOfevent_output_0Struct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(),
-						object2.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
-	public static class row7Struct implements
-			routines.system.IPersistableRow<row7Struct> {
-		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
-		static byte[] commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
-
-		public java.util.Date time;
-
-		public java.util.Date getTime() {
-			return this.time;
-		}
-
-		public String message;
-
-		public String getMessage() {
-			return this.message;
-		}
-
-		private java.util.Date readDate(ObjectInputStream dis)
-				throws IOException {
-			java.util.Date dateReturn = null;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				dateReturn = null;
-			} else {
-				dateReturn = new Date(dis.readLong());
-			}
-			return dateReturn;
-		}
-
-		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
-				throws IOException {
-			if (date1 == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeLong(date1.getTime());
-			}
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length) {
-					if (length < 1024
-							&& commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length == 0) {
-						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[1024];
-					} else {
-						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[2 * length];
-					}
-				}
-				dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0,
-						length);
-				strReturn = new String(
-						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0, length,
-						utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL) {
-
-				try {
-
-					int length = 0;
-
-					this.time = readDate(dis);
-
-					this.message = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// java.util.Date
-
-				writeDate(this.time, dos);
-
-				// String
-
-				writeString(this.message, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("time=" + String.valueOf(time));
-			sb.append(",message=" + message);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(row7Struct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(),
-						object2.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
-	public void tRowGenerator_6Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tRowGenerator_6_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		int iterateLoop = 0;
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				row7Struct row7 = new row7Struct();
-				copyOfevent_output_0Struct copyOfevent_output_0 = new copyOfevent_output_0Struct();
-
-				/**
-				 * [tJDBCOutput_3 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCOutput_3", false);
-				start_Hash.put("tJDBCOutput_3", System.currentTimeMillis());
-
-				currentComponent = "tJDBCOutput_3";
-
-				int tos_count_tJDBCOutput_3 = 0;
-
-				int nb_line_tJDBCOutput_3 = 0;
-				int nb_line_update_tJDBCOutput_3 = 0;
-				int nb_line_inserted_tJDBCOutput_3 = 0;
-				int nb_line_deleted_tJDBCOutput_3 = 0;
-				int nb_line_rejected_tJDBCOutput_3 = 0;
-
-				int tmp_batchUpdateCount_tJDBCOutput_3 = 0;
-
-				int deletedCount_tJDBCOutput_3 = 0;
-				int updatedCount_tJDBCOutput_3 = 0;
-				int insertedCount_tJDBCOutput_3 = 0;
-				int rejectedCount_tJDBCOutput_3 = 0;
-
-				boolean whetherReject_tJDBCOutput_3 = false;
-
-				java.sql.Connection connection_tJDBCOutput_3 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_6");
-				int batchSize_tJDBCOutput_3 = 10000;
-				int batchSizeCounter_tJDBCOutput_3 = 0;
-
-				String insert_tJDBCOutput_3 = "INSERT INTO "
-						+ "audit_log"
-						+ " (log_time,log_type_name,log_type,severity,message) VALUES (?,?,?,?,?)";
-				java.sql.PreparedStatement pstmt_tJDBCOutput_3 = connection_tJDBCOutput_3
-						.prepareStatement(insert_tJDBCOutput_3);
-
-				/**
-				 * [tJDBCOutput_3 begin ] stop
-				 */
-
-				/**
-				 * [tMap_3 begin ] start
-				 */
-
-				ok_Hash.put("tMap_3", false);
-				start_Hash.put("tMap_3", System.currentTimeMillis());
-
-				currentComponent = "tMap_3";
-
-				int tos_count_tMap_3 = 0;
-
-				// ###############################
-				// # Lookup's keys initialization
-				// ###############################
-
-				// ###############################
-				// # Vars initialization
-				class Var__tMap_3__Struct {
-				}
-				Var__tMap_3__Struct Var__tMap_3 = new Var__tMap_3__Struct();
-				// ###############################
-
-				// ###############################
-				// # Outputs initialization
-				copyOfevent_output_0Struct copyOfevent_output_0_tmp = new copyOfevent_output_0Struct();
-				// ###############################
-
-				/**
-				 * [tMap_3 begin ] stop
-				 */
-
-				/**
-				 * [tRowGenerator_6 begin ] start
-				 */
-
-				ok_Hash.put("tRowGenerator_6", false);
-				start_Hash.put("tRowGenerator_6", System.currentTimeMillis());
-
-				currentComponent = "tRowGenerator_6";
-
-				int tos_count_tRowGenerator_6 = 0;
-
-				int nb_line_tRowGenerator_6 = 0;
-				int nb_max_row_tRowGenerator_6 = 1;
-
-				class tRowGenerator_6Randomizer {
-					public java.util.Date getRandomtime() {
-
-						return TalendDate.getCurrentDate();
-
-					}
-
-					public String getRandommessage() {
-
-						return "ETL Service Started";
-
-					}
-				}
-				tRowGenerator_6Randomizer randtRowGenerator_6 = new tRowGenerator_6Randomizer();
-
-				for (int itRowGenerator_6 = 0; itRowGenerator_6 < nb_max_row_tRowGenerator_6; itRowGenerator_6++) {
-					row7.time = randtRowGenerator_6.getRandomtime();
-
-					row7.message = randtRowGenerator_6.getRandommessage();
-
-					nb_line_tRowGenerator_6++;
-
-					/**
-					 * [tRowGenerator_6 begin ] stop
-					 */
-					/**
-					 * [tRowGenerator_6 main ] start
-					 */
-
-					currentComponent = "tRowGenerator_6";
-
-					tos_count_tRowGenerator_6++;
-
-					/**
-					 * [tRowGenerator_6 main ] stop
-					 */
-
-					/**
-					 * [tMap_3 main ] start
-					 */
-
-					currentComponent = "tMap_3";
-
-					boolean hasCasePrimitiveKeyWithNull_tMap_3 = false;
-
-					// ###############################
-					// # Input tables (lookups)
-					boolean rejectedInnerJoin_tMap_3 = false;
-					boolean mainRowRejected_tMap_3 = false;
-
-					// ###############################
-					{ // start of Var scope
-
-						// ###############################
-						// # Vars tables
-
-						Var__tMap_3__Struct Var = Var__tMap_3;// ###############################
-						// ###############################
-						// # Output tables
-
-						copyOfevent_output_0 = null;
-
-						// # Output table : 'copyOfevent_output_0'
-						copyOfevent_output_0_tmp.log_time = row7.time;
-						copyOfevent_output_0_tmp.log_type_name = "DWH_STARTED";
-						copyOfevent_output_0_tmp.log_type = 9700;
-						copyOfevent_output_0_tmp.severity = 0;
-						copyOfevent_output_0_tmp.message = row7.message;
-						copyOfevent_output_0 = copyOfevent_output_0_tmp;
-						// ###############################
-
-					} // end of Var scope
-
-					rejectedInnerJoin_tMap_3 = false;
-
-					tos_count_tMap_3++;
-
-					/**
-					 * [tMap_3 main ] stop
-					 */
-					// Start of branch "copyOfevent_output_0"
-					if (copyOfevent_output_0 != null) {
-
-						/**
-						 * [tJDBCOutput_3 main ] start
-						 */
-
-						currentComponent = "tJDBCOutput_3";
-
-						whetherReject_tJDBCOutput_3 = false;
-						if (copyOfevent_output_0.log_time != null) {
-							pstmt_tJDBCOutput_3.setTimestamp(
-									1,
-									new java.sql.Timestamp(
-											copyOfevent_output_0.log_time
-													.getTime()));
-						} else {
-							pstmt_tJDBCOutput_3.setNull(1, java.sql.Types.DATE);
-						}
-
-						if (copyOfevent_output_0.log_type_name == null) {
-							pstmt_tJDBCOutput_3.setNull(2,
-									java.sql.Types.VARCHAR);
-						} else {
-							pstmt_tJDBCOutput_3.setString(2,
-									copyOfevent_output_0.log_type_name);
-						}
-
-						pstmt_tJDBCOutput_3.setInt(3,
-								copyOfevent_output_0.log_type);
-
-						pstmt_tJDBCOutput_3.setInt(4,
-								copyOfevent_output_0.severity);
-
-						if (copyOfevent_output_0.message == null) {
-							pstmt_tJDBCOutput_3.setNull(5,
-									java.sql.Types.VARCHAR);
-						} else {
-							pstmt_tJDBCOutput_3.setString(5,
-									copyOfevent_output_0.message);
-						}
-
-						try {
-							insertedCount_tJDBCOutput_3 = insertedCount_tJDBCOutput_3
-									+ pstmt_tJDBCOutput_3.executeUpdate();
-							nb_line_tJDBCOutput_3++;
-						} catch (java.lang.Exception e) {
-							whetherReject_tJDBCOutput_3 = true;
-							throw (e);
-						}
-
-						tos_count_tJDBCOutput_3++;
-
-						/**
-						 * [tJDBCOutput_3 main ] stop
-						 */
-
-					} // End of branch "copyOfevent_output_0"
-
-					/**
-					 * [tRowGenerator_6 end ] start
-					 */
-
-					currentComponent = "tRowGenerator_6";
-
-				}
-				globalMap.put("tRowGenerator_6_NB_LINE",
-						nb_line_tRowGenerator_6);
-
-				ok_Hash.put("tRowGenerator_6", true);
-				end_Hash.put("tRowGenerator_6", System.currentTimeMillis());
-
-				/**
-				 * [tRowGenerator_6 end ] stop
-				 */
-
-				/**
-				 * [tMap_3 end ] start
-				 */
-
-				currentComponent = "tMap_3";
-
-				// ###############################
-				// # Lookup hashes releasing
-				// ###############################
-
-				ok_Hash.put("tMap_3", true);
-				end_Hash.put("tMap_3", System.currentTimeMillis());
-
-				/**
-				 * [tMap_3 end ] stop
-				 */
-
-				/**
-				 * [tJDBCOutput_3 end ] start
-				 */
-
-				currentComponent = "tJDBCOutput_3";
-
-				if (pstmt_tJDBCOutput_3 != null) {
-
-					pstmt_tJDBCOutput_3.close();
-
-				}
-
-				nb_line_deleted_tJDBCOutput_3 = nb_line_deleted_tJDBCOutput_3
-						+ deletedCount_tJDBCOutput_3;
-				nb_line_update_tJDBCOutput_3 = nb_line_update_tJDBCOutput_3
-						+ updatedCount_tJDBCOutput_3;
-				nb_line_inserted_tJDBCOutput_3 = nb_line_inserted_tJDBCOutput_3
-						+ insertedCount_tJDBCOutput_3;
-				nb_line_rejected_tJDBCOutput_3 = nb_line_rejected_tJDBCOutput_3
-						+ rejectedCount_tJDBCOutput_3;
-
-				globalMap.put("tJDBCOutput_3_NB_LINE", nb_line_tJDBCOutput_3);
-				globalMap.put("tJDBCOutput_3_NB_LINE_UPDATED",
-						nb_line_update_tJDBCOutput_3);
-				globalMap.put("tJDBCOutput_3_NB_LINE_INSERTED",
-						nb_line_inserted_tJDBCOutput_3);
-				globalMap.put("tJDBCOutput_3_NB_LINE_DELETED",
-						nb_line_deleted_tJDBCOutput_3);
-				globalMap.put("tJDBCOutput_3_NB_LINE_REJECTED",
-						nb_line_rejected_tJDBCOutput_3);
-
-				ok_Hash.put("tJDBCOutput_3", true);
-				end_Hash.put("tJDBCOutput_3", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCOutput_3 end ] stop
-				 */
-
-			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tRowGenerator_6:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			tRowGenerator_7Process(globalMap);
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tRowGenerator_6 finally ] start
-				 */
-
-				currentComponent = "tRowGenerator_6";
-
-				/**
-				 * [tRowGenerator_6 finally ] stop
-				 */
-
-				/**
-				 * [tMap_3 finally ] start
-				 */
-
-				currentComponent = "tMap_3";
-
-				/**
-				 * [tMap_3 finally ] stop
-				 */
-
-				/**
-				 * [tJDBCOutput_3 finally ] start
-				 */
-
-				currentComponent = "tJDBCOutput_3";
-
-				/**
-				 * [tJDBCOutput_3 finally ] stop
-				 */
-
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tRowGenerator_6_SUBPROCESS_STATE", 1);
-	}
-
-	public static class row4Struct implements
-			routines.system.IPersistableRow<row4Struct> {
-		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
-		static byte[] commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
-		protected static final int DEFAULT_HASHCODE = 1;
-		protected static final int PRIME = 31;
-		protected int hashCode = DEFAULT_HASHCODE;
-		public boolean hashCodeDirty = true;
-
-		public String loopKey;
-
-		public String var_name;
-
-		public String getVar_name() {
-			return this.var_name;
-		}
-
-		public String var_value;
-
-		public String getVar_value() {
-			return this.var_value;
-		}
-
-		@Override
-		public int hashCode() {
-			if (this.hashCodeDirty) {
-				final int prime = PRIME;
-				int result = DEFAULT_HASHCODE;
-
-				result = prime
-						* result
-						+ ((this.var_name == null) ? 0 : this.var_name
-								.hashCode());
-
-				this.hashCode = result;
-				this.hashCodeDirty = false;
-			}
-			return this.hashCode;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			final row4Struct other = (row4Struct) obj;
-
-			if (this.var_name == null) {
-				if (other.var_name != null)
-					return false;
-
-			} else if (!this.var_name.equals(other.var_name))
-
-				return false;
-
-			return true;
-		}
-
-		public void copyDataTo(row4Struct other) {
-
-			other.var_name = this.var_name;
-			other.var_value = this.var_value;
-
-		}
-
-		public void copyKeysDataTo(row4Struct other) {
-
-			other.var_name = this.var_name;
-
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length) {
-					if (length < 1024
-							&& commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length == 0) {
-						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[1024];
-					} else {
-						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[2 * length];
-					}
-				}
-				dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0,
-						length);
-				strReturn = new String(
-						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0, length,
-						utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL) {
-
-				try {
-
-					int length = 0;
-
-					this.var_name = readString(dis);
-
-					this.var_value = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// String
-
-				writeString(this.var_name, dos);
-
-				// String
-
-				writeString(this.var_value, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("var_name=" + var_name);
-			sb.append(",var_value=" + var_value);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(row4Struct other) {
-
-			int returnValue = -1;
-
-			returnValue = checkNullsAndCompare(this.var_name, other.var_name);
-			if (returnValue != 0) {
-				return returnValue;
-			}
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(),
-						object2.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
-	public void tRowGenerator_7Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tRowGenerator_7_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		int iterateLoop = 0;
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				row4Struct row4 = new row4Struct();
-
-				/**
-				 * [tJDBCOutput_5 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCOutput_5", false);
-				start_Hash.put("tJDBCOutput_5", System.currentTimeMillis());
-
-				currentComponent = "tJDBCOutput_5";
-
-				int tos_count_tJDBCOutput_5 = 0;
-
-				int updateKeyCount_tJDBCOutput_5 = 1;
-				if (updateKeyCount_tJDBCOutput_5 < 1) {
-					throw new RuntimeException(
-							"For update, Schema must have a key");
-				}
-
-				int nb_line_tJDBCOutput_5 = 0;
-				int nb_line_update_tJDBCOutput_5 = 0;
-				int nb_line_inserted_tJDBCOutput_5 = 0;
-				int nb_line_deleted_tJDBCOutput_5 = 0;
-				int nb_line_rejected_tJDBCOutput_5 = 0;
-
-				int tmp_batchUpdateCount_tJDBCOutput_5 = 0;
-
-				int deletedCount_tJDBCOutput_5 = 0;
-				int updatedCount_tJDBCOutput_5 = 0;
-				int insertedCount_tJDBCOutput_5 = 0;
-				int rejectedCount_tJDBCOutput_5 = 0;
-
-				boolean whetherReject_tJDBCOutput_5 = false;
-
-				java.sql.Connection connection_tJDBCOutput_5 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_6");
-				int batchSize_tJDBCOutput_5 = 10000;
-				int batchSizeCounter_tJDBCOutput_5 = 0;
-
-				String update_tJDBCOutput_5 = "UPDATE "
-						+ "dwh_history_timekeeping"
-						+ " SET var_value = ? WHERE var_name = ?";
-				java.sql.PreparedStatement pstmtUpdate_tJDBCOutput_5 = connection_tJDBCOutput_5
-						.prepareStatement(update_tJDBCOutput_5);
-				String insert_tJDBCOutput_5 = "INSERT INTO "
-						+ "dwh_history_timekeeping"
-						+ " (var_name,var_value) VALUES (?,?)";
-				java.sql.PreparedStatement pstmtInsert_tJDBCOutput_5 = connection_tJDBCOutput_5
-						.prepareStatement(insert_tJDBCOutput_5);
-
-				/**
-				 * [tJDBCOutput_5 begin ] stop
-				 */
-
-				/**
-				 * [tRowGenerator_7 begin ] start
-				 */
-
-				ok_Hash.put("tRowGenerator_7", false);
-				start_Hash.put("tRowGenerator_7", System.currentTimeMillis());
-
-				currentComponent = "tRowGenerator_7";
-
-				int tos_count_tRowGenerator_7 = 0;
-
-				int nb_line_tRowGenerator_7 = 0;
-				int nb_max_row_tRowGenerator_7 = 1;
-
-				class tRowGenerator_7Randomizer {
-					public String getRandomvar_name() {
-
-						return "DwhCurrentlyRunning";
-
-					}
-
-					public String getRandomvar_value() {
-
-						return "1";
-
-					}
-				}
-				tRowGenerator_7Randomizer randtRowGenerator_7 = new tRowGenerator_7Randomizer();
-
-				for (int itRowGenerator_7 = 0; itRowGenerator_7 < nb_max_row_tRowGenerator_7; itRowGenerator_7++) {
-					row4.var_name = randtRowGenerator_7.getRandomvar_name();
-
-					row4.var_value = randtRowGenerator_7.getRandomvar_value();
-
-					nb_line_tRowGenerator_7++;
-
-					/**
-					 * [tRowGenerator_7 begin ] stop
-					 */
-					/**
-					 * [tRowGenerator_7 main ] start
-					 */
-
-					currentComponent = "tRowGenerator_7";
-
-					tos_count_tRowGenerator_7++;
-
-					/**
-					 * [tRowGenerator_7 main ] stop
-					 */
-
-					/**
-					 * [tJDBCOutput_5 main ] start
-					 */
-
-					currentComponent = "tJDBCOutput_5";
-
-					whetherReject_tJDBCOutput_5 = false;
-					int updateFlag_tJDBCOutput_5 = 0;
-					if (row4.var_value == null) {
-						pstmtUpdate_tJDBCOutput_5.setNull(1,
-								java.sql.Types.VARCHAR);
-					} else {
-						pstmtUpdate_tJDBCOutput_5.setString(1, row4.var_value);
-					}
-
-					if (row4.var_name == null) {
-						pstmtUpdate_tJDBCOutput_5.setNull(2,
-								java.sql.Types.VARCHAR);
-					} else {
-						pstmtUpdate_tJDBCOutput_5.setString(2, row4.var_name);
-					}
-
-					try {
-						updateFlag_tJDBCOutput_5 = pstmtUpdate_tJDBCOutput_5
-								.executeUpdate();
-						updatedCount_tJDBCOutput_5 = updatedCount_tJDBCOutput_5
-								+ updateFlag_tJDBCOutput_5;
-					} catch (java.lang.Exception e) {
-						whetherReject_tJDBCOutput_5 = true;
-						throw (e);
-					}
-					if (updateFlag_tJDBCOutput_5 == 0) {
-
-						if (row4.var_name == null) {
-							pstmtInsert_tJDBCOutput_5.setNull(1,
-									java.sql.Types.VARCHAR);
-						} else {
-							pstmtInsert_tJDBCOutput_5.setString(1,
-									row4.var_name);
-						}
-
-						if (row4.var_value == null) {
-							pstmtInsert_tJDBCOutput_5.setNull(2,
-									java.sql.Types.VARCHAR);
-						} else {
-							pstmtInsert_tJDBCOutput_5.setString(2,
-									row4.var_value);
-						}
-
-						try {
-							insertedCount_tJDBCOutput_5 = insertedCount_tJDBCOutput_5
-									+ pstmtInsert_tJDBCOutput_5.executeUpdate();
-						} catch (java.lang.Exception e) {
-							whetherReject_tJDBCOutput_5 = true;
-							throw (e);
-						}
-					}
-					nb_line_tJDBCOutput_5++;
-
-					tos_count_tJDBCOutput_5++;
-
-					/**
-					 * [tJDBCOutput_5 main ] stop
-					 */
-
-					/**
-					 * [tRowGenerator_7 end ] start
-					 */
-
-					currentComponent = "tRowGenerator_7";
-
-				}
-				globalMap.put("tRowGenerator_7_NB_LINE",
-						nb_line_tRowGenerator_7);
-
-				ok_Hash.put("tRowGenerator_7", true);
-				end_Hash.put("tRowGenerator_7", System.currentTimeMillis());
-
-				/**
-				 * [tRowGenerator_7 end ] stop
-				 */
-
-				/**
-				 * [tJDBCOutput_5 end ] start
-				 */
-
-				currentComponent = "tJDBCOutput_5";
-
-				if (pstmtUpdate_tJDBCOutput_5 != null) {
-
-					pstmtUpdate_tJDBCOutput_5.close();
-
-				}
-				if (pstmtInsert_tJDBCOutput_5 != null) {
-
-					pstmtInsert_tJDBCOutput_5.close();
-
-				}
-
-				nb_line_deleted_tJDBCOutput_5 = nb_line_deleted_tJDBCOutput_5
-						+ deletedCount_tJDBCOutput_5;
-				nb_line_update_tJDBCOutput_5 = nb_line_update_tJDBCOutput_5
-						+ updatedCount_tJDBCOutput_5;
-				nb_line_inserted_tJDBCOutput_5 = nb_line_inserted_tJDBCOutput_5
-						+ insertedCount_tJDBCOutput_5;
-				nb_line_rejected_tJDBCOutput_5 = nb_line_rejected_tJDBCOutput_5
-						+ rejectedCount_tJDBCOutput_5;
-
-				globalMap.put("tJDBCOutput_5_NB_LINE", nb_line_tJDBCOutput_5);
-				globalMap.put("tJDBCOutput_5_NB_LINE_UPDATED",
-						nb_line_update_tJDBCOutput_5);
-				globalMap.put("tJDBCOutput_5_NB_LINE_INSERTED",
-						nb_line_inserted_tJDBCOutput_5);
-				globalMap.put("tJDBCOutput_5_NB_LINE_DELETED",
-						nb_line_deleted_tJDBCOutput_5);
-				globalMap.put("tJDBCOutput_5_NB_LINE_REJECTED",
-						nb_line_rejected_tJDBCOutput_5);
-
-				ok_Hash.put("tJDBCOutput_5", true);
-				end_Hash.put("tJDBCOutput_5", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCOutput_5 end ] stop
-				 */
-
-			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tRowGenerator_7:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			tJDBCConnection_1Process(globalMap);
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tRowGenerator_7 finally ] start
-				 */
-
-				currentComponent = "tRowGenerator_7";
-
-				/**
-				 * [tRowGenerator_7 finally ] stop
-				 */
-
-				/**
-				 * [tJDBCOutput_5 finally ] start
-				 */
-
-				currentComponent = "tJDBCOutput_5";
-
-				/**
-				 * [tJDBCOutput_5 finally ] stop
-				 */
-
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tRowGenerator_7_SUBPROCESS_STATE", 1);
 	}
 
 	public void tRunJob_4Process(final java.util.Map<String, Object> globalMap)
@@ -5814,6 +4002,582 @@ public class HistoryETL implements TalendJob {
 		globalMap.put("tJDBCClose_1_SUBPROCESS_STATE", 1);
 	}
 
+	public void tPrejob_1Process(final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tPrejob_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tPrejob_1 begin ] start
+				 */
+
+				ok_Hash.put("tPrejob_1", false);
+				start_Hash.put("tPrejob_1", System.currentTimeMillis());
+
+				currentComponent = "tPrejob_1";
+
+				int tos_count_tPrejob_1 = 0;
+
+				/**
+				 * [tPrejob_1 begin ] stop
+				 */
+				/**
+				 * [tPrejob_1 main ] start
+				 */
+
+				currentComponent = "tPrejob_1";
+
+				tos_count_tPrejob_1++;
+
+				/**
+				 * [tPrejob_1 main ] stop
+				 */
+				/**
+				 * [tPrejob_1 end ] start
+				 */
+
+				currentComponent = "tPrejob_1";
+
+				ok_Hash.put("tPrejob_1", true);
+				end_Hash.put("tPrejob_1", System.currentTimeMillis());
+
+				tLibraryLoad_1Process(globalMap);
+
+				/**
+				 * [tPrejob_1 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tPrejob_1 finally ] start
+				 */
+
+				currentComponent = "tPrejob_1";
+
+				/**
+				 * [tPrejob_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tPrejob_1_SUBPROCESS_STATE", 1);
+	}
+
+	public void tLibraryLoad_1Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tLibraryLoad_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tLibraryLoad_1 begin ] start
+				 */
+
+				ok_Hash.put("tLibraryLoad_1", false);
+				start_Hash.put("tLibraryLoad_1", System.currentTimeMillis());
+
+				currentComponent = "tLibraryLoad_1";
+
+				int tos_count_tLibraryLoad_1 = 0;
+
+				/**
+				 * [tLibraryLoad_1 begin ] stop
+				 */
+				/**
+				 * [tLibraryLoad_1 main ] start
+				 */
+
+				currentComponent = "tLibraryLoad_1";
+
+				tos_count_tLibraryLoad_1++;
+
+				/**
+				 * [tLibraryLoad_1 main ] stop
+				 */
+				/**
+				 * [tLibraryLoad_1 end ] start
+				 */
+
+				currentComponent = "tLibraryLoad_1";
+
+				ok_Hash.put("tLibraryLoad_1", true);
+				end_Hash.put("tLibraryLoad_1", System.currentTimeMillis());
+
+				/**
+				 * [tLibraryLoad_1 end ] stop
+				 */
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tLibraryLoad_1:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tRowGenerator_2Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tLibraryLoad_1 finally ] start
+				 */
+
+				currentComponent = "tLibraryLoad_1";
+
+				/**
+				 * [tLibraryLoad_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tLibraryLoad_1_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row3Struct implements
+			routines.system.IPersistableRow<row3Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
+
+		public String time;
+
+		public String getTime() {
+			return this.time;
+		}
+
+		public String message;
+
+		public String getMessage() {
+			return this.message;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0,
+						length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0, length,
+						utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL) {
+
+				try {
+
+					int length = 0;
+
+					this.time = readString(dis);
+
+					this.message = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.time, dos);
+
+				// String
+
+				writeString(this.message, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("time=" + time);
+			sb.append(",message=" + message);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row3Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tRowGenerator_2Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tRowGenerator_2_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row3Struct row3 = new row3Struct();
+
+				/**
+				 * [tLogRow_2 begin ] start
+				 */
+
+				ok_Hash.put("tLogRow_2", false);
+				start_Hash.put("tLogRow_2", System.currentTimeMillis());
+
+				currentComponent = "tLogRow_2";
+
+				int tos_count_tLogRow_2 = 0;
+
+				// /////////////////////
+
+				final String OUTPUT_FIELD_SEPARATOR_tLogRow_2 = "|";
+				java.io.PrintStream consoleOut_tLogRow_2 = null;
+
+				StringBuilder strBuffer_tLogRow_2 = null;
+				int nb_line_tLogRow_2 = 0;
+				// /////////////////////
+
+				/**
+				 * [tLogRow_2 begin ] stop
+				 */
+
+				/**
+				 * [tRowGenerator_2 begin ] start
+				 */
+
+				ok_Hash.put("tRowGenerator_2", false);
+				start_Hash.put("tRowGenerator_2", System.currentTimeMillis());
+
+				currentComponent = "tRowGenerator_2";
+
+				int tos_count_tRowGenerator_2 = 0;
+
+				int nb_line_tRowGenerator_2 = 0;
+				int nb_max_row_tRowGenerator_2 = 1;
+
+				class tRowGenerator_2Randomizer {
+					public String getRandomtime() {
+
+						return TalendDate.getDate("CCYY-MM-DD hh:mm:ss");
+
+					}
+
+					public String getRandommessage() {
+
+						return "ETL Service Started";
+
+					}
+				}
+				tRowGenerator_2Randomizer randtRowGenerator_2 = new tRowGenerator_2Randomizer();
+
+				for (int itRowGenerator_2 = 0; itRowGenerator_2 < nb_max_row_tRowGenerator_2; itRowGenerator_2++) {
+					row3.time = randtRowGenerator_2.getRandomtime();
+
+					row3.message = randtRowGenerator_2.getRandommessage();
+
+					nb_line_tRowGenerator_2++;
+
+					/**
+					 * [tRowGenerator_2 begin ] stop
+					 */
+					/**
+					 * [tRowGenerator_2 main ] start
+					 */
+
+					currentComponent = "tRowGenerator_2";
+
+					tos_count_tRowGenerator_2++;
+
+					/**
+					 * [tRowGenerator_2 main ] stop
+					 */
+
+					/**
+					 * [tLogRow_2 main ] start
+					 */
+
+					currentComponent = "tLogRow_2";
+
+					// /////////////////////
+
+					strBuffer_tLogRow_2 = new StringBuilder();
+
+					if (row3.time != null) { //
+
+						strBuffer_tLogRow_2.append(String.valueOf(row3.time));
+
+					} //
+
+					strBuffer_tLogRow_2.append("|");
+
+					if (row3.message != null) { //
+
+						strBuffer_tLogRow_2
+								.append(String.valueOf(row3.message));
+
+					} //
+
+					if (globalMap.get("tLogRow_CONSOLE") != null) {
+						consoleOut_tLogRow_2 = (java.io.PrintStream) globalMap
+								.get("tLogRow_CONSOLE");
+					} else {
+						consoleOut_tLogRow_2 = new java.io.PrintStream(
+								new java.io.BufferedOutputStream(System.out));
+						globalMap.put("tLogRow_CONSOLE", consoleOut_tLogRow_2);
+					}
+
+					consoleOut_tLogRow_2
+							.println(strBuffer_tLogRow_2.toString());
+					consoleOut_tLogRow_2.flush();
+					nb_line_tLogRow_2++;
+					// ////
+
+					// ////
+
+					// /////////////////////
+
+					tos_count_tLogRow_2++;
+
+					/**
+					 * [tLogRow_2 main ] stop
+					 */
+
+					/**
+					 * [tRowGenerator_2 end ] start
+					 */
+
+					currentComponent = "tRowGenerator_2";
+
+				}
+				globalMap.put("tRowGenerator_2_NB_LINE",
+						nb_line_tRowGenerator_2);
+
+				ok_Hash.put("tRowGenerator_2", true);
+				end_Hash.put("tRowGenerator_2", System.currentTimeMillis());
+
+				/**
+				 * [tRowGenerator_2 end ] stop
+				 */
+
+				/**
+				 * [tLogRow_2 end ] start
+				 */
+
+				currentComponent = "tLogRow_2";
+
+				// ////
+				// ////
+				globalMap.put("tLogRow_2_NB_LINE", nb_line_tLogRow_2);
+
+				// /////////////////////
+
+				ok_Hash.put("tLogRow_2", true);
+				end_Hash.put("tLogRow_2", System.currentTimeMillis());
+
+				/**
+				 * [tLogRow_2 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tRowGenerator_2:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tFileInputProperties_1Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tRowGenerator_2 finally ] start
+				 */
+
+				currentComponent = "tRowGenerator_2";
+
+				/**
+				 * [tRowGenerator_2 finally ] stop
+				 */
+
+				/**
+				 * [tLogRow_2 finally ] start
+				 */
+
+				currentComponent = "tLogRow_2";
+
+				/**
+				 * [tLogRow_2 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tRowGenerator_2_SUBPROCESS_STATE", 1);
+	}
+
 	public static class row1Struct implements
 			routines.system.IPersistableRow<row1Struct> {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
@@ -6485,105 +5249,10 @@ public class HistoryETL implements TalendJob {
 		globalMap.put("tJDBCConnection_6_SUBPROCESS_STATE", 1);
 	}
 
-	public void tPrejob_1Process(final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tPrejob_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		int iterateLoop = 0;
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tPrejob_1 begin ] start
-				 */
-
-				ok_Hash.put("tPrejob_1", false);
-				start_Hash.put("tPrejob_1", System.currentTimeMillis());
-
-				currentComponent = "tPrejob_1";
-
-				int tos_count_tPrejob_1 = 0;
-
-				/**
-				 * [tPrejob_1 begin ] stop
-				 */
-				/**
-				 * [tPrejob_1 main ] start
-				 */
-
-				currentComponent = "tPrejob_1";
-
-				tos_count_tPrejob_1++;
-
-				/**
-				 * [tPrejob_1 main ] stop
-				 */
-				/**
-				 * [tPrejob_1 end ] start
-				 */
-
-				currentComponent = "tPrejob_1";
-
-				ok_Hash.put("tPrejob_1", true);
-				end_Hash.put("tPrejob_1", System.currentTimeMillis());
-
-				tLibraryLoad_1Process(globalMap);
-
-				/**
-				 * [tPrejob_1 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tPrejob_1 finally ] start
-				 */
-
-				currentComponent = "tPrejob_1";
-
-				/**
-				 * [tPrejob_1 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tPrejob_1_SUBPROCESS_STATE", 1);
-	}
-
-	public void tLibraryLoad_1Process(
+	public void tJDBCConnection_2Process(
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		globalMap.put("tLibraryLoad_1_SUBPROCESS_STATE", 0);
+		globalMap.put("tJDBCConnection_2_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -6603,53 +5272,70 @@ public class HistoryETL implements TalendJob {
 				globalResumeTicket = true;
 
 				/**
-				 * [tLibraryLoad_1 begin ] start
+				 * [tJDBCConnection_2 begin ] start
 				 */
 
-				ok_Hash.put("tLibraryLoad_1", false);
-				start_Hash.put("tLibraryLoad_1", System.currentTimeMillis());
+				ok_Hash.put("tJDBCConnection_2", false);
+				start_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
 
-				currentComponent = "tLibraryLoad_1";
+				currentComponent = "tJDBCConnection_2";
 
-				int tos_count_tLibraryLoad_1 = 0;
+				int tos_count_tJDBCConnection_2 = 0;
+
+				String url_tJDBCConnection_2 = context.ovirtEngineDbJdbcConnection;
+
+				String userName_tJDBCConnection_2 = context.ovirtEngineDbUser;
+				String password_tJDBCConnection_2 = context.ovirtEngineDbPassword;
+
+				java.sql.Connection conn_tJDBCConnection_2 = null;
+
+				String sharedConnectionName_tJDBCConnection_2 = "engine";
+				conn_tJDBCConnection_2 = SharedDBConnection.getDBConnection(
+						context.ovirtEngineDbDriverClass,
+						url_tJDBCConnection_2, userName_tJDBCConnection_2,
+						password_tJDBCConnection_2,
+						sharedConnectionName_tJDBCConnection_2);
+				if (null != conn_tJDBCConnection_2) {
+
+					conn_tJDBCConnection_2.setAutoCommit(false);
+				}
+
+				globalMap.put("conn_tJDBCConnection_2", conn_tJDBCConnection_2);
+				globalMap.put("url_tJDBCConnection_2", url_tJDBCConnection_2);
+				// globalMap.put("user_tJDBCConnection_2",
+				// userName_tJDBCConnection_2);
+				// globalMap.put("pass_tJDBCConnection_2",
+				// password_tJDBCConnection_2);
 
 				/**
-				 * [tLibraryLoad_1 begin ] stop
+				 * [tJDBCConnection_2 begin ] stop
 				 */
 				/**
-				 * [tLibraryLoad_1 main ] start
+				 * [tJDBCConnection_2 main ] start
 				 */
 
-				currentComponent = "tLibraryLoad_1";
+				currentComponent = "tJDBCConnection_2";
 
-				tos_count_tLibraryLoad_1++;
+				tos_count_tJDBCConnection_2++;
 
 				/**
-				 * [tLibraryLoad_1 main ] stop
+				 * [tJDBCConnection_2 main ] stop
 				 */
 				/**
-				 * [tLibraryLoad_1 end ] start
+				 * [tJDBCConnection_2 end ] start
 				 */
 
-				currentComponent = "tLibraryLoad_1";
+				currentComponent = "tJDBCConnection_2";
 
-				ok_Hash.put("tLibraryLoad_1", true);
-				end_Hash.put("tLibraryLoad_1", System.currentTimeMillis());
+				ok_Hash.put("tJDBCConnection_2", true);
+				end_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
+
+				tRowGenerator_6Process(globalMap);
 
 				/**
-				 * [tLibraryLoad_1 end ] stop
+				 * [tJDBCConnection_2 end ] stop
 				 */
 			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tLibraryLoad_1:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			tRowGenerator_2Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -6665,13 +5351,13 @@ public class HistoryETL implements TalendJob {
 			try {
 
 				/**
-				 * [tLibraryLoad_1 finally ] start
+				 * [tJDBCConnection_2 finally ] start
 				 */
 
-				currentComponent = "tLibraryLoad_1";
+				currentComponent = "tJDBCConnection_2";
 
 				/**
-				 * [tLibraryLoad_1 finally ] stop
+				 * [tJDBCConnection_2 finally ] stop
 				 */
 			} catch (java.lang.Exception e) {
 				// ignore
@@ -6681,24 +5367,65 @@ public class HistoryETL implements TalendJob {
 			resourceMap = null;
 		}
 
-		globalMap.put("tLibraryLoad_1_SUBPROCESS_STATE", 1);
+		globalMap.put("tJDBCConnection_2_SUBPROCESS_STATE", 1);
 	}
 
-	public static class row3Struct implements
-			routines.system.IPersistableRow<row3Struct> {
+	public static class copyOfevent_output_0Struct implements
+			routines.system.IPersistableRow<copyOfevent_output_0Struct> {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
 
-		public String time;
+		public java.util.Date log_time;
 
-		public String getTime() {
-			return this.time;
+		public java.util.Date getLog_time() {
+			return this.log_time;
+		}
+
+		public String log_type_name;
+
+		public String getLog_type_name() {
+			return this.log_type_name;
+		}
+
+		public int log_type;
+
+		public int getLog_type() {
+			return this.log_type;
+		}
+
+		public int severity;
+
+		public int getSeverity() {
+			return this.severity;
 		}
 
 		public String message;
 
 		public String getMessage() {
 			return this.message;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
 		}
 
 		private String readString(ObjectInputStream dis) throws IOException {
@@ -6744,7 +5471,13 @@ public class HistoryETL implements TalendJob {
 
 					int length = 0;
 
-					this.time = readString(dis);
+					this.log_time = readDate(dis);
+
+					this.log_type_name = readString(dis);
+
+					this.log_type = dis.readInt();
+
+					this.severity = dis.readInt();
 
 					this.message = readString(dis);
 
@@ -6760,9 +5493,21 @@ public class HistoryETL implements TalendJob {
 		public void writeData(ObjectOutputStream dos) {
 			try {
 
+				// java.util.Date
+
+				writeDate(this.log_time, dos);
+
 				// String
 
-				writeString(this.time, dos);
+				writeString(this.log_type_name, dos);
+
+				// int
+
+				dos.writeInt(this.log_type);
+
+				// int
+
+				dos.writeInt(this.severity);
 
 				// String
 
@@ -6779,7 +5524,10 @@ public class HistoryETL implements TalendJob {
 			StringBuilder sb = new StringBuilder();
 			sb.append(super.toString());
 			sb.append("[");
-			sb.append("time=" + time);
+			sb.append("log_time=" + String.valueOf(log_time));
+			sb.append(",log_type_name=" + log_type_name);
+			sb.append(",log_type=" + String.valueOf(log_type));
+			sb.append(",severity=" + String.valueOf(severity));
 			sb.append(",message=" + message);
 			sb.append("]");
 
@@ -6789,7 +5537,7 @@ public class HistoryETL implements TalendJob {
 		/**
 		 * Compare keys
 		 */
-		public int compareTo(row3Struct other) {
+		public int compareTo(copyOfevent_output_0Struct other) {
 
 			int returnValue = -1;
 
@@ -6820,10 +5568,169 @@ public class HistoryETL implements TalendJob {
 
 	}
 
-	public void tRowGenerator_2Process(
+	public static class row7Struct implements
+			routines.system.IPersistableRow<row7Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
+
+		public java.util.Date time;
+
+		public java.util.Date getTime() {
+			return this.time;
+		}
+
+		public String message;
+
+		public String getMessage() {
+			return this.message;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0,
+						length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0, length,
+						utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL) {
+
+				try {
+
+					int length = 0;
+
+					this.time = readDate(dis);
+
+					this.message = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.time, dos);
+
+				// String
+
+				writeString(this.message, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("time=" + String.valueOf(time));
+			sb.append(",message=" + message);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row7Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tRowGenerator_6Process(
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		globalMap.put("tRowGenerator_2_SUBPROCESS_STATE", 0);
+		globalMap.put("tRowGenerator_6_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -6842,50 +5749,99 @@ public class HistoryETL implements TalendJob {
 																					// resume
 				globalResumeTicket = true;
 
-				row3Struct row3 = new row3Struct();
+				row7Struct row7 = new row7Struct();
+				copyOfevent_output_0Struct copyOfevent_output_0 = new copyOfevent_output_0Struct();
 
 				/**
-				 * [tLogRow_2 begin ] start
+				 * [tJDBCOutput_3 begin ] start
 				 */
 
-				ok_Hash.put("tLogRow_2", false);
-				start_Hash.put("tLogRow_2", System.currentTimeMillis());
+				ok_Hash.put("tJDBCOutput_3", false);
+				start_Hash.put("tJDBCOutput_3", System.currentTimeMillis());
 
-				currentComponent = "tLogRow_2";
+				currentComponent = "tJDBCOutput_3";
 
-				int tos_count_tLogRow_2 = 0;
+				int tos_count_tJDBCOutput_3 = 0;
 
-				// /////////////////////
+				int nb_line_tJDBCOutput_3 = 0;
+				int nb_line_update_tJDBCOutput_3 = 0;
+				int nb_line_inserted_tJDBCOutput_3 = 0;
+				int nb_line_deleted_tJDBCOutput_3 = 0;
+				int nb_line_rejected_tJDBCOutput_3 = 0;
 
-				final String OUTPUT_FIELD_SEPARATOR_tLogRow_2 = "|";
-				java.io.PrintStream consoleOut_tLogRow_2 = null;
+				int tmp_batchUpdateCount_tJDBCOutput_3 = 0;
 
-				StringBuilder strBuffer_tLogRow_2 = null;
-				int nb_line_tLogRow_2 = 0;
-				// /////////////////////
+				int deletedCount_tJDBCOutput_3 = 0;
+				int updatedCount_tJDBCOutput_3 = 0;
+				int insertedCount_tJDBCOutput_3 = 0;
+				int rejectedCount_tJDBCOutput_3 = 0;
+
+				boolean whetherReject_tJDBCOutput_3 = false;
+
+				java.sql.Connection connection_tJDBCOutput_3 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_6");
+				int batchSize_tJDBCOutput_3 = 10000;
+				int batchSizeCounter_tJDBCOutput_3 = 0;
+
+				String insert_tJDBCOutput_3 = "INSERT INTO "
+						+ "audit_log"
+						+ " (log_time,log_type_name,log_type,severity,message) VALUES (?,?,?,?,?)";
+				java.sql.PreparedStatement pstmt_tJDBCOutput_3 = connection_tJDBCOutput_3
+						.prepareStatement(insert_tJDBCOutput_3);
 
 				/**
-				 * [tLogRow_2 begin ] stop
+				 * [tJDBCOutput_3 begin ] stop
 				 */
 
 				/**
-				 * [tRowGenerator_2 begin ] start
+				 * [tMap_3 begin ] start
 				 */
 
-				ok_Hash.put("tRowGenerator_2", false);
-				start_Hash.put("tRowGenerator_2", System.currentTimeMillis());
+				ok_Hash.put("tMap_3", false);
+				start_Hash.put("tMap_3", System.currentTimeMillis());
 
-				currentComponent = "tRowGenerator_2";
+				currentComponent = "tMap_3";
 
-				int tos_count_tRowGenerator_2 = 0;
+				int tos_count_tMap_3 = 0;
 
-				int nb_line_tRowGenerator_2 = 0;
-				int nb_max_row_tRowGenerator_2 = 1;
+				// ###############################
+				// # Lookup's keys initialization
+				// ###############################
 
-				class tRowGenerator_2Randomizer {
-					public String getRandomtime() {
+				// ###############################
+				// # Vars initialization
+				class Var__tMap_3__Struct {
+				}
+				Var__tMap_3__Struct Var__tMap_3 = new Var__tMap_3__Struct();
+				// ###############################
 
-						return TalendDate.getDate("CCYY-MM-DD hh:mm:ss");
+				// ###############################
+				// # Outputs initialization
+				copyOfevent_output_0Struct copyOfevent_output_0_tmp = new copyOfevent_output_0Struct();
+				// ###############################
+
+				/**
+				 * [tMap_3 begin ] stop
+				 */
+
+				/**
+				 * [tRowGenerator_6 begin ] start
+				 */
+
+				ok_Hash.put("tRowGenerator_6", false);
+				start_Hash.put("tRowGenerator_6", System.currentTimeMillis());
+
+				currentComponent = "tRowGenerator_6";
+
+				int tos_count_tRowGenerator_6 = 0;
+
+				int nb_line_tRowGenerator_6 = 0;
+				int nb_max_row_tRowGenerator_6 = 1;
+
+				class tRowGenerator_6Randomizer {
+					public java.util.Date getRandomtime() {
+
+						return TalendDate.getCurrentDate();
 
 					}
 
@@ -6895,114 +5851,202 @@ public class HistoryETL implements TalendJob {
 
 					}
 				}
-				tRowGenerator_2Randomizer randtRowGenerator_2 = new tRowGenerator_2Randomizer();
+				tRowGenerator_6Randomizer randtRowGenerator_6 = new tRowGenerator_6Randomizer();
 
-				for (int itRowGenerator_2 = 0; itRowGenerator_2 < nb_max_row_tRowGenerator_2; itRowGenerator_2++) {
-					row3.time = randtRowGenerator_2.getRandomtime();
+				for (int itRowGenerator_6 = 0; itRowGenerator_6 < nb_max_row_tRowGenerator_6; itRowGenerator_6++) {
+					row7.time = randtRowGenerator_6.getRandomtime();
 
-					row3.message = randtRowGenerator_2.getRandommessage();
+					row7.message = randtRowGenerator_6.getRandommessage();
 
-					nb_line_tRowGenerator_2++;
+					nb_line_tRowGenerator_6++;
 
 					/**
-					 * [tRowGenerator_2 begin ] stop
+					 * [tRowGenerator_6 begin ] stop
 					 */
 					/**
-					 * [tRowGenerator_2 main ] start
+					 * [tRowGenerator_6 main ] start
 					 */
 
-					currentComponent = "tRowGenerator_2";
+					currentComponent = "tRowGenerator_6";
 
-					tos_count_tRowGenerator_2++;
-
-					/**
-					 * [tRowGenerator_2 main ] stop
-					 */
+					tos_count_tRowGenerator_6++;
 
 					/**
-					 * [tLogRow_2 main ] start
-					 */
-
-					currentComponent = "tLogRow_2";
-
-					// /////////////////////
-
-					strBuffer_tLogRow_2 = new StringBuilder();
-
-					if (row3.time != null) { //
-
-						strBuffer_tLogRow_2.append(String.valueOf(row3.time));
-
-					} //
-
-					strBuffer_tLogRow_2.append("|");
-
-					if (row3.message != null) { //
-
-						strBuffer_tLogRow_2
-								.append(String.valueOf(row3.message));
-
-					} //
-
-					if (globalMap.get("tLogRow_CONSOLE") != null) {
-						consoleOut_tLogRow_2 = (java.io.PrintStream) globalMap
-								.get("tLogRow_CONSOLE");
-					} else {
-						consoleOut_tLogRow_2 = new java.io.PrintStream(
-								new java.io.BufferedOutputStream(System.out));
-						globalMap.put("tLogRow_CONSOLE", consoleOut_tLogRow_2);
-					}
-
-					consoleOut_tLogRow_2
-							.println(strBuffer_tLogRow_2.toString());
-					consoleOut_tLogRow_2.flush();
-					nb_line_tLogRow_2++;
-					// ////
-
-					// ////
-
-					// /////////////////////
-
-					tos_count_tLogRow_2++;
-
-					/**
-					 * [tLogRow_2 main ] stop
+					 * [tRowGenerator_6 main ] stop
 					 */
 
 					/**
-					 * [tRowGenerator_2 end ] start
+					 * [tMap_3 main ] start
 					 */
 
-					currentComponent = "tRowGenerator_2";
+					currentComponent = "tMap_3";
+
+					boolean hasCasePrimitiveKeyWithNull_tMap_3 = false;
+
+					// ###############################
+					// # Input tables (lookups)
+					boolean rejectedInnerJoin_tMap_3 = false;
+					boolean mainRowRejected_tMap_3 = false;
+
+					// ###############################
+					{ // start of Var scope
+
+						// ###############################
+						// # Vars tables
+
+						Var__tMap_3__Struct Var = Var__tMap_3;// ###############################
+						// ###############################
+						// # Output tables
+
+						copyOfevent_output_0 = null;
+
+						// # Output table : 'copyOfevent_output_0'
+						copyOfevent_output_0_tmp.log_time = row7.time;
+						copyOfevent_output_0_tmp.log_type_name = "DWH_STARTED";
+						copyOfevent_output_0_tmp.log_type = 9700;
+						copyOfevent_output_0_tmp.severity = 0;
+						copyOfevent_output_0_tmp.message = row7.message;
+						copyOfevent_output_0 = copyOfevent_output_0_tmp;
+						// ###############################
+
+					} // end of Var scope
+
+					rejectedInnerJoin_tMap_3 = false;
+
+					tos_count_tMap_3++;
+
+					/**
+					 * [tMap_3 main ] stop
+					 */
+					// Start of branch "copyOfevent_output_0"
+					if (copyOfevent_output_0 != null) {
+
+						/**
+						 * [tJDBCOutput_3 main ] start
+						 */
+
+						currentComponent = "tJDBCOutput_3";
+
+						whetherReject_tJDBCOutput_3 = false;
+						if (copyOfevent_output_0.log_time != null) {
+							pstmt_tJDBCOutput_3.setTimestamp(
+									1,
+									new java.sql.Timestamp(
+											copyOfevent_output_0.log_time
+													.getTime()));
+						} else {
+							pstmt_tJDBCOutput_3.setNull(1, java.sql.Types.DATE);
+						}
+
+						if (copyOfevent_output_0.log_type_name == null) {
+							pstmt_tJDBCOutput_3.setNull(2,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmt_tJDBCOutput_3.setString(2,
+									copyOfevent_output_0.log_type_name);
+						}
+
+						pstmt_tJDBCOutput_3.setInt(3,
+								copyOfevent_output_0.log_type);
+
+						pstmt_tJDBCOutput_3.setInt(4,
+								copyOfevent_output_0.severity);
+
+						if (copyOfevent_output_0.message == null) {
+							pstmt_tJDBCOutput_3.setNull(5,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmt_tJDBCOutput_3.setString(5,
+									copyOfevent_output_0.message);
+						}
+
+						try {
+							insertedCount_tJDBCOutput_3 = insertedCount_tJDBCOutput_3
+									+ pstmt_tJDBCOutput_3.executeUpdate();
+							nb_line_tJDBCOutput_3++;
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_3 = true;
+							throw (e);
+						}
+
+						tos_count_tJDBCOutput_3++;
+
+						/**
+						 * [tJDBCOutput_3 main ] stop
+						 */
+
+					} // End of branch "copyOfevent_output_0"
+
+					/**
+					 * [tRowGenerator_6 end ] start
+					 */
+
+					currentComponent = "tRowGenerator_6";
 
 				}
-				globalMap.put("tRowGenerator_2_NB_LINE",
-						nb_line_tRowGenerator_2);
+				globalMap.put("tRowGenerator_6_NB_LINE",
+						nb_line_tRowGenerator_6);
 
-				ok_Hash.put("tRowGenerator_2", true);
-				end_Hash.put("tRowGenerator_2", System.currentTimeMillis());
+				ok_Hash.put("tRowGenerator_6", true);
+				end_Hash.put("tRowGenerator_6", System.currentTimeMillis());
 
 				/**
-				 * [tRowGenerator_2 end ] stop
+				 * [tRowGenerator_6 end ] stop
 				 */
 
 				/**
-				 * [tLogRow_2 end ] start
+				 * [tMap_3 end ] start
 				 */
 
-				currentComponent = "tLogRow_2";
+				currentComponent = "tMap_3";
 
-				// ////
-				// ////
-				globalMap.put("tLogRow_2_NB_LINE", nb_line_tLogRow_2);
+				// ###############################
+				// # Lookup hashes releasing
+				// ###############################
 
-				// /////////////////////
-
-				ok_Hash.put("tLogRow_2", true);
-				end_Hash.put("tLogRow_2", System.currentTimeMillis());
+				ok_Hash.put("tMap_3", true);
+				end_Hash.put("tMap_3", System.currentTimeMillis());
 
 				/**
-				 * [tLogRow_2 end ] stop
+				 * [tMap_3 end ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_3 end ] start
+				 */
+
+				currentComponent = "tJDBCOutput_3";
+
+				if (pstmt_tJDBCOutput_3 != null) {
+
+					pstmt_tJDBCOutput_3.close();
+
+				}
+
+				nb_line_deleted_tJDBCOutput_3 = nb_line_deleted_tJDBCOutput_3
+						+ deletedCount_tJDBCOutput_3;
+				nb_line_update_tJDBCOutput_3 = nb_line_update_tJDBCOutput_3
+						+ updatedCount_tJDBCOutput_3;
+				nb_line_inserted_tJDBCOutput_3 = nb_line_inserted_tJDBCOutput_3
+						+ insertedCount_tJDBCOutput_3;
+				nb_line_rejected_tJDBCOutput_3 = nb_line_rejected_tJDBCOutput_3
+						+ rejectedCount_tJDBCOutput_3;
+
+				globalMap.put("tJDBCOutput_3_NB_LINE", nb_line_tJDBCOutput_3);
+				globalMap.put("tJDBCOutput_3_NB_LINE_UPDATED",
+						nb_line_update_tJDBCOutput_3);
+				globalMap.put("tJDBCOutput_3_NB_LINE_INSERTED",
+						nb_line_inserted_tJDBCOutput_3);
+				globalMap.put("tJDBCOutput_3_NB_LINE_DELETED",
+						nb_line_deleted_tJDBCOutput_3);
+				globalMap.put("tJDBCOutput_3_NB_LINE_REJECTED",
+						nb_line_rejected_tJDBCOutput_3);
+
+				ok_Hash.put("tJDBCOutput_3", true);
+				end_Hash.put("tJDBCOutput_3", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCOutput_3 end ] stop
 				 */
 
 			}// end the resume
@@ -7010,12 +6054,12 @@ public class HistoryETL implements TalendJob {
 			if (resumeEntryMethodName == null || globalResumeTicket) {
 				resumeUtil
 						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tRowGenerator_2:OnSubjobOk",
+								"CONNECTION:SUBJOB_OK:tRowGenerator_6:OnSubjobOk",
 								"", Thread.currentThread().getId() + "", "",
 								"", "", "", "");
 			}
 
-			tFileInputProperties_1Process(globalMap);
+			tRowGenerator_7Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -7031,23 +6075,33 @@ public class HistoryETL implements TalendJob {
 			try {
 
 				/**
-				 * [tRowGenerator_2 finally ] start
+				 * [tRowGenerator_6 finally ] start
 				 */
 
-				currentComponent = "tRowGenerator_2";
+				currentComponent = "tRowGenerator_6";
 
 				/**
-				 * [tRowGenerator_2 finally ] stop
+				 * [tRowGenerator_6 finally ] stop
 				 */
 
 				/**
-				 * [tLogRow_2 finally ] start
+				 * [tMap_3 finally ] start
 				 */
 
-				currentComponent = "tLogRow_2";
+				currentComponent = "tMap_3";
 
 				/**
-				 * [tLogRow_2 finally ] stop
+				 * [tMap_3 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_3 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_3";
+
+				/**
+				 * [tJDBCOutput_3 finally ] stop
 				 */
 
 			} catch (java.lang.Exception e) {
@@ -7058,7 +6112,1215 @@ public class HistoryETL implements TalendJob {
 			resourceMap = null;
 		}
 
-		globalMap.put("tRowGenerator_2_SUBPROCESS_STATE", 1);
+		globalMap.put("tRowGenerator_6_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row4Struct implements
+			routines.system.IPersistableRow<row4Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
+		protected static final int DEFAULT_HASHCODE = 1;
+		protected static final int PRIME = 31;
+		protected int hashCode = DEFAULT_HASHCODE;
+		public boolean hashCodeDirty = true;
+
+		public String loopKey;
+
+		public String var_name;
+
+		public String getVar_name() {
+			return this.var_name;
+		}
+
+		public String var_value;
+
+		public String getVar_value() {
+			return this.var_value;
+		}
+
+		@Override
+		public int hashCode() {
+			if (this.hashCodeDirty) {
+				final int prime = PRIME;
+				int result = DEFAULT_HASHCODE;
+
+				result = prime
+						* result
+						+ ((this.var_name == null) ? 0 : this.var_name
+								.hashCode());
+
+				this.hashCode = result;
+				this.hashCodeDirty = false;
+			}
+			return this.hashCode;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			final row4Struct other = (row4Struct) obj;
+
+			if (this.var_name == null) {
+				if (other.var_name != null)
+					return false;
+
+			} else if (!this.var_name.equals(other.var_name))
+
+				return false;
+
+			return true;
+		}
+
+		public void copyDataTo(row4Struct other) {
+
+			other.var_name = this.var_name;
+			other.var_value = this.var_value;
+
+		}
+
+		public void copyKeysDataTo(row4Struct other) {
+
+			other.var_name = this.var_name;
+
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0,
+						length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0, length,
+						utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL) {
+
+				try {
+
+					int length = 0;
+
+					this.var_name = readString(dis);
+
+					this.var_value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.var_name, dos);
+
+				// String
+
+				writeString(this.var_value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("var_name=" + var_name);
+			sb.append(",var_value=" + var_value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row4Struct other) {
+
+			int returnValue = -1;
+
+			returnValue = checkNullsAndCompare(this.var_name, other.var_name);
+			if (returnValue != 0) {
+				return returnValue;
+			}
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tRowGenerator_7Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tRowGenerator_7_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row4Struct row4 = new row4Struct();
+
+				/**
+				 * [tJDBCOutput_5 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCOutput_5", false);
+				start_Hash.put("tJDBCOutput_5", System.currentTimeMillis());
+
+				currentComponent = "tJDBCOutput_5";
+
+				int tos_count_tJDBCOutput_5 = 0;
+
+				int updateKeyCount_tJDBCOutput_5 = 1;
+				if (updateKeyCount_tJDBCOutput_5 < 1) {
+					throw new RuntimeException(
+							"For update, Schema must have a key");
+				}
+
+				int nb_line_tJDBCOutput_5 = 0;
+				int nb_line_update_tJDBCOutput_5 = 0;
+				int nb_line_inserted_tJDBCOutput_5 = 0;
+				int nb_line_deleted_tJDBCOutput_5 = 0;
+				int nb_line_rejected_tJDBCOutput_5 = 0;
+
+				int tmp_batchUpdateCount_tJDBCOutput_5 = 0;
+
+				int deletedCount_tJDBCOutput_5 = 0;
+				int updatedCount_tJDBCOutput_5 = 0;
+				int insertedCount_tJDBCOutput_5 = 0;
+				int rejectedCount_tJDBCOutput_5 = 0;
+
+				boolean whetherReject_tJDBCOutput_5 = false;
+
+				java.sql.Connection connection_tJDBCOutput_5 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_6");
+				int batchSize_tJDBCOutput_5 = 10000;
+				int batchSizeCounter_tJDBCOutput_5 = 0;
+
+				String update_tJDBCOutput_5 = "UPDATE "
+						+ "dwh_history_timekeeping"
+						+ " SET var_value = ? WHERE var_name = ?";
+				java.sql.PreparedStatement pstmtUpdate_tJDBCOutput_5 = connection_tJDBCOutput_5
+						.prepareStatement(update_tJDBCOutput_5);
+				String insert_tJDBCOutput_5 = "INSERT INTO "
+						+ "dwh_history_timekeeping"
+						+ " (var_name,var_value) VALUES (?,?)";
+				java.sql.PreparedStatement pstmtInsert_tJDBCOutput_5 = connection_tJDBCOutput_5
+						.prepareStatement(insert_tJDBCOutput_5);
+
+				/**
+				 * [tJDBCOutput_5 begin ] stop
+				 */
+
+				/**
+				 * [tRowGenerator_7 begin ] start
+				 */
+
+				ok_Hash.put("tRowGenerator_7", false);
+				start_Hash.put("tRowGenerator_7", System.currentTimeMillis());
+
+				currentComponent = "tRowGenerator_7";
+
+				int tos_count_tRowGenerator_7 = 0;
+
+				int nb_line_tRowGenerator_7 = 0;
+				int nb_max_row_tRowGenerator_7 = 1;
+
+				class tRowGenerator_7Randomizer {
+					public String getRandomvar_name() {
+
+						return "DwhCurrentlyRunning";
+
+					}
+
+					public String getRandomvar_value() {
+
+						return "1";
+
+					}
+				}
+				tRowGenerator_7Randomizer randtRowGenerator_7 = new tRowGenerator_7Randomizer();
+
+				for (int itRowGenerator_7 = 0; itRowGenerator_7 < nb_max_row_tRowGenerator_7; itRowGenerator_7++) {
+					row4.var_name = randtRowGenerator_7.getRandomvar_name();
+
+					row4.var_value = randtRowGenerator_7.getRandomvar_value();
+
+					nb_line_tRowGenerator_7++;
+
+					/**
+					 * [tRowGenerator_7 begin ] stop
+					 */
+					/**
+					 * [tRowGenerator_7 main ] start
+					 */
+
+					currentComponent = "tRowGenerator_7";
+
+					tos_count_tRowGenerator_7++;
+
+					/**
+					 * [tRowGenerator_7 main ] stop
+					 */
+
+					/**
+					 * [tJDBCOutput_5 main ] start
+					 */
+
+					currentComponent = "tJDBCOutput_5";
+
+					whetherReject_tJDBCOutput_5 = false;
+					int updateFlag_tJDBCOutput_5 = 0;
+					if (row4.var_value == null) {
+						pstmtUpdate_tJDBCOutput_5.setNull(1,
+								java.sql.Types.VARCHAR);
+					} else {
+						pstmtUpdate_tJDBCOutput_5.setString(1, row4.var_value);
+					}
+
+					if (row4.var_name == null) {
+						pstmtUpdate_tJDBCOutput_5.setNull(2,
+								java.sql.Types.VARCHAR);
+					} else {
+						pstmtUpdate_tJDBCOutput_5.setString(2, row4.var_name);
+					}
+
+					try {
+						updateFlag_tJDBCOutput_5 = pstmtUpdate_tJDBCOutput_5
+								.executeUpdate();
+						updatedCount_tJDBCOutput_5 = updatedCount_tJDBCOutput_5
+								+ updateFlag_tJDBCOutput_5;
+					} catch (java.lang.Exception e) {
+						whetherReject_tJDBCOutput_5 = true;
+						throw (e);
+					}
+					if (updateFlag_tJDBCOutput_5 == 0) {
+
+						if (row4.var_name == null) {
+							pstmtInsert_tJDBCOutput_5.setNull(1,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmtInsert_tJDBCOutput_5.setString(1,
+									row4.var_name);
+						}
+
+						if (row4.var_value == null) {
+							pstmtInsert_tJDBCOutput_5.setNull(2,
+									java.sql.Types.VARCHAR);
+						} else {
+							pstmtInsert_tJDBCOutput_5.setString(2,
+									row4.var_value);
+						}
+
+						try {
+							insertedCount_tJDBCOutput_5 = insertedCount_tJDBCOutput_5
+									+ pstmtInsert_tJDBCOutput_5.executeUpdate();
+						} catch (java.lang.Exception e) {
+							whetherReject_tJDBCOutput_5 = true;
+							throw (e);
+						}
+					}
+					nb_line_tJDBCOutput_5++;
+
+					tos_count_tJDBCOutput_5++;
+
+					/**
+					 * [tJDBCOutput_5 main ] stop
+					 */
+
+					/**
+					 * [tRowGenerator_7 end ] start
+					 */
+
+					currentComponent = "tRowGenerator_7";
+
+				}
+				globalMap.put("tRowGenerator_7_NB_LINE",
+						nb_line_tRowGenerator_7);
+
+				ok_Hash.put("tRowGenerator_7", true);
+				end_Hash.put("tRowGenerator_7", System.currentTimeMillis());
+
+				/**
+				 * [tRowGenerator_7 end ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_5 end ] start
+				 */
+
+				currentComponent = "tJDBCOutput_5";
+
+				if (pstmtUpdate_tJDBCOutput_5 != null) {
+
+					pstmtUpdate_tJDBCOutput_5.close();
+
+				}
+				if (pstmtInsert_tJDBCOutput_5 != null) {
+
+					pstmtInsert_tJDBCOutput_5.close();
+
+				}
+
+				nb_line_deleted_tJDBCOutput_5 = nb_line_deleted_tJDBCOutput_5
+						+ deletedCount_tJDBCOutput_5;
+				nb_line_update_tJDBCOutput_5 = nb_line_update_tJDBCOutput_5
+						+ updatedCount_tJDBCOutput_5;
+				nb_line_inserted_tJDBCOutput_5 = nb_line_inserted_tJDBCOutput_5
+						+ insertedCount_tJDBCOutput_5;
+				nb_line_rejected_tJDBCOutput_5 = nb_line_rejected_tJDBCOutput_5
+						+ rejectedCount_tJDBCOutput_5;
+
+				globalMap.put("tJDBCOutput_5_NB_LINE", nb_line_tJDBCOutput_5);
+				globalMap.put("tJDBCOutput_5_NB_LINE_UPDATED",
+						nb_line_update_tJDBCOutput_5);
+				globalMap.put("tJDBCOutput_5_NB_LINE_INSERTED",
+						nb_line_inserted_tJDBCOutput_5);
+				globalMap.put("tJDBCOutput_5_NB_LINE_DELETED",
+						nb_line_deleted_tJDBCOutput_5);
+				globalMap.put("tJDBCOutput_5_NB_LINE_REJECTED",
+						nb_line_rejected_tJDBCOutput_5);
+
+				ok_Hash.put("tJDBCOutput_5", true);
+				end_Hash.put("tJDBCOutput_5", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCOutput_5 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tRowGenerator_7:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCConnection_1Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tRowGenerator_7 finally ] start
+				 */
+
+				currentComponent = "tRowGenerator_7";
+
+				/**
+				 * [tRowGenerator_7 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_5 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_5";
+
+				/**
+				 * [tJDBCOutput_5 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tRowGenerator_7_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCConnection_1Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCConnection_1 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCConnection_1", false);
+				start_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
+
+				currentComponent = "tJDBCConnection_1";
+
+				int tos_count_tJDBCConnection_1 = 0;
+
+				String url_tJDBCConnection_1 = context.ovirtEngineHistoryDbJdbcConnection;
+
+				String userName_tJDBCConnection_1 = context.ovirtEngineHistoryDbUser;
+				String password_tJDBCConnection_1 = context.ovirtEngineHistoryDbPassword;
+
+				java.sql.Connection conn_tJDBCConnection_1 = null;
+
+				String sharedConnectionName_tJDBCConnection_1 = "sample_ovirt_engine_history";
+				conn_tJDBCConnection_1 = SharedDBConnection.getDBConnection(
+						context.ovirtEngineHistoryDbDriverClass,
+						url_tJDBCConnection_1, userName_tJDBCConnection_1,
+						password_tJDBCConnection_1,
+						sharedConnectionName_tJDBCConnection_1);
+				if (null != conn_tJDBCConnection_1) {
+
+					conn_tJDBCConnection_1.setAutoCommit(false);
+				}
+
+				globalMap.put("conn_tJDBCConnection_1", conn_tJDBCConnection_1);
+				globalMap.put("url_tJDBCConnection_1", url_tJDBCConnection_1);
+				// globalMap.put("user_tJDBCConnection_1",
+				// userName_tJDBCConnection_1);
+				// globalMap.put("pass_tJDBCConnection_1",
+				// password_tJDBCConnection_1);
+
+				/**
+				 * [tJDBCConnection_1 begin ] stop
+				 */
+				/**
+				 * [tJDBCConnection_1 main ] start
+				 */
+
+				currentComponent = "tJDBCConnection_1";
+
+				tos_count_tJDBCConnection_1++;
+
+				/**
+				 * [tJDBCConnection_1 main ] stop
+				 */
+				/**
+				 * [tJDBCConnection_1 end ] start
+				 */
+
+				currentComponent = "tJDBCConnection_1";
+
+				ok_Hash.put("tJDBCConnection_1", true);
+				end_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
+
+				tJDBCConnection_3Process(globalMap);
+
+				/**
+				 * [tJDBCConnection_1 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCConnection_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_1";
+
+				/**
+				 * [tJDBCConnection_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCConnection_3Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCConnection_3_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCConnection_3 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCConnection_3", false);
+				start_Hash.put("tJDBCConnection_3", System.currentTimeMillis());
+
+				currentComponent = "tJDBCConnection_3";
+
+				int tos_count_tJDBCConnection_3 = 0;
+
+				String url_tJDBCConnection_3 = context.ovirtEngineHistoryDbJdbcConnection;
+
+				String userName_tJDBCConnection_3 = context.ovirtEngineHistoryDbUser;
+				String password_tJDBCConnection_3 = context.ovirtEngineHistoryDbPassword;
+
+				java.sql.Connection conn_tJDBCConnection_3 = null;
+
+				String sharedConnectionName_tJDBCConnection_3 = "hourly_ovirt_engine_history";
+				conn_tJDBCConnection_3 = SharedDBConnection.getDBConnection(
+						context.ovirtEngineHistoryDbDriverClass,
+						url_tJDBCConnection_3, userName_tJDBCConnection_3,
+						password_tJDBCConnection_3,
+						sharedConnectionName_tJDBCConnection_3);
+				if (null != conn_tJDBCConnection_3) {
+
+					conn_tJDBCConnection_3.setAutoCommit(false);
+				}
+
+				globalMap.put("conn_tJDBCConnection_3", conn_tJDBCConnection_3);
+				globalMap.put("url_tJDBCConnection_3", url_tJDBCConnection_3);
+				// globalMap.put("user_tJDBCConnection_3",
+				// userName_tJDBCConnection_3);
+				// globalMap.put("pass_tJDBCConnection_3",
+				// password_tJDBCConnection_3);
+
+				/**
+				 * [tJDBCConnection_3 begin ] stop
+				 */
+				/**
+				 * [tJDBCConnection_3 main ] start
+				 */
+
+				currentComponent = "tJDBCConnection_3";
+
+				tos_count_tJDBCConnection_3++;
+
+				/**
+				 * [tJDBCConnection_3 main ] stop
+				 */
+				/**
+				 * [tJDBCConnection_3 end ] start
+				 */
+
+				currentComponent = "tJDBCConnection_3";
+
+				ok_Hash.put("tJDBCConnection_3", true);
+				end_Hash.put("tJDBCConnection_3", System.currentTimeMillis());
+
+				tJDBCConnection_4Process(globalMap);
+
+				/**
+				 * [tJDBCConnection_3 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCConnection_3 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_3";
+
+				/**
+				 * [tJDBCConnection_3 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCConnection_3_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCConnection_4Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCConnection_4_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCConnection_4 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCConnection_4", false);
+				start_Hash.put("tJDBCConnection_4", System.currentTimeMillis());
+
+				currentComponent = "tJDBCConnection_4";
+
+				int tos_count_tJDBCConnection_4 = 0;
+
+				String url_tJDBCConnection_4 = context.ovirtEngineHistoryDbJdbcConnection;
+
+				String userName_tJDBCConnection_4 = context.ovirtEngineHistoryDbUser;
+				String password_tJDBCConnection_4 = context.ovirtEngineHistoryDbPassword;
+
+				java.sql.Connection conn_tJDBCConnection_4 = null;
+
+				String sharedConnectionName_tJDBCConnection_4 = "daily_ovirt_engine_history";
+				conn_tJDBCConnection_4 = SharedDBConnection.getDBConnection(
+						context.ovirtEngineHistoryDbDriverClass,
+						url_tJDBCConnection_4, userName_tJDBCConnection_4,
+						password_tJDBCConnection_4,
+						sharedConnectionName_tJDBCConnection_4);
+				if (null != conn_tJDBCConnection_4) {
+
+					conn_tJDBCConnection_4.setAutoCommit(false);
+				}
+
+				globalMap.put("conn_tJDBCConnection_4", conn_tJDBCConnection_4);
+				globalMap.put("url_tJDBCConnection_4", url_tJDBCConnection_4);
+				// globalMap.put("user_tJDBCConnection_4",
+				// userName_tJDBCConnection_4);
+				// globalMap.put("pass_tJDBCConnection_4",
+				// password_tJDBCConnection_4);
+
+				/**
+				 * [tJDBCConnection_4 begin ] stop
+				 */
+				/**
+				 * [tJDBCConnection_4 main ] start
+				 */
+
+				currentComponent = "tJDBCConnection_4";
+
+				tos_count_tJDBCConnection_4++;
+
+				/**
+				 * [tJDBCConnection_4 main ] stop
+				 */
+				/**
+				 * [tJDBCConnection_4 end ] start
+				 */
+
+				currentComponent = "tJDBCConnection_4";
+
+				ok_Hash.put("tJDBCConnection_4", true);
+				end_Hash.put("tJDBCConnection_4", System.currentTimeMillis());
+
+				tJDBCConnection_5Process(globalMap);
+
+				/**
+				 * [tJDBCConnection_4 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCConnection_4 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_4";
+
+				/**
+				 * [tJDBCConnection_4 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCConnection_4_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCConnection_5Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCConnection_5_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCConnection_5 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCConnection_5", false);
+				start_Hash.put("tJDBCConnection_5", System.currentTimeMillis());
+
+				currentComponent = "tJDBCConnection_5";
+
+				int tos_count_tJDBCConnection_5 = 0;
+
+				String url_tJDBCConnection_5 = context.ovirtEngineHistoryDbJdbcConnection;
+
+				String userName_tJDBCConnection_5 = context.ovirtEngineHistoryDbUser;
+				String password_tJDBCConnection_5 = context.ovirtEngineHistoryDbPassword;
+
+				java.sql.Connection conn_tJDBCConnection_5 = null;
+
+				String sharedConnectionName_tJDBCConnection_5 = "delete_ovirt_engine_history";
+				conn_tJDBCConnection_5 = SharedDBConnection.getDBConnection(
+						context.ovirtEngineHistoryDbDriverClass,
+						url_tJDBCConnection_5, userName_tJDBCConnection_5,
+						password_tJDBCConnection_5,
+						sharedConnectionName_tJDBCConnection_5);
+				if (null != conn_tJDBCConnection_5) {
+
+					conn_tJDBCConnection_5.setAutoCommit(false);
+				}
+
+				globalMap.put("conn_tJDBCConnection_5", conn_tJDBCConnection_5);
+				globalMap.put("url_tJDBCConnection_5", url_tJDBCConnection_5);
+				// globalMap.put("user_tJDBCConnection_5",
+				// userName_tJDBCConnection_5);
+				// globalMap.put("pass_tJDBCConnection_5",
+				// password_tJDBCConnection_5);
+
+				/**
+				 * [tJDBCConnection_5 begin ] stop
+				 */
+				/**
+				 * [tJDBCConnection_5 main ] start
+				 */
+
+				currentComponent = "tJDBCConnection_5";
+
+				tos_count_tJDBCConnection_5++;
+
+				/**
+				 * [tJDBCConnection_5 main ] stop
+				 */
+				/**
+				 * [tJDBCConnection_5 end ] start
+				 */
+
+				currentComponent = "tJDBCConnection_5";
+
+				ok_Hash.put("tJDBCConnection_5", true);
+				end_Hash.put("tJDBCConnection_5", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCConnection_5 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCConnection_5 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_5";
+
+				/**
+				 * [tJDBCConnection_5 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCConnection_5_SUBPROCESS_STATE", 1);
+	}
+
+	public void tRunJob_2Process(final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tRunJob_2_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tRunJob_2 begin ] start
+				 */
+
+				ok_Hash.put("tRunJob_2", false);
+				start_Hash.put("tRunJob_2", System.currentTimeMillis());
+
+				currentComponent = "tRunJob_2";
+
+				int tos_count_tRunJob_2 = 0;
+
+				/**
+				 * [tRunJob_2 begin ] stop
+				 */
+				/**
+				 * [tRunJob_2 main ] start
+				 */
+
+				currentComponent = "tRunJob_2";
+
+				java.util.List<String> paraList_tRunJob_2 = new java.util.ArrayList<String>();
+				paraList_tRunJob_2.add("--father_pid=" + pid);
+
+				paraList_tRunJob_2.add("--root_pid=" + rootPid);
+
+				paraList_tRunJob_2.add("--father_node=tRunJob_2");
+
+				paraList_tRunJob_2.add("--context=Default");
+
+				// for feature:10589
+				paraList_tRunJob_2.add("--stat_port=" + portStats);
+
+				if (resuming_logs_dir_path != null) {
+					paraList_tRunJob_2.add("--resuming_logs_dir_path="
+							+ resuming_logs_dir_path);
+				}
+				String childResumePath_tRunJob_2 = ResumeUtil
+						.getChildJobCheckPointPath(resuming_checkpoint_path);
+				String tRunJobName_tRunJob_2 = ResumeUtil
+						.getRighttRunJob(resuming_checkpoint_path);
+				if ("tRunJob_2".equals(tRunJobName_tRunJob_2)
+						&& childResumePath_tRunJob_2 != null) {
+					paraList_tRunJob_2
+							.add("--resuming_checkpoint_path="
+									+ ResumeUtil
+											.getChildJobCheckPointPath(resuming_checkpoint_path));
+				}
+				paraList_tRunJob_2.add("--parent_part_launcher=JOB:" + jobName
+						+ "/NODE:tRunJob_2");
+
+				java.util.Map<String, Object> parentContextMap_tRunJob_2 = new java.util.HashMap<String, Object>();
+
+				context.synchronizeContext();
+				java.util.Enumeration<?> propertyNames_tRunJob_2 = context
+						.propertyNames();
+				while (propertyNames_tRunJob_2.hasMoreElements()) {
+					String key_tRunJob_2 = (String) propertyNames_tRunJob_2
+							.nextElement();
+					Object value_tRunJob_2 = (Object) context
+							.get(key_tRunJob_2);
+					paraList_tRunJob_2.add("--context_param " + key_tRunJob_2
+							+ "=" + value_tRunJob_2);
+				}
+
+				parentContextMap_tRunJob_2.put("dwhUuid", context.dwhUuid);
+				parentContextMap_tRunJob_2
+						.put("etlVersion", context.etlVersion);
+				parentContextMap_tRunJob_2.put("hoursToKeepDaily",
+						context.hoursToKeepDaily);
+				parentContextMap_tRunJob_2.put("hoursToKeepHourly",
+						context.hoursToKeepHourly);
+				parentContextMap_tRunJob_2.put("hoursToKeepSamples",
+						context.hoursToKeepSamples);
+				parentContextMap_tRunJob_2.put("lastErrorSent",
+						context.lastErrorSent);
+				parentContextMap_tRunJob_2.put("ovirtEngineDbDriverClass",
+						context.ovirtEngineDbDriverClass);
+				parentContextMap_tRunJob_2.put("ovirtEngineDbJdbcConnection",
+						context.ovirtEngineDbJdbcConnection);
+				parentContextMap_tRunJob_2.put("ovirtEngineDbPassword",
+						context.ovirtEngineDbPassword);
+				parentContextMap_tRunJob_2.put("ovirtEngineDbUser",
+						context.ovirtEngineDbUser);
+				parentContextMap_tRunJob_2.put(
+						"ovirtEngineHistoryDbDriverClass",
+						context.ovirtEngineHistoryDbDriverClass);
+				parentContextMap_tRunJob_2.put(
+						"ovirtEngineHistoryDbJdbcConnection",
+						context.ovirtEngineHistoryDbJdbcConnection);
+				parentContextMap_tRunJob_2.put("ovirtEngineHistoryDbPassword",
+						context.ovirtEngineHistoryDbPassword);
+				parentContextMap_tRunJob_2.put("ovirtEngineHistoryDbUser",
+						context.ovirtEngineHistoryDbUser);
+				parentContextMap_tRunJob_2.put("runDeleteTime",
+						context.runDeleteTime);
+				parentContextMap_tRunJob_2.put("runInterleave",
+						context.runInterleave);
+				parentContextMap_tRunJob_2.put("timeBetweenErrorEvents",
+						context.timeBetweenErrorEvents);
+
+				Object obj_tRunJob_2 = null;
+
+				ovirt_engine_dwh.minimalversioncheck_3_6.MinimalVersionCheck childJob_tRunJob_2 = new ovirt_engine_dwh.minimalversioncheck_3_6.MinimalVersionCheck();
+				// pass DataSources
+				java.util.Map<String, routines.system.TalendDataSource> talendDataSources_tRunJob_2 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
+						.get(KEY_DB_DATASOURCES);
+				if (null != talendDataSources_tRunJob_2) {
+					java.util.Map<String, javax.sql.DataSource> dataSources_tRunJob_2 = new java.util.HashMap<String, javax.sql.DataSource>();
+					for (java.util.Map.Entry<String, routines.system.TalendDataSource> talendDataSourceEntry_tRunJob_2 : talendDataSources_tRunJob_2
+							.entrySet()) {
+						dataSources_tRunJob_2.put(
+								talendDataSourceEntry_tRunJob_2.getKey(),
+								talendDataSourceEntry_tRunJob_2.getValue()
+										.getRawDataSource());
+					}
+					childJob_tRunJob_2.setDataSources(dataSources_tRunJob_2);
+				}
+				childJob_tRunJob_2.parentContextMap = parentContextMap_tRunJob_2;
+
+				String[][] childReturn_tRunJob_2 = childJob_tRunJob_2
+						.runJob((String[]) paraList_tRunJob_2
+								.toArray(new String[paraList_tRunJob_2.size()]));
+
+				((java.util.Map) threadLocal.get()).put("errorCode",
+						childJob_tRunJob_2.getErrorCode());
+
+				if (childJob_tRunJob_2.getErrorCode() == null) {
+					globalMap.put(
+							"tRunJob_2_CHILD_RETURN_CODE",
+							childJob_tRunJob_2.getStatus() != null
+									&& ("failure").equals(childJob_tRunJob_2
+											.getStatus()) ? 1 : 0);
+				} else {
+					globalMap.put("tRunJob_2_CHILD_RETURN_CODE",
+							childJob_tRunJob_2.getErrorCode());
+				}
+				if (childJob_tRunJob_2.getExceptionStackTrace() != null) {
+					globalMap.put("tRunJob_2_CHILD_EXCEPTION_STACKTRACE",
+							childJob_tRunJob_2.getExceptionStackTrace());
+				}
+
+				if (childJob_tRunJob_2.getErrorCode() != null
+						|| ("failure").equals(childJob_tRunJob_2.getStatus())) {
+
+					throw new RuntimeException("Child job running failed");
+				}
+
+				tos_count_tRunJob_2++;
+
+				/**
+				 * [tRunJob_2 main ] stop
+				 */
+				/**
+				 * [tRunJob_2 end ] start
+				 */
+
+				currentComponent = "tRunJob_2";
+
+				ok_Hash.put("tRunJob_2", true);
+				end_Hash.put("tRunJob_2", System.currentTimeMillis());
+
+				/**
+				 * [tRunJob_2 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tRunJob_2 finally ] start
+				 */
+
+				currentComponent = "tRunJob_2";
+
+				/**
+				 * [tRunJob_2 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tRunJob_2_SUBPROCESS_STATE", 1);
 	}
 
 	public static class event_outputStruct implements
@@ -8044,103 +8306,6 @@ public class HistoryETL implements TalendJob {
 		globalMap.put("tJava_4_SUBPROCESS_STATE", 1);
 	}
 
-	public void tJava_1Process(final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJava_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-		int iterateLoop = 0;
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tJava_1 begin ] start
-				 */
-
-				ok_Hash.put("tJava_1", false);
-				start_Hash.put("tJava_1", System.currentTimeMillis());
-
-				currentComponent = "tJava_1";
-
-				int tos_count_tJava_1 = 0;
-
-				while (runningThreadCount.getCount() > 0) {
-					runningThreadCount.add(-1);
-				}
-
-				/**
-				 * [tJava_1 begin ] stop
-				 */
-				/**
-				 * [tJava_1 main ] start
-				 */
-
-				currentComponent = "tJava_1";
-
-				tos_count_tJava_1++;
-
-				/**
-				 * [tJava_1 main ] stop
-				 */
-				/**
-				 * [tJava_1 end ] start
-				 */
-
-				currentComponent = "tJava_1";
-
-				ok_Hash.put("tJava_1", true);
-				end_Hash.put("tJava_1", System.currentTimeMillis());
-
-				/**
-				 * [tJava_1 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tJava_1 finally ] start
-				 */
-
-				currentComponent = "tJava_1";
-
-				/**
-				 * [tJava_1 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tJava_1_SUBPROCESS_STATE", 1);
-	}
-
 	public void tLoop_1Process(final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 		globalMap.put("tLoop_1_SUBPROCESS_STATE", 0);
@@ -8259,9 +8424,9 @@ public class HistoryETL implements TalendJob {
 		globalMap.put("tLoop_1_SUBPROCESS_STATE", 1);
 	}
 
-	public void tJava_3Process(final java.util.Map<String, Object> globalMap)
+	public void tJava_1Process(final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		globalMap.put("tJava_3_SUBPROCESS_STATE", 0);
+		globalMap.put("tJava_1_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -8281,45 +8446,45 @@ public class HistoryETL implements TalendJob {
 				globalResumeTicket = true;
 
 				/**
-				 * [tJava_3 begin ] start
+				 * [tJava_1 begin ] start
 				 */
 
-				ok_Hash.put("tJava_3", false);
-				start_Hash.put("tJava_3", System.currentTimeMillis());
+				ok_Hash.put("tJava_1", false);
+				start_Hash.put("tJava_1", System.currentTimeMillis());
 
-				currentComponent = "tJava_3";
+				currentComponent = "tJava_1";
 
-				int tos_count_tJava_3 = 0;
+				int tos_count_tJava_1 = 0;
 
 				while (runningThreadCount.getCount() > 0) {
 					runningThreadCount.add(-1);
 				}
 
 				/**
-				 * [tJava_3 begin ] stop
+				 * [tJava_1 begin ] stop
 				 */
 				/**
-				 * [tJava_3 main ] start
+				 * [tJava_1 main ] start
 				 */
 
-				currentComponent = "tJava_3";
+				currentComponent = "tJava_1";
 
-				tos_count_tJava_3++;
+				tos_count_tJava_1++;
 
 				/**
-				 * [tJava_3 main ] stop
+				 * [tJava_1 main ] stop
 				 */
 				/**
-				 * [tJava_3 end ] start
+				 * [tJava_1 end ] start
 				 */
 
-				currentComponent = "tJava_3";
+				currentComponent = "tJava_1";
 
-				ok_Hash.put("tJava_3", true);
-				end_Hash.put("tJava_3", System.currentTimeMillis());
+				ok_Hash.put("tJava_1", true);
+				end_Hash.put("tJava_1", System.currentTimeMillis());
 
 				/**
-				 * [tJava_3 end ] stop
+				 * [tJava_1 end ] stop
 				 */
 			}// end the resume
 
@@ -8337,13 +8502,13 @@ public class HistoryETL implements TalendJob {
 			try {
 
 				/**
-				 * [tJava_3 finally ] start
+				 * [tJava_1 finally ] start
 				 */
 
-				currentComponent = "tJava_3";
+				currentComponent = "tJava_1";
 
 				/**
-				 * [tJava_3 finally ] stop
+				 * [tJava_1 finally ] stop
 				 */
 			} catch (java.lang.Exception e) {
 				// ignore
@@ -8353,7 +8518,333 @@ public class HistoryETL implements TalendJob {
 			resourceMap = null;
 		}
 
-		globalMap.put("tJava_3_SUBPROCESS_STATE", 1);
+		globalMap.put("tJava_1_SUBPROCESS_STATE", 1);
+	}
+
+	public void tRunJob_1Process(final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tRunJob_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tRunJob_1 begin ] start
+				 */
+
+				ok_Hash.put("tRunJob_1", false);
+				start_Hash.put("tRunJob_1", System.currentTimeMillis());
+
+				currentComponent = "tRunJob_1";
+
+				int tos_count_tRunJob_1 = 0;
+
+				/**
+				 * [tRunJob_1 begin ] stop
+				 */
+				/**
+				 * [tRunJob_1 main ] start
+				 */
+
+				currentComponent = "tRunJob_1";
+
+				java.util.List<String> paraList_tRunJob_1 = new java.util.ArrayList<String>();
+				paraList_tRunJob_1.add("--father_pid=" + pid);
+
+				paraList_tRunJob_1.add("--root_pid=" + rootPid);
+
+				paraList_tRunJob_1.add("--father_node=tRunJob_1");
+
+				paraList_tRunJob_1.add("--context=Default");
+
+				// for feature:10589
+				paraList_tRunJob_1.add("--stat_port=" + portStats);
+
+				if (resuming_logs_dir_path != null) {
+					paraList_tRunJob_1.add("--resuming_logs_dir_path="
+							+ resuming_logs_dir_path);
+				}
+				String childResumePath_tRunJob_1 = ResumeUtil
+						.getChildJobCheckPointPath(resuming_checkpoint_path);
+				String tRunJobName_tRunJob_1 = ResumeUtil
+						.getRighttRunJob(resuming_checkpoint_path);
+				if ("tRunJob_1".equals(tRunJobName_tRunJob_1)
+						&& childResumePath_tRunJob_1 != null) {
+					paraList_tRunJob_1
+							.add("--resuming_checkpoint_path="
+									+ ResumeUtil
+											.getChildJobCheckPointPath(resuming_checkpoint_path));
+				}
+				paraList_tRunJob_1.add("--parent_part_launcher=JOB:" + jobName
+						+ "/NODE:tRunJob_1");
+
+				java.util.Map<String, Object> parentContextMap_tRunJob_1 = new java.util.HashMap<String, Object>();
+
+				context.synchronizeContext();
+				java.util.Enumeration<?> propertyNames_tRunJob_1 = context
+						.propertyNames();
+				while (propertyNames_tRunJob_1.hasMoreElements()) {
+					String key_tRunJob_1 = (String) propertyNames_tRunJob_1
+							.nextElement();
+					Object value_tRunJob_1 = (Object) context
+							.get(key_tRunJob_1);
+					paraList_tRunJob_1.add("--context_param " + key_tRunJob_1
+							+ "=" + value_tRunJob_1);
+				}
+
+				parentContextMap_tRunJob_1.put("dwhUuid", context.dwhUuid);
+				parentContextMap_tRunJob_1
+						.put("etlVersion", context.etlVersion);
+				parentContextMap_tRunJob_1.put("hoursToKeepDaily",
+						context.hoursToKeepDaily);
+				parentContextMap_tRunJob_1.put("hoursToKeepHourly",
+						context.hoursToKeepHourly);
+				parentContextMap_tRunJob_1.put("hoursToKeepSamples",
+						context.hoursToKeepSamples);
+				parentContextMap_tRunJob_1.put("lastErrorSent",
+						context.lastErrorSent);
+				parentContextMap_tRunJob_1.put("ovirtEngineDbDriverClass",
+						context.ovirtEngineDbDriverClass);
+				parentContextMap_tRunJob_1.put("ovirtEngineDbJdbcConnection",
+						context.ovirtEngineDbJdbcConnection);
+				parentContextMap_tRunJob_1.put("ovirtEngineDbPassword",
+						context.ovirtEngineDbPassword);
+				parentContextMap_tRunJob_1.put("ovirtEngineDbUser",
+						context.ovirtEngineDbUser);
+				parentContextMap_tRunJob_1.put(
+						"ovirtEngineHistoryDbDriverClass",
+						context.ovirtEngineHistoryDbDriverClass);
+				parentContextMap_tRunJob_1.put(
+						"ovirtEngineHistoryDbJdbcConnection",
+						context.ovirtEngineHistoryDbJdbcConnection);
+				parentContextMap_tRunJob_1.put("ovirtEngineHistoryDbPassword",
+						context.ovirtEngineHistoryDbPassword);
+				parentContextMap_tRunJob_1.put("ovirtEngineHistoryDbUser",
+						context.ovirtEngineHistoryDbUser);
+				parentContextMap_tRunJob_1.put("runDeleteTime",
+						context.runDeleteTime);
+				parentContextMap_tRunJob_1.put("runInterleave",
+						context.runInterleave);
+				parentContextMap_tRunJob_1.put("timeBetweenErrorEvents",
+						context.timeBetweenErrorEvents);
+
+				Object obj_tRunJob_1 = null;
+
+				ovirt_engine_dwh.validateinstallation_3_6.ValidateInstallation childJob_tRunJob_1 = new ovirt_engine_dwh.validateinstallation_3_6.ValidateInstallation();
+				// pass DataSources
+				java.util.Map<String, routines.system.TalendDataSource> talendDataSources_tRunJob_1 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
+						.get(KEY_DB_DATASOURCES);
+				if (null != talendDataSources_tRunJob_1) {
+					java.util.Map<String, javax.sql.DataSource> dataSources_tRunJob_1 = new java.util.HashMap<String, javax.sql.DataSource>();
+					for (java.util.Map.Entry<String, routines.system.TalendDataSource> talendDataSourceEntry_tRunJob_1 : talendDataSources_tRunJob_1
+							.entrySet()) {
+						dataSources_tRunJob_1.put(
+								talendDataSourceEntry_tRunJob_1.getKey(),
+								talendDataSourceEntry_tRunJob_1.getValue()
+										.getRawDataSource());
+					}
+					childJob_tRunJob_1.setDataSources(dataSources_tRunJob_1);
+				}
+				childJob_tRunJob_1.parentContextMap = parentContextMap_tRunJob_1;
+
+				String[][] childReturn_tRunJob_1 = childJob_tRunJob_1
+						.runJob((String[]) paraList_tRunJob_1
+								.toArray(new String[paraList_tRunJob_1.size()]));
+
+				((java.util.Map) threadLocal.get()).put("errorCode",
+						childJob_tRunJob_1.getErrorCode());
+
+				if (childJob_tRunJob_1.getErrorCode() == null) {
+					globalMap.put(
+							"tRunJob_1_CHILD_RETURN_CODE",
+							childJob_tRunJob_1.getStatus() != null
+									&& ("failure").equals(childJob_tRunJob_1
+											.getStatus()) ? 1 : 0);
+				} else {
+					globalMap.put("tRunJob_1_CHILD_RETURN_CODE",
+							childJob_tRunJob_1.getErrorCode());
+				}
+				if (childJob_tRunJob_1.getExceptionStackTrace() != null) {
+					globalMap.put("tRunJob_1_CHILD_EXCEPTION_STACKTRACE",
+							childJob_tRunJob_1.getExceptionStackTrace());
+				}
+
+				if (childJob_tRunJob_1.getErrorCode() != null
+						|| ("failure").equals(childJob_tRunJob_1.getStatus())) {
+
+					throw new RuntimeException("Child job running failed");
+				}
+
+				tos_count_tRunJob_1++;
+
+				/**
+				 * [tRunJob_1 main ] stop
+				 */
+				/**
+				 * [tRunJob_1 end ] start
+				 */
+
+				currentComponent = "tRunJob_1";
+
+				ok_Hash.put("tRunJob_1", true);
+				end_Hash.put("tRunJob_1", System.currentTimeMillis());
+
+				/**
+				 * [tRunJob_1 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tRunJob_1 finally ] start
+				 */
+
+				currentComponent = "tRunJob_1";
+
+				/**
+				 * [tRunJob_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tRunJob_1_SUBPROCESS_STATE", 1);
+	}
+
+	public void tSetGlobalVar_1Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tSetGlobalVar_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tSetGlobalVar_1 begin ] start
+				 */
+
+				ok_Hash.put("tSetGlobalVar_1", false);
+				start_Hash.put("tSetGlobalVar_1", System.currentTimeMillis());
+
+				currentComponent = "tSetGlobalVar_1";
+
+				int tos_count_tSetGlobalVar_1 = 0;
+
+				/**
+				 * [tSetGlobalVar_1 begin ] stop
+				 */
+				/**
+				 * [tSetGlobalVar_1 main ] start
+				 */
+
+				currentComponent = "tSetGlobalVar_1";
+
+				globalMap.put("timesDisconnectDwhFailed", "0");
+
+				tos_count_tSetGlobalVar_1++;
+
+				/**
+				 * [tSetGlobalVar_1 main ] stop
+				 */
+				/**
+				 * [tSetGlobalVar_1 end ] start
+				 */
+
+				currentComponent = "tSetGlobalVar_1";
+
+				ok_Hash.put("tSetGlobalVar_1", true);
+				end_Hash.put("tSetGlobalVar_1", System.currentTimeMillis());
+
+				/**
+				 * [tSetGlobalVar_1 end ] stop
+				 */
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tSetGlobalVar_1:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tLoop_2Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tSetGlobalVar_1 finally ] start
+				 */
+
+				currentComponent = "tSetGlobalVar_1";
+
+				/**
+				 * [tSetGlobalVar_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tSetGlobalVar_1_SUBPROCESS_STATE", 1);
 	}
 
 	public static class row9Struct implements
@@ -8663,7 +9154,7 @@ public class HistoryETL implements TalendJob {
 						int TimesDisconnectDwhFailed = Integer
 								.parseInt(((String) globalMap
 										.get("timesDisconnectDwhFailed")));
-						if (TimesDisconnectDwhFailed == 0) {
+						if ((TimesDisconnectDwhFailed % 10) == 0) {
 							globalMap.put("timesDisconnectDwhFailed", Integer
 									.valueOf(TimesDisconnectDwhFailed + 1)
 									.toString());
@@ -8671,8 +9162,6 @@ public class HistoryETL implements TalendJob {
 									.getDate("CCYY-MM-DD hh:mm:ss")
 									+ " |Exception in component tJavaFlex_6: "
 									+ e.toString() + " has been caught");
-						} else if (TimesDisconnectDwhFailed == 10) {
-							globalMap.put("timesDisconnectDwhFailed", "0");
 						} else {
 							globalMap.put("timesDisconnectDwhFailed", Integer
 									.valueOf(TimesDisconnectDwhFailed + 1)
@@ -8822,7 +9311,15 @@ public class HistoryETL implements TalendJob {
 								currentComponent = "tJavaRow_1";
 
 								i = "1".equals(row9.option_value);
-
+								if (i) {
+									System.out
+											.println("ETL Service will now stop because a flag was raised to disconnect DWH on Engine DB");
+								}
+								if (((String) globalMap
+										.get("timesDisconnectDwhFailed")) != "0") {
+									globalMap.put("timesDisconnectDwhFailed",
+											"0");
+								}
 								nb_line_tJavaRow_1++;
 
 								tos_count_tJavaRow_1++;
@@ -8999,10 +9496,9 @@ public class HistoryETL implements TalendJob {
 		globalMap.put("tLoop_2_SUBPROCESS_STATE", 1);
 	}
 
-	public void tSetGlobalVar_1Process(
-			final java.util.Map<String, Object> globalMap)
+	public void tJava_3Process(final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		globalMap.put("tSetGlobalVar_1_SUBPROCESS_STATE", 0);
+		globalMap.put("tJava_3_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -9022,55 +9518,47 @@ public class HistoryETL implements TalendJob {
 				globalResumeTicket = true;
 
 				/**
-				 * [tSetGlobalVar_1 begin ] start
+				 * [tJava_3 begin ] start
 				 */
 
-				ok_Hash.put("tSetGlobalVar_1", false);
-				start_Hash.put("tSetGlobalVar_1", System.currentTimeMillis());
+				ok_Hash.put("tJava_3", false);
+				start_Hash.put("tJava_3", System.currentTimeMillis());
 
-				currentComponent = "tSetGlobalVar_1";
+				currentComponent = "tJava_3";
 
-				int tos_count_tSetGlobalVar_1 = 0;
+				int tos_count_tJava_3 = 0;
+
+				while (runningThreadCount.getCount() > 0) {
+					runningThreadCount.add(-1);
+				}
 
 				/**
-				 * [tSetGlobalVar_1 begin ] stop
+				 * [tJava_3 begin ] stop
 				 */
 				/**
-				 * [tSetGlobalVar_1 main ] start
+				 * [tJava_3 main ] start
 				 */
 
-				currentComponent = "tSetGlobalVar_1";
+				currentComponent = "tJava_3";
 
-				globalMap.put("timesDisconnectDwhFailed", "0");
-
-				tos_count_tSetGlobalVar_1++;
+				tos_count_tJava_3++;
 
 				/**
-				 * [tSetGlobalVar_1 main ] stop
+				 * [tJava_3 main ] stop
 				 */
 				/**
-				 * [tSetGlobalVar_1 end ] start
+				 * [tJava_3 end ] start
 				 */
 
-				currentComponent = "tSetGlobalVar_1";
+				currentComponent = "tJava_3";
 
-				ok_Hash.put("tSetGlobalVar_1", true);
-				end_Hash.put("tSetGlobalVar_1", System.currentTimeMillis());
+				ok_Hash.put("tJava_3", true);
+				end_Hash.put("tJava_3", System.currentTimeMillis());
 
 				/**
-				 * [tSetGlobalVar_1 end ] stop
+				 * [tJava_3 end ] stop
 				 */
 			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tSetGlobalVar_1:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			tLoop_2Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -9086,13 +9574,13 @@ public class HistoryETL implements TalendJob {
 			try {
 
 				/**
-				 * [tSetGlobalVar_1 finally ] start
+				 * [tJava_3 finally ] start
 				 */
 
-				currentComponent = "tSetGlobalVar_1";
+				currentComponent = "tJava_3";
 
 				/**
-				 * [tSetGlobalVar_1 finally ] stop
+				 * [tJava_3 finally ] stop
 				 */
 			} catch (java.lang.Exception e) {
 				// ignore
@@ -9102,7 +9590,7 @@ public class HistoryETL implements TalendJob {
 			resourceMap = null;
 		}
 
-		globalMap.put("tSetGlobalVar_1_SUBPROCESS_STATE", 1);
+		globalMap.put("tJava_3_SUBPROCESS_STATE", 1);
 	}
 
 	public static class row_talendLogs_LOGSStruct implements
@@ -10137,6 +10625,52 @@ public class HistoryETL implements TalendJob {
 
 				try {
 					((java.util.Map) threadLocal.get()).put("errorCode", null);
+					tRunJob_2Process(globalMap);
+					if (!"failure".equals(((java.util.Map) threadLocal.get())
+							.get("status"))) {
+						((java.util.Map) threadLocal.get())
+								.put("status", "end");
+					}
+				} catch (TalendException e_tRunJob_2) {
+					globalMap.put("tRunJob_2_SUBPROCESS_STATE", -1);
+
+					e_tRunJob_2.printStackTrace();
+
+				} catch (Error e_tRunJob_2) {
+					globalMap.put("tRunJob_2_SUBPROCESS_STATE", -1);
+
+					e_tRunJob_2.printStackTrace();
+
+				} finally {
+					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
+							.get()).get("errorCode"));
+					String localStatus = (String) (((java.util.Map) threadLocal
+							.get()).get("status"));
+					if (localErrorCode != null) {
+						if (errorCode == null
+								|| localErrorCode.compareTo(errorCode) > 0) {
+							errorCode = localErrorCode;
+						}
+					}
+					if (!status.equals("failure")) {
+						status = localStatus;
+					}
+
+					runningThreadCount.add(-1);
+				}
+			}
+		}.start();
+
+		runningThreadCount.add(1);
+		new Thread() {
+			public void run() {
+				java.util.Map threadRunResultMap = new java.util.HashMap();
+				threadRunResultMap.put("errorCode", null);
+				threadRunResultMap.put("status", "");
+				threadLocal.set(threadRunResultMap);
+
+				try {
+					((java.util.Map) threadLocal.get()).put("errorCode", null);
 					tLoop_1Process(globalMap);
 					if (!"failure".equals(((java.util.Map) threadLocal.get())
 							.get("status"))) {
@@ -10152,6 +10686,52 @@ public class HistoryETL implements TalendJob {
 					globalMap.put("tLoop_1_SUBPROCESS_STATE", -1);
 
 					e_tLoop_1.printStackTrace();
+
+				} finally {
+					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
+							.get()).get("errorCode"));
+					String localStatus = (String) (((java.util.Map) threadLocal
+							.get()).get("status"));
+					if (localErrorCode != null) {
+						if (errorCode == null
+								|| localErrorCode.compareTo(errorCode) > 0) {
+							errorCode = localErrorCode;
+						}
+					}
+					if (!status.equals("failure")) {
+						status = localStatus;
+					}
+
+					runningThreadCount.add(-1);
+				}
+			}
+		}.start();
+
+		runningThreadCount.add(1);
+		new Thread() {
+			public void run() {
+				java.util.Map threadRunResultMap = new java.util.HashMap();
+				threadRunResultMap.put("errorCode", null);
+				threadRunResultMap.put("status", "");
+				threadLocal.set(threadRunResultMap);
+
+				try {
+					((java.util.Map) threadLocal.get()).put("errorCode", null);
+					tRunJob_1Process(globalMap);
+					if (!"failure".equals(((java.util.Map) threadLocal.get())
+							.get("status"))) {
+						((java.util.Map) threadLocal.get())
+								.put("status", "end");
+					}
+				} catch (TalendException e_tRunJob_1) {
+					globalMap.put("tRunJob_1_SUBPROCESS_STATE", -1);
+
+					e_tRunJob_1.printStackTrace();
+
+				} catch (Error e_tRunJob_1) {
+					globalMap.put("tRunJob_1_SUBPROCESS_STATE", -1);
+
+					e_tRunJob_1.printStackTrace();
 
 				} finally {
 					Integer localErrorCode = (Integer) (((java.util.Map) threadLocal
@@ -10350,6 +10930,6 @@ public class HistoryETL implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 265125 characters generated by Talend Open Studio for Data Integration on the
- * January 7, 2015 5:52:18 PM IST
+ * 283668 characters generated by Talend Open Studio for Data Integration on the
+ * January 13, 2015 11:36:27 AM IST
  ************************************************************************************************/
