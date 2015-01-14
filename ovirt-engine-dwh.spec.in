@@ -259,6 +259,12 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed Jan 14 2015 Shirly Radco <sradco@redhat.com> - 3.5.1
+- add log message for DisconnectDwh (#1181621)
+- maintain db connection for DisconnectDwh check (#1181616)
+- bin: Use engine's java-home for classpath
+- rename: handle dwh_history_timekeeping
+
 * Tue Nov 11 2014 Shirly Radco <sradco@redhat.com> - 3.5.1
 - add support for EL7 builds (#1159293)
 - updated required changes 3.5.1
