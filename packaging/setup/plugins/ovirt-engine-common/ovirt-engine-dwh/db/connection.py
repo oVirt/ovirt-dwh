@@ -1,6 +1,6 @@
 #
 # ovirt-engine-setup -- ovirt engine setup
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013-2015 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -52,11 +52,6 @@ class Plugin(plugin.PluginBase):
         ].append(
             odwhcons.DBEnv.PASSWORD
         )
-        self.environment[
-            otopicons.CoreEnv.LOG_FILTER_KEYS
-        ].append(
-            odwhcons.EngineDBEnv.PASSWORD
-        )
 
     @plugin.event(
         stage=plugin.Stages.STAGE_INIT,
@@ -97,39 +92,6 @@ class Plugin(plugin.PluginBase):
         self.environment[odwhcons.DBEnv.CONNECTION] = None
         self.environment[odwhcons.DBEnv.STATEMENT] = None
         self.environment[odwhcons.DBEnv.NEW_DATABASE] = True
-
-        self.environment.setdefault(
-            odwhcons.EngineDBEnv.HOST,
-            None
-        )
-        self.environment.setdefault(
-            odwhcons.EngineDBEnv.PORT,
-            None
-        )
-        self.environment.setdefault(
-            odwhcons.EngineDBEnv.SECURED,
-            None
-        )
-        self.environment.setdefault(
-            odwhcons.EngineDBEnv.SECURED_HOST_VALIDATION,
-            None
-        )
-        self.environment.setdefault(
-            odwhcons.EngineDBEnv.USER,
-            None
-        )
-        self.environment.setdefault(
-            odwhcons.EngineDBEnv.PASSWORD,
-            None
-        )
-        self.environment.setdefault(
-            odwhcons.EngineDBEnv.DATABASE,
-            None
-        )
-
-        self.environment[odwhcons.EngineDBEnv.CONNECTION] = None
-        self.environment[odwhcons.EngineDBEnv.STATEMENT] = None
-        self.environment[odwhcons.EngineDBEnv.NEW_DATABASE] = True
 
     @plugin.event(
         stage=plugin.Stages.STAGE_SETUP,

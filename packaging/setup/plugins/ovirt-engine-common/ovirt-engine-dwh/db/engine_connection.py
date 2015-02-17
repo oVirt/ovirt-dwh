@@ -1,6 +1,6 @@
 #
 # ovirt-engine-setup -- ovirt engine setup
-# Copyright (C) 2013-2014 Red Hat, Inc.
+# Copyright (C) 2013-2015 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -43,47 +43,56 @@ from ovirt_engine_setup.engine_common \
 class Plugin(plugin.PluginBase):
     """Connection plugin."""
 
-    class DBTransaction(transaction.TransactionElement):
-        """yum transaction element."""
-
-        def __init__(self, parent):
-            self._parent = parent
-
-        def __str__(self):
-            return _("DWH Engine database Transaction")
-
-        def prepare(self):
-            pass
-
-        def abort(self):
-            if not self._parent.environment[odwhcons.EngineCoreEnv.ENABLE]:
-                engine_conn = self._parent.environment[
-                    odwhcons.EngineDBEnv.CONNECTION
-                ]
-                if engine_conn is not None:
-                    engine_conn.rollback()
-                    self._parent.environment[
-                        odwhcons.EngineDBEnv.CONNECTION
-                    ] = None
-
-        def commit(self):
-            if not self._parent.environment[odwhcons.EngineCoreEnv.ENABLE]:
-                engine_conn = self._parent.environment[
-                    odwhcons.EngineDBEnv.CONNECTION
-                ]
-                if engine_conn is not None:
-                    engine_conn.commit()
-
     def __init__(self, context):
         super(Plugin, self).__init__(context=context)
 
     @plugin.event(
-        stage=plugin.Stages.STAGE_SETUP,
+        stage=plugin.Stages.STAGE_BOOT,
     )
-    def _setup(self):
-        self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
-            self.DBTransaction(self)
+
+    def _boot(self):
+        self.environment[
+            otopicons.CoreEnv.LOG_FILTER_KEYS
+        ].append(
+            odwhcons.EngineDBEnv.PASSWORD
         )
+
+    @plugin.event(
+        stage=plugin.Stages.STAGE_INIT,
+    )
+    def _init(self):
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.HOST,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.PORT,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.SECURED,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.SECURED_HOST_VALIDATION,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.USER,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.PASSWORD,
+            None
+        )
+        self.environment.setdefault(
+            odwhcons.EngineDBEnv.DATABASE,
+            None
+        )
+
+        self.environment[odwhcons.EngineDBEnv.CONNECTION] = None
+        self.environment[odwhcons.EngineDBEnv.STATEMENT] = None
+        self.environment[odwhcons.EngineDBEnv.NEW_DATABASE] = True
 
     @plugin.event(
         stage=plugin.Stages.STAGE_SETUP,
@@ -155,66 +164,6 @@ class Plugin(plugin.PluginBase):
                     self.logger.warning(msg)
                 else:
                     raise RuntimeError(msg)
-
-    @plugin.event(
-        stage=plugin.Stages.STAGE_CUSTOMIZATION,
-        condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
-        before=(
-            oengcommcons.Stages.DIALOG_TITLES_E_DATABASE,
-        ),
-        after=(
-            oengcommcons.Stages.DIALOG_TITLES_S_DATABASE,
-            oengcommcons.Stages.DB_OWNERS_CONNECTIONS_CUSTOMIZED,
-        ),
-    )
-    def _engine_customization(self):
-        dbovirtutils = database.OvirtUtils(
-            plugin=self,
-            dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS,
-        )
-        dbovirtutils.getCredentials(
-            name='Engine',
-            queryprefix='OVESETUP_ENGINE_DB_',
-            defaultdbenvkeys={
-                'host': '',
-                'port': '5432',
-                'secured': '',
-                'hostValidation': False,
-                'user': 'engine',
-                'password': None,
-                'database': 'engine',
-            },
-            show_create_msg=False,
-            credsfile=(
-                odwhcons.FileLocations.
-                OVIRT_ENGINE_ENGINE_SERVICE_CONFIG_DATABASE
-            ),
-        )
-
-    @plugin.event(
-        stage=plugin.Stages.STAGE_MISC,
-        name=odwhcons.Stages.ENGINE_DB_CONNECTION_AVAILABLE,
-        condition=lambda self: (
-            self.environment[odwhcons.CoreEnv.ENABLE] and
-            # If engine is enabled, STATEMENT and CONNECTION are set there
-            not self.environment[odwhcons.EngineCoreEnv.ENABLE]
-        ),
-        after=(
-            odwhcons.Stages.DB_SCHEMA,
-            oengcommcons.Stages.DB_CONNECTION_AVAILABLE,
-        ),
-    )
-    def _engine_connection(self):
-        self.environment[
-            odwhcons.EngineDBEnv.STATEMENT
-        ] = database.Statement(
-            environment=self.environment,
-            dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS,
-        )
-        # must be here as we do not have database at validation
-        self.environment[
-            odwhcons.EngineDBEnv.CONNECTION
-        ] = self.environment[odwhcons.EngineDBEnv.STATEMENT].connect()
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
