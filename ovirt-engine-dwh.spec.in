@@ -259,6 +259,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Mon Feb 23 2015 Shirly Radco <sradco@redhat.com> - 3.5.2
+Fixed issues:
+- fixed bug in users details sync (#1189127)
+
 * Wed Jan 14 2015 Shirly Radco <sradco@redhat.com> - 3.5.1
 - add log message for DisconnectDwh (#1181621)
 - maintain db connection for DisconnectDwh check (#1181616)
