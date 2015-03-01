@@ -1,6 +1,6 @@
 #
 # ovirt-engine-setup -- ovirt engine setup
-# Copyright (C) 2013-2014 Red Hat, Inc.
+# Copyright (C) 2013-2015 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -311,7 +311,9 @@ class Plugin(plugin.PluginBase):
                 dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
             )
             self._backup = dbovirtutils.backup(
-                dir=odwhcons.FileLocations.OVIRT_ENGINE_DWH_DB_BACKUP_DIR,
+                dir=self.environment[
+                    odwhcons.ConfigEnv.OVIRT_ENGINE_DWH_DB_BACKUP_DIR
+                ],
                 prefix=odwhcons.Const.OVIRT_ENGINE_DWH_DB_BACKUP_PREFIX,
             )
 
