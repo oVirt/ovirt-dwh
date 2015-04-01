@@ -832,6 +832,26 @@ public class AggregationToDaily implements TalendJob {
 		tJDBCInput_13_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tAggregateRow_9_AGGOUT_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tAggregateRow_9_AGGOUT", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCInput_9_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tAggregateRow_9_AGGIN_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tAggregateRow_9_AGGIN", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCInput_9_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tAggregateRow_8_AGGOUT_error(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -19433,8 +19453,8 @@ public class AggregationToDaily implements TalendJob {
 		globalMap.put("tRowGenerator_1_SUBPROCESS_STATE", 1);
 	}
 
-	public static class disks_usage_dailyStruct implements
-			routines.system.IPersistableRow<disks_usage_dailyStruct> {
+	public static class row15Struct implements
+			routines.system.IPersistableRow<row15Struct> {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[0];
 
@@ -19578,7 +19598,359 @@ public class AggregationToDaily implements TalendJob {
 		/**
 		 * Compare keys
 		 */
-		public int compareTo(disks_usage_dailyStruct other) {
+		public int compareTo(row15Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class OnRowsEndStructtAggregateRow_9 implements
+			routines.system.IPersistableRow<OnRowsEndStructtAggregateRow_9> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[0];
+
+		public java.util.Date history_datetime;
+
+		public java.util.Date getHistory_datetime() {
+			return this.history_datetime;
+		}
+
+		public Object vm_id;
+
+		public Object getVm_id() {
+			return this.vm_id;
+		}
+
+		public String disks_usage;
+
+		public String getDisks_usage() {
+			return this.disks_usage;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[2 * length];
+					}
+				}
+				dis.readFully(
+						commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily, 0,
+						length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily, 0,
+						length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToDaily) {
+
+				try {
+
+					int length = 0;
+
+					this.history_datetime = readDate(dis);
+
+					this.vm_id = (Object) dis.readObject();
+
+					this.disks_usage = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				} catch (ClassNotFoundException eCNFE) {
+					throw new RuntimeException(eCNFE);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.history_datetime, dos);
+
+				// Object
+
+				dos.writeObject(this.vm_id);
+
+				// String
+
+				writeString(this.disks_usage, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("history_datetime=" + String.valueOf(history_datetime));
+			sb.append(",vm_id=" + String.valueOf(vm_id));
+			sb.append(",disks_usage=" + disks_usage);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(OnRowsEndStructtAggregateRow_9 other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class disks_usage_aggregateStruct implements
+			routines.system.IPersistableRow<disks_usage_aggregateStruct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[0];
+
+		public java.util.Date history_datetime;
+
+		public java.util.Date getHistory_datetime() {
+			return this.history_datetime;
+		}
+
+		public Object vm_id;
+
+		public Object getVm_id() {
+			return this.vm_id;
+		}
+
+		public String disks_usage;
+
+		public String getDisks_usage() {
+			return this.disks_usage;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily = new byte[2 * length];
+					}
+				}
+				dis.readFully(
+						commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily, 0,
+						length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_AggregationToDaily, 0,
+						length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_AggregationToDaily) {
+
+				try {
+
+					int length = 0;
+
+					this.history_datetime = readDate(dis);
+
+					this.vm_id = (Object) dis.readObject();
+
+					this.disks_usage = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				} catch (ClassNotFoundException eCNFE) {
+					throw new RuntimeException(eCNFE);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.history_datetime, dos);
+
+				// Object
+
+				dos.writeObject(this.vm_id);
+
+				// String
+
+				writeString(this.disks_usage, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("history_datetime=" + String.valueOf(history_datetime));
+			sb.append(",vm_id=" + String.valueOf(vm_id));
+			sb.append(",disks_usage=" + disks_usage);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(disks_usage_aggregateStruct other) {
 
 			int returnValue = -1;
 
@@ -19791,6 +20163,7 @@ public class AggregationToDaily implements TalendJob {
 		globalMap.put("tJDBCInput_9_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
+		String currentVirtualComponent = null;
 
 		String iterateId = "";
 		int iterateLoop = 0;
@@ -19808,47 +20181,303 @@ public class AggregationToDaily implements TalendJob {
 				globalResumeTicket = true;
 
 				row12Struct row12 = new row12Struct();
-				disks_usage_dailyStruct disks_usage_daily = new disks_usage_dailyStruct();
+				disks_usage_aggregateStruct disks_usage_aggregate = new disks_usage_aggregateStruct();
+				row15Struct row15 = new row15Struct();
 
 				/**
-				 * [tJDBCOutput_9 begin ] start
+				 * [tAggregateRow_9_AGGOUT begin ] start
 				 */
 
-				ok_Hash.put("tJDBCOutput_9", false);
-				start_Hash.put("tJDBCOutput_9", System.currentTimeMillis());
+				ok_Hash.put("tAggregateRow_9_AGGOUT", false);
+				start_Hash.put("tAggregateRow_9_AGGOUT",
+						System.currentTimeMillis());
 
-				currentComponent = "tJDBCOutput_9";
+				currentVirtualComponent = "tAggregateRow_9";
 
-				int tos_count_tJDBCOutput_9 = 0;
+				currentComponent = "tAggregateRow_9_AGGOUT";
 
-				int nb_line_tJDBCOutput_9 = 0;
-				int nb_line_update_tJDBCOutput_9 = 0;
-				int nb_line_inserted_tJDBCOutput_9 = 0;
-				int nb_line_deleted_tJDBCOutput_9 = 0;
-				int nb_line_rejected_tJDBCOutput_9 = 0;
+				int tos_count_tAggregateRow_9_AGGOUT = 0;
 
-				int tmp_batchUpdateCount_tJDBCOutput_9 = 0;
+				// ------------
 
-				int deletedCount_tJDBCOutput_9 = 0;
-				int updatedCount_tJDBCOutput_9 = 0;
-				int insertedCount_tJDBCOutput_9 = 0;
-				int rejectedCount_tJDBCOutput_9 = 0;
+				java.util.Map hashAggreg_tAggregateRow_9 = new java.util.HashMap();
 
-				boolean whetherReject_tJDBCOutput_9 = false;
+				// ------------
 
-				java.sql.Connection connection_tJDBCOutput_9 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_1");
-				int batchSize_tJDBCOutput_9 = 10000;
-				int batchSizeCounter_tJDBCOutput_9 = 0;
+				class UtilClass_tAggregateRow_9 { // G_OutBegin_AggR_144
 
-				String insert_tJDBCOutput_9 = "INSERT INTO "
-						+ "vm_disks_usage_daily_history"
-						+ " (history_datetime,vm_id,disks_usage) VALUES (?,?,?)";
-				java.sql.PreparedStatement pstmt_tJDBCOutput_9 = connection_tJDBCOutput_9
-						.prepareStatement(insert_tJDBCOutput_9);
+					public double sd(Double[] data) {
+						final int n = data.length;
+						if (n < 2) {
+							return Double.NaN;
+						}
+						double d1 = 0d;
+						double d2 = 0d;
+
+						for (int i = 0; i < data.length; i++) {
+							d1 += (data[i] * data[i]);
+							d2 += data[i];
+						}
+
+						return Math.sqrt((n * d1 - d2 * d2) / n / (n - 1));
+					}
+
+					public void checkedIADD(byte a, byte b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+						byte r = (byte) (a + b);
+						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'short/Short'", "'int/Integer'"));
+						}
+					}
+
+					public void checkedIADD(short a, short b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+						short r = (short) (a + b);
+						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'int/Integer'", "'short/Short'"));
+						}
+					}
+
+					public void checkedIADD(int a, int b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+						int r = a + b;
+						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'long/Long'", "'int/Integer'"));
+						}
+					}
+
+					public void checkedIADD(long a, long b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+						long r = a + b;
+						if (checkTypeOverFlow && ((a ^ r) & (b ^ r)) < 0) {
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'BigDecimal'", "'long/Long'"));
+						}
+					}
+
+					public void checkedIADD(float a, float b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+
+						if (checkUlp) {
+							float minAddedValue = Math.ulp(a);
+							if (minAddedValue > Math.abs(b)) {
+
+								throw new RuntimeException(
+										buildPrecisionMessage(
+												String.valueOf(a),
+												String.valueOf(b),
+												"'double' or 'BigDecimal'",
+												"'float/Float'"));
+							}
+						}
+
+						if (checkTypeOverFlow
+								&& ((double) a + (double) b > (double) Float.MAX_VALUE)
+								|| ((double) a + (double) b < (double) -Float.MAX_VALUE)) {
+
+							throw new RuntimeException(
+									buildOverflowMessage(String.valueOf(a),
+											String.valueOf(b),
+											"'double' or 'BigDecimal'",
+											"'float/Float'"));
+						}
+					}
+
+					public void checkedIADD(double a, double b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+
+						if (checkUlp) {
+							double minAddedValue = Math.ulp(a);
+							if (minAddedValue > Math.abs(b)) {
+
+								throw new RuntimeException(
+										buildPrecisionMessage(
+												String.valueOf(a),
+												String.valueOf(a),
+												"'BigDecimal'",
+												"'double/Double'"));
+							}
+						}
+
+						if (checkTypeOverFlow
+								&& (a + b > (double) Double.MAX_VALUE)
+								|| (a + b < -Double.MAX_VALUE)) {
+
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'BigDecimal'", "'double/Double'"));
+						}
+					}
+
+					public void checkedIADD(double a, byte b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+
+						if (checkTypeOverFlow
+								&& (a + b > (double) Double.MAX_VALUE)
+								|| (a + b < -Double.MAX_VALUE)) {
+
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'BigDecimal'", "'double/Double'"));
+						}
+					}
+
+					public void checkedIADD(double a, short b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+
+						if (checkTypeOverFlow
+								&& (a + b > (double) Double.MAX_VALUE)
+								|| (a + b < -Double.MAX_VALUE)) {
+
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'BigDecimal'", "'double/Double'"));
+						}
+					}
+
+					public void checkedIADD(double a, int b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+
+						if (checkTypeOverFlow
+								&& (a + b > (double) Double.MAX_VALUE)
+								|| (a + b < -Double.MAX_VALUE)) {
+
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'BigDecimal'", "'double/Double'"));
+						}
+					}
+
+					public void checkedIADD(double a, float b,
+							boolean checkTypeOverFlow, boolean checkUlp) {
+
+						if (checkUlp) {
+							double minAddedValue = Math.ulp(a);
+							if (minAddedValue > Math.abs(b)) {
+
+								throw new RuntimeException(
+										buildPrecisionMessage(
+												String.valueOf(a),
+												String.valueOf(a),
+												"'BigDecimal'",
+												"'double/Double'"));
+							}
+						}
+
+						if (checkTypeOverFlow
+								&& (a + b > (double) Double.MAX_VALUE)
+								|| (a + b < -Double.MAX_VALUE)) {
+
+							throw new RuntimeException(buildOverflowMessage(
+									String.valueOf(a), String.valueOf(b),
+									"'BigDecimal'", "'double/Double'"));
+						}
+					}
+
+					private String buildOverflowMessage(String a, String b,
+							String advicedTypes, String originalType) {
+						return "Type overflow when adding "
+								+ b
+								+ " to "
+								+ a
+								+ ", to resolve this problem, increase the precision by using "
+								+ advicedTypes + " type in place of "
+								+ originalType + ".";
+					}
+
+					private String buildPrecisionMessage(String a, String b,
+							String advicedTypes, String originalType) {
+						return "The double precision is unsufficient to add the value "
+								+ b
+								+ " to "
+								+ a
+								+ ", to resolve this problem, increase the precision by using "
+								+ advicedTypes
+								+ " type in place of "
+								+ originalType + ".";
+					}
+
+				} // G_OutBegin_AggR_144
+
+				UtilClass_tAggregateRow_9 utilClass_tAggregateRow_9 = new UtilClass_tAggregateRow_9();
+
+				class AggOperationStruct_tAggregateRow_9 { // G_OutBegin_AggR_100
+
+					private static final int DEFAULT_HASHCODE = 1;
+					private static final int PRIME = 31;
+					private int hashCode = DEFAULT_HASHCODE;
+					public boolean hashCodeDirty = true;
+
+					java.util.Date history_datetime;
+					Object vm_id;
+					String disks_usage_first;
+
+					@Override
+					public int hashCode() {
+						if (this.hashCodeDirty) {
+							final int prime = PRIME;
+							int result = DEFAULT_HASHCODE;
+
+							result = prime
+									* result
+									+ ((this.history_datetime == null) ? 0
+											: this.history_datetime.hashCode());
+
+							result = prime
+									* result
+									+ ((this.vm_id == null) ? 0 : this.vm_id
+											.hashCode());
+
+							this.hashCode = result;
+							this.hashCodeDirty = false;
+						}
+						return this.hashCode;
+					}
+
+					@Override
+					public boolean equals(Object obj) {
+						if (this == obj)
+							return true;
+						if (obj == null)
+							return false;
+						if (getClass() != obj.getClass())
+							return false;
+						final AggOperationStruct_tAggregateRow_9 other = (AggOperationStruct_tAggregateRow_9) obj;
+
+						if (this.history_datetime == null) {
+							if (other.history_datetime != null)
+								return false;
+						} else if (!this.history_datetime
+								.equals(other.history_datetime))
+							return false;
+
+						if (this.vm_id == null) {
+							if (other.vm_id != null)
+								return false;
+						} else if (!this.vm_id.equals(other.vm_id))
+							return false;
+
+						return true;
+					}
+
+				} // G_OutBegin_AggR_100
+
+				AggOperationStruct_tAggregateRow_9 operation_result_tAggregateRow_9 = null;
+				AggOperationStruct_tAggregateRow_9 operation_finder_tAggregateRow_9 = new AggOperationStruct_tAggregateRow_9();
+				java.util.Map<AggOperationStruct_tAggregateRow_9, AggOperationStruct_tAggregateRow_9> hash_tAggregateRow_9 = new java.util.HashMap<AggOperationStruct_tAggregateRow_9, AggOperationStruct_tAggregateRow_9>();
 
 				/**
-				 * [tJDBCOutput_9 begin ] stop
+				 * [tAggregateRow_9_AGGOUT begin ] stop
 				 */
 
 				/**
@@ -19875,7 +20504,7 @@ public class AggregationToDaily implements TalendJob {
 
 				// ###############################
 				// # Outputs initialization
-				disks_usage_dailyStruct disks_usage_daily_tmp = new disks_usage_dailyStruct();
+				disks_usage_aggregateStruct disks_usage_aggregate_tmp = new disks_usage_aggregateStruct();
 				// ###############################
 
 				/**
@@ -19901,11 +20530,11 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_9 = conn_tJDBCInput_9
 						.createStatement();
 
-				String dbquery_tJDBCInput_9 = "SELECT date_trunc('day', history_datetime), vm_id, disks_usage FROM vm_disks_usage_hourly_history WHERE history_id in (SELECT max(history_id)                       FROM vm_disks_usage_hourly_history                       GROUP BY vm_id, date_trunc('day', history_datetime))  AND history_datetime >= '"
+				String dbquery_tJDBCInput_9 = "SELECT   history_datetime,   vm_id,   disks_usage FROM vm_disks_usage_hourly_history WHERE history_datetime >= '"
 						+ context.lastDayAggr
 						+ "' AND history_datetime < '"
 						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
-						+ "' ";
+						+ "' ORDER BY history_id DESC,          vm_id";
 
 				globalMap.put("tJDBCInput_9_QUERY", dbquery_tJDBCInput_9);
 				java.sql.ResultSet rs_tJDBCInput_9 = null;
@@ -20013,13 +20642,14 @@ public class AggregationToDaily implements TalendJob {
 							// ###############################
 							// # Output tables
 
-							disks_usage_daily = null;
+							disks_usage_aggregate = null;
 
-							// # Output table : 'disks_usage_daily'
-							disks_usage_daily_tmp.history_datetime = row12.history_datetime;
-							disks_usage_daily_tmp.vm_id = row12.vm_id;
-							disks_usage_daily_tmp.disks_usage = row12.disks_usage;
-							disks_usage_daily = disks_usage_daily_tmp;
+							// # Output table : 'disks_usage_aggregate'
+							disks_usage_aggregate_tmp.history_datetime = RoutineHistoryETL
+									.startOfDay(row12.history_datetime);
+							disks_usage_aggregate_tmp.vm_id = row12.vm_id;
+							disks_usage_aggregate_tmp.disks_usage = row12.disks_usage;
+							disks_usage_aggregate = disks_usage_aggregate_tmp;
 							// ###############################
 
 						} // end of Var scope
@@ -20031,60 +20661,58 @@ public class AggregationToDaily implements TalendJob {
 						/**
 						 * [tMap_9 main ] stop
 						 */
-						// Start of branch "disks_usage_daily"
-						if (disks_usage_daily != null) {
+						// Start of branch "disks_usage_aggregate"
+						if (disks_usage_aggregate != null) {
 
 							/**
-							 * [tJDBCOutput_9 main ] start
+							 * [tAggregateRow_9_AGGOUT main ] start
 							 */
 
-							currentComponent = "tJDBCOutput_9";
+							currentVirtualComponent = "tAggregateRow_9";
 
-							whetherReject_tJDBCOutput_9 = false;
-							if (disks_usage_daily.history_datetime != null) {
-								pstmt_tJDBCOutput_9
-										.setTimestamp(
-												1,
-												new java.sql.Timestamp(
-														disks_usage_daily.history_datetime
-																.getTime()));
-							} else {
-								pstmt_tJDBCOutput_9.setNull(1,
-										java.sql.Types.DATE);
-							}
+							currentComponent = "tAggregateRow_9_AGGOUT";
 
-							if (disks_usage_daily.vm_id == null) {
-								pstmt_tJDBCOutput_9.setNull(2,
-										java.sql.Types.OTHER);
-							} else {
-								pstmt_tJDBCOutput_9.setObject(2,
-										disks_usage_daily.vm_id);
-							}
+							operation_finder_tAggregateRow_9.history_datetime = disks_usage_aggregate.history_datetime;
+							operation_finder_tAggregateRow_9.vm_id = disks_usage_aggregate.vm_id;
 
-							if (disks_usage_daily.disks_usage == null) {
-								pstmt_tJDBCOutput_9.setNull(3,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_9.setString(3,
-										disks_usage_daily.disks_usage);
-							}
+							operation_finder_tAggregateRow_9.hashCodeDirty = true;
 
-							try {
-								insertedCount_tJDBCOutput_9 = insertedCount_tJDBCOutput_9
-										+ pstmt_tJDBCOutput_9.executeUpdate();
-								nb_line_tJDBCOutput_9++;
-							} catch (java.lang.Exception e) {
-								whetherReject_tJDBCOutput_9 = true;
-								throw (e);
-							}
+							operation_result_tAggregateRow_9 = hash_tAggregateRow_9
+									.get(operation_finder_tAggregateRow_9);
 
-							tos_count_tJDBCOutput_9++;
+							boolean isFirstAdd_tAggregateRow_9 = false;
+
+							if (operation_result_tAggregateRow_9 == null) { // G_OutMain_AggR_001
+
+								operation_result_tAggregateRow_9 = new AggOperationStruct_tAggregateRow_9();
+
+								operation_result_tAggregateRow_9.history_datetime = operation_finder_tAggregateRow_9.history_datetime;
+								operation_result_tAggregateRow_9.vm_id = operation_finder_tAggregateRow_9.vm_id;
+
+								isFirstAdd_tAggregateRow_9 = true;
+
+								hash_tAggregateRow_9.put(
+										operation_result_tAggregateRow_9,
+										operation_result_tAggregateRow_9);
+
+							} // G_OutMain_AggR_001
+
+							if (disks_usage_aggregate.disks_usage != null) { // G_OutMain_AggR_546
+
+								if (isFirstAdd_tAggregateRow_9
+										|| operation_result_tAggregateRow_9.disks_usage_first == null) {
+									operation_result_tAggregateRow_9.disks_usage_first = disks_usage_aggregate.disks_usage;
+								}
+
+							} // G_OutMain_AggR_546
+
+							tos_count_tAggregateRow_9_AGGOUT++;
 
 							/**
-							 * [tJDBCOutput_9 main ] stop
+							 * [tAggregateRow_9_AGGOUT main ] stop
 							 */
 
-						} // End of branch "disks_usage_daily"
+						} // End of branch "disks_usage_aggregate"
 
 						/**
 						 * [tJDBCInput_9 end ] start
@@ -20122,6 +20750,169 @@ public class AggregationToDaily implements TalendJob {
 
 				/**
 				 * [tMap_9 end ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_9_AGGOUT end ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_9";
+
+				currentComponent = "tAggregateRow_9_AGGOUT";
+
+				ok_Hash.put("tAggregateRow_9_AGGOUT", true);
+				end_Hash.put("tAggregateRow_9_AGGOUT",
+						System.currentTimeMillis());
+
+				/**
+				 * [tAggregateRow_9_AGGOUT end ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_9 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCOutput_9", false);
+				start_Hash.put("tJDBCOutput_9", System.currentTimeMillis());
+
+				currentComponent = "tJDBCOutput_9";
+
+				int tos_count_tJDBCOutput_9 = 0;
+
+				int nb_line_tJDBCOutput_9 = 0;
+				int nb_line_update_tJDBCOutput_9 = 0;
+				int nb_line_inserted_tJDBCOutput_9 = 0;
+				int nb_line_deleted_tJDBCOutput_9 = 0;
+				int nb_line_rejected_tJDBCOutput_9 = 0;
+
+				int tmp_batchUpdateCount_tJDBCOutput_9 = 0;
+
+				int deletedCount_tJDBCOutput_9 = 0;
+				int updatedCount_tJDBCOutput_9 = 0;
+				int insertedCount_tJDBCOutput_9 = 0;
+				int rejectedCount_tJDBCOutput_9 = 0;
+
+				boolean whetherReject_tJDBCOutput_9 = false;
+
+				java.sql.Connection connection_tJDBCOutput_9 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+				int batchSize_tJDBCOutput_9 = 10000;
+				int batchSizeCounter_tJDBCOutput_9 = 0;
+
+				String insert_tJDBCOutput_9 = "INSERT INTO "
+						+ "vm_disks_usage_daily_history"
+						+ " (history_datetime,vm_id,disks_usage) VALUES (?,?,?)";
+				java.sql.PreparedStatement pstmt_tJDBCOutput_9 = connection_tJDBCOutput_9
+						.prepareStatement(insert_tJDBCOutput_9);
+
+				/**
+				 * [tJDBCOutput_9 begin ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_9_AGGIN begin ] start
+				 */
+
+				ok_Hash.put("tAggregateRow_9_AGGIN", false);
+				start_Hash.put("tAggregateRow_9_AGGIN",
+						System.currentTimeMillis());
+
+				currentVirtualComponent = "tAggregateRow_9";
+
+				currentComponent = "tAggregateRow_9_AGGIN";
+
+				int tos_count_tAggregateRow_9_AGGIN = 0;
+
+				java.util.Collection<AggOperationStruct_tAggregateRow_9> values_tAggregateRow_9 = hash_tAggregateRow_9
+						.values();
+
+				globalMap.put("tAggregateRow_9_NB_LINE",
+						values_tAggregateRow_9.size());
+
+				for (AggOperationStruct_tAggregateRow_9 aggregated_row_tAggregateRow_9 : values_tAggregateRow_9) { // G_AggR_600
+
+					/**
+					 * [tAggregateRow_9_AGGIN begin ] stop
+					 */
+					/**
+					 * [tAggregateRow_9_AGGIN main ] start
+					 */
+
+					currentVirtualComponent = "tAggregateRow_9";
+
+					currentComponent = "tAggregateRow_9_AGGIN";
+
+					row15.history_datetime = aggregated_row_tAggregateRow_9.history_datetime;
+
+					row15.vm_id = aggregated_row_tAggregateRow_9.vm_id;
+
+					row15.disks_usage = aggregated_row_tAggregateRow_9.disks_usage_first;
+
+					tos_count_tAggregateRow_9_AGGIN++;
+
+					/**
+					 * [tAggregateRow_9_AGGIN main ] stop
+					 */
+
+					/**
+					 * [tJDBCOutput_9 main ] start
+					 */
+
+					currentComponent = "tJDBCOutput_9";
+
+					whetherReject_tJDBCOutput_9 = false;
+					if (row15.history_datetime != null) {
+						pstmt_tJDBCOutput_9.setTimestamp(
+								1,
+								new java.sql.Timestamp(row15.history_datetime
+										.getTime()));
+					} else {
+						pstmt_tJDBCOutput_9.setNull(1, java.sql.Types.DATE);
+					}
+
+					if (row15.vm_id == null) {
+						pstmt_tJDBCOutput_9.setNull(2, java.sql.Types.OTHER);
+					} else {
+						pstmt_tJDBCOutput_9.setObject(2, row15.vm_id);
+					}
+
+					if (row15.disks_usage == null) {
+						pstmt_tJDBCOutput_9.setNull(3, java.sql.Types.VARCHAR);
+					} else {
+						pstmt_tJDBCOutput_9.setString(3, row15.disks_usage);
+					}
+
+					try {
+						insertedCount_tJDBCOutput_9 = insertedCount_tJDBCOutput_9
+								+ pstmt_tJDBCOutput_9.executeUpdate();
+						nb_line_tJDBCOutput_9++;
+					} catch (java.lang.Exception e) {
+						whetherReject_tJDBCOutput_9 = true;
+						throw (e);
+					}
+
+					tos_count_tJDBCOutput_9++;
+
+					/**
+					 * [tJDBCOutput_9 main ] stop
+					 */
+
+					/**
+					 * [tAggregateRow_9_AGGIN end ] start
+					 */
+
+					currentVirtualComponent = "tAggregateRow_9";
+
+					currentComponent = "tAggregateRow_9_AGGIN";
+
+				} // G_AggR_600
+
+				ok_Hash.put("tAggregateRow_9_AGGIN", true);
+				end_Hash.put("tAggregateRow_9_AGGIN",
+						System.currentTimeMillis());
+
+				/**
+				 * [tAggregateRow_9_AGGIN end ] stop
 				 */
 
 				/**
@@ -20169,11 +20960,16 @@ public class AggregationToDaily implements TalendJob {
 			TalendException te = new TalendException(e, currentComponent,
 					globalMap);
 
+			te.setVirtualComponentName(currentVirtualComponent);
+
 			throw te;
 		} catch (java.lang.Error error) {
 
 			throw error;
 		} finally {
+
+			// free memory for "tAggregateRow_9_AGGIN"
+			globalMap.remove("tAggregateRow_9");
 
 			try {
 
@@ -20195,6 +20991,30 @@ public class AggregationToDaily implements TalendJob {
 
 				/**
 				 * [tMap_9 finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_9_AGGOUT finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_9";
+
+				currentComponent = "tAggregateRow_9_AGGOUT";
+
+				/**
+				 * [tAggregateRow_9_AGGOUT finally ] stop
+				 */
+
+				/**
+				 * [tAggregateRow_9_AGGIN finally ] start
+				 */
+
+				currentVirtualComponent = "tAggregateRow_9";
+
+				currentComponent = "tAggregateRow_9_AGGIN";
+
+				/**
+				 * [tAggregateRow_9_AGGIN finally ] stop
 				 */
 
 				/**
@@ -25659,6 +26479,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 738865 characters generated by Talend Open Studio for Data Integration on the
- * August 10, 2014 3:08:10 PM IDT
+ * 760468 characters generated by Talend Open Studio for Data Integration on the
+ * April 1, 2015 4:55:10 PM IDT
  ************************************************************************************************/
