@@ -9,31 +9,85 @@
     <contextParameter comment="" name="lastHourAggr" prompt="lastHourAggr?" promptNeeded="true" type="id_Date" value="yyyy-MM-dd HH:mm:ss;2000-01-01 00:00:00"/>
   </context>
   <parameters>
-    <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx1024M"/>
-    <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="0"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="64"/>
-    <elementParameter field="TEXT" name="SCHEMA_OPTIONS" value="none"/>
-    <elementParameter field="TEXT" name="OEM_CUSTOM_ATTRIBUTE" value=""/>
-    <elementParameter field="TEXT" name="HADOOP_APP_PATH" value=""/>
-    <elementParameter field="TEXT" name="JOBID_FOR_OOZIE" value=""/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value=""/>
-    <elementParameter field="TABLE" name="HADOOP_ADVANCED_PROPERTIES"/>
     <elementParameter field="CHECK" name="IMPLICITCONTEXT_USE_PROJECT_SETTINGS" value="true"/>
     <elementParameter field="CHECK" name="STATANDLOG_USE_PROJECT_SETTINGS" value="true"/>
     <elementParameter field="CHECK" name="MULTI_THREAD_EXECATION" value="true"/>
+    <elementParameter field="CHECK" name="IMPLICIT_TCONTEXTLOAD" value="false"/>
+    <elementParameter field="RADIO" name="FROM_FILE_FLAG_IMPLICIT_CONTEXT" value="false"/>
+    <elementParameter field="RADIO" name="FROM_DATABASE_FLAG_IMPLICIT_CONTEXT" value="false"/>
     <elementParameter field="FILE" name="IMPLICIT_TCONTEXTLOAD_FILE" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;&quot;"/>
+    <elementParameter field="TECHNICAL" name="PROPERTY_TYPE_IMPLICIT_CONTEXT:PROPERTY_TYPE" value=""/>
+    <elementParameter field="TECHNICAL" name="PROPERTY_TYPE_IMPLICIT_CONTEXT:REPOSITORY_PROPERTY_TYPE" value=""/>
+    <elementParameter field="CLOSED_LIST" name="DB_TYPE_IMPLICIT_CONTEXT" value=""/>
     <elementParameter field="CLOSED_LIST" name="DB_VERSION_IMPLICIT_CONTEXT" value=""/>
-    <elementParameter field="CLOSED_LIST" name="LOAD_NEW_VARIABLE" value=""/>
-    <elementParameter field="CLOSED_LIST" name="NOT_LOAD_OLD_VARIABLE" value=""/>
+    <elementParameter field="TEXT" name="URL_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TABLE" name="DRIVER_JAR_IMPLICIT_CONTEXT"/>
+    <elementParameter field="TEXT" name="DRIVER_CLASS_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="HOST_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="PORT_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="DBNAME_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="PROPERTIES_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="USER_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS_IMPLICIT_CONTEXT" value="0RMsyjmybrE="/>
+    <elementParameter field="FILE" name="DBFILE_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="DBTABLE_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="QUERY_CONDITION_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="CLOSED_LIST" name="LOAD_NEW_VARIABLE" value="Warning"/>
+    <elementParameter field="CLOSED_LIST" name="NOT_LOAD_OLD_VARIABLE" value="Warning"/>
+    <elementParameter field="CHECK" name="PRINT_OPERATIONS" value="false"/>
+    <elementParameter field="CHECK" name="DISABLE_ERROR" value="false"/>
     <elementParameter field="CHECK" name="DISABLE_WARNINGS" value="false"/>
     <elementParameter field="CHECK" name="DISABLE_INFO" value="false"/>
+    <elementParameter field="CHECK" name="ON_STATCATCHER_FLAG" value="false"/>
     <elementParameter field="CHECK" name="ON_LOGCATCHER_FLAG" value="true"/>
+    <elementParameter field="CHECK" name="ON_METERCATCHER_FLAG" value="false"/>
     <elementParameter field="CHECK" name="ON_CONSOLE_FLAG" value="true"/>
+    <elementParameter field="CHECK" name="ON_FILES_FLAG" value="false"/>
     <elementParameter field="DIRECTORY" name="FILE_PATH" value="&quot;/home/ydary/Desktop&quot;"/>
+    <elementParameter field="TEXT" name="FILENAME_STATS" value="&quot;stats_file.txt&quot;"/>
+    <elementParameter field="TEXT" name="FILENAME_LOGS" value="&quot;logs_file.txt&quot;"/>
+    <elementParameter field="TEXT" name="FILENAME_METTER" value="&quot;meter_file.txt&quot;"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="ISO-8859-15"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
-    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_10"/>
+    <elementParameter field="CHECK" name="ON_DATABASE_FLAG" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_TYPE" value="tJDBCOutput"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ojdbc14-10g.jar"/>
+    <elementParameter field="TEXT" name="URL" value="&quot;&quot;"/>
+    <elementParameter field="TABLE" name="DRIVER_JAR"/>
+    <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="HOST" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="PORT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="DATASOURCE" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="DBNAME" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
+    <elementParameter field="FILE" name="DBFILE" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE_STATS" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE_LOGS" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE_METER" value="&quot;&quot;"/>
+    <elementParameter field="CHECK" name="CATCH_RUNTIME_ERRORS" value="true"/>
+    <elementParameter field="CHECK" name="CATCH_USER_ERRORS" value="true"/>
+    <elementParameter field="CHECK" name="CATCH_USER_WARNING" value="true"/>
+    <elementParameter field="CHECK" name="CATCH_REALTIME_STATS" value="false"/>
+    <elementParameter field="TEXT" name="HEADERFOOTER_HEADERID" value=""/>
+    <elementParameter field="CHECK" name="HEADER_ENABLED" value="false"/>
+    <elementParameter field="TEXT" name="HEADER_LIBRARY" value=""/>
+    <elementParameter field="TEXT" name="HEADER_CODE" value=""/>
+    <elementParameter field="TEXT" name="HEADER_IMPORT" value=""/>
+    <elementParameter field="TEXT" name="HEADERFOOTER_FOOTERID" value=""/>
+    <elementParameter field="CHECK" name="FOOTER_ENABLED" value="false"/>
+    <elementParameter field="TEXT" name="FOOTER_LIBRARY" value=""/>
+    <elementParameter field="TEXT" name="FOOTER_CODE" value=""/>
+    <elementParameter field="TEXT" name="FOOTER_IMPORT" value=""/>
     <routinesParameter id="_V_-9YEgBEeCZFMqypDMoxQ" name="RoutineHistoryETL"/>
     <routinesParameter id="_S6Oh4EJlEeCWRqOtaF5m-w" name="DataOperation"/>
     <routinesParameter id="_S6YS4EJlEeCWRqOtaF5m-w" name="Mathematical"/>
@@ -46,6 +100,7 @@
   </parameters>
   <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="256" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_1"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineHistoryDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
       <elementValue elementRef="JAR_NAME" value="postgresql-8.4-703.jdbc4.jar"/>
@@ -64,14 +119,10 @@
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="hourly_ovirt_engine_history"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="96" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_1"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -107,10 +158,9 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="datacenter_configuration_version"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="datacenter_samples_history" name="tJDBCInput_1">
       <column comment="" defaultValue="&quot;nextval('datacenter_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -122,6 +172,7 @@
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="96" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_1"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
@@ -131,9 +182,6 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="datacenter_hourly_history" name="dc_history_aggregate">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -163,6 +211,7 @@
   </node>
   <node componentName="tAggregateRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="96" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tAggregateRow_1"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TABLE" name="GROUPBYS">
       <elementValue elementRef="OUTPUT_COLUMN" value="history_datetime"/>
       <elementValue elementRef="INPUT_COLUMN" value="history_datetime"/>
@@ -186,9 +235,6 @@
     <elementParameter field="CHECK" name="CHECK_TYPE_OVERFLOW" value="false"/>
     <elementParameter field="CHECK" name="CHECK_ULP" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="datacenter_hourly_history" name="tAggregateRow_1">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -199,7 +245,7 @@
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="96" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_1"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -250,9 +296,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="datacenter_hourly_history" name="tJDBCOutput_1">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -272,8 +315,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="480" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_2"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -331,10 +373,9 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="host_configuration_version"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_samples_history" name="tJDBCInput_2">
       <column comment="" defaultValue="&quot;nextval('host_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -357,6 +398,7 @@
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="480" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_2"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
@@ -366,9 +408,6 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_samples_history" name="host_aggregation">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -431,6 +470,7 @@
   </node>
   <node componentName="tAggregateRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="480" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tAggregateRow_2"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TABLE" name="GROUPBYS">
       <elementValue elementRef="OUTPUT_COLUMN" value="history_datetime"/>
       <elementValue elementRef="INPUT_COLUMN" value="history_datetime"/>
@@ -542,9 +582,6 @@
     <elementParameter field="CHECK" name="CHECK_TYPE_OVERFLOW" value="false"/>
     <elementParameter field="CHECK" name="CHECK_ULP" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_hourly_history" name="tAggregateRow_2">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -577,7 +614,7 @@
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="480" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_2"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -738,9 +775,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_hourly_history" name="tJDBCOutput_2">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -804,8 +838,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="672" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_3"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -841,10 +874,9 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="host_interface_configuration_version"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_samples_history" name="tJDBCInput_3">
       <column comment="" defaultValue="&quot;nextval('host_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -856,6 +888,7 @@
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="672" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_3"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
@@ -865,9 +898,6 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_samples_history" name="host_history_history_aggregate">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -897,6 +927,7 @@
   </node>
   <node componentName="tAggregateRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="672" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tAggregateRow_3"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TABLE" name="GROUPBYS">
       <elementValue elementRef="OUTPUT_COLUMN" value="history_datetime"/>
       <elementValue elementRef="INPUT_COLUMN" value="history_datetime"/>
@@ -930,9 +961,6 @@
     <elementParameter field="CHECK" name="CHECK_TYPE_OVERFLOW" value="false"/>
     <elementParameter field="CHECK" name="CHECK_ULP" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tAggregateRow_3">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -945,7 +973,7 @@
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="672" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_3"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1006,9 +1034,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tJDBCOutput_3">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -1032,8 +1057,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="864" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_4"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1087,10 +1111,9 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="current_host_configuration_version"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_samples_history" name="tJDBCInput_4">
       <column comment="" defaultValue="&quot;nextval('vm_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -1111,6 +1134,7 @@
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="864" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_4"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
@@ -1120,9 +1144,6 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="vm_aggregate_history">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -1177,6 +1198,7 @@
   </node>
   <node componentName="tAggregateRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="864" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tAggregateRow_4"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TABLE" name="GROUPBYS">
       <elementValue elementRef="OUTPUT_COLUMN" value="history_datetime"/>
       <elementValue elementRef="INPUT_COLUMN" value="history_datetime"/>
@@ -1248,9 +1270,6 @@
     <elementParameter field="CHECK" name="CHECK_TYPE_OVERFLOW" value="false"/>
     <elementParameter field="CHECK" name="CHECK_ULP" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tAggregateRow_4">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -1273,7 +1292,7 @@
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="864" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_4"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1384,9 +1403,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tJDBCOutput_4">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -1430,8 +1446,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_5"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1467,10 +1482,9 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_interface_configuration_version"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_interface_samples_history" name="tJDBCInput_5">
       <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -1482,6 +1496,7 @@
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_5"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
@@ -1491,9 +1506,6 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_interface_samples_history" name="vm_interface_aggregate">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -1523,6 +1535,7 @@
   </node>
   <node componentName="tAggregateRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tAggregateRow_5"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TABLE" name="GROUPBYS">
       <elementValue elementRef="OUTPUT_COLUMN" value="history_datetime"/>
       <elementValue elementRef="INPUT_COLUMN" value="history_datetime"/>
@@ -1556,9 +1569,6 @@
     <elementParameter field="CHECK" name="CHECK_TYPE_OVERFLOW" value="false"/>
     <elementParameter field="CHECK" name="CHECK_ULP" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_interface_hourly_history" name="tAggregateRow_5">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -1571,7 +1581,7 @@
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_5"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1632,9 +1642,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_interface_hourly_history" name="tJDBCOutput_5">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -1658,8 +1665,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="288" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_11"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1699,10 +1705,9 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="storage_configuration_version"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_samples_history" name="tJDBCInput_11">
       <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -1716,6 +1721,7 @@
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="288" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_11"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
@@ -1725,9 +1731,6 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_samples_history" name="storage_aggregate">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -1763,6 +1766,7 @@
   </node>
   <node componentName="tAggregateRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="288" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tAggregateRow_6"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TABLE" name="GROUPBYS">
       <elementValue elementRef="OUTPUT_COLUMN" value="history_datetime"/>
       <elementValue elementRef="INPUT_COLUMN" value="history_datetime"/>
@@ -1794,9 +1798,6 @@
     <elementParameter field="CHECK" name="CHECK_TYPE_OVERFLOW" value="false"/>
     <elementParameter field="CHECK" name="CHECK_ULP" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tAggregateRow_6">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -1809,7 +1810,7 @@
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="288" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_11"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1870,9 +1871,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCOutput_11">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -1896,8 +1894,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1440" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_13"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1945,10 +1942,9 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_configuration_version"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tJDBCInput_13">
       <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
@@ -1966,6 +1962,7 @@
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1440" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_13"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
@@ -1975,9 +1972,6 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_samples_history" name="vm_disk_aggregate">
       <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
@@ -2027,6 +2021,7 @@
   </node>
   <node componentName="tAggregateRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1440" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tAggregateRow_7"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TABLE" name="GROUPBYS">
       <elementValue elementRef="OUTPUT_COLUMN" value="history_datetime"/>
       <elementValue elementRef="INPUT_COLUMN" value="history_datetime"/>
@@ -2098,9 +2093,6 @@
     <elementParameter field="CHECK" name="CHECK_TYPE_OVERFLOW" value="false"/>
     <elementParameter field="CHECK" name="CHECK_ULP" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_samples_history" name="tAggregateRow_7">
       <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
@@ -2123,7 +2115,7 @@
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="-11" offsetLabelY="0" posX="1440" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_13"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -2234,9 +2226,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_samples_history" name="tJDBCOutput_13">
       <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
@@ -2280,24 +2269,17 @@
   </node>
   <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="96" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tPostjob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="96" posY="640">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_9"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -2310,7 +2292,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT date_trunc('hour', history_datetime), vm_id, disks_usage&#xA;FROM vm_disks_usage_samples_history&#xA;WHERE history_id in (SELECT max(history_id)&#xA;                      FROM vm_disks_usage_samples_history&#xA;                      GROUP BY vm_id, date_trunc('hour', history_datetime)) &#xA;AND history_datetime >= '&quot;+context.lastHourAggr+&quot;'&#xA;AND history_datetime &lt; '&quot;+TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;)+&quot;'&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#xA;  history_datetime,&#xA;  vm_id,&#xA;  disks_usage&#xA;FROM vm_disks_usage_samples_history&#xA;WHERE history_datetime >= '&quot;+context.lastHourAggr+&quot;'&#xA;AND history_datetime &lt; '&quot;+TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;)+&quot;'&#xA;ORDER BY history_id DESC,&#xA;         vm_id&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -2327,42 +2309,39 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="disks_usage"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disks_usage_samples_history" name="tJDBCInput_9">
-      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="288">
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_9"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_6"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
-    <elementParameter field="IMAGE" name="PREVIEW" value="_6qsvkEi2EeCv8PaoeAjHHg-tMap_9-PREVIEW.bmp"/>
+    <elementParameter field="IMAGE" name="PREVIEW" value="_6qsvkEi2EeCv8PaoeAjHHg-tMap_6-PREVIEW.bmp"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="CHECK" name="LKUP_PARALLELIZE" value="false"/>
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
-    <metadata connector="FLOW" label="vm_disks_usage_daily_history" name="disks_usage_hourly">
-      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="2147483647" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
+    <metadata connector="FLOW" name="disk_usage_aggregate">
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
-      <outputTables sizeState="INTERMEDIATE" name="disks_usage_hourly">
-        <mapperTableEntries name="history_datetime" expression="row12.history_datetime" type="id_Date"/>
-        <mapperTableEntries name="vm_id" expression="row12.vm_id" type="id_Object"/>
-        <mapperTableEntries name="disks_usage" expression="row12.disks_usage" type="id_String" nullable="true"/>
+      <outputTables sizeState="INTERMEDIATE" name="disk_usage_aggregate">
+        <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row12.history_datetime) " type="id_Date"/>
+        <mapperTableEntries name="vm_id" expression="row12.vm_id " type="id_Object"/>
+        <mapperTableEntries name="disks_usage" expression="row12.disks_usage " type="id_String" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row12" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="history_datetime" type="id_Date"/>
@@ -2371,9 +2350,35 @@
       </inputTables>
     </nodeData>
   </node>
-  <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="384">
+  <node componentName="tAggregateRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="384">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tAggregateRow_9"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
+    <elementParameter field="TABLE" name="GROUPBYS">
+      <elementValue elementRef="OUTPUT_COLUMN" value="history_datetime"/>
+      <elementValue elementRef="INPUT_COLUMN" value="history_datetime"/>
+      <elementValue elementRef="OUTPUT_COLUMN" value="vm_id"/>
+      <elementValue elementRef="INPUT_COLUMN" value="vm_id"/>
+    </elementParameter>
+    <elementParameter field="TABLE" name="OPERATIONS">
+      <elementValue elementRef="OUTPUT_COLUMN" value="disks_usage"/>
+      <elementValue elementRef="FUNCTION" value="first"/>
+      <elementValue elementRef="INPUT_COLUMN" value="disks_usage"/>
+      <elementValue elementRef="IGNORE_NULL" value="true"/>
+    </elementParameter>
+    <elementParameter field="TEXT" name="LIST_DELIMITER" value="&quot;,&quot;"/>
+    <elementParameter field="CHECK" name="USE_FINANCIAL_PRECISION" value="true"/>
+    <elementParameter field="CHECK" name="CHECK_TYPE_OVERFLOW" value="false"/>
+    <elementParameter field="CHECK" name="CHECK_ULP" value="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" label="vm_hourly_history" name="tAggregateRow_9">
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_9"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -2414,17 +2419,14 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disks_usage_daily_history" name="tJDBCOutput_9">
-      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="2147483647" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="vm_disks_usage_daily_history" name="REJECT">
-      <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
-      <column comment="" key="false" length="2147483647" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
+      <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
+      <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
@@ -2432,8 +2434,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1632" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_10"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -2489,10 +2490,9 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="current_host_configuration_version"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_samples_history" name="tJDBCInput_10">
       <column comment="" defaultValue="&quot;nextval('vm_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -2514,6 +2514,7 @@
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1632" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_10"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
@@ -2523,9 +2524,6 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="vm_users_aggregate_history">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
@@ -2585,6 +2583,7 @@
   </node>
   <node componentName="tAggregateRow" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1632" posY="384">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tAggregateRow_8"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TABLE" name="GROUPBYS">
       <elementValue elementRef="OUTPUT_COLUMN" value="history_datetime"/>
       <elementValue elementRef="INPUT_COLUMN" value="history_datetime"/>
@@ -2662,9 +2661,6 @@
     <elementParameter field="CHECK" name="CHECK_TYPE_OVERFLOW" value="false"/>
     <elementParameter field="CHECK" name="CHECK_ULP" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tAggregateRow_8">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
@@ -2689,6 +2685,7 @@
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="1632" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tMap_12"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="CLOSED_LIST" name="LINK_STYLE" value="AUTO"/>
     <elementParameter field="DIRECTORY" name="TEMPORARY_DATA_DIRECTORY" value=""/>
@@ -2698,9 +2695,6 @@
     <elementParameter field="TEXT" name="ROWS_BUFFER_SIZE" value="2000000"/>
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="complete_aggregation">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
@@ -2771,7 +2765,7 @@
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1632" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_10"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -2892,9 +2886,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tJDBCOutput_10">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="user_id" nullable="true" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
@@ -2942,7 +2933,7 @@
   </node>
   <node componentName="tRowGenerator" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="288" posY="640">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRowGenerator_1"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
     <elementParameter field="TABLE" name="VALUES">
       <elementValue elementRef="SCHEMA_COLUMN" value="var_name"/>
@@ -2952,9 +2943,6 @@
     </elementParameter>
     <elementParameter field="EXTERNAL" name="MAP" value=""/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="history_configuration" name="tRowGenerator_1">
       <column comment="" key="true" length="50" name="var_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="var_datetime" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -2962,7 +2950,7 @@
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="288" posY="768">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_6"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -2998,9 +2986,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="history_configuration" name="tJDBCOutput_6">
       <column comment="" key="true" length="50" name="var_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="var_datetime" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -3014,7 +2999,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="448" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_6"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -3042,10 +3027,9 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="value"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCInput_6">
       <column comment="" key="false" name="key" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="value" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_String" usefulColumn="true"/>
@@ -3053,7 +3037,7 @@
   </node>
   <node componentName="tContextLoad" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="448" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tContextLoad_1"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CLOSED_LIST" name="LOAD_NEW_VARIABLE" value="Warning"/>
     <elementParameter field="CLOSED_LIST" name="NOT_LOAD_OLD_VARIABLE" value="Warning"/>
     <elementParameter field="CHECK" name="PRINT_OPERATIONS" value="false"/>
@@ -3062,20 +3046,15 @@
     <elementParameter field="CHECK" name="DISABLE_INFO" value="true"/>
     <elementParameter field="CHECK" name="DIEONERROR" value="true"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tContextLoad_1">
       <column defaultValue="" key="false" length="255" name="key" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="value" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_1" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_1" target="tJDBCInput_6">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk3"/>
   </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tJDBCInput_1" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_1" target="tMap_1">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="aggregation_level"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3094,16 +3073,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1"/>
   </connection>
   <connection connectorName="FLOW" label="dc_history_aggregate" lineStyle="0" metaname="dc_history_aggregate" offsetLabelX="0" offsetLabelY="0" source="tMap_1" target="tAggregateRow_1">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3125,16 +3097,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="dc_history_aggregate"/>
   </connection>
   <connection connectorName="FLOW" label="row6" lineStyle="0" metaname="tAggregateRow_1" offsetLabelX="0" offsetLabelY="0" source="tAggregateRow_1" target="tJDBCOutput_1">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3156,16 +3121,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row6"/>
   </connection>
   <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tJDBCInput_2" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_2" target="tMap_2">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="aggregation_level"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3220,16 +3178,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2"/>
   </connection>
   <connection connectorName="FLOW" label="host_aggregation" lineStyle="0" metaname="host_aggregation" offsetLabelX="0" offsetLabelY="0" source="tMap_2" target="tAggregateRow_2">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3290,16 +3241,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="host_aggregation"/>
   </connection>
   <connection connectorName="FLOW" label="row7" lineStyle="0" metaname="tAggregateRow_2" offsetLabelX="0" offsetLabelY="0" source="tAggregateRow_2" target="tJDBCOutput_2">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3387,16 +3331,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7"/>
   </connection>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tJDBCInput_3" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_3" target="tMap_3">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3457,16 +3394,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row3"/>
   </connection>
   <connection connectorName="FLOW" label="host_history_history_aggregate" lineStyle="0" metaname="host_history_history_aggregate" offsetLabelX="0" offsetLabelY="0" source="tMap_3" target="tAggregateRow_3">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3515,16 +3445,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="host_history_history_aggregate"/>
   </connection>
   <connection connectorName="FLOW" label="row8" lineStyle="0" metaname="tAggregateRow_3" offsetLabelX="0" offsetLabelY="0" source="tAggregateRow_3" target="tJDBCOutput_3">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3558,16 +3481,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row8"/>
   </connection>
   <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tJDBCInput_4" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_4" target="tMap_4">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="aggregation_level"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3640,16 +3556,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4"/>
   </connection>
   <connection connectorName="FLOW" label="vm_aggregate_history" lineStyle="0" metaname="vm_aggregate_history" offsetLabelX="0" offsetLabelY="0" source="tMap_4" target="tAggregateRow_4">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3707,16 +3616,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="vm_aggregate_history"/>
   </connection>
   <connection connectorName="FLOW" label="row9" lineStyle="0" metaname="tAggregateRow_4" offsetLabelX="0" offsetLabelY="0" source="tAggregateRow_4" target="tJDBCOutput_4">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3780,16 +3682,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row9"/>
   </connection>
   <connection connectorName="FLOW" label="row5" lineStyle="0" metaname="tJDBCInput_5" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_5" target="tMap_5">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="aggregation_level"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3835,16 +3730,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row5"/>
   </connection>
   <connection connectorName="FLOW" label="vm_interface_aggregate" lineStyle="0" metaname="vm_interface_aggregate" offsetLabelX="0" offsetLabelY="0" source="tMap_5" target="tAggregateRow_5">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3896,16 +3784,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="vm_interface_aggregate"/>
   </connection>
   <connection connectorName="FLOW" label="row10" lineStyle="0" metaname="tAggregateRow_5" offsetLabelX="0" offsetLabelY="0" source="tAggregateRow_5" target="tJDBCOutput_5">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3942,16 +3823,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row10"/>
   </connection>
   <connection connectorName="FLOW" label="row16" lineStyle="0" metaname="tJDBCInput_11" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_11" target="tMap_11">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="aggregation_level"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -3979,16 +3853,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row16"/>
   </connection>
   <connection connectorName="FLOW" label="storage_aggregate" lineStyle="0" metaname="storage_aggregate" offsetLabelX="0" offsetLabelY="0" source="tMap_11" target="tAggregateRow_6">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4016,16 +3883,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="storage_aggregate"/>
   </connection>
   <connection connectorName="FLOW" label="row17" lineStyle="0" metaname="tAggregateRow_6" offsetLabelX="0" offsetLabelY="0" source="tAggregateRow_6" target="tJDBCOutput_11">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4050,16 +3910,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row17"/>
   </connection>
   <connection connectorName="FLOW" label="row19" lineStyle="0" metaname="tJDBCInput_13" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_13" target="tMap_13">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="aggregation_level"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4132,16 +3985,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row19"/>
   </connection>
   <connection connectorName="FLOW" label="vm_disk_aggregate" lineStyle="0" metaname="vm_disk_aggregate" offsetLabelX="0" offsetLabelY="0" source="tMap_13" target="tAggregateRow_7">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4214,16 +4060,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="vm_disk_aggregate"/>
   </connection>
   <connection connectorName="FLOW" label="row20" lineStyle="0" metaname="tAggregateRow_7" offsetLabelX="0" offsetLabelY="0" source="tAggregateRow_7" target="tJDBCOutput_13">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4311,24 +4150,15 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row20"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tJDBCConnection_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPostjob_1" offsetLabelX="0" offsetLabelY="0" source="tPostjob_1" target="tRowGenerator_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2"/>
   </connection>
-  <connection connectorName="FLOW" label="row12" lineStyle="0" metaname="tJDBCInput_9" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_9" target="tMap_9">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
+  <connection connectorName="FLOW" label="row12" lineStyle="0" metaname="tJDBCInput_9" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_9" target="tMap_6">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4339,18 +4169,14 @@
       <elementValue elementRef="TRACE_COLUMN" value="disks_usage"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row12"/>
   </connection>
-  <connection connectorName="FLOW" label="disks_usage_hourly" lineStyle="0" metaname="disks_usage_hourly" offsetLabelX="0" offsetLabelY="0" source="tMap_9" target="tJDBCOutput_9">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
+  <connection connectorName="FLOW" label="disk_usage_aggregate" lineStyle="0" metaname="disk_usage_aggregate" offsetLabelX="0" offsetLabelY="0" source="tMap_6" target="tAggregateRow_9">
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4363,16 +4189,24 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
-    <elementParameter field="TEXT" name="UNIQUE_NAME" value="disks_usage_hourly"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="disk_usage_aggregate"/>
+  </connection>
+  <connection connectorName="FLOW" label="row15" lineStyle="0" metaname="tAggregateRow_9" offsetLabelX="0" offsetLabelY="0" source="tAggregateRow_9" target="tJDBCOutput_9">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
+      <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="vm_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="disks_usage"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row15"/>
   </connection>
   <connection connectorName="FLOW" label="row13" lineStyle="0" metaname="tJDBCInput_10" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_10" target="tMap_10">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="aggregation_level"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4451,16 +4285,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row13"/>
   </connection>
   <connection connectorName="FLOW" label="vm_users_aggregate_history" lineStyle="0" metaname="vm_users_aggregate_history" offsetLabelX="0" offsetLabelY="0" source="tMap_10" target="tAggregateRow_8">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4524,16 +4351,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="vm_users_aggregate_history"/>
   </connection>
   <connection connectorName="FLOW" label="row14" lineStyle="0" metaname="tAggregateRow_8" offsetLabelX="0" offsetLabelY="0" source="tAggregateRow_8" target="tMap_12">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4594,16 +4414,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row14"/>
   </connection>
   <connection connectorName="FLOW" label="complete_aggregation" lineStyle="0" metaname="complete_aggregation" offsetLabelX="0" offsetLabelY="0" source="tMap_12" target="tJDBCOutput_10">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_datetime"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4664,16 +4477,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="complete_aggregation"/>
   </connection>
   <connection connectorName="FLOW" label="row18" lineStyle="0" metaname="tRowGenerator_1" offsetLabelX="0" offsetLabelY="0" source="tRowGenerator_1" target="tJDBCOutput_6">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="var_name"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4686,16 +4492,9 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row18"/>
   </connection>
   <connection connectorName="FLOW" label="row11" lineStyle="0" metaname="tJDBCInput_6" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_6" target="tContextLoad_1">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="key"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -4705,12 +4504,6 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row11"/>
   </connection>
   <subjob>
