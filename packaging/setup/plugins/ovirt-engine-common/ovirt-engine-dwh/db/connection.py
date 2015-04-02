@@ -88,6 +88,18 @@ class Plugin(plugin.PluginBase):
             odwhcons.DBEnv.DATABASE,
             None
         )
+        self.environment.setdefault(
+            odwhcons.DBEnv.DUMPER,
+            odwhcons.Defaults.DEFAULT_DB_DUMPER
+        )
+        self.environment.setdefault(
+            odwhcons.DBEnv.FILTER,
+            odwhcons.Defaults.DEFAULT_DB_FILTER
+        )
+        self.environment.setdefault(
+            odwhcons.DBEnv.RESTORE_JOBS,
+            odwhcons.Defaults.DEFAULT_DB_RESTORE_JOBS
+        )
 
         # TODO: probably we can add helper function within database.py to get
         # dbkeys and set all to none, instead of duplicating this.
