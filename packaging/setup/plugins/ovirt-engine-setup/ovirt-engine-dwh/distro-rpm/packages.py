@@ -1,6 +1,6 @@
 #
 # ovirt-engine-setup -- ovirt engine setup
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013-2015 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@ Package upgrade plugin.
 """
 
 import gettext
-_ = lambda m: gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
 
 from otopi import util
@@ -30,6 +29,10 @@ from otopi import plugin
 
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.dwh import constants as odwhcons
+
+
+def _(m):
+    return gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
 
 @util.export

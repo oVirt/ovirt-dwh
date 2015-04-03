@@ -21,7 +21,6 @@
 
 import os
 import gettext
-_ = lambda m: gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
 
 from otopi import util
@@ -29,6 +28,10 @@ from otopi import plugin
 
 
 from ovirt_engine_setup.dwh import constants as odwhcons
+
+
+def _(m):
+    return gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
 
 @util.export

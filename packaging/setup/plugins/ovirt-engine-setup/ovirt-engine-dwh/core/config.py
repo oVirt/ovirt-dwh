@@ -1,6 +1,6 @@
 #
 # ovirt-engine-setup -- ovirt engine setup
-# Copyright (C) 2013 Red Hat, Inc.
+# Copyright (C) 2013-2015 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@
 
 
 import gettext
-_ = lambda m: gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
 
 from otopi import constants as otopicons
@@ -34,6 +33,10 @@ from ovirt_engine import util as outil
 
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.dwh import constants as odwhcons
+
+
+def _(m):
+    return gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
 
 @util.export

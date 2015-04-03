@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-# Copyright 2012-2013 Red Hat
+# Copyright 2012-2015 Red Hat
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import sys
 import shlex
 import subprocess
 import gettext
-_ = lambda m: gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
 
 import config
@@ -30,6 +29,10 @@ from ovirt_engine import configfile
 from ovirt_engine import service
 from ovirt_engine import util
 from ovirt_engine import java
+
+
+def _(m):
+    return gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
 
 class Daemon(service.Daemon):

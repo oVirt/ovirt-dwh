@@ -21,7 +21,6 @@
 
 import os
 import gettext
-_ = lambda m: gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
 
 from otopi import constants as otopicons
@@ -36,6 +35,10 @@ from ovirt_engine_setup.engine_common import database
 from ovirt_engine_setup import dialog
 from ovirt_engine_setup.engine_common \
     import constants as oengcommcons
+
+
+def _(m):
+    return gettext.dgettext(message=m, domain='ovirt-engine-dwh')
 
 
 @util.export
