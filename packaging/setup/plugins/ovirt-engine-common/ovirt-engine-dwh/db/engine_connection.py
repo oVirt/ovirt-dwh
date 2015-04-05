@@ -168,5 +168,30 @@ class Plugin(plugin.PluginBase):
                 else:
                     raise RuntimeError(msg)
 
+    @plugin.event(
+        stage=plugin.Stages.STAGE_MISC,
+        name=odwhcons.Stages.ENGINE_DB_CONNECTION_AVAILABLE,
+        condition=lambda self: (
+            self.environment[odwhcons.CoreEnv.ENABLE] and
+            # If engine is enabled, STATEMENT and CONNECTION are set there
+            not self.environment[odwhcons.EngineCoreEnv.ENABLE]
+        ),
+        after=(
+            odwhcons.Stages.DB_SCHEMA,
+            oengcommcons.Stages.DB_CONNECTION_AVAILABLE,
+        ),
+    )
+    def _engine_connection(self):
+        self.environment[
+            odwhcons.EngineDBEnv.STATEMENT
+        ] = database.Statement(
+            environment=self.environment,
+            dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS,
+        )
+        # must be here as we do not have database at validation
+        self.environment[
+            odwhcons.EngineDBEnv.CONNECTION
+        ] = self.environment[odwhcons.EngineDBEnv.STATEMENT].connect()
+
 
 # vim: expandtab tabstop=4 shiftwidth=4
