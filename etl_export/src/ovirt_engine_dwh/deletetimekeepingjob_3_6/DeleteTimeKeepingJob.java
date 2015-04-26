@@ -1759,12 +1759,11 @@ public class DeleteTimeKeepingJob implements TalendJob {
 				int tos_count_tJava_1 = 0;
 
 				if (context.deleteMore == 0) {
-					Thread.sleep((Long) TalendDate.diffDate(RoutineHistoryETL
-							.manipulateDate(RoutineHistoryETL.manipulateDate(
-									RoutineHistoryETL
-											.startOfDay(context.runTime), 1,
-									"dd"), context.runDeleteTime, "HH"),
-							context.runTime, "SSS"));
+					Thread.sleep((Long) TalendDate.diffDate(TalendDate.addDate(
+							TalendDate.addDate(RoutineHistoryETL
+									.startOfDay(context.runTime), 1, "dd"),
+							context.runDeleteTime, "HH"), context.runTime,
+							"SSS"));
 				} else {
 					Thread.sleep(5000);
 				}
@@ -3339,11 +3338,10 @@ public class DeleteTimeKeepingJob implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_2 = "SELECT 'deleteMore', '1'\nFROM datacenter_samples_history\nWHERE history_datetime < '"
-						+ routines.RoutineHistoryETL.dateFormat(
-								routines.RoutineHistoryETL.manipulateDate(
-										context.runTime,
-										context.hoursToKeepSamples * -1, "HH"),
-								"yyyy-MM-dd HH:mm:ss") + "'\nLIMIT 1";
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.runTime,
+										context.hoursToKeepSamples * -1, "HH"))
+						+ "'\nLIMIT 1";
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
 				java.sql.ResultSet rs_tJDBCInput_2 = null;
@@ -3914,11 +3912,10 @@ public class DeleteTimeKeepingJob implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_4 = "SELECT 'deleteMore', '1'\nFROM storage_domain_samples_history\nWHERE history_datetime < '"
-						+ routines.RoutineHistoryETL.dateFormat(
-								routines.RoutineHistoryETL.manipulateDate(
-										context.runTime,
-										context.hoursToKeepSamples * -1, "HH"),
-								"yyyy-MM-dd HH:mm:ss") + "'\nLIMIT 1";
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.runTime,
+										context.hoursToKeepSamples * -1, "HH"))
+						+ "'\nLIMIT 1";
 
 				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
 				java.sql.ResultSet rs_tJDBCInput_4 = null;
@@ -4489,11 +4486,10 @@ public class DeleteTimeKeepingJob implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_9 = "SELECT 'deleteMore', '1'\nFROM host_samples_history\nWHERE history_datetime < '"
-						+ routines.RoutineHistoryETL.dateFormat(
-								routines.RoutineHistoryETL.manipulateDate(
-										context.runTime,
-										context.hoursToKeepSamples * -1, "HH"),
-								"yyyy-MM-dd HH:mm:ss") + "'\nLIMIT 1";
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.runTime,
+										context.hoursToKeepSamples * -1, "HH"))
+						+ "'\nLIMIT 1";
 
 				globalMap.put("tJDBCInput_9_QUERY", dbquery_tJDBCInput_9);
 				java.sql.ResultSet rs_tJDBCInput_9 = null;
@@ -5064,11 +5060,10 @@ public class DeleteTimeKeepingJob implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_3 = "SELECT 'deleteMore', '1'\nFROM host_interface_samples_history\nWHERE history_datetime < '"
-						+ routines.RoutineHistoryETL.dateFormat(
-								routines.RoutineHistoryETL.manipulateDate(
-										context.runTime,
-										context.hoursToKeepSamples * -1, "HH"),
-								"yyyy-MM-dd HH:mm:ss") + "'\nLIMIT 1";
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.runTime,
+										context.hoursToKeepSamples * -1, "HH"))
+						+ "'\nLIMIT 1";
 
 				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
 				java.sql.ResultSet rs_tJDBCInput_3 = null;
@@ -5639,11 +5634,10 @@ public class DeleteTimeKeepingJob implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_8 = "SELECT 'deleteMore', '1'\nFROM vm_samples_history\nWHERE history_datetime < '"
-						+ routines.RoutineHistoryETL.dateFormat(
-								routines.RoutineHistoryETL.manipulateDate(
-										context.runTime,
-										context.hoursToKeepSamples * -1, "HH"),
-								"yyyy-MM-dd HH:mm:ss") + "'\nLIMIT 1";
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.runTime,
+										context.hoursToKeepSamples * -1, "HH"))
+						+ "'\nLIMIT 1";
 
 				globalMap.put("tJDBCInput_8_QUERY", dbquery_tJDBCInput_8);
 				java.sql.ResultSet rs_tJDBCInput_8 = null;
@@ -6214,11 +6208,10 @@ public class DeleteTimeKeepingJob implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_6 = "SELECT 'deleteMore', '1'\nFROM vm_interface_samples_history\nWHERE history_datetime < '"
-						+ routines.RoutineHistoryETL.dateFormat(
-								routines.RoutineHistoryETL.manipulateDate(
-										context.runTime,
-										context.hoursToKeepSamples * -1, "HH"),
-								"yyyy-MM-dd HH:mm:ss") + "'\nLIMIT 1";
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.runTime,
+										context.hoursToKeepSamples * -1, "HH"))
+						+ "'\nLIMIT 1";
 
 				globalMap.put("tJDBCInput_6_QUERY", dbquery_tJDBCInput_6);
 				java.sql.ResultSet rs_tJDBCInput_6 = null;
@@ -6789,11 +6782,10 @@ public class DeleteTimeKeepingJob implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_5 = "SELECT 'deleteMore', '1'\nFROM vm_disk_samples_history\nWHERE history_datetime < '"
-						+ routines.RoutineHistoryETL.dateFormat(
-								routines.RoutineHistoryETL.manipulateDate(
-										context.runTime,
-										context.hoursToKeepSamples * -1, "HH"),
-								"yyyy-MM-dd HH:mm:ss") + "'\nLIMIT 1";
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.runTime,
+										context.hoursToKeepSamples * -1, "HH"))
+						+ "'\nLIMIT 1";
 
 				globalMap.put("tJDBCInput_5_QUERY", dbquery_tJDBCInput_5);
 				java.sql.ResultSet rs_tJDBCInput_5 = null;
@@ -7364,11 +7356,10 @@ public class DeleteTimeKeepingJob implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_7 = "SELECT 'deleteMore', '1'\nFROM vm_disks_usage_samples_history\nWHERE history_datetime < '"
-						+ routines.RoutineHistoryETL.dateFormat(
-								routines.RoutineHistoryETL.manipulateDate(
-										context.runTime,
-										context.hoursToKeepSamples * -1, "HH"),
-								"yyyy-MM-dd HH:mm:ss") + "'\nLIMIT 1";
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.runTime,
+										context.hoursToKeepSamples * -1, "HH"))
+						+ "'\nLIMIT 1";
 
 				globalMap.put("tJDBCInput_7_QUERY", dbquery_tJDBCInput_7);
 				java.sql.ResultSet rs_tJDBCInput_7 = null;
@@ -9836,6 +9827,6 @@ public class DeleteTimeKeepingJob implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 266796 characters generated by Talend Open Studio for Data Integration on the
- * January 13, 2015 2:38:28 PM IST
+ * 266576 characters generated by Talend Open Studio for Data Integration on the
+ * June 1, 2015 2:26:11 PM IDT
  ************************************************************************************************/

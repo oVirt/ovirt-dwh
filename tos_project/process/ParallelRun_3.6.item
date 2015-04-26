@@ -18,31 +18,83 @@
     <contextParameter comment="Enter the amout of to wait between sending error events to audit log" name="timeBetweenErrorEvents" prompt="timeBetweenErrorEvents?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Long" value="300000"/>
   </context>
   <parameters>
-    <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx1024M"/>
-    <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="224"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="64"/>
-    <elementParameter field="TEXT" name="SCHEMA_OPTIONS" value="none"/>
-    <elementParameter field="TEXT" name="OEM_CUSTOM_ATTRIBUTE" value=""/>
-    <elementParameter field="TEXT" name="HADOOP_APP_PATH" value=""/>
-    <elementParameter field="TEXT" name="JOBID_FOR_OOZIE" value=""/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value=""/>
-    <elementParameter field="TABLE" name="HADOOP_ADVANCED_PROPERTIES"/>
     <elementParameter field="CHECK" name="IMPLICITCONTEXT_USE_PROJECT_SETTINGS" value="true"/>
     <elementParameter field="CHECK" name="STATANDLOG_USE_PROJECT_SETTINGS" value="true"/>
     <elementParameter field="CHECK" name="MULTI_THREAD_EXECATION" value="true"/>
+    <elementParameter field="CHECK" name="IMPLICIT_TCONTEXTLOAD" value="false"/>
+    <elementParameter field="RADIO" name="FROM_FILE_FLAG_IMPLICIT_CONTEXT" value="false"/>
+    <elementParameter field="RADIO" name="FROM_DATABASE_FLAG_IMPLICIT_CONTEXT" value="false"/>
     <elementParameter field="FILE" name="IMPLICIT_TCONTEXTLOAD_FILE" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;&quot;"/>
+    <elementParameter field="CLOSED_LIST" name="DB_TYPE_IMPLICIT_CONTEXT" value=""/>
     <elementParameter field="CLOSED_LIST" name="DB_VERSION_IMPLICIT_CONTEXT" value=""/>
+    <elementParameter field="TEXT" name="URL_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TABLE" name="DRIVER_JAR_IMPLICIT_CONTEXT"/>
+    <elementParameter field="TEXT" name="DRIVER_CLASS_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="HOST_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="PORT_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="DBNAME_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="PROPERTIES_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="USER_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS_IMPLICIT_CONTEXT" value="0RMsyjmybrE="/>
+    <elementParameter field="FILE" name="DBFILE_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="DBTABLE_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="QUERY_CONDITION_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
     <elementParameter field="CLOSED_LIST" name="LOAD_NEW_VARIABLE" value=""/>
     <elementParameter field="CLOSED_LIST" name="NOT_LOAD_OLD_VARIABLE" value=""/>
+    <elementParameter field="CHECK" name="PRINT_OPERATIONS" value="false"/>
+    <elementParameter field="CHECK" name="DISABLE_ERROR" value="false"/>
     <elementParameter field="CHECK" name="DISABLE_WARNINGS" value="false"/>
     <elementParameter field="CHECK" name="DISABLE_INFO" value="false"/>
+    <elementParameter field="CHECK" name="ON_STATCATCHER_FLAG" value="false"/>
     <elementParameter field="CHECK" name="ON_LOGCATCHER_FLAG" value="true"/>
+    <elementParameter field="CHECK" name="ON_METERCATCHER_FLAG" value="false"/>
     <elementParameter field="CHECK" name="ON_CONSOLE_FLAG" value="true"/>
+    <elementParameter field="CHECK" name="ON_FILES_FLAG" value="false"/>
     <elementParameter field="DIRECTORY" name="FILE_PATH" value="&quot;/home/ydary/Desktop&quot;"/>
+    <elementParameter field="TEXT" name="FILENAME_STATS" value="&quot;stats_file.txt&quot;"/>
+    <elementParameter field="TEXT" name="FILENAME_LOGS" value="&quot;logs_file.txt&quot;"/>
+    <elementParameter field="TEXT" name="FILENAME_METTER" value="&quot;meter_file.txt&quot;"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="ISO-8859-15"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
-    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_10"/>
+    <elementParameter field="CHECK" name="ON_DATABASE_FLAG" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_TYPE" value="tJDBCOutput"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ojdbc14-10g.jar"/>
+    <elementParameter field="TEXT" name="URL" value="&quot;&quot;"/>
+    <elementParameter field="TABLE" name="DRIVER_JAR"/>
+    <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="HOST" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="PORT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="DATASOURCE" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="DBNAME" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
+    <elementParameter field="FILE" name="DBFILE" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE_STATS" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE_LOGS" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE_METER" value="&quot;&quot;"/>
+    <elementParameter field="CHECK" name="CATCH_RUNTIME_ERRORS" value="true"/>
+    <elementParameter field="CHECK" name="CATCH_USER_ERRORS" value="true"/>
+    <elementParameter field="CHECK" name="CATCH_USER_WARNING" value="true"/>
+    <elementParameter field="CHECK" name="CATCH_REALTIME_STATS" value="false"/>
+    <elementParameter field="TEXT" name="HEADERFOOTER_HEADERID" value=""/>
+    <elementParameter field="CHECK" name="HEADER_ENABLED" value="false"/>
+    <elementParameter field="TEXT" name="HEADER_LIBRARY" value=""/>
+    <elementParameter field="TEXT" name="HEADER_CODE" value=""/>
+    <elementParameter field="TEXT" name="HEADER_IMPORT" value=""/>
+    <elementParameter field="TEXT" name="HEADERFOOTER_FOOTERID" value=""/>
+    <elementParameter field="CHECK" name="FOOTER_ENABLED" value="false"/>
+    <elementParameter field="TEXT" name="FOOTER_LIBRARY" value=""/>
+    <elementParameter field="TEXT" name="FOOTER_CODE" value=""/>
+    <elementParameter field="TEXT" name="FOOTER_IMPORT" value=""/>
     <routinesParameter id="_S6Oh4EJlEeCWRqOtaF5m-w" name="DataOperation"/>
     <routinesParameter id="_S6YS4EJlEeCWRqOtaF5m-w" name="Mathematical"/>
     <routinesParameter id="_S6avIEJlEeCWRqOtaF5m-w" name="Numeric"/>
@@ -55,6 +107,7 @@
   </parameters>
   <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-32" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_1"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
       <elementValue elementRef="JAR_NAME" value="postgresql-8.4-703.jdbc4.jar"/>
@@ -73,12 +126,10 @@
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="engine"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="128" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_2"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineHistoryDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
       <elementValue elementRef="JAR_NAME" value="postgresql-8.4-703.jdbc4.jar"/>
@@ -97,21 +148,16 @@
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="sample_ovirt_engine_history"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tInfiniteLoop" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="768" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tInfiniteLoop_3"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="WAIT_MS" value="0"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="768" posY="256">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRunJob_3"/>
-    <elementParameter field="CHECK" name="SUBTREE_START" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_DYNAMIC_JOB" value="false"/>
     <elementParameter field="TEXT" name="CONTEXT_JOB" value=""/>
     <elementParameter field="PROCESS_TYPE" name="PROCESS" value="DailyTimeKeepingJob"/>
@@ -123,26 +169,22 @@
     <elementParameter field="CHECK" name="DIE_ON_CHILD_ERROR" value="false"/>
     <elementParameter field="CHECK" name="TRANSMIT_WHOLE_CONTEXT" value="true"/>
     <elementParameter field="TABLE" name="CONTEXTPARAMS"/>
+    <elementParameter field="CHECK" name="PROPAGATE_CHILD_RESULT" value="false"/>
     <elementParameter field="CHECK" name="PRINT_PARAMETER" value="false"/>
     <elementParameter field="CHECK" name="TRANSMIT_ORIGINAL_CONTEXT" value="true"/>
     <elementParameter field="TEXT" name="LABEL" value="__PROCESS__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tRunJob_3"/>
   </node>
   <node componentName="tInfiniteLoop" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tInfiniteLoop_2"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="WAIT_MS" value="0"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="576" posY="256">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRunJob_2"/>
-    <elementParameter field="CHECK" name="SUBTREE_START" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_DYNAMIC_JOB" value="false"/>
     <elementParameter field="TEXT" name="CONTEXT_JOB" value=""/>
     <elementParameter field="PROCESS_TYPE" name="PROCESS" value="HourlyTimeKeepingJob"/>
@@ -154,26 +196,22 @@
     <elementParameter field="CHECK" name="DIE_ON_CHILD_ERROR" value="false"/>
     <elementParameter field="CHECK" name="TRANSMIT_WHOLE_CONTEXT" value="true"/>
     <elementParameter field="TABLE" name="CONTEXTPARAMS"/>
+    <elementParameter field="CHECK" name="PROPAGATE_CHILD_RESULT" value="false"/>
     <elementParameter field="CHECK" name="PRINT_PARAMETER" value="false"/>
     <elementParameter field="CHECK" name="TRANSMIT_ORIGINAL_CONTEXT" value="true"/>
     <elementParameter field="TEXT" name="LABEL" value="__PROCESS__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tRunJob_2"/>
   </node>
   <node componentName="tInfiniteLoop" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="384" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tInfiniteLoop_1"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="WAIT_MS" value="0"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="384" posY="256">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRunJob_1"/>
-    <elementParameter field="CHECK" name="SUBTREE_START" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_DYNAMIC_JOB" value="false"/>
     <elementParameter field="TEXT" name="CONTEXT_JOB" value=""/>
     <elementParameter field="PROCESS_TYPE" name="PROCESS" value="SampleTimeKeepingJob"/>
@@ -185,17 +223,16 @@
     <elementParameter field="CHECK" name="DIE_ON_CHILD_ERROR" value="false"/>
     <elementParameter field="CHECK" name="TRANSMIT_WHOLE_CONTEXT" value="true"/>
     <elementParameter field="TABLE" name="CONTEXTPARAMS"/>
+    <elementParameter field="CHECK" name="PROPAGATE_CHILD_RESULT" value="false"/>
     <elementParameter field="CHECK" name="PRINT_PARAMETER" value="false"/>
     <elementParameter field="CHECK" name="TRANSMIT_ORIGINAL_CONTEXT" value="true"/>
     <elementParameter field="TEXT" name="LABEL" value="__PROCESS__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tRunJob_1"/>
   </node>
   <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-32" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_3"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineHistoryDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
       <elementValue elementRef="JAR_NAME" value="postgresql-8.4-703.jdbc4.jar"/>
@@ -214,12 +251,10 @@
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="hourly_ovirt_engine_history"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="160" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_4"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineHistoryDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
       <elementValue elementRef="JAR_NAME" value="postgresql-8.4-703.jdbc4.jar"/>
@@ -238,12 +273,10 @@
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="daily_ovirt_engine_history"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-32" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_5"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineHistoryDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
       <elementValue elementRef="JAR_NAME" value="postgresql-8.4-703.jdbc4.jar"/>
@@ -262,21 +295,15 @@
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="delete_ovirt_engine_history"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-192" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="160" posY="192">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_1"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_6"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -304,11 +331,10 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="value"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="LABEL" value="Load Current Timestamp"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tJDBCInput_1">
       <column key="false" length="255" name="key" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="value" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="DATETIME" type="id_Date" usefulColumn="true"/>
@@ -316,7 +342,7 @@
   </node>
   <node componentName="tContextLoad" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tContextLoad_1"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CLOSED_LIST" name="LOAD_NEW_VARIABLE" value="Warning"/>
     <elementParameter field="CLOSED_LIST" name="NOT_LOAD_OLD_VARIABLE" value="Warning"/>
     <elementParameter field="CHECK" name="PRINT_OPERATIONS" value="false"/>
@@ -325,9 +351,6 @@
     <elementParameter field="CHECK" name="DISABLE_INFO" value="true"/>
     <elementParameter field="CHECK" name="DIEONERROR" value="true"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tContextLoad_1">
       <column defaultValue="" key="false" length="255" name="key" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="35" name="value" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="DATETIME" type="id_Date" usefulColumn="true"/>
@@ -335,15 +358,13 @@
   </node>
   <node componentName="tInfiniteLoop" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="960" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tInfiniteLoop_6"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="WAIT_MS" value="0"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tRunJob" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="960" posY="256">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRunJob_6"/>
-    <elementParameter field="CHECK" name="SUBTREE_START" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_DYNAMIC_JOB" value="false"/>
     <elementParameter field="TEXT" name="CONTEXT_JOB" value=""/>
     <elementParameter field="PROCESS_TYPE" name="PROCESS" value="DeleteTimeKeepingJob"/>
@@ -355,61 +376,48 @@
     <elementParameter field="CHECK" name="DIE_ON_CHILD_ERROR" value="false"/>
     <elementParameter field="CHECK" name="TRANSMIT_WHOLE_CONTEXT" value="true"/>
     <elementParameter field="TABLE" name="CONTEXTPARAMS"/>
+    <elementParameter field="CHECK" name="PROPAGATE_CHILD_RESULT" value="false"/>
     <elementParameter field="CHECK" name="PRINT_PARAMETER" value="false"/>
     <elementParameter field="CHECK" name="TRANSMIT_ORIGINAL_CONTEXT" value="true"/>
     <elementParameter field="TEXT" name="LABEL" value="__PROCESS__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tRunJob_6"/>
   </node>
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="384" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_2"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.startOfMinute(context.runTime),1,&quot;mm&quot;),context.runTime,&quot;SSS&quot;));"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(TalendDate.addDate(RoutineHistoryETL.startOfMinute(context.runTime),1,&quot;mm&quot;),context.runTime,&quot;SSS&quot;));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tJava_2"/>
   </node>
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="576" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_3"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.startOfHour(context.runTime),1,&quot;HH&quot;),context.runTime,&quot;SSS&quot;));"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(TalendDate.addDate(RoutineHistoryETL.startOfHour(context.runTime),1,&quot;HH&quot;),context.runTime,&quot;SSS&quot;));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tJava_3"/>
   </node>
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="768" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_4"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runTime,&quot;SSS&quot;));"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(TalendDate.addDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runTime,&quot;SSS&quot;));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tJava_4"/>
   </node>
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="960" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_5"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runDeleteTime,&quot;HH&quot;),context.runTime,&quot;SSS&quot;));"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(TalendDate.addDate(TalendDate.addDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runDeleteTime,&quot;HH&quot;),context.runTime,&quot;SSS&quot;));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" name="tJava_5"/>
   </node>
   <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-32" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_6"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
       <elementValue elementRef="JAR_NAME" value="postgresql-8.4-703.jdbc4.jar"/>
@@ -428,54 +436,41 @@
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="true"/>
     <elementParameter field="TEXT" name="LABEL" value="engine-events"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_1" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_1" target="tJDBCConnection_2">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk2"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tJDBCConnection_2" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_2" target="tJDBCConnection_3">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk1"/>
   </connection>
   <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tInfiniteLoop_3" offsetLabelX="0" offsetLabelY="0" source="tInfiniteLoop_3" target="tRunJob_3">
     <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate3"/>
   </connection>
   <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tInfiniteLoop_2" offsetLabelX="0" offsetLabelY="0" source="tInfiniteLoop_2" target="tRunJob_2">
     <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate2"/>
   </connection>
   <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tInfiniteLoop_1" offsetLabelX="0" offsetLabelY="14" source="tInfiniteLoop_1" target="tRunJob_1">
     <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate1"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_3" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_3" target="tJDBCConnection_4">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk3"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_4" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_4" target="tJDBCConnection_5">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk4"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_5" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_5" target="tJDBCConnection_6">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk5"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tJDBCConnection_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1"/>
   </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tJDBCInput_1" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_1" target="tContextLoad_1">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="key"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
@@ -485,38 +480,26 @@
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1"/>
   </connection>
   <connection connectorName="ITERATE" label="Iterate" lineStyle="7" metaname="tInfiniteLoop_6" offsetLabelX="0" offsetLabelY="0" source="tInfiniteLoop_6" target="tRunJob_6">
     <elementParameter field="CHECK" name="ENABLE_PARALLEL" value="false"/>
     <elementParameter field="TEXT" name="NUMBER_PARALLEL" value="2"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="iterate5"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tJava_2" offsetLabelX="0" offsetLabelY="0" source="tJava_2" target="tInfiniteLoop_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk2"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tJava_3" offsetLabelX="0" offsetLabelY="0" source="tJava_3" target="tInfiniteLoop_2">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk3"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tJava_4" offsetLabelX="0" offsetLabelY="0" source="tJava_4" target="tInfiniteLoop_3">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk4"/>
   </connection>
   <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tJava_5" offsetLabelX="0" offsetLabelY="0" source="tJava_5" target="tInfiniteLoop_6">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk5"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_6" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_6" target="tJDBCInput_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk6"/>
   </connection>
   <subjob>

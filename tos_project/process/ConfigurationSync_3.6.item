@@ -6847,7 +6847,7 @@
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select update_tags_path_child('&quot;+routines.RoutineHistoryETL.dateFormat(context.runTime, &quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;)+&quot;')&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;select update_tags_path_child('&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(context.runTime)+&quot;')&quot;"/>
     <elementParameter field="CHECK" name="DIE_ON_ERROR" value="true"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
@@ -7719,7 +7719,7 @@
       <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="insert_new_users">
         <mapperTableEntries name="user_id" expression="row55.user_id " type="id_Object"/>

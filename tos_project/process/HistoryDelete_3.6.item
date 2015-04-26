@@ -12,31 +12,83 @@
     <contextParameter comment="" name="limitRows" prompt="limitRows?" promptNeeded="false" type="id_String" value="limit 1000"/>
   </context>
   <parameters>
-    <elementParameter field="TEXT" name="JOB_RUN_VM_ARGUMENTS" value=" -Xms256M -Xmx1024M"/>
-    <elementParameter field="CHECK" name="JOB_RUN_VM_ARGUMENTS_OPTION" value="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="32"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="64"/>
-    <elementParameter field="TEXT" name="SCHEMA_OPTIONS" value="none"/>
-    <elementParameter field="TEXT" name="OEM_CUSTOM_ATTRIBUTE" value=""/>
-    <elementParameter field="TEXT" name="HADOOP_APP_PATH" value=""/>
-    <elementParameter field="TEXT" name="JOBID_FOR_OOZIE" value=""/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value=""/>
-    <elementParameter field="TABLE" name="HADOOP_ADVANCED_PROPERTIES"/>
     <elementParameter field="CHECK" name="IMPLICITCONTEXT_USE_PROJECT_SETTINGS" value="true"/>
     <elementParameter field="CHECK" name="STATANDLOG_USE_PROJECT_SETTINGS" value="true"/>
     <elementParameter field="CHECK" name="MULTI_THREAD_EXECATION" value="true"/>
+    <elementParameter field="CHECK" name="IMPLICIT_TCONTEXTLOAD" value="false"/>
+    <elementParameter field="RADIO" name="FROM_FILE_FLAG_IMPLICIT_CONTEXT" value="false"/>
+    <elementParameter field="RADIO" name="FROM_DATABASE_FLAG_IMPLICIT_CONTEXT" value="false"/>
     <elementParameter field="FILE" name="IMPLICIT_TCONTEXTLOAD_FILE" value="&quot;&quot;"/>
     <elementParameter field="TEXT" name="FIELDSEPARATOR" value="&quot;&quot;"/>
+    <elementParameter field="CLOSED_LIST" name="DB_TYPE_IMPLICIT_CONTEXT" value=""/>
     <elementParameter field="CLOSED_LIST" name="DB_VERSION_IMPLICIT_CONTEXT" value=""/>
+    <elementParameter field="TEXT" name="URL_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TABLE" name="DRIVER_JAR_IMPLICIT_CONTEXT"/>
+    <elementParameter field="TEXT" name="DRIVER_CLASS_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="HOST_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="PORT_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="DBNAME_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="PROPERTIES_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="USER_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS_IMPLICIT_CONTEXT" value="0RMsyjmybrE="/>
+    <elementParameter field="FILE" name="DBFILE_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="DBTABLE_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="QUERY_CONDITION_IMPLICIT_CONTEXT" value="&quot;&quot;"/>
     <elementParameter field="CLOSED_LIST" name="LOAD_NEW_VARIABLE" value=""/>
     <elementParameter field="CLOSED_LIST" name="NOT_LOAD_OLD_VARIABLE" value=""/>
+    <elementParameter field="CHECK" name="PRINT_OPERATIONS" value="false"/>
+    <elementParameter field="CHECK" name="DISABLE_ERROR" value="false"/>
     <elementParameter field="CHECK" name="DISABLE_WARNINGS" value="false"/>
     <elementParameter field="CHECK" name="DISABLE_INFO" value="false"/>
+    <elementParameter field="CHECK" name="ON_STATCATCHER_FLAG" value="false"/>
     <elementParameter field="CHECK" name="ON_LOGCATCHER_FLAG" value="true"/>
+    <elementParameter field="CHECK" name="ON_METERCATCHER_FLAG" value="false"/>
     <elementParameter field="CHECK" name="ON_CONSOLE_FLAG" value="true"/>
+    <elementParameter field="CHECK" name="ON_FILES_FLAG" value="false"/>
     <elementParameter field="DIRECTORY" name="FILE_PATH" value="&quot;/home/ydary/Desktop&quot;"/>
+    <elementParameter field="TEXT" name="FILENAME_STATS" value="&quot;stats_file.txt&quot;"/>
+    <elementParameter field="TEXT" name="FILENAME_LOGS" value="&quot;logs_file.txt&quot;"/>
+    <elementParameter field="TEXT" name="FILENAME_METTER" value="&quot;meter_file.txt&quot;"/>
+    <elementParameter field="ENCODING_TYPE" name="ENCODING" value="ISO-8859-15"/>
     <elementParameter field="TECHNICAL" name="ENCODING:ENCODING_TYPE" value="ISO-8859-15"/>
-    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ORACLE_10"/>
+    <elementParameter field="CHECK" name="ON_DATABASE_FLAG" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="DB_TYPE" value="tJDBCOutput"/>
+    <elementParameter field="CLOSED_LIST" name="DB_VERSION" value="ojdbc14-10g.jar"/>
+    <elementParameter field="TEXT" name="URL" value="&quot;&quot;"/>
+    <elementParameter field="TABLE" name="DRIVER_JAR"/>
+    <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="HOST" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="PORT" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="DATASOURCE" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="DBNAME" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="LOCAL_SERVICE_NAME" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="PROPERTIES" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="SCHEMA_DB" value="&quot;&quot;"/>
+    <elementParameter field="TEXT" name="USER" value="&quot;&quot;"/>
+    <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE="/>
+    <elementParameter field="FILE" name="DBFILE" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE_STATS" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE_LOGS" value="&quot;&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE_METER" value="&quot;&quot;"/>
+    <elementParameter field="CHECK" name="CATCH_RUNTIME_ERRORS" value="true"/>
+    <elementParameter field="CHECK" name="CATCH_USER_ERRORS" value="true"/>
+    <elementParameter field="CHECK" name="CATCH_USER_WARNING" value="true"/>
+    <elementParameter field="CHECK" name="CATCH_REALTIME_STATS" value="false"/>
+    <elementParameter field="TEXT" name="HEADERFOOTER_HEADERID" value=""/>
+    <elementParameter field="CHECK" name="HEADER_ENABLED" value="false"/>
+    <elementParameter field="TEXT" name="HEADER_LIBRARY" value=""/>
+    <elementParameter field="TEXT" name="HEADER_CODE" value=""/>
+    <elementParameter field="TEXT" name="HEADER_IMPORT" value=""/>
+    <elementParameter field="TEXT" name="HEADERFOOTER_FOOTERID" value=""/>
+    <elementParameter field="CHECK" name="FOOTER_ENABLED" value="false"/>
+    <elementParameter field="TEXT" name="FOOTER_LIBRARY" value=""/>
+    <elementParameter field="TEXT" name="FOOTER_CODE" value=""/>
+    <elementParameter field="TEXT" name="FOOTER_IMPORT" value=""/>
     <routinesParameter id="_S6Oh4EJlEeCWRqOtaF5m-w" name="DataOperation"/>
     <routinesParameter id="_S6YS4EJlEeCWRqOtaF5m-w" name="Mathematical"/>
     <routinesParameter id="_S6avIEJlEeCWRqOtaF5m-w" name="Numeric"/>
@@ -49,6 +101,7 @@
   </parameters>
   <node componentName="tJDBCConnection" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="192" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_1"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="URL" value="context.ovirtEngineHistoryDbJdbcConnection"/>
     <elementParameter field="TABLE" name="DRIVER_JAR">
       <elementValue elementRef="JAR_NAME" value="postgresql-8.4-703.jdbc4.jar"/>
@@ -67,14 +120,10 @@
     <elementParameter field="CHECK" name="AUTO_COMMIT" value="false"/>
     <elementParameter field="TEXT" name="LABEL" value="delete_ovirt_engine_history"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="32" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_1"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -87,7 +136,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM datacenter_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM datacenter_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows&#xA;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -100,17 +149,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCInput_1">
       <column comment="" defaultValue="&quot;nextval('datacenter_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="32" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_1"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -141,9 +189,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCOutput_1">
       <column comment="" defaultValue="&quot;nextval('datacenter_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -155,8 +200,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="416" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_2"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -169,7 +213,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM host_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM host_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -182,17 +226,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_hourly_history" name="tJDBCInput_2">
       <column comment="" defaultValue="&quot;nextval('host_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="416" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_2"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -223,9 +266,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_hourly_history" name="tJDBCOutput_2">
       <column comment="" defaultValue="&quot;nextval('host_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -237,8 +277,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_3"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -251,7 +290,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM host_interface_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM host_interface_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -264,17 +303,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tJDBCInput_3">
       <column comment="" defaultValue="&quot;nextval('host_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_3"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -305,9 +343,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tJDBCOutput_3">
       <column comment="" defaultValue="&quot;nextval('host_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -319,8 +354,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="736" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_4"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -333,7 +367,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -346,17 +380,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tJDBCInput_4">
       <column comment="" defaultValue="&quot;nextval('vm_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="736" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_4"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -387,9 +420,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tJDBCOutput_4">
       <column comment="" defaultValue="&quot;nextval('vm_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -401,8 +431,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_5"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -415,7 +444,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_interface_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_interface_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -428,17 +457,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCInput_5">
       <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_5"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -469,9 +497,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_5">
       <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -483,8 +508,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="32" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_6"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -497,7 +521,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM datacenter_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepHourly * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM datacenter_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepHourly * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -510,17 +534,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCInput_6">
       <column comment="" defaultValue="&quot;nextval('datacenter_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="32" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_6"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -551,9 +574,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCOutput_6">
       <column comment="" defaultValue="&quot;nextval('datacenter_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -565,8 +585,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="416" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_7"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -579,7 +598,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM host_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepHourly * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM host_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepHourly * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -592,17 +611,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_hourly_history" name="tJDBCInput_7">
       <column comment="" defaultValue="&quot;nextval('host_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="416" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_7"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -633,9 +651,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_hourly_history" name="tJDBCOutput_7">
       <column comment="" defaultValue="&quot;nextval('host_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -647,8 +662,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_8"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -661,7 +675,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM host_interface_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepHourly * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM host_interface_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepHourly * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -674,17 +688,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tJDBCInput_8">
       <column comment="" defaultValue="&quot;nextval('host_interface_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_8"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -715,9 +728,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tJDBCOutput_8">
       <column comment="" defaultValue="&quot;nextval('host_interface_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -729,8 +739,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="736" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_9"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -743,7 +752,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepHourly * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepHourly * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -756,17 +765,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tJDBCInput_9">
       <column comment="" defaultValue="&quot;nextval('vm_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="736" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_9"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -797,9 +805,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tJDBCOutput_9">
       <column comment="" defaultValue="&quot;nextval('vm_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -811,8 +816,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_10"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -825,7 +829,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_interface_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepHourly * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_interface_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepHourly * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -838,17 +842,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCInput_10">
       <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_10"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -879,9 +882,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_10">
       <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -893,8 +893,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_11"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -907,7 +906,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM storage_domain_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM storage_domain_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -920,17 +919,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCInput_11">
       <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_11"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -961,9 +959,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCOutput_11">
       <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -975,8 +970,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_12"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -989,7 +983,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM storage_domain_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepHourly * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM storage_domain_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepHourly * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1002,17 +996,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCInput_12">
       <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_12"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1043,9 +1036,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCOutput_12">
       <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1057,8 +1047,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_13"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1071,7 +1060,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_disk_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_disk_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1084,17 +1073,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCInput_13">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_13"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1125,9 +1113,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_13">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1139,8 +1124,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_14"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1153,7 +1137,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_disk_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepHourly * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_disk_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepHourly * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1166,17 +1150,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCInput_14">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_14"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1207,9 +1190,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_14">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1221,8 +1201,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="32" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_15"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1235,7 +1214,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM datacenter_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepDaily * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM datacenter_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepDaily * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1248,17 +1227,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCInput_15">
       <column comment="" defaultValue="&quot;nextval('datacenter_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="32" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_15"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1289,9 +1267,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="datacenter_daily_history" name="tJDBCOutput_15">
       <column comment="" defaultValue="&quot;nextval('datacenter_history_seq3'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
@@ -1303,8 +1278,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_16"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1317,7 +1291,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM storage_domain_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepDaily * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM storage_domain_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepDaily * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1330,17 +1304,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCInput_16">
       <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="224" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_16"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1371,9 +1344,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCOutput_16">
       <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1385,8 +1355,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="416" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_17"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1399,7 +1368,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM host_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepDaily * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM host_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepDaily * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1412,17 +1381,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_hourly_history" name="tJDBCInput_17">
       <column comment="" defaultValue="&quot;nextval('host_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="416" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_17"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1453,9 +1421,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_hourly_history" name="tJDBCOutput_17">
       <column comment="" defaultValue="&quot;nextval('host_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1467,8 +1432,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_18"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1481,7 +1445,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM host_interface_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepDaily * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM host_interface_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepDaily * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1494,17 +1458,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tJDBCInput_18">
       <column comment="" defaultValue="&quot;nextval('host_interface_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="576" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_18"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1535,9 +1498,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tJDBCOutput_18">
       <column comment="" defaultValue="&quot;nextval('host_interface_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1549,8 +1509,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="736" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_19"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1563,7 +1522,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepDaily * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepDaily * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1576,17 +1535,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tJDBCInput_19">
       <column comment="" defaultValue="&quot;nextval('vm_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="736" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_19"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1617,9 +1575,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tJDBCOutput_19">
       <column comment="" defaultValue="&quot;nextval('vm_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1631,8 +1586,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_20"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1645,7 +1599,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_interface_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepDaily * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_interface_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepDaily * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1658,17 +1612,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCInput_20">
       <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="896" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_20"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1699,9 +1652,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_20">
       <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1713,8 +1663,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_21"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1727,7 +1676,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_disk_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepDaily * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_disk_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepDaily * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1740,17 +1689,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCInput_21">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1056" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_21"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1781,9 +1729,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_21">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1795,16 +1740,12 @@
   </node>
   <node componentName="tPrejob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="32" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="96">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_22"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1817,7 +1758,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_disks_usage_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_disks_usage_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1830,17 +1771,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCInput_22">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="160">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_22"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1871,9 +1811,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_22">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1885,8 +1822,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_23"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1899,7 +1835,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_disks_usage_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepHourly * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_disks_usage_hourly_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepHourly * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1912,17 +1848,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCInput_23">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_23"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1953,9 +1888,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_23">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1967,8 +1899,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_24"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -1981,7 +1912,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_disks_usage_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepDaily * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM vm_disks_usage_daily_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepDaily * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1994,17 +1925,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCInput_24">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1248" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_24"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -2035,9 +1965,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_24">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -2049,8 +1976,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1408" posY="288">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_25"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -2063,7 +1989,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM statistics_vms_users_usage_hourly&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepHourly * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM statistics_vms_users_usage_hourly&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepHourly * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -2076,17 +2002,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCInput_25">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1408" posY="352">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_25"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -2117,9 +2042,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_25">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -2131,8 +2053,7 @@
   </node>
   <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1408" posY="480">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_26"/>
-    <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="false"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -2145,7 +2066,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM statistics_vms_users_usage_daily&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepDaily * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&quot; + context.limitRows"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id&#xD;&#xA;FROM statistics_vms_users_usage_daily&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepDaily * -1,&quot;HH&quot;))+&quot;'&quot; + context.limitRows"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -2158,17 +2079,16 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="history_id"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
+    <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
+    <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCInput_26">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tJDBCOutput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="1408" posY="544">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCOutput_26"/>
-    <elementParameter field="CHECK" name="END_OF_FLOW" value="true"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
     <elementParameter field="TEXT" name="URL" value="&quot;jdbc:&quot;"/>
@@ -2199,9 +2119,6 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <elementParameter field="CHECK" name="INFORMATION" value="false"/>
-    <elementParameter field="MEMO" name="COMMENT" value=""/>
-    <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_26">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -2212,423 +2129,240 @@
     </metadata>
   </node>
   <connection connectorName="FLOW" label="row13" lineStyle="0" metaname="tJDBCInput_1" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_1" target="tJDBCOutput_1">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row13"/>
   </connection>
   <connection connectorName="FLOW" label="row5" lineStyle="0" metaname="tJDBCInput_2" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_2" target="tJDBCOutput_2">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row5"/>
   </connection>
   <connection connectorName="FLOW" label="row4" lineStyle="0" metaname="tJDBCInput_3" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_3" target="tJDBCOutput_3">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row4"/>
   </connection>
   <connection connectorName="FLOW" label="row3" lineStyle="0" metaname="tJDBCInput_4" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_4" target="tJDBCOutput_4">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row3"/>
   </connection>
   <connection connectorName="FLOW" label="row2" lineStyle="0" metaname="tJDBCInput_5" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_5" target="tJDBCOutput_5">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row2"/>
   </connection>
   <connection connectorName="FLOW" label="row6" lineStyle="0" metaname="tJDBCInput_6" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_6" target="tJDBCOutput_6">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row6"/>
   </connection>
   <connection connectorName="FLOW" label="row8" lineStyle="0" metaname="tJDBCInput_7" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_7" target="tJDBCOutput_7">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row8"/>
   </connection>
   <connection connectorName="FLOW" label="row9" lineStyle="0" metaname="tJDBCInput_8" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_8" target="tJDBCOutput_8">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row9"/>
   </connection>
   <connection connectorName="FLOW" label="row10" lineStyle="0" metaname="tJDBCInput_9" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_9" target="tJDBCOutput_9">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row10"/>
   </connection>
   <connection connectorName="FLOW" label="row12" lineStyle="0" metaname="tJDBCInput_10" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_10" target="tJDBCOutput_10">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row12"/>
   </connection>
   <connection connectorName="FLOW" label="row11" lineStyle="0" metaname="tJDBCInput_11" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_11" target="tJDBCOutput_11">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row11"/>
   </connection>
   <connection connectorName="FLOW" label="row7" lineStyle="0" metaname="tJDBCInput_12" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_12" target="tJDBCOutput_12">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row7"/>
   </connection>
   <connection connectorName="FLOW" label="row1" lineStyle="0" metaname="tJDBCInput_13" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_13" target="tJDBCOutput_13">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1"/>
   </connection>
   <connection connectorName="FLOW" label="row14" lineStyle="0" metaname="tJDBCInput_14" offsetLabelX="13" offsetLabelY="-6" source="tJDBCInput_14" target="tJDBCOutput_14">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row14"/>
   </connection>
   <connection connectorName="FLOW" label="row15" lineStyle="0" metaname="tJDBCInput_15" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_15" target="tJDBCOutput_15">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row15"/>
   </connection>
   <connection connectorName="FLOW" label="row16" lineStyle="0" metaname="tJDBCInput_16" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_16" target="tJDBCOutput_16">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row16"/>
   </connection>
   <connection connectorName="FLOW" label="row17" lineStyle="0" metaname="tJDBCInput_17" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_17" target="tJDBCOutput_17">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row17"/>
   </connection>
   <connection connectorName="FLOW" label="row18" lineStyle="0" metaname="tJDBCInput_18" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_18" target="tJDBCOutput_18">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row18"/>
   </connection>
   <connection connectorName="FLOW" label="row19" lineStyle="0" metaname="tJDBCInput_19" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_19" target="tJDBCOutput_19">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row19"/>
   </connection>
   <connection connectorName="FLOW" label="row20" lineStyle="0" metaname="tJDBCInput_20" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_20" target="tJDBCOutput_20">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row20"/>
   </connection>
   <connection connectorName="FLOW" label="row21" lineStyle="0" metaname="tJDBCInput_21" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_21" target="tJDBCOutput_21">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row21"/>
   </connection>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tPrejob_1" offsetLabelX="0" offsetLabelY="0" source="tPrejob_1" target="tJDBCConnection_1">
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1"/>
   </connection>
   <connection connectorName="FLOW" label="row22" lineStyle="0" metaname="tJDBCInput_22" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_22" target="tJDBCOutput_22">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row22"/>
   </connection>
   <connection connectorName="FLOW" label="row23" lineStyle="0" metaname="tJDBCInput_23" offsetLabelX="-4" offsetLabelY="-4" source="tJDBCInput_23" target="tJDBCOutput_23">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row23"/>
   </connection>
   <connection connectorName="FLOW" label="row24" lineStyle="0" metaname="tJDBCInput_24" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_24" target="tJDBCOutput_24">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row24"/>
   </connection>
   <connection connectorName="FLOW" label="row25" lineStyle="0" metaname="tJDBCInput_25" offsetLabelX="-4" offsetLabelY="-4" source="tJDBCInput_25" target="tJDBCOutput_25">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row25"/>
   </connection>
   <connection connectorName="FLOW" label="row26" lineStyle="0" metaname="tJDBCInput_26" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_26" target="tJDBCOutput_26">
-    <elementParameter field="CHECK" name="TRACES_CONNECTION_ENABLE" value="true"/>
     <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
       <elementValue elementRef="TRACE_COLUMN" value="history_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
-    <elementParameter field="CHECK" name="USEROWLABEL" value="true"/>
-    <elementParameter field="TEXT" name="METTERLABEL" value="&quot;MyLabel&quot;"/>
-    <elementParameter field="CLOSED_LIST" name="ABSOLUTE" value="Absolute"/>
-    <elementParameter field="CONNECTION_LIST" name="CONNECTIONS" value=""/>
-    <elementParameter field="TABLE" name="THRESHLODS"/>
-    <elementParameter field="CHECK" name="ACTIVATE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row26"/>
   </connection>
   <subjob>

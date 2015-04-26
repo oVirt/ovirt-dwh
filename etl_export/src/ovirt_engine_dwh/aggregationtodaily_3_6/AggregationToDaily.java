@@ -2122,9 +2122,12 @@ public class AggregationToDaily implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_1 = "SELECT \n  history_id, \n  history_datetime, \n  datacenter_id, \n  datacenter_status, \n  minutes_in_status, \n  datacenter_configuration_version\nFROM datacenter_hourly_history\nWHERE history_datetime >= '"
-						+ context.lastDayAggr
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(context.lastDayAggr)
 						+ "'\nAND history_datetime < '"
-						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.lastDayAggr,
+										1, "dd"))
 						+ "'\nORDER BY history_datetime,\n      	 datacenter_id,\n      	 datacenter_status";
 
 				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
@@ -5218,9 +5221,12 @@ public class AggregationToDaily implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_2 = "SELECT \n  history_id, \n  history_datetime, \n  host_id, \n  host_status, \n  minutes_in_status, \n  memory_usage_percent, \n  ksm_shared_memory_mb,\n  cpu_usage_percent, \n  ksm_cpu_percent,  \n  active_vms,  \n  total_vms, \n  total_vms_vcpus, \n  cpu_load, \n  system_cpu_usage_percent,  \n  user_cpu_usage_percent, \n  swap_used_mb,  \n  host_configuration_version\nFROM host_hourly_history\nWHERE history_datetime >= '"
-						+ context.lastDayAggr
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(context.lastDayAggr)
 						+ "'\nAND history_datetime < '"
-						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.lastDayAggr,
+										1, "dd"))
 						+ "'\nORDER BY history_datetime,\n		 host_id,\n      	 host_status";
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
@@ -7792,9 +7798,12 @@ public class AggregationToDaily implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_3 = "SELECT \n history_id, \n history_datetime, \n host_interface_id, \n receive_rate_percent,  \n transmit_rate_percent,  \n host_interface_configuration_version\nFROM host_interface_hourly_history\nWHERE history_datetime >= '"
-						+ context.lastDayAggr
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(context.lastDayAggr)
 						+ "'\nAND history_datetime < '"
-						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.lastDayAggr,
+										1, "dd"))
 						+ "'\nORDER BY history_datetime,\n      	 host_interface_id";
 
 				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
@@ -10514,9 +10523,12 @@ public class AggregationToDaily implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_4 = "SELECT \n  history_id, \n  history_datetime, \n  vm_id, \n  vm_status, \n  minutes_in_status, \n  cpu_usage_percent,  \n  memory_usage_percent, \n  user_cpu_usage_percent, \n  system_cpu_usage_percent,\n  vm_ip, \n  current_user_id,\n  currently_running_on_host, \n  vm_configuration_version, \n  current_host_configuration_version\nFROM vm_hourly_history\nWHERE history_datetime >= '"
-						+ context.lastDayAggr
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(context.lastDayAggr)
 						+ "'\nAND history_datetime < '"
-						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.lastDayAggr,
+										1, "dd"))
 						+ "'\nORDER BY history_datetime,\n      	 vm_id,\n		 vm_status";
 
 				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
@@ -12752,9 +12764,12 @@ public class AggregationToDaily implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_5 = "SELECT \n  history_id, \n  history_datetime, \n  vm_interface_id, \n  receive_rate_percent,  \n  transmit_rate_percent,  \n  vm_interface_configuration_version\nFROM vm_interface_hourly_history\nWHERE history_datetime >= '"
-						+ context.lastDayAggr
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(context.lastDayAggr)
 						+ "'\nAND history_datetime < '"
-						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.lastDayAggr,
+										1, "dd"))
 						+ "'\nORDER BY history_datetime,\n		 vm_interface_id";
 
 				globalMap.put("tJDBCInput_5_QUERY", dbquery_tJDBCInput_5);
@@ -14641,9 +14656,12 @@ public class AggregationToDaily implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_11 = "SELECT \n  history_id, \n  history_datetime, \n  storage_domain_id, \n  storage_domain_status,\n  minutes_in_status,\n  available_disk_size_gb, \n  used_disk_size_gb, \n  storage_configuration_version\nFROM storage_domain_hourly_history\nWHERE history_datetime >= '"
-						+ context.lastDayAggr
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(context.lastDayAggr)
 						+ "'\nAND history_datetime < '"
-						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.lastDayAggr,
+										1, "dd"))
 						+ "'\nORDER BY history_datetime,\n      	 storage_domain_id";
 
 				globalMap.put("tJDBCInput_11_QUERY", dbquery_tJDBCInput_11);
@@ -17285,9 +17303,12 @@ public class AggregationToDaily implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_13 = "SELECT history_datetime,\n		vm_disk_id,\n        image_id,\n		vm_disk_status, \n		minutes_in_status,\n		vm_disk_actual_size_mb,\n		read_rate_bytes_per_second,\n		read_latency_seconds,\n		write_rate_bytes_per_second,\n		write_latency_seconds,\n		flush_latency_seconds,\n		vm_disk_configuration_version \nFROM vm_disk_hourly_history\nWHERE history_datetime >= '"
-						+ context.lastDayAggr
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(context.lastDayAggr)
 						+ "'\nAND history_datetime < '"
-						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.lastDayAggr,
+										1, "dd"))
 						+ "'\nORDER BY history_datetime,\n		 vm_disk_id, \n  		 vm_disk_status";
 
 				globalMap.put("tJDBCInput_13_QUERY", dbquery_tJDBCInput_13);
@@ -20112,9 +20133,12 @@ public class AggregationToDaily implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_9 = "SELECT\n  history_datetime,\n  vm_id,\n  disks_usage\nFROM vm_disks_usage_hourly_history\nWHERE history_datetime >= '"
-						+ context.lastDayAggr
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(context.lastDayAggr)
 						+ "'\nAND history_datetime < '"
-						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.lastDayAggr,
+										1, "dd"))
 						+ "'\nORDER BY history_id DESC,\n         vm_id";
 
 				globalMap.put("tJDBCInput_9_QUERY", dbquery_tJDBCInput_9);
@@ -23372,9 +23396,12 @@ public class AggregationToDaily implements TalendJob {
 						.createStatement();
 
 				String dbquery_tJDBCInput_10 = "SELECT\n  history_id,\n  history_datetime,\n  user_id,\n  user_name,\n  cast(user_logged_in_to_guest as int),\n  vm_id,\n  session_time_in_minutes,\n  cpu_usage_percent,\n  memory_usage_percent,\n  user_cpu_usage_percent,\n  system_cpu_usage_percent,\n  vm_ip,\n  vm_client_ip,\n  currently_running_on_host,\n  vm_configuration_version,\n  current_host_configuration_version\nFROM statistics_vms_users_usage_hourly\nWHERE history_datetime >= '"
-						+ context.lastDayAggr
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(context.lastDayAggr)
 						+ "'\n	AND history_datetime < '"
-						+ TalendDate.addDate(context.lastDayAggr, 1, "dd")
+						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
+								.format(TalendDate.addDate(context.lastDayAggr,
+										1, "dd"))
 						+ "'\nORDER BY\n    history_datetime,\n    user_name,\n    vm_id";
 
 				globalMap.put("tJDBCInput_10_QUERY", dbquery_tJDBCInput_10);
@@ -26033,6 +26060,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 741181 characters generated by Talend Open Studio for Data Integration on the
- * April 1, 2015 5:03:47 PM IDT
+ * 742261 characters generated by Talend Open Studio for Data Integration on the
+ * April 26, 2015 2:31:46 PM IDT
  ************************************************************************************************/
