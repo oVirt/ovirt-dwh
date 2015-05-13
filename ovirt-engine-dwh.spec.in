@@ -259,6 +259,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed May 13 2015 Shirly Radco <sradco@redhat.com> - 3.5.3
+Fixed issues:
+- change disks usage aggregation (#1202661)
+
 * Mon Feb 23 2015 Shirly Radco <sradco@redhat.com> - 3.5.2
 Fixed issues:
 - fixed bug in users details sync (#1189127)
