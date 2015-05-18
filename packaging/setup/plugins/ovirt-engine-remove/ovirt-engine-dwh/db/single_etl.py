@@ -83,7 +83,7 @@ class Plugin(plugin.PluginBase):
                     name=engine_db_timekeeping.DB_KEY_UUID,
                     value=''
                 )
-        except RuntimeError as e:
+        except Exception as e:
             self.logger.debug('exception', exc_info=True)
             self.logger.warning(
                 _(
