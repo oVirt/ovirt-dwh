@@ -399,6 +399,8 @@ SELECT
       host_interface_id as host_interface_id,
       receive_rate_percent as receive_rate_percent,
       transmit_rate_percent as transmit_rate_percent,
+      received_total_byte as received_total_byte,
+      transmitted_total_byte as transmitted_total_byte,
       host_interface_configuration_version as host_interface_configuration_version
 FROM host_interface_samples_history;
 
@@ -412,6 +414,8 @@ SELECT
       max_receive_rate_percent as max_receive_rate_percent,
       transmit_rate_percent as transmit_rate_percent,
       max_transmit_rate_percent as max_transmit_rate_percent,
+      received_total_byte as received_total_byte,
+      transmitted_total_byte as transmitted_total_byte,
       host_interface_configuration_version as host_interface_configuration_version
 FROM host_interface_hourly_history;
 
@@ -426,6 +430,8 @@ SELECT
       max_receive_rate_percent as max_receive_rate_percent,
       transmit_rate_percent as transmit_rate_percent,
       max_transmit_rate_percent as max_transmit_rate_percent,
+      received_total_byte as received_total_byte,
+      transmitted_total_byte as transmitted_total_byte,
       host_interface_configuration_version as host_interface_configuration_version
 FROM host_interface_daily_history;
 
@@ -658,6 +664,8 @@ SELECT
       vm_interface_id as vm_interface_id,
       receive_rate_percent as receive_rate_percent,
       transmit_rate_percent as transmit_rate_percent,
+      received_total_byte as received_total_byte,
+      transmitted_total_byte as transmitted_total_byte,
       vm_interface_configuration_version as vm_interface_configuration_version
 FROM vm_interface_samples_history;
 
@@ -672,6 +680,8 @@ SELECT
       max_receive_rate_percent as max_receive_rate_percent,
       transmit_rate_percent as transmit_rate_percent,
       max_transmit_rate_percent as max_transmit_rate_percent,
+      received_total_byte as received_total_byte,
+      transmitted_total_byte as transmitted_total_byte,
       vm_interface_configuration_version as vm_interface_configuration_version
 FROM vm_interface_hourly_history;
 
@@ -686,6 +696,8 @@ SELECT
       max_receive_rate_percent as max_receive_rate_percent,
       transmit_rate_percent as transmit_rate_percent,
       max_transmit_rate_percent as max_transmit_rate_percent,
+      received_total_byte as received_total_byte,
+      transmitted_total_byte as transmitted_total_byte,
       vm_interface_configuration_version as vm_interface_configuration_version
 FROM vm_interface_daily_history;
 
