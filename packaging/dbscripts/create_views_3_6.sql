@@ -219,6 +219,11 @@ SELECT
       ELSE vdsm_version
       END as vdsm_version,
       vdsm_port as vdsm_port,
+      threads_per_core as threads_per_core,
+      hardware_manufacturer as hardware_manufacturer,
+      hardware_product_name as hardware_product_name,
+      hardware_version as hardware_version,
+      hardware_serial_number as hardware_serial_number,
       cluster_configuration_version as cluster_configuration_version,
       create_date as create_date,
       update_date as update_date,
@@ -251,6 +256,11 @@ SELECT
       ELSE vdsm_version
       END as vdsm_version,
       vdsm_port as vdsm_port,
+      threads_per_core as threads_per_core,
+      hardware_manufacturer as hardware_manufacturer,
+      hardware_product_name as hardware_product_name,
+      hardware_version as hardware_version,
+      hardware_serial_number as hardware_serial_number,
       cluster_configuration_version as cluster_configuration_version,
       create_date as create_date,
       update_date as update_date
