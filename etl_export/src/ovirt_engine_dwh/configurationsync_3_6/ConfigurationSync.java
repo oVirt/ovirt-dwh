@@ -16601,6 +16601,36 @@ public class ConfigurationSync implements TalendJob {
 			return this.delete_date;
 		}
 
+		public Short threads_per_core;
+
+		public Short getThreads_per_core() {
+			return this.threads_per_core;
+		}
+
+		public String hardware_manufacturer;
+
+		public String getHardware_manufacturer() {
+			return this.hardware_manufacturer;
+		}
+
+		public String hardware_product_name;
+
+		public String getHardware_product_name() {
+			return this.hardware_product_name;
+		}
+
+		public String hardware_version;
+
+		public String getHardware_version() {
+			return this.hardware_version;
+		}
+
+		public String hardware_serial_number;
+
+		public String getHardware_serial_number() {
+			return this.hardware_serial_number;
+		}
+
 		private String readString(ObjectInputStream dis) throws IOException {
 			String strReturn = null;
 			int length = 0;
@@ -16747,6 +16777,21 @@ public class ConfigurationSync implements TalendJob {
 
 					this.delete_date = readDate(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.threads_per_core = null;
+					} else {
+						this.threads_per_core = dis.readShort();
+					}
+
+					this.hardware_manufacturer = readString(dis);
+
+					this.hardware_product_name = readString(dis);
+
+					this.hardware_version = readString(dis);
+
+					this.hardware_serial_number = readString(dis);
+
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
@@ -16861,6 +16906,31 @@ public class ConfigurationSync implements TalendJob {
 
 				writeDate(this.delete_date, dos);
 
+				// Short
+
+				if (this.threads_per_core == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.threads_per_core);
+				}
+
+				// String
+
+				writeString(this.hardware_manufacturer, dos);
+
+				// String
+
+				writeString(this.hardware_product_name, dos);
+
+				// String
+
+				writeString(this.hardware_version, dos);
+
+				// String
+
+				writeString(this.hardware_serial_number, dos);
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -16894,6 +16964,11 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append(",delete_date=" + String.valueOf(delete_date));
+			sb.append(",threads_per_core=" + String.valueOf(threads_per_core));
+			sb.append(",hardware_manufacturer=" + hardware_manufacturer);
+			sb.append(",hardware_product_name=" + hardware_product_name);
+			sb.append(",hardware_version=" + hardware_version);
+			sb.append(",hardware_serial_number=" + hardware_serial_number);
 			sb.append("]");
 
 			return sb.toString();
@@ -17044,6 +17119,36 @@ public class ConfigurationSync implements TalendJob {
 
 		public Integer getVdsm_port() {
 			return this.vdsm_port;
+		}
+
+		public Short threads_per_core;
+
+		public Short getThreads_per_core() {
+			return this.threads_per_core;
+		}
+
+		public String hardware_manufacturer;
+
+		public String getHardware_manufacturer() {
+			return this.hardware_manufacturer;
+		}
+
+		public String hardware_product_name;
+
+		public String getHardware_product_name() {
+			return this.hardware_product_name;
+		}
+
+		public String hardware_version;
+
+		public String getHardware_version() {
+			return this.hardware_version;
+		}
+
+		public String hardware_serial_number;
+
+		public String getHardware_serial_number() {
+			return this.hardware_serial_number;
 		}
 
 		public java.util.Date create_date;
@@ -17203,6 +17308,21 @@ public class ConfigurationSync implements TalendJob {
 
 					this.vdsm_port = readInteger(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.threads_per_core = null;
+					} else {
+						this.threads_per_core = dis.readShort();
+					}
+
+					this.hardware_manufacturer = readString(dis);
+
+					this.hardware_product_name = readString(dis);
+
+					this.hardware_version = readString(dis);
+
+					this.hardware_serial_number = readString(dis);
+
 					this.create_date = readDate(dis);
 
 					this.update_date = readDate(dis);
@@ -17314,6 +17434,31 @@ public class ConfigurationSync implements TalendJob {
 
 				writeInteger(this.vdsm_port, dos);
 
+				// Short
+
+				if (this.threads_per_core == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.threads_per_core);
+				}
+
+				// String
+
+				writeString(this.hardware_manufacturer, dos);
+
+				// String
+
+				writeString(this.hardware_product_name, dos);
+
+				// String
+
+				writeString(this.hardware_version, dos);
+
+				// String
+
+				writeString(this.hardware_serial_number, dos);
+
 				// java.util.Date
 
 				writeDate(this.create_date, dos);
@@ -17351,6 +17496,11 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",kvm_version=" + kvm_version);
 			sb.append(",vdsm_version=" + vdsm_version);
 			sb.append(",vdsm_port=" + String.valueOf(vdsm_port));
+			sb.append(",threads_per_core=" + String.valueOf(threads_per_core));
+			sb.append(",hardware_manufacturer=" + hardware_manufacturer);
+			sb.append(",hardware_product_name=" + hardware_product_name);
+			sb.append(",hardware_version=" + hardware_version);
+			sb.append(",hardware_serial_number=" + hardware_serial_number);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -17505,6 +17655,36 @@ public class ConfigurationSync implements TalendJob {
 			return this.vdsm_port;
 		}
 
+		public Short threads_per_core;
+
+		public Short getThreads_per_core() {
+			return this.threads_per_core;
+		}
+
+		public String hardware_manufacturer;
+
+		public String getHardware_manufacturer() {
+			return this.hardware_manufacturer;
+		}
+
+		public String hardware_product_name;
+
+		public String getHardware_product_name() {
+			return this.hardware_product_name;
+		}
+
+		public String hardware_version;
+
+		public String getHardware_version() {
+			return this.hardware_version;
+		}
+
+		public String hardware_serial_number;
+
+		public String getHardware_serial_number() {
+			return this.hardware_serial_number;
+		}
+
 		public java.util.Date create_date;
 
 		public java.util.Date getCreate_date() {
@@ -17662,6 +17842,21 @@ public class ConfigurationSync implements TalendJob {
 
 					this.vdsm_port = readInteger(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.threads_per_core = null;
+					} else {
+						this.threads_per_core = dis.readShort();
+					}
+
+					this.hardware_manufacturer = readString(dis);
+
+					this.hardware_product_name = readString(dis);
+
+					this.hardware_version = readString(dis);
+
+					this.hardware_serial_number = readString(dis);
+
 					this.create_date = readDate(dis);
 
 					this.update_date = readDate(dis);
@@ -17773,6 +17968,31 @@ public class ConfigurationSync implements TalendJob {
 
 				writeInteger(this.vdsm_port, dos);
 
+				// Short
+
+				if (this.threads_per_core == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.threads_per_core);
+				}
+
+				// String
+
+				writeString(this.hardware_manufacturer, dos);
+
+				// String
+
+				writeString(this.hardware_product_name, dos);
+
+				// String
+
+				writeString(this.hardware_version, dos);
+
+				// String
+
+				writeString(this.hardware_serial_number, dos);
+
 				// java.util.Date
 
 				writeDate(this.create_date, dos);
@@ -17810,6 +18030,11 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",kvm_version=" + kvm_version);
 			sb.append(",vdsm_version=" + vdsm_version);
 			sb.append(",vdsm_port=" + String.valueOf(vdsm_port));
+			sb.append(",threads_per_core=" + String.valueOf(threads_per_core));
+			sb.append(",hardware_manufacturer=" + hardware_manufacturer);
+			sb.append(",hardware_product_name=" + hardware_product_name);
+			sb.append(",hardware_version=" + hardware_version);
+			sb.append(",hardware_serial_number=" + hardware_serial_number);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -17911,7 +18136,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_4 = "INSERT INTO "
 						+ "host_configuration"
-						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqdn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,number_of_sockets,cpu_speed_mh,host_os,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqdn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,number_of_sockets,cpu_speed_mh,host_os,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date,threads_per_core,hardware_manufacturer,hardware_product_name,hardware_version,hardware_serial_number) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_4 = connection_tJDBCOutput_4
 						.prepareStatement(insert_tJDBCOutput_4);
 
@@ -17975,7 +18200,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_4 = conn_tJDBCInput_4
 						.createStatement();
 
-				String dbquery_tJDBCInput_4 = "SELECT \n  host_id, \n  host_unique_id, \n  host_name, \n  cluster_id,\n  upper(cast(cluster_id as char(36))) as cluster_join_id,  \n  host_type, \n  fqdn_or_ip, \n  memory_size_mb, \n  swap_size_mb, \n  cpu_model,\n  number_of_cores, \n  number_of_sockets,\n  cpu_speed_mh,\n  host_os, \n  kernel_version, \n  kvm_version, \n  vdsm_version, \n  vdsm_port, \n  create_date, \n  update_date\nFROM dwh_host_configuration_history_view";
+				String dbquery_tJDBCInput_4 = "SELECT \n  host_id, \n  host_unique_id, \n  host_name, \n  cluster_id,\n  upper(cast(cluster_id as char(36))) as cluster_join_id,  \n  host_type, \n  fqdn_or_ip, \n  memory_size_mb, \n  swap_size_mb, \n  cpu_model,\n  number_of_cores, \n  number_of_sockets,\n  cpu_speed_mh,\n  host_os, \n  kernel_version, \n  kvm_version, \n  vdsm_version, \n  vdsm_port,\n  threads_per_core,\n  hardware_manufacturer,\n  hardware_product_name,\n  hardware_version,\n  hardware_serial_number, \n  create_date, \n  update_date\nFROM dwh_host_configuration_history_view";
 
 				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
 				java.sql.ResultSet rs_tJDBCInput_4 = null;
@@ -18194,28 +18419,87 @@ public class ConfigurationSync implements TalendJob {
 							}
 						}
 						if (colQtyInRs_tJDBCInput_4 < 19) {
+							row7.threads_per_core = null;
+						} else {
+
+							if (rs_tJDBCInput_4.getObject(19) != null) {
+								row7.threads_per_core = rs_tJDBCInput_4
+										.getShort(19);
+							} else {
+								row7.threads_per_core = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_4 < 20) {
+							row7.hardware_manufacturer = null;
+						} else {
+
+							tmpContent_tJDBCInput_4 = rs_tJDBCInput_4
+									.getString(20);
+							if (tmpContent_tJDBCInput_4 != null) {
+								row7.hardware_manufacturer = tmpContent_tJDBCInput_4;
+							} else {
+								row7.hardware_manufacturer = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_4 < 21) {
+							row7.hardware_product_name = null;
+						} else {
+
+							tmpContent_tJDBCInput_4 = rs_tJDBCInput_4
+									.getString(21);
+							if (tmpContent_tJDBCInput_4 != null) {
+								row7.hardware_product_name = tmpContent_tJDBCInput_4;
+							} else {
+								row7.hardware_product_name = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_4 < 22) {
+							row7.hardware_version = null;
+						} else {
+
+							tmpContent_tJDBCInput_4 = rs_tJDBCInput_4
+									.getString(22);
+							if (tmpContent_tJDBCInput_4 != null) {
+								row7.hardware_version = tmpContent_tJDBCInput_4;
+							} else {
+								row7.hardware_version = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_4 < 23) {
+							row7.hardware_serial_number = null;
+						} else {
+
+							tmpContent_tJDBCInput_4 = rs_tJDBCInput_4
+									.getString(23);
+							if (tmpContent_tJDBCInput_4 != null) {
+								row7.hardware_serial_number = tmpContent_tJDBCInput_4;
+							} else {
+								row7.hardware_serial_number = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_4 < 24) {
 							row7.create_date = null;
 						} else {
 
 							java.util.Date date_tJDBCInput_4 = null;
 							try {
 								date_tJDBCInput_4 = rs_tJDBCInput_4
-										.getTimestamp(19);
+										.getTimestamp(24);
 							} catch (java.lang.Exception e) {
-								date_tJDBCInput_4 = rs_tJDBCInput_4.getDate(19);
+								date_tJDBCInput_4 = rs_tJDBCInput_4.getDate(24);
 							}
 							row7.create_date = date_tJDBCInput_4;
 						}
-						if (colQtyInRs_tJDBCInput_4 < 20) {
+						if (colQtyInRs_tJDBCInput_4 < 25) {
 							row7.update_date = null;
 						} else {
 
 							java.util.Date date_tJDBCInput_4 = null;
 							try {
 								date_tJDBCInput_4 = rs_tJDBCInput_4
-										.getTimestamp(20);
+										.getTimestamp(25);
 							} catch (java.lang.Exception e) {
-								date_tJDBCInput_4 = rs_tJDBCInput_4.getDate(20);
+								date_tJDBCInput_4 = rs_tJDBCInput_4.getDate(25);
 							}
 							row7.update_date = date_tJDBCInput_4;
 						}
@@ -18351,6 +18635,15 @@ public class ConfigurationSync implements TalendJob {
 								host_configuration_tmp.create_date = row7.create_date;
 								host_configuration_tmp.update_date = row7.update_date;
 								host_configuration_tmp.delete_date = null;
+								host_configuration_tmp.threads_per_core = row7.threads_per_core;
+								host_configuration_tmp.hardware_manufacturer = StringHandling
+										.TRIM(row7.hardware_manufacturer);
+								host_configuration_tmp.hardware_product_name = StringHandling
+										.TRIM(row7.hardware_product_name);
+								host_configuration_tmp.hardware_version = StringHandling
+										.TRIM(row7.hardware_version);
+								host_configuration_tmp.hardware_serial_number = StringHandling
+										.TRIM(row7.hardware_serial_number);
 								host_configuration = host_configuration_tmp;
 								// ###############################
 
@@ -18544,6 +18837,56 @@ public class ConfigurationSync implements TalendJob {
 								} else {
 									pstmt_tJDBCOutput_4.setNull(21,
 											java.sql.Types.DATE);
+								}
+
+								if (host_configuration.threads_per_core == null) {
+									pstmt_tJDBCOutput_4.setNull(22,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_4
+											.setShort(
+													22,
+													host_configuration.threads_per_core);
+								}
+
+								if (host_configuration.hardware_manufacturer == null) {
+									pstmt_tJDBCOutput_4.setNull(23,
+											java.sql.Types.VARCHAR);
+								} else {
+									pstmt_tJDBCOutput_4
+											.setString(
+													23,
+													host_configuration.hardware_manufacturer);
+								}
+
+								if (host_configuration.hardware_product_name == null) {
+									pstmt_tJDBCOutput_4.setNull(24,
+											java.sql.Types.VARCHAR);
+								} else {
+									pstmt_tJDBCOutput_4
+											.setString(
+													24,
+													host_configuration.hardware_product_name);
+								}
+
+								if (host_configuration.hardware_version == null) {
+									pstmt_tJDBCOutput_4.setNull(25,
+											java.sql.Types.VARCHAR);
+								} else {
+									pstmt_tJDBCOutput_4
+											.setString(
+													25,
+													host_configuration.hardware_version);
+								}
+
+								if (host_configuration.hardware_serial_number == null) {
+									pstmt_tJDBCOutput_4.setNull(26,
+											java.sql.Types.VARCHAR);
+								} else {
+									pstmt_tJDBCOutput_4
+											.setString(
+													26,
+													host_configuration.hardware_serial_number);
 								}
 
 								try {
@@ -18849,6 +19192,36 @@ public class ConfigurationSync implements TalendJob {
 			return this.delete_date;
 		}
 
+		public Short threads_per_core;
+
+		public Short getThreads_per_core() {
+			return this.threads_per_core;
+		}
+
+		public String hardware_manufacturer;
+
+		public String getHardware_manufacturer() {
+			return this.hardware_manufacturer;
+		}
+
+		public String hardware_product_name;
+
+		public String getHardware_product_name() {
+			return this.hardware_product_name;
+		}
+
+		public String hardware_version;
+
+		public String getHardware_version() {
+			return this.hardware_version;
+		}
+
+		public String hardware_serial_number;
+
+		public String getHardware_serial_number() {
+			return this.hardware_serial_number;
+		}
+
 		private String readString(ObjectInputStream dis) throws IOException {
 			String strReturn = null;
 			int length = 0;
@@ -18995,6 +19368,21 @@ public class ConfigurationSync implements TalendJob {
 
 					this.delete_date = readDate(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.threads_per_core = null;
+					} else {
+						this.threads_per_core = dis.readShort();
+					}
+
+					this.hardware_manufacturer = readString(dis);
+
+					this.hardware_product_name = readString(dis);
+
+					this.hardware_version = readString(dis);
+
+					this.hardware_serial_number = readString(dis);
+
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
@@ -19109,6 +19497,31 @@ public class ConfigurationSync implements TalendJob {
 
 				writeDate(this.delete_date, dos);
 
+				// Short
+
+				if (this.threads_per_core == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.threads_per_core);
+				}
+
+				// String
+
+				writeString(this.hardware_manufacturer, dos);
+
+				// String
+
+				writeString(this.hardware_product_name, dos);
+
+				// String
+
+				writeString(this.hardware_version, dos);
+
+				// String
+
+				writeString(this.hardware_serial_number, dos);
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -19142,6 +19555,11 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append(",delete_date=" + String.valueOf(delete_date));
+			sb.append(",threads_per_core=" + String.valueOf(threads_per_core));
+			sb.append(",hardware_manufacturer=" + hardware_manufacturer);
+			sb.append(",hardware_product_name=" + hardware_product_name);
+			sb.append(",hardware_version=" + hardware_version);
+			sb.append(",hardware_serial_number=" + hardware_serial_number);
 			sb.append("]");
 
 			return sb.toString();
@@ -19306,6 +19724,36 @@ public class ConfigurationSync implements TalendJob {
 			return this.cluster_configuration_version;
 		}
 
+		public Short threads_per_core;
+
+		public Short getThreads_per_core() {
+			return this.threads_per_core;
+		}
+
+		public String hardware_manufacturer;
+
+		public String getHardware_manufacturer() {
+			return this.hardware_manufacturer;
+		}
+
+		public String hardware_product_name;
+
+		public String getHardware_product_name() {
+			return this.hardware_product_name;
+		}
+
+		public String hardware_version;
+
+		public String getHardware_version() {
+			return this.hardware_version;
+		}
+
+		public String hardware_serial_number;
+
+		public String getHardware_serial_number() {
+			return this.hardware_serial_number;
+		}
+
 		public java.util.Date create_date;
 
 		public java.util.Date getCreate_date() {
@@ -19467,6 +19915,21 @@ public class ConfigurationSync implements TalendJob {
 
 					this.cluster_configuration_version = readInteger(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.threads_per_core = null;
+					} else {
+						this.threads_per_core = dis.readShort();
+					}
+
+					this.hardware_manufacturer = readString(dis);
+
+					this.hardware_product_name = readString(dis);
+
+					this.hardware_version = readString(dis);
+
+					this.hardware_serial_number = readString(dis);
+
 					this.create_date = readDate(dis);
 
 					this.update_date = readDate(dis);
@@ -19586,6 +20049,31 @@ public class ConfigurationSync implements TalendJob {
 
 				writeInteger(this.cluster_configuration_version, dos);
 
+				// Short
+
+				if (this.threads_per_core == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.threads_per_core);
+				}
+
+				// String
+
+				writeString(this.hardware_manufacturer, dos);
+
+				// String
+
+				writeString(this.hardware_product_name, dos);
+
+				// String
+
+				writeString(this.hardware_version, dos);
+
+				// String
+
+				writeString(this.hardware_serial_number, dos);
+
 				// java.util.Date
 
 				writeDate(this.create_date, dos);
@@ -19626,6 +20114,11 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",vdsm_port=" + String.valueOf(vdsm_port));
 			sb.append(",cluster_configuration_version="
 					+ String.valueOf(cluster_configuration_version));
+			sb.append(",threads_per_core=" + String.valueOf(threads_per_core));
+			sb.append(",hardware_manufacturer=" + hardware_manufacturer);
+			sb.append(",hardware_product_name=" + hardware_product_name);
+			sb.append(",hardware_version=" + hardware_version);
+			sb.append(",hardware_serial_number=" + hardware_serial_number);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -19792,6 +20285,36 @@ public class ConfigurationSync implements TalendJob {
 			return this.cluster_configuration_version;
 		}
 
+		public Short threads_per_core;
+
+		public Short getThreads_per_core() {
+			return this.threads_per_core;
+		}
+
+		public String hardware_manufacturer;
+
+		public String getHardware_manufacturer() {
+			return this.hardware_manufacturer;
+		}
+
+		public String hardware_product_name;
+
+		public String getHardware_product_name() {
+			return this.hardware_product_name;
+		}
+
+		public String hardware_version;
+
+		public String getHardware_version() {
+			return this.hardware_version;
+		}
+
+		public String hardware_serial_number;
+
+		public String getHardware_serial_number() {
+			return this.hardware_serial_number;
+		}
+
 		public java.util.Date create_date;
 
 		public java.util.Date getCreate_date() {
@@ -19953,6 +20476,21 @@ public class ConfigurationSync implements TalendJob {
 
 					this.cluster_configuration_version = readInteger(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.threads_per_core = null;
+					} else {
+						this.threads_per_core = dis.readShort();
+					}
+
+					this.hardware_manufacturer = readString(dis);
+
+					this.hardware_product_name = readString(dis);
+
+					this.hardware_version = readString(dis);
+
+					this.hardware_serial_number = readString(dis);
+
 					this.create_date = readDate(dis);
 
 					this.update_date = readDate(dis);
@@ -20072,6 +20610,31 @@ public class ConfigurationSync implements TalendJob {
 
 				writeInteger(this.cluster_configuration_version, dos);
 
+				// Short
+
+				if (this.threads_per_core == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.threads_per_core);
+				}
+
+				// String
+
+				writeString(this.hardware_manufacturer, dos);
+
+				// String
+
+				writeString(this.hardware_product_name, dos);
+
+				// String
+
+				writeString(this.hardware_version, dos);
+
+				// String
+
+				writeString(this.hardware_serial_number, dos);
+
 				// java.util.Date
 
 				writeDate(this.create_date, dos);
@@ -20112,6 +20675,11 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",vdsm_port=" + String.valueOf(vdsm_port));
 			sb.append(",cluster_configuration_version="
 					+ String.valueOf(cluster_configuration_version));
+			sb.append(",threads_per_core=" + String.valueOf(threads_per_core));
+			sb.append(",hardware_manufacturer=" + hardware_manufacturer);
+			sb.append(",hardware_product_name=" + hardware_product_name);
+			sb.append(",hardware_version=" + hardware_version);
+			sb.append(",hardware_serial_number=" + hardware_serial_number);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -20213,7 +20781,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_17 = "INSERT INTO "
 						+ "host_configuration"
-						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqdn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,number_of_sockets,cpu_speed_mh,host_os,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqdn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,number_of_sockets,cpu_speed_mh,host_os,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date,threads_per_core,hardware_manufacturer,hardware_product_name,hardware_version,hardware_serial_number) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_17 = connection_tJDBCOutput_17
 						.prepareStatement(insert_tJDBCOutput_17);
 
@@ -20277,7 +20845,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_22 = conn_tJDBCInput_22
 						.createStatement();
 
-				String dbquery_tJDBCInput_22 = "SELECT history_id, \n		host_id, \n		upper(cast(host_id as char(36))) as host_join_id,\n		host_unique_id, \n		host_name, \n		cluster_id, \n		host_type, \n		fqdn_or_ip, \n		memory_size_mb, \n		swap_size_mb,\n		cpu_model, \n		number_of_cores, \n        number_of_sockets,\n        cpu_speed_mh,\n		host_os,\n		kernel_version, \n		kvm_version, \n		vdsm_version, \n		vdsm_port, \n		cluster_configuration_version, \n		create_date, \n		update_date\nFROM v3_6_latest_configuration_hosts";
+				String dbquery_tJDBCInput_22 = "SELECT history_id, \n		host_id, \n		upper(cast(host_id as char(36))) as host_join_id,\n		host_unique_id, \n		host_name, \n		cluster_id, \n		host_type, \n		fqdn_or_ip, \n		memory_size_mb, \n		swap_size_mb,\n		cpu_model, \n		number_of_cores, \n        number_of_sockets,\n        cpu_speed_mh,\n		host_os,\n		kernel_version, \n		kvm_version, \n		vdsm_version, \n		vdsm_port, \n        threads_per_core,\n        hardware_manufacturer,\n        hardware_product_name,\n        hardware_version,\n        hardware_serial_number,\n		cluster_configuration_version, \n		create_date, \n		update_date\nFROM v3_6_latest_configuration_hosts";
 
 				globalMap.put("tJDBCInput_22_QUERY", dbquery_tJDBCInput_22);
 				java.sql.ResultSet rs_tJDBCInput_22 = null;
@@ -20520,30 +21088,89 @@ public class ConfigurationSync implements TalendJob {
 							}
 						}
 						if (colQtyInRs_tJDBCInput_22 < 21) {
+							row21.threads_per_core = null;
+						} else {
+
+							if (rs_tJDBCInput_22.getObject(21) != null) {
+								row21.threads_per_core = rs_tJDBCInput_22
+										.getShort(21);
+							} else {
+								row21.threads_per_core = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_22 < 22) {
+							row21.hardware_manufacturer = null;
+						} else {
+
+							tmpContent_tJDBCInput_22 = rs_tJDBCInput_22
+									.getString(22);
+							if (tmpContent_tJDBCInput_22 != null) {
+								row21.hardware_manufacturer = tmpContent_tJDBCInput_22;
+							} else {
+								row21.hardware_manufacturer = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_22 < 23) {
+							row21.hardware_product_name = null;
+						} else {
+
+							tmpContent_tJDBCInput_22 = rs_tJDBCInput_22
+									.getString(23);
+							if (tmpContent_tJDBCInput_22 != null) {
+								row21.hardware_product_name = tmpContent_tJDBCInput_22;
+							} else {
+								row21.hardware_product_name = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_22 < 24) {
+							row21.hardware_version = null;
+						} else {
+
+							tmpContent_tJDBCInput_22 = rs_tJDBCInput_22
+									.getString(24);
+							if (tmpContent_tJDBCInput_22 != null) {
+								row21.hardware_version = tmpContent_tJDBCInput_22;
+							} else {
+								row21.hardware_version = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_22 < 25) {
+							row21.hardware_serial_number = null;
+						} else {
+
+							tmpContent_tJDBCInput_22 = rs_tJDBCInput_22
+									.getString(25);
+							if (tmpContent_tJDBCInput_22 != null) {
+								row21.hardware_serial_number = tmpContent_tJDBCInput_22;
+							} else {
+								row21.hardware_serial_number = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_22 < 26) {
 							row21.create_date = null;
 						} else {
 
 							java.util.Date date_tJDBCInput_22 = null;
 							try {
 								date_tJDBCInput_22 = rs_tJDBCInput_22
-										.getTimestamp(21);
+										.getTimestamp(26);
 							} catch (java.lang.Exception e) {
 								date_tJDBCInput_22 = rs_tJDBCInput_22
-										.getDate(21);
+										.getDate(26);
 							}
 							row21.create_date = date_tJDBCInput_22;
 						}
-						if (colQtyInRs_tJDBCInput_22 < 22) {
+						if (colQtyInRs_tJDBCInput_22 < 27) {
 							row21.update_date = null;
 						} else {
 
 							java.util.Date date_tJDBCInput_22 = null;
 							try {
 								date_tJDBCInput_22 = rs_tJDBCInput_22
-										.getTimestamp(22);
+										.getTimestamp(27);
 							} catch (java.lang.Exception e) {
 								date_tJDBCInput_22 = rs_tJDBCInput_22
-										.getDate(22);
+										.getDate(27);
 							}
 							row21.update_date = date_tJDBCInput_22;
 						}
@@ -20667,6 +21294,11 @@ public class ConfigurationSync implements TalendJob {
 								delete_hosts_tmp.create_date = row21.create_date;
 								delete_hosts_tmp.update_date = context.runTime;
 								delete_hosts_tmp.delete_date = context.runTime;
+								delete_hosts_tmp.threads_per_core = row21.threads_per_core;
+								delete_hosts_tmp.hardware_manufacturer = row21.hardware_manufacturer;
+								delete_hosts_tmp.hardware_product_name = row21.hardware_product_name;
+								delete_hosts_tmp.hardware_version = row21.hardware_version;
+								delete_hosts_tmp.hardware_serial_number = row21.hardware_serial_number;
 								delete_hosts = delete_hosts_tmp;
 							} // closing filter/reject
 								// ###############################
@@ -20856,6 +21488,46 @@ public class ConfigurationSync implements TalendJob {
 							} else {
 								pstmt_tJDBCOutput_17.setNull(21,
 										java.sql.Types.DATE);
+							}
+
+							if (delete_hosts.threads_per_core == null) {
+								pstmt_tJDBCOutput_17.setNull(22,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_17.setShort(22,
+										delete_hosts.threads_per_core);
+							}
+
+							if (delete_hosts.hardware_manufacturer == null) {
+								pstmt_tJDBCOutput_17.setNull(23,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_17.setString(23,
+										delete_hosts.hardware_manufacturer);
+							}
+
+							if (delete_hosts.hardware_product_name == null) {
+								pstmt_tJDBCOutput_17.setNull(24,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_17.setString(24,
+										delete_hosts.hardware_product_name);
+							}
+
+							if (delete_hosts.hardware_version == null) {
+								pstmt_tJDBCOutput_17.setNull(25,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_17.setString(25,
+										delete_hosts.hardware_version);
+							}
+
+							if (delete_hosts.hardware_serial_number == null) {
+								pstmt_tJDBCOutput_17.setNull(26,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_17.setString(26,
+										delete_hosts.hardware_serial_number);
 							}
 
 							try {
@@ -63406,6 +64078,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1686245 characters generated by Talend Open Studio for Data Integration on
- * the May 26, 2015 4:31:50 PM IDT
+ * 1705772 characters generated by Talend Open Studio for Data Integration on
+ * the June 10, 2015 1:47:10 PM IDT
  ************************************************************************************************/

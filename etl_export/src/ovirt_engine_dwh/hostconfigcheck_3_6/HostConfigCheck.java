@@ -1625,6 +1625,36 @@ public class HostConfigCheck implements TalendJob {
 			return this.delete_date;
 		}
 
+		public Short threads_per_core;
+
+		public Short getThreads_per_core() {
+			return this.threads_per_core;
+		}
+
+		public String hardware_manufacturer;
+
+		public String getHardware_manufacturer() {
+			return this.hardware_manufacturer;
+		}
+
+		public String hardware_product_name;
+
+		public String getHardware_product_name() {
+			return this.hardware_product_name;
+		}
+
+		public String hardware_version;
+
+		public String getHardware_version() {
+			return this.hardware_version;
+		}
+
+		public String hardware_serial_number;
+
+		public String getHardware_serial_number() {
+			return this.hardware_serial_number;
+		}
+
 		private String readString(ObjectInputStream dis) throws IOException {
 			String strReturn = null;
 			int length = 0;
@@ -1770,6 +1800,21 @@ public class HostConfigCheck implements TalendJob {
 
 					this.delete_date = readDate(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.threads_per_core = null;
+					} else {
+						this.threads_per_core = dis.readShort();
+					}
+
+					this.hardware_manufacturer = readString(dis);
+
+					this.hardware_product_name = readString(dis);
+
+					this.hardware_version = readString(dis);
+
+					this.hardware_serial_number = readString(dis);
+
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
@@ -1884,6 +1929,31 @@ public class HostConfigCheck implements TalendJob {
 
 				writeDate(this.delete_date, dos);
 
+				// Short
+
+				if (this.threads_per_core == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.threads_per_core);
+				}
+
+				// String
+
+				writeString(this.hardware_manufacturer, dos);
+
+				// String
+
+				writeString(this.hardware_product_name, dos);
+
+				// String
+
+				writeString(this.hardware_version, dos);
+
+				// String
+
+				writeString(this.hardware_serial_number, dos);
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -1917,6 +1987,11 @@ public class HostConfigCheck implements TalendJob {
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append(",delete_date=" + String.valueOf(delete_date));
+			sb.append(",threads_per_core=" + String.valueOf(threads_per_core));
+			sb.append(",hardware_manufacturer=" + hardware_manufacturer);
+			sb.append(",hardware_product_name=" + hardware_product_name);
+			sb.append(",hardware_version=" + hardware_version);
+			sb.append(",hardware_serial_number=" + hardware_serial_number);
 			sb.append("]");
 
 			return sb.toString();
@@ -2073,6 +2148,36 @@ public class HostConfigCheck implements TalendJob {
 
 		public Integer getVdsm_port() {
 			return this.vdsm_port;
+		}
+
+		public Short threads_per_core;
+
+		public Short getThreads_per_core() {
+			return this.threads_per_core;
+		}
+
+		public String hardware_manufacturer;
+
+		public String getHardware_manufacturer() {
+			return this.hardware_manufacturer;
+		}
+
+		public String hardware_product_name;
+
+		public String getHardware_product_name() {
+			return this.hardware_product_name;
+		}
+
+		public String hardware_version;
+
+		public String getHardware_version() {
+			return this.hardware_version;
+		}
+
+		public String hardware_serial_number;
+
+		public String getHardware_serial_number() {
+			return this.hardware_serial_number;
 		}
 
 		public java.util.Date create_date;
@@ -2233,6 +2338,21 @@ public class HostConfigCheck implements TalendJob {
 
 					this.vdsm_port = readInteger(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.threads_per_core = null;
+					} else {
+						this.threads_per_core = dis.readShort();
+					}
+
+					this.hardware_manufacturer = readString(dis);
+
+					this.hardware_product_name = readString(dis);
+
+					this.hardware_version = readString(dis);
+
+					this.hardware_serial_number = readString(dis);
+
 					this.create_date = readDate(dis);
 
 					this.update_date = readDate(dis);
@@ -2348,6 +2468,31 @@ public class HostConfigCheck implements TalendJob {
 
 				writeInteger(this.vdsm_port, dos);
 
+				// Short
+
+				if (this.threads_per_core == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.threads_per_core);
+				}
+
+				// String
+
+				writeString(this.hardware_manufacturer, dos);
+
+				// String
+
+				writeString(this.hardware_product_name, dos);
+
+				// String
+
+				writeString(this.hardware_version, dos);
+
+				// String
+
+				writeString(this.hardware_serial_number, dos);
+
 				// java.util.Date
 
 				writeDate(this.create_date, dos);
@@ -2386,6 +2531,11 @@ public class HostConfigCheck implements TalendJob {
 			sb.append(",kvm_version=" + kvm_version);
 			sb.append(",vdsm_version=" + vdsm_version);
 			sb.append(",vdsm_port=" + String.valueOf(vdsm_port));
+			sb.append(",threads_per_core=" + String.valueOf(threads_per_core));
+			sb.append(",hardware_manufacturer=" + hardware_manufacturer);
+			sb.append(",hardware_product_name=" + hardware_product_name);
+			sb.append(",hardware_version=" + hardware_version);
+			sb.append(",hardware_serial_number=" + hardware_serial_number);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -2546,6 +2696,36 @@ public class HostConfigCheck implements TalendJob {
 			return this.vdsm_port;
 		}
 
+		public Short threads_per_core;
+
+		public Short getThreads_per_core() {
+			return this.threads_per_core;
+		}
+
+		public String hardware_manufacturer;
+
+		public String getHardware_manufacturer() {
+			return this.hardware_manufacturer;
+		}
+
+		public String hardware_product_name;
+
+		public String getHardware_product_name() {
+			return this.hardware_product_name;
+		}
+
+		public String hardware_version;
+
+		public String getHardware_version() {
+			return this.hardware_version;
+		}
+
+		public String hardware_serial_number;
+
+		public String getHardware_serial_number() {
+			return this.hardware_serial_number;
+		}
+
 		public java.util.Date create_date;
 
 		public java.util.Date getCreate_date() {
@@ -2704,6 +2884,21 @@ public class HostConfigCheck implements TalendJob {
 
 					this.vdsm_port = readInteger(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.threads_per_core = null;
+					} else {
+						this.threads_per_core = dis.readShort();
+					}
+
+					this.hardware_manufacturer = readString(dis);
+
+					this.hardware_product_name = readString(dis);
+
+					this.hardware_version = readString(dis);
+
+					this.hardware_serial_number = readString(dis);
+
 					this.create_date = readDate(dis);
 
 					this.update_date = readDate(dis);
@@ -2819,6 +3014,31 @@ public class HostConfigCheck implements TalendJob {
 
 				writeInteger(this.vdsm_port, dos);
 
+				// Short
+
+				if (this.threads_per_core == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeShort(this.threads_per_core);
+				}
+
+				// String
+
+				writeString(this.hardware_manufacturer, dos);
+
+				// String
+
+				writeString(this.hardware_product_name, dos);
+
+				// String
+
+				writeString(this.hardware_version, dos);
+
+				// String
+
+				writeString(this.hardware_serial_number, dos);
+
 				// java.util.Date
 
 				writeDate(this.create_date, dos);
@@ -2857,6 +3077,11 @@ public class HostConfigCheck implements TalendJob {
 			sb.append(",kvm_version=" + kvm_version);
 			sb.append(",vdsm_version=" + vdsm_version);
 			sb.append(",vdsm_port=" + String.valueOf(vdsm_port));
+			sb.append(",threads_per_core=" + String.valueOf(threads_per_core));
+			sb.append(",hardware_manufacturer=" + hardware_manufacturer);
+			sb.append(",hardware_product_name=" + hardware_product_name);
+			sb.append(",hardware_version=" + hardware_version);
+			sb.append(",hardware_serial_number=" + hardware_serial_number);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
 			sb.append("]");
@@ -2959,7 +3184,7 @@ public class HostConfigCheck implements TalendJob {
 
 				String insert_tJDBCOutput_1 = "INSERT INTO "
 						+ "host_configuration"
-						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqdn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,number_of_sockets,cpu_speed_mh,host_os,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (host_id,host_unique_id,host_name,cluster_id,host_type,fqdn_or_ip,memory_size_mb,swap_size_mb,cpu_model,number_of_cores,number_of_sockets,cpu_speed_mh,host_os,kernel_version,kvm_version,vdsm_version,vdsm_port,cluster_configuration_version,create_date,update_date,delete_date,threads_per_core,hardware_manufacturer,hardware_product_name,hardware_version,hardware_serial_number) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_1 = connection_tJDBCOutput_1
 						.prepareStatement(insert_tJDBCOutput_1);
 
@@ -3029,7 +3254,7 @@ public class HostConfigCheck implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
 
-				String dbquery_tJDBCInput_2 = "SELECT \n  host_id, \n  upper(cast(host_id as char(36))) as host_join_id,\n  host_unique_id, \n  host_name, \n  cluster_id,\n  upper(cast(cluster_id as char(36))) as cluster_join_id,  \n  host_type, \n  fqdn_or_ip, \n  memory_size_mb, \n  swap_size_mb, \n  cpu_model, \n  number_of_cores,\n  number_of_sockets,\n  cpu_speed_mh,\n  host_os, \n  kernel_version, \n  kvm_version, \n  vdsm_version, \n  vdsm_port, \n  create_date, \n  update_date\nFROM dwh_host_configuration_full_check_view";
+				String dbquery_tJDBCInput_2 = "SELECT \n  host_id, \n  upper(cast(host_id as char(36))) as host_join_id,\n  host_unique_id, \n  host_name, \n  cluster_id,\n  upper(cast(cluster_id as char(36))) as cluster_join_id,  \n  host_type, \n  fqdn_or_ip, \n  memory_size_mb, \n  swap_size_mb, \n  cpu_model, \n  number_of_cores,\n  number_of_sockets,\n  cpu_speed_mh,\n  host_os, \n  kernel_version, \n  kvm_version, \n  vdsm_version, \n  vdsm_port, \n  threads_per_core,\n  hardware_manufacturer,\n  hardware_product_name,\n  hardware_version,\n  hardware_serial_number,\n  create_date, \n  update_date\nFROM dwh_host_configuration_full_check_view";
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
 				java.sql.ResultSet rs_tJDBCInput_2 = null;
@@ -3260,28 +3485,87 @@ public class HostConfigCheck implements TalendJob {
 							}
 						}
 						if (colQtyInRs_tJDBCInput_2 < 20) {
+							row2.threads_per_core = null;
+						} else {
+
+							if (rs_tJDBCInput_2.getObject(20) != null) {
+								row2.threads_per_core = rs_tJDBCInput_2
+										.getShort(20);
+							} else {
+								row2.threads_per_core = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_2 < 21) {
+							row2.hardware_manufacturer = null;
+						} else {
+
+							tmpContent_tJDBCInput_2 = rs_tJDBCInput_2
+									.getString(21);
+							if (tmpContent_tJDBCInput_2 != null) {
+								row2.hardware_manufacturer = tmpContent_tJDBCInput_2;
+							} else {
+								row2.hardware_manufacturer = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_2 < 22) {
+							row2.hardware_product_name = null;
+						} else {
+
+							tmpContent_tJDBCInput_2 = rs_tJDBCInput_2
+									.getString(22);
+							if (tmpContent_tJDBCInput_2 != null) {
+								row2.hardware_product_name = tmpContent_tJDBCInput_2;
+							} else {
+								row2.hardware_product_name = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_2 < 23) {
+							row2.hardware_version = null;
+						} else {
+
+							tmpContent_tJDBCInput_2 = rs_tJDBCInput_2
+									.getString(23);
+							if (tmpContent_tJDBCInput_2 != null) {
+								row2.hardware_version = tmpContent_tJDBCInput_2;
+							} else {
+								row2.hardware_version = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_2 < 24) {
+							row2.hardware_serial_number = null;
+						} else {
+
+							tmpContent_tJDBCInput_2 = rs_tJDBCInput_2
+									.getString(24);
+							if (tmpContent_tJDBCInput_2 != null) {
+								row2.hardware_serial_number = tmpContent_tJDBCInput_2;
+							} else {
+								row2.hardware_serial_number = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_2 < 25) {
 							row2.create_date = null;
 						} else {
 
 							java.util.Date date_tJDBCInput_2 = null;
 							try {
 								date_tJDBCInput_2 = rs_tJDBCInput_2
-										.getTimestamp(20);
+										.getTimestamp(25);
 							} catch (java.lang.Exception e) {
-								date_tJDBCInput_2 = rs_tJDBCInput_2.getDate(20);
+								date_tJDBCInput_2 = rs_tJDBCInput_2.getDate(25);
 							}
 							row2.create_date = date_tJDBCInput_2;
 						}
-						if (colQtyInRs_tJDBCInput_2 < 21) {
+						if (colQtyInRs_tJDBCInput_2 < 26) {
 							row2.update_date = null;
 						} else {
 
 							java.util.Date date_tJDBCInput_2 = null;
 							try {
 								date_tJDBCInput_2 = rs_tJDBCInput_2
-										.getTimestamp(21);
+										.getTimestamp(26);
 							} catch (java.lang.Exception e) {
-								date_tJDBCInput_2 = rs_tJDBCInput_2.getDate(21);
+								date_tJDBCInput_2 = rs_tJDBCInput_2.getDate(26);
 							}
 							row2.update_date = date_tJDBCInput_2;
 						}
@@ -3500,6 +3784,15 @@ public class HostConfigCheck implements TalendJob {
 								host_changes_tmp.create_date = row2.create_date;
 								host_changes_tmp.update_date = context.runTime;
 								host_changes_tmp.delete_date = null;
+								host_changes_tmp.threads_per_core = row2.threads_per_core;
+								host_changes_tmp.hardware_manufacturer = StringHandling
+										.TRIM(row2.hardware_manufacturer);
+								host_changes_tmp.hardware_product_name = StringHandling
+										.TRIM(row2.hardware_product_name);
+								host_changes_tmp.hardware_version = StringHandling
+										.TRIM(row2.hardware_version);
+								host_changes_tmp.hardware_serial_number = StringHandling
+										.TRIM(row2.hardware_serial_number);
 								host_changes = host_changes_tmp;
 							} // closing filter/reject
 								// ###############################
@@ -3689,6 +3982,46 @@ public class HostConfigCheck implements TalendJob {
 							} else {
 								pstmt_tJDBCOutput_1.setNull(21,
 										java.sql.Types.DATE);
+							}
+
+							if (host_changes.threads_per_core == null) {
+								pstmt_tJDBCOutput_1.setNull(22,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_1.setShort(22,
+										host_changes.threads_per_core);
+							}
+
+							if (host_changes.hardware_manufacturer == null) {
+								pstmt_tJDBCOutput_1.setNull(23,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_1.setString(23,
+										host_changes.hardware_manufacturer);
+							}
+
+							if (host_changes.hardware_product_name == null) {
+								pstmt_tJDBCOutput_1.setNull(24,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_1.setString(24,
+										host_changes.hardware_product_name);
+							}
+
+							if (host_changes.hardware_version == null) {
+								pstmt_tJDBCOutput_1.setNull(25,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_1.setString(25,
+										host_changes.hardware_version);
+							}
+
+							if (host_changes.hardware_serial_number == null) {
+								pstmt_tJDBCOutput_1.setNull(26,
+										java.sql.Types.VARCHAR);
+							} else {
+								pstmt_tJDBCOutput_1.setString(26,
+										host_changes.hardware_serial_number);
 							}
 
 							try {
@@ -7266,6 +7599,6 @@ public class HostConfigCheck implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 196795 characters generated by Talend Open Studio for Data Integration on the
- * January 13, 2015 2:38:22 PM IST
+ * 206514 characters generated by Talend Open Studio for Data Integration on the
+ * June 4, 2015 6:09:52 PM IDT
  ************************************************************************************************/

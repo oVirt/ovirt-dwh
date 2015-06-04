@@ -529,7 +529,9 @@ SELECT
     a.user_logged_in_to_guest,
     b.disks_usage as disks_usage,
     a.vm_configuration_version as vm_configuration_version,
-    a.current_host_configuration_version as current_host_configuration_version
+    a.current_host_configuration_version as current_host_configuration_version,
+    a.memory_buffered_kb as memory_buffered_kb,
+    a.memory_cached_kb as memory_cached_kb
 FROM     vm_samples_history as a
         LEFT OUTER JOIN vm_disks_usage_samples_history as b
             ON (a.history_datetime = b.history_datetime AND a.vm_id = b.vm_id);
@@ -555,7 +557,11 @@ SELECT
     a.current_user_id as current_user_id,
     b.disks_usage as disks_usage,
     a.vm_configuration_version as vm_configuration_version,
-    a.current_host_configuration_version as current_host_configuration_version
+    a.current_host_configuration_version as current_host_configuration_version,
+    a.memory_buffered_kb as memory_buffered_kb,
+    a.memory_cached_kb as memory_cached_kb,
+    a.max_memory_buffered_kb as max_memory_buffered_kb,
+    a.max_memory_cached_kb as max_memory_cached_kb
 FROM     vm_hourly_history as a
         LEFT OUTER JOIN vm_disks_usage_hourly_history as b
             ON (a.history_datetime = b.history_datetime AND a.vm_id = b.vm_id);
@@ -581,7 +587,11 @@ SELECT
     a.current_user_id as current_user_id,
     b.disks_usage as disks_usage,
     a.vm_configuration_version as vm_configuration_version,
-    a.current_host_configuration_version as current_host_configuration_version
+    a.current_host_configuration_version as current_host_configuration_version,
+    a.memory_buffered_kb as memory_buffered_kb,
+    a.memory_cached_kb as memory_cached_kb,
+    a.max_memory_buffered_kb as max_memory_buffered_kb,
+    a.max_memory_cached_kb as max_memory_cached_kb
 FROM     vm_daily_history as a
         LEFT OUTER JOIN vm_disks_usage_daily_history as b
             ON (a.history_datetime = b.history_datetime AND a.vm_id = b.vm_id);

@@ -918,7 +918,7 @@
       <column comment="" key="false" name="transmitted_total_byte" nullable="true" pattern="" sourceType="" type="id_Long" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="hinterface_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -1082,7 +1082,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_id, &#xD;&#xA;  upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;  vm_status, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  system_cpu_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xA;  disks_usage,&#xD;&#xA;  vm_ip, &#xA;  vm_client_ip,&#xA;  current_user_id,&#xA;  user_logged_in_to_guest,&#xD;&#xA;  currently_running_on_host,&#xD;&#xA;  upper(cast(currently_running_on_host as char(36))) as running_on_host_join_id&#xD;&#xA;FROM dwh_vm_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_id, &#xD;&#xA;  upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;  vm_status, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  system_cpu_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xA;  disks_usage,&#xD;&#xA;  vm_ip, &#xA;  vm_client_ip,&#xA;  current_user_id,&#xA;  user_logged_in_to_guest,&#xD;&#xA;  currently_running_on_host,&#xD;&#xA;  upper(cast(currently_running_on_host as char(36))) as running_on_host_join_id,&#xA;  memory_buffered_kb,&#xA;  memory_cached_kb&#xD;&#xA;FROM dwh_vm_history_view&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -1120,6 +1120,10 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="running_on_host_join_id"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="memory_buffered_kb"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="memory_cached_kb"/>
+      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id"/>
@@ -1140,6 +1144,8 @@
       <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" name="running_on_host_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_buffered_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_cached_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="160" posY="384">
@@ -1170,6 +1176,8 @@
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_buffered_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_cached_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" label="vm_disks_usage_samples_history" name="disk_usage_history">
       <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
@@ -1177,7 +1185,7 @@
       <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -1195,6 +1203,8 @@
         <mapperTableEntries name="currently_running_on_host" expression="row12.currently_running_on_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_configuration_version" expression="row47.history_id " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="current_host_configuration_version" expression="row48.history_id " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="memory_buffered_kb" expression="row12.memory_buffered_kb " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="memory_cached_kb" expression="row12.memory_cached_kb " type="id_Integer" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="disk_usage_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -1216,6 +1226,8 @@
         <mapperTableEntries name="user_logged_in_to_guest" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="currently_running_on_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="running_on_host_join_id" type="id_String" nullable="true"/>
+        <mapperTableEntries name="memory_buffered_kb" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="memory_cached_kb" type="id_Integer" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row47" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
         <mapperTableEntries name="history_id" expression="" type="id_Integer" nullable="true"/>
@@ -1403,6 +1415,16 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="memory_buffered_kb"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="memory_cached_kb"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
@@ -1425,6 +1447,8 @@
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_buffered_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_cached_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="vm_samples_history" name="REJECT">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -1442,6 +1466,8 @@
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_buffered_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_cached_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -1576,7 +1602,7 @@
       <column comment="" key="false" name="transmitted_total_byte" nullable="true" pattern="" sourceType="" type="id_Long" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="vinterface_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -2570,6 +2596,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="current_user_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="memory_cached_kb"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="memory_buffered_kb"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row12"/>
@@ -2634,6 +2666,12 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="current_user_id"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="memory_buffered_kb"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="memory_cached_kb"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>

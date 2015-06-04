@@ -6775,6 +6775,18 @@ public class StatisticsSync implements TalendJob {
 			return this.host_interface_configuration_version;
 		}
 
+		public Long received_total_byte;
+
+		public Long getReceived_total_byte() {
+			return this.received_total_byte;
+		}
+
+		public Long transmitted_total_byte;
+
+		public Long getTransmitted_total_byte() {
+			return this.transmitted_total_byte;
+		}
+
 		private java.util.Date readDate(ObjectInputStream dis)
 				throws IOException {
 			java.util.Date dateReturn = null;
@@ -6848,6 +6860,20 @@ public class StatisticsSync implements TalendJob {
 
 					this.host_interface_configuration_version = readInteger(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.received_total_byte = null;
+					} else {
+						this.received_total_byte = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.transmitted_total_byte = null;
+					} else {
+						this.transmitted_total_byte = dis.readLong();
+					}
+
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
@@ -6893,6 +6919,24 @@ public class StatisticsSync implements TalendJob {
 
 				writeInteger(this.host_interface_configuration_version, dos);
 
+				// Long
+
+				if (this.received_total_byte == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.received_total_byte);
+				}
+
+				// Long
+
+				if (this.transmitted_total_byte == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.transmitted_total_byte);
+				}
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -6912,6 +6956,10 @@ public class StatisticsSync implements TalendJob {
 					+ String.valueOf(transmit_rate_percent));
 			sb.append(",host_interface_configuration_version="
 					+ String.valueOf(host_interface_configuration_version));
+			sb.append(",received_total_byte="
+					+ String.valueOf(received_total_byte));
+			sb.append(",transmitted_total_byte="
+					+ String.valueOf(transmitted_total_byte));
 			sb.append("]");
 
 			return sb.toString();
@@ -6980,6 +7028,18 @@ public class StatisticsSync implements TalendJob {
 			return this.transmit_rate_percent;
 		}
 
+		public Long received_total_byte;
+
+		public Long getReceived_total_byte() {
+			return this.received_total_byte;
+		}
+
+		public Long transmitted_total_byte;
+
+		public Long getTransmitted_total_byte() {
+			return this.transmitted_total_byte;
+		}
+
 		private String readString(ObjectInputStream dis) throws IOException {
 			String strReturn = null;
 			int length = 0;
@@ -7041,6 +7101,20 @@ public class StatisticsSync implements TalendJob {
 						this.transmit_rate_percent = dis.readShort();
 					}
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.received_total_byte = null;
+					} else {
+						this.received_total_byte = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.transmitted_total_byte = null;
+					} else {
+						this.transmitted_total_byte = dis.readLong();
+					}
+
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
@@ -7082,6 +7156,24 @@ public class StatisticsSync implements TalendJob {
 					dos.writeShort(this.transmit_rate_percent);
 				}
 
+				// Long
+
+				if (this.received_total_byte == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.received_total_byte);
+				}
+
+				// Long
+
+				if (this.transmitted_total_byte == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.transmitted_total_byte);
+				}
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -7099,6 +7191,10 @@ public class StatisticsSync implements TalendJob {
 					+ String.valueOf(receive_rate_percent));
 			sb.append(",transmit_rate_percent="
 					+ String.valueOf(transmit_rate_percent));
+			sb.append(",received_total_byte="
+					+ String.valueOf(received_total_byte));
+			sb.append(",transmitted_total_byte="
+					+ String.valueOf(transmitted_total_byte));
 			sb.append("]");
 
 			return sb.toString();
@@ -7167,6 +7263,18 @@ public class StatisticsSync implements TalendJob {
 			return this.transmit_rate_percent;
 		}
 
+		public Long received_total_byte;
+
+		public Long getReceived_total_byte() {
+			return this.received_total_byte;
+		}
+
+		public Long transmitted_total_byte;
+
+		public Long getTransmitted_total_byte() {
+			return this.transmitted_total_byte;
+		}
+
 		private String readString(ObjectInputStream dis) throws IOException {
 			String strReturn = null;
 			int length = 0;
@@ -7228,6 +7336,20 @@ public class StatisticsSync implements TalendJob {
 						this.transmit_rate_percent = dis.readShort();
 					}
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.received_total_byte = null;
+					} else {
+						this.received_total_byte = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.transmitted_total_byte = null;
+					} else {
+						this.transmitted_total_byte = dis.readLong();
+					}
+
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
@@ -7269,6 +7391,24 @@ public class StatisticsSync implements TalendJob {
 					dos.writeShort(this.transmit_rate_percent);
 				}
 
+				// Long
+
+				if (this.received_total_byte == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.received_total_byte);
+				}
+
+				// Long
+
+				if (this.transmitted_total_byte == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.transmitted_total_byte);
+				}
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -7286,6 +7426,10 @@ public class StatisticsSync implements TalendJob {
 					+ String.valueOf(receive_rate_percent));
 			sb.append(",transmit_rate_percent="
 					+ String.valueOf(transmit_rate_percent));
+			sb.append(",received_total_byte="
+					+ String.valueOf(received_total_byte));
+			sb.append(",transmitted_total_byte="
+					+ String.valueOf(transmitted_total_byte));
 			sb.append("]");
 
 			return sb.toString();
@@ -7385,7 +7529,7 @@ public class StatisticsSync implements TalendJob {
 
 				String insert_tJDBCOutput_4 = "INSERT INTO "
 						+ "host_interface_samples_history"
-						+ " (history_datetime,host_interface_id,receive_rate_percent,transmit_rate_percent,host_interface_configuration_version) VALUES (?,?,?,?,?)";
+						+ " (history_datetime,host_interface_id,receive_rate_percent,transmit_rate_percent,host_interface_configuration_version,received_total_byte,transmitted_total_byte) VALUES (?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_4 = connection_tJDBCOutput_4
 						.prepareStatement(insert_tJDBCOutput_4);
 
@@ -7449,7 +7593,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_8 = conn_tJDBCInput_8
 						.createStatement();
 
-				String dbquery_tJDBCInput_8 = "SELECT \n  host_interface_id, \n  upper(cast(host_interface_id as char(36))) as host_interface_join_id,\n  receive_rate_percent, \n  transmit_rate_percent\nFROM dwh_host_interface_history_view";
+				String dbquery_tJDBCInput_8 = "SELECT \n  host_interface_id, \n  upper(cast(host_interface_id as char(36))) as host_interface_join_id,\n  receive_rate_percent, \n  transmit_rate_percent,\n  received_total_byte,\n  transmitted_total_byte\nFROM dwh_host_interface_history_view";
 
 				globalMap.put("tJDBCInput_8_QUERY", dbquery_tJDBCInput_8);
 				java.sql.ResultSet rs_tJDBCInput_8 = null;
@@ -7509,6 +7653,28 @@ public class StatisticsSync implements TalendJob {
 										.getShort(4);
 							} else {
 								row11.transmit_rate_percent = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_8 < 5) {
+							row11.received_total_byte = null;
+						} else {
+
+							if (rs_tJDBCInput_8.getObject(5) != null) {
+								row11.received_total_byte = rs_tJDBCInput_8
+										.getLong(5);
+							} else {
+								row11.received_total_byte = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_8 < 6) {
+							row11.transmitted_total_byte = null;
+						} else {
+
+							if (rs_tJDBCInput_8.getObject(6) != null) {
+								row11.transmitted_total_byte = rs_tJDBCInput_8
+										.getLong(6);
+							} else {
+								row11.transmitted_total_byte = null;
 							}
 						}
 
@@ -7611,6 +7777,8 @@ public class StatisticsSync implements TalendJob {
 								hinterface_history_tmp.receive_rate_percent = row11.receive_rate_percent;
 								hinterface_history_tmp.transmit_rate_percent = row11.transmit_rate_percent;
 								hinterface_history_tmp.host_interface_configuration_version = row45.history_id;
+								hinterface_history_tmp.received_total_byte = row11.received_total_byte;
+								hinterface_history_tmp.transmitted_total_byte = row11.transmitted_total_byte;
 								hinterface_history = hinterface_history_tmp;
 							} // closing inner join bracket (2)
 								// ###############################
@@ -7681,6 +7849,24 @@ public class StatisticsSync implements TalendJob {
 								pstmt_tJDBCOutput_4
 										.setInt(5,
 												hinterface_history.host_interface_configuration_version);
+							}
+
+							if (hinterface_history.received_total_byte == null) {
+								pstmt_tJDBCOutput_4.setNull(6,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_4.setLong(6,
+										hinterface_history.received_total_byte);
+							}
+
+							if (hinterface_history.transmitted_total_byte == null) {
+								pstmt_tJDBCOutput_4.setNull(7,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_4
+										.setLong(
+												7,
+												hinterface_history.transmitted_total_byte);
 							}
 
 							try {
@@ -8418,6 +8604,18 @@ public class StatisticsSync implements TalendJob {
 			return this.current_host_configuration_version;
 		}
 
+		public Integer memory_buffered_kb;
+
+		public Integer getMemory_buffered_kb() {
+			return this.memory_buffered_kb;
+		}
+
+		public Integer memory_cached_kb;
+
+		public Integer getMemory_cached_kb() {
+			return this.memory_cached_kb;
+		}
+
 		private java.util.Date readDate(ObjectInputStream dis)
 				throws IOException {
 			java.util.Date dateReturn = null;
@@ -8561,6 +8759,10 @@ public class StatisticsSync implements TalendJob {
 
 					this.current_host_configuration_version = readInteger(dis);
 
+					this.memory_buffered_kb = readInteger(dis);
+
+					this.memory_cached_kb = readInteger(dis);
+
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
@@ -8661,6 +8863,14 @@ public class StatisticsSync implements TalendJob {
 
 				writeInteger(this.current_host_configuration_version, dos);
 
+				// Integer
+
+				writeInteger(this.memory_buffered_kb, dos);
+
+				// Integer
+
+				writeInteger(this.memory_cached_kb, dos);
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -8694,6 +8904,9 @@ public class StatisticsSync implements TalendJob {
 					+ String.valueOf(vm_configuration_version));
 			sb.append(",current_host_configuration_version="
 					+ String.valueOf(current_host_configuration_version));
+			sb.append(",memory_buffered_kb="
+					+ String.valueOf(memory_buffered_kb));
+			sb.append(",memory_cached_kb=" + String.valueOf(memory_cached_kb));
 			sb.append("]");
 
 			return sb.toString();
@@ -8997,6 +9210,18 @@ public class StatisticsSync implements TalendJob {
 			return this.running_on_host_join_id;
 		}
 
+		public Integer memory_buffered_kb;
+
+		public Integer getMemory_buffered_kb() {
+			return this.memory_buffered_kb;
+		}
+
+		public Integer memory_cached_kb;
+
+		public Integer getMemory_cached_kb() {
+			return this.memory_cached_kb;
+		}
+
 		private String readString(ObjectInputStream dis) throws IOException {
 			String strReturn = null;
 			int length = 0;
@@ -9029,6 +9254,28 @@ public class StatisticsSync implements TalendJob {
 				byte[] byteArray = str.getBytes(utf8Charset);
 				dos.writeInt(byteArray.length);
 				dos.write(byteArray);
+			}
+		}
+
+		private Integer readInteger(ObjectInputStream dis) throws IOException {
+			Integer intReturn;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				intReturn = null;
+			} else {
+				intReturn = dis.readInt();
+			}
+			return intReturn;
+		}
+
+		private void writeInteger(Integer intNum, ObjectOutputStream dos)
+				throws IOException {
+			if (intNum == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeInt(intNum);
 			}
 		}
 
@@ -9097,6 +9344,10 @@ public class StatisticsSync implements TalendJob {
 					this.currently_running_on_host = (Object) dis.readObject();
 
 					this.running_on_host_join_id = readString(dis);
+
+					this.memory_buffered_kb = readInteger(dis);
+
+					this.memory_cached_kb = readInteger(dis);
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -9199,6 +9450,14 @@ public class StatisticsSync implements TalendJob {
 
 				writeString(this.running_on_host_join_id, dos);
 
+				// Integer
+
+				writeInteger(this.memory_buffered_kb, dos);
+
+				// Integer
+
+				writeInteger(this.memory_cached_kb, dos);
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -9229,6 +9488,9 @@ public class StatisticsSync implements TalendJob {
 			sb.append(",currently_running_on_host="
 					+ String.valueOf(currently_running_on_host));
 			sb.append(",running_on_host_join_id=" + running_on_host_join_id);
+			sb.append(",memory_buffered_kb="
+					+ String.valueOf(memory_buffered_kb));
+			sb.append(",memory_cached_kb=" + String.valueOf(memory_cached_kb));
 			sb.append("]");
 
 			return sb.toString();
@@ -9357,6 +9619,18 @@ public class StatisticsSync implements TalendJob {
 			return this.running_on_host_join_id;
 		}
 
+		public Integer memory_buffered_kb;
+
+		public Integer getMemory_buffered_kb() {
+			return this.memory_buffered_kb;
+		}
+
+		public Integer memory_cached_kb;
+
+		public Integer getMemory_cached_kb() {
+			return this.memory_cached_kb;
+		}
+
 		private String readString(ObjectInputStream dis) throws IOException {
 			String strReturn = null;
 			int length = 0;
@@ -9389,6 +9663,28 @@ public class StatisticsSync implements TalendJob {
 				byte[] byteArray = str.getBytes(utf8Charset);
 				dos.writeInt(byteArray.length);
 				dos.write(byteArray);
+			}
+		}
+
+		private Integer readInteger(ObjectInputStream dis) throws IOException {
+			Integer intReturn;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				intReturn = null;
+			} else {
+				intReturn = dis.readInt();
+			}
+			return intReturn;
+		}
+
+		private void writeInteger(Integer intNum, ObjectOutputStream dos)
+				throws IOException {
+			if (intNum == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeInt(intNum);
 			}
 		}
 
@@ -9457,6 +9753,10 @@ public class StatisticsSync implements TalendJob {
 					this.currently_running_on_host = (Object) dis.readObject();
 
 					this.running_on_host_join_id = readString(dis);
+
+					this.memory_buffered_kb = readInteger(dis);
+
+					this.memory_cached_kb = readInteger(dis);
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -9559,6 +9859,14 @@ public class StatisticsSync implements TalendJob {
 
 				writeString(this.running_on_host_join_id, dos);
 
+				// Integer
+
+				writeInteger(this.memory_buffered_kb, dos);
+
+				// Integer
+
+				writeInteger(this.memory_cached_kb, dos);
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -9589,6 +9897,9 @@ public class StatisticsSync implements TalendJob {
 			sb.append(",currently_running_on_host="
 					+ String.valueOf(currently_running_on_host));
 			sb.append(",running_on_host_join_id=" + running_on_host_join_id);
+			sb.append(",memory_buffered_kb="
+					+ String.valueOf(memory_buffered_kb));
+			sb.append(",memory_cached_kb=" + String.valueOf(memory_cached_kb));
 			sb.append("]");
 
 			return sb.toString();
@@ -9690,7 +10001,7 @@ public class StatisticsSync implements TalendJob {
 
 				String insert_tJDBCOutput_5 = "INSERT INTO "
 						+ "vm_samples_history"
-						+ " (history_datetime,vm_id,vm_status,minutes_in_status,cpu_usage_percent,memory_usage_percent,user_cpu_usage_percent,system_cpu_usage_percent,vm_ip,vm_client_ip,current_user_id,user_logged_in_to_guest,currently_running_on_host,vm_configuration_version,current_host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,vm_id,vm_status,minutes_in_status,cpu_usage_percent,memory_usage_percent,user_cpu_usage_percent,system_cpu_usage_percent,vm_ip,vm_client_ip,current_user_id,user_logged_in_to_guest,currently_running_on_host,vm_configuration_version,current_host_configuration_version,memory_buffered_kb,memory_cached_kb) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_5 = connection_tJDBCOutput_5
 						.prepareStatement(insert_tJDBCOutput_5);
 
@@ -9802,7 +10113,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_10 = conn_tJDBCInput_10
 						.createStatement();
 
-				String dbquery_tJDBCInput_10 = "SELECT \n  vm_id, \n  upper(cast(vm_id as char(36))) as vm_join_id,\n  vm_status, \n  cpu_usage_percent, \n  memory_usage_percent, \n  system_cpu_usage_percent, \n  user_cpu_usage_percent, \n  disks_usage,\n  vm_ip, \n  vm_client_ip,\n  current_user_id,\n  user_logged_in_to_guest,\n  currently_running_on_host,\n  upper(cast(currently_running_on_host as char(36))) as running_on_host_join_id\nFROM dwh_vm_history_view";
+				String dbquery_tJDBCInput_10 = "SELECT \n  vm_id, \n  upper(cast(vm_id as char(36))) as vm_join_id,\n  vm_status, \n  cpu_usage_percent, \n  memory_usage_percent, \n  system_cpu_usage_percent, \n  user_cpu_usage_percent, \n  disks_usage,\n  vm_ip, \n  vm_client_ip,\n  current_user_id,\n  user_logged_in_to_guest,\n  currently_running_on_host,\n  upper(cast(currently_running_on_host as char(36))) as running_on_host_join_id,\n  memory_buffered_kb,\n  memory_cached_kb\nFROM dwh_vm_history_view";
 
 				globalMap.put("tJDBCInput_10_QUERY", dbquery_tJDBCInput_10);
 				java.sql.ResultSet rs_tJDBCInput_10 = null;
@@ -9974,6 +10285,28 @@ public class StatisticsSync implements TalendJob {
 								row12.running_on_host_join_id = tmpContent_tJDBCInput_10;
 							} else {
 								row12.running_on_host_join_id = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_10 < 15) {
+							row12.memory_buffered_kb = null;
+						} else {
+
+							if (rs_tJDBCInput_10.getObject(15) != null) {
+								row12.memory_buffered_kb = rs_tJDBCInput_10
+										.getInt(15);
+							} else {
+								row12.memory_buffered_kb = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_10 < 16) {
+							row12.memory_cached_kb = null;
+						} else {
+
+							if (rs_tJDBCInput_10.getObject(16) != null) {
+								row12.memory_cached_kb = rs_tJDBCInput_10
+										.getInt(16);
+							} else {
+								row12.memory_cached_kb = null;
 							}
 						}
 
@@ -10158,6 +10491,8 @@ public class StatisticsSync implements TalendJob {
 									vm_history_tmp.currently_running_on_host = row12.currently_running_on_host;
 									vm_history_tmp.vm_configuration_version = row47.history_id;
 									vm_history_tmp.current_host_configuration_version = row48.history_id;
+									vm_history_tmp.memory_buffered_kb = row12.memory_buffered_kb;
+									vm_history_tmp.memory_cached_kb = row12.memory_cached_kb;
 									vm_history = vm_history_tmp;
 
 									// # Output table : 'disk_usage_history'
@@ -10304,6 +10639,22 @@ public class StatisticsSync implements TalendJob {
 									pstmt_tJDBCOutput_5
 											.setInt(15,
 													vm_history.current_host_configuration_version);
+								}
+
+								if (vm_history.memory_buffered_kb == null) {
+									pstmt_tJDBCOutput_5.setNull(16,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_5.setInt(16,
+											vm_history.memory_buffered_kb);
+								}
+
+								if (vm_history.memory_cached_kb == null) {
+									pstmt_tJDBCOutput_5.setNull(17,
+											java.sql.Types.INTEGER);
+								} else {
+									pstmt_tJDBCOutput_5.setInt(17,
+											vm_history.memory_cached_kb);
 								}
 
 								try {
@@ -11575,6 +11926,18 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_interface_configuration_version;
 		}
 
+		public Long received_total_byte;
+
+		public Long getReceived_total_byte() {
+			return this.received_total_byte;
+		}
+
+		public Long transmitted_total_byte;
+
+		public Long getTransmitted_total_byte() {
+			return this.transmitted_total_byte;
+		}
+
 		private java.util.Date readDate(ObjectInputStream dis)
 				throws IOException {
 			java.util.Date dateReturn = null;
@@ -11648,6 +12011,20 @@ public class StatisticsSync implements TalendJob {
 
 					this.vm_interface_configuration_version = readInteger(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.received_total_byte = null;
+					} else {
+						this.received_total_byte = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.transmitted_total_byte = null;
+					} else {
+						this.transmitted_total_byte = dis.readLong();
+					}
+
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
@@ -11693,6 +12070,24 @@ public class StatisticsSync implements TalendJob {
 
 				writeInteger(this.vm_interface_configuration_version, dos);
 
+				// Long
+
+				if (this.received_total_byte == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.received_total_byte);
+				}
+
+				// Long
+
+				if (this.transmitted_total_byte == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.transmitted_total_byte);
+				}
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -11712,6 +12107,10 @@ public class StatisticsSync implements TalendJob {
 					+ String.valueOf(transmit_rate_percent));
 			sb.append(",vm_interface_configuration_version="
 					+ String.valueOf(vm_interface_configuration_version));
+			sb.append(",received_total_byte="
+					+ String.valueOf(received_total_byte));
+			sb.append(",transmitted_total_byte="
+					+ String.valueOf(transmitted_total_byte));
 			sb.append("]");
 
 			return sb.toString();
@@ -11780,6 +12179,18 @@ public class StatisticsSync implements TalendJob {
 			return this.transmit_rate_percent;
 		}
 
+		public Long received_total_byte;
+
+		public Long getReceived_total_byte() {
+			return this.received_total_byte;
+		}
+
+		public Long transmitted_total_byte;
+
+		public Long getTransmitted_total_byte() {
+			return this.transmitted_total_byte;
+		}
+
 		private String readString(ObjectInputStream dis) throws IOException {
 			String strReturn = null;
 			int length = 0;
@@ -11841,6 +12252,20 @@ public class StatisticsSync implements TalendJob {
 						this.transmit_rate_percent = dis.readShort();
 					}
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.received_total_byte = null;
+					} else {
+						this.received_total_byte = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.transmitted_total_byte = null;
+					} else {
+						this.transmitted_total_byte = dis.readLong();
+					}
+
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
@@ -11882,6 +12307,24 @@ public class StatisticsSync implements TalendJob {
 					dos.writeShort(this.transmit_rate_percent);
 				}
 
+				// Long
+
+				if (this.received_total_byte == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.received_total_byte);
+				}
+
+				// Long
+
+				if (this.transmitted_total_byte == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.transmitted_total_byte);
+				}
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -11899,6 +12342,10 @@ public class StatisticsSync implements TalendJob {
 					+ String.valueOf(receive_rate_percent));
 			sb.append(",transmit_rate_percent="
 					+ String.valueOf(transmit_rate_percent));
+			sb.append(",received_total_byte="
+					+ String.valueOf(received_total_byte));
+			sb.append(",transmitted_total_byte="
+					+ String.valueOf(transmitted_total_byte));
 			sb.append("]");
 
 			return sb.toString();
@@ -11967,6 +12414,18 @@ public class StatisticsSync implements TalendJob {
 			return this.transmit_rate_percent;
 		}
 
+		public Long received_total_byte;
+
+		public Long getReceived_total_byte() {
+			return this.received_total_byte;
+		}
+
+		public Long transmitted_total_byte;
+
+		public Long getTransmitted_total_byte() {
+			return this.transmitted_total_byte;
+		}
+
 		private String readString(ObjectInputStream dis) throws IOException {
 			String strReturn = null;
 			int length = 0;
@@ -12028,6 +12487,20 @@ public class StatisticsSync implements TalendJob {
 						this.transmit_rate_percent = dis.readShort();
 					}
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.received_total_byte = null;
+					} else {
+						this.received_total_byte = dis.readLong();
+					}
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.transmitted_total_byte = null;
+					} else {
+						this.transmitted_total_byte = dis.readLong();
+					}
+
 				} catch (IOException e) {
 					throw new RuntimeException(e);
 
@@ -12069,6 +12542,24 @@ public class StatisticsSync implements TalendJob {
 					dos.writeShort(this.transmit_rate_percent);
 				}
 
+				// Long
+
+				if (this.received_total_byte == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.received_total_byte);
+				}
+
+				// Long
+
+				if (this.transmitted_total_byte == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.transmitted_total_byte);
+				}
+
 			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
@@ -12086,6 +12577,10 @@ public class StatisticsSync implements TalendJob {
 					+ String.valueOf(receive_rate_percent));
 			sb.append(",transmit_rate_percent="
 					+ String.valueOf(transmit_rate_percent));
+			sb.append(",received_total_byte="
+					+ String.valueOf(received_total_byte));
+			sb.append(",transmitted_total_byte="
+					+ String.valueOf(transmitted_total_byte));
 			sb.append("]");
 
 			return sb.toString();
@@ -12185,7 +12680,7 @@ public class StatisticsSync implements TalendJob {
 
 				String insert_tJDBCOutput_6 = "INSERT INTO "
 						+ "vm_interface_samples_history"
-						+ " (history_datetime,vm_interface_id,receive_rate_percent,transmit_rate_percent,vm_interface_configuration_version) VALUES (?,?,?,?,?)";
+						+ " (history_datetime,vm_interface_id,receive_rate_percent,transmit_rate_percent,vm_interface_configuration_version,received_total_byte,transmitted_total_byte) VALUES (?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_6 = connection_tJDBCOutput_6
 						.prepareStatement(insert_tJDBCOutput_6);
 
@@ -12249,7 +12744,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_12 = conn_tJDBCInput_12
 						.createStatement();
 
-				String dbquery_tJDBCInput_12 = "SELECT \n  vm_interface_id, \n  upper(cast(vm_interface_id as char(36))) as vm_interface_join_id,\n  receive_rate_percent, \n  transmit_rate_percent\nFROM dwh_vm_interface_history_view";
+				String dbquery_tJDBCInput_12 = "SELECT \n  vm_interface_id, \n  upper(cast(vm_interface_id as char(36))) as vm_interface_join_id,\n  receive_rate_percent, \n  transmit_rate_percent,\n  received_total_byte,\n  transmitted_total_byte\nFROM dwh_vm_interface_history_view";
 
 				globalMap.put("tJDBCInput_12_QUERY", dbquery_tJDBCInput_12);
 				java.sql.ResultSet rs_tJDBCInput_12 = null;
@@ -12309,6 +12804,28 @@ public class StatisticsSync implements TalendJob {
 										.getShort(4);
 							} else {
 								row13.transmit_rate_percent = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_12 < 5) {
+							row13.received_total_byte = null;
+						} else {
+
+							if (rs_tJDBCInput_12.getObject(5) != null) {
+								row13.received_total_byte = rs_tJDBCInput_12
+										.getLong(5);
+							} else {
+								row13.received_total_byte = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_12 < 6) {
+							row13.transmitted_total_byte = null;
+						} else {
+
+							if (rs_tJDBCInput_12.getObject(6) != null) {
+								row13.transmitted_total_byte = rs_tJDBCInput_12
+										.getLong(6);
+							} else {
+								row13.transmitted_total_byte = null;
 							}
 						}
 
@@ -12411,6 +12928,8 @@ public class StatisticsSync implements TalendJob {
 								vinterface_history_tmp.receive_rate_percent = row13.receive_rate_percent;
 								vinterface_history_tmp.transmit_rate_percent = row13.transmit_rate_percent;
 								vinterface_history_tmp.vm_interface_configuration_version = row50.history_id;
+								vinterface_history_tmp.received_total_byte = row13.received_total_byte;
+								vinterface_history_tmp.transmitted_total_byte = row13.transmitted_total_byte;
 								vinterface_history = vinterface_history_tmp;
 							} // closing inner join bracket (2)
 								// ###############################
@@ -12481,6 +13000,24 @@ public class StatisticsSync implements TalendJob {
 								pstmt_tJDBCOutput_6
 										.setInt(5,
 												vinterface_history.vm_interface_configuration_version);
+							}
+
+							if (vinterface_history.received_total_byte == null) {
+								pstmt_tJDBCOutput_6.setNull(6,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_6.setLong(6,
+										vinterface_history.received_total_byte);
+							}
+
+							if (vinterface_history.transmitted_total_byte == null) {
+								pstmt_tJDBCOutput_6.setNull(7,
+										java.sql.Types.INTEGER);
+							} else {
+								pstmt_tJDBCOutput_6
+										.setLong(
+												7,
+												vinterface_history.transmitted_total_byte);
 							}
 
 							try {
@@ -17540,6 +18077,6 @@ public class StatisticsSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 480766 characters generated by Talend Open Studio for Data Integration on the
- * January 13, 2015 2:38:23 PM IST
+ * 496252 characters generated by Talend Open Studio for Data Integration on the
+ * June 10, 2015 1:47:12 PM IDT
  ************************************************************************************************/
