@@ -1,6 +1,5 @@
 package routines;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.text.ParseException;
@@ -172,33 +171,6 @@ public class RoutineHistoryETL {
     }
     
     
-    /**
-     * Formats Date to Date\Time String.
-     * 
-     * @param date
-     * @param pattern (the date\time string pattern)
-     * @return the new date\time String.
-     * @throws ParseException 
-     * 
-     * {talendTypes} String
-     * 
-     * {Category} User Defined
-     * 
-     * {param} date(Date) date : the date to output.
-     * 
-     * {param} String(pattern) pattern : the pattern to output.
-     * 
-     * 
-     * {example} dateFormat(01/01/2010 16:10:35, "MM-dd-yyyy") return 01-01-2010 string #
-     * 
-     */
-    
-    public static String dateFormat(Date date, String pattern) throws ParseException {
-        // Make a SimpleDateFormat for toString()'s output.        
-        SimpleDateFormat format = new SimpleDateFormat(pattern);
-        return format.format(date);
-    }
-
     /**
      * Returns the difference between two dates.
      * 
