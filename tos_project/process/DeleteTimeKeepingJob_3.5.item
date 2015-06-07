@@ -192,7 +192,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM datacenter_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&#xA;LIMIT 1&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM datacenter_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&#xA;LIMIT 1&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -258,7 +258,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM host_interface_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&#xA;LIMIT 1&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM host_interface_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&#xA;LIMIT 1&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -316,7 +316,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM storage_domain_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&#xA;LIMIT 1&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM storage_domain_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&#xA;LIMIT 1&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -374,7 +374,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM vm_disk_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&#xA;LIMIT 1&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM vm_disk_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&#xA;LIMIT 1&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -432,7 +432,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM vm_interface_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&#xA;LIMIT 1&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM vm_interface_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&#xA;LIMIT 1&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -490,7 +490,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM vm_disks_usage_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&#xA;LIMIT 1&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM vm_disks_usage_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&#xA;LIMIT 1&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -548,7 +548,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM vm_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&#xA;LIMIT 1&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM vm_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&#xA;LIMIT 1&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -606,7 +606,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM host_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+routines.RoutineHistoryETL.dateFormat(routines.RoutineHistoryETL.manipulateDate(context.runTime,context.hoursToKeepSamples * -1,&quot;HH&quot;), &quot;yyyy-MM-dd HH:mm:ss&quot;)+&quot;'&#xA;LIMIT 1&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT 'deleteMore', '1'&#xD;&#xA;FROM host_samples_history&#xD;&#xA;WHERE history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.runTime, context.hoursToKeepSamples * -1,&quot;HH&quot;))+&quot;'&#xA;LIMIT 1&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>
@@ -651,7 +651,7 @@
   </node>
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="288" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="if (context.deleteMore == 0) {&#xA;&#x9;Thread.sleep((Long)TalendDate.diffDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runDeleteTime,&quot;HH&quot;),context.runTime,&quot;SSS&quot;));&#xA;} else {&#xA;    Thread.sleep(5000);&#xA;}"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="if (context.deleteMore == 0) {&#xA;&#x9;Thread.sleep((Long)TalendDate.diffDate(TalendDate.addDate(TalendDate.addDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runDeleteTime,&quot;HH&quot;),context.runTime,&quot;SSS&quot;));&#xA;} else {&#xA;    Thread.sleep(5000);&#xA;}"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>

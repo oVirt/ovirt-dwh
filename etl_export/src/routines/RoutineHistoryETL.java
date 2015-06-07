@@ -1,6 +1,6 @@
 package routines;
 
-import java.text.SimpleDateFormat;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.text.ParseException;
@@ -170,94 +170,8 @@ public class RoutineHistoryETL {
         else{
         	return 0;}
     }
-    
-    /**
-     * Manipulate date
-     * 
-     * @param date
-     * @param changeamount (the number to add subtract from date part)
-     * @param date part to change
-     * @return the manipulated date.
-     * 
-     * {talendTypes} Date
-     * 
-     * {Category} User Defined
-     * 
-     * {param} date(Date) date : the date to manipulate.
-     * 
-     * {param} integer(changeAmount) changeAmount : the number to add subtract from date part
-     * 
-     * {param} String(datePart) datePart : which part to add or subtract from.
-     * 
-     *  {example} manipulateDate(01/01/2010 16:10:35, 5, HH) return 01/01/2010 21:10:35 #
-     */
-    
-    public static Date manipulateDate(Date date, int changeAmount, String datePart) {
-        if (date == null) {
-            return date;
-        }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        if (datePart.equals("SSS")){ //$NON-NLS-1$
-        	cal.add(Calendar.MILLISECOND, changeAmount);
-        	return cal.getTime();
-        }  
-        else if (datePart.equals("ss")){ //$NON-NLS-1$
-        	cal.add(Calendar.SECOND, changeAmount);
-        	return cal.getTime();
-        }  
-        else if (datePart.equals("mm")){ //$NON-NLS-1$
-        	cal.add(Calendar.MINUTE, changeAmount);
-        	return cal.getTime();
-        }   
-        else if (datePart.equals("HH")){ //$NON-NLS-1$
-        	cal.add(Calendar.HOUR_OF_DAY, changeAmount);
-        	return cal.getTime();
-        }   
-        else if (datePart.equals("dd")){ //$NON-NLS-1$
-        	cal.add(Calendar.DATE, changeAmount);
-        	return cal.getTime();
-        }
-        else if (datePart.equals("MM")){ //$NON-NLS-1$
-        	cal.add(Calendar.MONTH, changeAmount);
-        	return cal.getTime();
-        }
-        else if (datePart.equals("yyyy")){ //$NON-NLS-1$
-        	cal.add(Calendar.YEAR, changeAmount);
-        	return cal.getTime();
-        }
-        else{
-        	throw new IllegalArgumentException("Does not support the date part: " + datePart);
-        }
-      }
-    
-    /**
-     * Formats Date to Date\Time String.
-     * 
-     * @param date
-     * @param pattern (the date\time string pattern)
-     * @return the new date\time String.
-     * @throws ParseException 
-     * 
-     * {talendTypes} String
-     * 
-     * {Category} User Defined
-     * 
-     * {param} date(Date) date : the date to output.
-     * 
-     * {param} String(pattern) pattern : the pattern to output.
-     * 
-     * 
-     * {example} dateFormat(01/01/2010 16:10:35, "MM-dd-yyyy") return 01-01-2010 string #
-     * 
-     */
-    
-    public static String dateFormat(Date date, String pattern) throws ParseException {
-        // Make a SimpleDateFormat for toString()'s output.        
-        SimpleDateFormat format = new SimpleDateFormat(pattern);
-        return format.format(date);
-    }
 
+    
     /**
      * Returns the difference between two dates.
      * 

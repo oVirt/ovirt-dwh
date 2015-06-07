@@ -188,7 +188,7 @@
   </node>
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="448" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="if (context.continueAgg == 0) {&#xA;    &#x9;Thread.sleep((Long)TalendDate.diffDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runTime,&quot;SSS&quot;));&#xA;} else {&#xA;    Thread.sleep(1800000);&#xA;}"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="if (context.continueAgg == 0) {&#xA;    &#x9;Thread.sleep((Long)TalendDate.diffDate(TalendDate.addDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runTime,&quot;SSS&quot;));&#xA;} else {&#xA;    Thread.sleep(1800000);&#xA;}"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
@@ -383,7 +383,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value=""/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT DISTINCT 'continueAgg', '1'&#xA;FROM history_configuration&#xA;WHERE var_name = 'lastDayAggr'&#xA;&#x9;AND var_datetime &lt; '&quot;+TalendDate.addDate(RoutineHistoryETL.startOfDay(context.runTime), -1,&quot;dd&quot;)+&quot;'&#xA;&#x9;AND&#xA;&#x9;&#x9;CASE&#xA;&#x9;&#x9;&#x9;WHEN&#xA;&#x9;&#x9;&#x9;&#x9;var_datetime = '&quot;+RoutineHistoryETL.startOfDay(context.lastHourAggr)+&quot;'&#xA;&#x9;&#x9;&#x9;&#x9;AND 'true' =&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;(&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT var_value&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM history_configuration&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE var_name = 'HourlyAggFailed'&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;&#x9;&#x9;THEN FALSE&#xA;&#x9;&#x9;&#x9;ELSE TRUE&#xA;&#x9;&#x9;END&#xA;&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT DISTINCT 'continueAgg', '1'&#xA;FROM history_configuration&#xA;WHERE var_name = 'lastDayAggr'&#xA;&#x9;AND var_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(RoutineHistoryETL.startOfDay(context.runTime), -1,&quot;dd&quot;))+&quot;'&#xA;&#x9;AND&#xA;&#x9;&#x9;CASE&#xA;&#x9;&#x9;&#x9;WHEN&#xA;&#x9;&#x9;&#x9;&#x9;var_datetime = '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(RoutineHistoryETL.startOfDay(context.lastHourAggr))+&quot;'&#xA;&#x9;&#x9;&#x9;&#x9;AND 'true' =&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;(&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;SELECT var_value&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;FROM history_configuration&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHERE var_name = 'HourlyAggFailed'&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;)&#xA;&#x9;&#x9;&#x9;&#x9;THEN FALSE&#xA;&#x9;&#x9;&#x9;ELSE TRUE&#xA;&#x9;&#x9;END&#xA;&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;"/>

@@ -230,11 +230,11 @@
       <column comment="" key="false" name="var_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="setRunTime">
         <mapperTableEntries name="key" expression="row2.key " type="id_String" nullable="true"/>
-        <mapperTableEntries name="value" expression="RoutineHistoryETL.startOfSecond(RoutineHistoryETL.manipulateDate(row2.value,-1,&quot;mm&quot;))  " type="id_Date" nullable="true"/>
+        <mapperTableEntries name="value" expression="RoutineHistoryETL.startOfSecond(TalendDate.addDate(row2.value,-1,&quot;mm&quot;))  " type="id_Date" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="update_lastSampling">
         <mapperTableEntries name="var_name" expression="&quot;lastSampling&quot;" type="id_String"/>

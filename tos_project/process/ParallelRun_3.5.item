@@ -368,7 +368,7 @@
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="384" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_2"/>
     <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.startOfMinute(context.runTime),1,&quot;mm&quot;),context.runTime,&quot;SSS&quot;));"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(TalendDate.addDate(RoutineHistoryETL.startOfMinute(context.runTime),1,&quot;mm&quot;),context.runTime,&quot;SSS&quot;));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
@@ -379,7 +379,7 @@
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="576" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_3"/>
     <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.startOfHour(context.runTime),1,&quot;HH&quot;),context.runTime,&quot;SSS&quot;));"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(TalendDate.addDate(RoutineHistoryETL.startOfHour(context.runTime),1,&quot;HH&quot;),context.runTime,&quot;SSS&quot;));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
@@ -390,7 +390,7 @@
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="768" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_4"/>
     <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runTime,&quot;SSS&quot;));"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(TalendDate.addDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runTime,&quot;SSS&quot;));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
@@ -401,7 +401,7 @@
   <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="960" posY="0">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_5"/>
     <elementParameter field="CHECK" name="START" value="true"/>
-    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.manipulateDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runDeleteTime,&quot;HH&quot;),context.runTime,&quot;SSS&quot;));"/>
+    <elementParameter field="MEMO_JAVA" name="CODE" value="Thread.sleep(TalendDate.diffDate(TalendDate.addDate(TalendDate.addDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runDeleteTime,&quot;HH&quot;),context.runTime,&quot;SSS&quot;));"/>
     <elementParameter field="MEMO_IMPORT" name="IMPORT" value="//import java.util.List;"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
