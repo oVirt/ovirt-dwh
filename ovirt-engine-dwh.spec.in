@@ -259,6 +259,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Jun 16 2015 Shirly Radco <sradco@redhat.com> - 3.5.4
+Fixed issues:
+- change date format in aggregation
+
 * Wed May 13 2015 Shirly Radco <sradco@redhat.com> - 3.5.3
 Fixed issues:
 - change disks usage aggregation (#1202661)
