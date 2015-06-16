@@ -8604,15 +8604,15 @@ public class StatisticsSync implements TalendJob {
 			return this.current_host_configuration_version;
 		}
 
-		public Integer memory_buffered_kb;
+		public Long memory_buffered_kb;
 
-		public Integer getMemory_buffered_kb() {
+		public Long getMemory_buffered_kb() {
 			return this.memory_buffered_kb;
 		}
 
-		public Integer memory_cached_kb;
+		public Long memory_cached_kb;
 
-		public Integer getMemory_cached_kb() {
+		public Long getMemory_cached_kb() {
 			return this.memory_cached_kb;
 		}
 
@@ -8759,9 +8759,19 @@ public class StatisticsSync implements TalendJob {
 
 					this.current_host_configuration_version = readInteger(dis);
 
-					this.memory_buffered_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_buffered_kb = null;
+					} else {
+						this.memory_buffered_kb = dis.readLong();
+					}
 
-					this.memory_cached_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_cached_kb = null;
+					} else {
+						this.memory_cached_kb = dis.readLong();
+					}
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -8863,13 +8873,23 @@ public class StatisticsSync implements TalendJob {
 
 				writeInteger(this.current_host_configuration_version, dos);
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_buffered_kb, dos);
+				if (this.memory_buffered_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_buffered_kb);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_cached_kb, dos);
+				if (this.memory_cached_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_cached_kb);
+				}
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -9210,15 +9230,15 @@ public class StatisticsSync implements TalendJob {
 			return this.running_on_host_join_id;
 		}
 
-		public Integer memory_buffered_kb;
+		public Long memory_buffered_kb;
 
-		public Integer getMemory_buffered_kb() {
+		public Long getMemory_buffered_kb() {
 			return this.memory_buffered_kb;
 		}
 
-		public Integer memory_cached_kb;
+		public Long memory_cached_kb;
 
-		public Integer getMemory_cached_kb() {
+		public Long getMemory_cached_kb() {
 			return this.memory_cached_kb;
 		}
 
@@ -9254,28 +9274,6 @@ public class StatisticsSync implements TalendJob {
 				byte[] byteArray = str.getBytes(utf8Charset);
 				dos.writeInt(byteArray.length);
 				dos.write(byteArray);
-			}
-		}
-
-		private Integer readInteger(ObjectInputStream dis) throws IOException {
-			Integer intReturn;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				intReturn = null;
-			} else {
-				intReturn = dis.readInt();
-			}
-			return intReturn;
-		}
-
-		private void writeInteger(Integer intNum, ObjectOutputStream dos)
-				throws IOException {
-			if (intNum == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeInt(intNum);
 			}
 		}
 
@@ -9345,9 +9343,19 @@ public class StatisticsSync implements TalendJob {
 
 					this.running_on_host_join_id = readString(dis);
 
-					this.memory_buffered_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_buffered_kb = null;
+					} else {
+						this.memory_buffered_kb = dis.readLong();
+					}
 
-					this.memory_cached_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_cached_kb = null;
+					} else {
+						this.memory_cached_kb = dis.readLong();
+					}
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -9450,13 +9458,23 @@ public class StatisticsSync implements TalendJob {
 
 				writeString(this.running_on_host_join_id, dos);
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_buffered_kb, dos);
+				if (this.memory_buffered_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_buffered_kb);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_cached_kb, dos);
+				if (this.memory_cached_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_cached_kb);
+				}
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -9619,15 +9637,15 @@ public class StatisticsSync implements TalendJob {
 			return this.running_on_host_join_id;
 		}
 
-		public Integer memory_buffered_kb;
+		public Long memory_buffered_kb;
 
-		public Integer getMemory_buffered_kb() {
+		public Long getMemory_buffered_kb() {
 			return this.memory_buffered_kb;
 		}
 
-		public Integer memory_cached_kb;
+		public Long memory_cached_kb;
 
-		public Integer getMemory_cached_kb() {
+		public Long getMemory_cached_kb() {
 			return this.memory_cached_kb;
 		}
 
@@ -9663,28 +9681,6 @@ public class StatisticsSync implements TalendJob {
 				byte[] byteArray = str.getBytes(utf8Charset);
 				dos.writeInt(byteArray.length);
 				dos.write(byteArray);
-			}
-		}
-
-		private Integer readInteger(ObjectInputStream dis) throws IOException {
-			Integer intReturn;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				intReturn = null;
-			} else {
-				intReturn = dis.readInt();
-			}
-			return intReturn;
-		}
-
-		private void writeInteger(Integer intNum, ObjectOutputStream dos)
-				throws IOException {
-			if (intNum == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeInt(intNum);
 			}
 		}
 
@@ -9754,9 +9750,19 @@ public class StatisticsSync implements TalendJob {
 
 					this.running_on_host_join_id = readString(dis);
 
-					this.memory_buffered_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_buffered_kb = null;
+					} else {
+						this.memory_buffered_kb = dis.readLong();
+					}
 
-					this.memory_cached_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_cached_kb = null;
+					} else {
+						this.memory_cached_kb = dis.readLong();
+					}
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -9859,13 +9865,23 @@ public class StatisticsSync implements TalendJob {
 
 				writeString(this.running_on_host_join_id, dos);
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_buffered_kb, dos);
+				if (this.memory_buffered_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_buffered_kb);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_cached_kb, dos);
+				if (this.memory_cached_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_cached_kb);
+				}
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -10293,7 +10309,7 @@ public class StatisticsSync implements TalendJob {
 
 							if (rs_tJDBCInput_10.getObject(15) != null) {
 								row12.memory_buffered_kb = rs_tJDBCInput_10
-										.getInt(15);
+										.getLong(15);
 							} else {
 								row12.memory_buffered_kb = null;
 							}
@@ -10304,7 +10320,7 @@ public class StatisticsSync implements TalendJob {
 
 							if (rs_tJDBCInput_10.getObject(16) != null) {
 								row12.memory_cached_kb = rs_tJDBCInput_10
-										.getInt(16);
+										.getLong(16);
 							} else {
 								row12.memory_cached_kb = null;
 							}
@@ -10645,7 +10661,7 @@ public class StatisticsSync implements TalendJob {
 									pstmt_tJDBCOutput_5.setNull(16,
 											java.sql.Types.INTEGER);
 								} else {
-									pstmt_tJDBCOutput_5.setInt(16,
+									pstmt_tJDBCOutput_5.setLong(16,
 											vm_history.memory_buffered_kb);
 								}
 
@@ -10653,7 +10669,7 @@ public class StatisticsSync implements TalendJob {
 									pstmt_tJDBCOutput_5.setNull(17,
 											java.sql.Types.INTEGER);
 								} else {
-									pstmt_tJDBCOutput_5.setInt(17,
+									pstmt_tJDBCOutput_5.setLong(17,
 											vm_history.memory_cached_kb);
 								}
 
@@ -18077,6 +18093,6 @@ public class StatisticsSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 496252 characters generated by Talend Open Studio for Data Integration on the
- * June 10, 2015 1:47:12 PM IDT
+ * 497270 characters generated by Talend Open Studio for Data Integration on the
+ * June 16, 2015 3:03:23 PM IDT
  ************************************************************************************************/

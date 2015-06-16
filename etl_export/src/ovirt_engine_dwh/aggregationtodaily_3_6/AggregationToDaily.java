@@ -8789,27 +8789,27 @@ public class AggregationToDaily implements TalendJob {
 			return this.current_host_configuration_version;
 		}
 
-		public Integer memory_buffered_kb;
+		public Long memory_buffered_kb;
 
-		public Integer getMemory_buffered_kb() {
+		public Long getMemory_buffered_kb() {
 			return this.memory_buffered_kb;
 		}
 
-		public Integer max_memory_buffered_kb;
+		public Long max_memory_buffered_kb;
 
-		public Integer getMax_memory_buffered_kb() {
+		public Long getMax_memory_buffered_kb() {
 			return this.max_memory_buffered_kb;
 		}
 
-		public Integer memory_cached_kb;
+		public Long memory_cached_kb;
 
-		public Integer getMemory_cached_kb() {
+		public Long getMemory_cached_kb() {
 			return this.memory_cached_kb;
 		}
 
-		public Integer max_memory_cached_kb;
+		public Long max_memory_cached_kb;
 
-		public Integer getMax_memory_cached_kb() {
+		public Long getMax_memory_cached_kb() {
 			return this.max_memory_cached_kb;
 		}
 
@@ -8976,13 +8976,33 @@ public class AggregationToDaily implements TalendJob {
 
 					this.current_host_configuration_version = readInteger(dis);
 
-					this.memory_buffered_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_buffered_kb = null;
+					} else {
+						this.memory_buffered_kb = dis.readLong();
+					}
 
-					this.max_memory_buffered_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_memory_buffered_kb = null;
+					} else {
+						this.max_memory_buffered_kb = dis.readLong();
+					}
 
-					this.memory_cached_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_cached_kb = null;
+					} else {
+						this.memory_cached_kb = dis.readLong();
+					}
 
-					this.max_memory_cached_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_memory_cached_kb = null;
+					} else {
+						this.max_memory_cached_kb = dis.readLong();
+					}
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -9107,21 +9127,41 @@ public class AggregationToDaily implements TalendJob {
 
 				writeInteger(this.current_host_configuration_version, dos);
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_buffered_kb, dos);
+				if (this.memory_buffered_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_buffered_kb);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.max_memory_buffered_kb, dos);
+				if (this.max_memory_buffered_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.max_memory_buffered_kb);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_cached_kb, dos);
+				if (this.memory_cached_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_cached_kb);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.max_memory_cached_kb, dos);
+				if (this.max_memory_cached_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.max_memory_cached_kb);
+				}
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -9312,27 +9352,27 @@ public class AggregationToDaily implements TalendJob {
 			return this.current_host_configuration_version;
 		}
 
-		public Integer memory_buffered_kb;
+		public Long memory_buffered_kb;
 
-		public Integer getMemory_buffered_kb() {
+		public Long getMemory_buffered_kb() {
 			return this.memory_buffered_kb;
 		}
 
-		public Integer max_memory_buffered_kb;
+		public Long max_memory_buffered_kb;
 
-		public Integer getMax_memory_buffered_kb() {
+		public Long getMax_memory_buffered_kb() {
 			return this.max_memory_buffered_kb;
 		}
 
-		public Integer memory_cached_kb;
+		public Long memory_cached_kb;
 
-		public Integer getMemory_cached_kb() {
+		public Long getMemory_cached_kb() {
 			return this.memory_cached_kb;
 		}
 
-		public Integer max_memory_cached_kb;
+		public Long max_memory_cached_kb;
 
-		public Integer getMax_memory_cached_kb() {
+		public Long getMax_memory_cached_kb() {
 			return this.max_memory_cached_kb;
 		}
 
@@ -9499,13 +9539,33 @@ public class AggregationToDaily implements TalendJob {
 
 					this.current_host_configuration_version = readInteger(dis);
 
-					this.memory_buffered_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_buffered_kb = null;
+					} else {
+						this.memory_buffered_kb = dis.readLong();
+					}
 
-					this.max_memory_buffered_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_memory_buffered_kb = null;
+					} else {
+						this.max_memory_buffered_kb = dis.readLong();
+					}
 
-					this.memory_cached_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_cached_kb = null;
+					} else {
+						this.memory_cached_kb = dis.readLong();
+					}
 
-					this.max_memory_cached_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.max_memory_cached_kb = null;
+					} else {
+						this.max_memory_cached_kb = dis.readLong();
+					}
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -9630,21 +9690,41 @@ public class AggregationToDaily implements TalendJob {
 
 				writeInteger(this.current_host_configuration_version, dos);
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_buffered_kb, dos);
+				if (this.memory_buffered_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_buffered_kb);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.max_memory_buffered_kb, dos);
+				if (this.max_memory_buffered_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.max_memory_buffered_kb);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_cached_kb, dos);
+				if (this.memory_cached_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_cached_kb);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.max_memory_cached_kb, dos);
+				if (this.max_memory_cached_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.max_memory_cached_kb);
+				}
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -9811,15 +9891,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.current_host_configuration_version;
 		}
 
-		public Integer memory_buffered_kb;
+		public Long memory_buffered_kb;
 
-		public Integer getMemory_buffered_kb() {
+		public Long getMemory_buffered_kb() {
 			return this.memory_buffered_kb;
 		}
 
-		public Integer memory_cached_kb;
+		public Long memory_cached_kb;
 
-		public Integer getMemory_cached_kb() {
+		public Long getMemory_cached_kb() {
 			return this.memory_cached_kb;
 		}
 
@@ -9958,9 +10038,19 @@ public class AggregationToDaily implements TalendJob {
 
 					this.current_host_configuration_version = readInteger(dis);
 
-					this.memory_buffered_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_buffered_kb = null;
+					} else {
+						this.memory_buffered_kb = dis.readLong();
+					}
 
-					this.memory_cached_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_cached_kb = null;
+					} else {
+						this.memory_cached_kb = dis.readLong();
+					}
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -10049,13 +10139,23 @@ public class AggregationToDaily implements TalendJob {
 
 				writeInteger(this.current_host_configuration_version, dos);
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_buffered_kb, dos);
+				if (this.memory_buffered_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_buffered_kb);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_cached_kb, dos);
+				if (this.memory_cached_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_cached_kb);
+				}
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -10218,15 +10318,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.current_host_configuration_version;
 		}
 
-		public Integer memory_buffered_kb;
+		public Long memory_buffered_kb;
 
-		public Integer getMemory_buffered_kb() {
+		public Long getMemory_buffered_kb() {
 			return this.memory_buffered_kb;
 		}
 
-		public Integer memory_cached_kb;
+		public Long memory_cached_kb;
 
-		public Integer getMemory_cached_kb() {
+		public Long getMemory_cached_kb() {
 			return this.memory_cached_kb;
 		}
 
@@ -10367,9 +10467,19 @@ public class AggregationToDaily implements TalendJob {
 
 					this.current_host_configuration_version = readInteger(dis);
 
-					this.memory_buffered_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_buffered_kb = null;
+					} else {
+						this.memory_buffered_kb = dis.readLong();
+					}
 
-					this.memory_cached_kb = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.memory_cached_kb = null;
+					} else {
+						this.memory_cached_kb = dis.readLong();
+					}
 
 				} catch (IOException e) {
 					throw new RuntimeException(e);
@@ -10462,13 +10572,23 @@ public class AggregationToDaily implements TalendJob {
 
 				writeInteger(this.current_host_configuration_version, dos);
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_buffered_kb, dos);
+				if (this.memory_buffered_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_buffered_kb);
+				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.memory_cached_kb, dos);
+				if (this.memory_cached_kb == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.memory_cached_kb);
+				}
 
 			} catch (IOException e) {
 				throw new RuntimeException(e);
@@ -10818,14 +10938,14 @@ public class AggregationToDaily implements TalendJob {
 					Object currently_running_on_host_last;
 					Integer vm_configuration_version_last;
 					Integer current_host_configuration_version_last;
-					Double memory_buffered_kb_sum;
+					BigDecimal memory_buffered_kb_sum;
 					int memory_buffered_kb_count = 0;
 
-					Integer max_memory_buffered_kb_max;
-					Double memory_cached_kb_sum;
+					Long max_memory_buffered_kb_max;
+					BigDecimal memory_cached_kb_sum;
 					int memory_cached_kb_count = 0;
 
-					Integer max_memory_cached_kb_max;
+					Long max_memory_cached_kb_max;
 
 					@Override
 					public int hashCode() {
@@ -11128,7 +11248,7 @@ public class AggregationToDaily implements TalendJob {
 
 							if (rs_tJDBCInput_4.getObject(15) != null) {
 								row4.memory_buffered_kb = rs_tJDBCInput_4
-										.getInt(15);
+										.getLong(15);
 							} else {
 								row4.memory_buffered_kb = null;
 							}
@@ -11139,7 +11259,7 @@ public class AggregationToDaily implements TalendJob {
 
 							if (rs_tJDBCInput_4.getObject(16) != null) {
 								row4.memory_cached_kb = rs_tJDBCInput_4
-										.getInt(16);
+										.getLong(16);
 							} else {
 								row4.memory_cached_kb = null;
 							}
@@ -11392,11 +11512,13 @@ public class AggregationToDaily implements TalendJob {
 								operation_result_tAggregateRow_4.memory_buffered_kb_count++;
 
 								if (operation_result_tAggregateRow_4.memory_buffered_kb_sum == null) {
-									operation_result_tAggregateRow_4.memory_buffered_kb_sum = (double) 0;
+									operation_result_tAggregateRow_4.memory_buffered_kb_sum = new BigDecimal(
+											0);
 								}
+								operation_result_tAggregateRow_4.memory_buffered_kb_sum = operation_result_tAggregateRow_4.memory_buffered_kb_sum
+										.add(new BigDecimal(
+												String.valueOf(vm_aggregate_history.memory_buffered_kb)));
 
-								if (vm_aggregate_history.memory_buffered_kb != null)
-									operation_result_tAggregateRow_4.memory_buffered_kb_sum += vm_aggregate_history.memory_buffered_kb;
 							} // G_OutMain_AggR_546
 
 							if (vm_aggregate_history.memory_buffered_kb != null) { // G_OutMain_AggR_546
@@ -11415,11 +11537,13 @@ public class AggregationToDaily implements TalendJob {
 								operation_result_tAggregateRow_4.memory_cached_kb_count++;
 
 								if (operation_result_tAggregateRow_4.memory_cached_kb_sum == null) {
-									operation_result_tAggregateRow_4.memory_cached_kb_sum = (double) 0;
+									operation_result_tAggregateRow_4.memory_cached_kb_sum = new BigDecimal(
+											0);
 								}
+								operation_result_tAggregateRow_4.memory_cached_kb_sum = operation_result_tAggregateRow_4.memory_cached_kb_sum
+										.add(new BigDecimal(
+												String.valueOf(vm_aggregate_history.memory_cached_kb)));
 
-								if (vm_aggregate_history.memory_cached_kb != null)
-									operation_result_tAggregateRow_4.memory_cached_kb_sum += vm_aggregate_history.memory_cached_kb;
 							} // G_OutMain_AggR_546
 
 							if (vm_aggregate_history.memory_cached_kb != null) { // G_OutMain_AggR_546
@@ -11655,31 +11779,38 @@ public class AggregationToDaily implements TalendJob {
 					row9.current_host_configuration_version = aggregated_row_tAggregateRow_4.current_host_configuration_version_last;
 					if (aggregated_row_tAggregateRow_4.memory_buffered_kb_count > 0) {
 
-						double row9_memory_buffered_kb_temp = (double) aggregated_row_tAggregateRow_4.memory_buffered_kb_sum
-								/ (double) aggregated_row_tAggregateRow_4.memory_buffered_kb_count;
+						row9.memory_buffered_kb = aggregated_row_tAggregateRow_4.memory_buffered_kb_sum
+								.divide(new BigDecimal(
+										String.valueOf(aggregated_row_tAggregateRow_4.memory_buffered_kb_count)),
+										10, BigDecimal.ROUND_HALF_UP)
 
-						row9.memory_buffered_kb = (int) row9_memory_buffered_kb_temp;
+								.longValue()
+
+						;
 
 					} else {
 						String count = "0";
 
 						row9.memory_buffered_kb = ParserUtils
-								.parseTo_Integer(count);
+								.parseTo_Long(count);
 
 					}
 					row9.max_memory_buffered_kb = aggregated_row_tAggregateRow_4.max_memory_buffered_kb_max;
 					if (aggregated_row_tAggregateRow_4.memory_cached_kb_count > 0) {
 
-						double row9_memory_cached_kb_temp = (double) aggregated_row_tAggregateRow_4.memory_cached_kb_sum
-								/ (double) aggregated_row_tAggregateRow_4.memory_cached_kb_count;
+						row9.memory_cached_kb = aggregated_row_tAggregateRow_4.memory_cached_kb_sum
+								.divide(new BigDecimal(
+										String.valueOf(aggregated_row_tAggregateRow_4.memory_cached_kb_count)),
+										10, BigDecimal.ROUND_HALF_UP)
 
-						row9.memory_cached_kb = (int) row9_memory_cached_kb_temp;
+								.longValue()
+
+						;
 
 					} else {
 						String count = "0";
 
-						row9.memory_cached_kb = ParserUtils
-								.parseTo_Integer(count);
+						row9.memory_cached_kb = ParserUtils.parseTo_Long(count);
 
 					}
 					row9.max_memory_cached_kb = aggregated_row_tAggregateRow_4.max_memory_cached_kb_max;
@@ -11805,26 +11936,27 @@ public class AggregationToDaily implements TalendJob {
 					if (row9.memory_buffered_kb == null) {
 						pstmt_tJDBCOutput_4.setNull(18, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_4.setInt(18, row9.memory_buffered_kb);
+						pstmt_tJDBCOutput_4
+								.setLong(18, row9.memory_buffered_kb);
 					}
 
 					if (row9.max_memory_buffered_kb == null) {
 						pstmt_tJDBCOutput_4.setNull(19, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_4.setInt(19,
+						pstmt_tJDBCOutput_4.setLong(19,
 								row9.max_memory_buffered_kb);
 					}
 
 					if (row9.memory_cached_kb == null) {
 						pstmt_tJDBCOutput_4.setNull(20, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_4.setInt(20, row9.memory_cached_kb);
+						pstmt_tJDBCOutput_4.setLong(20, row9.memory_cached_kb);
 					}
 
 					if (row9.max_memory_cached_kb == null) {
 						pstmt_tJDBCOutput_4.setNull(21, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_4.setInt(21,
+						pstmt_tJDBCOutput_4.setLong(21,
 								row9.max_memory_cached_kb);
 					}
 
@@ -26850,6 +26982,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 767379 characters generated by Talend Open Studio for Data Integration on the
- * June 10, 2015 1:47:19 PM IDT
+ * 771525 characters generated by Talend Open Studio for Data Integration on the
+ * June 16, 2015 3:03:31 PM IDT
  ************************************************************************************************/

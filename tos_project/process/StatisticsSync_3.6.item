@@ -1144,8 +1144,8 @@
       <column comment="" key="false" name="user_logged_in_to_guest" nullable="true" pattern="" sourceType="" type="id_Boolean" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" name="running_on_host_join_id" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" name="memory_buffered_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" name="memory_cached_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_buffered_kb" nullable="true" pattern="" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_cached_kb" nullable="true" pattern="" sourceType="" type="id_Long" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="160" posY="384">
@@ -1176,8 +1176,8 @@
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" name="memory_buffered_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" name="memory_cached_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_buffered_kb" nullable="true" pattern="" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_cached_kb" nullable="true" pattern="" sourceType="" type="id_Long" usefulColumn="true"/>
     </metadata>
     <metadata connector="FLOW" label="vm_disks_usage_samples_history" name="disk_usage_history">
       <column comment="" key="false" length="35" name="history_datetime" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="6" sourceType="TIMESTAMPTZ" type="id_Date" usefulColumn="true"/>
@@ -1203,8 +1203,8 @@
         <mapperTableEntries name="currently_running_on_host" expression="row12.currently_running_on_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_configuration_version" expression="row47.history_id " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="current_host_configuration_version" expression="row48.history_id " type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="memory_buffered_kb" expression="row12.memory_buffered_kb " type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="memory_cached_kb" expression="row12.memory_cached_kb " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="memory_buffered_kb" expression="row12.memory_buffered_kb " type="id_Long" nullable="true"/>
+        <mapperTableEntries name="memory_cached_kb" expression="row12.memory_cached_kb " type="id_Long" nullable="true"/>
       </outputTables>
       <outputTables sizeState="INTERMEDIATE" name="disk_usage_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -1226,8 +1226,8 @@
         <mapperTableEntries name="user_logged_in_to_guest" type="id_Boolean" nullable="true"/>
         <mapperTableEntries name="currently_running_on_host" type="id_Object" nullable="true"/>
         <mapperTableEntries name="running_on_host_join_id" type="id_String" nullable="true"/>
-        <mapperTableEntries name="memory_buffered_kb" type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="memory_cached_kb" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="memory_buffered_kb" type="id_Long" nullable="true"/>
+        <mapperTableEntries name="memory_cached_kb" type="id_Long" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row47" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
         <mapperTableEntries name="history_id" expression="" type="id_Integer" nullable="true"/>
@@ -1447,8 +1447,8 @@
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" name="memory_buffered_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" name="memory_cached_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_buffered_kb" nullable="true" pattern="" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_cached_kb" nullable="true" pattern="" sourceType="" type="id_Long" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="vm_samples_history" name="REJECT">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -1466,8 +1466,8 @@
       <column comment="" key="false" length="16" name="currently_running_on_host" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" name="memory_buffered_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" name="memory_cached_kb" nullable="true" pattern="" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_buffered_kb" nullable="true" pattern="" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" name="memory_cached_kb" nullable="true" pattern="" sourceType="" type="id_Long" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
