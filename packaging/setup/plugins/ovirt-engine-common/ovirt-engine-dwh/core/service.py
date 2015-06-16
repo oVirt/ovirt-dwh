@@ -38,12 +38,23 @@ class Plugin(plugin.PluginBase):
         super(Plugin, self).__init__(context=context)
 
     @plugin.event(
+        stage=plugin.Stages.STAGE_INIT,
+    )
+    def _init(self):
+        self.environment.setdefault(
+            odwhcons.ConfigEnv.DWH_SERVICE_STOP_NEEDED,
+            False
+        )
+
+    @plugin.event(
         stage=plugin.Stages.STAGE_TRANSACTION_BEGIN,
         before=(
             osetupcons.Stages.SYSTEM_HOSTILE_SERVICES_DETECTION,
         ),
         condition=lambda self: not self.environment[
             osetupcons.CoreEnv.DEVELOPER_MODE
+        ] and self.environment[
+            odwhcons.ConfigEnv.DWH_SERVICE_STOP_NEEDED
         ],
     )
     def _transactionBegin(self):

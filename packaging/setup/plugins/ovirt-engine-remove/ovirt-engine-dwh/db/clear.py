@@ -84,6 +84,8 @@ class Plugin(plugin.PluginBase):
                 false=_('No'),
                 default=False,
             )
+        if self.environment[odwhcons.RemoveEnv.REMOVE_DATABASE]:
+            self.environment[odwhcons.ConfigEnv.DWH_SERVICE_STOP_NEEDED] = True
 
     @plugin.event(
         stage=plugin.Stages.STAGE_MISC,

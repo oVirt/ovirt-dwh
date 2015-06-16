@@ -223,6 +223,8 @@ class ConfigEnv(object):
     def OVIRT_ENGINE_DWH_DB_BACKUP_DIR(self):
         return 'OVESETUP_DWH_CONFIG/dwhDbBackupDir'
 
+    DWH_SERVICE_STOP_NEEDED = 'OVESETUP_DWH_CONFIG/dwhServiceStopNeeded'
+
 
 @util.export
 @util.codegen

@@ -62,6 +62,8 @@ class Plugin(plugin.PluginBase):
                 prompt=True,
                 default=True,
             )
+        if self.environment[odwhcons.CoreEnv.ENABLE]:
+            self.environment[odwhcons.ConfigEnv.DWH_SERVICE_STOP_NEEDED] = True
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
