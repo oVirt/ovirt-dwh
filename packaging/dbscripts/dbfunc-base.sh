@@ -62,6 +62,10 @@ dbfunc_psql_statement_parsable() {
 		-c "copy (${statement}) to stdout with delimiter as '|';"
 }
 
+dbfunc_get_psql_result() {
+	echo $(dbfunc_psql_raw -c "$@" | tr -d ' ')
+}
+
 #
 # parse line escape, each field
 # in own line
@@ -80,7 +84,7 @@ dbfunc_psql_statement_parse_line() {
 		line="$(expr substr "${line}" 2 $((${#line}+1)))"
 		if [ -n "${escape}" ]; then
 			escape=
-			echo -n "$c"
+			ret="${ret}${c}"
 		else
 			case "${c}" in
 				\\) escape=1 ;;
