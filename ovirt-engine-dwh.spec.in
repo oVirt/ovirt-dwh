@@ -260,6 +260,13 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Aug 11 2015 Yaniv Dary <ydary@redhat.com> - 3.6.0
+Fixed issues:
+- Bug 1195395 - ETL service aggregation to hourly tables is
+  failing due to NullPointerException for specific timezones
+  due to the way the ETL interprets the timezone
+- Bug 1231691 - Update cached/buffered memory to bigint
+
 * Mon Sep 15 2014 Shirly Radco <sradco@redhat.com> - 3.5.0
 Fixed issues:
 - Refixed updated statistics history_id to bigint (#1121994)
