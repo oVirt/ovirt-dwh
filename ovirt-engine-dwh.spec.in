@@ -260,6 +260,11 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed Aug 12 2015 Yaniv Dary <ydary@redhat.com> - 3.6.0
+Fixed issue:
+- Bug 1233193 - ETL service sampling error -
+  RuntimeException: Child job running failed
+
 * Tue Aug 11 2015 Yaniv Dary <ydary@redhat.com> - 3.6.0
 Fixed issues:
 - Bug 1195395 - ETL service aggregation to hourly tables is
