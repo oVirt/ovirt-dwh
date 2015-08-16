@@ -1,0 +1,14 @@
+ALTER TABLE vm_samples_history
+  DROP CONSTRAINT vm_samples_history_current_user_id_fkey;
+
+ALTER TABLE vm_hourly_history
+  DROP CONSTRAINT vm_hourly_history_current_user_id_fkey;
+
+ALTER TABLE vm_daily_history
+  DROP CONSTRAINT vm_daily_history_current_user_id_fkey;
+
+ALTER TABLE statistics_vms_users_usage_hourly
+  DROP CONSTRAINT statistics_vms_users_usage_hourly_user_id_fkey;
+
+ALTER TABLE statistics_vms_users_usage_daily
+  DROP CONSTRAINT statistics_vms_users_usage_daily_user_id_fkey;
