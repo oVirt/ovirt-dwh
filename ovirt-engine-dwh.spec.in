@@ -260,6 +260,12 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed Sep 02 2015 Yaniv Dary <ydary@redhat.com> - 3.6.0
+oVirt 3.6 Beta 4 release.
+
+Fixed issues:
+- Bug 1254003 - removed fk that cause deadlock occasionally
+
 * Wed Aug 12 2015 Yaniv Dary <ydary@redhat.com> - 3.6.0
 Fixed issue:
 - Bug 1233193 - ETL service sampling error -
