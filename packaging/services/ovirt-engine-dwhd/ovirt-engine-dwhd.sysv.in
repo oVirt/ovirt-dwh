@@ -1,21 +1,21 @@
 #!/bin/sh
 #
-# Start/stop oVirt Engine Dataware House
+# Start/stop oVirt Engine Data Warehouse
 #
 # chkconfig: - 65 34
-# description: oVirt Engine Dataware House
+# description: oVirt Engine Data Warehouse
 # pidfile: /var/run/ovirt-engine-dwhd.pid
 
 ### BEGIN INIT INFO
 # Provides: ovirt-engine-dwhd
-# Short-Description: oVirt Engine Dataware House
+# Short-Description: oVirt Engine Data Warehouse
 ### END INIT INFO
 
 # Source function library.
 . /etc/rc.d/init.d/functions
 
 NAME="ovirt-engine-dwhd"
-PROG="oVirt Engine Dataware House"
+PROG="oVirt Engine Data Warehouse"
 
 [ -f "/etc/sysconfig/${NAME}" ] && . "/etc/sysconfig/${NAME}"
 

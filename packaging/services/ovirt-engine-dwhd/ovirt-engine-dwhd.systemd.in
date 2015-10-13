@@ -1,5 +1,5 @@
 [Unit]
-Description=oVirt Engine Dataware House
+Description=oVirt Engine Data Warehouse
 After=network.service postgresql.service
 
 [Service]
