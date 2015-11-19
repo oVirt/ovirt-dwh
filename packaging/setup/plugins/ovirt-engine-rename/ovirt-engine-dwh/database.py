@@ -1,6 +1,6 @@
 #
 # ovirt-engine-setup -- ovirt engine setup
-# Copyright (C) 2014 Red Hat, Inc.
+# Copyright (C) 2014-2015 Red Hat, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,8 +24,9 @@ from otopi import plugin
 
 
 from ovirt_engine_setup import constants as osetupcons
+from ovirt_engine_setup.engine_common import dwh_history_timekeeping as \
+    engine_db_timekeeping
 from ovirt_engine_setup.dwh import constants as odwhcons
-from ovirt_engine_setup.dwh import engine_db_timekeeping
 
 
 @util.export
