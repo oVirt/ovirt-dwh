@@ -260,6 +260,11 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Mon Dec 21 2015 Shirly Radco <sradco@redhat.com> - 3.6.2
+Fixed issues:
+- Bug 1286441 - restoring connection to postgres for audit_log and dwh_history_timekeeping.
+- Bug 1289983 - engine_db_timekeeping fix for rename
+
 * Tue Nov 24 2015 Shirly Radco <sradco@redhat.com> - 3.6.1
 Fixed issues:
 - Bug 1193318 - Fix Data Warehouse service name
