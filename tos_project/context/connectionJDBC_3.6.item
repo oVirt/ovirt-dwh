@@ -25,4 +25,5 @@
   <contextParameter comment="Each time the deletion job run, the number of deleted records will increase by this number" name="deleteMultiplier" prompt="deleteMultiplier?" promptNeeded="true" type="id_Integer" value="1000"/>
   <contextParameter comment="" name="limitRows" prompt="limitRows?" promptNeeded="true" type="id_String" value="limit 1000"/>
   <contextParameter comment="" name="deleteIncrement" prompt="deleteIncrement?" promptNeeded="true" type="id_Integer" value="10"/>
+  <contextParameter comment="" name="dwhAggregationDebug" prompt="dwhAggregationDebug?" promptNeeded="true" type="id_String" value="false"/>
 </talendfile:ContextType>

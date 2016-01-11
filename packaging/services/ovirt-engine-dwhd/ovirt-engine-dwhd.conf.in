@@ -141,3 +141,9 @@ DWH_DELETE_INCREMENT=10
 # For Hourly and Daily, the number of rows that will be deleted each iteration.
 # Default = "limit 1000"
 DWH_LIMIT_ROWS="limit 1000"
+
+#
+# Change following to true if you want to enable aggregation debug
+# information (useful mainly for developers),
+# will be sent to the ovirt-engine-dwhd.log file:
+DWH_AGGREGATION_DEBUG=false

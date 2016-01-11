@@ -92,6 +92,13 @@ public class SampleTimeKeepingJob implements TalendJob {
 
 		public void synchronizeContext() {
 
+			if (dwhAggregationDebug != null) {
+
+				this.setProperty("dwhAggregationDebug",
+						dwhAggregationDebug.toString());
+
+			}
+
 			if (endTime != null) {
 
 				String pattern_endTime = "yyyy-MM-dd HH:mm:ss";
@@ -293,6 +300,12 @@ public class SampleTimeKeepingJob implements TalendJob {
 
 		}
 
+		public String dwhAggregationDebug;
+
+		public String getDwhAggregationDebug() {
+			return this.dwhAggregationDebug;
+		}
+
 		public java.util.Date endTime;
 
 		public java.util.Date getEndTime() {
@@ -452,6 +465,8 @@ public class SampleTimeKeepingJob implements TalendJob {
 
 	LogCatcherUtils tLogCatcher_1 = new LogCatcherUtils();
 	LogCatcherUtils talendLogs_LOGS = new LogCatcherUtils();
+	StatCatcherUtils tStatCatcher_1 = new StatCatcherUtils(
+			"_FvEy8LzqEeCaj-T1n0SCFw", "3.6");
 
 	private final java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
 	private final java.io.PrintStream errorMessagePS = new java.io.PrintStream(
@@ -921,6 +936,50 @@ public class SampleTimeKeepingJob implements TalendJob {
 		tSleep_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tStatCatcher_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tStatCatcher_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tMap_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tStatCatcher_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tFilterRow_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tStatCatcher_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tLogRow_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tStatCatcher_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void talendLogs_LOGS_error(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1161,6 +1220,17 @@ public class SampleTimeKeepingJob implements TalendJob {
 	}
 
 	public void tSleep_2_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tStatCatcher_1_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1423,6 +1493,13 @@ public class SampleTimeKeepingJob implements TalendJob {
 
 				int tos_count_tJava_4 = 0;
 
+				if (context.dwhAggregationDebug.equals("true")) {
+					System.out.print(TalendDate.getDate("yyyy-MM-dd HH:mm:ss")
+							+ " Statistics sync ended. Duration: "
+							+ ((Long) globalMap
+									.get("tChronometerStop_1_DURATION"))
+							+ " milliseconds \n");
+				}
 				if (((Long) globalMap.get("tChronometerStop_1_DURATION")) < context.runInterleave
 						.longValue() * 1000) {
 					Thread.sleep((context.runInterleave.longValue() * 1000 - ((Long) globalMap
@@ -1913,6 +1990,12 @@ public class SampleTimeKeepingJob implements TalendJob {
 
 						if (tmp_key_tContextLoad_4 != null) {
 							try {
+								if (key_tContextLoad_4 != null
+										&& "dwhAggregationDebug"
+												.equals(key_tContextLoad_4)) {
+									context.dwhAggregationDebug = value_tContextLoad_4;
+								}
+
 								if (key_tContextLoad_4 != null
 										&& "endTime".equals(key_tContextLoad_4)) {
 									String context_endTime_value = context
@@ -2601,6 +2684,12 @@ public class SampleTimeKeepingJob implements TalendJob {
 						if (tmp_key_tContextLoad_5 != null) {
 							try {
 								if (key_tContextLoad_5 != null
+										&& "dwhAggregationDebug"
+												.equals(key_tContextLoad_5)) {
+									context.dwhAggregationDebug = value_tContextLoad_5;
+								}
+
+								if (key_tContextLoad_5 != null
 										&& "endTime".equals(key_tContextLoad_5)) {
 									String context_endTime_value = context
 											.getProperty("endTime");
@@ -3287,6 +3376,12 @@ public class SampleTimeKeepingJob implements TalendJob {
 
 						if (tmp_key_tContextLoad_3 != null) {
 							try {
+								if (key_tContextLoad_3 != null
+										&& "dwhAggregationDebug"
+												.equals(key_tContextLoad_3)) {
+									context.dwhAggregationDebug = value_tContextLoad_3;
+								}
+
 								if (key_tContextLoad_3 != null
 										&& "endTime".equals(key_tContextLoad_3)) {
 									String context_endTime_value = context
@@ -5282,6 +5377,12 @@ public class SampleTimeKeepingJob implements TalendJob {
 							if (tmp_key_tContextLoad_2 != null) {
 								try {
 									if (key_tContextLoad_2 != null
+											&& "dwhAggregationDebug"
+													.equals(key_tContextLoad_2)) {
+										context.dwhAggregationDebug = value_tContextLoad_2;
+									}
+
+									if (key_tContextLoad_2 != null
 											&& "endTime"
 													.equals(key_tContextLoad_2)) {
 										String context_endTime_value = context
@@ -5923,6 +6024,9 @@ public class SampleTimeKeepingJob implements TalendJob {
 					paraList_tRunJob_1.add("--context_param " + key_tRunJob_1
 							+ "=" + value_tRunJob_1);
 				}
+
+				parentContextMap_tRunJob_1.put("dwhAggregationDebug",
+						context.dwhAggregationDebug);
 
 				parentContextMap_tRunJob_1.put("endTime", context.endTime);
 
@@ -8584,6 +8688,1607 @@ public class SampleTimeKeepingJob implements TalendJob {
 		globalMap.put("tSleep_2_SUBPROCESS_STATE", 1);
 	}
 
+	public static class row9Struct implements
+			routines.system.IPersistableRow<row9Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[0];
+
+		public java.util.Date moment;
+
+		public java.util.Date getMoment() {
+			return this.moment;
+		}
+
+		public String pid;
+
+		public String getPid() {
+			return this.pid;
+		}
+
+		public String father_pid;
+
+		public String getFather_pid() {
+			return this.father_pid;
+		}
+
+		public String root_pid;
+
+		public String getRoot_pid() {
+			return this.root_pid;
+		}
+
+		public Long system_pid;
+
+		public Long getSystem_pid() {
+			return this.system_pid;
+		}
+
+		public String project;
+
+		public String getProject() {
+			return this.project;
+		}
+
+		public String job;
+
+		public String getJob() {
+			return this.job;
+		}
+
+		public String job_repository_id;
+
+		public String getJob_repository_id() {
+			return this.job_repository_id;
+		}
+
+		public String job_version;
+
+		public String getJob_version() {
+			return this.job_version;
+		}
+
+		public String context;
+
+		public String getContext() {
+			return this.context;
+		}
+
+		public String origin;
+
+		public String getOrigin() {
+			return this.origin;
+		}
+
+		public String message_type;
+
+		public String getMessage_type() {
+			return this.message_type;
+		}
+
+		public String message;
+
+		public String getMessage() {
+			return this.message;
+		}
+
+		public Long duration;
+
+		public Long getDuration() {
+			return this.duration;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[2 * length];
+					}
+				}
+				dis.readFully(
+						commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob,
+						0, length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob,
+						0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_SampleTimeKeepingJob) {
+
+				try {
+
+					int length = 0;
+
+					this.moment = readDate(dis);
+
+					this.pid = readString(dis);
+
+					this.father_pid = readString(dis);
+
+					this.root_pid = readString(dis);
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.system_pid = null;
+					} else {
+						this.system_pid = dis.readLong();
+					}
+
+					this.project = readString(dis);
+
+					this.job = readString(dis);
+
+					this.job_repository_id = readString(dis);
+
+					this.job_version = readString(dis);
+
+					this.context = readString(dis);
+
+					this.origin = readString(dis);
+
+					this.message_type = readString(dis);
+
+					this.message = readString(dis);
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.duration = null;
+					} else {
+						this.duration = dis.readLong();
+					}
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.moment, dos);
+
+				// String
+
+				writeString(this.pid, dos);
+
+				// String
+
+				writeString(this.father_pid, dos);
+
+				// String
+
+				writeString(this.root_pid, dos);
+
+				// Long
+
+				if (this.system_pid == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.system_pid);
+				}
+
+				// String
+
+				writeString(this.project, dos);
+
+				// String
+
+				writeString(this.job, dos);
+
+				// String
+
+				writeString(this.job_repository_id, dos);
+
+				// String
+
+				writeString(this.job_version, dos);
+
+				// String
+
+				writeString(this.context, dos);
+
+				// String
+
+				writeString(this.origin, dos);
+
+				// String
+
+				writeString(this.message_type, dos);
+
+				// String
+
+				writeString(this.message, dos);
+
+				// Long
+
+				if (this.duration == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.duration);
+				}
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("moment=" + String.valueOf(moment));
+			sb.append(",pid=" + pid);
+			sb.append(",father_pid=" + father_pid);
+			sb.append(",root_pid=" + root_pid);
+			sb.append(",system_pid=" + String.valueOf(system_pid));
+			sb.append(",project=" + project);
+			sb.append(",job=" + job);
+			sb.append(",job_repository_id=" + job_repository_id);
+			sb.append(",job_version=" + job_version);
+			sb.append(",context=" + context);
+			sb.append(",origin=" + origin);
+			sb.append(",message_type=" + message_type);
+			sb.append(",message=" + message);
+			sb.append(",duration=" + String.valueOf(duration));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row9Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class AggregationsDebugStruct implements
+			routines.system.IPersistableRow<AggregationsDebugStruct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[0];
+
+		public java.util.Date moment;
+
+		public java.util.Date getMoment() {
+			return this.moment;
+		}
+
+		public String pid;
+
+		public String getPid() {
+			return this.pid;
+		}
+
+		public String father_pid;
+
+		public String getFather_pid() {
+			return this.father_pid;
+		}
+
+		public String root_pid;
+
+		public String getRoot_pid() {
+			return this.root_pid;
+		}
+
+		public Long system_pid;
+
+		public Long getSystem_pid() {
+			return this.system_pid;
+		}
+
+		public String project;
+
+		public String getProject() {
+			return this.project;
+		}
+
+		public String job;
+
+		public String getJob() {
+			return this.job;
+		}
+
+		public String job_repository_id;
+
+		public String getJob_repository_id() {
+			return this.job_repository_id;
+		}
+
+		public String job_version;
+
+		public String getJob_version() {
+			return this.job_version;
+		}
+
+		public String context;
+
+		public String getContext() {
+			return this.context;
+		}
+
+		public String origin;
+
+		public String getOrigin() {
+			return this.origin;
+		}
+
+		public String message_type;
+
+		public String getMessage_type() {
+			return this.message_type;
+		}
+
+		public String message;
+
+		public String getMessage() {
+			return this.message;
+		}
+
+		public Long duration;
+
+		public Long getDuration() {
+			return this.duration;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[2 * length];
+					}
+				}
+				dis.readFully(
+						commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob,
+						0, length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob,
+						0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_SampleTimeKeepingJob) {
+
+				try {
+
+					int length = 0;
+
+					this.moment = readDate(dis);
+
+					this.pid = readString(dis);
+
+					this.father_pid = readString(dis);
+
+					this.root_pid = readString(dis);
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.system_pid = null;
+					} else {
+						this.system_pid = dis.readLong();
+					}
+
+					this.project = readString(dis);
+
+					this.job = readString(dis);
+
+					this.job_repository_id = readString(dis);
+
+					this.job_version = readString(dis);
+
+					this.context = readString(dis);
+
+					this.origin = readString(dis);
+
+					this.message_type = readString(dis);
+
+					this.message = readString(dis);
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.duration = null;
+					} else {
+						this.duration = dis.readLong();
+					}
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.moment, dos);
+
+				// String
+
+				writeString(this.pid, dos);
+
+				// String
+
+				writeString(this.father_pid, dos);
+
+				// String
+
+				writeString(this.root_pid, dos);
+
+				// Long
+
+				if (this.system_pid == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.system_pid);
+				}
+
+				// String
+
+				writeString(this.project, dos);
+
+				// String
+
+				writeString(this.job, dos);
+
+				// String
+
+				writeString(this.job_repository_id, dos);
+
+				// String
+
+				writeString(this.job_version, dos);
+
+				// String
+
+				writeString(this.context, dos);
+
+				// String
+
+				writeString(this.origin, dos);
+
+				// String
+
+				writeString(this.message_type, dos);
+
+				// String
+
+				writeString(this.message, dos);
+
+				// Long
+
+				if (this.duration == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.duration);
+				}
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("moment=" + String.valueOf(moment));
+			sb.append(",pid=" + pid);
+			sb.append(",father_pid=" + father_pid);
+			sb.append(",root_pid=" + root_pid);
+			sb.append(",system_pid=" + String.valueOf(system_pid));
+			sb.append(",project=" + project);
+			sb.append(",job=" + job);
+			sb.append(",job_repository_id=" + job_repository_id);
+			sb.append(",job_version=" + job_version);
+			sb.append(",context=" + context);
+			sb.append(",origin=" + origin);
+			sb.append(",message_type=" + message_type);
+			sb.append(",message=" + message);
+			sb.append(",duration=" + String.valueOf(duration));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(AggregationsDebugStruct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class row8Struct implements
+			routines.system.IPersistableRow<row8Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[0];
+
+		public java.util.Date moment;
+
+		public java.util.Date getMoment() {
+			return this.moment;
+		}
+
+		public String pid;
+
+		public String getPid() {
+			return this.pid;
+		}
+
+		public String father_pid;
+
+		public String getFather_pid() {
+			return this.father_pid;
+		}
+
+		public String root_pid;
+
+		public String getRoot_pid() {
+			return this.root_pid;
+		}
+
+		public Long system_pid;
+
+		public Long getSystem_pid() {
+			return this.system_pid;
+		}
+
+		public String project;
+
+		public String getProject() {
+			return this.project;
+		}
+
+		public String job;
+
+		public String getJob() {
+			return this.job;
+		}
+
+		public String job_repository_id;
+
+		public String getJob_repository_id() {
+			return this.job_repository_id;
+		}
+
+		public String job_version;
+
+		public String getJob_version() {
+			return this.job_version;
+		}
+
+		public String context;
+
+		public String getContext() {
+			return this.context;
+		}
+
+		public String origin;
+
+		public String getOrigin() {
+			return this.origin;
+		}
+
+		public String message_type;
+
+		public String getMessage_type() {
+			return this.message_type;
+		}
+
+		public String message;
+
+		public String getMessage() {
+			return this.message;
+		}
+
+		public Long duration;
+
+		public Long getDuration() {
+			return this.duration;
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[2 * length];
+					}
+				}
+				dis.readFully(
+						commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob,
+						0, length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_SampleTimeKeepingJob,
+						0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_SampleTimeKeepingJob) {
+
+				try {
+
+					int length = 0;
+
+					this.moment = readDate(dis);
+
+					this.pid = readString(dis);
+
+					this.father_pid = readString(dis);
+
+					this.root_pid = readString(dis);
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.system_pid = null;
+					} else {
+						this.system_pid = dis.readLong();
+					}
+
+					this.project = readString(dis);
+
+					this.job = readString(dis);
+
+					this.job_repository_id = readString(dis);
+
+					this.job_version = readString(dis);
+
+					this.context = readString(dis);
+
+					this.origin = readString(dis);
+
+					this.message_type = readString(dis);
+
+					this.message = readString(dis);
+
+					length = dis.readByte();
+					if (length == -1) {
+						this.duration = null;
+					} else {
+						this.duration = dis.readLong();
+					}
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// java.util.Date
+
+				writeDate(this.moment, dos);
+
+				// String
+
+				writeString(this.pid, dos);
+
+				// String
+
+				writeString(this.father_pid, dos);
+
+				// String
+
+				writeString(this.root_pid, dos);
+
+				// Long
+
+				if (this.system_pid == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.system_pid);
+				}
+
+				// String
+
+				writeString(this.project, dos);
+
+				// String
+
+				writeString(this.job, dos);
+
+				// String
+
+				writeString(this.job_repository_id, dos);
+
+				// String
+
+				writeString(this.job_version, dos);
+
+				// String
+
+				writeString(this.context, dos);
+
+				// String
+
+				writeString(this.origin, dos);
+
+				// String
+
+				writeString(this.message_type, dos);
+
+				// String
+
+				writeString(this.message, dos);
+
+				// Long
+
+				if (this.duration == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.duration);
+				}
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("moment=" + String.valueOf(moment));
+			sb.append(",pid=" + pid);
+			sb.append(",father_pid=" + father_pid);
+			sb.append(",root_pid=" + root_pid);
+			sb.append(",system_pid=" + String.valueOf(system_pid));
+			sb.append(",project=" + project);
+			sb.append(",job=" + job);
+			sb.append(",job_repository_id=" + job_repository_id);
+			sb.append(",job_version=" + job_version);
+			sb.append(",context=" + context);
+			sb.append(",origin=" + origin);
+			sb.append(",message_type=" + message_type);
+			sb.append(",message=" + message);
+			sb.append(",duration=" + String.valueOf(duration));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row8Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tStatCatcher_1Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tStatCatcher_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row8Struct row8 = new row8Struct();
+				AggregationsDebugStruct AggregationsDebug = new AggregationsDebugStruct();
+				row9Struct row9 = new row9Struct();
+
+				/**
+				 * [tLogRow_1 begin ] start
+				 */
+
+				ok_Hash.put("tLogRow_1", false);
+				start_Hash.put("tLogRow_1", System.currentTimeMillis());
+
+				currentComponent = "tLogRow_1";
+
+				int tos_count_tLogRow_1 = 0;
+
+				// /////////////////////
+
+				final String OUTPUT_FIELD_SEPARATOR_tLogRow_1 = "|";
+				java.io.PrintStream consoleOut_tLogRow_1 = null;
+
+				StringBuilder strBuffer_tLogRow_1 = null;
+				int nb_line_tLogRow_1 = 0;
+				// /////////////////////
+
+				/**
+				 * [tLogRow_1 begin ] stop
+				 */
+
+				/**
+				 * [tFilterRow_1 begin ] start
+				 */
+
+				ok_Hash.put("tFilterRow_1", false);
+				start_Hash.put("tFilterRow_1", System.currentTimeMillis());
+
+				currentComponent = "tFilterRow_1";
+
+				int tos_count_tFilterRow_1 = 0;
+
+				int nb_line_tFilterRow_1 = 0;
+				int nb_line_ok_tFilterRow_1 = 0;
+				int nb_line_reject_tFilterRow_1 = 0;
+
+				class Operator_tFilterRow_1 {
+					private String sErrorMsg = "";
+					private boolean bMatchFlag = true;
+					private String sUnionFlag = "&&";
+
+					public Operator_tFilterRow_1(String unionFlag) {
+						sUnionFlag = unionFlag;
+						bMatchFlag = "||".equals(unionFlag) ? false : true;
+					}
+
+					public String getErrorMsg() {
+						if (sErrorMsg != null && sErrorMsg.length() > 1)
+							return sErrorMsg.substring(1);
+						else
+							return null;
+					}
+
+					public boolean getMatchFlag() {
+						return bMatchFlag;
+					}
+
+					public void matches(boolean partMatched, String reason) {
+						// no need to care about the next judgement
+						if ("||".equals(sUnionFlag) && bMatchFlag) {
+							return;
+						}
+
+						if (!partMatched) {
+							sErrorMsg += "|" + reason;
+						}
+
+						if ("||".equals(sUnionFlag))
+							bMatchFlag = bMatchFlag || partMatched;
+						else
+							bMatchFlag = bMatchFlag && partMatched;
+					}
+				}
+
+				/**
+				 * [tFilterRow_1 begin ] stop
+				 */
+
+				/**
+				 * [tMap_1 begin ] start
+				 */
+
+				ok_Hash.put("tMap_1", false);
+				start_Hash.put("tMap_1", System.currentTimeMillis());
+
+				currentComponent = "tMap_1";
+
+				int tos_count_tMap_1 = 0;
+
+				// ###############################
+				// # Lookup's keys initialization
+				// ###############################
+
+				// ###############################
+				// # Vars initialization
+				class Var__tMap_1__Struct {
+				}
+				Var__tMap_1__Struct Var__tMap_1 = new Var__tMap_1__Struct();
+				// ###############################
+
+				// ###############################
+				// # Outputs initialization
+				AggregationsDebugStruct AggregationsDebug_tmp = new AggregationsDebugStruct();
+				// ###############################
+
+				/**
+				 * [tMap_1 begin ] stop
+				 */
+
+				/**
+				 * [tStatCatcher_1 begin ] start
+				 */
+
+				ok_Hash.put("tStatCatcher_1", false);
+				start_Hash.put("tStatCatcher_1", System.currentTimeMillis());
+
+				currentComponent = "tStatCatcher_1";
+
+				int tos_count_tStatCatcher_1 = 0;
+
+				for (StatCatcherUtils.StatCatcherMessage scm : tStatCatcher_1
+						.getMessages()) {
+					row8.pid = pid;
+					row8.root_pid = rootPid;
+					row8.father_pid = fatherPid;
+					row8.project = projectName;
+					row8.job = jobName;
+					row8.context = contextStr;
+					row8.origin = (scm.getOrigin() == null
+							|| scm.getOrigin().length() < 1 ? null : scm
+							.getOrigin());
+					row8.message = scm.getMessage();
+					row8.duration = scm.getDuration();
+					row8.moment = scm.getMoment();
+					row8.message_type = scm.getMessageType();
+					row8.job_version = scm.getJobVersion();
+					row8.job_repository_id = scm.getJobId();
+					row8.system_pid = scm.getSystemPid();
+
+					/**
+					 * [tStatCatcher_1 begin ] stop
+					 */
+
+					/**
+					 * [tStatCatcher_1 main ] start
+					 */
+
+					currentComponent = "tStatCatcher_1";
+
+					tos_count_tStatCatcher_1++;
+
+					/**
+					 * [tStatCatcher_1 main ] stop
+					 */
+
+					/**
+					 * [tMap_1 main ] start
+					 */
+
+					currentComponent = "tMap_1";
+
+					boolean hasCasePrimitiveKeyWithNull_tMap_1 = false;
+
+					// ###############################
+					// # Input tables (lookups)
+					boolean rejectedInnerJoin_tMap_1 = false;
+					boolean mainRowRejected_tMap_1 = false;
+
+					// ###############################
+					{ // start of Var scope
+
+						// ###############################
+						// # Vars tables
+
+						Var__tMap_1__Struct Var = Var__tMap_1;// ###############################
+						// ###############################
+						// # Output tables
+
+						AggregationsDebug = null;
+
+						// # Output table : 'AggregationsDebug'
+						AggregationsDebug_tmp.moment = row8.moment;
+						AggregationsDebug_tmp.pid = row8.pid;
+						AggregationsDebug_tmp.father_pid = row8.father_pid;
+						AggregationsDebug_tmp.root_pid = row8.root_pid;
+						AggregationsDebug_tmp.system_pid = row8.system_pid;
+						AggregationsDebug_tmp.project = row8.project;
+						AggregationsDebug_tmp.job = row8.job;
+						AggregationsDebug_tmp.job_repository_id = row8.job_repository_id;
+						AggregationsDebug_tmp.job_version = row8.job_version;
+						AggregationsDebug_tmp.context = row8.context;
+						AggregationsDebug_tmp.origin = row8.origin;
+						AggregationsDebug_tmp.message_type = row8.message_type;
+						AggregationsDebug_tmp.message = row8.message;
+						AggregationsDebug_tmp.duration = row8.duration;
+						AggregationsDebug = AggregationsDebug_tmp;
+						// ###############################
+
+					} // end of Var scope
+
+					rejectedInnerJoin_tMap_1 = false;
+
+					tos_count_tMap_1++;
+
+					/**
+					 * [tMap_1 main ] stop
+					 */
+					// Start of branch "AggregationsDebug"
+					if (AggregationsDebug != null) {
+
+						/**
+						 * [tFilterRow_1 main ] start
+						 */
+
+						currentComponent = "tFilterRow_1";
+
+						row9 = null;
+						Operator_tFilterRow_1 ope_tFilterRow_1 = new Operator_tFilterRow_1(
+								"&&");
+						ope_tFilterRow_1.matches(
+								(// code sample : use AggregationsDebug to
+									// define the condition.
+								// AggregationsDebug.columnName1.equals("foo")
+								// ||!(AggregationsDebug.columnName2.equals("bar"))
+								// replace the following expression by your own
+								// filter condition
+								context.dwhAggregationDebug.equals("true")),
+								"advanced condition failed");
+
+						if (ope_tFilterRow_1.getMatchFlag()) {
+							if (row9 == null) {
+								row9 = new row9Struct();
+							}
+							row9.moment = AggregationsDebug.moment;
+							row9.pid = AggregationsDebug.pid;
+							row9.father_pid = AggregationsDebug.father_pid;
+							row9.root_pid = AggregationsDebug.root_pid;
+							row9.system_pid = AggregationsDebug.system_pid;
+							row9.project = AggregationsDebug.project;
+							row9.job = AggregationsDebug.job;
+							row9.job_repository_id = AggregationsDebug.job_repository_id;
+							row9.job_version = AggregationsDebug.job_version;
+							row9.context = AggregationsDebug.context;
+							row9.origin = AggregationsDebug.origin;
+							row9.message_type = AggregationsDebug.message_type;
+							row9.message = AggregationsDebug.message;
+							row9.duration = AggregationsDebug.duration;
+							nb_line_ok_tFilterRow_1++;
+						} else {
+							nb_line_reject_tFilterRow_1++;
+						}
+
+						nb_line_tFilterRow_1++;
+
+						tos_count_tFilterRow_1++;
+
+						/**
+						 * [tFilterRow_1 main ] stop
+						 */
+						// Start of branch "row9"
+						if (row9 != null) {
+
+							/**
+							 * [tLogRow_1 main ] start
+							 */
+
+							currentComponent = "tLogRow_1";
+
+							// /////////////////////
+
+							strBuffer_tLogRow_1 = new StringBuilder();
+
+							if (row9.moment != null) { //
+
+								strBuffer_tLogRow_1.append(FormatterUtils
+										.format_Date(row9.moment,
+												"yyyy-MM-dd HH:mm:ss"));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.pid != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.pid));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.father_pid != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.father_pid));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.root_pid != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.root_pid));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.system_pid != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.system_pid));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.project != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.project));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.job != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.job));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.job_repository_id != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.job_repository_id));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.job_version != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.job_version));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.context != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.context));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.origin != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.origin));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.message_type != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.message_type));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.message != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.message));
+
+							} //
+
+							strBuffer_tLogRow_1.append("|");
+
+							if (row9.duration != null) { //
+
+								strBuffer_tLogRow_1.append(String
+										.valueOf(row9.duration));
+
+							} //
+
+							if (globalMap.get("tLogRow_CONSOLE") != null) {
+								consoleOut_tLogRow_1 = (java.io.PrintStream) globalMap
+										.get("tLogRow_CONSOLE");
+							} else {
+								consoleOut_tLogRow_1 = new java.io.PrintStream(
+										new java.io.BufferedOutputStream(
+												System.out));
+								globalMap.put("tLogRow_CONSOLE",
+										consoleOut_tLogRow_1);
+							}
+
+							consoleOut_tLogRow_1.println(strBuffer_tLogRow_1
+									.toString());
+							consoleOut_tLogRow_1.flush();
+							nb_line_tLogRow_1++;
+							// ////
+
+							// ////
+
+							// /////////////////////
+
+							tos_count_tLogRow_1++;
+
+							/**
+							 * [tLogRow_1 main ] stop
+							 */
+
+						} // End of branch "row9"
+
+					} // End of branch "AggregationsDebug"
+
+					/**
+					 * [tStatCatcher_1 end ] start
+					 */
+
+					currentComponent = "tStatCatcher_1";
+
+				}
+
+				ok_Hash.put("tStatCatcher_1", true);
+				end_Hash.put("tStatCatcher_1", System.currentTimeMillis());
+
+				/**
+				 * [tStatCatcher_1 end ] stop
+				 */
+
+				/**
+				 * [tMap_1 end ] start
+				 */
+
+				currentComponent = "tMap_1";
+
+				// ###############################
+				// # Lookup hashes releasing
+				// ###############################
+
+				ok_Hash.put("tMap_1", true);
+				end_Hash.put("tMap_1", System.currentTimeMillis());
+
+				/**
+				 * [tMap_1 end ] stop
+				 */
+
+				/**
+				 * [tFilterRow_1 end ] start
+				 */
+
+				currentComponent = "tFilterRow_1";
+
+				globalMap.put("tFilterRow_1_NB_LINE", nb_line_tFilterRow_1);
+				globalMap.put("tFilterRow_1_NB_LINE_OK",
+						nb_line_ok_tFilterRow_1);
+				globalMap.put("tFilterRow_1_NB_LINE_REJECT",
+						nb_line_reject_tFilterRow_1);
+
+				ok_Hash.put("tFilterRow_1", true);
+				end_Hash.put("tFilterRow_1", System.currentTimeMillis());
+
+				/**
+				 * [tFilterRow_1 end ] stop
+				 */
+
+				/**
+				 * [tLogRow_1 end ] start
+				 */
+
+				currentComponent = "tLogRow_1";
+
+				// ////
+				// ////
+				globalMap.put("tLogRow_1_NB_LINE", nb_line_tLogRow_1);
+
+				// /////////////////////
+
+				ok_Hash.put("tLogRow_1", true);
+				end_Hash.put("tLogRow_1", System.currentTimeMillis());
+
+				/**
+				 * [tLogRow_1 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tStatCatcher_1 finally ] start
+				 */
+
+				currentComponent = "tStatCatcher_1";
+
+				/**
+				 * [tStatCatcher_1 finally ] stop
+				 */
+
+				/**
+				 * [tMap_1 finally ] start
+				 */
+
+				currentComponent = "tMap_1";
+
+				/**
+				 * [tMap_1 finally ] stop
+				 */
+
+				/**
+				 * [tFilterRow_1 finally ] start
+				 */
+
+				currentComponent = "tFilterRow_1";
+
+				/**
+				 * [tFilterRow_1 finally ] stop
+				 */
+
+				/**
+				 * [tLogRow_1 finally ] start
+				 */
+
+				currentComponent = "tLogRow_1";
+
+				/**
+				 * [tLogRow_1 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tStatCatcher_1_SUBPROCESS_STATE", 1);
+	}
+
 	public static class row_talendLogs_LOGSStruct implements
 			routines.system.IPersistableRow<row_talendLogs_LOGSStruct> {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_SampleTimeKeepingJob = new byte[0];
@@ -9371,6 +11076,8 @@ public class SampleTimeKeepingJob implements TalendJob {
 			if (!context_param.isEmpty()) {
 				context.putAll(context_param);
 			}
+			context.dwhAggregationDebug = (String) context
+					.getProperty("dwhAggregationDebug");
 			try {
 				String context_endTime_value = context.getProperty("endTime");
 				if (context_endTime_value == null) {
@@ -9599,6 +11306,10 @@ public class SampleTimeKeepingJob implements TalendJob {
 
 		// get context value from parent directly
 		if (parentContextMap != null && !parentContextMap.isEmpty()) {
+			if (parentContextMap.containsKey("dwhAggregationDebug")) {
+				context.dwhAggregationDebug = (String) parentContextMap
+						.get("dwhAggregationDebug");
+			}
 			if (parentContextMap.containsKey("endTime")) {
 				context.endTime = (java.util.Date) parentContextMap
 						.get("endTime");
@@ -9703,8 +11414,15 @@ public class SampleTimeKeepingJob implements TalendJob {
 		long end = 0;
 
 		startTime = System.currentTimeMillis();
+		tStatCatcher_1.addMessage("begin");
 
 		this.globalResumeTicket = true;// to run tPreJob
+
+		try {
+			tStatCatcher_1Process(globalMap);
+		} catch (java.lang.Exception e) {
+			e.printStackTrace();
+		}
 
 		this.globalResumeTicket = false;// to run others jobs
 
@@ -9789,6 +11507,13 @@ public class SampleTimeKeepingJob implements TalendJob {
 			System.out
 					.println((endUsedMemory - startUsedMemory)
 							+ " bytes memory increase when running : SampleTimeKeepingJob");
+		}
+		tStatCatcher_1.addMessage(status == "" ? "end" : status,
+				(end - startTime));
+		try {
+			tStatCatcher_1Process(globalMap);
+		} catch (java.lang.Exception e) {
+			e.printStackTrace();
 		}
 
 		int returnCode = 0;
@@ -9935,6 +11660,6 @@ public class SampleTimeKeepingJob implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 268323 characters generated by Talend Open Studio for Data Integration on the
- * June 1, 2015 2:26:07 PM IDT
+ * 310732 characters generated by Talend Open Studio for Data Integration on the
+ * March 8, 2016 9:17:34 PM IST
  ************************************************************************************************/

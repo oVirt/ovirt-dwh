@@ -22,3 +22,5 @@ dwhUuid=@DWH_UUID@
 deleteMultiplier=@DWH_DELETE_MULTIPLIER@
 limitRows=@DWH_LIMIT_ROWS@
 deleteIncrement=@DWH_DELETE_INCREMENT@
+
+dwhAggregationDebug=@DWH_AGGREGATION_DEBUG@
