@@ -25,14 +25,14 @@ public class TalendString {
 
     /**
      * return Replace the special character(e.g. <,>,& etc) within a string for XML file.
-     * 
-     * 
+     *
+     *
      * {talendTypes} String
-     * 
+     *
      * {Category} TalendString
-     * 
+     *
      * {param} string("") input: The string with the special character(s) need to be replaced.
-     * 
+     *
      * {example} replaceSpecialCharForXML("<title>Empire <>Burlesque</title>") # <title>Empire &lt;&gt;Burlesque</title>
      */
     public static String replaceSpecialCharForXML(String input) {
@@ -45,7 +45,13 @@ public class TalendString {
     }
 
     /**
-     * 
+     * check CDATA for xml
+     *
+     * {talendTypes} String
+     *
+     * {Category} TalendString
+     *
+     * {param} string("") input: the CDATA format data to be checked.
      */
     public static String checkCDATAForXML(String input) {
         if (input.startsWith("<![CDATA[") && input.endsWith("]]>")) { //$NON-NLS-1$ //$NON-NLS-2$
@@ -57,14 +63,14 @@ public class TalendString {
 
     /**
      * getAsciiRandomString : Return a randomly generated String
-     * 
-     * 
+     *
+     *
      * {talendTypes} String
-     * 
+     *
      * {Category} TalendString
-     * 
+     *
      * {param} int(6) length: length of the String to return
-     * 
+     *
      * {example} getAsciiRandomString(6) # Art34Z
      */
     public static String getAsciiRandomString(int length) {
@@ -86,20 +92,20 @@ public class TalendString {
 
     /**
      * talendTrim: Returns a copy of the string, with leading and trailing specified char omitted.
-     * 
-     * 
+     *
+     *
      * {talendTypes} String
-     * 
+     *
      * {Category} TalendString
-     * 
+     *
      * {param} string("") origin: The original string need to be trimed.
-     * 
+     *
      * {param} char(' ') padding_char: The padding char for triming.
-     * 
+     *
      * {param} int(0) align: The alignment of the content in the original string. Positive int for right, negative int
      * for left and zero for center. Positive integer to trim the left part, zero to trim both the left and the right part, negative to trim the right part.
-     * 
-     * 
+     *
+     *
      * {example} talendTrim("$$talend open studio$$$$", '$', 0) # talend open studio
      */
     public static String talendTrim(String origin, char padding_char, int align) {
@@ -256,15 +262,15 @@ public class TalendString {
 
     /**
      * removeAccents: remove accents from the string given.
-     * 
-     * 
+     *
+     *
      * {talendTypes} String
-     * 
+     *
      * {Category} TalendString
-     * 
+     *
      * {param} string("") text: Text to remove accents.
-     * 
-     * 
+     *
+     *
      * {example} removeAccents("Accès à la base")
      */
     public static String removeAccents(String text) {
@@ -283,15 +289,15 @@ public class TalendString {
     }
     /**
      * unionString: Union the variable number of arguments with separator String
-     * 
+     *
      * @param separator union arguments .
      * @param objects  variable number of arguments.
      * @return A union string.
-     * 
+     *
      * {talendTypes} String
-     * 
+     *
      * {Category} TalendString
-     * 
+     *
      */
     public static String unionString(String separator,Object... objects){
     	if(objects!=null){

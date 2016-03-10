@@ -365,6 +365,7 @@
     </elementParameter>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="false"/>
     <metadata connector="FLOW" name="tLogRow_2">
       <column comment="" key="false" name="time" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" name="message" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
@@ -430,6 +431,7 @@
     </elementParameter>
     <elementParameter field="TEXT" name="SCHEMA_OPT_NUM" value="100"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="PRINT_CONTENT_WITH_LOG4J" value="false"/>
     <metadata connector="FLOW" name="tLogRow_1">
       <column comment="" key="false" name="time" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" name="message" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
@@ -563,6 +565,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="audit_log" name="tJDBCOutput_2">
       <column comment="" key="false" length="35" name="log_time" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" defaultValue="::character varying" key="false" length="100" name="log_type_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -686,6 +689,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="audit_log" name="tJDBCOutput_3">
       <column comment="" key="false" length="35" name="log_time" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" defaultValue="::character varying" key="false" length="100" name="log_type_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -831,6 +835,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="audit_log" name="tJDBCOutput_1">
       <column comment="" key="false" length="35" name="log_time" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" defaultValue="::character varying" key="false" length="100" name="log_type_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -942,6 +947,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" name="tJDBCOutput_5">
       <column comment="" key="true" name="var_name" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" name="var_value" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
@@ -1009,6 +1015,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" name="tJDBCOutput_6">
       <column comment="" key="true" name="var_name" nullable="false" pattern="&quot;dd-MM-yyyy&quot;" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" name="var_value" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>

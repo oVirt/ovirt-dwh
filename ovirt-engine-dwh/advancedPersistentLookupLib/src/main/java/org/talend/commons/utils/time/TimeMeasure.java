@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2010 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2014 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -12,12 +12,17 @@
 // ============================================================================
 package org.talend.commons.utils.time;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Timer to measure elapsed time of any process or between steps.
  * 
- * $Id: TimeMeasure.java 46952 2010-08-18 08:41:09Z nrousseau $
+ * $Id$
  * 
  */
 public class TimeMeasure {
@@ -30,14 +35,25 @@ public class TimeMeasure {
     /**
      * measureActive is true by default. A true value means that all methods calls are processed else no one.
      */
-    public static boolean measureActive = true;
+    public static boolean measureActive = false;
 
     /**
      * display is true by default. A true value means that all informations are displayed.
      */
-    public static boolean display = true;
+    public static boolean display = false;
 
-    public static boolean displaySteps = true;
+    public static boolean displaySteps = false;
+
+    public static boolean isLogToFile = false;
+
+    public static boolean printMemoryUsed = false;
+
+    public static ITimeMeasureLogger logger;
+
+    public static String logFilePath;
+
+    // key represent the idTimer,value map represent the log rows.
+    private static Map<String, List<Map<Integer, Object>>> logValue = new HashMap<String, List<Map<Integer, Object>>>();
 
     /**
      * 
@@ -91,9 +107,24 @@ public class TimeMeasure {
             }
             long totalElapsedTime = timeStack.getTotalElapsedTime();
             if (display) {
-                System.out.println(indent(indent) + "End '" + idTimer + "', total elapsed time: " + totalElapsedTime + " ms "); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
+                if (printMemoryUsed) {
+                    // GC must be forced when check memory, or we can't mesure the difference
+                    Runtime.getRuntime().gc();
+                    long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+                    System.out.println(indent(indent)
+                            + "End '" + idTimer + "', total elapsed time: " + totalElapsedTime + " ms, " //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
+                            + " current memory [" + usedMemory + "] bytes"); //$NON-NLS-1$  //$NON-NLS-2$
+                } else {
+                    System.out
+                            .println(indent(indent) + "End '" + idTimer + "', total elapsed time: " + totalElapsedTime + " ms "); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
+                }
             }
             indent--;
+            if (isLogToFile && logger != null) {
+                logger.logToFile(logValue, logFilePath);
+                logValue.clear();
+            }
             return totalElapsedTime;
         }
     }
@@ -118,7 +149,16 @@ public class TimeMeasure {
         } else {
             long time = timers.get(idTimer).getTotalElapsedTime();
             if (display) {
-                System.out.println(indent(indent) + "-> '" + idTimer + "', elapsed time since start: " + time + " ms "); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
+                if (printMemoryUsed) {
+                    // GC must be forced when check memory, or we can't mesure the difference
+                    Runtime.getRuntime().gc();
+                    long usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+
+                    System.out.println(indent(indent) + "-> '" + idTimer + "', elapsed time since start: " + time + " ms," //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
+                            + " current memory [" + usedMemory + "] bytes"); //$NON-NLS-1$  //$NON-NLS-2$
+                } else {
+                    System.out.println(indent(indent) + "-> '" + idTimer + "', elapsed time since start: " + time + " ms "); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
+                }
             }
             return time;
         }
@@ -144,10 +184,70 @@ public class TimeMeasure {
         } else {
             TimeStack timeStack = timers.get(idTimer);
             timeStack.addStep();
+            /*
+             * trace the timeline of every step,problem is that the code below " Calendar ca = Calendar.getInstance();
+             * Date now = ca.getTime();" will cost almost 13ms~15ms
+             */
+            Calendar ca = Calendar.getInstance();
+            Date now = ca.getTime();
             long time = timeStack.getLastStepElapsedTime();
             if (display && displaySteps) {
-                System.out.println(indent(indent) + "-> '" + idTimer + "', step name '" + stepName //$NON-NLS-1$  //$NON-NLS-2$
-                        + "', elapsed time since previous step: " + time + " ms "); //$NON-NLS-1$  //$NON-NLS-2$
+                long usedMemory = 0;
+                if (printMemoryUsed) {
+                    // GC must be forced when check memory, or we can't mesure the difference
+                    Runtime.getRuntime().gc();
+                    usedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+                }
+                String timerStepName = idTimer + "', step name '" + stepName; //$NON-NLS-1$
+                if (printMemoryUsed) {
+                    System.out.println(indent(indent)
+                            + "-> '" + timerStepName + "', elapsed time since previous step: " + time + " ms," + //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
+                            " current memory [" + usedMemory + "] bytes"); //$NON-NLS-1$  //$NON-NLS-2$
+                } else {
+                    System.out.println(indent(indent)
+                            + "-> '" + timerStepName + "', elapsed time since previous step: " + time + " ms"); //$NON-NLS-1$  //$NON-NLS-2$  //$NON-NLS-3$
+                }
+                if (isLogToFile) {
+                    boolean foundTimerKey = false;
+                    for (String keyTimer : logValue.keySet()) {
+                        if (keyTimer.equals(idTimer)) {
+                            /* rows */
+                            List<Map<Integer, Object>> values = logValue.get(keyTimer);
+                            if (values != null) {
+                                Map<Integer, Object> newRowValue = new HashMap<Integer, Object>();
+                                // step
+                                newRowValue.put(ELogFileColumnConstant.STEP.locationY, timerStepName);
+                                // timeused
+                                newRowValue.put(ELogFileColumnConstant.TIME_USED.locationY, time);
+                                // memory used
+                                if (printMemoryUsed) {
+                                    newRowValue.put(ELogFileColumnConstant.MEMO_USED.locationY, usedMemory);
+                                }
+                                // current time
+                                newRowValue.put(ELogFileColumnConstant.TIMETRACE.locationY, now);
+                                values.add(newRowValue);
+                            }
+                            foundTimerKey = true;
+                            break;
+                        }
+                    }
+                    if (!foundTimerKey) {
+                        List<Map<Integer, Object>> newvalues = new ArrayList<Map<Integer, Object>>();
+                        Map<Integer, Object> newRowValue = new HashMap<Integer, Object>();
+                        // step
+                        newRowValue.put(ELogFileColumnConstant.STEP.locationY, timerStepName);
+                        // timeused
+                        newRowValue.put(ELogFileColumnConstant.TIME_USED.locationY, time);
+                        // memory used
+                        if (printMemoryUsed) {
+                            newRowValue.put(ELogFileColumnConstant.MEMO_USED.locationY, usedMemory);
+                        }
+                        // current time
+                        newRowValue.put(ELogFileColumnConstant.TIMETRACE.locationY, now);
+                        newvalues.add(newRowValue);
+                        logValue.put(idTimer, newvalues);
+                    }
+                }
             }
             return time;
         }
@@ -168,6 +268,7 @@ public class TimeMeasure {
             // long time = times.getElapsedTimeSinceLastRequest();
             time.pause();
             if (display) {
+                // do nothing... yet
             }
         }
     }
@@ -185,9 +286,10 @@ public class TimeMeasure {
             return;
         } else {
             TimeStack times = timers.get(idTimer);
-            long time = times.getLastStepElapsedTime();
+            // long time = times.getLastStepElapsedTime();
             times.resume();
             if (display) {
+                // do nothing... yet
             }
         }
     }
@@ -209,6 +311,29 @@ public class TimeMeasure {
         return stringBuilder.toString();
     }
 
+    /* this enum define the attributes of columns in a log file */
+    public enum ELogFileColumnConstant {
+
+        TITLE(0, 0, "Welcome to CommandLine performance test"), //$NON-NLS-1$
+        STEP(0, 1, "Step"), //$NON-NLS-1$
+        TIME_USED(1, 1, "TimeUsed(ms)"), //$NON-NLS-1$
+        MEMO_USED(2, 1, "memoryUsed(bytes)"), //$NON-NLS-1$
+        TIMETRACE(3, 1, "timeLine"); //$NON-NLS-1$
+
+        public int locationY;
+
+        public int locationX;
+
+        public String label;
+
+        private ELogFileColumnConstant(int locationY, int locationX, String label) {
+            this.locationY = locationY;
+            this.locationX = locationX;
+            this.label = label;
+        }
+    }
+
+    /* right now main() can't log to file,if want to test log file,run application CommandLineTestApplication */
     public static void main(String[] args) {
         try {
             TimeMeasure.begin("a"); //$NON-NLS-1$

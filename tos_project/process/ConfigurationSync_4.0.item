@@ -316,6 +316,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="cluster_configuration" name="tJDBCOutput_1">
       <column comment="" key="false" length="16" name="cluster_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="cluster_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -555,6 +556,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="datacenter_configuration" name="tJDBCOutput_2">
       <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="datacenter_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -732,6 +734,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="storage_domain_configuration" name="tJDBCOutput_3">
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="250" name="storage_domain_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -1124,6 +1127,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="host_configuration" name="tJDBCOutput_4">
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="128" name="host_unique_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -1483,6 +1487,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="host_interface_configuration" name="tJDBCOutput_5">
       <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="host_interface_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -2013,6 +2018,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_configuration" name="tJDBCOutput_6">
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vm_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -2296,6 +2302,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_configuration" name="tJDBCOutput_7">
       <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -2573,6 +2580,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_interface_configuration" name="tJDBCOutput_8">
       <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="vm_interface_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -2807,6 +2815,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="datacenter_configuration" name="tJDBCOutput_14">
       <column comment="" key="false" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="datacenter_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -3066,6 +3075,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="cluster_configuration" name="tJDBCOutput_15">
       <column comment="" key="false" length="16" name="cluster_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="cluster_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -3298,6 +3308,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="storage_domain_configuration" name="tJDBCOutput_16">
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="250" name="storage_domain_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -3732,6 +3743,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="host_configuration" name="tJDBCOutput_17">
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="128" name="host_unique_id" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -4094,6 +4106,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="host_interface_configuration" name="tJDBCOutput_18">
       <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="host_interface_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -4546,6 +4559,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_configuration" name="tJDBCOutput_19">
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vm_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -4875,6 +4889,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_configuration" name="tJDBCOutput_20">
       <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -5145,6 +5160,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_interface_configuration" name="tJDBCOutput_21">
       <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="vm_interface_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -5344,6 +5360,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="disks_vm_map" name="tJDBCOutput_23">
       <column comment="" key="true" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="true" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -5535,6 +5552,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="disks_vm_map" name="tJDBCOutput_24">
       <column comment="" key="true" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="true" length="16" name="datacenter_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -5702,6 +5720,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="tag_relations_history" name="tJDBCOutput_26">
       <column comment="" key="false" length="16" name="entity_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="entity_type" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -5953,6 +5972,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="tag_relations_history" name="tJDBCOutput_27">
       <column comment="" key="true" length="16" name="entity_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="entity_type" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -6177,6 +6197,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="tag_details" name="tJDBCOutput_28">
       <column comment="" key="false" length="16" name="tag_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="tag_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -6452,6 +6473,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="tag_details" name="tJDBCOutput_29">
       <column comment="" key="false" length="16" name="tag_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="tag_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -6603,6 +6625,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="history_configuration" name="tJDBCOutput_30">
       <column comment="" key="true" length="50" name="var_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="var_value" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -6660,6 +6683,7 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="dwh_history_timekeeping" name="tJDBCOutput_33">
       <column comment="" key="true" length="50" name="var_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="var_value" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -6932,6 +6956,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_device" name="tJDBCOutput_32">
       <column comment="" key="true" length="2147483647" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="true" length="2147483647" name="device_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -7133,6 +7158,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="disks_vm_map" name="tJDBCOutput_35">
       <column comment="" key="false" length="16" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -7366,6 +7392,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="disks_vm_map" name="tJDBCOutput_36">
       <column comment="" key="true" length="16" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="true" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -7605,6 +7632,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_device" name="tJDBCOutput_31">
       <column comment="" key="false" length="2147483647" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="device_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -7969,6 +7997,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" name="tJDBCOutput_9">
       <column comment="" key="true" length="16" name="user_id" nullable="false" pattern="" sourceType="" type="id_Object" originalLength="16" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="first_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -8266,6 +8295,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" name="tJDBCOutput_10">
       <column comment="" key="true" length="16" name="user_id" nullable="false" pattern="" sourceType="" type="id_Object" originalLength="36" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="first_name" nullable="true" pattern="" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>

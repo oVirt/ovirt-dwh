@@ -189,6 +189,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCOutput_1">
       <column comment="" defaultValue="&quot;nextval('datacenter_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -266,6 +267,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="host_hourly_history" name="tJDBCOutput_2">
       <column comment="" defaultValue="&quot;nextval('host_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -343,6 +345,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tJDBCOutput_3">
       <column comment="" defaultValue="&quot;nextval('host_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -420,6 +423,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tJDBCOutput_4">
       <column comment="" defaultValue="&quot;nextval('vm_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -497,6 +501,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_5">
       <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -574,6 +579,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCOutput_6">
       <column comment="" defaultValue="&quot;nextval('datacenter_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -651,6 +657,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="host_hourly_history" name="tJDBCOutput_7">
       <column comment="" defaultValue="&quot;nextval('host_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -728,6 +735,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tJDBCOutput_8">
       <column comment="" defaultValue="&quot;nextval('host_interface_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -805,6 +813,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tJDBCOutput_9">
       <column comment="" defaultValue="&quot;nextval('vm_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -882,6 +891,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_10">
       <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -959,6 +969,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCOutput_11">
       <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1036,6 +1047,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCOutput_12">
       <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1113,6 +1125,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_13">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1190,6 +1203,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_14">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1267,6 +1281,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="datacenter_daily_history" name="tJDBCOutput_15">
       <column comment="" defaultValue="&quot;nextval('datacenter_history_seq3'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
@@ -1344,6 +1359,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="storage_domain_hourly_history" name="tJDBCOutput_16">
       <column comment="" defaultValue="&quot;nextval('storage_domain_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1421,6 +1437,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="host_hourly_history" name="tJDBCOutput_17">
       <column comment="" defaultValue="&quot;nextval('host_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1498,6 +1515,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tJDBCOutput_18">
       <column comment="" defaultValue="&quot;nextval('host_interface_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1575,6 +1593,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_hourly_history" name="tJDBCOutput_19">
       <column comment="" defaultValue="&quot;nextval('vm_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1652,6 +1671,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_20">
       <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1729,6 +1749,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_21">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1811,6 +1832,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_22">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1888,6 +1910,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_23">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -1965,6 +1988,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_24">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -2042,6 +2066,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_25">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>
@@ -2119,6 +2144,7 @@
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true"/>
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="vm_disk_hourly_history" name="tJDBCOutput_26">
       <column comment="" defaultValue="&quot;nextval('vm_disk_history_seq2'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
     </metadata>

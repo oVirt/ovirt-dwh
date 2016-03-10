@@ -195,6 +195,7 @@
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="host_configuration" name="tJDBCOutput_1">
       <column comment="" key="true" name="enum_type" nullable="true" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="true" name="enum_key" nullable="true" pattern="" sourceType="" type="id_Short" usefulColumn="true"/>
@@ -381,6 +382,7 @@
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" label="dwh_history_timekeeping" name="tJDBCOutput_2">
       <column comment="" key="true" length="50" name="var_name" nullable="false" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="35" name="var_datetime" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="DATETIME" type="id_Date" usefulColumn="true"/>
@@ -453,6 +455,7 @@
     <elementParameter field="CHECK" name="INFORMATION" value="false"/>
     <elementParameter field="MEMO" name="COMMENT" value=""/>
     <elementParameter field="CHECK" name="VALIDATION_RULES" value="false"/>
+    <elementParameter field="CHECK" name="USE_BATCH_AND_USE_CONN" value="false"/>
     <metadata connector="FLOW" name="tJDBCOutput_3">
       <column comment="" key="true" name="enum_type" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="true" name="language_code" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>

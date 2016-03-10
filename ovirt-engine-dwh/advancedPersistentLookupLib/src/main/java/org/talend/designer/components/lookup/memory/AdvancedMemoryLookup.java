@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2011 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2015 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -65,8 +65,7 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
      * 
      * <code>AdvancedLookup</code> can be configured to store values in different modes.
      * 
-     * @param useHashKeys use <code>equals()</code> and <code>hashCode()</code> methods by storing objects in hash
-     * maps
+     * @param useHashKeys use <code>equals()</code> and <code>hashCode()</code> methods by storing objects in hash maps
      * @param matchingMode to optimize storing and searching, and to specify which matching mode should used
      * @param uniqueMatch keep in the lookup only the last put object, but store the current number of same values for
      * each key
@@ -275,6 +274,16 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
         return hasResult;
     }
 
+    public boolean isEmpty() {
+        if (matchingMode == MATCHING_MODE.UNIQUE_MATCH && !keepAllValues) {
+            return uniqueHash.isEmpty();
+        } else if (matchingMode == MATCHING_MODE.ALL_ROWS) {
+            return list.isEmpty();
+        } else {
+            return mapOfCol.isEmpty();
+        }
+    }
+
     /**
      * Getter for hasHashKeys.
      * 
@@ -359,6 +368,7 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
 
     /**
      * Getter for matchingMode.
+     * 
      * @return the matchingMode
      */
     public MATCHING_MODE getMatchingMode() {
@@ -369,28 +379,27 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
-    
+
     /**
-     * Getter for id_Document lookup(for tXMLMap)
-     * Purpose : Get all value data storing in the lookup Object 
-     * Use case : When no basic lookup(not Document lookup) exists,but Document lookup exists
-     * for ALL,First Matching(When no basic lookup,not override the hashCode(),equals() method,so no List<V> value,only V value)
-     */ 
+     * Getter for id_Document lookup(for tXMLMap) Purpose : Get all value data storing in the lookup Object Use case :
+     * When no basic lookup(not Document lookup) exists,but Document lookup exists for ALL,First Matching(When no basic
+     * lookup,not override the hashCode(),equals() method,so no List<V> value,only V value)
+     */
     public void lookup() {
-    	List<V> localList = new ArrayList<V>();
-    	if(matchingMode == MATCHING_MODE.UNIQUE_MATCH) {
-    		for(V value : uniqueHash.values()) {
-    			localList.add(value);
-    		}
-    	} else {
-    		for(Object value : mapOfCol.values()) {
-    			localList.add((V)value);
-    		}
-    	}
-    	listResult = localList;
-		sizeResultList = localList.size();
-		objectResult = null;
-		currentIndex = 0;
+        List<V> localList = new ArrayList<V>();
+        if (matchingMode == MATCHING_MODE.UNIQUE_MATCH) {
+            for (V value : uniqueHash.values()) {
+                localList.add(value);
+            }
+        } else {
+            for (Object value : mapOfCol.values()) {
+                localList.add((V) value);
+            }
+        }
+        listResult = localList;
+        sizeResultList = localList.size();
+        objectResult = null;
+        currentIndex = 0;
     }
 
 }

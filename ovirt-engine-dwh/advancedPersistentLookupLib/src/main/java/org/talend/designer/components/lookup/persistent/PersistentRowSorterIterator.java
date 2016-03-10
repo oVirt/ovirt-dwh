@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2010 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2015 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.talend.commons.exception.ExceptionHandler;
 import org.talend.designer.components.persistent.utils.FileUtils;
 
 import routines.system.IPersistableRow;
@@ -116,14 +115,12 @@ public abstract class PersistentRowSorterIterator<V extends IPersistableRow> imp
             try {
                 this.objectInputStream.close();
             } catch (IOException e) {
-                // e.printStackTrace();
-                ExceptionHandler.process(e);
+                e.printStackTrace();
             }
             try {
                 this.bufferedInputStream.close();
             } catch (IOException e) {
-                // e.printStackTrace();
-                ExceptionHandler.process(e);
+                e.printStackTrace();
             }
         }
     }
@@ -177,7 +174,8 @@ public abstract class PersistentRowSorterIterator<V extends IPersistableRow> imp
                     } else {
                         bufferMarkLimit = (int) v10P;
                     }
-                    // System.out.println("Buffer marked at index (1-Row) " + bufferMarkLimit);
+                    System.out
+                            .println("Warning: to avoid a Memory heap space error the buffer of the flow has been limited to a size of " + bufferMarkLimit + " , try to reduce the advanced parameter \"Max buffer size\" (~100000 or at least less than " + bufferMarkLimit + "), then if needed try to increase the JVM Xmx parameter."); //$NON-NLS-1$
                     bufferIsMarked = true;
                 }
             }

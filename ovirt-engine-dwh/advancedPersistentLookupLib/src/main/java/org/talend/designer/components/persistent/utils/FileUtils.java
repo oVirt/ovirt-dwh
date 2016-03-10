@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2010 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2015 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -25,7 +25,7 @@ public final class FileUtils {
         super();
     }
 
-    public static void createParentFolderIfNotExists(String filePath) throws IOException {
+    public static synchronized void createParentFolderIfNotExists(String filePath) throws IOException {
 
         File file = new File(filePath);
         File parentFile = file.getParentFile();
