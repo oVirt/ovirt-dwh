@@ -18,18 +18,6 @@ dbfunc_common_hook_init_insert_data() {
 }
 
 dbfunc_common_hook_views_refresh() {
-	echo "Creating views API 3.0..."
-	dbfunc_psql_die --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_3_0.sql" > /dev/null
-	echo "Creating views API 3.1..."
-	dbfunc_psql_die --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_3_1.sql" > /dev/null
-	echo "Creating views API 3.2..."
-	dbfunc_psql_die --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_3_2.sql" > /dev/null
-	echo "Creating views API 3.3..."
-	dbfunc_psql_die --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_3_3.sql" > /dev/null
-	echo "Creating views API 3.4..."
-	dbfunc_psql_die --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_3_4.sql" > /dev/null
-	echo "Creating views API 3.5..."
-	dbfunc_psql_die --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_3_5.sql" > /dev/null
 	echo "Creating views API 3.6..."
 	dbfunc_psql_die --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_3_6.sql" > /dev/null
 	echo "Creating views API 4.0..."
