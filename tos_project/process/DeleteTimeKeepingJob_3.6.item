@@ -15,6 +15,7 @@
     <contextParameter comment="Enter the ovirt engine history admin database user." name="ovirtEngineHistoryDbUser" prompt="Enter the ovirt engine history admin database user." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="postgres"/>
     <contextParameter comment="Enter the time to run the delete job. Can only run on round hour 24 hours clock." name="runDeleteTime" prompt="runDeleteTime?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="3"/>
     <contextParameter comment="Start run time." name="runTime" prompt="runTime?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Date" value="yyyy-MM-dd HH:mm:ss.SSSSSS;2011-07-03 12:46:47.000000"/>
+    <contextParameter comment="" name="timesDeleteRun" prompt="timesDeleteRun?" promptNeeded="false" type="id_Integer" value="1"/>
   </context>
   <parameters>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="224"/>
@@ -272,7 +273,7 @@
       <column defaultValue="" key="false" length="255" name="value" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tPostjob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-32" posY="320">
+  <node componentName="tPostjob" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="-160" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_2"/>
     <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
@@ -655,7 +656,7 @@
       <column defaultValue="" key="false" length="255" name="value" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="288" posY="320">
+  <node componentName="tJava" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="416" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJava_1"/>
     <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="MEMO_JAVA" name="CODE" value="if (context.deleteMore == 0) {&#xA;&#x9;Thread.sleep((Long)TalendDate.diffDate(TalendDate.addDate(TalendDate.addDate(RoutineHistoryETL.startOfDay(context.runTime),1,&quot;dd&quot;),context.runDeleteTime,&quot;HH&quot;),context.runTime,&quot;SSS&quot;));&#xA;} else {&#xA;    Thread.sleep(5000);&#xA;}"/>
@@ -823,7 +824,7 @@
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="128" posY="320">
+  <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="0" posY="320">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_10"/>
     <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
@@ -862,7 +863,7 @@
       <column comment="" key="false" length="35" name="value" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="DATETIME" type="id_Date" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tContextLoad" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="128" posY="416">
+  <node componentName="tContextLoad" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="0" posY="416">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tContextLoad_10"/>
     <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
     <elementParameter field="CLOSED_LIST" name="LOAD_NEW_VARIABLE" value="Warning"/>
@@ -877,6 +878,40 @@
       <column defaultValue="" key="false" length="255" name="key" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="35" name="value" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="DATETIME" type="id_Date" usefulColumn="true"/>
     </metadata>
+  </node>
+  <node componentName="tRowGenerator" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="160" posY="320">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRowGenerator_1"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
+    <elementParameter field="TEXT" name="NB_ROWS" value="1"/>
+    <elementParameter field="TABLE" name="VALUES">
+      <elementValue elementRef="SCHEMA_COLUMN" value="key"/>
+      <elementValue elementRef="ARRAY" value="&quot;timesDeleteRun&quot; "/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="value"/>
+      <elementValue elementRef="ARRAY" value="context.deleteMore == 1 ? Integer.toString(context.timesDeleteRun+1) : &quot;1&quot; "/>
+    </elementParameter>
+    <elementParameter field="EXTERNAL" name="MAP" value=""/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tRowGenerator_1">
+      <column comment="" key="true" name="key" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" name="value" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tBufferOutput" componentVersion="0.101" offsetLabelX="0" offsetLabelY="0" posX="160" posY="416">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tBufferOutput_2"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tBufferOutput_2">
+      <column comment="" key="true" name="key" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
+      <column comment="" key="false" name="value" nullable="false" pattern="" sourceType="" type="id_String" usefulColumn="true"/>
+    </metadata>
+  </node>
+  <node componentName="tJDBCCommit" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="288" posY="320">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCCommit_2"/>
+    <elementParameter field="DIRECTORY" name="JAVA_LIBRARY_PATH" value="/usr/local/bin/TOS_DI-20141207_1530-V5.6.1/configuration/lib/java"/>
+    <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
+    <elementParameter field="CHECK" name="CLOSE" value="false"/>
+    <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
+    <metadata connector="FLOW" name="tJDBCCommit_2"/>
   </node>
   <connection connectorName="COMPONENT_OK" label="OnComponentOk" lineStyle="3" metaname="tJDBCConnection_1" offsetLabelX="0" offsetLabelY="0" source="tJDBCConnection_1" target="tJDBCInput_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnComponentOk1"/>
@@ -1157,8 +1192,26 @@
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row11"/>
   </connection>
-  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tJDBCInput_10" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_10" target="tJava_1">
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tJDBCInput_10" offsetLabelX="0" offsetLabelY="0" source="tJDBCInput_10" target="tRowGenerator_1">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk14"/>
+  </connection>
+  <connection connectorName="FLOW" label="row12" lineStyle="0" metaname="tRowGenerator_1" offsetLabelX="0" offsetLabelY="0" source="tRowGenerator_1" target="tBufferOutput_2">
+    <elementParameter field="TABLE" name="TRACES_CONNECTION_FILTER">
+      <elementValue elementRef="TRACE_COLUMN" value="key"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="value"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+    </elementParameter>
+    <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="row12"/>
+  </connection>
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tRowGenerator_1" offsetLabelX="0" offsetLabelY="0" source="tRowGenerator_1" target="tJDBCCommit_2">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk16"/>
+  </connection>
+  <connection connectorName="SUBJOB_OK" label="OnSubjobOk" lineStyle="1" metaname="tJDBCCommit_2" offsetLabelX="0" offsetLabelY="0" source="tJDBCCommit_2" target="tJava_1">
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="OnSubjobOk17"/>
   </connection>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCConnection_1"/>
@@ -1248,6 +1301,16 @@
   </subjob>
   <subjob>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_10"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tRowGenerator_1"/>
+    <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
+    <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
+  </subjob>
+  <subjob>
+    <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCCommit_2"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="160;190;240"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
   </subjob>
