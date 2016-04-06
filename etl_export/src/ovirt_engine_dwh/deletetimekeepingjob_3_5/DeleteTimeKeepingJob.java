@@ -201,6 +201,12 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 			}
 
+			if (timesDeleteRun != null) {
+
+				this.setProperty("timesDeleteRun", timesDeleteRun.toString());
+
+			}
+
 		}
 
 		public Integer deleteMore;
@@ -285,6 +291,12 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 		public java.util.Date getRunTime() {
 			return this.runTime;
+		}
+
+		public Integer timesDeleteRun;
+
+		public Integer getTimesDeleteRun() {
+			return this.timesDeleteRun;
 		}
 	}
 
@@ -490,6 +502,36 @@ public class DeleteTimeKeepingJob implements TalendJob {
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
 		tJDBCInput_10_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tRowGenerator_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tRowGenerator_1", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tRowGenerator_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tBufferOutput_1_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tBufferOutput_1", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tRowGenerator_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCCommit_2_error(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		end_Hash.put("tJDBCCommit_2", System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCCommit_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tJava_1_error(java.lang.Exception exception,
@@ -792,6 +834,28 @@ public class DeleteTimeKeepingJob implements TalendJob {
 	}
 
 	public void tJDBCInput_10_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tRowGenerator_1_onSubJobError(java.lang.Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCCommit_2_onSubJobError(java.lang.Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1538,6 +1602,15 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 								}
 
+								if (key_tContextLoad_10 != null
+										&& "timesDeleteRun"
+												.equals(key_tContextLoad_10)) {
+
+									context.timesDeleteRun = Integer
+											.parseInt(value_tContextLoad_10);
+
+								}
+
 								if (context.getProperty(key_tContextLoad_10) != null) {
 									assignList_tContextLoad_10
 											.add(key_tContextLoad_10);
@@ -1646,7 +1719,7 @@ public class DeleteTimeKeepingJob implements TalendJob {
 								"", "", "", "");
 			}
 
-			tJava_1Process(globalMap);
+			tRowGenerator_1Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -1690,6 +1763,520 @@ public class DeleteTimeKeepingJob implements TalendJob {
 		}
 
 		globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row12Struct implements
+			routines.system.IPersistableRow<row12Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_DeleteTimeKeepingJob = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_DeleteTimeKeepingJob = new byte[0];
+		protected static final int DEFAULT_HASHCODE = 1;
+		protected static final int PRIME = 31;
+		protected int hashCode = DEFAULT_HASHCODE;
+		public boolean hashCodeDirty = true;
+
+		public String loopKey;
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public String value;
+
+		public String getValue() {
+			return this.value;
+		}
+
+		@Override
+		public int hashCode() {
+			if (this.hashCodeDirty) {
+				final int prime = PRIME;
+				int result = DEFAULT_HASHCODE;
+
+				result = prime * result
+						+ ((this.key == null) ? 0 : this.key.hashCode());
+
+				this.hashCode = result;
+				this.hashCodeDirty = false;
+			}
+			return this.hashCode;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			final row12Struct other = (row12Struct) obj;
+
+			if (this.key == null) {
+				if (other.key != null)
+					return false;
+
+			} else if (!this.key.equals(other.key))
+
+				return false;
+
+			return true;
+		}
+
+		public void copyDataTo(row12Struct other) {
+
+			other.key = this.key;
+			other.value = this.value;
+
+		}
+
+		public void copyKeysDataTo(row12Struct other) {
+
+			other.key = this.key;
+
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_DeleteTimeKeepingJob.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_DeleteTimeKeepingJob.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_DeleteTimeKeepingJob = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_DeleteTimeKeepingJob = new byte[2 * length];
+					}
+				}
+				dis.readFully(
+						commonByteArray_OVIRT_ENGINE_DWH_DeleteTimeKeepingJob,
+						0, length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_DeleteTimeKeepingJob,
+						0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_DeleteTimeKeepingJob) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// String
+
+				writeString(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row12Struct other) {
+
+			int returnValue = -1;
+
+			returnValue = checkNullsAndCompare(this.key, other.key);
+			if (returnValue != 0) {
+				return returnValue;
+			}
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tRowGenerator_1Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tRowGenerator_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row12Struct row12 = new row12Struct();
+
+				/**
+				 * [tBufferOutput_1 begin ] start
+				 */
+
+				ok_Hash.put("tBufferOutput_1", false);
+				start_Hash.put("tBufferOutput_1", System.currentTimeMillis());
+
+				currentComponent = "tBufferOutput_1";
+
+				int tos_count_tBufferOutput_1 = 0;
+
+				/**
+				 * [tBufferOutput_1 begin ] stop
+				 */
+
+				/**
+				 * [tRowGenerator_1 begin ] start
+				 */
+
+				ok_Hash.put("tRowGenerator_1", false);
+				start_Hash.put("tRowGenerator_1", System.currentTimeMillis());
+
+				currentComponent = "tRowGenerator_1";
+
+				int tos_count_tRowGenerator_1 = 0;
+
+				int nb_line_tRowGenerator_1 = 0;
+				int nb_max_row_tRowGenerator_1 = 1;
+
+				class tRowGenerator_1Randomizer {
+					public String getRandomkey() {
+
+						return "timesDeleteRun";
+
+					}
+
+					public String getRandomvalue() {
+
+						return context.deleteMore == 1 ? Integer
+								.toString(context.timesDeleteRun + 1) : "1";
+
+					}
+				}
+				tRowGenerator_1Randomizer randtRowGenerator_1 = new tRowGenerator_1Randomizer();
+
+				for (int itRowGenerator_1 = 0; itRowGenerator_1 < nb_max_row_tRowGenerator_1; itRowGenerator_1++) {
+					row12.key = randtRowGenerator_1.getRandomkey();
+
+					row12.value = randtRowGenerator_1.getRandomvalue();
+
+					nb_line_tRowGenerator_1++;
+
+					/**
+					 * [tRowGenerator_1 begin ] stop
+					 */
+					/**
+					 * [tRowGenerator_1 main ] start
+					 */
+
+					currentComponent = "tRowGenerator_1";
+
+					tos_count_tRowGenerator_1++;
+
+					/**
+					 * [tRowGenerator_1 main ] stop
+					 */
+
+					/**
+					 * [tBufferOutput_1 main ] start
+					 */
+
+					currentComponent = "tBufferOutput_1";
+
+					String[] row_tBufferOutput_1 = new String[] { "", "", };
+					if (row12.key != null) {
+
+						row_tBufferOutput_1[0] = row12.key;
+
+					} else {
+						row_tBufferOutput_1[0] = null;
+					}
+					if (row12.value != null) {
+
+						row_tBufferOutput_1[1] = row12.value;
+
+					} else {
+						row_tBufferOutput_1[1] = null;
+					}
+					globalBuffer.add(row_tBufferOutput_1);
+
+					tos_count_tBufferOutput_1++;
+
+					/**
+					 * [tBufferOutput_1 main ] stop
+					 */
+
+					/**
+					 * [tRowGenerator_1 end ] start
+					 */
+
+					currentComponent = "tRowGenerator_1";
+
+				}
+				globalMap.put("tRowGenerator_1_NB_LINE",
+						nb_line_tRowGenerator_1);
+
+				ok_Hash.put("tRowGenerator_1", true);
+				end_Hash.put("tRowGenerator_1", System.currentTimeMillis());
+
+				/**
+				 * [tRowGenerator_1 end ] stop
+				 */
+
+				/**
+				 * [tBufferOutput_1 end ] start
+				 */
+
+				currentComponent = "tBufferOutput_1";
+
+				ok_Hash.put("tBufferOutput_1", true);
+				end_Hash.put("tBufferOutput_1", System.currentTimeMillis());
+
+				/**
+				 * [tBufferOutput_1 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tRowGenerator_1:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCCommit_2Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tRowGenerator_1 finally ] start
+				 */
+
+				currentComponent = "tRowGenerator_1";
+
+				/**
+				 * [tRowGenerator_1 finally ] stop
+				 */
+
+				/**
+				 * [tBufferOutput_1 finally ] start
+				 */
+
+				currentComponent = "tBufferOutput_1";
+
+				/**
+				 * [tBufferOutput_1 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tRowGenerator_1_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCCommit_2Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCCommit_2_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+		int iterateLoop = 0;
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCCommit_2 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCCommit_2", false);
+				start_Hash.put("tJDBCCommit_2", System.currentTimeMillis());
+
+				currentComponent = "tJDBCCommit_2";
+
+				int tos_count_tJDBCCommit_2 = 0;
+
+				/**
+				 * [tJDBCCommit_2 begin ] stop
+				 */
+				/**
+				 * [tJDBCCommit_2 main ] start
+				 */
+
+				currentComponent = "tJDBCCommit_2";
+
+				java.sql.Connection conn_tJDBCCommit_2 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+				if (conn_tJDBCCommit_2 != null
+						&& !conn_tJDBCCommit_2.isClosed()) {
+					conn_tJDBCCommit_2.commit();
+				}
+
+				tos_count_tJDBCCommit_2++;
+
+				/**
+				 * [tJDBCCommit_2 main ] stop
+				 */
+				/**
+				 * [tJDBCCommit_2 end ] start
+				 */
+
+				currentComponent = "tJDBCCommit_2";
+
+				ok_Hash.put("tJDBCCommit_2", true);
+				end_Hash.put("tJDBCCommit_2", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCCommit_2 end ] stop
+				 */
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCCommit_2:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJava_1Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCCommit_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCCommit_2";
+
+				/**
+				 * [tJDBCCommit_2 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCCommit_2_SUBPROCESS_STATE", 1);
 	}
 
 	public void tJava_1Process(final java.util.Map<String, Object> globalMap)
@@ -2479,6 +3066,15 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 								}
 
+								if (key_tContextLoad_1 != null
+										&& "timesDeleteRun"
+												.equals(key_tContextLoad_1)) {
+
+									context.timesDeleteRun = Integer
+											.parseInt(value_tContextLoad_1);
+
+								}
+
 								if (context.getProperty(key_tContextLoad_1) != null) {
 									assignList_tContextLoad_1
 											.add(key_tContextLoad_1);
@@ -2745,6 +3341,8 @@ public class DeleteTimeKeepingJob implements TalendJob {
 				parentContextMap_tRunJob_2.put("runDeleteTime",
 						context.runDeleteTime);
 				parentContextMap_tRunJob_2.put("runTime", context.runTime);
+				parentContextMap_tRunJob_2.put("timesDeleteRun",
+						context.timesDeleteRun);
 
 				Object obj_tRunJob_2 = null;
 
@@ -3486,6 +4084,15 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 								}
 
+								if (key_tContextLoad_2 != null
+										&& "timesDeleteRun"
+												.equals(key_tContextLoad_2)) {
+
+									context.timesDeleteRun = Integer
+											.parseInt(value_tContextLoad_2);
+
+								}
+
 								if (context.getProperty(key_tContextLoad_2) != null) {
 									assignList_tContextLoad_2
 											.add(key_tContextLoad_2);
@@ -4055,6 +4662,15 @@ public class DeleteTimeKeepingJob implements TalendJob {
 									context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
 											context_runTime_pattern)
 											.parse(value_tContextLoad_4));
+
+								}
+
+								if (key_tContextLoad_4 != null
+										&& "timesDeleteRun"
+												.equals(key_tContextLoad_4)) {
+
+									context.timesDeleteRun = Integer
+											.parseInt(value_tContextLoad_4);
 
 								}
 
@@ -4630,6 +5246,15 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 								}
 
+								if (key_tContextLoad_9 != null
+										&& "timesDeleteRun"
+												.equals(key_tContextLoad_9)) {
+
+									context.timesDeleteRun = Integer
+											.parseInt(value_tContextLoad_9);
+
+								}
+
 								if (context.getProperty(key_tContextLoad_9) != null) {
 									assignList_tContextLoad_9
 											.add(key_tContextLoad_9);
@@ -5199,6 +5824,15 @@ public class DeleteTimeKeepingJob implements TalendJob {
 									context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
 											context_runTime_pattern)
 											.parse(value_tContextLoad_3));
+
+								}
+
+								if (key_tContextLoad_3 != null
+										&& "timesDeleteRun"
+												.equals(key_tContextLoad_3)) {
+
+									context.timesDeleteRun = Integer
+											.parseInt(value_tContextLoad_3);
 
 								}
 
@@ -5774,6 +6408,15 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 								}
 
+								if (key_tContextLoad_8 != null
+										&& "timesDeleteRun"
+												.equals(key_tContextLoad_8)) {
+
+									context.timesDeleteRun = Integer
+											.parseInt(value_tContextLoad_8);
+
+								}
+
 								if (context.getProperty(key_tContextLoad_8) != null) {
 									assignList_tContextLoad_8
 											.add(key_tContextLoad_8);
@@ -6343,6 +6986,15 @@ public class DeleteTimeKeepingJob implements TalendJob {
 									context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
 											context_runTime_pattern)
 											.parse(value_tContextLoad_6));
+
+								}
+
+								if (key_tContextLoad_6 != null
+										&& "timesDeleteRun"
+												.equals(key_tContextLoad_6)) {
+
+									context.timesDeleteRun = Integer
+											.parseInt(value_tContextLoad_6);
 
 								}
 
@@ -6918,6 +7570,15 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 								}
 
+								if (key_tContextLoad_5 != null
+										&& "timesDeleteRun"
+												.equals(key_tContextLoad_5)) {
+
+									context.timesDeleteRun = Integer
+											.parseInt(value_tContextLoad_5);
+
+								}
+
 								if (context.getProperty(key_tContextLoad_5) != null) {
 									assignList_tContextLoad_5
 											.add(key_tContextLoad_5);
@@ -7487,6 +8148,15 @@ public class DeleteTimeKeepingJob implements TalendJob {
 									context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
 											context_runTime_pattern)
 											.parse(value_tContextLoad_7));
+
+								}
+
+								if (key_tContextLoad_7 != null
+										&& "timesDeleteRun"
+												.equals(key_tContextLoad_7)) {
+
+									context.timesDeleteRun = Integer
+											.parseInt(value_tContextLoad_7);
 
 								}
 
@@ -9224,7 +9894,8 @@ public class DeleteTimeKeepingJob implements TalendJob {
 	public String[][] runJob(String[] args) {
 
 		int exitCode = runJobInTOS(args);
-		String[][] bufferValue = new String[][] { { Integer.toString(exitCode) } };
+		String[][] bufferValue = (String[][]) globalBuffer
+				.toArray(new String[globalBuffer.size()][]);
 
 		return bufferValue;
 	}
@@ -9359,6 +10030,12 @@ public class DeleteTimeKeepingJob implements TalendJob {
 			} catch (ParseException e) {
 				context.runTime = null;
 			}
+			try {
+				context.timesDeleteRun = routines.system.ParserUtils
+						.parseTo_Integer(context.getProperty("timesDeleteRun"));
+			} catch (NumberFormatException e) {
+				context.timesDeleteRun = null;
+			}
 		} catch (java.io.IOException ie) {
 			System.err.println("Could not load context " + contextStr);
 			ie.printStackTrace();
@@ -9422,6 +10099,10 @@ public class DeleteTimeKeepingJob implements TalendJob {
 			if (parentContextMap.containsKey("runTime")) {
 				context.runTime = (java.util.Date) parentContextMap
 						.get("runTime");
+			}
+			if (parentContextMap.containsKey("timesDeleteRun")) {
+				context.timesDeleteRun = (Integer) parentContextMap
+						.get("timesDeleteRun");
 			}
 		}
 
@@ -9629,6 +10310,6 @@ public class DeleteTimeKeepingJob implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 264910 characters generated by Talend Open Studio for Data Integration on the
- * June 7, 2015 12:43:21 PM IDT
+ * 281362 characters generated by Talend Open Studio for Data Integration on the
+ * April 10, 2016 11:21:59 AM IDT
  ************************************************************************************************/

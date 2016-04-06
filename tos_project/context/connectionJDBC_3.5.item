@@ -22,4 +22,7 @@
   <contextParameter comment="" name="lastStatisticsUpdate" prompt="lastStatisticsUpdate?" promptNeeded="false" type="id_Date" value="yyyy-MM-dd HH:mm:ss;2013-03-05 18:14:53"/>
   <contextParameter comment="" name="lastSampling" prompt="lastSampling?" promptNeeded="false" type="id_Date" value="yyyy-MM-dd HH:mm:ss;2000-01-01 00:00:00"/>
   <contextParameter comment="The UUID random number for the current DWH installation." name="dwhUuid" prompt="dwhUuid?" promptNeeded="false" type="id_String" value=""/>
+  <contextParameter comment="" name="deleteMultiplier" prompt="deleteMultiplier?" promptNeeded="true" type="id_Integer" value="1000"/>
+  <contextParameter comment="" name="limitRows" prompt="limitRows?" promptNeeded="true" type="id_String" value="limit 1000"/>
+  <contextParameter comment="" name="deleteIncrement" prompt="deleteIncrement?" promptNeeded="true" type="id_Integer" value="10"/>
 </talendfile:ContextType>
