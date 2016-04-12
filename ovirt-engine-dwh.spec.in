@@ -259,6 +259,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Thu Sep 24 2015 Shirly Radco <sradco@redhat.com> - 3.5.8
+Fixed Issue:
+- changed the limit in  DeleteTimekeeping job (#1321517)
+
 * Thu Sep 24 2015 Yaniv Dary <ydary@redhat.com> - 3.5.5
 Fixed Issue:
 - removed fk that cause deadlock occasionally (#1254003)
