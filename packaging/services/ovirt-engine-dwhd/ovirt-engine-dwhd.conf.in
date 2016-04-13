@@ -114,3 +114,9 @@ DWH_TABLES_KEEP_DAILY=43800
 
 # Minimal Time Between Errors Pushing to Engine Audit Log in Milliseconds
 DWH_ERROR_EVENT_INTERVAL=300000
+
+#
+# Change following to true if you want to enable aggregation debug
+# information (useful mainly for developers),
+# will be sent to the ovirt-engine-dwhd.log file:
+DWH_AGGREGATION_DEBUG=false

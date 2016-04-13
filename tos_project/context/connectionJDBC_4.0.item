@@ -22,4 +22,5 @@
   <contextParameter comment="" name="lastStatisticsUpdate" prompt="lastStatisticsUpdate?" promptNeeded="false" type="id_Date" value="yyyy-MM-dd HH:mm:ss;2013-03-05 18:14:53"/>
   <contextParameter comment="" name="lastSampling" prompt="lastSampling?" promptNeeded="false" type="id_Date" value="yyyy-MM-dd HH:mm:ss;2000-01-01 00:00:00"/>
   <contextParameter comment="The UUID random number for the current DWH installation." name="dwhUuid" prompt="dwhUuid?" promptNeeded="false" type="id_String" value=""/>
+  <contextParameter comment="" name="dwhAggregationDebug" prompt="dwhAggregationDebug?" promptNeeded="true" type="id_String" value="false"/>
 </talendfile:ContextType>
