@@ -101,8 +101,6 @@ ENGINE_DB_URL="jdbc:postgresql://${ENGINE_DB_HOST}:${ENGINE_DB_PORT}/${ENGINE_DB
 # Application Settings
 #
 
-# Delete Job Run Time (0 to 23 = Midnight to Eleven PM)
-DWH_DELETE_JOB_HOUR=3
 
 # Samples Collection Interleave in Seconds
 DWH_SAMPLING=60
@@ -114,6 +112,35 @@ DWH_TABLES_KEEP_DAILY=43800
 
 # Minimal Time Between Errors Pushing to Engine Audit Log in Milliseconds
 DWH_ERROR_EVENT_INTERVAL=300000
+
+
+#
+# The Delete Job runs each day, at the configured time, if there are still more records to delete,
+# the job will iterate every 5 seconds.
+#
+# For Samples, the number of rows that will be deleted each iteration
+# will be determined by the the initial value and will increment by its value
+# every configured number of iterations.
+#
+# By defult:
+#   1 -10 iterations - Delete 1000 rows.
+#   10-19 iterations - Delete 2000 rows.
+#   20-29 iterations - Delete 3000 rows.
+#   etc.
+#
+
+# Delete Job Run Time (0 to 23 = Midnight to Eleven PM)
+DWH_DELETE_JOB_HOUR=3
+
+# Initial and Increment value
+DWH_DELETE_MULTIPLIER=1000
+
+# The number of iterations between increments
+DWH_DELETE_INCREMENT=10
+
+# For Hourly and Daily, the number of rows that will be deleted each iteration.
+# Default = "limit 1000"
+DWH_LIMIT_ROWS="limit 1000"
 
 #
 # Change following to true if you want to enable aggregation debug

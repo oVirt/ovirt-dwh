@@ -224,6 +224,12 @@ public class ParallelRun implements TalendJob {
 
 			}
 
+			if (timesDeleteRun != null) {
+
+				this.setProperty("timesDeleteRun", timesDeleteRun.toString());
+
+			}
+
 		}
 
 		public String dwhAggregationDebug;
@@ -320,6 +326,12 @@ public class ParallelRun implements TalendJob {
 
 		public Long getTimeBetweenErrorEvents() {
 			return this.timeBetweenErrorEvents;
+		}
+
+		public Integer timesDeleteRun;
+
+		public Integer getTimesDeleteRun() {
+			return this.timesDeleteRun;
 		}
 	}
 
@@ -703,6 +715,17 @@ public class ParallelRun implements TalendJob {
 
 	public void tRunJob_6_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tInfiniteLoop_6_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tContextLoad_2_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
 		end_Hash.put(errorComponent, System.currentTimeMillis());
@@ -2206,6 +2229,15 @@ public class ParallelRun implements TalendJob {
 
 								}
 
+								if (key_tContextLoad_1 != null
+										&& "timesDeleteRun"
+												.equals(key_tContextLoad_1)) {
+
+									context.timesDeleteRun = Integer
+											.parseInt(value_tContextLoad_1);
+
+								}
+
 								if (context.getProperty(key_tContextLoad_1) != null) {
 									assignList_tContextLoad_1
 											.add(key_tContextLoad_1);
@@ -2647,6 +2679,9 @@ public class ParallelRun implements TalendJob {
 					parentContextMap_tRunJob_1.put("timeBetweenErrorEvents",
 							context.timeBetweenErrorEvents);
 
+					parentContextMap_tRunJob_1.put("timesDeleteRun",
+							context.timesDeleteRun);
+
 					Object obj_tRunJob_1 = null;
 
 					ovirt_engine_dwh.sampletimekeepingjob_4_0.SampleTimeKeepingJob childJob_tRunJob_1 = new ovirt_engine_dwh.sampletimekeepingjob_4_0.SampleTimeKeepingJob();
@@ -3059,6 +3094,9 @@ public class ParallelRun implements TalendJob {
 
 					parentContextMap_tRunJob_2.put("timeBetweenErrorEvents",
 							context.timeBetweenErrorEvents);
+
+					parentContextMap_tRunJob_2.put("timesDeleteRun",
+							context.timesDeleteRun);
 
 					Object obj_tRunJob_2 = null;
 
@@ -3473,6 +3511,9 @@ public class ParallelRun implements TalendJob {
 					parentContextMap_tRunJob_3.put("timeBetweenErrorEvents",
 							context.timeBetweenErrorEvents);
 
+					parentContextMap_tRunJob_3.put("timesDeleteRun",
+							context.timesDeleteRun);
+
 					Object obj_tRunJob_3 = null;
 
 					ovirt_engine_dwh.dailytimekeepingjob_4_0.DailyTimeKeepingJob childJob_tRunJob_3 = new ovirt_engine_dwh.dailytimekeepingjob_4_0.DailyTimeKeepingJob();
@@ -3707,6 +3748,202 @@ public class ParallelRun implements TalendJob {
 		globalMap.put("tJava_5_SUBPROCESS_STATE", 1);
 	}
 
+	public static class row2Struct implements
+			routines.system.IPersistableRow<row2Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_ParallelRun = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_ParallelRun = new byte[0];
+		protected static final int DEFAULT_HASHCODE = 1;
+		protected static final int PRIME = 31;
+		protected int hashCode = DEFAULT_HASHCODE;
+		public boolean hashCodeDirty = true;
+
+		public String loopKey;
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public String value;
+
+		public String getValue() {
+			return this.value;
+		}
+
+		@Override
+		public int hashCode() {
+			if (this.hashCodeDirty) {
+				final int prime = PRIME;
+				int result = DEFAULT_HASHCODE;
+
+				result = prime * result
+						+ ((this.key == null) ? 0 : this.key.hashCode());
+
+				this.hashCode = result;
+				this.hashCodeDirty = false;
+			}
+			return this.hashCode;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			final row2Struct other = (row2Struct) obj;
+
+			if (this.key == null) {
+				if (other.key != null)
+					return false;
+
+			} else if (!this.key.equals(other.key))
+
+				return false;
+
+			return true;
+		}
+
+		public void copyDataTo(row2Struct other) {
+
+			other.key = this.key;
+			other.value = this.value;
+
+		}
+
+		public void copyKeysDataTo(row2Struct other) {
+
+			other.key = this.key;
+
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_ParallelRun.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_ParallelRun.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_ParallelRun = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_ParallelRun = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_ParallelRun, 0,
+						length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_ParallelRun, 0,
+						length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_ParallelRun) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// String
+
+				writeString(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row2Struct other) {
+
+			int returnValue = -1;
+
+			returnValue = checkNullsAndCompare(this.key, other.key);
+			if (returnValue != 0) {
+				return returnValue;
+			}
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
 	public void tInfiniteLoop_6Process(
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -3728,6 +3965,8 @@ public class ParallelRun implements TalendJob {
 																					// the
 																					// resume
 				globalResumeTicket = true;
+
+				row2Struct row2 = new row2Struct();
 
 				/**
 				 * [tInfiniteLoop_6 begin ] start
@@ -3767,6 +4006,27 @@ public class ParallelRun implements TalendJob {
 					 * [tInfiniteLoop_6 main ] stop
 					 */
 					NB_ITERATE_tRunJob_6++;
+
+					/**
+					 * [tContextLoad_2 begin ] start
+					 */
+
+					ok_Hash.put("tContextLoad_2", false);
+					start_Hash
+							.put("tContextLoad_2", System.currentTimeMillis());
+
+					currentComponent = "tContextLoad_2";
+
+					int tos_count_tContextLoad_2 = 0;
+
+					java.util.List<String> assignList_tContextLoad_2 = new java.util.ArrayList<String>();
+					java.util.List<String> newPropertyList_tContextLoad_2 = new java.util.ArrayList<String>();
+					java.util.List<String> noAssignList_tContextLoad_2 = new java.util.ArrayList<String>();
+					int nb_line_tContextLoad_2 = 0;
+
+					/**
+					 * [tContextLoad_2 begin ] stop
+					 */
 
 					/**
 					 * [tRunJob_6 begin ] start
@@ -3886,6 +4146,9 @@ public class ParallelRun implements TalendJob {
 					parentContextMap_tRunJob_6.put("timeBetweenErrorEvents",
 							context.timeBetweenErrorEvents);
 
+					parentContextMap_tRunJob_6.put("timesDeleteRun",
+							context.timesDeleteRun);
+
 					Object obj_tRunJob_6 = null;
 
 					ovirt_engine_dwh.deletetimekeepingjob_4_0.DeleteTimeKeepingJob childJob_tRunJob_6 = new ovirt_engine_dwh.deletetimekeepingjob_4_0.DeleteTimeKeepingJob();
@@ -3931,11 +4194,229 @@ public class ParallelRun implements TalendJob {
 								childJob_tRunJob_6.getExceptionStackTrace());
 					}
 
-					tos_count_tRunJob_6++;
+					for (String[] item_tRunJob_6 : childReturn_tRunJob_6) {
+						if (childJob_tRunJob_6.hastBufferOutputComponent() || true) {
 
-					/**
-					 * [tRunJob_6 main ] stop
-					 */
+							if (0 < item_tRunJob_6.length) {
+
+								row2.key = item_tRunJob_6[0];
+
+							} else {
+								row2.key = null;
+							}
+
+							if (1 < item_tRunJob_6.length) {
+
+								row2.value = item_tRunJob_6[1];
+
+							} else {
+								row2.value = null;
+							}
+
+						}
+
+						tos_count_tRunJob_6++;
+
+						/**
+						 * [tRunJob_6 main ] stop
+						 */
+
+						/**
+						 * [tContextLoad_2 main ] start
+						 */
+
+						currentComponent = "tContextLoad_2";
+
+						// ////////////////////////
+						String tmp_key_tContextLoad_2 = null;
+						String key_tContextLoad_2 = null;
+						if (row2.key != null) {
+							tmp_key_tContextLoad_2 = row2.key.trim();
+							if ((tmp_key_tContextLoad_2.startsWith("#") || tmp_key_tContextLoad_2
+									.startsWith("!"))) {
+								tmp_key_tContextLoad_2 = null;
+							} else {
+								row2.key = tmp_key_tContextLoad_2;
+							}
+						}
+						if (row2.key != null) {
+							key_tContextLoad_2 = row2.key;
+						}
+						String value_tContextLoad_2 = null;
+						if (row2.value != null) {
+							value_tContextLoad_2 = row2.value;
+						}
+
+						if (tmp_key_tContextLoad_2 != null) {
+							try {
+								if (key_tContextLoad_2 != null
+										&& "dwhAggregationDebug"
+												.equals(key_tContextLoad_2)) {
+									context.dwhAggregationDebug = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "hoursToKeepDaily"
+												.equals(key_tContextLoad_2)) {
+
+									context.hoursToKeepDaily = Integer
+											.parseInt(value_tContextLoad_2);
+
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "hoursToKeepHourly"
+												.equals(key_tContextLoad_2)) {
+
+									context.hoursToKeepHourly = Integer
+											.parseInt(value_tContextLoad_2);
+
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "hoursToKeepSamples"
+												.equals(key_tContextLoad_2)) {
+
+									context.hoursToKeepSamples = Integer
+											.parseInt(value_tContextLoad_2);
+
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineDbDriverClass"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineDbDriverClass = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineDbJdbcConnection"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineDbJdbcConnection = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineDbPassword"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineDbPassword = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineDbUser"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineDbUser = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineHistoryDbDriverClass"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineHistoryDbJdbcConnection"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineHistoryDbPassword"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineHistoryDbPassword = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "ovirtEngineHistoryDbUser"
+												.equals(key_tContextLoad_2)) {
+									context.ovirtEngineHistoryDbUser = value_tContextLoad_2;
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "runDeleteTime"
+												.equals(key_tContextLoad_2)) {
+
+									context.runDeleteTime = Integer
+											.parseInt(value_tContextLoad_2);
+
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "runInterleave"
+												.equals(key_tContextLoad_2)) {
+
+									context.runInterleave = Integer
+											.parseInt(value_tContextLoad_2);
+
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "runTime".equals(key_tContextLoad_2)) {
+									String context_runTime_value = context
+											.getProperty("runTime");
+									if (context_runTime_value == null)
+										context_runTime_value = "";
+									int context_runTime_pos = context_runTime_value
+											.indexOf(";");
+									String context_runTime_pattern = "yyyy-MM-dd HH:mm:ss";
+									if (context_runTime_pos > -1) {
+										context_runTime_pattern = context_runTime_value
+												.substring(0,
+														context_runTime_pos);
+									}
+									context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
+											context_runTime_pattern)
+											.parse(value_tContextLoad_2));
+
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "timeBetweenErrorEvents"
+												.equals(key_tContextLoad_2)) {
+
+									context.timeBetweenErrorEvents = Long
+											.parseLong(value_tContextLoad_2);
+
+								}
+
+								if (key_tContextLoad_2 != null
+										&& "timesDeleteRun"
+												.equals(key_tContextLoad_2)) {
+
+									context.timesDeleteRun = Integer
+											.parseInt(value_tContextLoad_2);
+
+								}
+
+								if (context.getProperty(key_tContextLoad_2) != null) {
+									assignList_tContextLoad_2
+											.add(key_tContextLoad_2);
+								} else {
+									newPropertyList_tContextLoad_2
+											.add(key_tContextLoad_2);
+								}
+								if (value_tContextLoad_2 == null) {
+									context.setProperty(key_tContextLoad_2, "");
+								} else {
+									context.setProperty(key_tContextLoad_2,
+											value_tContextLoad_2);
+								}
+							} catch (java.lang.Exception e) {
+								System.err
+										.println("Setting a value for the key \""
+												+ key_tContextLoad_2
+												+ "\" has failed. Error message: "
+												+ e.getMessage());
+							}
+							nb_line_tContextLoad_2++;
+						}
+						// ////////////////////////
+
+						tos_count_tContextLoad_2++;
+
+						/**
+						 * [tContextLoad_2 main ] stop
+						 */
+
+					} // C_01
 
 					/**
 					 * [tRunJob_6 end ] start
@@ -3948,6 +4429,65 @@ public class ParallelRun implements TalendJob {
 
 					/**
 					 * [tRunJob_6 end ] stop
+					 */
+
+					/**
+					 * [tContextLoad_2 end ] start
+					 */
+
+					currentComponent = "tContextLoad_2";
+
+					java.util.Enumeration<?> enu_tContextLoad_2 = context
+							.propertyNames();
+					while (enu_tContextLoad_2.hasMoreElements()) {
+						String key_tContextLoad_2 = (String) enu_tContextLoad_2
+								.nextElement();
+						if (!assignList_tContextLoad_2
+								.contains(key_tContextLoad_2)
+								&& !newPropertyList_tContextLoad_2
+										.contains(key_tContextLoad_2)) {
+							noAssignList_tContextLoad_2.add(key_tContextLoad_2);
+						}
+					}
+
+					String newPropertyStr_tContextLoad_2 = newPropertyList_tContextLoad_2
+							.toString();
+					String newProperty_tContextLoad_2 = newPropertyStr_tContextLoad_2
+							.substring(1,
+									newPropertyStr_tContextLoad_2.length() - 1);
+
+					String noAssignStr_tContextLoad_2 = noAssignList_tContextLoad_2
+							.toString();
+					String noAssign_tContextLoad_2 = noAssignStr_tContextLoad_2
+							.substring(1,
+									noAssignStr_tContextLoad_2.length() - 1);
+
+					globalMap.put("tContextLoad_2_KEY_NOT_INCONTEXT",
+							newProperty_tContextLoad_2);
+					globalMap.put("tContextLoad_2_KEY_NOT_LOADED",
+							noAssign_tContextLoad_2);
+
+					globalMap.put("tContextLoad_2_NB_LINE",
+							nb_line_tContextLoad_2);
+
+					List<String> parametersToEncrypt_tContextLoad_2 = new java.util.ArrayList<String>();
+
+					parametersToEncrypt_tContextLoad_2
+							.add("ovirtEngineDbPassword");
+
+					parametersToEncrypt_tContextLoad_2
+							.add("ovirtEngineHistoryDbPassword");
+
+					resumeUtil.addLog("NODE", "NODE:tContextLoad_2", "", Thread
+							.currentThread().getId() + "", "", "", "", "",
+							resumeUtil.convertToJsonText(context,
+									parametersToEncrypt_tContextLoad_2));
+
+					ok_Hash.put("tContextLoad_2", true);
+					end_Hash.put("tContextLoad_2", System.currentTimeMillis());
+
+					/**
+					 * [tContextLoad_2 end ] stop
 					 */
 
 					/**
@@ -3998,6 +4538,16 @@ public class ParallelRun implements TalendJob {
 
 				/**
 				 * [tRunJob_6 finally ] stop
+				 */
+
+				/**
+				 * [tContextLoad_2 finally ] start
+				 */
+
+				currentComponent = "tContextLoad_2";
+
+				/**
+				 * [tContextLoad_2 finally ] stop
 				 */
 
 			} catch (java.lang.Exception e) {
@@ -4930,6 +5480,12 @@ public class ParallelRun implements TalendJob {
 			} catch (NumberFormatException e) {
 				context.timeBetweenErrorEvents = null;
 			}
+			try {
+				context.timesDeleteRun = routines.system.ParserUtils
+						.parseTo_Integer(context.getProperty("timesDeleteRun"));
+			} catch (NumberFormatException e) {
+				context.timesDeleteRun = null;
+			}
 		} catch (java.io.IOException ie) {
 			System.err.println("Could not load context " + contextStr);
 			ie.printStackTrace();
@@ -5001,6 +5557,10 @@ public class ParallelRun implements TalendJob {
 			if (parentContextMap.containsKey("timeBetweenErrorEvents")) {
 				context.timeBetweenErrorEvents = (Long) parentContextMap
 						.get("timeBetweenErrorEvents");
+			}
+			if (parentContextMap.containsKey("timesDeleteRun")) {
+				context.timesDeleteRun = (Integer) parentContextMap
+						.get("timesDeleteRun");
 			}
 		}
 
@@ -5418,6 +5978,6 @@ public class ParallelRun implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 146027 characters generated by Talend Open Studio for Data Integration on the
- * April 13, 2016 10:29:31 AM IDT
+ * 160689 characters generated by Talend Open Studio for Data Integration on the
+ * April 13, 2016 12:43:30 PM IDT
  ************************************************************************************************/

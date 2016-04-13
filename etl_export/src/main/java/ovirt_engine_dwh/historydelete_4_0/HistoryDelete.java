@@ -89,6 +89,25 @@ public class HistoryDelete implements TalendJob {
 
 		public void synchronizeContext() {
 
+			if (timesDeleteRun != null) {
+
+				this.setProperty("timesDeleteRun", timesDeleteRun.toString());
+
+			}
+
+			if (deleteIncrement != null) {
+
+				this.setProperty("deleteIncrement", deleteIncrement.toString());
+
+			}
+
+			if (deleteMultiplier != null) {
+
+				this.setProperty("deleteMultiplier",
+						deleteMultiplier.toString());
+
+			}
+
 			if (hoursToKeepDaily != null) {
 
 				this.setProperty("hoursToKeepDaily",
@@ -107,6 +126,12 @@ public class HistoryDelete implements TalendJob {
 
 				this.setProperty("hoursToKeepSamples",
 						hoursToKeepSamples.toString());
+
+			}
+
+			if (limitRows != null) {
+
+				this.setProperty("limitRows", limitRows.toString());
 
 			}
 
@@ -158,12 +183,24 @@ public class HistoryDelete implements TalendJob {
 
 			}
 
-			if (limitRows != null) {
+		}
 
-				this.setProperty("limitRows", limitRows.toString());
+		public Integer timesDeleteRun;
 
-			}
+		public Integer getTimesDeleteRun() {
+			return this.timesDeleteRun;
+		}
 
+		public Integer deleteIncrement;
+
+		public Integer getDeleteIncrement() {
+			return this.deleteIncrement;
+		}
+
+		public Integer deleteMultiplier;
+
+		public Integer getDeleteMultiplier() {
+			return this.deleteMultiplier;
 		}
 
 		public Integer hoursToKeepDaily;
@@ -182,6 +219,12 @@ public class HistoryDelete implements TalendJob {
 
 		public Integer getHoursToKeepSamples() {
 			return this.hoursToKeepSamples;
+		}
+
+		public String limitRows;
+
+		public String getLimitRows() {
+			return this.limitRows;
 		}
 
 		public String ovirtEngineHistoryDbDriverClass;
@@ -212,12 +255,6 @@ public class HistoryDelete implements TalendJob {
 
 		public java.util.Date getRunTime() {
 			return this.runTime;
-		}
-
-		public String limitRows;
-
-		public String getLimitRows() {
-			return this.limitRows;
 		}
 	}
 
@@ -1545,7 +1582,11 @@ public class HistoryDelete implements TalendJob {
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(TalendDate.addDate(context.runTime,
 										context.hoursToKeepSamples * -1, "HH"))
-						+ "'" + context.limitRows;
+						+ "'"
+						+ "limit "
+						+ ((context.timesDeleteRun - (context.timesDeleteRun % context.deleteIncrement))
+								/ context.deleteIncrement + 1)
+						* context.deleteMultiplier;
 
 				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
 
@@ -1955,7 +1996,11 @@ public class HistoryDelete implements TalendJob {
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(TalendDate.addDate(context.runTime,
 										context.hoursToKeepSamples * -1, "HH"))
-						+ "'" + context.limitRows;
+						+ "'"
+						+ "limit "
+						+ ((context.timesDeleteRun - (context.timesDeleteRun % context.deleteIncrement))
+								/ context.deleteIncrement + 1)
+						* context.deleteMultiplier;
 
 				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
 
@@ -2366,7 +2411,11 @@ public class HistoryDelete implements TalendJob {
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(TalendDate.addDate(context.runTime,
 										context.hoursToKeepSamples * -1, "HH"))
-						+ "'" + context.limitRows;
+						+ "'"
+						+ "limit "
+						+ ((context.timesDeleteRun - (context.timesDeleteRun % context.deleteIncrement))
+								/ context.deleteIncrement + 1)
+						* context.deleteMultiplier;
 
 				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
 
@@ -2776,7 +2825,11 @@ public class HistoryDelete implements TalendJob {
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(TalendDate.addDate(context.runTime,
 										context.hoursToKeepSamples * -1, "HH"))
-						+ "'" + context.limitRows;
+						+ "'"
+						+ "limit "
+						+ ((context.timesDeleteRun - (context.timesDeleteRun % context.deleteIncrement))
+								/ context.deleteIncrement + 1)
+						* context.deleteMultiplier;
 
 				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
 
@@ -3187,7 +3240,11 @@ public class HistoryDelete implements TalendJob {
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(TalendDate.addDate(context.runTime,
 										context.hoursToKeepSamples * -1, "HH"))
-						+ "'" + context.limitRows;
+						+ "'"
+						+ "limit "
+						+ ((context.timesDeleteRun - (context.timesDeleteRun % context.deleteIncrement))
+								/ context.deleteIncrement + 1)
+						* context.deleteMultiplier;
 
 				globalMap.put("tJDBCInput_5_QUERY", dbquery_tJDBCInput_5);
 
@@ -5650,7 +5707,11 @@ public class HistoryDelete implements TalendJob {
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(TalendDate.addDate(context.runTime,
 										context.hoursToKeepSamples * -1, "HH"))
-						+ "'" + context.limitRows;
+						+ "'"
+						+ "limit "
+						+ ((context.timesDeleteRun - (context.timesDeleteRun % context.deleteIncrement))
+								/ context.deleteIncrement + 1)
+						* context.deleteMultiplier;
 
 				globalMap.put("tJDBCInput_11_QUERY", dbquery_tJDBCInput_11);
 
@@ -6471,7 +6532,11 @@ public class HistoryDelete implements TalendJob {
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(TalendDate.addDate(context.runTime,
 										context.hoursToKeepSamples * -1, "HH"))
-						+ "'" + context.limitRows;
+						+ "'"
+						+ "limit "
+						+ ((context.timesDeleteRun - (context.timesDeleteRun % context.deleteIncrement))
+								/ context.deleteIncrement + 1)
+						* context.deleteMultiplier;
 
 				globalMap.put("tJDBCInput_13_QUERY", dbquery_tJDBCInput_13);
 
@@ -10385,7 +10450,11 @@ public class HistoryDelete implements TalendJob {
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(TalendDate.addDate(context.runTime,
 										context.hoursToKeepSamples * -1, "HH"))
-						+ "'" + context.limitRows;
+						+ "'"
+						+ "limit "
+						+ ((context.timesDeleteRun - (context.timesDeleteRun % context.deleteIncrement))
+								/ context.deleteIncrement + 1)
+						* context.deleteMultiplier;
 
 				globalMap.put("tJDBCInput_22_QUERY", dbquery_tJDBCInput_22);
 
@@ -12992,6 +13061,25 @@ public class HistoryDelete implements TalendJob {
 				context.putAll(context_param);
 			}
 			try {
+				context.timesDeleteRun = routines.system.ParserUtils
+						.parseTo_Integer(context.getProperty("timesDeleteRun"));
+			} catch (NumberFormatException e) {
+				context.timesDeleteRun = null;
+			}
+			try {
+				context.deleteIncrement = routines.system.ParserUtils
+						.parseTo_Integer(context.getProperty("deleteIncrement"));
+			} catch (NumberFormatException e) {
+				context.deleteIncrement = null;
+			}
+			try {
+				context.deleteMultiplier = routines.system.ParserUtils
+						.parseTo_Integer(context
+								.getProperty("deleteMultiplier"));
+			} catch (NumberFormatException e) {
+				context.deleteMultiplier = null;
+			}
+			try {
 				context.hoursToKeepDaily = routines.system.ParserUtils
 						.parseTo_Integer(context
 								.getProperty("hoursToKeepDaily"));
@@ -13012,6 +13100,7 @@ public class HistoryDelete implements TalendJob {
 			} catch (NumberFormatException e) {
 				context.hoursToKeepSamples = null;
 			}
+			context.limitRows = (String) context.getProperty("limitRows");
 			context.ovirtEngineHistoryDbDriverClass = (String) context
 					.getProperty("ovirtEngineHistoryDbDriverClass");
 			context.ovirtEngineHistoryDbJdbcConnection = (String) context
@@ -13068,7 +13157,6 @@ public class HistoryDelete implements TalendJob {
 			} catch (ParseException e) {
 				context.runTime = null;
 			}
-			context.limitRows = (String) context.getProperty("limitRows");
 		} catch (java.io.IOException ie) {
 			System.err.println("Could not load context " + contextStr);
 			ie.printStackTrace();
@@ -13076,6 +13164,18 @@ public class HistoryDelete implements TalendJob {
 
 		// get context value from parent directly
 		if (parentContextMap != null && !parentContextMap.isEmpty()) {
+			if (parentContextMap.containsKey("timesDeleteRun")) {
+				context.timesDeleteRun = (Integer) parentContextMap
+						.get("timesDeleteRun");
+			}
+			if (parentContextMap.containsKey("deleteIncrement")) {
+				context.deleteIncrement = (Integer) parentContextMap
+						.get("deleteIncrement");
+			}
+			if (parentContextMap.containsKey("deleteMultiplier")) {
+				context.deleteMultiplier = (Integer) parentContextMap
+						.get("deleteMultiplier");
+			}
 			if (parentContextMap.containsKey("hoursToKeepDaily")) {
 				context.hoursToKeepDaily = (Integer) parentContextMap
 						.get("hoursToKeepDaily");
@@ -13087,6 +13187,9 @@ public class HistoryDelete implements TalendJob {
 			if (parentContextMap.containsKey("hoursToKeepSamples")) {
 				context.hoursToKeepSamples = (Integer) parentContextMap
 						.get("hoursToKeepSamples");
+			}
+			if (parentContextMap.containsKey("limitRows")) {
+				context.limitRows = (String) parentContextMap.get("limitRows");
 			}
 			if (parentContextMap.containsKey("ovirtEngineHistoryDbDriverClass")) {
 				context.ovirtEngineHistoryDbDriverClass = (String) parentContextMap
@@ -13108,9 +13211,6 @@ public class HistoryDelete implements TalendJob {
 			if (parentContextMap.containsKey("runTime")) {
 				context.runTime = (java.util.Date) parentContextMap
 						.get("runTime");
-			}
-			if (parentContextMap.containsKey("limitRows")) {
-				context.limitRows = (String) parentContextMap.get("limitRows");
 			}
 		}
 
@@ -14509,6 +14609,6 @@ public class HistoryDelete implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 377535 characters generated by Talend Open Studio for Data Integration on the
- * March 9, 2016 2:38:16 PM IST
+ * 380510 characters generated by Talend Open Studio for Data Integration on the
+ * April 13, 2016 12:43:30 PM IDT
  ************************************************************************************************/
