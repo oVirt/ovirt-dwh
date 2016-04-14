@@ -43,34 +43,34 @@ WHERE history_id in (SELECT max(a.history_id) FROM datacenter_configuration as a
 CREATE OR REPLACE VIEW v3_6_statistics_datacenters_resources_usage_samples
  AS
 SELECT
-      history_id as history_id,
-      history_datetime as history_datetime,
-      datacenter_id as datacenter_id,
-      datacenter_status as datacenter_status,
-      minutes_in_status as minutes_in_status,
-      datacenter_configuration_version as datacenter_configuration_version
+      cast(NULL as bigint)  as history_id,
+      cast(NULL as timestamp with time zone)  as history_datetime,
+      cast(NULL as uuid) as datacenter_id,
+      cast(NULL as smallint ) as datacenter_status,
+      cast(NULL as numeric(7,2)) as minutes_in_status,
+      cast(NULL as integer) as datacenter_configuration_version
 FROM datacenter_samples_history;
 
 CREATE OR REPLACE VIEW v3_6_statistics_datacenters_resources_usage_hourly
  AS
 SELECT
-      history_id as history_id,
-      history_datetime as history_datetime,
-      datacenter_id as datacenter_id,
-      datacenter_status as datacenter_status,
-      minutes_in_status as minutes_in_status,
-      datacenter_configuration_version as datacenter_configuration_version
+      cast(NULL as bigint)  as history_id,
+      cast(NULL as timestamp with time zone)  as history_datetime,
+      cast(NULL as uuid) as datacenter_id,
+      cast(NULL as smallint ) as datacenter_status,
+      cast(NULL as numeric(7,2)) as minutes_in_status,
+      cast(NULL as integer) as datacenter_configuration_version
 FROM datacenter_hourly_history;
 
 CREATE OR REPLACE VIEW v3_6_statistics_datacenters_resources_usage_daily
  AS
 SELECT
-      history_id as history_id,
-      history_datetime as history_datetime,
-      datacenter_id as datacenter_id,
-      datacenter_status as datacenter_status,
-      minutes_in_status as minutes_in_status,
-      datacenter_configuration_version as datacenter_configuration_version
+      cast(NULL as bigint)  as history_id,
+      cast(NULL as date)  as history_datetime,
+      cast(NULL as uuid) as datacenter_id,
+      cast(NULL as smallint ) as datacenter_status,
+      cast(NULL as numeric(7,2)) as minutes_in_status,
+      cast(NULL as integer) as datacenter_configuration_version
 FROM datacenter_daily_history;
 
 CREATE OR REPLACE VIEW v3_6_map_history_datacenters_storage_domains

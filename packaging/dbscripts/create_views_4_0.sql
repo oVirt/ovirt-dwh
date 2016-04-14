@@ -40,39 +40,6 @@ FROM datacenter_configuration
 WHERE history_id in (SELECT max(a.history_id) FROM datacenter_configuration as a GROUP BY a.datacenter_id)
       and delete_date IS NULL;
 
-CREATE OR REPLACE VIEW v4_0_statistics_datacenters_resources_usage_samples
- AS
-SELECT
-      history_id as history_id,
-      history_datetime as history_datetime,
-      datacenter_id as datacenter_id,
-      datacenter_status as datacenter_status,
-      minutes_in_status as minutes_in_status,
-      datacenter_configuration_version as datacenter_configuration_version
-FROM datacenter_samples_history;
-
-CREATE OR REPLACE VIEW v4_0_statistics_datacenters_resources_usage_hourly
- AS
-SELECT
-      history_id as history_id,
-      history_datetime as history_datetime,
-      datacenter_id as datacenter_id,
-      datacenter_status as datacenter_status,
-      minutes_in_status as minutes_in_status,
-      datacenter_configuration_version as datacenter_configuration_version
-FROM datacenter_hourly_history;
-
-CREATE OR REPLACE VIEW v4_0_statistics_datacenters_resources_usage_daily
- AS
-SELECT
-      history_id as history_id,
-      history_datetime as history_datetime,
-      datacenter_id as datacenter_id,
-      datacenter_status as datacenter_status,
-      minutes_in_status as minutes_in_status,
-      datacenter_configuration_version as datacenter_configuration_version
-FROM datacenter_daily_history;
-
 CREATE OR REPLACE VIEW v4_0_map_history_datacenters_storage_domains
  AS
 SELECT
