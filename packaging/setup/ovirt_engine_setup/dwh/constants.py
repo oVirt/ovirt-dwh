@@ -193,6 +193,9 @@ class Stages(object):
         'osetup.dwh.engine.db.connection.available'
     DB_SCHEMA = 'osetup.dwh.db.schema'
 
+    # sync with engine
+    ENGINE_CORE_ENABLE = 'osetup.engine.core.enable'
+
 
 @util.export
 @util.codegen

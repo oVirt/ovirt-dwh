@@ -46,10 +46,22 @@ class Plugin(plugin.PluginBase):
         ),
         after=(
             osetupcons.Stages.DIALOG_TITLES_S_PRODUCT_OPTIONS,
+            odwhcons.Stages.ENGINE_CORE_ENABLE
         ),
     )
     def _customization(self):
         if self.environment[odwhcons.CoreEnv.ENABLE] is None:
+            if self.environment[odwhcons.EngineCoreEnv.ENABLE]:
+                self.dialog.note(
+                    text=_(
+                        'Please note: Data Warehouse is required for the '
+                        'engine. If you choose to not configure it on this '
+                        'host, you have to configure it on a remote host, and '
+                        'then configure the engine on this host so that it '
+                        'can access the database of the remote Data '
+                        'Warehouse host.'
+                    )
+                )
             self.environment[
                 odwhcons.CoreEnv.ENABLE
             ] = dialog.queryBoolean(
