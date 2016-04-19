@@ -28,11 +28,9 @@ from otopi import filetransaction
 from otopi import plugin
 
 
-from ovirt_engine import util as outil
-
-
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.dwh import constants as odwhcons
+from ovirt_engine_setup.engine_common import database
 
 
 def _(m):
@@ -42,58 +40,6 @@ def _(m):
 @util.export
 class Plugin(plugin.PluginBase):
     """Databsae plugin."""
-
-    def _getDBConfig(
-        self,
-        prefix,
-        host,
-        port,
-        user,
-        password,
-        database,
-        secured,
-        hostValidation,
-    ):
-        return (
-            '{prefix}_DB_HOST="{host}"\n'
-            '{prefix}_DB_PORT="{port}"\n'
-            '{prefix}_DB_USER="{user}"\n'
-            '{prefix}_DB_PASSWORD="{password}"\n'
-            '{prefix}_DB_DATABASE="{database}"\n'
-            '{prefix}_DB_SECURED="{secured}"\n'
-            '{prefix}_DB_SECURED_VALIDATION="{hostValidation}"\n'
-            '{prefix}_DB_DRIVER="org.postgresql.Driver"\n'
-            '{prefix}_DB_URL=' + (
-                '"'
-                'jdbc:postgresql://'
-                '${{{prefix}_DB_HOST}}:${{{prefix}_DB_PORT}}'
-                '/${{{prefix}_DB_DATABASE}}'
-                '?{jdbcTlsOptions}'
-                '"\n'
-            ) +
-            ''
-        ).format(
-            prefix=prefix,
-            host=host,
-            port=port,
-            user=user,
-            password=outil.escape(
-                password,
-                '"\\$',
-            ),
-            database=database,
-            secured=secured,
-            hostValidation=hostValidation,
-            jdbcTlsOptions='&'.join(
-                s for s in (
-                    'ssl=true' if secured else '',
-                    (
-                        'sslfactory='
-                        'org.postgresql.ssl.NonValidatingFactory'
-                    ) if not hostValidation else ''
-                ) if s
-            ),
-        )
 
     def __init__(self, context):
         super(Plugin, self).__init__(context=context)
@@ -120,42 +66,41 @@ class Plugin(plugin.PluginBase):
                 owner=self.environment[osetupcons.SystemEnv.USER_ENGINE],
                 enforcePermissions=True,
                 content='%s%s' % (
-                    self._getDBConfig(
-                        prefix='ENGINE',
-                        host=self.environment[
-                            odwhcons.EngineDBEnv.HOST
-                        ],
-                        port=self.environment[
-                            odwhcons.EngineDBEnv.PORT
-                        ],
-                        user=self.environment[
-                            odwhcons.EngineDBEnv.USER
-                        ],
-                        password=self.environment[
-                            odwhcons.EngineDBEnv.PASSWORD
-                        ],
-                        database=self.environment[
-                            odwhcons.EngineDBEnv.DATABASE
-                        ],
-                        secured=self.environment[
-                            odwhcons.EngineDBEnv.SECURED
-                        ],
-                        hostValidation=self.environment[
-                            odwhcons.EngineDBEnv.SECURED_HOST_VALIDATION
-                        ],
+                    database.OvirtUtils(
+                        plugin=self,
+                        dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS
+                    ).getDBConfig(
+                        prefix="ENGINE"
                     ),
-                    self._getDBConfig(
-                        prefix='DWH',
-                        host=self.environment[odwhcons.DBEnv.HOST],
-                        port=self.environment[odwhcons.DBEnv.PORT],
-                        user=self.environment[odwhcons.DBEnv.USER],
-                        password=self.environment[odwhcons.DBEnv.PASSWORD],
-                        database=self.environment[odwhcons.DBEnv.DATABASE],
-                        secured=self.environment[odwhcons.DBEnv.SECURED],
-                        hostValidation=self.environment[
-                            odwhcons.DBEnv.SECURED_HOST_VALIDATION
-                        ],
-                    ),
+                    database.OvirtUtils(
+                        plugin=self,
+                        dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS
+                    ).getDBConfig(
+                        prefix="DWH"
+                    )
+                ),
+                modifiedList=uninstall_files,
+            )
+        )
+        self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
+            filetransaction.FileTransaction(
+                name=(
+                    odwhcons.FileLocations.
+                    OVIRT_ENGINE_ENGINE_SERVICE_CONFIG_DWH_DATABASE_EXAMPLE
+                ),
+                mode=0o600,
+                owner=self.environment[osetupcons.SystemEnv.USER_ENGINE],
+                enforcePermissions=True,
+                content=database.OvirtUtils(
+                    plugin=self,
+                    dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS
+                ).getDBConfig(
+                    prefix="DWH",
+                    # This file goes to the remote engine, so we
+                    # override the host with our FQDN.
+                    localhost_replacement=self.environment[
+                        osetupcons.ConfigEnv.FQDN
+                    ]
                 ),
                 modifiedList=uninstall_files,
             )

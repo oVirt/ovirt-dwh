@@ -149,12 +149,27 @@ class FileLocations(object):
         OVIRT_ENGINE_DWHD_SERVICE_CONFIGD,
         '20-setup-legacy.conf',
     )
+
     # sync with engine
     OVIRT_ENGINE_ENGINE_SERVICE_CONFIGD = '/etc/ovirt-engine/engine.conf.d'
     OVIRT_ENGINE_ENGINE_SERVICE_CONFIG_DATABASE = os.path.join(
         OVIRT_ENGINE_ENGINE_SERVICE_CONFIGD,
         '10-setup-database.conf'
     )
+    OVIRT_ENGINE_ENGINE_SERVICE_CONFIG_DWH_DATABASE = os.path.join(
+        OVIRT_ENGINE_ENGINE_SERVICE_CONFIGD,
+        '10-setup-dwh-database.conf'
+    )
+
+    # should have same basename as
+    # OVIRT_ENGINE_ENGINE_SERVICE_CONFIG_DWH_DATABASE, to make it easier
+    # to trace etc.
+    OVIRT_ENGINE_ENGINE_SERVICE_CONFIG_DWH_DATABASE_EXAMPLE = os.path.join(
+        PKG_SYSCONF_DIR,
+        'examples',
+        '10-setup-dwh-database.conf'
+    )
+
     OVIRT_ENGINE_DWH_DB_DIR = os.path.join(
         PKG_DATA_DIR,
         'dbscripts',
@@ -227,6 +242,12 @@ class ConfigEnv(object):
         return 'OVESETUP_DWH_CONFIG/dwhDbBackupDir'
 
     DWH_SERVICE_STOP_NEEDED = 'OVESETUP_DWH_CONFIG/dwhServiceStopNeeded'
+
+    @osetupattrs(
+        postinstallfile=True,
+    )
+    def REMOTE_ENGINE_CONFIGURED(self):
+        return 'OVESETUP_DWH_CONFIG/remoteEngineConfigured'
 
 
 @util.export
@@ -459,6 +480,22 @@ class EngineCoreEnv(object):
     """Sync with ovirt-engine"""
 
     ENABLE = 'OVESETUP_ENGINE_CORE/enable'
+
+
+@util.export
+@util.codegen
+@osetupattrsclass
+class EngineConfigEnv(object):
+    """Sync with ovirt-engine"""
+
+    @osetupattrs(
+        answerfile=True,
+        summary=True,
+        description=_('Engine Host FQDN'),
+        postinstallfile=True,
+    )
+    def ENGINE_FQDN(self):
+        return 'OVESETUP_ENGINE_CONFIG/fqdn'
 
 
 # vim: expandtab tabstop=4 shiftwidth=4

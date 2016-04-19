@@ -23,6 +23,7 @@ from . import check_etl
 from . import single_etl
 from . import config
 from . import misc
+from . import remote_engine
 from . import service
 
 
@@ -32,6 +33,7 @@ def createPlugins(context):
     single_etl.Plugin(context=context)
     config.Plugin(context=context)
     misc.Plugin(context=context)
+    remote_engine.Plugin(context=context)
     service.Plugin(context=context)
 
 
