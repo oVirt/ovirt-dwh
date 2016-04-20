@@ -48,8 +48,7 @@ SELECT
       cast(NULL as uuid) as datacenter_id,
       cast(NULL as smallint ) as datacenter_status,
       cast(NULL as numeric(7,2)) as minutes_in_status,
-      cast(NULL as integer) as datacenter_configuration_version
-FROM datacenter_samples_history;
+      cast(NULL as integer) as datacenter_configuration_version;
 
 CREATE OR REPLACE VIEW v3_6_statistics_datacenters_resources_usage_hourly
  AS
@@ -59,8 +58,7 @@ SELECT
       cast(NULL as uuid) as datacenter_id,
       cast(NULL as smallint ) as datacenter_status,
       cast(NULL as numeric(7,2)) as minutes_in_status,
-      cast(NULL as integer) as datacenter_configuration_version
-FROM datacenter_hourly_history;
+      cast(NULL as integer) as datacenter_configuration_version;
 
 CREATE OR REPLACE VIEW v3_6_statistics_datacenters_resources_usage_daily
  AS
@@ -70,8 +68,7 @@ SELECT
       cast(NULL as uuid) as datacenter_id,
       cast(NULL as smallint ) as datacenter_status,
       cast(NULL as numeric(7,2)) as minutes_in_status,
-      cast(NULL as integer) as datacenter_configuration_version
-FROM datacenter_daily_history;
+      cast(NULL as integer) as datacenter_configuration_version;
 
 CREATE OR REPLACE VIEW v3_6_map_history_datacenters_storage_domains
  AS
