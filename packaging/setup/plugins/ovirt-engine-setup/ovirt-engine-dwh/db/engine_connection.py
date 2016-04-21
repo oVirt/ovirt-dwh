@@ -22,8 +22,6 @@
 import gettext
 
 
-from otopi import constants as otopicons
-from otopi import transaction
 from otopi import util
 from otopi import plugin
 
@@ -42,47 +40,8 @@ def _(m):
 class Plugin(plugin.PluginBase):
     """Connection plugin."""
 
-    class DBTransaction(transaction.TransactionElement):
-        """yum transaction element."""
-
-        def __init__(self, parent):
-            self._parent = parent
-
-        def __str__(self):
-            return _("DWH Engine database Transaction")
-
-        def prepare(self):
-            pass
-
-        def abort(self):
-            if not self._parent.environment[odwhcons.EngineCoreEnv.ENABLE]:
-                engine_conn = self._parent.environment[
-                    odwhcons.EngineDBEnv.CONNECTION
-                ]
-                if engine_conn is not None:
-                    engine_conn.rollback()
-                    self._parent.environment[
-                        odwhcons.EngineDBEnv.CONNECTION
-                    ] = None
-
-        def commit(self):
-            if not self._parent.environment[odwhcons.EngineCoreEnv.ENABLE]:
-                engine_conn = self._parent.environment[
-                    odwhcons.EngineDBEnv.CONNECTION
-                ]
-                if engine_conn is not None:
-                    engine_conn.commit()
-
     def __init__(self, context):
         super(Plugin, self).__init__(context=context)
-
-    @plugin.event(
-        stage=plugin.Stages.STAGE_SETUP,
-    )
-    def _setup(self):
-        self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
-            self.DBTransaction(self)
-        )
 
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
