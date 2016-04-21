@@ -252,6 +252,18 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Thu Apr 21 2016 Shirly Radco <sradco@redhat.com> - 4.0.0
+Fixed issues:
+- Bug 1302611 - spec: Require java 8
+- Bug 1318665 - setup: Note that dwh is required
+- Bug 1300328 - removed collection of dc statistics
+- Bug 1321517 - changed the limit in  DeleteTimekeeping job
+- Bug 1285788 - enabled logging of dwh ETL process in debug mode
+- Bug 1323605 - removed collection of vm_disks_map
+- Bug 1302611 - rebase to talend open studio 6.1.1
+- Bug 1312638 - removed dwh views up to 3.6
+- Bug 1311149 - change vds_groups to cluster
+
 * Mon Dec 21 2015 Shirly Radco <sradco@redhat.com> - 3.6.2
 Fixed issues:
 - Bug 1286441 - restoring connection to postgres for audit_log and dwh_history_timekeeping.
