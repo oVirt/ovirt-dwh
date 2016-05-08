@@ -145,6 +145,10 @@ class FileLocations(object):
         OVIRT_ENGINE_DWHD_SERVICE_CONFIGD,
         '10-setup-uuid.conf',
     )
+    OVIRT_ENGINE_DWHD_SERVICE_CONFIG_SCALE = os.path.join(
+        OVIRT_ENGINE_DWHD_SERVICE_CONFIGD,
+        '10-setup-scale.conf',
+    )
     OVIRT_ENGINE_DWHD_SERVICE_CONFIG_LEGACY = os.path.join(
         OVIRT_ENGINE_DWHD_SERVICE_CONFIGD,
         '20-setup-legacy.conf',
@@ -248,6 +252,13 @@ class ConfigEnv(object):
     )
     def REMOTE_ENGINE_CONFIGURED(self):
         return 'OVESETUP_DWH_CONFIG/remoteEngineConfigured'
+
+    @osetupattrs(
+        answerfile=True,
+        postinstallfile=True,
+    )
+    def SCALE(self):
+        return 'OVESETUP_DWH_CONFIG/scale'
 
 
 @util.export
