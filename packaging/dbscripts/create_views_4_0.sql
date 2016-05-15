@@ -412,6 +412,245 @@ SELECT
       host_interface_configuration_version as host_interface_configuration_version
 FROM host_interface_daily_history;
 
+CREATE OR REPLACE VIEW v4_0_fully_joined_statistics_hosts_resources_usage_samples
+ AS
+SELECT
+    conf.host_id as host_id,
+    conf.host_unique_id as host_unique_id,
+    conf.host_name as host_name,
+    conf.cluster_id as cluster_id,
+    conf.host_type as host_type,
+    conf.fqdn_or_ip as fqdn_or_ip,
+    conf.memory_size_mb as memory_size_mb,
+    conf.swap_size_mb as swap_size_mb,
+    conf.cpu_model as cpu_model,
+    conf.number_of_cores as number_of_cores,
+    conf.number_of_sockets as number_of_sockets,
+    conf.cpu_speed_mh as cpu_speed_mh,
+    conf.host_os as host_os,
+    conf.kernel_version as kernel_version,
+    conf.kvm_version as kvm_version,
+    conf.vdsm_version as vdsm_version,
+    conf.vdsm_port as vdsm_port,
+    conf.threads_per_core as threads_per_core,
+    conf.hardware_manufacturer as hardware_manufacturer,
+    conf.hardware_product_name as hardware_product_name,
+    conf.hardware_version as hardware_version,
+    conf.hardware_serial_number as hardware_serial_number,
+    conf.cluster_configuration_version as cluster_configuration_version,
+    conf.create_date as host_create_date,
+    conf.update_date as host_update_date,
+    conf.delete_date as host_delete_date,
+    stats.history_datetime as history_datetime,
+    stats.host_status as host_status,
+    stats.minutes_in_status host_minutes_in_status,
+    stats.memory_usage_percent as memory_usage_percent,
+    stats.ksm_shared_memory_mb ksm_shared_memory_mb,
+    stats.cpu_usage_percent as cpu_usage_percent,
+    stats.ksm_cpu_percent as ksm_cpu_percent,
+    stats.active_vms as active_vms,
+    stats.total_vms as total_vms,
+    stats.total_vms_vcpus as total_vms_vcpus,
+    stats.cpu_load as cpu_load,
+    stats.system_cpu_usage_percent as system_cpu_usage_percent,
+    stats.user_cpu_usage_percent as user_cpu_usage_percent,
+    stats.swap_used_mb as swap_used_mb,
+    nic_conf.host_interface_id as host_interface_id,
+    nic_conf.host_interface_name as host_interface_name,
+    nic_conf.host_interface_type as host_interface_type,
+    nic_conf.host_interface_speed_bps as host_interface_speed_bps,
+    nic_conf.mac_address as mac_address,
+    nic_conf.logical_network_name,
+    nic_conf.ip_address as ip_address,
+    nic_conf.gateway as gateway,
+    nic_conf.bond as bond,
+    nic_conf.bond_name as bond_name,
+    nic_conf.vlan_id as vlan_id,
+    nic_conf.create_date as host_interface_create_date,
+    nic_conf.update_date as host_interface_update_date,
+    nic_conf.delete_date as host_interface_delete_date,
+    nic_stats.receive_rate_percent as receive_rate_percent,
+    nic_stats.transmit_rate_percent as transmit_rate_percent,
+    nic_stats.received_total_byte as received_total_byte,
+    nic_stats.transmitted_total_byte as transmitted_total_byte
+FROM v4_0_configuration_history_hosts AS conf
+    LEFT OUTER JOIN v4_0_statistics_hosts_resources_usage_samples AS stats
+        ON (conf.history_id = stats.host_configuration_version)
+    LEFT OUTER JOIN v4_0_configuration_history_hosts_interfaces nic_conf
+        ON (conf.history_id = nic_conf.host_configuration_version)
+    LEFT OUTER JOIN v4_0_statistics_hosts_interfaces_resources_usage_samples nic_stats
+        ON (nic_conf.history_id = nic_stats.host_interface_configuration_version AND
+            stats.history_datetime = nic_stats.history_datetime);
+
+
+CREATE OR REPLACE VIEW v4_0_fully_joined_statistics_hosts_resources_usage_hourly
+ AS
+SELECT
+    conf.host_id as host_id,
+    conf.host_unique_id as host_unique_id,
+    conf.host_name as host_name,
+    conf.cluster_id as cluster_id,
+    conf.host_type as host_type,
+    conf.fqdn_or_ip as fqdn_or_ip,
+    conf.memory_size_mb as memory_size_mb,
+    conf.swap_size_mb as swap_size_mb,
+    conf.cpu_model as cpu_model,
+    conf.number_of_cores as number_of_cores,
+    conf.number_of_sockets as number_of_sockets,
+    conf.cpu_speed_mh as cpu_speed_mh,
+    conf.host_os as host_os,
+    conf.kernel_version as kernel_version,
+    conf.kvm_version as kvm_version,
+    conf.vdsm_version as vdsm_version,
+    conf.vdsm_port as vdsm_port,
+    conf.threads_per_core as threads_per_core,
+    conf.hardware_manufacturer as hardware_manufacturer,
+    conf.hardware_product_name as hardware_product_name,
+    conf.hardware_version as hardware_version,
+    conf.hardware_serial_number as hardware_serial_number,
+    conf.cluster_configuration_version as cluster_configuration_version,
+    conf.create_date as host_create_date,
+    conf.update_date as host_update_date,
+    conf.delete_date as host_delete_date,
+    stats.history_datetime as history_datetime,
+    stats.host_status as host_status,
+    stats.minutes_in_status host_minutes_in_status,
+    stats.memory_usage_percent as memory_usage_percent,
+    stats.max_memory_usage as max_memory_usage,
+    stats.ksm_shared_memory_mb ksm_shared_memory_mb,
+    stats.max_ksm_shared_memory_mb as max_ksm_shared_memory_mb,
+    stats.cpu_usage_percent as cpu_usage_percent,
+    stats.max_cpu_usage as max_cpu_usage,
+    stats.ksm_cpu_percent as ksm_cpu_percent,
+    stats.max_ksm_cpu_percent as max_ksm_cpu_percent,
+    stats.active_vms as active_vms,
+    stats.max_active_vms as max_active_vms,
+    stats.total_vms as total_vms,
+    stats.max_total_vms as max_total_vms,
+    stats.total_vms_vcpus as total_vms_vcpus,
+    stats.max_total_vms_vcpus as max_total_vms_vcpus,
+    stats.cpu_load as cpu_load,
+    stats.max_cpu_load as max_cpu_load,
+    stats.system_cpu_usage_percent as system_cpu_usage_percent,
+    stats.max_system_cpu_usage_percent as max_system_cpu_usage_percent,
+    stats.user_cpu_usage_percent as user_cpu_usage_percent,
+    stats.max_user_cpu_usage_percent as max_user_cpu_usage_percent,
+    stats.swap_used_mb as swap_used_mb,
+    stats.max_swap_used_mb as max_swap_used_mb,
+    nic_conf.host_interface_id as host_interface_id,
+    nic_conf.host_interface_name as host_interface_name,
+    nic_conf.host_interface_type as host_interface_type,
+    nic_conf.host_interface_speed_bps as host_interface_speed_bps,
+    nic_conf.mac_address as mac_address,
+    nic_conf.logical_network_name,
+    nic_conf.ip_address as ip_address,
+    nic_conf.gateway as gateway,
+    nic_conf.bond as bond,
+    nic_conf.bond_name as bond_name,
+    nic_conf.vlan_id as vlan_id,
+    nic_conf.create_date as host_interface_create_date,
+    nic_conf.update_date as host_interface_update_date,
+    nic_conf.delete_date as host_interface_delete_date,
+    nic_stats.receive_rate_percent as receive_rate_percent,
+    nic_stats.max_receive_rate_percent as max_receive_rate_percent,
+    nic_stats.transmit_rate_percent as transmit_rate_percent,
+    nic_stats.max_transmit_rate_percent as max_transmit_rate_percent,
+    nic_stats.received_total_byte as received_total_byte,
+    nic_stats.transmitted_total_byte as transmitted_total_byte
+FROM v4_0_configuration_history_hosts AS conf
+    LEFT OUTER JOIN v4_0_statistics_hosts_resources_usage_hourly AS stats
+        ON (conf.history_id = stats.host_configuration_version)
+    LEFT OUTER JOIN v4_0_configuration_history_hosts_interfaces nic_conf
+        ON (conf.history_id = nic_conf.host_configuration_version)
+    LEFT OUTER JOIN v4_0_statistics_hosts_interfaces_resources_usage_hourly nic_stats
+        ON (nic_conf.history_id = nic_stats.host_interface_configuration_version AND
+            stats.history_datetime = nic_stats.history_datetime);
+
+
+CREATE OR REPLACE VIEW v4_0_fully_joined_statistics_hosts_resources_usage_daily
+ AS
+SELECT
+    conf.host_id as host_id,
+    conf.host_unique_id as host_unique_id,
+    conf.host_name as host_name,
+    conf.cluster_id as cluster_id,
+    conf.host_type as host_type,
+    conf.fqdn_or_ip as fqdn_or_ip,
+    conf.memory_size_mb as memory_size_mb,
+    conf.swap_size_mb as swap_size_mb,
+    conf.cpu_model as cpu_model,
+    conf.number_of_cores as number_of_cores,
+    conf.number_of_sockets as number_of_sockets,
+    conf.cpu_speed_mh as cpu_speed_mh,
+    conf.host_os as host_os,
+    conf.kernel_version as kernel_version,
+    conf.kvm_version as kvm_version,
+    conf.vdsm_version as vdsm_version,
+    conf.vdsm_port as vdsm_port,
+    conf.threads_per_core as threads_per_core,
+    conf.hardware_manufacturer as hardware_manufacturer,
+    conf.hardware_product_name as hardware_product_name,
+    conf.hardware_version as hardware_version,
+    conf.hardware_serial_number as hardware_serial_number,
+    conf.cluster_configuration_version as cluster_configuration_version,
+    conf.create_date as host_create_date,
+    conf.update_date as host_update_date,
+    conf.delete_date as host_delete_date,
+    stats.history_datetime as history_datetime,
+    stats.host_status as host_status,
+    stats.minutes_in_status host_minutes_in_status,
+    stats.memory_usage_percent as memory_usage_percent,
+    stats.max_memory_usage as max_memory_usage,
+    stats.ksm_shared_memory_mb ksm_shared_memory_mb,
+    stats.max_ksm_shared_memory_mb as max_ksm_shared_memory_mb,
+    stats.cpu_usage_percent as cpu_usage_percent,
+    stats.max_cpu_usage as max_cpu_usage,
+    stats.ksm_cpu_percent as ksm_cpu_percent,
+    stats.max_ksm_cpu_percent as max_ksm_cpu_percent,
+    stats.active_vms as active_vms,
+    stats.max_active_vms as max_active_vms,
+    stats.total_vms as total_vms,
+    stats.max_total_vms as max_total_vms,
+    stats.total_vms_vcpus as total_vms_vcpus,
+    stats.max_total_vms_vcpus as max_total_vms_vcpus,
+    stats.cpu_load as cpu_load,
+    stats.max_cpu_load as max_cpu_load,
+    stats.system_cpu_usage_percent as system_cpu_usage_percent,
+    stats.max_system_cpu_usage_percent as max_system_cpu_usage_percent,
+    stats.user_cpu_usage_percent as user_cpu_usage_percent,
+    stats.max_user_cpu_usage_percent as max_user_cpu_usage_percent,
+    stats.swap_used_mb as swap_used_mb,
+    stats.max_swap_used_mb as max_swap_used_mb,
+    nic_conf.host_interface_id as host_interface_id,
+    nic_conf.host_interface_name as host_interface_name,
+    nic_conf.host_interface_type as host_interface_type,
+    nic_conf.host_interface_speed_bps as host_interface_speed_bps,
+    nic_conf.mac_address as mac_address,
+    nic_conf.logical_network_name,
+    nic_conf.ip_address as ip_address,
+    nic_conf.gateway as gateway,
+    nic_conf.bond as bond,
+    nic_conf.bond_name as bond_name,
+    nic_conf.vlan_id as vlan_id,
+    nic_conf.create_date as host_interface_create_date,
+    nic_conf.update_date as host_interface_update_date,
+    nic_conf.delete_date as host_interface_delete_date,
+    nic_stats.receive_rate_percent as receive_rate_percent,
+    nic_stats.max_receive_rate_percent as max_receive_rate_percent,
+    nic_stats.transmit_rate_percent as transmit_rate_percent,
+    nic_stats.max_transmit_rate_percent as max_transmit_rate_percent,
+    nic_stats.received_total_byte as received_total_byte,
+    nic_stats.transmitted_total_byte as transmitted_total_byte
+FROM v4_0_configuration_history_hosts AS conf
+    LEFT OUTER JOIN v4_0_statistics_hosts_resources_usage_daily AS stats
+        ON (conf.history_id = stats.host_configuration_version)
+    LEFT OUTER JOIN v4_0_configuration_history_hosts_interfaces nic_conf
+        ON (conf.history_id = nic_conf.host_configuration_version)
+    LEFT OUTER JOIN v4_0_statistics_hosts_interfaces_resources_usage_daily nic_stats
+        ON (nic_conf.history_id = nic_stats.host_interface_configuration_version AND
+            stats.history_datetime = nic_stats.history_datetime);
+
+
 CREATE OR REPLACE VIEW v4_0_configuration_history_vms
  AS
 SELECT
@@ -830,6 +1069,344 @@ SELECT
 FROM vm_device_history
 WHERE history_id in (SELECT max(a.history_id) FROM vm_device_history as a GROUP BY a.vm_id, a.device_id)
       and delete_date IS NULL;
+
+CREATE OR REPLACE VIEW v4_0_fully_joined_statistics_vms_resources_usage_samples
+ AS
+ SELECT
+    conf.vm_id as vm_id,
+    conf.vm_name as vm_name,
+    conf.vm_description as vm_description,
+    conf.vm_type as vm_type,
+    conf.cluster_id as cluster_id,
+    conf.template_id as template_id,
+    conf.template_name as template_name,
+    conf.cpu_per_socket as cpu_per_socket,
+    conf.number_of_sockets as number_of_sockets,
+    conf.memory_size_mb as memory_size_mb,
+    conf.operating_system as operating_system,
+    conf.default_host as default_host,
+    conf.high_availability as high_availability,
+    conf.initialized as initialized,
+    conf.stateless as stateless,
+    conf.fail_back as fail_back,
+    conf.usb_policy as usb_policy,
+    conf.time_zone as time_zone,
+    conf.vm_pool_id as vm_pool_id,
+    conf.vm_pool_name as vm_pool_name,
+    conf.created_by_user_id as created_by_user_id,
+    conf.cluster_configuration_version as cluster_configuration_version,
+    conf.default_host_configuration_version as default_host_configuration_version,
+    conf.create_date as vm_create_date,
+    conf.update_date as vm_update_date,
+    conf.delete_date as vm_delete_date,
+    stats.history_datetime as history_datetime,
+    stats.vm_status as vm_status,
+    stats.minutes_in_status as minutes_in_status,
+    stats.cpu_usage_percent as cpu_usage_percent,
+    stats.memory_usage_percent as memory_usage_percent,
+    stats.user_cpu_usage_percent as user_cpu_usage_percent,
+    stats.system_cpu_usage_percent as system_cpu_usage_percent,
+    stats.vm_ip as vm_ip,
+    stats.vm_client_ip as vm_client_ip,
+    stats.currently_running_on_host as currently_running_on_host,
+    stats.current_user_id as current_user_id,
+    stats.user_logged_in_to_guest,
+    stats.disks_usage as disks_usage,
+    stats.current_host_configuration_version as current_host_configuration_version,
+    stats.memory_buffered_kb as memory_buffered_kb,
+    stats.memory_cached_kb as memory_cached_kb,
+    device_conf.device_id as device_id,
+    device_conf.type as device_type,
+    device_conf.address as address,
+    device_conf.is_managed as is_managed,
+    device_conf.is_plugged as is_plugged,
+    device_conf.is_readonly as is_readonly,
+    device_conf.create_date as device_create_date,
+    device_conf.update_date as device_update_date,
+    device_conf.delete_date as device_delete_date,
+    nic_conf.vm_interface_id as vm_interface_id,
+    nic_conf.vm_interface_name as vm_interface_name,
+    nic_conf.vm_interface_type as vm_interface_type,
+    nic_conf.vm_interface_speed_bps as vm_interface_speed_bps,
+    nic_conf.mac_address as mac_address,
+    nic_conf.logical_network_name as logical_network_name,
+    nic_conf.create_date as vm_interface_create_date,
+    nic_conf.update_date as vm_interface_update_date,
+    nic_conf.delete_date as vm_interface_delete_date,
+    nic_stats.receive_rate_percent as receive_rate_percent,
+    nic_stats.transmit_rate_percent as transmit_rate_percent,
+    nic_stats.received_total_byte as received_total_byte,
+    nic_stats.transmitted_total_byte as transmitted_total_byte,
+    disk_conf.vm_disk_id as vm_disk_id,
+    disk_conf.vm_disk_name as vm_disk_name,
+    disk_conf.vm_disk_description as vm_disk_description,
+    disk_conf.image_id as image_id,
+    disk_conf.storage_domain_id as storage_domain_id,
+    disk_conf.vm_disk_size_mb as vm_disk_size_mb,
+    disk_conf.vm_disk_type as vm_disk_type,
+    disk_conf.vm_disk_format as vm_disk_format,
+    disk_conf.vm_disk_interface as vm_disk_interface,
+    disk_conf.is_shared as is_shared,
+    disk_conf.create_date as vm_disk_create_date,
+    disk_conf.update_date as vm_disk_update_date,
+    disk_conf.delete_date as vm_disk_delete_date,
+    disk_stats.vm_disk_status as vm_disk_status,
+    disk_stats.minutes_in_status as vm_disk_minutes_in_status,
+    disk_stats.vm_disk_actual_size_mb as vm_disk_actual_size_mb,
+    disk_stats.read_rate_bytes_per_second as read_rate_bytes_per_second,
+    disk_stats.read_latency_seconds as read_latency_seconds,
+    disk_stats.write_rate_bytes_per_second as write_rate_bytes_per_second,
+    disk_stats.write_latency_seconds as write_latency_seconds,
+    disk_stats.flush_latency_seconds as flush_latency_seconds
+FROM v4_0_configuration_history_vms AS conf
+    LEFT OUTER JOIN v4_0_statistics_vms_resources_usage_samples AS stats
+        ON (conf.history_id = stats.vm_configuration_version)
+    LEFT OUTER JOIN  v4_0_configuration_history_vms_devices device_conf
+        ON (conf.history_id = device_conf.vm_configuration_version)
+    LEFT OUTER JOIN v4_0_configuration_history_vms_disks disk_conf
+        ON (device_conf.device_configuration_version = disk_conf.history_id)
+    LEFT OUTER JOIN v4_0_configuration_history_vms_interfaces AS nic_conf
+        ON (device_conf.device_configuration_version = nic_conf.history_id  AND
+            conf.history_id = nic_conf.vm_configuration_version)
+    LEFT OUTER JOIN v4_0_statistics_vms_interfaces_resources_usage_samples AS nic_stats
+        ON (nic_conf.history_id = nic_stats.vm_interface_configuration_version AND
+            stats.history_datetime = nic_stats.history_datetime)
+    LEFT OUTER JOIN v4_0_statistics_vms_disks_resources_usage_samples disk_stats
+        ON (disk_conf.history_id = disk_stats.vm_disk_configuration_version AND
+            stats.history_datetime = disk_stats.history_datetime);
+
+CREATE OR REPLACE VIEW v4_0_fully_joined_statistics_vms_resources_usage_hourly
+ AS
+ SELECT
+    conf.vm_id as vm_id,
+    conf.vm_name as vm_name,
+    conf.vm_description as vm_description,
+    conf.vm_type as vm_type,
+    conf.cluster_id as cluster_id,
+    conf.template_id as template_id,
+    conf.template_name as template_name,
+    conf.cpu_per_socket as cpu_per_socket,
+    conf.number_of_sockets as number_of_sockets,
+    conf.memory_size_mb as memory_size_mb,
+    conf.operating_system as operating_system,
+    conf.default_host as default_host,
+    conf.high_availability as high_availability,
+    conf.initialized as initialized,
+    conf.stateless as stateless,
+    conf.fail_back as fail_back,
+    conf.usb_policy as usb_policy,
+    conf.time_zone as time_zone,
+    conf.vm_pool_id as vm_pool_id,
+    conf.vm_pool_name as vm_pool_name,
+    conf.created_by_user_id as created_by_user_id,
+    conf.cluster_configuration_version as cluster_configuration_version,
+    conf.default_host_configuration_version as default_host_configuration_version,
+    conf.create_date as vm_create_date,
+    conf.update_date as vm_update_date,
+    conf.delete_date as vm_delete_date,
+    stats.history_datetime as history_datetime,
+    stats.vm_status as vm_status,
+    stats.minutes_in_status as vm_minutes_in_status,
+    stats.cpu_usage_percent as cpu_usage_percent,
+    stats.max_cpu_usage as max_cpu_usage,
+    stats.memory_usage_percent as memory_usage_percent,
+    stats.max_memory_usage as max_memory_usage,
+    stats.user_cpu_usage_percent as user_cpu_usage_percent,
+    stats.max_user_cpu_usage_percent as max_user_cpu_usage_percent,
+    stats.system_cpu_usage_percent as system_cpu_usage_percent,
+    stats.max_system_cpu_usage_percent as max_system_cpu_usage_percent,
+    stats.vm_ip as vm_ip,
+    stats.currently_running_on_host as currently_running_on_host,
+    stats.current_user_id as current_user_id,
+    stats.disks_usage as disks_usage,
+    stats.current_host_configuration_version as current_host_configuration_version,
+    stats.memory_buffered_kb as memory_buffered_kb,
+    stats.memory_cached_kb as memory_cached_kb,
+    stats.max_memory_buffered_kb as max_memory_buffered_kb,
+    stats.max_memory_cached_kb as max_memory_cached_kb,
+    device_conf.device_id as device_id,
+    device_conf.type as device_type,
+    device_conf.address as address,
+    device_conf.is_managed as is_managed,
+    device_conf.is_plugged as is_plugged,
+    device_conf.is_readonly as is_readonly,
+    device_conf.create_date as device_create_date,
+    device_conf.update_date as device_update_date,
+    device_conf.delete_date as device_delete_date,
+    nic_conf.vm_interface_id as vm_interface_id,
+    nic_conf.vm_interface_name as vm_interface_name,
+    nic_conf.vm_interface_type as vm_interface_type,
+    nic_conf.vm_interface_speed_bps as vm_interface_speed_bps,
+    nic_conf.mac_address as mac_address,
+    nic_conf.logical_network_name as logical_network_name,
+    nic_conf.create_date as vm_interface_create_date,
+    nic_conf.update_date as vm_interface_update_date,
+    nic_conf.delete_date as vm_interface_delete_date,
+    nic_stats.receive_rate_percent as receive_rate_percent,
+    nic_stats.max_receive_rate_percent as max_receive_rate_percent,
+    nic_stats.transmit_rate_percent as transmit_rate_percent,
+    nic_stats.max_transmit_rate_percent as max_transmit_rate_percent,
+    nic_stats.received_total_byte as received_total_byte,
+    nic_stats.transmitted_total_byte as transmitted_total_byte,
+    disk_conf.vm_disk_id as vm_disk_id,
+    disk_conf.vm_disk_name as vm_disk_name,
+    disk_conf.vm_disk_description as vm_disk_description,
+    disk_conf.image_id as image_id,
+    disk_conf.storage_domain_id as storage_domain_id,
+    disk_conf.vm_disk_size_mb as vm_disk_size_mb,
+    disk_conf.vm_disk_type as vm_disk_type,
+    disk_conf.vm_disk_format as vm_disk_format,
+    disk_conf.vm_disk_interface as vm_disk_interface,
+    disk_conf.is_shared as is_shared,
+    disk_conf.create_date as vm_disk_create_date,
+    disk_conf.update_date as vm_disk_update_date,
+    disk_conf.delete_date as vm_disk_delete_date,
+    disk_stats.vm_disk_status as vm_disk_status,
+    disk_stats.minutes_in_status as vm_disk_minutes_in_status,
+    disk_stats.vm_disk_actual_size_mb as vm_disk_actual_size_mb,
+    disk_stats.read_rate_bytes_per_second as read_rate_bytes_per_second,
+    disk_stats.max_read_rate_bytes_per_second as max_read_rate_bytes_per_second,
+    disk_stats.read_latency_seconds as read_latency_seconds,
+    disk_stats.max_read_latency_seconds as max_read_latency_seconds,
+    disk_stats.write_rate_bytes_per_second as write_rate_bytes_per_second,
+    disk_stats.max_write_rate_bytes_per_second as max_write_rate_bytes_per_second,
+    disk_stats.write_latency_seconds as write_latency_seconds,
+    disk_stats.max_write_latency_seconds as max_write_latency_seconds,
+    disk_stats.flush_latency_seconds as flush_latency_seconds,
+    disk_stats.max_flush_latency_seconds as max_flush_latency_seconds
+FROM v4_0_configuration_history_vms AS conf
+    LEFT OUTER JOIN v4_0_statistics_vms_resources_usage_hourly AS stats
+        ON (conf.history_id = stats.vm_configuration_version)
+    LEFT OUTER JOIN  v4_0_configuration_history_vms_devices device_conf
+        ON (conf.history_id = device_conf.vm_configuration_version)
+    LEFT OUTER JOIN v4_0_configuration_history_vms_disks disk_conf
+        ON (device_conf.device_configuration_version = disk_conf.history_id)
+    LEFT OUTER JOIN v4_0_configuration_history_vms_interfaces AS nic_conf
+        ON (device_conf.device_configuration_version = nic_conf.history_id  AND
+            conf.history_id = nic_conf.vm_configuration_version)
+    LEFT OUTER JOIN v4_0_statistics_vms_interfaces_resources_usage_hourly AS nic_stats
+        ON (nic_conf.history_id = nic_stats.vm_interface_configuration_version AND
+            stats.history_datetime = nic_stats.history_datetime)
+    LEFT OUTER JOIN v4_0_statistics_vms_disks_resources_usage_hourly disk_stats
+        ON (disk_conf.history_id = disk_stats.vm_disk_configuration_version AND
+            stats.history_datetime = disk_stats.history_datetime);
+
+
+CREATE OR REPLACE VIEW v4_0_fully_joined_statistics_vms_resources_usage_daily
+ AS
+ SELECT
+    conf.vm_id as vm_id,
+    conf.vm_name as vm_name,
+    conf.vm_description as vm_description,
+    conf.vm_type as vm_type,
+    conf.cluster_id as cluster_id,
+    conf.template_id as template_id,
+    conf.template_name as template_name,
+    conf.cpu_per_socket as cpu_per_socket,
+    conf.number_of_sockets as number_of_sockets,
+    conf.memory_size_mb as memory_size_mb,
+    conf.operating_system as operating_system,
+    conf.default_host as default_host,
+    conf.high_availability as high_availability,
+    conf.initialized as initialized,
+    conf.stateless as stateless,
+    conf.fail_back as fail_back,
+    conf.usb_policy as usb_policy,
+    conf.time_zone as time_zone,
+    conf.vm_pool_id as vm_pool_id,
+    conf.vm_pool_name as vm_pool_name,
+    conf.created_by_user_id as created_by_user_id,
+    conf.cluster_configuration_version as cluster_configuration_version,
+    conf.default_host_configuration_version as default_host_configuration_version,
+    conf.create_date as vm_create_date,
+    conf.update_date as vm_update_date,
+    conf.delete_date as vm_delete_date,
+    stats.history_datetime as history_datetime,
+    stats.vm_status as vm_status,
+    stats.minutes_in_status as vm_minutes_in_status,
+    stats.cpu_usage_percent as cpu_usage_percent,
+    stats.max_cpu_usage as max_cpu_usage,
+    stats.memory_usage_percent as memory_usage_percent,
+    stats.max_memory_usage as max_memory_usage,
+    stats.user_cpu_usage_percent as user_cpu_usage_percent,
+    stats.max_user_cpu_usage_percent as max_user_cpu_usage_percent,
+    stats.system_cpu_usage_percent as system_cpu_usage_percent,
+    stats.max_system_cpu_usage_percent as max_system_cpu_usage_percent,
+    stats.vm_ip as vm_ip,
+    stats.currently_running_on_host as currently_running_on_host,
+    stats.current_user_id as current_user_id,
+    stats.disks_usage as disks_usage,
+    stats.current_host_configuration_version as current_host_configuration_version,
+    stats.memory_buffered_kb as memory_buffered_kb,
+    stats.memory_cached_kb as memory_cached_kb,
+    stats.max_memory_buffered_kb as max_memory_buffered_kb,
+    stats.max_memory_cached_kb as max_memory_cached_kb,
+    device_conf.device_id as device_id,
+    device_conf.type as device_type,
+    device_conf.address as address,
+    device_conf.is_managed as is_managed,
+    device_conf.is_plugged as is_plugged,
+    device_conf.is_readonly as is_readonly,
+    device_conf.create_date as device_create_date,
+    device_conf.update_date as device_update_date,
+    device_conf.delete_date as device_delete_date,
+    nic_conf.vm_interface_id as vm_interface_id,
+    nic_conf.vm_interface_name as vm_interface_name,
+    nic_conf.vm_interface_type as vm_interface_type,
+    nic_conf.vm_interface_speed_bps as vm_interface_speed_bps,
+    nic_conf.mac_address as mac_address,
+    nic_conf.logical_network_name as logical_network_name,
+    nic_conf.create_date as vm_interface_create_date,
+    nic_conf.update_date as vm_interface_update_date,
+    nic_conf.delete_date as vm_interface_delete_date,
+    nic_stats.receive_rate_percent as receive_rate_percent,
+    nic_stats.max_receive_rate_percent as max_receive_rate_percent,
+    nic_stats.transmit_rate_percent as transmit_rate_percent,
+    nic_stats.max_transmit_rate_percent as max_transmit_rate_percent,
+    nic_stats.received_total_byte as received_total_byte,
+    nic_stats.transmitted_total_byte as transmitted_total_byte,
+    disk_conf.vm_disk_id as vm_disk_id,
+    disk_conf.vm_disk_name as vm_disk_name,
+    disk_conf.vm_disk_description as vm_disk_description,
+    disk_conf.image_id as image_id,
+    disk_conf.storage_domain_id as storage_domain_id,
+    disk_conf.vm_disk_size_mb as vm_disk_size_mb,
+    disk_conf.vm_disk_type as vm_disk_type,
+    disk_conf.vm_disk_format as vm_disk_format,
+    disk_conf.vm_disk_interface as vm_disk_interface,
+    disk_conf.is_shared as is_shared,
+    disk_conf.create_date as vm_disk_create_date,
+    disk_conf.update_date as vm_disk_update_date,
+    disk_conf.delete_date as vm_disk_delete_date,
+    disk_stats.vm_disk_status as vm_disk_status,
+    disk_stats.minutes_in_status as vm_disk_minutes_in_status,
+    disk_stats.vm_disk_actual_size_mb as vm_disk_actual_size_mb,
+    disk_stats.read_rate_bytes_per_second as read_rate_bytes_per_second,
+    disk_stats.max_read_rate_bytes_per_second as max_read_rate_bytes_per_second,
+    disk_stats.read_latency_seconds as read_latency_seconds,
+    disk_stats.max_read_latency_seconds as max_read_latency_seconds,
+    disk_stats.write_rate_bytes_per_second as write_rate_bytes_per_second,
+    disk_stats.max_write_rate_bytes_per_second as max_write_rate_bytes_per_second,
+    disk_stats.write_latency_seconds as write_latency_seconds,
+    disk_stats.max_write_latency_seconds as max_write_latency_seconds,
+    disk_stats.flush_latency_seconds as flush_latency_seconds,
+    disk_stats.max_flush_latency_seconds as max_flush_latency_seconds
+FROM v4_0_configuration_history_vms AS conf
+    LEFT OUTER JOIN v4_0_statistics_vms_resources_usage_daily AS stats
+        ON (conf.history_id = stats.vm_configuration_version)
+    LEFT OUTER JOIN  v4_0_configuration_history_vms_devices device_conf
+        ON (conf.history_id = device_conf.vm_configuration_version)
+    LEFT OUTER JOIN v4_0_configuration_history_vms_disks disk_conf
+        ON (device_conf.device_configuration_version = disk_conf.history_id)
+    LEFT OUTER JOIN v4_0_configuration_history_vms_interfaces AS nic_conf
+        ON (device_conf.device_configuration_version = nic_conf.history_id  AND
+            conf.history_id = nic_conf.vm_configuration_version)
+    LEFT OUTER JOIN v4_0_statistics_vms_interfaces_resources_usage_daily AS nic_stats
+        ON (nic_conf.history_id = nic_stats.vm_interface_configuration_version AND
+            stats.history_datetime = nic_stats.history_datetime)
+    LEFT OUTER JOIN v4_0_statistics_vms_disks_resources_usage_daily disk_stats
+        ON (disk_conf.history_id = disk_stats.vm_disk_configuration_version AND
+            stats.history_datetime = disk_stats.history_datetime);
 
 CREATE OR REPLACE VIEW v4_0_users_details_history
  AS
