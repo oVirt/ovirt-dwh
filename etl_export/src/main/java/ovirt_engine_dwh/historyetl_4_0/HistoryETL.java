@@ -110,6 +110,26 @@ public class HistoryETL implements TalendJob {
 
 		public void synchronizeContext() {
 
+			if (deleteIncrement != null) {
+
+				this.setProperty("deleteIncrement", deleteIncrement.toString());
+
+			}
+
+			if (deleteMultiplier != null) {
+
+				this.setProperty("deleteMultiplier",
+						deleteMultiplier.toString());
+
+			}
+
+			if (dwhAggregationDebug != null) {
+
+				this.setProperty("dwhAggregationDebug",
+						dwhAggregationDebug.toString());
+
+			}
+
 			if (dwhUuid != null) {
 
 				this.setProperty("dwhUuid", dwhUuid.toString());
@@ -238,6 +258,24 @@ public class HistoryETL implements TalendJob {
 
 			}
 
+		}
+
+		public Integer deleteIncrement;
+
+		public Integer getDeleteIncrement() {
+			return this.deleteIncrement;
+		}
+
+		public Integer deleteMultiplier;
+
+		public Integer getDeleteMultiplier() {
+			return this.deleteMultiplier;
+		}
+
+		public String dwhAggregationDebug;
+
+		public String getDwhAggregationDebug() {
+			return this.dwhAggregationDebug;
 		}
 
 		public String dwhUuid;
@@ -753,6 +791,28 @@ public class HistoryETL implements TalendJob {
 				globalMap);
 	}
 
+	public void tContextDump_1_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tContextDump_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tLogRow_3_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tContextDump_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tJDBCConnection_6_error(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1245,6 +1305,17 @@ public class HistoryETL implements TalendJob {
 
 	}
 
+	public void tContextDump_1_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
 	public void tJDBCConnection_6_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1530,6 +1601,15 @@ public class HistoryETL implements TalendJob {
 					paraList_tRunJob_4.add("--context_param " + key_tRunJob_4
 							+ "=" + value_tRunJob_4);
 				}
+
+				parentContextMap_tRunJob_4.put("deleteIncrement",
+						context.deleteIncrement);
+
+				parentContextMap_tRunJob_4.put("deleteMultiplier",
+						context.deleteMultiplier);
+
+				parentContextMap_tRunJob_4.put("dwhAggregationDebug",
+						context.dwhAggregationDebug);
 
 				parentContextMap_tRunJob_4.put("dwhUuid", context.dwhUuid);
 
@@ -5064,6 +5144,30 @@ public class HistoryETL implements TalendJob {
 						if (tmp_key_tContextLoad_1 != null) {
 							try {
 								if (key_tContextLoad_1 != null
+										&& "deleteIncrement"
+												.equals(key_tContextLoad_1)) {
+
+									context.deleteIncrement = Integer
+											.parseInt(value_tContextLoad_1);
+
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "deleteMultiplier"
+												.equals(key_tContextLoad_1)) {
+
+									context.deleteMultiplier = Integer
+											.parseInt(value_tContextLoad_1);
+
+								}
+
+								if (key_tContextLoad_1 != null
+										&& "dwhAggregationDebug"
+												.equals(key_tContextLoad_1)) {
+									context.dwhAggregationDebug = value_tContextLoad_1;
+								}
+
+								if (key_tContextLoad_1 != null
 										&& "dwhUuid".equals(key_tContextLoad_1)) {
 									context.dwhUuid = value_tContextLoad_1;
 								}
@@ -5315,7 +5419,7 @@ public class HistoryETL implements TalendJob {
 								"", "", "", "");
 			}
 
-			tJDBCConnection_6Process(globalMap);
+			tContextDump_1Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -5359,6 +5463,388 @@ public class HistoryETL implements TalendJob {
 		}
 
 		globalMap.put("tFileInputProperties_1_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row10Struct implements
+			routines.system.IPersistableRow<row10Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[0];
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public String value;
+
+		public String getValue() {
+			return this.value;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_HistoryETL.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL = new byte[2 * length];
+					}
+				}
+				dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0,
+						length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_HistoryETL, 0, length,
+						utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_HistoryETL) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// String
+
+				writeString(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row10Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tContextDump_1Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tContextDump_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row10Struct row10 = new row10Struct();
+
+				/**
+				 * [tLogRow_3 begin ] start
+				 */
+
+				ok_Hash.put("tLogRow_3", false);
+				start_Hash.put("tLogRow_3", System.currentTimeMillis());
+
+				currentComponent = "tLogRow_3";
+
+				int tos_count_tLogRow_3 = 0;
+
+				// /////////////////////
+
+				final String OUTPUT_FIELD_SEPARATOR_tLogRow_3 = "|";
+				java.io.PrintStream consoleOut_tLogRow_3 = null;
+
+				StringBuilder strBuffer_tLogRow_3 = null;
+				int nb_line_tLogRow_3 = 0;
+				// /////////////////////
+
+				/**
+				 * [tLogRow_3 begin ] stop
+				 */
+
+				/**
+				 * [tContextDump_1 begin ] start
+				 */
+
+				ok_Hash.put("tContextDump_1", false);
+				start_Hash.put("tContextDump_1", System.currentTimeMillis());
+
+				currentComponent = "tContextDump_1";
+
+				int tos_count_tContextDump_1 = 0;
+
+				int nb_line_tContextDump_1 = 0;
+				java.util.List<String> assignList_tContextDump_1 = new java.util.ArrayList<String>();
+				for (java.util.Enumeration<?> en_tContextDump_1 = context
+						.propertyNames(); en_tContextDump_1.hasMoreElements();) {
+					nb_line_tContextDump_1++;
+					Object key_tContextDump_1 = en_tContextDump_1.nextElement();
+					Object value_tContextDump_1 = context
+							.getProperty(key_tContextDump_1.toString());
+					row10.key = key_tContextDump_1.toString();
+					row10.value = value_tContextDump_1.toString();
+
+					if (("lastErrorSent").equals(key_tContextDump_1.toString())) {
+						if (value_tContextDump_1.toString().indexOf(";") > -1) {
+							row10.value = value_tContextDump_1.toString()
+									.substring(
+											value_tContextDump_1.toString()
+													.indexOf(";") + 1);
+						}
+					}
+
+					if (("ovirtEngineDbPassword").equals(key_tContextDump_1
+							.toString())) {
+						row10.value = value_tContextDump_1.toString()
+								.replaceAll(".", "*");
+					}
+
+					if (("ovirtEngineHistoryDbPassword")
+							.equals(key_tContextDump_1.toString())) {
+						row10.value = value_tContextDump_1.toString()
+								.replaceAll(".", "*");
+					}
+
+					/**
+					 * [tContextDump_1 begin ] stop
+					 */
+
+					/**
+					 * [tContextDump_1 main ] start
+					 */
+
+					currentComponent = "tContextDump_1";
+
+					tos_count_tContextDump_1++;
+
+					/**
+					 * [tContextDump_1 main ] stop
+					 */
+
+					/**
+					 * [tLogRow_3 main ] start
+					 */
+
+					currentComponent = "tLogRow_3";
+
+					// /////////////////////
+
+					strBuffer_tLogRow_3 = new StringBuilder();
+
+					if (row10.key != null) { //
+
+						strBuffer_tLogRow_3.append(String.valueOf(row10.key));
+
+					} //
+
+					strBuffer_tLogRow_3.append("|");
+
+					if (row10.value != null) { //
+
+						strBuffer_tLogRow_3.append(String.valueOf(row10.value));
+
+					} //
+
+					if (globalMap.get("tLogRow_CONSOLE") != null) {
+						consoleOut_tLogRow_3 = (java.io.PrintStream) globalMap
+								.get("tLogRow_CONSOLE");
+					} else {
+						consoleOut_tLogRow_3 = new java.io.PrintStream(
+								new java.io.BufferedOutputStream(System.out));
+						globalMap.put("tLogRow_CONSOLE", consoleOut_tLogRow_3);
+					}
+					consoleOut_tLogRow_3
+							.println(strBuffer_tLogRow_3.toString());
+					consoleOut_tLogRow_3.flush();
+					nb_line_tLogRow_3++;
+					// ////
+
+					// ////
+
+					// /////////////////////
+
+					tos_count_tLogRow_3++;
+
+					/**
+					 * [tLogRow_3 main ] stop
+					 */
+
+					/**
+					 * [tContextDump_1 end ] start
+					 */
+
+					currentComponent = "tContextDump_1";
+
+				}
+				globalMap.put("tContextDump_1_NB_LINE", nb_line_tContextDump_1);
+
+				ok_Hash.put("tContextDump_1", true);
+				end_Hash.put("tContextDump_1", System.currentTimeMillis());
+
+				/**
+				 * [tContextDump_1 end ] stop
+				 */
+
+				/**
+				 * [tLogRow_3 end ] start
+				 */
+
+				currentComponent = "tLogRow_3";
+
+				// ////
+				// ////
+				globalMap.put("tLogRow_3_NB_LINE", nb_line_tLogRow_3);
+
+				// /////////////////////
+
+				ok_Hash.put("tLogRow_3", true);
+				end_Hash.put("tLogRow_3", System.currentTimeMillis());
+
+				/**
+				 * [tLogRow_3 end ] stop
+				 */
+
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tContextDump_1:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCConnection_6Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tContextDump_1 finally ] start
+				 */
+
+				currentComponent = "tContextDump_1";
+
+				/**
+				 * [tContextDump_1 finally ] stop
+				 */
+
+				/**
+				 * [tLogRow_3 finally ] start
+				 */
+
+				currentComponent = "tLogRow_3";
+
+				/**
+				 * [tLogRow_3 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tContextDump_1_SUBPROCESS_STATE", 1);
 	}
 
 	public void tJDBCConnection_6Process(
@@ -7438,6 +7924,15 @@ public class HistoryETL implements TalendJob {
 							+ "=" + value_tRunJob_2);
 				}
 
+				parentContextMap_tRunJob_2.put("deleteIncrement",
+						context.deleteIncrement);
+
+				parentContextMap_tRunJob_2.put("deleteMultiplier",
+						context.deleteMultiplier);
+
+				parentContextMap_tRunJob_2.put("dwhAggregationDebug",
+						context.dwhAggregationDebug);
+
 				parentContextMap_tRunJob_2.put("dwhUuid", context.dwhUuid);
 
 				parentContextMap_tRunJob_2
@@ -8880,6 +9375,15 @@ public class HistoryETL implements TalendJob {
 					paraList_tRunJob_1.add("--context_param " + key_tRunJob_1
 							+ "=" + value_tRunJob_1);
 				}
+
+				parentContextMap_tRunJob_1.put("deleteIncrement",
+						context.deleteIncrement);
+
+				parentContextMap_tRunJob_1.put("deleteMultiplier",
+						context.deleteMultiplier);
+
+				parentContextMap_tRunJob_1.put("dwhAggregationDebug",
+						context.dwhAggregationDebug);
 
 				parentContextMap_tRunJob_1.put("dwhUuid", context.dwhUuid);
 
@@ -10673,6 +11177,21 @@ public class HistoryETL implements TalendJob {
 			if (!context_param.isEmpty()) {
 				context.putAll(context_param);
 			}
+			try {
+				context.deleteIncrement = routines.system.ParserUtils
+						.parseTo_Integer(context.getProperty("deleteIncrement"));
+			} catch (NumberFormatException e) {
+				context.deleteIncrement = null;
+			}
+			try {
+				context.deleteMultiplier = routines.system.ParserUtils
+						.parseTo_Integer(context
+								.getProperty("deleteMultiplier"));
+			} catch (NumberFormatException e) {
+				context.deleteMultiplier = null;
+			}
+			context.dwhAggregationDebug = (String) context
+					.getProperty("dwhAggregationDebug");
 			context.dwhUuid = (String) context.getProperty("dwhUuid");
 			context.etlVersion = (String) context.getProperty("etlVersion");
 			try {
@@ -10817,6 +11336,18 @@ public class HistoryETL implements TalendJob {
 
 		// get context value from parent directly
 		if (parentContextMap != null && !parentContextMap.isEmpty()) {
+			if (parentContextMap.containsKey("deleteIncrement")) {
+				context.deleteIncrement = (Integer) parentContextMap
+						.get("deleteIncrement");
+			}
+			if (parentContextMap.containsKey("deleteMultiplier")) {
+				context.deleteMultiplier = (Integer) parentContextMap
+						.get("deleteMultiplier");
+			}
+			if (parentContextMap.containsKey("dwhAggregationDebug")) {
+				context.dwhAggregationDebug = (String) parentContextMap
+						.get("dwhAggregationDebug");
+			}
 			if (parentContextMap.containsKey("dwhUuid")) {
 				context.dwhUuid = (String) parentContextMap.get("dwhUuid");
 			}
@@ -11366,6 +11897,6 @@ public class HistoryETL implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 287343 characters generated by Talend Open Studio for Data Integration on the
- * April 10, 2016 10:25:08 PM IDT
+ * 300996 characters generated by Talend Open Studio for Data Integration on the
+ * May 15, 2016 2:41:18 PM IDT
  ************************************************************************************************/
