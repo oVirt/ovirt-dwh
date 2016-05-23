@@ -733,7 +733,7 @@ SELECT
     vm_disk_size_mb as vm_disk_size_mb,
     vm_disk_type as vm_disk_type,
     vm_disk_format as vm_disk_format,
-    vm_disk_interface as vm_disk_interface,
+    cast(NULL as smallint) as vm_disk_interface,
     is_shared as is_shared,
     create_date as create_date,
     update_date as update_date,
@@ -755,7 +755,7 @@ SELECT
     vm_disk_size_mb as vm_disk_size_mb,
     vm_disk_type as vm_disk_type,
     vm_disk_format as vm_disk_format,
-    vm_disk_interface as vm_disk_interface,
+    cast(NULL as smallint) as vm_disk_interface,
     is_shared as is_shared,
     create_date as create_date,
     update_date as update_date
