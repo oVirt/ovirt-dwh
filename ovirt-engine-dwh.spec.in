@@ -252,6 +252,15 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue May 31 2016 Shirly Radco <sradco@redhat.com> - 4.0.0
+Fixed issues:
+- Bug 1338495 - remove collection of vm_disk_interface
+- Bug 1302598 - added over_time views to simplify use
+- Bug 1324440 - Added log message - Application Settings
+- Bug 1328805 - Allow choosing scale
+- Bug 1318665 - Copy db creds to engine
+- Bug 1328860 - Move DBTransaction to common
+
 * Thu Apr 21 2016 Shirly Radco <sradco@redhat.com> - 4.0.0
 Fixed issues:
 - Bug 1302611 - spec: Require java 8
