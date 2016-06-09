@@ -316,6 +316,9 @@ class DBEnv(object):
 
     @osetupattrs(
         answerfile=True,
+        answerfile_condition=lambda env: not env.get(
+            ProvisioningEnv.POSTGRES_PROVISIONING_ENABLED
+        ),
     )
     def PASSWORD(self):
         return 'OVESETUP_DWH_DB/password'
@@ -456,6 +459,9 @@ class EngineDBEnv(object):
 
     @osetupattrs(
         answerfile=True,
+        answerfile_condition=lambda env: not env.get(
+            oengcommcons.ProvisioningEnv.POSTGRES_PROVISIONING_ENABLED
+        ),
     )
     def PASSWORD(self):
         return 'OVESETUP_DB/password'
