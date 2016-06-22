@@ -129,7 +129,7 @@ Summary:	%{product_name} setup
 Group:		Virtualization/Management
 Requires:	ovirt-engine-setup-plugin-ovirt-engine-common
 Requires:	ovirt-setup-lib
-Requires:	%{name} >= 3.6.0
+Requires:	%{name} >= 4.0.0
 BuildRequires:	python
 
 %description setup
