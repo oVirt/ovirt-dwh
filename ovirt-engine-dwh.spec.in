@@ -252,6 +252,12 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Jul 05 2016 Shirly Radco <sradco@redhat.com> - 4.0.1
+Fixed issues:
+- Bug 1347996 - Added index to vm disks usage tables
+- Bug 1347281 - Dropped all history database foreign keys
+- Bug 1332892 - Do not write db password to answerfile if provisioning
+
 * Tue May 31 2016 Shirly Radco <sradco@redhat.com> - 4.0.0
 Fixed issues:
 - Bug 1338495 - remove collection of vm_disk_interface
