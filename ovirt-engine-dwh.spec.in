@@ -260,6 +260,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Jul 05 2016 Shirly Radco <sradco@redhat.com> - 3.6.8
+Fixed issues:
+- Bug 1347996 - added index to vm disks usage tables
+
 * Tue Apr 19 2016 Shirly Radco <sradco@redhat.com> - 3.6.6
 Fixed issues:
 - Bug 1321517 - changed the limit in  DeleteTimekeeping job
