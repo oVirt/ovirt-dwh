@@ -1,6 +1,5 @@
 #!/bin/bash -xe
 
-SUFFIX=".git$(git rev-parse --short HEAD)"
 MAVEN_SETTINGS="/etc/maven/settings.xml"
 export BUILD_JAVA_OPTS_MAVEN="\
     -Dgwt.compiler.localWorkers=1 \
@@ -46,7 +45,6 @@ make dist
 rpmbuild \
     -D "_srcrpmdir $PWD/output" \
     -D "_topmdir $PWD/rpmbuild" \
-    -D "release_suffix ${SUFFIX}" \
     -ts ./*.gz
 
 # install any build requirements
@@ -62,7 +60,6 @@ fi
 rpmbuild \
     -D "_rpmdir $PWD/output" \
     -D "_topmdir $PWD/rpmbuild" \
-    -D "release_suffix ${SUFFIX}" \
     --rebuild output/*.src.rpm
 
 # Store any relevant artifacts in exported-artifacts for the ci system to
