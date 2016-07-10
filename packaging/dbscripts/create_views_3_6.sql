@@ -763,6 +763,16 @@ FROM vm_disk_configuration
 WHERE history_id in (SELECT max(a.history_id) FROM vm_disk_configuration as a GROUP BY a.vm_disk_id)
       and delete_date IS NULL;
 
+CREATE OR REPLACE VIEW disks_vm_map
+AS
+SELECT history_id,
+    device_id AS vm_disk_id,
+    vm_id,
+    create_date AS attach_date,
+    delete_date AS detach_date
+FROM vm_device_history
+WHERE type = 'disk';
+
 CREATE OR REPLACE VIEW v3_6_statistics_vms_disks_resources_usage_samples
  AS
 SELECT
