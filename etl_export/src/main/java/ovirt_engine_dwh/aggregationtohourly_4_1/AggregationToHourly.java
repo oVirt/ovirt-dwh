@@ -16,15 +16,15 @@
 
 package ovirt_engine_dwh.aggregationtohourly_4_1;
 
-import routines.Mathematical;
-import routines.DataOperation;
-import routines.Relational;
-import routines.TalendDate;
-import routines.TalendDataGenerator;
 import routines.Numeric;
+import routines.DataOperation;
+import routines.TalendDataGenerator;
 import routines.RoutineHistoryETL;
 import routines.TalendString;
 import routines.StringHandling;
+import routines.Relational;
+import routines.TalendDate;
+import routines.Mathematical;
 import routines.system.*;
 import routines.system.api.*;
 import java.text.ParseException;
@@ -2764,10 +2764,10 @@ public class AggregationToHourly implements TalendJob {
 			return this.host_status;
 		}
 
-		public double minutes_in_status;
+		public int seconds_in_status;
 
-		public double getMinutes_in_status() {
-			return this.minutes_in_status;
+		public int getSeconds_in_status() {
+			return this.seconds_in_status;
 		}
 
 		public Short memory_usage_percent;
@@ -2903,7 +2903,7 @@ public class AggregationToHourly implements TalendJob {
 
 					this.host_status = dis.readShort();
 
-					this.minutes_in_status = dis.readDouble();
+					this.seconds_in_status = dis.readInt();
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -3000,9 +3000,9 @@ public class AggregationToHourly implements TalendJob {
 
 				dos.writeShort(this.host_status);
 
-				// double
+				// int
 
-				dos.writeDouble(this.minutes_in_status);
+				dos.writeInt(this.seconds_in_status);
 
 				// Short
 
@@ -3107,7 +3107,7 @@ public class AggregationToHourly implements TalendJob {
 			sb.append(",history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",host_id=" + String.valueOf(host_id));
 			sb.append(",host_status=" + String.valueOf(host_status));
-			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
+			sb.append(",seconds_in_status=" + String.valueOf(seconds_in_status));
 			sb.append(",memory_usage_percent="
 					+ String.valueOf(memory_usage_percent));
 			sb.append(",ksm_shared_memory_mb="
@@ -3577,7 +3577,7 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
 						.createStatement();
 
-				String dbquery_tJDBCInput_2 = "SELECT \n  history_id, \n  history_datetime, \n  host_id, \n  host_status, \n  minutes_in_status, \n  memory_usage_percent, \n  ksm_shared_memory_mb,\n  cpu_usage_percent, \n  ksm_cpu_percent, \n  active_vms, \n  total_vms, \n  total_vms_vcpus, \n  cpu_load, \n  system_cpu_usage_percent, \n  user_cpu_usage_percent, \n  swap_used_mb, \n  host_configuration_version\nFROM host_samples_history\nWHERE history_datetime >= '"
+				String dbquery_tJDBCInput_2 = "SELECT \n  history_id, \n  history_datetime, \n  host_id, \n  host_status, \n  seconds_in_status, \n  memory_usage_percent, \n  ksm_shared_memory_mb,\n  cpu_usage_percent, \n  ksm_cpu_percent, \n  active_vms, \n  total_vms, \n  total_vms_vcpus, \n  cpu_load, \n  system_cpu_usage_percent, \n  user_cpu_usage_percent, \n  swap_used_mb, \n  host_configuration_version\nFROM host_samples_history\nWHERE history_datetime >= '"
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(context.lastHourAggr)
 						+ "'\nAND history_datetime < '"
@@ -3649,12 +3649,12 @@ public class AggregationToHourly implements TalendJob {
 							}
 						}
 						if (colQtyInRs_tJDBCInput_2 < 5) {
-							row2.minutes_in_status = 0;
+							row2.seconds_in_status = 0;
 						} else {
 
 							if (rs_tJDBCInput_2.getObject(5) != null) {
-								row2.minutes_in_status = rs_tJDBCInput_2
-										.getDouble(5);
+								row2.seconds_in_status = rs_tJDBCInput_2
+										.getInt(5);
 							} else {
 								throw new RuntimeException(
 										"Null value in non-Nullable column");
@@ -3835,7 +3835,9 @@ public class AggregationToHourly implements TalendJob {
 									.startOfHour(row2.history_datetime);
 							host_aggregation_tmp.host_id = row2.host_id;
 							host_aggregation_tmp.host_status = row2.host_status;
-							host_aggregation_tmp.minutes_in_status = row2.minutes_in_status;
+							host_aggregation_tmp.minutes_in_status = Integer
+									.valueOf(row2.seconds_in_status)
+									.doubleValue() / 60;
 							host_aggregation_tmp.memory_usage_percent = row2.memory_usage_percent;
 							host_aggregation_tmp.ksm_shared_memory_mb = row2.ksm_shared_memory_mb;
 							host_aggregation_tmp.cpu_usage_percent = row2.cpu_usage_percent;
@@ -8613,10 +8615,10 @@ public class AggregationToHourly implements TalendJob {
 			return this.vm_status;
 		}
 
-		public double minutes_in_status;
+		public int seconds_in_status;
 
-		public double getMinutes_in_status() {
-			return this.minutes_in_status;
+		public int getSeconds_in_status() {
+			return this.seconds_in_status;
 		}
 
 		public Short cpu_usage_percent;
@@ -8788,7 +8790,7 @@ public class AggregationToHourly implements TalendJob {
 
 					this.vm_status = dis.readShort();
 
-					this.minutes_in_status = dis.readDouble();
+					this.seconds_in_status = dis.readInt();
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -8880,9 +8882,9 @@ public class AggregationToHourly implements TalendJob {
 
 				dos.writeShort(this.vm_status);
 
-				// double
+				// int
 
-				dos.writeDouble(this.minutes_in_status);
+				dos.writeInt(this.seconds_in_status);
 
 				// Short
 
@@ -8982,7 +8984,7 @@ public class AggregationToHourly implements TalendJob {
 			sb.append(",history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",vm_id=" + String.valueOf(vm_id));
 			sb.append(",vm_status=" + String.valueOf(vm_status));
-			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
+			sb.append(",seconds_in_status=" + String.valueOf(seconds_in_status));
 			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
 			sb.append(",memory_usage_percent="
 					+ String.valueOf(memory_usage_percent));
@@ -9439,7 +9441,7 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_4 = conn_tJDBCInput_4
 						.createStatement();
 
-				String dbquery_tJDBCInput_4 = "SELECT \n  history_id, \n  history_datetime, \n  vm_id, \n  vm_status, \n  minutes_in_status, \n  cpu_usage_percent, \n  memory_usage_percent, \n  user_cpu_usage_percent, \n  system_cpu_usage_percent,\n  vm_ip, \n  current_user_id,\n  user_logged_in_to_guest,\n  currently_running_on_host, \n  vm_configuration_version, \n  current_host_configuration_version,\n  memory_buffered_kb,\n  memory_cached_kb\nFROM vm_samples_history\nWHERE history_datetime >= '"
+				String dbquery_tJDBCInput_4 = "SELECT \n  history_id, \n  history_datetime, \n  vm_id, \n  vm_status, \n  seconds_in_status, \n  cpu_usage_percent, \n  memory_usage_percent, \n  user_cpu_usage_percent, \n  system_cpu_usage_percent,\n  vm_ip, \n  current_user_id,\n  user_logged_in_to_guest,\n  currently_running_on_host, \n  vm_configuration_version, \n  current_host_configuration_version,\n  memory_buffered_kb,\n  memory_cached_kb\nFROM vm_samples_history\nWHERE history_datetime >= '"
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(context.lastHourAggr)
 						+ "'\nAND history_datetime < '"
@@ -9511,12 +9513,12 @@ public class AggregationToHourly implements TalendJob {
 							}
 						}
 						if (colQtyInRs_tJDBCInput_4 < 5) {
-							row4.minutes_in_status = 0;
+							row4.seconds_in_status = 0;
 						} else {
 
 							if (rs_tJDBCInput_4.getObject(5) != null) {
-								row4.minutes_in_status = rs_tJDBCInput_4
-										.getDouble(5);
+								row4.seconds_in_status = rs_tJDBCInput_4
+										.getInt(5);
 							} else {
 								throw new RuntimeException(
 										"Null value in non-Nullable column");
@@ -9697,7 +9699,9 @@ public class AggregationToHourly implements TalendJob {
 									.startOfHour(row4.history_datetime);
 							vm_aggregate_history_tmp.vm_id = row4.vm_id;
 							vm_aggregate_history_tmp.vm_status = row4.vm_status;
-							vm_aggregate_history_tmp.minutes_in_status = row4.minutes_in_status;
+							vm_aggregate_history_tmp.minutes_in_status = Integer
+									.valueOf(row4.seconds_in_status)
+									.doubleValue() / 60;
 							vm_aggregate_history_tmp.cpu_usage_percent = row4.cpu_usage_percent;
 							vm_aggregate_history_tmp.memory_usage_percent = row4.memory_usage_percent;
 							vm_aggregate_history_tmp.user_cpu_usage_percent = row4.user_cpu_usage_percent;
@@ -13386,10 +13390,10 @@ public class AggregationToHourly implements TalendJob {
 			return this.storage_domain_status;
 		}
 
-		public double minutes_in_status;
+		public int seconds_in_status;
 
-		public double getMinutes_in_status() {
-			return this.minutes_in_status;
+		public int getSeconds_in_status() {
+			return this.seconds_in_status;
 		}
 
 		public Integer available_disk_size_gb;
@@ -13471,7 +13475,7 @@ public class AggregationToHourly implements TalendJob {
 
 					this.storage_domain_status = dis.readShort();
 
-					this.minutes_in_status = dis.readDouble();
+					this.seconds_in_status = dis.readInt();
 
 					this.available_disk_size_gb = readInteger(dis);
 
@@ -13510,9 +13514,9 @@ public class AggregationToHourly implements TalendJob {
 
 				dos.writeShort(this.storage_domain_status);
 
-				// double
+				// int
 
-				dos.writeDouble(this.minutes_in_status);
+				dos.writeInt(this.seconds_in_status);
 
 				// Integer
 
@@ -13542,7 +13546,7 @@ public class AggregationToHourly implements TalendJob {
 			sb.append(",storage_domain_id=" + String.valueOf(storage_domain_id));
 			sb.append(",storage_domain_status="
 					+ String.valueOf(storage_domain_status));
-			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
+			sb.append(",seconds_in_status=" + String.valueOf(seconds_in_status));
 			sb.append(",available_disk_size_gb="
 					+ String.valueOf(available_disk_size_gb));
 			sb.append(",used_disk_size_gb=" + String.valueOf(used_disk_size_gb));
@@ -13960,7 +13964,7 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_11 = conn_tJDBCInput_11
 						.createStatement();
 
-				String dbquery_tJDBCInput_11 = "SELECT \n  history_id,\n  history_datetime, \n  storage_domain_id, \n  storage_domain_status,\n  minutes_in_status,\n  available_disk_size_gb, \n  used_disk_size_gb, \n  storage_configuration_version\nFROM storage_domain_samples_history\nWHERE history_datetime >= '"
+				String dbquery_tJDBCInput_11 = "SELECT \n  history_id,\n  history_datetime, \n  storage_domain_id, \n  storage_domain_status,\n  seconds_in_status,\n  available_disk_size_gb, \n  used_disk_size_gb, \n  storage_configuration_version\nFROM storage_domain_samples_history\nWHERE history_datetime >= '"
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(context.lastHourAggr)
 						+ "'\nAND history_datetime < '"
@@ -14035,12 +14039,12 @@ public class AggregationToHourly implements TalendJob {
 							}
 						}
 						if (colQtyInRs_tJDBCInput_11 < 5) {
-							row16.minutes_in_status = 0;
+							row16.seconds_in_status = 0;
 						} else {
 
 							if (rs_tJDBCInput_11.getObject(5) != null) {
-								row16.minutes_in_status = rs_tJDBCInput_11
-										.getDouble(5);
+								row16.seconds_in_status = rs_tJDBCInput_11
+										.getInt(5);
 							} else {
 								throw new RuntimeException(
 										"Null value in non-Nullable column");
@@ -14126,7 +14130,9 @@ public class AggregationToHourly implements TalendJob {
 									.startOfHour(row16.history_datetime);
 							storage_aggregate_tmp.storage_domain_id = row16.storage_domain_id;
 							storage_aggregate_tmp.storage_domain_status = row16.storage_domain_status;
-							storage_aggregate_tmp.minutes_in_status = row16.minutes_in_status;
+							storage_aggregate_tmp.minutes_in_status = Integer
+									.valueOf(row16.seconds_in_status)
+									.doubleValue() / 60;
 							storage_aggregate_tmp.available_disk_size_gb = row16.available_disk_size_gb;
 							storage_aggregate_tmp.used_disk_size_gb = row16.used_disk_size_gb;
 							storage_aggregate_tmp.storage_configuration_version = row16.storage_configuration_version;
@@ -15890,10 +15896,10 @@ public class AggregationToHourly implements TalendJob {
 			return this.vm_disk_status;
 		}
 
-		public double minutes_in_status;
+		public int seconds_in_status;
 
-		public double getMinutes_in_status() {
-			return this.minutes_in_status;
+		public int getSeconds_in_status() {
+			return this.seconds_in_status;
 		}
 
 		public int vm_disk_actual_size_mb;
@@ -16004,7 +16010,7 @@ public class AggregationToHourly implements TalendJob {
 						this.vm_disk_status = dis.readShort();
 					}
 
-					this.minutes_in_status = dis.readDouble();
+					this.seconds_in_status = dis.readInt();
 
 					this.vm_disk_actual_size_mb = dis.readInt();
 
@@ -16081,9 +16087,9 @@ public class AggregationToHourly implements TalendJob {
 					dos.writeShort(this.vm_disk_status);
 				}
 
-				// double
+				// int
 
-				dos.writeDouble(this.minutes_in_status);
+				dos.writeInt(this.seconds_in_status);
 
 				// int
 
@@ -16153,7 +16159,7 @@ public class AggregationToHourly implements TalendJob {
 			sb.append(",vm_disk_id=" + String.valueOf(vm_disk_id));
 			sb.append(",image_id=" + String.valueOf(image_id));
 			sb.append(",vm_disk_status=" + String.valueOf(vm_disk_status));
-			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
+			sb.append(",seconds_in_status=" + String.valueOf(seconds_in_status));
 			sb.append(",vm_disk_actual_size_mb="
 					+ String.valueOf(vm_disk_actual_size_mb));
 			sb.append(",read_rate_bytes_per_second="
@@ -16606,7 +16612,7 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_13 = conn_tJDBCInput_13
 						.createStatement();
 
-				String dbquery_tJDBCInput_13 = "SELECT history_datetime,\n		vm_disk_id,\n        image_id,\n		vm_disk_status, \n		minutes_in_status,\n		vm_disk_actual_size_mb,\n		read_rate_bytes_per_second,\n		read_latency_seconds,\n		write_rate_bytes_per_second,\n		write_latency_seconds,\n		flush_latency_seconds,\n		vm_disk_configuration_version \nFROM vm_disk_samples_history\nWHERE history_datetime >= '"
+				String dbquery_tJDBCInput_13 = "SELECT history_datetime,\n		vm_disk_id,\n        image_id,\n		vm_disk_status, \n		seconds_in_status,\n		vm_disk_actual_size_mb,\n		read_rate_bytes_per_second,\n		read_latency_seconds,\n		write_rate_bytes_per_second,\n		write_latency_seconds,\n		flush_latency_seconds,\n		vm_disk_configuration_version \nFROM vm_disk_samples_history\nWHERE history_datetime >= '"
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(context.lastHourAggr)
 						+ "'\nAND history_datetime < '"
@@ -16680,12 +16686,12 @@ public class AggregationToHourly implements TalendJob {
 							}
 						}
 						if (colQtyInRs_tJDBCInput_13 < 5) {
-							row19.minutes_in_status = 0;
+							row19.seconds_in_status = 0;
 						} else {
 
 							if (rs_tJDBCInput_13.getObject(5) != null) {
-								row19.minutes_in_status = rs_tJDBCInput_13
-										.getDouble(5);
+								row19.seconds_in_status = rs_tJDBCInput_13
+										.getInt(5);
 							} else {
 								throw new RuntimeException(
 										"Null value in non-Nullable column");
@@ -16817,7 +16823,9 @@ public class AggregationToHourly implements TalendJob {
 							vm_disk_aggregate_tmp.vm_disk_id = row19.vm_disk_id;
 							vm_disk_aggregate_tmp.image_id = row19.image_id;
 							vm_disk_aggregate_tmp.vm_disk_status = row19.vm_disk_status;
-							vm_disk_aggregate_tmp.minutes_in_status = row19.minutes_in_status;
+							vm_disk_aggregate_tmp.minutes_in_status = Integer
+									.valueOf(row19.seconds_in_status)
+									.doubleValue() / 60;
 							vm_disk_aggregate_tmp.vm_disk_actual_size_mb = row19.vm_disk_actual_size_mb;
 							vm_disk_aggregate_tmp.read_rate_bytes_per_second = row19.read_rate_bytes_per_second;
 							vm_disk_aggregate_tmp.read_latency_seconds = row19.read_latency_seconds;
@@ -22363,10 +22371,10 @@ public class AggregationToHourly implements TalendJob {
 			return this.vm_id;
 		}
 
-		public double minutes_in_status;
+		public int seconds_in_status;
 
-		public double getMinutes_in_status() {
-			return this.minutes_in_status;
+		public int getSeconds_in_status() {
+			return this.seconds_in_status;
 		}
 
 		public Short cpu_usage_percent;
@@ -22524,7 +22532,7 @@ public class AggregationToHourly implements TalendJob {
 
 					this.vm_id = (Object) dis.readObject();
 
-					this.minutes_in_status = dis.readDouble();
+					this.seconds_in_status = dis.readInt();
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -22603,9 +22611,9 @@ public class AggregationToHourly implements TalendJob {
 
 				dos.writeObject(this.vm_id);
 
-				// double
+				// int
 
-				dos.writeDouble(this.minutes_in_status);
+				dos.writeInt(this.seconds_in_status);
 
 				// Short
 
@@ -22681,7 +22689,7 @@ public class AggregationToHourly implements TalendJob {
 			sb.append(",user_logged_in_to_guest="
 					+ String.valueOf(user_logged_in_to_guest));
 			sb.append(",vm_id=" + String.valueOf(vm_id));
-			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
+			sb.append(",seconds_in_status=" + String.valueOf(seconds_in_status));
 			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
 			sb.append(",memory_usage_percent="
 					+ String.valueOf(memory_usage_percent));
@@ -23145,7 +23153,7 @@ public class AggregationToHourly implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_10 = conn_tJDBCInput_10
 						.createStatement();
 
-				String dbquery_tJDBCInput_10 = "SELECT \n  history_id,\n  history_datetime,\n  current_user_id,\n  current_user_name,\n  cast(user_logged_in_to_guest as int),\n  vm_id,\n  minutes_in_status,\n  cpu_usage_percent,\n  memory_usage_percent,\n  user_cpu_usage_percent,\n  system_cpu_usage_percent,\n  vm_ip,\n  vm_client_ip,\n  currently_running_on_host,\n  vm_configuration_version,\n  current_host_configuration_version\nFROM vm_samples_history\nWHERE vm_status = 1\nAND history_datetime >= '"
+				String dbquery_tJDBCInput_10 = "SELECT \n  history_id,\n  history_datetime,\n  current_user_id,\n  current_user_name,\n  cast(user_logged_in_to_guest as int),\n  vm_id,\n  seconds_in_status,\n  cpu_usage_percent,\n  memory_usage_percent,\n  user_cpu_usage_percent,\n  system_cpu_usage_percent,\n  vm_ip,\n  vm_client_ip,\n  currently_running_on_host,\n  vm_configuration_version,\n  current_host_configuration_version\nFROM vm_samples_history\nWHERE vm_status = 1\nAND history_datetime >= '"
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(context.lastHourAggr)
 						+ "'\nAND history_datetime < '"
@@ -23236,12 +23244,12 @@ public class AggregationToHourly implements TalendJob {
 							}
 						}
 						if (colQtyInRs_tJDBCInput_10 < 7) {
-							row13.minutes_in_status = 0;
+							row13.seconds_in_status = 0;
 						} else {
 
 							if (rs_tJDBCInput_10.getObject(7) != null) {
-								row13.minutes_in_status = rs_tJDBCInput_10
-										.getDouble(7);
+								row13.seconds_in_status = rs_tJDBCInput_10
+										.getInt(7);
 							} else {
 								throw new RuntimeException(
 										"Null value in non-Nullable column");
@@ -23387,7 +23395,9 @@ public class AggregationToHourly implements TalendJob {
 							vm_users_aggregate_history_tmp.user_name = row13.current_user_name;
 							vm_users_aggregate_history_tmp.user_logged_in_to_guest = row13.user_logged_in_to_guest;
 							vm_users_aggregate_history_tmp.vm_id = row13.vm_id;
-							vm_users_aggregate_history_tmp.session_time_in_minutes = row13.minutes_in_status;
+							vm_users_aggregate_history_tmp.session_time_in_minutes = Integer
+									.valueOf(row13.seconds_in_status)
+									.doubleValue() / 60;
 							vm_users_aggregate_history_tmp.cpu_usage_percent = row13.cpu_usage_percent;
 							vm_users_aggregate_history_tmp.memory_usage_percent = row13.memory_usage_percent;
 							vm_users_aggregate_history_tmp.user_cpu_usage_percent = row13.user_cpu_usage_percent;
@@ -25746,6 +25756,6 @@ public class AggregationToHourly implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 732210 characters generated by Talend Open Studio for Data Integration on the
- * April 14, 2016 8:47:17 AM IDT
+ * 732294 characters generated by Talend Open Studio for Data Integration on the
+ * July 17, 2016 12:59:48 PM IDT
  ************************************************************************************************/
