@@ -147,7 +147,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  host_id, &#xD;&#xA;  host_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  memory_usage_percent, &#xA;  ksm_shared_memory_mb,&#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  ksm_cpu_percent, &#xD;&#xA;  active_vms, &#xD;&#xA;  total_vms, &#xD;&#xA;  total_vms_vcpus, &#xD;&#xA;  cpu_load, &#xD;&#xA;  system_cpu_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  swap_used_mb, &#xD;&#xA;  host_configuration_version&#xD;&#xA;FROM host_samples_history&#xD;&#xA;WHERE history_datetime >= '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(context.lastHourAggr)+&quot;'&#xA;AND history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;))+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;&#x9;&#x9; host_id,&#xD;&#xA;      &#x9; host_status&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  host_id, &#xD;&#xA;  host_status, &#xD;&#xA;  seconds_in_status, &#xD;&#xA;  memory_usage_percent, &#xA;  ksm_shared_memory_mb,&#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  ksm_cpu_percent, &#xD;&#xA;  active_vms, &#xD;&#xA;  total_vms, &#xD;&#xA;  total_vms_vcpus, &#xD;&#xA;  cpu_load, &#xD;&#xA;  system_cpu_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  swap_used_mb, &#xD;&#xA;  host_configuration_version&#xD;&#xA;FROM host_samples_history&#xD;&#xA;WHERE history_datetime >= '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(context.lastHourAggr)+&quot;'&#xA;AND history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;))+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;&#x9;&#x9; host_id,&#xD;&#xA;      &#x9; host_status&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -165,7 +165,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="host_status"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="seconds_in_status"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="memory_usage_percent"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -200,7 +200,7 @@
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="host_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;20&quot;" key="false" length="10" name="seconds_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Integer" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="19" name="ksm_shared_memory_mb" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -245,13 +245,13 @@
       <column comment="" key="false" length="4" name="host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="host_aggregation">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row2.history_datetime) " type="id_Date"/>
         <mapperTableEntries name="host_id" expression="row2.host_id" type="id_Object"/>
         <mapperTableEntries name="host_status" expression="row2.host_status" type="id_Short"/>
-        <mapperTableEntries name="minutes_in_status" expression="row2.minutes_in_status" type="id_Double"/>
+        <mapperTableEntries name="minutes_in_status" expression="Integer.valueOf(row2.seconds_in_status).doubleValue() /60" type="id_Double"/>
         <mapperTableEntries name="memory_usage_percent" expression="row2.memory_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="ksm_shared_memory_mb" expression="row2.ksm_shared_memory_mb " type="id_Long" nullable="true"/>
         <mapperTableEntries name="cpu_usage_percent" expression="row2.cpu_usage_percent" type="id_Short" nullable="true"/>
@@ -270,7 +270,7 @@
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="host_id" type="id_Object"/>
         <mapperTableEntries name="host_status" type="id_Short"/>
-        <mapperTableEntries name="minutes_in_status" type="id_Double"/>
+        <mapperTableEntries name="seconds_in_status" type="id_Integer"/>
         <mapperTableEntries name="memory_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="ksm_shared_memory_mb" type="id_Long" nullable="true"/>
         <mapperTableEntries name="cpu_usage_percent" type="id_Short" nullable="true"/>
@@ -919,7 +919,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_status, &#xD;&#xA;  minutes_in_status, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  system_cpu_usage_percent,&#xD;&#xA;  vm_ip, &#xA;  current_user_id,&#xA;  user_logged_in_to_guest,&#xD;&#xA;  currently_running_on_host, &#xD;&#xA;  vm_configuration_version, &#xD;&#xA;  current_host_configuration_version,&#xA;  memory_buffered_kb,&#xA;  memory_cached_kb&#xD;&#xA;FROM vm_samples_history&#xD;&#xA;WHERE history_datetime >= '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(context.lastHourAggr)+&quot;'&#xA;AND history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;))+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; vm_id,&#xD;&#xA;&#x9;&#x9; vm_status&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  history_datetime, &#xD;&#xA;  vm_id, &#xD;&#xA;  vm_status, &#xD;&#xA;  seconds_in_status, &#xD;&#xA;  cpu_usage_percent, &#xD;&#xA;  memory_usage_percent, &#xD;&#xA;  user_cpu_usage_percent, &#xD;&#xA;  system_cpu_usage_percent,&#xD;&#xA;  vm_ip, &#xA;  current_user_id,&#xA;  user_logged_in_to_guest,&#xD;&#xA;  currently_running_on_host, &#xD;&#xA;  vm_configuration_version, &#xD;&#xA;  current_host_configuration_version,&#xA;  memory_buffered_kb,&#xA;  memory_cached_kb&#xD;&#xA;FROM vm_samples_history&#xD;&#xA;WHERE history_datetime >= '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(context.lastHourAggr)+&quot;'&#xA;AND history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;))+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; vm_id,&#xD;&#xA;&#x9;&#x9; vm_status&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -937,7 +937,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_status"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="seconds_in_status"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="cpu_usage_percent"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -972,7 +972,7 @@
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2" name="vm_status" nullable="false" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;20&quot;" key="false" length="10" name="seconds_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Integer" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -1016,13 +1016,13 @@
       <column comment="" key="false" length="-1" name="memory_cached_kb" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_aggregate_history">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row4.history_datetime) " type="id_Date"/>
         <mapperTableEntries name="vm_id" expression="row4.vm_id" type="id_Object"/>
         <mapperTableEntries name="vm_status" expression="row4.vm_status" type="id_Short"/>
-        <mapperTableEntries name="minutes_in_status" expression="row4.minutes_in_status" type="id_Double"/>
+        <mapperTableEntries name="minutes_in_status" expression="Integer.valueOf(row4.seconds_in_status).doubleValue() /60" type="id_Double"/>
         <mapperTableEntries name="cpu_usage_percent" expression="row4.cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="memory_usage_percent" expression="row4.memory_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="user_cpu_usage_percent" expression="row4.user_cpu_usage_percent" type="id_Short" nullable="true"/>
@@ -1040,7 +1040,7 @@
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="vm_id" type="id_Object"/>
         <mapperTableEntries name="vm_status" type="id_Short"/>
-        <mapperTableEntries name="minutes_in_status" type="id_Double"/>
+        <mapperTableEntries name="seconds_in_status" type="id_Integer"/>
         <mapperTableEntries name="cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="memory_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="user_cpu_usage_percent" type="id_Short" nullable="true"/>
@@ -1617,7 +1617,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id,&#xA;  history_datetime, &#xA;  storage_domain_id, &#xA;  storage_domain_status,&#xA;  minutes_in_status,&#xA;  available_disk_size_gb, &#xA;  used_disk_size_gb, &#xA;  storage_configuration_version&#xA;FROM storage_domain_samples_history&#xD;&#xA;WHERE history_datetime >= '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(context.lastHourAggr)+&quot;'&#xA;AND history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;))+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; storage_domain_id&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id,&#xA;  history_datetime, &#xA;  storage_domain_id, &#xA;  storage_domain_status,&#xA;  seconds_in_status,&#xA;  available_disk_size_gb, &#xA;  used_disk_size_gb, &#xA;  storage_configuration_version&#xA;FROM storage_domain_samples_history&#xD;&#xA;WHERE history_datetime >= '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(context.lastHourAggr)+&quot;'&#xA;AND history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;))+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;      &#x9; storage_domain_id&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1635,7 +1635,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="storage_domain_status"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="seconds_in_status"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="available_disk_size_gb"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1652,7 +1652,7 @@
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="storage_domain_status" nullable="false" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;20&quot;" key="false" length="10" name="seconds_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="available_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="used_disk_size_gb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -1679,13 +1679,13 @@
       <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="storage_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row16.history_datetime)" type="id_Date"/>
         <mapperTableEntries name="storage_domain_id" expression="row16.storage_domain_id" type="id_Object"/>
         <mapperTableEntries name="storage_domain_status" expression="row16.storage_domain_status" type="id_Short"/>
-        <mapperTableEntries name="minutes_in_status" expression="row16.minutes_in_status" type="id_Double"/>
+        <mapperTableEntries name="minutes_in_status" expression="Integer.valueOf(row16.seconds_in_status).doubleValue() /60" type="id_Double"/>
         <mapperTableEntries name="available_disk_size_gb" expression="row16.available_disk_size_gb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="used_disk_size_gb" expression="row16.used_disk_size_gb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="storage_configuration_version" expression="row16.storage_configuration_version" type="id_Integer" nullable="true"/>
@@ -1695,7 +1695,7 @@
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="storage_domain_id" type="id_Object"/>
         <mapperTableEntries name="storage_domain_status" type="id_Short"/>
-        <mapperTableEntries name="minutes_in_status" type="id_Double"/>
+        <mapperTableEntries name="seconds_in_status" type="id_Integer"/>
         <mapperTableEntries name="available_disk_size_gb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="used_disk_size_gb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="storage_configuration_version" type="id_Integer" nullable="true"/>
@@ -1843,7 +1843,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_datetime,&#xA;&#x9;&#x9;vm_disk_id,&#xA;        image_id,&#xA;&#x9;&#x9;vm_disk_status, &#xA;&#x9;&#x9;minutes_in_status,&#xA;&#x9;&#x9;vm_disk_actual_size_mb,&#xA;&#x9;&#x9;read_rate_bytes_per_second,&#xA;&#x9;&#x9;read_latency_seconds,&#xA;&#x9;&#x9;write_rate_bytes_per_second,&#xA;&#x9;&#x9;write_latency_seconds,&#xA;&#x9;&#x9;flush_latency_seconds,&#xA;&#x9;&#x9;vm_disk_configuration_version &#xA;FROM vm_disk_samples_history&#xD;&#xA;WHERE history_datetime >= '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(context.lastHourAggr)+&quot;'&#xA;AND history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;))+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;&#x9;&#x9; vm_disk_id, &#xD;&#xA;  &#x9;&#x9; vm_disk_status&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_datetime,&#xA;&#x9;&#x9;vm_disk_id,&#xA;        image_id,&#xA;&#x9;&#x9;vm_disk_status, &#xA;&#x9;&#x9;seconds_in_status,&#xA;&#x9;&#x9;vm_disk_actual_size_mb,&#xA;&#x9;&#x9;read_rate_bytes_per_second,&#xA;&#x9;&#x9;read_latency_seconds,&#xA;&#x9;&#x9;write_rate_bytes_per_second,&#xA;&#x9;&#x9;write_latency_seconds,&#xA;&#x9;&#x9;flush_latency_seconds,&#xA;&#x9;&#x9;vm_disk_configuration_version &#xA;FROM vm_disk_samples_history&#xD;&#xA;WHERE history_datetime >= '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(context.lastHourAggr)+&quot;'&#xA;AND history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;))+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xD;&#xA;&#x9;&#x9; vm_disk_id, &#xD;&#xA;  &#x9;&#x9; vm_disk_status&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1861,7 +1861,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_status"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="seconds_in_status"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_actual_size_mb"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -1886,7 +1886,7 @@
       <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="UUID" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="5" name="vm_disk_status" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="7" name="minutes_in_status" nullable="false" pattern="" precision="2" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;20&quot;" key="false" length="10" name="seconds_in_status" nullable="false" pattern="" precision="0" sourceType="NUMERIC" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_actual_size_mb" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="read_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
@@ -1922,14 +1922,14 @@
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row19.history_datetime)" type="id_Date"/>
         <mapperTableEntries name="vm_disk_id" expression="row19.vm_disk_id" type="id_Object"/>
         <mapperTableEntries name="image_id" expression="row19.image_id" type="id_Object"/>
         <mapperTableEntries name="vm_disk_status" expression="row19.vm_disk_status" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="minutes_in_status" expression="row19.minutes_in_status" type="id_Double"/>
+        <mapperTableEntries name="minutes_in_status" expression="Integer.valueOf(row19.seconds_in_status).doubleValue() /60" type="id_Double"/>
         <mapperTableEntries name="vm_disk_actual_size_mb" expression="row19.vm_disk_actual_size_mb" type="id_Integer"/>
         <mapperTableEntries name="read_rate_bytes_per_second" expression="row19.read_rate_bytes_per_second" type="id_Long" nullable="true"/>
         <mapperTableEntries name="read_latency_seconds" expression="row19.read_latency_seconds" type="id_Double" nullable="true"/>
@@ -1943,7 +1943,7 @@
         <mapperTableEntries name="vm_disk_id" type="id_Object"/>
         <mapperTableEntries name="image_id" type="id_Object"/>
         <mapperTableEntries name="vm_disk_status" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="minutes_in_status" type="id_Double"/>
+        <mapperTableEntries name="seconds_in_status" type="id_Integer"/>
         <mapperTableEntries name="vm_disk_actual_size_mb" type="id_Integer"/>
         <mapperTableEntries name="read_rate_bytes_per_second" type="id_Long" nullable="true"/>
         <mapperTableEntries name="read_latency_seconds" type="id_Double" nullable="true"/>
@@ -2375,7 +2375,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id,&#xD;&#xA;  history_datetime,&#xA;  current_user_id,&#xA;  current_user_name,&#xA;  cast(user_logged_in_to_guest as int),&#xD;&#xA;  vm_id,&#xD;&#xA;  minutes_in_status,&#xD;&#xA;  cpu_usage_percent,&#xD;&#xA;  memory_usage_percent,&#xD;&#xA;  user_cpu_usage_percent,&#xD;&#xA;  system_cpu_usage_percent,&#xD;&#xA;  vm_ip,&#xA;  vm_client_ip,&#xD;&#xA;  currently_running_on_host,&#xD;&#xA;  vm_configuration_version,&#xD;&#xA;  current_host_configuration_version&#xD;&#xA;FROM vm_samples_history&#xD;&#xA;WHERE vm_status = 1&#xA;AND history_datetime >= '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(context.lastHourAggr)+&quot;'&#xA;AND history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;))+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xA;         current_user_name,&#xD;&#xA;      &#x9; vm_id&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id,&#xD;&#xA;  history_datetime,&#xA;  current_user_id,&#xA;  current_user_name,&#xA;  cast(user_logged_in_to_guest as int),&#xD;&#xA;  vm_id,&#xD;&#xA;  seconds_in_status,&#xD;&#xA;  cpu_usage_percent,&#xD;&#xA;  memory_usage_percent,&#xD;&#xA;  user_cpu_usage_percent,&#xD;&#xA;  system_cpu_usage_percent,&#xD;&#xA;  vm_ip,&#xA;  vm_client_ip,&#xD;&#xA;  currently_running_on_host,&#xD;&#xA;  vm_configuration_version,&#xD;&#xA;  current_host_configuration_version&#xD;&#xA;FROM vm_samples_history&#xD;&#xA;WHERE vm_status = 1&#xA;AND history_datetime >= '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(context.lastHourAggr)+&quot;'&#xA;AND history_datetime &lt; '&quot;+new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss.SSSSSSZ&quot;).format(TalendDate.addDate(context.lastHourAggr, 1,&quot;HH&quot;))+&quot;'&#xD;&#xA;ORDER BY history_datetime,&#xA;         current_user_name,&#xD;&#xA;      &#x9; vm_id&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2397,7 +2397,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_id"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="seconds_in_status"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="cpu_usage_percent"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -2428,7 +2428,7 @@
       <column comment="" key="false" length="255" name="current_user_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="user_logged_in_to_guest" nullable="true" pattern="" precision="-1" sourceType="" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
-      <column comment="" defaultValue="&quot;1&quot;" key="false" length="18" name="minutes_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Double" usefulColumn="true"/>
+      <column comment="" defaultValue="&quot;20&quot;" key="false" length="10" name="seconds_in_status" nullable="false" pattern="" precision="0" sourceType="FLOAT8" type="id_Integer" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="memory_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
       <column comment="" defaultValue="&quot;0&quot;" key="false" length="2" name="user_cpu_usage_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -2469,7 +2469,7 @@
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_users_aggregate_history">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row13.history_datetime) " type="id_Date"/>
@@ -2477,7 +2477,7 @@
         <mapperTableEntries name="user_name" expression="row13.current_user_name " type="id_String" nullable="true"/>
         <mapperTableEntries name="user_logged_in_to_guest" expression="row13.user_logged_in_to_guest " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="vm_id" expression="row13.vm_id" type="id_Object"/>
-        <mapperTableEntries name="session_time_in_minutes" expression="row13.minutes_in_status" type="id_Double"/>
+        <mapperTableEntries name="session_time_in_minutes" expression="Integer.valueOf(row13.seconds_in_status).doubleValue() /60" type="id_Double"/>
         <mapperTableEntries name="cpu_usage_percent" expression="row13.cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="memory_usage_percent" expression="row13.memory_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="user_cpu_usage_percent" expression="row13.user_cpu_usage_percent" type="id_Short" nullable="true"/>
@@ -2495,7 +2495,7 @@
         <mapperTableEntries name="current_user_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="user_logged_in_to_guest" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="vm_id" type="id_Object"/>
-        <mapperTableEntries name="minutes_in_status" type="id_Double"/>
+        <mapperTableEntries name="seconds_in_status" type="id_Integer"/>
         <mapperTableEntries name="cpu_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="memory_usage_percent" type="id_Short" nullable="true"/>
         <mapperTableEntries name="user_cpu_usage_percent" type="id_Short" nullable="true"/>
@@ -3017,7 +3017,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="vds_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="TRACE_COLUMN" value="seconds_in_status"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="max_usage_mem"/>
@@ -3764,7 +3764,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="storage_domain_status"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="TRACE_COLUMN" value="seconds_in_status"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -3881,7 +3881,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="read_rate_bytes_per_second"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="TRACE_COLUMN" value="seconds_in_status"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="vm_disk_actual_size_mb"/>
@@ -4178,7 +4178,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="run_on_vds"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="minutes_in_status"/>
+      <elementValue elementRef="TRACE_COLUMN" value="seconds_in_status"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="max_usage_mem"/>

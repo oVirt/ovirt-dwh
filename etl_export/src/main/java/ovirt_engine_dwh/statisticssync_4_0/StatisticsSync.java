@@ -16,15 +16,15 @@
 
 package ovirt_engine_dwh.statisticssync_4_0;
 
-import routines.Mathematical;
-import routines.DataOperation;
-import routines.Relational;
-import routines.TalendDate;
-import routines.TalendDataGenerator;
 import routines.Numeric;
+import routines.DataOperation;
+import routines.TalendDataGenerator;
 import routines.RoutineHistoryETL;
 import routines.TalendString;
 import routines.StringHandling;
+import routines.Relational;
+import routines.TalendDate;
+import routines.Mathematical;
 import routines.system.*;
 import routines.system.api.*;
 import java.text.ParseException;
@@ -1050,10 +1050,10 @@ public class StatisticsSync implements TalendJob {
 			return this.storage_domain_status;
 		}
 
-		public double minutes_in_status;
+		public int seconds_in_status;
 
-		public double getMinutes_in_status() {
-			return this.minutes_in_status;
+		public int getSeconds_in_status() {
+			return this.seconds_in_status;
 		}
 
 		public Integer available_disk_size_gb;
@@ -1138,7 +1138,7 @@ public class StatisticsSync implements TalendJob {
 						this.storage_domain_status = dis.readShort();
 					}
 
-					this.minutes_in_status = dis.readDouble();
+					this.seconds_in_status = dis.readInt();
 
 					this.available_disk_size_gb = readInteger(dis);
 
@@ -1178,9 +1178,9 @@ public class StatisticsSync implements TalendJob {
 					dos.writeShort(this.storage_domain_status);
 				}
 
-				// double
+				// int
 
-				dos.writeDouble(this.minutes_in_status);
+				dos.writeInt(this.seconds_in_status);
 
 				// Integer
 
@@ -1209,7 +1209,7 @@ public class StatisticsSync implements TalendJob {
 			sb.append(",storage_domain_id=" + String.valueOf(storage_domain_id));
 			sb.append(",storage_domain_status="
 					+ String.valueOf(storage_domain_status));
-			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
+			sb.append(",seconds_in_status=" + String.valueOf(seconds_in_status));
 			sb.append(",available_disk_size_gb="
 					+ String.valueOf(available_disk_size_gb));
 			sb.append(",used_disk_size_gb=" + String.valueOf(used_disk_size_gb));
@@ -1736,7 +1736,7 @@ public class StatisticsSync implements TalendJob {
 
 				String insert_tJDBCOutput_2 = "INSERT INTO "
 						+ "storage_domain_samples_history"
-						+ " (history_datetime,storage_domain_id,storage_domain_status,minutes_in_status,available_disk_size_gb,used_disk_size_gb,storage_configuration_version) VALUES (?,?,?,?,?,?,?)";
+						+ " (history_datetime,storage_domain_id,storage_domain_status,seconds_in_status,available_disk_size_gb,used_disk_size_gb,storage_configuration_version) VALUES (?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_2 = connection_tJDBCOutput_2
 						.prepareStatement(insert_tJDBCOutput_2);
 
@@ -1967,8 +1967,7 @@ public class StatisticsSync implements TalendJob {
 								storage_history_tmp.history_datetime = context.runTime;
 								storage_history_tmp.storage_domain_id = row44.storage_domain_id;
 								storage_history_tmp.storage_domain_status = row44.storage_domain_status;
-								storage_history_tmp.minutes_in_status = context.runInterleave
-										.doubleValue() / 60;
+								storage_history_tmp.seconds_in_status = context.runInterleave;
 								storage_history_tmp.available_disk_size_gb = row44.available_disk_size_gb;
 								storage_history_tmp.used_disk_size_gb = row44.used_disk_size_gb;
 								storage_history_tmp.storage_configuration_version = row43.history_id;
@@ -2023,8 +2022,8 @@ public class StatisticsSync implements TalendJob {
 										storage_history.storage_domain_status);
 							}
 
-							pstmt_tJDBCOutput_2.setDouble(4,
-									storage_history.minutes_in_status);
+							pstmt_tJDBCOutput_2.setInt(4,
+									storage_history.seconds_in_status);
 
 							if (storage_history.available_disk_size_gb == null) {
 								pstmt_tJDBCOutput_2.setNull(5,
@@ -2710,10 +2709,10 @@ public class StatisticsSync implements TalendJob {
 			return this.host_status;
 		}
 
-		public double minutes_in_status;
+		public int seconds_in_status;
 
-		public double getMinutes_in_status() {
-			return this.minutes_in_status;
+		public int getSeconds_in_status() {
+			return this.seconds_in_status;
 		}
 
 		public Short memory_usage_percent;
@@ -2847,7 +2846,7 @@ public class StatisticsSync implements TalendJob {
 
 					this.host_status = dis.readShort();
 
-					this.minutes_in_status = dis.readDouble();
+					this.seconds_in_status = dis.readInt();
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -2940,9 +2939,9 @@ public class StatisticsSync implements TalendJob {
 
 				dos.writeShort(this.host_status);
 
-				// double
+				// int
 
-				dos.writeDouble(this.minutes_in_status);
+				dos.writeInt(this.seconds_in_status);
 
 				// Short
 
@@ -3046,7 +3045,7 @@ public class StatisticsSync implements TalendJob {
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",host_id=" + String.valueOf(host_id));
 			sb.append(",host_status=" + String.valueOf(host_status));
-			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
+			sb.append(",seconds_in_status=" + String.valueOf(seconds_in_status));
 			sb.append(",memory_usage_percent="
 					+ String.valueOf(memory_usage_percent));
 			sb.append(",ksm_shared_memory_mb="
@@ -3983,7 +3982,7 @@ public class StatisticsSync implements TalendJob {
 
 				String insert_tJDBCOutput_3 = "INSERT INTO "
 						+ "host_samples_history"
-						+ " (history_datetime,host_id,host_status,minutes_in_status,memory_usage_percent,ksm_shared_memory_mb,cpu_usage_percent,ksm_cpu_percent,active_vms,total_vms,total_vms_vcpus,cpu_load,system_cpu_usage_percent,user_cpu_usage_percent,swap_used_mb,host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,host_id,host_status,seconds_in_status,memory_usage_percent,ksm_shared_memory_mb,cpu_usage_percent,ksm_cpu_percent,active_vms,total_vms,total_vms_vcpus,cpu_load,system_cpu_usage_percent,user_cpu_usage_percent,swap_used_mb,host_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_3 = connection_tJDBCOutput_3
 						.prepareStatement(insert_tJDBCOutput_3);
 
@@ -4330,8 +4329,7 @@ public class StatisticsSync implements TalendJob {
 															|| row10.host_status == 7
 															|| row10.host_status == 1 || row10.host_status == 13) ? (short) 3
 															: (short) -1;
-									host_history_tmp.minutes_in_status = context.runInterleave
-											.doubleValue() / 60;
+									host_history_tmp.seconds_in_status = context.runInterleave;
 									host_history_tmp.memory_usage_percent = row10.memory_usage_percent;
 									host_history_tmp.ksm_shared_memory_mb = row10.ksm_shared_memory_mb;
 									host_history_tmp.cpu_usage_percent = row10.cpu_usage_percent;
@@ -4390,8 +4388,8 @@ public class StatisticsSync implements TalendJob {
 								pstmt_tJDBCOutput_3.setShort(3,
 										host_history.host_status);
 
-								pstmt_tJDBCOutput_3.setDouble(4,
-										host_history.minutes_in_status);
+								pstmt_tJDBCOutput_3.setInt(4,
+										host_history.seconds_in_status);
 
 								if (host_history.memory_usage_percent == null) {
 									pstmt_tJDBCOutput_3.setNull(5,
@@ -6914,10 +6912,10 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_status;
 		}
 
-		public double minutes_in_status;
+		public int seconds_in_status;
 
-		public double getMinutes_in_status() {
-			return this.minutes_in_status;
+		public int getSeconds_in_status() {
+			return this.seconds_in_status;
 		}
 
 		public Short cpu_usage_percent;
@@ -7092,7 +7090,7 @@ public class StatisticsSync implements TalendJob {
 
 					this.vm_status = dis.readShort();
 
-					this.minutes_in_status = dis.readDouble();
+					this.seconds_in_status = dis.readInt();
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -7182,9 +7180,9 @@ public class StatisticsSync implements TalendJob {
 
 				dos.writeShort(this.vm_status);
 
-				// double
+				// int
 
-				dos.writeDouble(this.minutes_in_status);
+				dos.writeInt(this.seconds_in_status);
 
 				// Short
 
@@ -7287,7 +7285,7 @@ public class StatisticsSync implements TalendJob {
 			sb.append("history_datetime=" + String.valueOf(history_datetime));
 			sb.append(",vm_id=" + String.valueOf(vm_id));
 			sb.append(",vm_status=" + String.valueOf(vm_status));
-			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
+			sb.append(",seconds_in_status=" + String.valueOf(seconds_in_status));
 			sb.append(",cpu_usage_percent=" + String.valueOf(cpu_usage_percent));
 			sb.append(",memory_usage_percent="
 					+ String.valueOf(memory_usage_percent));
@@ -8397,7 +8395,7 @@ public class StatisticsSync implements TalendJob {
 
 				String insert_tJDBCOutput_5 = "INSERT INTO "
 						+ "vm_samples_history"
-						+ " (history_datetime,vm_id,vm_status,minutes_in_status,cpu_usage_percent,memory_usage_percent,user_cpu_usage_percent,system_cpu_usage_percent,vm_ip,vm_client_ip,current_user_id,user_logged_in_to_guest,currently_running_on_host,vm_configuration_version,current_host_configuration_version,memory_buffered_kb,memory_cached_kb) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,vm_id,vm_status,seconds_in_status,cpu_usage_percent,memory_usage_percent,user_cpu_usage_percent,system_cpu_usage_percent,vm_ip,vm_client_ip,current_user_id,user_logged_in_to_guest,currently_running_on_host,vm_configuration_version,current_host_configuration_version,memory_buffered_kb,memory_cached_kb) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_5 = connection_tJDBCOutput_5
 						.prepareStatement(insert_tJDBCOutput_5);
 
@@ -8848,8 +8846,7 @@ public class StatisticsSync implements TalendJob {
 															: (row12.vm_status == 14
 																	|| row12.vm_status == 7 || row12.vm_status == 8) ? (short) 3
 																	: (short) -1;
-									vm_history_tmp.minutes_in_status = context.runInterleave
-											.doubleValue() / 60;
+									vm_history_tmp.seconds_in_status = context.runInterleave;
 									vm_history_tmp.cpu_usage_percent = row12.cpu_usage_percent;
 									vm_history_tmp.memory_usage_percent = row12.memory_usage_percent;
 									vm_history_tmp.user_cpu_usage_percent = row12.user_cpu_usage_percent;
@@ -8914,8 +8911,8 @@ public class StatisticsSync implements TalendJob {
 								pstmt_tJDBCOutput_5.setShort(3,
 										vm_history.vm_status);
 
-								pstmt_tJDBCOutput_5.setDouble(4,
-										vm_history.minutes_in_status);
+								pstmt_tJDBCOutput_5.setInt(4,
+										vm_history.seconds_in_status);
 
 								if (vm_history.cpu_usage_percent == null) {
 									pstmt_tJDBCOutput_5.setNull(5,
@@ -12041,10 +12038,10 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_disk_status;
 		}
 
-		public double minutes_in_status;
+		public int seconds_in_status;
 
-		public double getMinutes_in_status() {
-			return this.minutes_in_status;
+		public int getSeconds_in_status() {
+			return this.seconds_in_status;
 		}
 
 		public int vm_disk_actual_size_mb;
@@ -12155,7 +12152,7 @@ public class StatisticsSync implements TalendJob {
 						this.vm_disk_status = dis.readShort();
 					}
 
-					this.minutes_in_status = dis.readDouble();
+					this.seconds_in_status = dis.readInt();
 
 					this.vm_disk_actual_size_mb = dis.readInt();
 
@@ -12222,9 +12219,9 @@ public class StatisticsSync implements TalendJob {
 					dos.writeShort(this.vm_disk_status);
 				}
 
-				// double
+				// int
 
-				dos.writeDouble(this.minutes_in_status);
+				dos.writeInt(this.seconds_in_status);
 
 				// int
 
@@ -12284,7 +12281,7 @@ public class StatisticsSync implements TalendJob {
 			sb.append(",vm_disk_id=" + String.valueOf(vm_disk_id));
 			sb.append(",image_id=" + String.valueOf(image_id));
 			sb.append(",vm_disk_status=" + String.valueOf(vm_disk_status));
-			sb.append(",minutes_in_status=" + String.valueOf(minutes_in_status));
+			sb.append(",seconds_in_status=" + String.valueOf(seconds_in_status));
 			sb.append(",vm_disk_actual_size_mb="
 					+ String.valueOf(vm_disk_actual_size_mb));
 			sb.append(",read_rate_bytes_per_second="
@@ -13018,7 +13015,7 @@ public class StatisticsSync implements TalendJob {
 
 				String insert_tJDBCOutput_7 = "INSERT INTO "
 						+ "vm_disk_samples_history"
-						+ " (history_datetime,vm_disk_id,image_id,vm_disk_status,minutes_in_status,vm_disk_actual_size_mb,read_rate_bytes_per_second,read_latency_seconds,write_rate_bytes_per_second,write_latency_seconds,flush_latency_seconds,vm_disk_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,vm_disk_id,image_id,vm_disk_status,seconds_in_status,vm_disk_actual_size_mb,read_rate_bytes_per_second,read_latency_seconds,write_rate_bytes_per_second,write_latency_seconds,flush_latency_seconds,vm_disk_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_7 = connection_tJDBCOutput_7
 						.prepareStatement(insert_tJDBCOutput_7);
 
@@ -13303,8 +13300,7 @@ public class StatisticsSync implements TalendJob {
 								vm_disk_history_tmp.vm_disk_id = row1.vm_disk_id;
 								vm_disk_history_tmp.image_id = row1.image_id;
 								vm_disk_history_tmp.vm_disk_status = row1.vm_disk_status;
-								vm_disk_history_tmp.minutes_in_status = context.runInterleave
-										.doubleValue() / 60;
+								vm_disk_history_tmp.seconds_in_status = context.runInterleave;
 								vm_disk_history_tmp.vm_disk_actual_size_mb = row1.vm_disk_actual_size_mb;
 								vm_disk_history_tmp.read_rate_bytes_per_second = row1.read_rate_bytes_per_second;
 								vm_disk_history_tmp.read_latency_seconds = row1.read_latency_seconds;
@@ -13371,8 +13367,8 @@ public class StatisticsSync implements TalendJob {
 										vm_disk_history.vm_disk_status);
 							}
 
-							pstmt_tJDBCOutput_7.setDouble(5,
-									vm_disk_history.minutes_in_status);
+							pstmt_tJDBCOutput_7.setInt(5,
+									vm_disk_history.seconds_in_status);
 
 							pstmt_tJDBCOutput_7.setInt(6,
 									vm_disk_history.vm_disk_actual_size_mb);
@@ -16363,6 +16359,6 @@ public class StatisticsSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 444743 characters generated by Talend Open Studio for Data Integration on the
- * April 14, 2016 8:47:15 AM IDT
+ * 444602 characters generated by Talend Open Studio for Data Integration on the
+ * July 18, 2016 10:43:04 AM IDT
  ************************************************************************************************/
