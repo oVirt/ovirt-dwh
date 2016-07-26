@@ -1,0 +1,11 @@
+yum-utils
+autoconf
+make
+pyflakes
+python-pep8
+python-devel
+git
+maven3-3.0.3-4.jdk7
+java-1.7.0-openjdk-devel
+ant
+dom4j
