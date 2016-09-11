@@ -70,7 +70,11 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
-        condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
+        condition=lambda self: self.environment[
+            odwhcons.CoreEnv.ENABLE
+        ] and self.environment[
+            odwhcons.DBEnv.NEW_DATABASE
+        ],
         before=(
             osetupcons.Stages.DIALOG_TITLES_E_MISC,
         ),
@@ -116,7 +120,11 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_MISC,
-        condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
+        condition=lambda self: self.environment[
+            odwhcons.CoreEnv.ENABLE
+        ] and self.environment[
+            odwhcons.DBEnv.NEW_DATABASE
+        ],
     )
     def _misc(self):
         uninstall_files = []
