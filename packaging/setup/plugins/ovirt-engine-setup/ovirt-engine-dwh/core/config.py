@@ -28,6 +28,7 @@ from otopi import filetransaction
 from otopi import plugin
 
 
+from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.dwh import constants as odwhcons
 from ovirt_engine_setup.engine_common import database
@@ -68,7 +69,7 @@ class Plugin(plugin.PluginBase):
                 content='%s%s' % (
                     database.OvirtUtils(
                         plugin=self,
-                        dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS
+                        dbenvkeys=oenginecons.Const.ENGINE_DB_ENV_KEYS
                     ).getDBConfig(
                         prefix="ENGINE"
                     ),

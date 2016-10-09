@@ -30,7 +30,7 @@ from otopi import util
 
 from ovirt_engine import configfile
 
-
+from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.engine_common import database
 from ovirt_engine_setup.engine_common \
@@ -61,20 +61,20 @@ class Plugin(plugin.PluginBase):
             pass
 
         def abort(self):
-            if not self._parent.environment[odwhcons.EngineCoreEnv.ENABLE]:
+            if not self._parent.environment[oenginecons.CoreEnv.ENABLE]:
                 engine_conn = self._parent.environment[
-                    odwhcons.EngineDBEnv.CONNECTION
+                    oenginecons.EngineDBEnv.CONNECTION
                 ]
                 if engine_conn is not None:
                     engine_conn.rollback()
                     self._parent.environment[
-                        odwhcons.EngineDBEnv.CONNECTION
+                        oenginecons.EngineDBEnv.CONNECTION
                     ] = None
 
         def commit(self):
-            if not self._parent.environment[odwhcons.EngineCoreEnv.ENABLE]:
+            if not self._parent.environment[oenginecons.CoreEnv.ENABLE]:
                 engine_conn = self._parent.environment[
-                    odwhcons.EngineDBEnv.CONNECTION
+                    oenginecons.EngineDBEnv.CONNECTION
                 ]
                 if engine_conn is not None:
                     engine_conn.commit()
@@ -89,7 +89,7 @@ class Plugin(plugin.PluginBase):
         self.environment[
             otopicons.CoreEnv.LOG_FILTER_KEYS
         ].append(
-            odwhcons.EngineDBEnv.PASSWORD
+            oenginecons.EngineDBEnv.PASSWORD
         )
 
     @plugin.event(
@@ -97,37 +97,37 @@ class Plugin(plugin.PluginBase):
     )
     def _init(self):
         self.environment.setdefault(
-            odwhcons.EngineDBEnv.HOST,
+            oenginecons.EngineDBEnv.HOST,
             None
         )
         self.environment.setdefault(
-            odwhcons.EngineDBEnv.PORT,
+            oenginecons.EngineDBEnv.PORT,
             None
         )
         self.environment.setdefault(
-            odwhcons.EngineDBEnv.SECURED,
+            oenginecons.EngineDBEnv.SECURED,
             None
         )
         self.environment.setdefault(
-            odwhcons.EngineDBEnv.SECURED_HOST_VALIDATION,
+            oenginecons.EngineDBEnv.SECURED_HOST_VALIDATION,
             None
         )
         self.environment.setdefault(
-            odwhcons.EngineDBEnv.USER,
+            oenginecons.EngineDBEnv.USER,
             None
         )
         self.environment.setdefault(
-            odwhcons.EngineDBEnv.PASSWORD,
+            oenginecons.EngineDBEnv.PASSWORD,
             None
         )
         self.environment.setdefault(
-            odwhcons.EngineDBEnv.DATABASE,
+            oenginecons.EngineDBEnv.DATABASE,
             None
         )
 
-        self.environment[odwhcons.EngineDBEnv.CONNECTION] = None
-        self.environment[odwhcons.EngineDBEnv.STATEMENT] = None
-        self.environment[odwhcons.EngineDBEnv.NEW_DATABASE] = True
+        self.environment[oenginecons.EngineDBEnv.CONNECTION] = None
+        self.environment[oenginecons.EngineDBEnv.STATEMENT] = None
+        self.environment[oenginecons.EngineDBEnv.NEW_DATABASE] = True
 
     @plugin.event(
         stage=plugin.Stages.STAGE_SETUP,
@@ -144,7 +144,7 @@ class Plugin(plugin.PluginBase):
         ),
         # If engine is enabled too, we let its plugin read the setup
         condition=lambda self: not self.environment[
-            odwhcons.EngineCoreEnv.ENABLE
+            oenginecons.CoreEnv.ENABLE
         ],
     )
     def _setup_engine_db_credentials(self):
@@ -158,11 +158,11 @@ class Plugin(plugin.PluginBase):
             try:
                 dbenv = {}
                 for e, k in (
-                    (odwhcons.EngineDBEnv.HOST, 'ENGINE_DB_HOST'),
-                    (odwhcons.EngineDBEnv.PORT, 'ENGINE_DB_PORT'),
-                    (odwhcons.EngineDBEnv.USER, 'ENGINE_DB_USER'),
-                    (odwhcons.EngineDBEnv.PASSWORD, 'ENGINE_DB_PASSWORD'),
-                    (odwhcons.EngineDBEnv.DATABASE, 'ENGINE_DB_DATABASE'),
+                    (oenginecons.EngineDBEnv.HOST, 'ENGINE_DB_HOST'),
+                    (oenginecons.EngineDBEnv.PORT, 'ENGINE_DB_PORT'),
+                    (oenginecons.EngineDBEnv.USER, 'ENGINE_DB_USER'),
+                    (oenginecons.EngineDBEnv.PASSWORD, 'ENGINE_DB_PASSWORD'),
+                    (oenginecons.EngineDBEnv.DATABASE, 'ENGINE_DB_DATABASE'),
                 ):
                     dbenv[e] = (
                         self.environment.get(e)
@@ -170,9 +170,9 @@ class Plugin(plugin.PluginBase):
                         else config.get(k)
                     )
                 for e, k in (
-                    (odwhcons.EngineDBEnv.SECURED, 'ENGINE_DB_SECURED'),
+                    (oenginecons.EngineDBEnv.SECURED, 'ENGINE_DB_SECURED'),
                     (
-                        odwhcons.EngineDBEnv.SECURED_HOST_VALIDATION,
+                        oenginecons.EngineDBEnv.SECURED_HOST_VALIDATION,
                         'ENGINE_DB_SECURED_VALIDATION'
                     )
                 ):
@@ -180,12 +180,12 @@ class Plugin(plugin.PluginBase):
 
                 dbovirtutils = database.OvirtUtils(
                     plugin=self,
-                    dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS,
+                    dbenvkeys=oenginecons.Const.ENGINE_DB_ENV_KEYS,
                 )
                 dbovirtutils.tryDatabaseConnect(dbenv)
                 self.environment.update(dbenv)
                 self.environment[
-                    odwhcons.EngineDBEnv.NEW_DATABASE
+                    oenginecons.EngineDBEnv.NEW_DATABASE
                 ] = dbovirtutils.isNewDatabase()
             except RuntimeError as e:
                 self.logger.debug(
@@ -196,10 +196,10 @@ class Plugin(plugin.PluginBase):
                     'Cannot connect to Engine database using existing '
                     'credentials: {user}@{host}:{port}'
                 ).format(
-                    host=dbenv[odwhcons.EngineDBEnv.HOST],
-                    port=dbenv[odwhcons.EngineDBEnv.PORT],
-                    database=dbenv[odwhcons.EngineDBEnv.DATABASE],
-                    user=dbenv[odwhcons.EngineDBEnv.USER],
+                    host=dbenv[oenginecons.EngineDBEnv.HOST],
+                    port=dbenv[oenginecons.EngineDBEnv.PORT],
+                    database=dbenv[oenginecons.EngineDBEnv.DATABASE],
+                    user=dbenv[oenginecons.EngineDBEnv.USER],
                 )
                 if self.environment[
                     osetupcons.CoreEnv.ACTION
@@ -214,7 +214,7 @@ class Plugin(plugin.PluginBase):
         condition=lambda self: (
             self.environment[odwhcons.CoreEnv.ENABLE] and
             # If engine is enabled, STATEMENT and CONNECTION are set there
-            not self.environment[odwhcons.EngineCoreEnv.ENABLE]
+            not self.environment[oenginecons.CoreEnv.ENABLE]
         ),
         after=(
             odwhcons.Stages.DB_SCHEMA,
@@ -223,15 +223,15 @@ class Plugin(plugin.PluginBase):
     )
     def _engine_connection(self):
         self.environment[
-            odwhcons.EngineDBEnv.STATEMENT
+            oenginecons.EngineDBEnv.STATEMENT
         ] = database.Statement(
             environment=self.environment,
-            dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS,
+            dbenvkeys=oenginecons.Const.ENGINE_DB_ENV_KEYS,
         )
         # must be here as we do not have database at validation
         self.environment[
-            odwhcons.EngineDBEnv.CONNECTION
-        ] = self.environment[odwhcons.EngineDBEnv.STATEMENT].connect()
+            oenginecons.EngineDBEnv.CONNECTION
+        ] = self.environment[oenginecons.EngineDBEnv.STATEMENT].connect()
 
 
 # vim: expandtab tabstop=4 shiftwidth=4

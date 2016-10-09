@@ -23,6 +23,7 @@ from otopi import util
 from otopi import plugin
 
 
+from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.engine_common import dwh_history_timekeeping as \
     engine_db_timekeeping
@@ -44,7 +45,7 @@ class Plugin(plugin.PluginBase):
     )
     def _misc(self):
         engine_db_timekeeping.updateValueInTimekeeping(
-            statement=self.environment[odwhcons.EngineDBEnv.STATEMENT],
+            statement=self.environment[oenginecons.EngineDBEnv.STATEMENT],
             name=engine_db_timekeeping.DB_KEY_HOSTNAME,
             value=self.environment[osetupcons.RenameEnv.FQDN]
         )

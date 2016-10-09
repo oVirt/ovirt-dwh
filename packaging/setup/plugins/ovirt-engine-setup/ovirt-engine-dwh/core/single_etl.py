@@ -25,6 +25,7 @@ from otopi import constants as otopicons
 from otopi import filetransaction
 
 
+from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_setup_lib import dialog
 from ovirt_engine_setup.dwh import constants as odwhcons
@@ -57,12 +58,12 @@ class Plugin(plugin.PluginBase):
         stage=plugin.Stages.STAGE_VALIDATION,
         condition=lambda self: (
             self.environment[odwhcons.CoreEnv.ENABLE] and
-            not self.environment[odwhcons.EngineDBEnv.NEW_DATABASE]
+            not self.environment[oenginecons.EngineDBEnv.NEW_DATABASE]
         ),
     )
     def _validation(self):
         self._statement = database.Statement(
-            dbenvkeys=odwhcons.Const.ENGINE_DB_ENV_KEYS,
+            dbenvkeys=oenginecons.Const.ENGINE_DB_ENV_KEYS,
             environment=self.environment,
         )
         self._db_dwh_hostname = engine_db_timekeeping.getValueFromTimekeeping(
@@ -119,7 +120,7 @@ class Plugin(plugin.PluginBase):
         ),
         condition=lambda self: (
             self.environment[odwhcons.CoreEnv.ENABLE] and
-            not self.environment[odwhcons.EngineDBEnv.NEW_DATABASE]
+            not self.environment[oenginecons.EngineDBEnv.NEW_DATABASE]
         ),
     )
     def _transactionBegin(self):
@@ -167,12 +168,12 @@ class Plugin(plugin.PluginBase):
         )
 
         engine_db_timekeeping.updateValueInTimekeeping(
-            statement=self.environment[odwhcons.EngineDBEnv.STATEMENT],
+            statement=self.environment[oenginecons.EngineDBEnv.STATEMENT],
             name=engine_db_timekeeping.DB_KEY_HOSTNAME,
             value=self.environment[osetupcons.ConfigEnv.FQDN]
         )
         engine_db_timekeeping.updateValueInTimekeeping(
-            statement=self.environment[odwhcons.EngineDBEnv.STATEMENT],
+            statement=self.environment[oenginecons.EngineDBEnv.STATEMENT],
             name=engine_db_timekeeping.DB_KEY_UUID,
             value=self.environment[odwhcons.CoreEnv.UUID]
         )

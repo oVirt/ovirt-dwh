@@ -25,7 +25,6 @@ import gettext
 
 from otopi import util
 
-
 from ovirt_engine_setup.constants import classproperty
 from ovirt_engine_setup.constants import osetupattrsclass
 from ovirt_engine_setup.constants import osetupattrs
@@ -89,24 +88,6 @@ class Const(object):
             DEK.DUMPER: Defaults.DEFAULT_DB_DUMPER,
             DEK.FILTER: Defaults.DEFAULT_DB_FILTER,
             DEK.RESTORE_JOBS: Defaults.DEFAULT_DB_RESTORE_JOBS,
-        }
-
-    @classproperty
-    def ENGINE_DB_ENV_KEYS(self):
-        return {
-            DEK.HOST: EngineDBEnv.HOST,
-            DEK.PORT: EngineDBEnv.PORT,
-            DEK.SECURED: EngineDBEnv.SECURED,
-            DEK.HOST_VALIDATION: EngineDBEnv.SECURED_HOST_VALIDATION,
-            DEK.USER: EngineDBEnv.USER,
-            DEK.PASSWORD: EngineDBEnv.PASSWORD,
-            DEK.DATABASE: EngineDBEnv.DATABASE,
-            DEK.CONNECTION: EngineDBEnv.CONNECTION,
-            DEK.PGPASSFILE: EngineDBEnv.PGPASS_FILE,
-            DEK.NEW_DATABASE: EngineDBEnv.NEW_DATABASE,
-            DEK.DUMPER: EngineDBEnv.DUMPER,
-            DEK.FILTER: EngineDBEnv.FILTER,
-            DEK.RESTORE_JOBS: EngineDBEnv.RESTORE_JOBS,
         }
 
 
@@ -211,9 +192,6 @@ class Stages(object):
     ENGINE_DB_CONNECTION_AVAILABLE = \
         'osetup.dwh.engine.db.connection.available'
     DB_SCHEMA = 'osetup.dwh.db.schema'
-
-    # sync with engine
-    ENGINE_CORE_ENABLE = 'osetup.engine.core.enable'
 
 
 @util.export
@@ -377,9 +355,6 @@ class RemoveEnv(object):
     def REMOVE_DATABASE(self):
         return 'OVESETUP_DWH_REMOVE/database'
 
-    # sync with the engine
-    REMOVE_ENGINE_DATABASE = 'OVESETUP_REMOVE/engineDatabase'
-
 
 @util.export
 @util.codegen
@@ -401,118 +376,6 @@ class ProvisioningEnv(object):
 class RPMDistroEnv(object):
     PACKAGES = 'OVESETUP_DWH_RPMDISRO_PACKAGES'
     PACKAGES_SETUP = 'OVESETUP_DWH_RPMDISRO_PACKAGES_SETUP'
-
-
-@util.export
-@util.codegen
-@osetupattrsclass
-class EngineDBEnv(object):
-    """Sync with ovirt-engine"""
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('Engine database host'),
-    )
-    def HOST(self):
-        return 'OVESETUP_DB/host'
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('Engine database port'),
-    )
-    def PORT(self):
-        return 'OVESETUP_DB/port'
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('Engine database secured connection'),
-    )
-    def SECURED(self):
-        return 'OVESETUP_DB/secured'
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('Engine database host name validation'),
-    )
-    def SECURED_HOST_VALIDATION(self):
-        return 'OVESETUP_DB/securedHostValidation'
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('Engine database name'),
-    )
-    def DATABASE(self):
-        return 'OVESETUP_DB/database'
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('Engine database user name'),
-    )
-    def USER(self):
-        return 'OVESETUP_DB/user'
-
-    @osetupattrs(
-        answerfile=True,
-        answerfile_condition=lambda env: not env.get(
-            oengcommcons.ProvisioningEnv.POSTGRES_PROVISIONING_ENABLED
-        ),
-    )
-    def PASSWORD(self):
-        return 'OVESETUP_DB/password'
-
-    CONNECTION = 'OVESETUP_DB/connection'
-    STATEMENT = 'OVESETUP_DB/statement'
-    PGPASS_FILE = 'OVESETUP_DB/pgPassFile'
-    NEW_DATABASE = 'OVESETUP_DB/newDatabase'
-
-    @osetupattrs(
-        answerfile=True,
-    )
-    def DUMPER(self):
-        return 'OVESETUP_DB/dumper'
-
-    @osetupattrs(
-        answerfile=True,
-    )
-    def FILTER(self):
-        return 'OVESETUP_DB/filter'
-
-    @osetupattrs(
-        answerfile=True,
-    )
-    def RESTORE_JOBS(self):
-        return 'OVESETUP_DB/restoreJobs'
-
-
-@util.export
-@util.codegen
-@osetupattrsclass
-class EngineCoreEnv(object):
-    """Sync with ovirt-engine"""
-
-    ENABLE = 'OVESETUP_ENGINE_CORE/enable'
-
-
-@util.export
-@util.codegen
-@osetupattrsclass
-class EngineConfigEnv(object):
-    """Sync with ovirt-engine"""
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('Engine Host FQDN'),
-        postinstallfile=True,
-    )
-    def ENGINE_FQDN(self):
-        return 'OVESETUP_ENGINE_CONFIG/fqdn'
 
 
 # vim: expandtab tabstop=4 shiftwidth=4

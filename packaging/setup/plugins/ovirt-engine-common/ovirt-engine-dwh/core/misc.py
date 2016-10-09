@@ -23,6 +23,7 @@ from otopi import util
 from otopi import plugin
 
 
+from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.dwh import constants as odwhcons
 
@@ -42,7 +43,7 @@ class Plugin(plugin.PluginBase):
     )
     def _init(self):
         self.environment.setdefault(odwhcons.CoreEnv.ENABLE, None)
-        self.environment.setdefault(odwhcons.EngineCoreEnv.ENABLE, None)
+        self.environment.setdefault(oenginecons.CoreEnv.ENABLE, None)
 
     @plugin.event(
         stage=plugin.Stages.STAGE_SETUP,

@@ -22,7 +22,7 @@ import gettext
 from otopi import util
 from otopi import plugin
 
-
+from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.dwh import constants as odwhcons
 from ovirt_setup_lib import dialog
@@ -46,12 +46,12 @@ class Plugin(plugin.PluginBase):
         ),
         after=(
             osetupcons.Stages.DIALOG_TITLES_S_PRODUCT_OPTIONS,
-            odwhcons.Stages.ENGINE_CORE_ENABLE
+            oenginecons.Stages.CORE_ENABLE
         ),
     )
     def _customization(self):
         if self.environment[odwhcons.CoreEnv.ENABLE] is None:
-            if self.environment[odwhcons.EngineCoreEnv.ENABLE]:
+            if self.environment[oenginecons.CoreEnv.ENABLE]:
                 self.dialog.note(
                     text=_(
                         'Please note: Data Warehouse is required for the '

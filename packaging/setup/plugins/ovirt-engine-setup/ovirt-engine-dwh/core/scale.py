@@ -28,6 +28,7 @@ from otopi import filetransaction
 from otopi import plugin
 
 
+from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.dwh import constants as odwhcons
 from ovirt_setup_lib import dialog
@@ -108,7 +109,7 @@ class Plugin(plugin.PluginBase):
             ),
             default=(
                 self._DEFAULT_DWH_SCALE_WITH_ENGINE
-                if self.environment[odwhcons.EngineCoreEnv.ENABLE]
+                if self.environment[oenginecons.CoreEnv.ENABLE]
                 else self._DEFAULT_DWH_SCALE_WITHOUT_ENGINE
             ),
             validValues=(

@@ -24,6 +24,7 @@ from otopi import plugin
 
 
 from ovirt_engine_setup.dwh import constants as odwhcons
+from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup.engine_common import dwh_history_timekeeping as \
     engine_db_timekeeping
 
@@ -43,7 +44,7 @@ class Plugin(plugin.PluginBase):
     )
     def _init(self):
         self.environment.setdefault(
-            odwhcons.RemoveEnv.REMOVE_ENGINE_DATABASE,
+            oenginecons.RemoveEnv.REMOVE_ENGINE_DATABASE,
             False,
         )
 
@@ -54,7 +55,7 @@ class Plugin(plugin.PluginBase):
         ),
         condition=lambda self: (
             self.environment[odwhcons.CoreEnv.ENABLE] and
-            not self.environment[odwhcons.RemoveEnv.REMOVE_ENGINE_DATABASE]
+            not self.environment[oenginecons.RemoveEnv.REMOVE_ENGINE_DATABASE]
         ),
     )
     def _misc(self):

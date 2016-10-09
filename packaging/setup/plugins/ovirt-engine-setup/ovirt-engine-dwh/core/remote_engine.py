@@ -23,6 +23,7 @@ from otopi import util
 from otopi import plugin
 
 
+from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup import util as osetuputil
 from ovirt_engine_setup.engine_common import constants as oengcommcons
@@ -47,7 +48,7 @@ class Plugin(plugin.PluginBase):
     )
     def _init(self):
         self.environment.setdefault(
-            odwhcons.EngineConfigEnv.ENGINE_FQDN,
+            oenginecons.ConfigEnv.ENGINE_FQDN,
             None
         )
         self.environment.setdefault(
@@ -69,7 +70,7 @@ class Plugin(plugin.PluginBase):
         condition=lambda self: self.environment[
             odwhcons.CoreEnv.ENABLE
         ] and not self.environment[
-            odwhcons.EngineCoreEnv.ENABLE
+            oenginecons.CoreEnv.ENABLE
         ] and not self.environment[
             odwhcons.ConfigEnv.REMOTE_ENGINE_CONFIGURED
         ],
@@ -79,7 +80,7 @@ class Plugin(plugin.PluginBase):
         osetuphostname.Hostname(
             plugin=self,
         ).getHostname(
-            envkey=odwhcons.EngineConfigEnv.ENGINE_FQDN,
+            envkey=oenginecons.ConfigEnv.ENGINE_FQDN,
             whichhost=_('the engine'),
             supply_default=False,
         )
@@ -88,7 +89,7 @@ class Plugin(plugin.PluginBase):
         ]
         self._remote_engine.configure(
             fqdn=self.environment[
-                odwhcons.EngineConfigEnv.ENGINE_FQDN
+                oenginecons.ConfigEnv.ENGINE_FQDN
             ],
         )
 
