@@ -134,6 +134,19 @@ class Plugin(plugin.PluginBase):
                 mode=0o600,
             )
         self._configured_now = True
+        self.dialog.note(
+            text=_(
+                'Please restart the engine by running the following '
+                'on {fqdn} :\n'
+                '# service {service} restart\n'
+                'This is required for the dashboard to work.'
+            ).format(
+                fqdn=self.environment[
+                    oenginecons.ConfigEnv.ENGINE_FQDN
+                ],
+                service=oenginecons.Const.ENGINE_SERVICE_NAME,
+            )
+        )
 
     @plugin.event(
         stage=plugin.Stages.STAGE_CLEANUP,
