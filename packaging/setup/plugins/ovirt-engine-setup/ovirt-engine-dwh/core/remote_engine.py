@@ -133,6 +133,18 @@ class Plugin(plugin.PluginBase):
                 mode=0o600,
             )
         self._configured_now = True
+        self.dialog.note(
+            text=_(
+                'Please restart the engine by running the following '
+                'on {fqdn} :\n'
+                '# service ovirt-engine restart\n'
+                'This is required for the dashboard to work.'
+            ).format(
+                fqdn=self.environment[
+                    odwhcons.EngineConfigEnv.ENGINE_FQDN
+                ],
+            )
+        )
 
     @plugin.event(
         stage=plugin.Stages.STAGE_CLEANUP,
