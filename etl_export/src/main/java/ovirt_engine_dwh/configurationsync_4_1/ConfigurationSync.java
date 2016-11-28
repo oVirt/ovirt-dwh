@@ -3834,305 +3834,325 @@ public class ConfigurationSync implements TalendJob {
 						boolean rejectedInnerJoin_tMap_9 = false;
 						boolean mainRowRejected_tMap_9 = false;
 
-						// ###############################
-						{ // start of Var scope
+						if (
 
+						(
+
+						row55.update_date == null ? TalendDate.compareDate(
+								row55.create_date, context.runTime) <= 0
+								: TalendDate.compareDate(row55.update_date,
+										context.runTime) <= 0
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row55'
 							// ###############################
-							// # Vars tables
+							{ // start of Var scope
 
-							Var__tMap_9__Struct Var = Var__tMap_9;// ###############################
-							// ###############################
-							// # Output tables
+								// ###############################
+								// # Vars tables
 
-							insert_new_users = null;
+								Var__tMap_9__Struct Var = Var__tMap_9;// ###############################
+								// ###############################
+								// # Output tables
 
-							// # Output table : 'insert_new_users'
-							insert_new_users_tmp.user_id = row55.user_id;
-							insert_new_users_tmp.first_name = row55.first_name;
-							insert_new_users_tmp.last_name = row55.last_name;
-							insert_new_users_tmp.domain = row55.domain;
-							insert_new_users_tmp.username = row55.username;
-							insert_new_users_tmp.department = row55.department;
-							insert_new_users_tmp.user_role_title = row55.user_role_title;
-							insert_new_users_tmp.email = row55.email;
-							insert_new_users_tmp.external_id = row55.external_id;
-							insert_new_users_tmp.active = row55.active;
-							insert_new_users_tmp.create_date = row55.create_date;
-							insert_new_users_tmp.update_date = row55.update_date;
-							insert_new_users = insert_new_users_tmp;
-							// ###############################
+								insert_new_users = null;
 
-						} // end of Var scope
+								// # Output table : 'insert_new_users'
+								insert_new_users_tmp.user_id = row55.user_id;
+								insert_new_users_tmp.first_name = row55.first_name;
+								insert_new_users_tmp.last_name = row55.last_name;
+								insert_new_users_tmp.domain = row55.domain;
+								insert_new_users_tmp.username = row55.username;
+								insert_new_users_tmp.department = row55.department;
+								insert_new_users_tmp.user_role_title = row55.user_role_title;
+								insert_new_users_tmp.email = row55.email;
+								insert_new_users_tmp.external_id = row55.external_id;
+								insert_new_users_tmp.active = row55.active;
+								insert_new_users_tmp.create_date = row55.create_date;
+								insert_new_users_tmp.update_date = row55.update_date;
+								insert_new_users = insert_new_users_tmp;
+								// ###############################
 
-						rejectedInnerJoin_tMap_9 = false;
+							} // end of Var scope
 
-						tos_count_tMap_9++;
+							rejectedInnerJoin_tMap_9 = false;
 
-						/**
-						 * [tMap_9 main ] stop
-						 */
-						// Start of branch "insert_new_users"
-						if (insert_new_users != null) {
+							tos_count_tMap_9++;
 
 							/**
-							 * [tJDBCOutput_9 main ] start
+							 * [tMap_9 main ] stop
 							 */
+							// Start of branch "insert_new_users"
+							if (insert_new_users != null) {
 
-							currentComponent = "tJDBCOutput_9";
+								/**
+								 * [tJDBCOutput_9 main ] start
+								 */
 
-							whetherReject_tJDBCOutput_9 = false;
-							if (insert_new_users.user_id == null) {
-								pstmt_tJDBCOutput_9.setNull(1,
-										java.sql.Types.OTHER);
-							} else {
-								pstmt_tJDBCOutput_9.setObject(1,
-										insert_new_users.user_id);
-							}
+								currentComponent = "tJDBCOutput_9";
 
-							java.sql.ResultSet rs_tJDBCOutput_9 = pstmt_tJDBCOutput_9
-									.executeQuery();
-							int checkCount_tJDBCOutput_9 = -1;
-							while (rs_tJDBCOutput_9.next()) {
-								checkCount_tJDBCOutput_9 = rs_tJDBCOutput_9
-										.getInt(1);
-							}
-							if (checkCount_tJDBCOutput_9 > 0) {
-								if (insert_new_users.first_name == null) {
-									pstmtUpdate_tJDBCOutput_9.setNull(1,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtUpdate_tJDBCOutput_9.setString(1,
-											insert_new_users.first_name);
-								}
-
-								if (insert_new_users.last_name == null) {
-									pstmtUpdate_tJDBCOutput_9.setNull(2,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtUpdate_tJDBCOutput_9.setString(2,
-											insert_new_users.last_name);
-								}
-
-								if (insert_new_users.domain == null) {
-									pstmtUpdate_tJDBCOutput_9.setNull(3,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtUpdate_tJDBCOutput_9.setString(3,
-											insert_new_users.domain);
-								}
-
-								if (insert_new_users.username == null) {
-									pstmtUpdate_tJDBCOutput_9.setNull(4,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtUpdate_tJDBCOutput_9.setString(4,
-											insert_new_users.username);
-								}
-
-								if (insert_new_users.department == null) {
-									pstmtUpdate_tJDBCOutput_9.setNull(5,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtUpdate_tJDBCOutput_9.setString(5,
-											insert_new_users.department);
-								}
-
-								if (insert_new_users.user_role_title == null) {
-									pstmtUpdate_tJDBCOutput_9.setNull(6,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtUpdate_tJDBCOutput_9.setString(6,
-											insert_new_users.user_role_title);
-								}
-
-								if (insert_new_users.email == null) {
-									pstmtUpdate_tJDBCOutput_9.setNull(7,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtUpdate_tJDBCOutput_9.setString(7,
-											insert_new_users.email);
-								}
-
-								if (insert_new_users.external_id == null) {
-									pstmtUpdate_tJDBCOutput_9.setNull(8,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtUpdate_tJDBCOutput_9.setString(8,
-											insert_new_users.external_id);
-								}
-
-								if (insert_new_users.active == null) {
-									pstmtUpdate_tJDBCOutput_9.setNull(9,
-											java.sql.Types.BOOLEAN);
-								} else {
-									pstmtUpdate_tJDBCOutput_9.setBoolean(9,
-											insert_new_users.active);
-								}
-
-								if (insert_new_users.create_date != null) {
-									pstmtUpdate_tJDBCOutput_9
-											.setTimestamp(
-													10,
-													new java.sql.Timestamp(
-															insert_new_users.create_date
-																	.getTime()));
-								} else {
-									pstmtUpdate_tJDBCOutput_9.setNull(10,
-											java.sql.Types.DATE);
-								}
-
-								if (insert_new_users.update_date != null) {
-									pstmtUpdate_tJDBCOutput_9
-											.setTimestamp(
-													11,
-													new java.sql.Timestamp(
-															insert_new_users.update_date
-																	.getTime()));
-								} else {
-									pstmtUpdate_tJDBCOutput_9.setNull(11,
-											java.sql.Types.DATE);
-								}
-
+								whetherReject_tJDBCOutput_9 = false;
 								if (insert_new_users.user_id == null) {
-									pstmtUpdate_tJDBCOutput_9.setNull(12,
+									pstmt_tJDBCOutput_9.setNull(1,
 											java.sql.Types.OTHER);
 								} else {
-									pstmtUpdate_tJDBCOutput_9.setObject(12,
+									pstmt_tJDBCOutput_9.setObject(1,
 											insert_new_users.user_id);
 								}
 
-								try {
-									updatedCount_tJDBCOutput_9 = updatedCount_tJDBCOutput_9
-											+ pstmtUpdate_tJDBCOutput_9
-													.executeUpdate();
-									nb_line_tJDBCOutput_9++;
-								} catch (java.lang.Exception e) {
-									whetherReject_tJDBCOutput_9 = true;
-									throw (e);
+								java.sql.ResultSet rs_tJDBCOutput_9 = pstmt_tJDBCOutput_9
+										.executeQuery();
+								int checkCount_tJDBCOutput_9 = -1;
+								while (rs_tJDBCOutput_9.next()) {
+									checkCount_tJDBCOutput_9 = rs_tJDBCOutput_9
+											.getInt(1);
 								}
-							} else {
-								if (insert_new_users.user_id == null) {
-									pstmtInsert_tJDBCOutput_9.setNull(1,
-											java.sql.Types.OTHER);
+								if (checkCount_tJDBCOutput_9 > 0) {
+									if (insert_new_users.first_name == null) {
+										pstmtUpdate_tJDBCOutput_9.setNull(1,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtUpdate_tJDBCOutput_9.setString(1,
+												insert_new_users.first_name);
+									}
+
+									if (insert_new_users.last_name == null) {
+										pstmtUpdate_tJDBCOutput_9.setNull(2,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtUpdate_tJDBCOutput_9.setString(2,
+												insert_new_users.last_name);
+									}
+
+									if (insert_new_users.domain == null) {
+										pstmtUpdate_tJDBCOutput_9.setNull(3,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtUpdate_tJDBCOutput_9.setString(3,
+												insert_new_users.domain);
+									}
+
+									if (insert_new_users.username == null) {
+										pstmtUpdate_tJDBCOutput_9.setNull(4,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtUpdate_tJDBCOutput_9.setString(4,
+												insert_new_users.username);
+									}
+
+									if (insert_new_users.department == null) {
+										pstmtUpdate_tJDBCOutput_9.setNull(5,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtUpdate_tJDBCOutput_9.setString(5,
+												insert_new_users.department);
+									}
+
+									if (insert_new_users.user_role_title == null) {
+										pstmtUpdate_tJDBCOutput_9.setNull(6,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtUpdate_tJDBCOutput_9
+												.setString(
+														6,
+														insert_new_users.user_role_title);
+									}
+
+									if (insert_new_users.email == null) {
+										pstmtUpdate_tJDBCOutput_9.setNull(7,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtUpdate_tJDBCOutput_9.setString(7,
+												insert_new_users.email);
+									}
+
+									if (insert_new_users.external_id == null) {
+										pstmtUpdate_tJDBCOutput_9.setNull(8,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtUpdate_tJDBCOutput_9.setString(8,
+												insert_new_users.external_id);
+									}
+
+									if (insert_new_users.active == null) {
+										pstmtUpdate_tJDBCOutput_9.setNull(9,
+												java.sql.Types.BOOLEAN);
+									} else {
+										pstmtUpdate_tJDBCOutput_9.setBoolean(9,
+												insert_new_users.active);
+									}
+
+									if (insert_new_users.create_date != null) {
+										pstmtUpdate_tJDBCOutput_9
+												.setTimestamp(
+														10,
+														new java.sql.Timestamp(
+																insert_new_users.create_date
+																		.getTime()));
+									} else {
+										pstmtUpdate_tJDBCOutput_9.setNull(10,
+												java.sql.Types.DATE);
+									}
+
+									if (insert_new_users.update_date != null) {
+										pstmtUpdate_tJDBCOutput_9
+												.setTimestamp(
+														11,
+														new java.sql.Timestamp(
+																insert_new_users.update_date
+																		.getTime()));
+									} else {
+										pstmtUpdate_tJDBCOutput_9.setNull(11,
+												java.sql.Types.DATE);
+									}
+
+									if (insert_new_users.user_id == null) {
+										pstmtUpdate_tJDBCOutput_9.setNull(12,
+												java.sql.Types.OTHER);
+									} else {
+										pstmtUpdate_tJDBCOutput_9.setObject(12,
+												insert_new_users.user_id);
+									}
+
+									try {
+										updatedCount_tJDBCOutput_9 = updatedCount_tJDBCOutput_9
+												+ pstmtUpdate_tJDBCOutput_9
+														.executeUpdate();
+										nb_line_tJDBCOutput_9++;
+									} catch (java.lang.Exception e) {
+										whetherReject_tJDBCOutput_9 = true;
+										throw (e);
+									}
 								} else {
-									pstmtInsert_tJDBCOutput_9.setObject(1,
-											insert_new_users.user_id);
+									if (insert_new_users.user_id == null) {
+										pstmtInsert_tJDBCOutput_9.setNull(1,
+												java.sql.Types.OTHER);
+									} else {
+										pstmtInsert_tJDBCOutput_9.setObject(1,
+												insert_new_users.user_id);
+									}
+
+									if (insert_new_users.first_name == null) {
+										pstmtInsert_tJDBCOutput_9.setNull(2,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtInsert_tJDBCOutput_9.setString(2,
+												insert_new_users.first_name);
+									}
+
+									if (insert_new_users.last_name == null) {
+										pstmtInsert_tJDBCOutput_9.setNull(3,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtInsert_tJDBCOutput_9.setString(3,
+												insert_new_users.last_name);
+									}
+
+									if (insert_new_users.domain == null) {
+										pstmtInsert_tJDBCOutput_9.setNull(4,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtInsert_tJDBCOutput_9.setString(4,
+												insert_new_users.domain);
+									}
+
+									if (insert_new_users.username == null) {
+										pstmtInsert_tJDBCOutput_9.setNull(5,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtInsert_tJDBCOutput_9.setString(5,
+												insert_new_users.username);
+									}
+
+									if (insert_new_users.department == null) {
+										pstmtInsert_tJDBCOutput_9.setNull(6,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtInsert_tJDBCOutput_9.setString(6,
+												insert_new_users.department);
+									}
+
+									if (insert_new_users.user_role_title == null) {
+										pstmtInsert_tJDBCOutput_9.setNull(7,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtInsert_tJDBCOutput_9
+												.setString(
+														7,
+														insert_new_users.user_role_title);
+									}
+
+									if (insert_new_users.email == null) {
+										pstmtInsert_tJDBCOutput_9.setNull(8,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtInsert_tJDBCOutput_9.setString(8,
+												insert_new_users.email);
+									}
+
+									if (insert_new_users.external_id == null) {
+										pstmtInsert_tJDBCOutput_9.setNull(9,
+												java.sql.Types.VARCHAR);
+									} else {
+										pstmtInsert_tJDBCOutput_9.setString(9,
+												insert_new_users.external_id);
+									}
+
+									if (insert_new_users.active == null) {
+										pstmtInsert_tJDBCOutput_9.setNull(10,
+												java.sql.Types.BOOLEAN);
+									} else {
+										pstmtInsert_tJDBCOutput_9.setBoolean(
+												10, insert_new_users.active);
+									}
+
+									if (insert_new_users.create_date != null) {
+										pstmtInsert_tJDBCOutput_9
+												.setTimestamp(
+														11,
+														new java.sql.Timestamp(
+																insert_new_users.create_date
+																		.getTime()));
+									} else {
+										pstmtInsert_tJDBCOutput_9.setNull(11,
+												java.sql.Types.DATE);
+									}
+
+									if (insert_new_users.update_date != null) {
+										pstmtInsert_tJDBCOutput_9
+												.setTimestamp(
+														12,
+														new java.sql.Timestamp(
+																insert_new_users.update_date
+																		.getTime()));
+									} else {
+										pstmtInsert_tJDBCOutput_9.setNull(12,
+												java.sql.Types.DATE);
+									}
+
+									try {
+										insertedCount_tJDBCOutput_9 = insertedCount_tJDBCOutput_9
+												+ pstmtInsert_tJDBCOutput_9
+														.executeUpdate();
+										nb_line_tJDBCOutput_9++;
+									} catch (java.lang.Exception e) {
+										whetherReject_tJDBCOutput_9 = true;
+										throw (e);
+									}
 								}
 
-								if (insert_new_users.first_name == null) {
-									pstmtInsert_tJDBCOutput_9.setNull(2,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtInsert_tJDBCOutput_9.setString(2,
-											insert_new_users.first_name);
-								}
+								tos_count_tJDBCOutput_9++;
 
-								if (insert_new_users.last_name == null) {
-									pstmtInsert_tJDBCOutput_9.setNull(3,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtInsert_tJDBCOutput_9.setString(3,
-											insert_new_users.last_name);
-								}
+								/**
+								 * [tJDBCOutput_9 main ] stop
+								 */
 
-								if (insert_new_users.domain == null) {
-									pstmtInsert_tJDBCOutput_9.setNull(4,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtInsert_tJDBCOutput_9.setString(4,
-											insert_new_users.domain);
-								}
+							} // End of branch "insert_new_users"
 
-								if (insert_new_users.username == null) {
-									pstmtInsert_tJDBCOutput_9.setNull(5,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtInsert_tJDBCOutput_9.setString(5,
-											insert_new_users.username);
-								}
-
-								if (insert_new_users.department == null) {
-									pstmtInsert_tJDBCOutput_9.setNull(6,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtInsert_tJDBCOutput_9.setString(6,
-											insert_new_users.department);
-								}
-
-								if (insert_new_users.user_role_title == null) {
-									pstmtInsert_tJDBCOutput_9.setNull(7,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtInsert_tJDBCOutput_9.setString(7,
-											insert_new_users.user_role_title);
-								}
-
-								if (insert_new_users.email == null) {
-									pstmtInsert_tJDBCOutput_9.setNull(8,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtInsert_tJDBCOutput_9.setString(8,
-											insert_new_users.email);
-								}
-
-								if (insert_new_users.external_id == null) {
-									pstmtInsert_tJDBCOutput_9.setNull(9,
-											java.sql.Types.VARCHAR);
-								} else {
-									pstmtInsert_tJDBCOutput_9.setString(9,
-											insert_new_users.external_id);
-								}
-
-								if (insert_new_users.active == null) {
-									pstmtInsert_tJDBCOutput_9.setNull(10,
-											java.sql.Types.BOOLEAN);
-								} else {
-									pstmtInsert_tJDBCOutput_9.setBoolean(10,
-											insert_new_users.active);
-								}
-
-								if (insert_new_users.create_date != null) {
-									pstmtInsert_tJDBCOutput_9
-											.setTimestamp(
-													11,
-													new java.sql.Timestamp(
-															insert_new_users.create_date
-																	.getTime()));
-								} else {
-									pstmtInsert_tJDBCOutput_9.setNull(11,
-											java.sql.Types.DATE);
-								}
-
-								if (insert_new_users.update_date != null) {
-									pstmtInsert_tJDBCOutput_9
-											.setTimestamp(
-													12,
-													new java.sql.Timestamp(
-															insert_new_users.update_date
-																	.getTime()));
-								} else {
-									pstmtInsert_tJDBCOutput_9.setNull(12,
-											java.sql.Types.DATE);
-								}
-
-								try {
-									insertedCount_tJDBCOutput_9 = insertedCount_tJDBCOutput_9
-											+ pstmtInsert_tJDBCOutput_9
-													.executeUpdate();
-									nb_line_tJDBCOutput_9++;
-								} catch (java.lang.Exception e) {
-									whetherReject_tJDBCOutput_9 = true;
-									throw (e);
-								}
-							}
-
-							tos_count_tJDBCOutput_9++;
-
-							/**
-							 * [tJDBCOutput_9 main ] stop
-							 */
-
-						} // End of branch "insert_new_users"
+						} // G_TM_M_280 close main tMap filter for table 'row55'
 
 						/**
 						 * [tJDBCInput_9 end ] start
@@ -59693,6 +59713,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1564379 characters generated by Talend Open Studio for Data Integration on
- * the May 23, 2016 1:55:09 PM IDT
+ * 1564834 characters generated by Talend Open Studio for Data Integration on
+ * the November 28, 2016 1:42:57 PM IST
  ************************************************************************************************/
