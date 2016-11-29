@@ -1315,7 +1315,7 @@ public class ConfigurationSync implements TalendJob {
 		tJDBCInput_52_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tJDBCOutput_30_error(Exception exception,
+	public void tJDBCOutput_33_error(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1326,7 +1326,29 @@ public class ConfigurationSync implements TalendJob {
 		tJDBCInput_52_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tJDBCOutput_33_error(Exception exception,
+	public void tJDBCInput_10_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCInput_10_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tMap_11_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCInput_10_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCOutput_11_error(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1334,7 +1356,7 @@ public class ConfigurationSync implements TalendJob {
 
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
-		tJDBCInput_52_onSubJobError(exception, errorComponent, globalMap);
+		tJDBCInput_10_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tJDBCInput_39_error(Exception exception, String errorComponent,
@@ -2237,6 +2259,17 @@ public class ConfigurationSync implements TalendJob {
 	}
 
 	public void tJDBCInput_52_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCInput_10_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -45809,242 +45842,6 @@ public class ConfigurationSync implements TalendJob {
 		globalMap.put("tJDBCRow_1_SUBPROCESS_STATE", 1);
 	}
 
-	public static class updateFirstSyncStruct implements
-			routines.system.IPersistableRow<updateFirstSyncStruct> {
-		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
-		static byte[] commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
-		protected static final int DEFAULT_HASHCODE = 1;
-		protected static final int PRIME = 31;
-		protected int hashCode = DEFAULT_HASHCODE;
-		public boolean hashCodeDirty = true;
-
-		public String loopKey;
-
-		public String var_name;
-
-		public String getVar_name() {
-			return this.var_name;
-		}
-
-		public String var_value;
-
-		public String getVar_value() {
-			return this.var_value;
-		}
-
-		public java.util.Date var_datetime;
-
-		public java.util.Date getVar_datetime() {
-			return this.var_datetime;
-		}
-
-		@Override
-		public int hashCode() {
-			if (this.hashCodeDirty) {
-				final int prime = PRIME;
-				int result = DEFAULT_HASHCODE;
-
-				result = prime
-						* result
-						+ ((this.var_name == null) ? 0 : this.var_name
-								.hashCode());
-
-				this.hashCode = result;
-				this.hashCodeDirty = false;
-			}
-			return this.hashCode;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			final updateFirstSyncStruct other = (updateFirstSyncStruct) obj;
-
-			if (this.var_name == null) {
-				if (other.var_name != null)
-					return false;
-
-			} else if (!this.var_name.equals(other.var_name))
-
-				return false;
-
-			return true;
-		}
-
-		public void copyDataTo(updateFirstSyncStruct other) {
-
-			other.var_name = this.var_name;
-			other.var_value = this.var_value;
-			other.var_datetime = this.var_datetime;
-
-		}
-
-		public void copyKeysDataTo(updateFirstSyncStruct other) {
-
-			other.var_name = this.var_name;
-
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync.length) {
-					if (length < 1024
-							&& commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync.length == 0) {
-						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[1024];
-					} else {
-						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[2 * length];
-					}
-				}
-				dis.readFully(
-						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync, 0,
-						length);
-				strReturn = new String(
-						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync, 0,
-						length, utf8Charset);
-			}
-			return strReturn;
-		}
-
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		private java.util.Date readDate(ObjectInputStream dis)
-				throws IOException {
-			java.util.Date dateReturn = null;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				dateReturn = null;
-			} else {
-				dateReturn = new Date(dis.readLong());
-			}
-			return dateReturn;
-		}
-
-		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
-				throws IOException {
-			if (date1 == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeLong(date1.getTime());
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync) {
-
-				try {
-
-					int length = 0;
-
-					this.var_name = readString(dis);
-
-					this.var_value = readString(dis);
-
-					this.var_datetime = readDate(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
-				}
-
-			}
-
-		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// String
-
-				writeString(this.var_name, dos);
-
-				// String
-
-				writeString(this.var_value, dos);
-
-				// java.util.Date
-
-				writeDate(this.var_datetime, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
-		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("var_name=" + var_name);
-			sb.append(",var_value=" + var_value);
-			sb.append(",var_datetime=" + String.valueOf(var_datetime));
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(updateFirstSyncStruct other) {
-
-			int returnValue = -1;
-
-			returnValue = checkNullsAndCompare(this.var_name, other.var_name);
-			if (returnValue != 0) {
-				return returnValue;
-			}
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(),
-						object2.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
-	}
-
 	public static class update_lastSyncStruct implements
 			routines.system.IPersistableRow<update_lastSyncStruct> {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
@@ -46477,53 +46274,7 @@ public class ConfigurationSync implements TalendJob {
 				globalResumeTicket = true;
 
 				row44Struct row44 = new row44Struct();
-				updateFirstSyncStruct updateFirstSync = new updateFirstSyncStruct();
 				update_lastSyncStruct update_lastSync = new update_lastSyncStruct();
-
-				/**
-				 * [tJDBCOutput_30 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCOutput_30", false);
-				start_Hash.put("tJDBCOutput_30", System.currentTimeMillis());
-
-				currentComponent = "tJDBCOutput_30";
-
-				int tos_count_tJDBCOutput_30 = 0;
-
-				int updateKeyCount_tJDBCOutput_30 = 1;
-				if (updateKeyCount_tJDBCOutput_30 < 1) {
-					throw new RuntimeException(
-							"For update, Schema must have a key");
-				}
-
-				int nb_line_tJDBCOutput_30 = 0;
-				int nb_line_update_tJDBCOutput_30 = 0;
-				int nb_line_inserted_tJDBCOutput_30 = 0;
-				int nb_line_deleted_tJDBCOutput_30 = 0;
-				int nb_line_rejected_tJDBCOutput_30 = 0;
-
-				int tmp_batchUpdateCount_tJDBCOutput_30 = 0;
-
-				int deletedCount_tJDBCOutput_30 = 0;
-				int updatedCount_tJDBCOutput_30 = 0;
-				int insertedCount_tJDBCOutput_30 = 0;
-				int rejectedCount_tJDBCOutput_30 = 0;
-
-				boolean whetherReject_tJDBCOutput_30 = false;
-
-				java.sql.Connection connection_tJDBCOutput_30 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_2");
-
-				String update_tJDBCOutput_30 = "UPDATE "
-						+ "history_configuration"
-						+ " SET var_value = ?,var_datetime = ? WHERE var_name = ?";
-				java.sql.PreparedStatement pstmt_tJDBCOutput_30 = connection_tJDBCOutput_30
-						.prepareStatement(update_tJDBCOutput_30);
-
-				/**
-				 * [tJDBCOutput_30 begin ] stop
-				 */
 
 				/**
 				 * [tJDBCOutput_33 begin ] start
@@ -46594,7 +46345,6 @@ public class ConfigurationSync implements TalendJob {
 
 				// ###############################
 				// # Outputs initialization
-				updateFirstSyncStruct updateFirstSync_tmp = new updateFirstSyncStruct();
 				update_lastSyncStruct update_lastSync_tmp = new update_lastSyncStruct();
 				// ###############################
 
@@ -46707,16 +46457,7 @@ public class ConfigurationSync implements TalendJob {
 							// ###############################
 							// # Output tables
 
-							updateFirstSync = null;
 							update_lastSync = null;
-
-							// # Output table : 'updateFirstSync'
-							updateFirstSync_tmp.var_name = row44.var_name;
-							updateFirstSync_tmp.var_value = "false";
-							updateFirstSync_tmp.var_datetime = row44.var_value
-									.equals("true") ? context.runTime
-									: row44.var_datetime;
-							updateFirstSync = updateFirstSync_tmp;
 
 							// # Output table : 'update_lastSync'
 							update_lastSync_tmp.var_name = "lastSync";
@@ -46737,60 +46478,6 @@ public class ConfigurationSync implements TalendJob {
 						/**
 						 * [tMap_30 main ] stop
 						 */
-						// Start of branch "updateFirstSync"
-						if (updateFirstSync != null) {
-
-							/**
-							 * [tJDBCOutput_30 main ] start
-							 */
-
-							currentComponent = "tJDBCOutput_30";
-
-							whetherReject_tJDBCOutput_30 = false;
-							if (updateFirstSync.var_value == null) {
-								pstmt_tJDBCOutput_30.setNull(1,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_30.setString(1,
-										updateFirstSync.var_value);
-							}
-
-							if (updateFirstSync.var_datetime != null) {
-								pstmt_tJDBCOutput_30.setTimestamp(
-										2,
-										new java.sql.Timestamp(
-												updateFirstSync.var_datetime
-														.getTime()));
-							} else {
-								pstmt_tJDBCOutput_30.setNull(2,
-										java.sql.Types.DATE);
-							}
-
-							if (updateFirstSync.var_name == null) {
-								pstmt_tJDBCOutput_30.setNull(3,
-										java.sql.Types.VARCHAR);
-							} else {
-								pstmt_tJDBCOutput_30.setString(3,
-										updateFirstSync.var_name);
-							}
-
-							try {
-								updatedCount_tJDBCOutput_30 = updatedCount_tJDBCOutput_30
-										+ pstmt_tJDBCOutput_30.executeUpdate();
-								nb_line_tJDBCOutput_30++;
-							} catch (java.lang.Exception e) {
-								whetherReject_tJDBCOutput_30 = true;
-								throw (e);
-							}
-
-							tos_count_tJDBCOutput_30++;
-
-							/**
-							 * [tJDBCOutput_30 main ] stop
-							 */
-
-						} // End of branch "updateFirstSync"
-
 						// Start of branch "update_lastSync"
 						if (update_lastSync != null) {
 
@@ -46886,44 +46573,6 @@ public class ConfigurationSync implements TalendJob {
 				 */
 
 				/**
-				 * [tJDBCOutput_30 end ] start
-				 */
-
-				currentComponent = "tJDBCOutput_30";
-
-				if (pstmt_tJDBCOutput_30 != null) {
-
-					pstmt_tJDBCOutput_30.close();
-
-				}
-
-				nb_line_deleted_tJDBCOutput_30 = nb_line_deleted_tJDBCOutput_30
-						+ deletedCount_tJDBCOutput_30;
-				nb_line_update_tJDBCOutput_30 = nb_line_update_tJDBCOutput_30
-						+ updatedCount_tJDBCOutput_30;
-				nb_line_inserted_tJDBCOutput_30 = nb_line_inserted_tJDBCOutput_30
-						+ insertedCount_tJDBCOutput_30;
-				nb_line_rejected_tJDBCOutput_30 = nb_line_rejected_tJDBCOutput_30
-						+ rejectedCount_tJDBCOutput_30;
-
-				globalMap.put("tJDBCOutput_30_NB_LINE", nb_line_tJDBCOutput_30);
-				globalMap.put("tJDBCOutput_30_NB_LINE_UPDATED",
-						nb_line_update_tJDBCOutput_30);
-				globalMap.put("tJDBCOutput_30_NB_LINE_INSERTED",
-						nb_line_inserted_tJDBCOutput_30);
-				globalMap.put("tJDBCOutput_30_NB_LINE_DELETED",
-						nb_line_deleted_tJDBCOutput_30);
-				globalMap.put("tJDBCOutput_30_NB_LINE_REJECTED",
-						nb_line_rejected_tJDBCOutput_30);
-
-				ok_Hash.put("tJDBCOutput_30", true);
-				end_Hash.put("tJDBCOutput_30", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCOutput_30 end ] stop
-				 */
-
-				/**
 				 * [tJDBCOutput_33 end ] start
 				 */
 
@@ -46963,6 +46612,16 @@ public class ConfigurationSync implements TalendJob {
 
 			}// end the resume
 
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCInput_52:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCInput_10Process(globalMap);
+
 		} catch (java.lang.Exception e) {
 
 			TalendException te = new TalendException(e, currentComponent,
@@ -46997,16 +46656,6 @@ public class ConfigurationSync implements TalendJob {
 				 */
 
 				/**
-				 * [tJDBCOutput_30 finally ] start
-				 */
-
-				currentComponent = "tJDBCOutput_30";
-
-				/**
-				 * [tJDBCOutput_30 finally ] stop
-				 */
-
-				/**
 				 * [tJDBCOutput_33 finally ] start
 				 */
 
@@ -47025,6 +46674,842 @@ public class ConfigurationSync implements TalendJob {
 		}
 
 		globalMap.put("tJDBCInput_52_SUBPROCESS_STATE", 1);
+	}
+
+	public static class copyOfupdateFirstSyncStruct implements
+			routines.system.IPersistableRow<copyOfupdateFirstSyncStruct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
+		protected static final int DEFAULT_HASHCODE = 1;
+		protected static final int PRIME = 31;
+		protected int hashCode = DEFAULT_HASHCODE;
+		public boolean hashCodeDirty = true;
+
+		public String loopKey;
+
+		public String var_name;
+
+		public String getVar_name() {
+			return this.var_name;
+		}
+
+		public String var_value;
+
+		public String getVar_value() {
+			return this.var_value;
+		}
+
+		public java.util.Date var_datetime;
+
+		public java.util.Date getVar_datetime() {
+			return this.var_datetime;
+		}
+
+		@Override
+		public int hashCode() {
+			if (this.hashCodeDirty) {
+				final int prime = PRIME;
+				int result = DEFAULT_HASHCODE;
+
+				result = prime
+						* result
+						+ ((this.var_name == null) ? 0 : this.var_name
+								.hashCode());
+
+				this.hashCode = result;
+				this.hashCodeDirty = false;
+			}
+			return this.hashCode;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			final copyOfupdateFirstSyncStruct other = (copyOfupdateFirstSyncStruct) obj;
+
+			if (this.var_name == null) {
+				if (other.var_name != null)
+					return false;
+
+			} else if (!this.var_name.equals(other.var_name))
+
+				return false;
+
+			return true;
+		}
+
+		public void copyDataTo(copyOfupdateFirstSyncStruct other) {
+
+			other.var_name = this.var_name;
+			other.var_value = this.var_value;
+			other.var_datetime = this.var_datetime;
+
+		}
+
+		public void copyKeysDataTo(copyOfupdateFirstSyncStruct other) {
+
+			other.var_name = this.var_name;
+
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[2 * length];
+					}
+				}
+				dis.readFully(
+						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync, 0,
+						length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync, 0,
+						length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync) {
+
+				try {
+
+					int length = 0;
+
+					this.var_name = readString(dis);
+
+					this.var_value = readString(dis);
+
+					this.var_datetime = readDate(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.var_name, dos);
+
+				// String
+
+				writeString(this.var_value, dos);
+
+				// java.util.Date
+
+				writeDate(this.var_datetime, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("var_name=" + var_name);
+			sb.append(",var_value=" + var_value);
+			sb.append(",var_datetime=" + String.valueOf(var_datetime));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(copyOfupdateFirstSyncStruct other) {
+
+			int returnValue = -1;
+
+			returnValue = checkNullsAndCompare(this.var_name, other.var_name);
+			if (returnValue != 0) {
+				return returnValue;
+			}
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public static class row49Struct implements
+			routines.system.IPersistableRow<row49Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
+
+		public String var_name;
+
+		public String getVar_name() {
+			return this.var_name;
+		}
+
+		public String var_value;
+
+		public String getVar_value() {
+			return this.var_value;
+		}
+
+		public java.util.Date var_datetime;
+
+		public java.util.Date getVar_datetime() {
+			return this.var_datetime;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[2 * length];
+					}
+				}
+				dis.readFully(
+						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync, 0,
+						length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync, 0,
+						length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		private java.util.Date readDate(ObjectInputStream dis)
+				throws IOException {
+			java.util.Date dateReturn = null;
+			int length = 0;
+			length = dis.readByte();
+			if (length == -1) {
+				dateReturn = null;
+			} else {
+				dateReturn = new Date(dis.readLong());
+			}
+			return dateReturn;
+		}
+
+		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
+				throws IOException {
+			if (date1 == null) {
+				dos.writeByte(-1);
+			} else {
+				dos.writeByte(0);
+				dos.writeLong(date1.getTime());
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync) {
+
+				try {
+
+					int length = 0;
+
+					this.var_name = readString(dis);
+
+					this.var_value = readString(dis);
+
+					this.var_datetime = readDate(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.var_name, dos);
+
+				// String
+
+				writeString(this.var_value, dos);
+
+				// java.util.Date
+
+				writeDate(this.var_datetime, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("var_name=" + var_name);
+			sb.append(",var_value=" + var_value);
+			sb.append(",var_datetime=" + String.valueOf(var_datetime));
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row49Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tJDBCInput_10Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row49Struct row49 = new row49Struct();
+				copyOfupdateFirstSyncStruct copyOfupdateFirstSync = new copyOfupdateFirstSyncStruct();
+
+				/**
+				 * [tJDBCOutput_11 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCOutput_11", false);
+				start_Hash.put("tJDBCOutput_11", System.currentTimeMillis());
+
+				currentComponent = "tJDBCOutput_11";
+
+				int tos_count_tJDBCOutput_11 = 0;
+
+				int updateKeyCount_tJDBCOutput_11 = 1;
+				if (updateKeyCount_tJDBCOutput_11 < 1) {
+					throw new RuntimeException(
+							"For update, Schema must have a key");
+				}
+
+				int nb_line_tJDBCOutput_11 = 0;
+				int nb_line_update_tJDBCOutput_11 = 0;
+				int nb_line_inserted_tJDBCOutput_11 = 0;
+				int nb_line_deleted_tJDBCOutput_11 = 0;
+				int nb_line_rejected_tJDBCOutput_11 = 0;
+
+				int tmp_batchUpdateCount_tJDBCOutput_11 = 0;
+
+				int deletedCount_tJDBCOutput_11 = 0;
+				int updatedCount_tJDBCOutput_11 = 0;
+				int insertedCount_tJDBCOutput_11 = 0;
+				int rejectedCount_tJDBCOutput_11 = 0;
+
+				boolean whetherReject_tJDBCOutput_11 = false;
+
+				java.sql.Connection connection_tJDBCOutput_11 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_2");
+
+				String update_tJDBCOutput_11 = "UPDATE "
+						+ "history_configuration"
+						+ " SET var_value = ?,var_datetime = ? WHERE var_name = ?";
+				java.sql.PreparedStatement pstmt_tJDBCOutput_11 = connection_tJDBCOutput_11
+						.prepareStatement(update_tJDBCOutput_11);
+
+				/**
+				 * [tJDBCOutput_11 begin ] stop
+				 */
+
+				/**
+				 * [tMap_11 begin ] start
+				 */
+
+				ok_Hash.put("tMap_11", false);
+				start_Hash.put("tMap_11", System.currentTimeMillis());
+
+				currentComponent = "tMap_11";
+
+				int tos_count_tMap_11 = 0;
+
+				// ###############################
+				// # Lookup's keys initialization
+				// ###############################
+
+				// ###############################
+				// # Vars initialization
+				class Var__tMap_11__Struct {
+				}
+				Var__tMap_11__Struct Var__tMap_11 = new Var__tMap_11__Struct();
+				// ###############################
+
+				// ###############################
+				// # Outputs initialization
+				copyOfupdateFirstSyncStruct copyOfupdateFirstSync_tmp = new copyOfupdateFirstSyncStruct();
+				// ###############################
+
+				/**
+				 * [tMap_11 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCInput_10 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCInput_10", false);
+				start_Hash.put("tJDBCInput_10", System.currentTimeMillis());
+
+				currentComponent = "tJDBCInput_10";
+
+				int tos_count_tJDBCInput_10 = 0;
+
+				int nb_line_tJDBCInput_10 = 0;
+				java.sql.Connection conn_tJDBCInput_10 = null;
+				conn_tJDBCInput_10 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_2");
+
+				java.sql.Statement stmt_tJDBCInput_10 = conn_tJDBCInput_10
+						.createStatement();
+
+				String dbquery_tJDBCInput_10 = "SELECT \n  var_name, \n  var_value, \n  var_datetime\nFROM history_configuration\nWHERE var_name = 'firstSync'";
+
+				globalMap.put("tJDBCInput_10_QUERY", dbquery_tJDBCInput_10);
+
+				java.sql.ResultSet rs_tJDBCInput_10 = null;
+				try {
+					rs_tJDBCInput_10 = stmt_tJDBCInput_10
+							.executeQuery(dbquery_tJDBCInput_10);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_10 = rs_tJDBCInput_10
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_10 = rsmd_tJDBCInput_10
+							.getColumnCount();
+
+					String tmpContent_tJDBCInput_10 = null;
+
+					while (rs_tJDBCInput_10.next()) {
+						nb_line_tJDBCInput_10++;
+
+						if (colQtyInRs_tJDBCInput_10 < 1) {
+							row49.var_name = null;
+						} else {
+
+							row49.var_name = routines.system.JDBCUtil
+									.getString(rs_tJDBCInput_10, 1, false);
+						}
+						if (colQtyInRs_tJDBCInput_10 < 2) {
+							row49.var_value = null;
+						} else {
+
+							row49.var_value = routines.system.JDBCUtil
+									.getString(rs_tJDBCInput_10, 2, false);
+						}
+						if (colQtyInRs_tJDBCInput_10 < 3) {
+							row49.var_datetime = null;
+						} else {
+
+							java.util.Date date_tJDBCInput_10 = null;
+							try {
+								date_tJDBCInput_10 = rs_tJDBCInput_10
+										.getTimestamp(3);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_10 = rs_tJDBCInput_10
+										.getDate(3);
+							}
+							row49.var_datetime = date_tJDBCInput_10;
+						}
+
+						/**
+						 * [tJDBCInput_10 begin ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_10 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_10";
+
+						tos_count_tJDBCInput_10++;
+
+						/**
+						 * [tJDBCInput_10 main ] stop
+						 */
+
+						/**
+						 * [tMap_11 main ] start
+						 */
+
+						currentComponent = "tMap_11";
+
+						boolean hasCasePrimitiveKeyWithNull_tMap_11 = false;
+
+						// ###############################
+						// # Input tables (lookups)
+						boolean rejectedInnerJoin_tMap_11 = false;
+						boolean mainRowRejected_tMap_11 = false;
+
+						if (
+
+						(
+
+						row49.var_value.equals("true")
+
+						)
+
+						) { // G_TM_M_280
+
+							// CALL close main tMap filter for table 'row49'
+							// ###############################
+							{ // start of Var scope
+
+								// ###############################
+								// # Vars tables
+
+								Var__tMap_11__Struct Var = Var__tMap_11;// ###############################
+								// ###############################
+								// # Output tables
+
+								copyOfupdateFirstSync = null;
+
+								// # Output table : 'copyOfupdateFirstSync'
+								copyOfupdateFirstSync_tmp.var_name = row49.var_name;
+								copyOfupdateFirstSync_tmp.var_value = "false";
+								copyOfupdateFirstSync_tmp.var_datetime = context.runTime;
+								copyOfupdateFirstSync = copyOfupdateFirstSync_tmp;
+								// ###############################
+
+							} // end of Var scope
+
+							rejectedInnerJoin_tMap_11 = false;
+
+							tos_count_tMap_11++;
+
+							/**
+							 * [tMap_11 main ] stop
+							 */
+							// Start of branch "copyOfupdateFirstSync"
+							if (copyOfupdateFirstSync != null) {
+
+								/**
+								 * [tJDBCOutput_11 main ] start
+								 */
+
+								currentComponent = "tJDBCOutput_11";
+
+								whetherReject_tJDBCOutput_11 = false;
+								if (copyOfupdateFirstSync.var_value == null) {
+									pstmt_tJDBCOutput_11.setNull(1,
+											java.sql.Types.VARCHAR);
+								} else {
+									pstmt_tJDBCOutput_11.setString(1,
+											copyOfupdateFirstSync.var_value);
+								}
+
+								if (copyOfupdateFirstSync.var_datetime != null) {
+									pstmt_tJDBCOutput_11
+											.setTimestamp(
+													2,
+													new java.sql.Timestamp(
+															copyOfupdateFirstSync.var_datetime
+																	.getTime()));
+								} else {
+									pstmt_tJDBCOutput_11.setNull(2,
+											java.sql.Types.DATE);
+								}
+
+								if (copyOfupdateFirstSync.var_name == null) {
+									pstmt_tJDBCOutput_11.setNull(3,
+											java.sql.Types.VARCHAR);
+								} else {
+									pstmt_tJDBCOutput_11.setString(3,
+											copyOfupdateFirstSync.var_name);
+								}
+
+								try {
+									updatedCount_tJDBCOutput_11 = updatedCount_tJDBCOutput_11
+											+ pstmt_tJDBCOutput_11
+													.executeUpdate();
+									nb_line_tJDBCOutput_11++;
+								} catch (java.lang.Exception e) {
+									whetherReject_tJDBCOutput_11 = true;
+									throw (e);
+								}
+
+								tos_count_tJDBCOutput_11++;
+
+								/**
+								 * [tJDBCOutput_11 main ] stop
+								 */
+
+							} // End of branch "copyOfupdateFirstSync"
+
+						} // G_TM_M_280 close main tMap filter for table 'row49'
+
+						/**
+						 * [tJDBCInput_10 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_10";
+
+					}
+				} finally {
+					if (rs_tJDBCInput_10 != null) {
+						rs_tJDBCInput_10.close();
+					}
+					stmt_tJDBCInput_10.close();
+
+				}
+				globalMap.put("tJDBCInput_10_NB_LINE", nb_line_tJDBCInput_10);
+
+				ok_Hash.put("tJDBCInput_10", true);
+				end_Hash.put("tJDBCInput_10", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCInput_10 end ] stop
+				 */
+
+				/**
+				 * [tMap_11 end ] start
+				 */
+
+				currentComponent = "tMap_11";
+
+				// ###############################
+				// # Lookup hashes releasing
+				// ###############################
+
+				ok_Hash.put("tMap_11", true);
+				end_Hash.put("tMap_11", System.currentTimeMillis());
+
+				/**
+				 * [tMap_11 end ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_11 end ] start
+				 */
+
+				currentComponent = "tJDBCOutput_11";
+
+				if (pstmt_tJDBCOutput_11 != null) {
+
+					pstmt_tJDBCOutput_11.close();
+
+				}
+
+				nb_line_deleted_tJDBCOutput_11 = nb_line_deleted_tJDBCOutput_11
+						+ deletedCount_tJDBCOutput_11;
+				nb_line_update_tJDBCOutput_11 = nb_line_update_tJDBCOutput_11
+						+ updatedCount_tJDBCOutput_11;
+				nb_line_inserted_tJDBCOutput_11 = nb_line_inserted_tJDBCOutput_11
+						+ insertedCount_tJDBCOutput_11;
+				nb_line_rejected_tJDBCOutput_11 = nb_line_rejected_tJDBCOutput_11
+						+ rejectedCount_tJDBCOutput_11;
+
+				globalMap.put("tJDBCOutput_11_NB_LINE", nb_line_tJDBCOutput_11);
+				globalMap.put("tJDBCOutput_11_NB_LINE_UPDATED",
+						nb_line_update_tJDBCOutput_11);
+				globalMap.put("tJDBCOutput_11_NB_LINE_INSERTED",
+						nb_line_inserted_tJDBCOutput_11);
+				globalMap.put("tJDBCOutput_11_NB_LINE_DELETED",
+						nb_line_deleted_tJDBCOutput_11);
+				globalMap.put("tJDBCOutput_11_NB_LINE_REJECTED",
+						nb_line_rejected_tJDBCOutput_11);
+
+				ok_Hash.put("tJDBCOutput_11", true);
+				end_Hash.put("tJDBCOutput_11", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCOutput_11 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCInput_10 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_10";
+
+				/**
+				 * [tJDBCInput_10 finally ] stop
+				 */
+
+				/**
+				 * [tMap_11 finally ] start
+				 */
+
+				currentComponent = "tMap_11";
+
+				/**
+				 * [tMap_11 finally ] stop
+				 */
+
+				/**
+				 * [tJDBCOutput_11 finally ] start
+				 */
+
+				currentComponent = "tJDBCOutput_11";
+
+				/**
+				 * [tJDBCOutput_11 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCInput_10_SUBPROCESS_STATE", 1);
 	}
 
 	public static class row35Struct implements
@@ -59713,6 +60198,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1564834 characters generated by Talend Open Studio for Data Integration on
- * the November 28, 2016 1:42:57 PM IST
+ * 1576863 characters generated by Talend Open Studio for Data Integration on
+ * the November 29, 2016 9:29:45 AM IST
  ************************************************************************************************/
