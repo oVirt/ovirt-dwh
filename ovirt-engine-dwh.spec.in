@@ -252,6 +252,12 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Sun Dec 04 2016 Shirly Radco <sradco@redhat.com> - 4.0.6
+Fixed issues:
+- Bug 1364062 - setup: Notify to restart remote engine
+- Bug 1398944 - updated users collection
+- Bug 1399162 - Fixed firstSync updating process
+
 * Thu Oct 06 2016 Shirly Radco <sradco@redhat.com> - 4.0.5
 Fixed issues:
 - Bug 1365427 - engine-setup asks about scale also on upgrade/restore from 3.6
