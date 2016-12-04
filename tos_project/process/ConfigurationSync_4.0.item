@@ -2158,7 +2158,7 @@
       <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_configuration">
         <mapperTableEntries name="image_id" expression="row6.image_id " type="id_Object"/>
@@ -4696,7 +4696,7 @@
       <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_disks" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="image_id" expression="row27.image_id" type="id_Object"/>
@@ -7376,7 +7376,7 @@
       <column comment="" key="false" length="35" name="update_date" nullable="true" pattern="&quot;dd-MM-yyyy&quot;" precision="-1" sourceType="" type="id_Date" originalLength="35" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="insert_new_users">
         <mapperTableEntries name="user_id" expression="row55.user_id " type="id_Object"/>
@@ -7392,7 +7392,7 @@
         <mapperTableEntries name="create_date" expression="row55.create_date " type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="row55.update_date " type="id_Date" nullable="true"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row55" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row55" expressionFilter="row55.update_date == null ? TalendDate.compareDate(row55.create_date,context.runTime) &lt;=0 : TalendDate.compareDate(row55.update_date,context.runTime) &lt;=0" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="user_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="first_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="last_name" type="id_String" nullable="true"/>
