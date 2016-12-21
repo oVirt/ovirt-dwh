@@ -252,6 +252,20 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed Dec 21 2016 Shirly Radco <sradco@redhat.com> - 4.1.0
+Fixed issues:
+- Bug 1399162 - Fixed firstSync updating process
+- Bug 1398944 - updated users collection
+- Bug 1364062 - setup: Notify to restart remote engine
+- Bug 1263785 - setup: Remove constants duplication
+- Bug 1365427 - setup: Configure scale only on new database
+- Bug 1366900 - spec: Allow upgrade directly from 3.6
+- Bug 1349309 - lower sampling interval
+- Bug 1332892 - setup: Do not write db password to answerfile if provisioning
+- Bug 1347281 - dropped all history database foreign keys
+- Bug 1347996 - added index to vm disks usage tables
+
+
 * Tue May 31 2016 Shirly Radco <sradco@redhat.com> - 4.0.0
 Fixed issues:
 - Bug 1338495 - remove collection of vm_disk_interface
