@@ -170,6 +170,12 @@ class Daemon(service.Daemon):
             '-Dorg.ovirt.engine.dwh.settings=%s' % settings,
         ]
 
+        # Add arguments for the java heap size:
+        self._serviceArgs.extend([
+            '-Xms%s' % self._config.get('DWH_HEAP_MIN'),
+            '-Xmx%s' % self._config.get('DWH_HEAP_MAX'),
+        ])
+
         for engineProperty in shlex.split(
             self._config.get('DWH_PROPERTIES')
         ):
