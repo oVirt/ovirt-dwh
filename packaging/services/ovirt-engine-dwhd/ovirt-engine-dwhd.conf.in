@@ -42,6 +42,13 @@ DWH_DEBUG_ADDRESS=
 DWH_VERBOSE_GC=false
 
 #
+# These variables control the amount of memory used by the java
+# virtual machine where the daemon runs:
+#
+DWH_HEAP_MIN=1g
+DWH_HEAP_MAX=1g
+
+#
 # Extra system properties to be added to the java virtual machine
 # of the engine. Properties can be specified using the typical
 # java syntax:
