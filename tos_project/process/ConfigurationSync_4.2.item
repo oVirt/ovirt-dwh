@@ -363,12 +363,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_datacenters&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_datacenters&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(datacenter_id as char(36))) as datacenter_join_id&#xD;&#xA;FROM  v4_1_latest_configuration_datacenters&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(datacenter_id as char(36))) as datacenter_join_id&#xD;&#xA;FROM  v4_2_latest_configuration_datacenters&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -387,7 +387,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_datacenters" name="tJDBCInput_39">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_datacenters" name="tJDBCInput_39">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="36" name="datacenter_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -1195,12 +1195,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_clusters&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_clusters&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id&#xD;&#xA;FROM  v4_1_latest_configuration_clusters&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id&#xD;&#xA;FROM  v4_2_latest_configuration_clusters&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1219,7 +1219,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_vms_interfaces" name="tJDBCInput_40">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_vms_interfaces" name="tJDBCInput_40">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="36" name="cluster_join_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -1531,12 +1531,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_hosts&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_hosts&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(host_id as char(36))) as host_join_id&#xD;&#xA;FROM  v4_1_latest_configuration_hosts&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(host_id as char(36))) as host_join_id&#xD;&#xA;FROM  v4_2_latest_configuration_hosts&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1555,7 +1555,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_vms_interfaces" name="tJDBCInput_41">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_vms_interfaces" name="tJDBCInput_41">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="36" name="host_join_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -1783,12 +1783,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_hosts&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_hosts&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(host_id as char(36))) as host_join_id&#xD;&#xA;FROM  v4_1_latest_configuration_hosts&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(host_id as char(36))) as host_join_id&#xD;&#xA;FROM  v4_2_latest_configuration_hosts&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1807,7 +1807,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_vms_interfaces" name="tJDBCInput_43">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_vms_interfaces" name="tJDBCInput_43">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="36" name="host_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -1821,12 +1821,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_clusters&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_clusters&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id&#xD;&#xA;FROM  v4_1_latest_configuration_clusters&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id&#xD;&#xA;FROM  v4_2_latest_configuration_clusters&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1845,7 +1845,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_vms_interfaces" name="tJDBCInput_42">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_vms_interfaces" name="tJDBCInput_42">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="36" name="cluster_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -2438,12 +2438,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_vms&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_vms&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(vm_id as char(36))) as vm_join_id&#xD;&#xA;FROM  v4_1_latest_configuration_vms&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(vm_id as char(36))) as vm_join_id&#xD;&#xA;FROM  v4_2_latest_configuration_vms&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2462,7 +2462,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_vms_interfaces" name="tJDBCInput_44">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_vms_interfaces" name="tJDBCInput_44">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="36" name="vm_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -2588,12 +2588,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_datacenters&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_datacenters&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;datacenter_id, &#xD;&#xA;&#x9;&#x9;upper(cast(datacenter_id as char(36))) as datacenter_join_id,&#xD;&#xA;&#x9;&#x9;datacenter_name, &#xD;&#xA;&#x9;&#x9;datacenter_description, &#xD;&#xA;       &#x9;is_local_storage, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM  v4_1_latest_configuration_datacenters&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;datacenter_id, &#xD;&#xA;&#x9;&#x9;upper(cast(datacenter_id as char(36))) as datacenter_join_id,&#xD;&#xA;&#x9;&#x9;datacenter_name, &#xD;&#xA;&#x9;&#x9;datacenter_description, &#xD;&#xA;       &#x9;is_local_storage, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM  v4_2_latest_configuration_datacenters&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2624,7 +2624,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_datacenters" name="tJDBCInput_15">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_datacenters" name="tJDBCInput_15">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="datacenter_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="datacenter_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -2811,12 +2811,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_clusters&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_clusters&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xA;  &#x9;&#x9;cluster_id, &#xD;&#xA;  &#x9;&#x9;upper(cast(cluster_id as char(36))) as cluster_join_id,&#xA;  &#x9;&#x9;cluster_name, &#xA;  &#x9;&#x9;cluster_description, &#xA;  &#x9;&#x9;datacenter_id, &#xA;  &#x9;&#x9;cpu_name, &#xA;  &#x9;&#x9;compatibility_version, &#xA;  &#x9;&#x9;datacenter_configuration_version, &#xA;  &#x9;&#x9;create_date, &#xA;  &#x9;&#x9;update_date&#xA;FROM v4_1_latest_configuration_clusters&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xA;  &#x9;&#x9;cluster_id, &#xD;&#xA;  &#x9;&#x9;upper(cast(cluster_id as char(36))) as cluster_join_id,&#xA;  &#x9;&#x9;cluster_name, &#xA;  &#x9;&#x9;cluster_description, &#xA;  &#x9;&#x9;datacenter_id, &#xA;  &#x9;&#x9;cpu_name, &#xA;  &#x9;&#x9;compatibility_version, &#xA;  &#x9;&#x9;datacenter_configuration_version, &#xA;  &#x9;&#x9;create_date, &#xA;  &#x9;&#x9;update_date&#xA;FROM v4_2_latest_configuration_clusters&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2853,7 +2853,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_clusters" name="tJDBCInput_18">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_clusters" name="tJDBCInput_18">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="cluster_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="cluster_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -3073,12 +3073,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_storage_domains&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_storage_domains&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xA;  &#x9;&#x9;storage_domain_id, &#xD;&#xA;&#x9;&#x9;upper(cast(storage_domain_id as char(36))) as storage_domain_join_id,&#xA; &#x9;&#x9;storage_domain_name, &#xA; &#x9;&#x9;storage_domain_type, &#xA;  &#x9;&#x9;storage_type, &#xA;  &#x9;&#x9;create_date, &#xA;  &#x9;&#x9;update_date&#xA;FROM v4_1_latest_configuration_storage_domains&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xA;  &#x9;&#x9;storage_domain_id, &#xD;&#xA;&#x9;&#x9;upper(cast(storage_domain_id as char(36))) as storage_domain_join_id,&#xA; &#x9;&#x9;storage_domain_name, &#xA; &#x9;&#x9;storage_domain_type, &#xA;  &#x9;&#x9;storage_type, &#xA;  &#x9;&#x9;create_date, &#xA;  &#x9;&#x9;update_date&#xA;FROM v4_2_latest_configuration_storage_domains&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -3109,7 +3109,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_storage_domains" name="tJDBCInput_20">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_storage_domains" name="tJDBCInput_20">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="storage_domain_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -3296,12 +3296,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_hosts&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_hosts&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;host_id, &#xD;&#xA;&#x9;&#x9;upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;&#x9;&#x9;host_unique_id, &#xD;&#xA;&#x9;&#x9;host_name, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;host_type, &#xD;&#xA;&#x9;&#x9;fqdn_or_ip, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;swap_size_mb,&#xD;&#xA;&#x9;&#x9;cpu_model, &#xD;&#xA;&#x9;&#x9;number_of_cores, &#xA;        number_of_sockets,&#xA;        cpu_speed_mh,&#xD;&#xA;&#x9;&#x9;host_os,&#xD;&#xA;&#x9;&#x9;kernel_version, &#xD;&#xA;&#x9;&#x9;kvm_version, &#xD;&#xA;&#x9;&#x9;vdsm_version, &#xD;&#xA;&#x9;&#x9;vdsm_port, &#xA;        threads_per_core,&#xA;        hardware_manufacturer,&#xA;        hardware_product_name,&#xA;        hardware_version,&#xA;        hardware_serial_number,&#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v4_1_latest_configuration_hosts&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;host_id, &#xD;&#xA;&#x9;&#x9;upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;&#x9;&#x9;host_unique_id, &#xD;&#xA;&#x9;&#x9;host_name, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;host_type, &#xD;&#xA;&#x9;&#x9;fqdn_or_ip, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;swap_size_mb,&#xD;&#xA;&#x9;&#x9;cpu_model, &#xD;&#xA;&#x9;&#x9;number_of_cores, &#xA;        number_of_sockets,&#xA;        cpu_speed_mh,&#xD;&#xA;&#x9;&#x9;host_os,&#xD;&#xA;&#x9;&#x9;kernel_version, &#xD;&#xA;&#x9;&#x9;kvm_version, &#xD;&#xA;&#x9;&#x9;vdsm_version, &#xD;&#xA;&#x9;&#x9;vdsm_port, &#xA;        threads_per_core,&#xA;        hardware_manufacturer,&#xA;        hardware_product_name,&#xA;        hardware_version,&#xA;        hardware_serial_number,&#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v4_2_latest_configuration_hosts&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -3370,7 +3370,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_hosts" name="tJDBCInput_22">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_hosts" name="tJDBCInput_22">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="host_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -3765,12 +3765,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_hosts_interfaces&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_hosts_interfaces&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  host_interface_id, &#xD;&#xA;  upper(cast(host_interface_id as char(36))) as host_interface_join_id,&#xD;&#xA;  host_interface_name, &#xD;&#xA;  host_id, &#xD;&#xA;  host_interface_type, &#xD;&#xA;  host_interface_speed_bps, &#xD;&#xA;  mac_address, &#xD;&#xA;  logical_network_name, &#xD;&#xA;  ip_address, &#xD;&#xA;  gateway, &#xD;&#xA;  bond, &#xD;&#xA;  bond_name, &#xD;&#xA;  vlan_id, &#xD;&#xA;  host_configuration_version, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM v4_1_latest_configuration_hosts_interfaces&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  host_interface_id, &#xD;&#xA;  upper(cast(host_interface_id as char(36))) as host_interface_join_id,&#xD;&#xA;  host_interface_name, &#xD;&#xA;  host_id, &#xD;&#xA;  host_interface_type, &#xD;&#xA;  host_interface_speed_bps, &#xD;&#xA;  mac_address, &#xD;&#xA;  logical_network_name, &#xD;&#xA;  ip_address, &#xD;&#xA;  gateway, &#xD;&#xA;  bond, &#xD;&#xA;  bond_name, &#xD;&#xA;  vlan_id, &#xD;&#xA;  host_configuration_version, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM v4_2_latest_configuration_hosts_interfaces&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -3819,7 +3819,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_hosts_interfaces" name="tJDBCInput_24">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_hosts_interfaces" name="tJDBCInput_24">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_interface_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="host_interface_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -4104,12 +4104,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_vms&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_vms&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;vm_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;&#x9;&#x9;vm_name, &#xD;&#xA;&#x9;&#x9;vm_description, &#xD;&#xA;&#x9;&#x9;vm_type, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;template_id, &#xD;&#xA;&#x9;&#x9;template_name, &#xD;&#xA;&#x9;&#x9;cpu_per_socket, &#xD;&#xA;&#x9;&#x9;number_of_sockets, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;operating_system, &#xD;&#xA;&#x9;&#x9;default_host, &#xD;&#xA;&#x9;&#x9;high_availability, &#xD;&#xA;&#x9;&#x9;initialized, &#xD;&#xA;&#x9;&#x9;stateless, &#xD;&#xA;&#x9;&#x9;fail_back, &#xD;&#xA;&#x9;&#x9;usb_policy, &#xD;&#xA;&#x9;&#x9;time_zone, &#xA;&#x9;&#x9;vm_pool_id, &#xA;&#x9;&#x9;vm_pool_name,&#xA;&#x9;&#x9;created_by_user_id,&#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;default_host_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v4_1_latest_configuration_vms&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;vm_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_id as char(36))) as vm_join_id,&#xD;&#xA;&#x9;&#x9;vm_name, &#xD;&#xA;&#x9;&#x9;vm_description, &#xD;&#xA;&#x9;&#x9;vm_type, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;template_id, &#xD;&#xA;&#x9;&#x9;template_name, &#xD;&#xA;&#x9;&#x9;cpu_per_socket, &#xD;&#xA;&#x9;&#x9;number_of_sockets, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;operating_system, &#xD;&#xA;&#x9;&#x9;default_host, &#xD;&#xA;&#x9;&#x9;high_availability, &#xD;&#xA;&#x9;&#x9;initialized, &#xD;&#xA;&#x9;&#x9;stateless, &#xD;&#xA;&#x9;&#x9;fail_back, &#xD;&#xA;&#x9;&#x9;usb_policy, &#xD;&#xA;&#x9;&#x9;time_zone, &#xA;&#x9;&#x9;vm_pool_id, &#xA;&#x9;&#x9;vm_pool_name,&#xA;&#x9;&#x9;created_by_user_id,&#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;default_host_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v4_2_latest_configuration_vms&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -4178,7 +4178,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_vms" name="tJDBCInput_26">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_vms" name="tJDBCInput_26">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vm_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -4573,12 +4573,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_vms_disks&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_vms_disks&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#x9;history_id, &#xD;&#xA;&#x9;&#x9;vm_disk_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,&#xA;        vm_disk_name,&#xA;        vm_disk_description,&#xA;        image_id,&#xD;&#xA;&#x9;&#x9;storage_domain_id,&#xD;&#xA;&#x9;&#x9;vm_disk_size_mb,&#xD;&#xA;&#x9;&#x9;vm_disk_type, &#xD;&#xA;&#x9;&#x9;vm_disk_format,&#xA;        is_shared,&#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v4_1_latest_configuration_vms_disks&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#x9;history_id, &#xD;&#xA;&#x9;&#x9;vm_disk_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,&#xA;        vm_disk_name,&#xA;        vm_disk_description,&#xA;        image_id,&#xD;&#xA;&#x9;&#x9;storage_domain_id,&#xD;&#xA;&#x9;&#x9;vm_disk_size_mb,&#xD;&#xA;&#x9;&#x9;vm_disk_type, &#xD;&#xA;&#x9;&#x9;vm_disk_format,&#xA;        is_shared,&#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v4_2_latest_configuration_vms_disks&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -4619,7 +4619,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_vms_disks" name="tJDBCInput_28">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_vms_disks" name="tJDBCInput_28">
       <column comment="" key="false" length="10" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vm_disk_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -4860,12 +4860,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_vms_interfaces&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_vms_interfaces&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  vm_interface_id, &#xD;&#xA;  upper(cast(vm_interface_id as char(36))) as vm_interface_join_id,&#xD;&#xA;  vm_interface_name, &#xD;&#xA;  vm_interface_type, &#xD;&#xA;  vm_interface_speed_bps, &#xD;&#xA;  mac_address, &#xD;&#xA;  logical_network_name, &#xD;&#xA;  vm_configuration_version, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM v4_1_latest_configuration_vms_interfaces&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  vm_interface_id, &#xD;&#xA;  upper(cast(vm_interface_id as char(36))) as vm_interface_join_id,&#xD;&#xA;  vm_interface_name, &#xD;&#xA;  vm_interface_type, &#xD;&#xA;  vm_interface_speed_bps, &#xD;&#xA;  mac_address, &#xD;&#xA;  logical_network_name, &#xD;&#xA;  vm_configuration_version, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM v4_2_latest_configuration_vms_interfaces&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -4902,7 +4902,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_vms_interfaces" name="tJDBCInput_30">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_vms_interfaces" name="tJDBCInput_30">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_interface_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vm_interface_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
@@ -5203,12 +5203,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_map_datacenters_storage_domains&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_map_datacenters_storage_domains&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT  &#xD;&#xA;&#x9;upper(cast(storage_domain_id as char(36))) as storage_domain_join_id, &#xD;&#xA;&#x9;upper(cast(datacenter_id as char(36))) as datacenter_join_id&#xA;FROM  v4_1_latest_map_datacenters_storage_domains&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT  &#xD;&#xA;&#x9;upper(cast(storage_domain_id as char(36))) as storage_domain_join_id, &#xD;&#xA;&#x9;upper(cast(datacenter_id as char(36))) as datacenter_join_id&#xA;FROM  v4_2_latest_map_datacenters_storage_domains&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -5227,7 +5227,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_map_datacenters_storage_domains" name="tJDBCInput_35">
+    <metadata connector="FLOW" label="v4_2_latest_map_datacenters_storage_domains" name="tJDBCInput_35">
       <column comment="" key="false" length="-1" name="storage_domain_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="datacenter_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -5305,12 +5305,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_map_datacenters_storage_domains&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_map_datacenters_storage_domains&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT storage_domain_id, &#xD;&#xA;&#x9;&#x9;upper(cast(storage_domain_id as char(36))) as storage_domain_join_id, &#xA;&#x9;&#x9;datacenter_id, &#xD;&#xA;&#x9;&#x9;upper(cast(datacenter_id as char(36))) as datacenter_join_id,&#xA;&#x9;&#x9;attach_date&#xA;FROM  v4_1_latest_map_datacenters_storage_domains&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT storage_domain_id, &#xD;&#xA;&#x9;&#x9;upper(cast(storage_domain_id as char(36))) as storage_domain_join_id, &#xA;&#x9;&#x9;datacenter_id, &#xD;&#xA;&#x9;&#x9;upper(cast(datacenter_id as char(36))) as datacenter_join_id,&#xA;&#x9;&#x9;attach_date&#xA;FROM  v4_2_latest_map_datacenters_storage_domains&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -5335,7 +5335,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_map_datacenters_storage_domains" name="tJDBCInput_34">
+    <metadata connector="FLOW" label="v4_2_latest_map_datacenters_storage_domains" name="tJDBCInput_34">
       <column comment="" key="false" length="16" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="storage_domain_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="datacenter_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -5660,12 +5660,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_tags_relations&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_tags_relations&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT upper(cast(entity_id as char(36))) as entity_join_id,&#xA;&#x9;&#x9;upper(cast(parent_id as char(36))) as parent_join_id&#xA;FROM v4_1_latest_tags_relations&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT upper(cast(entity_id as char(36))) as entity_join_id,&#xA;&#x9;&#x9;upper(cast(parent_id as char(36))) as parent_join_id&#xA;FROM v4_2_latest_tags_relations&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -5698,12 +5698,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_tags_relations&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_tags_relations&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  history_id,&#xA;  entity_id, &#xA;  upper(cast(entity_id as char(36))) as entity_join_id,&#xA;  entity_type, &#xA;  parent_id, &#xA;  upper(cast(parent_id as char(36))) as parent_join_id,&#xA;  attach_date, &#xA;  detach_date&#xA;FROM v4_1_latest_tags_relations&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  history_id,&#xA;  entity_id, &#xA;  upper(cast(entity_id as char(36))) as entity_join_id,&#xA;  entity_type, &#xA;  parent_id, &#xA;  upper(cast(parent_id as char(36))) as parent_join_id,&#xA;  attach_date, &#xA;  detach_date&#xA;FROM v4_2_latest_tags_relations&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -6134,12 +6134,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_tags_details&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_tags_details&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT upper(cast(tag_id as char(36))) as tag_join_id,&#xA;&#x9;&#x9;tag_name, &#xA;&#x9;&#x9;tag_description,&#xA;&#x9;&#x9;tag_path&#xA;FROM v4_1_latest_tags_details&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT upper(cast(tag_id as char(36))) as tag_join_id,&#xA;&#x9;&#x9;tag_name, &#xA;&#x9;&#x9;tag_description,&#xA;&#x9;&#x9;tag_path&#xA;FROM v4_2_latest_tags_details&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -6162,7 +6162,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_tags_details" name="tJDBCInput_59">
+    <metadata connector="FLOW" label="v4_2_latest_tags_details" name="tJDBCInput_59">
       <column comment="" key="false" length="-1" name="tag_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="tag_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="tag_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -6178,12 +6178,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_tags_details&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_tags_details&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  tag_id, &#xD;&#xA;  upper(cast(tag_id as char(36))) as tag_join_id,&#xA;  tag_name, &#xA;  tag_description, &#xD;&#xA;  tag_path,&#xD;&#xA;  tag_level,&#xA;  create_date&#xA;FROM v4_1_latest_tags_details&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xA;  tag_id, &#xD;&#xA;  upper(cast(tag_id as char(36))) as tag_join_id,&#xA;  tag_name, &#xA;  tag_description, &#xD;&#xA;  tag_path,&#xD;&#xA;  tag_level,&#xA;  create_date&#xA;FROM v4_2_latest_tags_details&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -6212,7 +6212,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_tags_details" name="tJDBCInput_50">
+    <metadata connector="FLOW" label="v4_2_latest_tags_details" name="tJDBCInput_50">
       <column comment="" key="false" length="16" name="tag_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="tag_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="50" name="tag_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
@@ -6222,7 +6222,7 @@
       <column comment="" key="false" length="8" name="create_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
   </node>
-  <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="4416" posY="640">
+  <node componentName="tJDBCInput" componentVersion="0.102" offsetLabelX="0" offsetLabelY="0" posX="4_26" posY="640">
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tJDBCInput_49" show="false"/>
     <elementParameter field="CHECK" name="USE_EXISTING_CONNECTION" value="true"/>
     <elementParameter field="COMPONENT_LIST" name="CONNECTION" value="tJDBCConnection_1"/>
@@ -6534,12 +6534,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_vms_devices&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_vms_devices&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#xA;  vm_id,&#xA;  upper(cast(vm_id as char(36))) as vm_join_id,&#xA;  device_id, &#xA;  upper(cast(device_id as char(36))) as device_join_id,&#xA;  type, &#xA;  address, &#xA;  is_managed, &#xA;  is_plugged, &#xA;  is_readonly, &#xA;  vm_configuration_version, &#xA;  device_configuration_version, &#xA;  create_date&#xA;FROM v4_1_latest_configuration_vms_devices&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#xA;  vm_id,&#xA;  upper(cast(vm_id as char(36))) as vm_join_id,&#xA;  device_id, &#xA;  upper(cast(device_id as char(36))) as device_join_id,&#xA;  type, &#xA;  address, &#xA;  is_managed, &#xA;  is_plugged, &#xA;  is_readonly, &#xA;  vm_configuration_version, &#xA;  device_configuration_version, &#xA;  create_date&#xA;FROM v4_2_latest_configuration_vms_devices&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -6578,7 +6578,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_vms_devices" name="tJDBCInput_56">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_vms_devices" name="tJDBCInput_56">
       <column comment="" key="false" length="2147483647" name="vm_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vm_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="device_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
@@ -7110,12 +7110,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_vms&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_vms&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(vm_id as char(36))) as vm_join_id&#xD;&#xA;FROM  v4_1_latest_configuration_vms&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, upper(cast(vm_id as char(36))) as vm_join_id&#xD;&#xA;FROM  v4_2_latest_configuration_vms&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -7134,7 +7134,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_vms_interfaces" name="tJDBCInput_54">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_vms_interfaces" name="tJDBCInput_54">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="36" name="vm_join_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -7148,12 +7148,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_vms_interfaces&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_vms_interfaces&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  upper(cast(vm_interface_id as char(36))) as vm_interface_join_id&#xD;&#xA;FROM v4_1_latest_configuration_vms_interfaces&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  history_id, &#xD;&#xA;  upper(cast(vm_interface_id as char(36))) as vm_interface_join_id&#xD;&#xA;FROM v4_2_latest_configuration_vms_interfaces&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -7172,7 +7172,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_vms_interfaces" name="tJDBCInput_65">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_vms_interfaces" name="tJDBCInput_65">
       <column comment="" key="false" length="4" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vm_interface_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -7186,12 +7186,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_configuration_vms_disks&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_configuration_vms_disks&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#x9;history_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id&#xD;&#xA;FROM v4_1_latest_configuration_vms_disks&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#x9;history_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id&#xD;&#xA;FROM v4_2_latest_configuration_vms_disks&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -7210,7 +7210,7 @@
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
-    <metadata connector="FLOW" label="v4_1_latest_configuration_vms_disks" name="tJDBCInput_66">
+    <metadata connector="FLOW" label="v4_2_latest_configuration_vms_disks" name="tJDBCInput_66">
       <column comment="" key="false" length="10" name="history_id" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="vm_disk_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -7469,12 +7469,12 @@
     <elementParameter field="TEXT" name="DRIVER_CLASS" value="&quot;&quot;" show="false"/>
     <elementParameter field="TEXT" name="USER" value="&quot;&quot;" show="false"/>
     <elementParameter field="PASSWORD" name="PASS" value="0RMsyjmybrE=" show="false"/>
-    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_1_latest_users_details&quot;"/>
+    <elementParameter field="DBTABLE" name="TABLE" value="&quot;v4_2_latest_users_details&quot;"/>
     <elementParameter field="QUERYSTORE_TYPE" name="QUERYSTORE" value="&quot;&quot;"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#xA;    user_id,&#xA;    upper(cast(user_id as char(36))) as user_join_id,&#xA;    first_name,&#xA;    last_name,&#xA;    domain,&#xA;    username,&#xA;    department,&#xA;    user_role_title,&#xA;    email,&#xA;    external_id,&#xA;    active,&#xA;    create_date,&#xA;    update_date&#xA;FROM v4_1_latest_users_details&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#xA;    user_id,&#xA;    upper(cast(user_id as char(36))) as user_join_id,&#xA;    first_name,&#xA;    last_name,&#xA;    domain,&#xA;    username,&#xA;    department,&#xA;    user_role_title,&#xA;    email,&#xA;    external_id,&#xA;    active,&#xA;    create_date,&#xA;    update_date&#xA;FROM v4_2_latest_users_details&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>

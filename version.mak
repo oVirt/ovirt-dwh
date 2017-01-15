@@ -5,7 +5,7 @@
 # Fix release is manually specified,
 # increment after releasing/branching
 VERSION_MAJOR=4
-VERSION_MINOR=1
+VERSION_MINOR=2
 VERSION_PATCH_LEVEL=0
 VERSION=$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH_LEVEL)
 
