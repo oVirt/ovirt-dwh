@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ovirt_engine_dwh.statisticssync_4_1;
+package ovirt_engine_dwh.statisticssync_4_2;
 
 import routines.Numeric;
 import routines.DataOperation;
@@ -2530,7 +2530,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_3 = conn_tJDBCInput_3
 						.createStatement();
 
-				String dbquery_tJDBCInput_3 = "SELECT history_id, upper(cast(storage_domain_id as char(36))) as storage_domain_join_id\nFROM  v4_1_latest_configuration_storage_domains";
+				String dbquery_tJDBCInput_3 = "SELECT history_id, upper(cast(storage_domain_id as char(36))) as storage_domain_join_id\nFROM  v4_2_latest_configuration_storage_domains";
 
 				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
 
@@ -4974,7 +4974,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_6 = conn_tJDBCInput_6
 						.createStatement();
 
-				String dbquery_tJDBCInput_6 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id\nFROM v4_1_latest_configuration_hosts";
+				String dbquery_tJDBCInput_6 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id\nFROM v4_2_latest_configuration_hosts";
 
 				globalMap.put("tJDBCInput_6_QUERY", dbquery_tJDBCInput_6);
 
@@ -6733,7 +6733,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_13 = conn_tJDBCInput_13
 						.createStatement();
 
-				String dbquery_tJDBCInput_13 = "SELECT history_id, upper(cast(host_interface_id as char(36))) as host_interface_join_id\nFROM v4_1_latest_configuration_hosts_interfaces";
+				String dbquery_tJDBCInput_13 = "SELECT history_id, upper(cast(host_interface_id as char(36))) as host_interface_join_id\nFROM v4_2_latest_configuration_hosts_interfaces";
 
 				globalMap.put("tJDBCInput_13_QUERY", dbquery_tJDBCInput_13);
 
@@ -9618,7 +9618,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_9 = conn_tJDBCInput_9
 						.createStatement();
 
-				String dbquery_tJDBCInput_9 = "SELECT history_id, upper(cast(vm_id as char(36))) as vm_join_id\nFROM  v4_1_latest_configuration_vms";
+				String dbquery_tJDBCInput_9 = "SELECT history_id, upper(cast(vm_id as char(36))) as vm_join_id\nFROM  v4_2_latest_configuration_vms";
 
 				globalMap.put("tJDBCInput_9_QUERY", dbquery_tJDBCInput_9);
 
@@ -10094,7 +10094,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_14 = conn_tJDBCInput_14
 						.createStatement();
 
-				String dbquery_tJDBCInput_14 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id\nFROM v4_1_latest_configuration_hosts";
+				String dbquery_tJDBCInput_14 = "SELECT history_id, upper(cast(host_id as char(36))) as host_join_id\nFROM v4_2_latest_configuration_hosts";
 
 				globalMap.put("tJDBCInput_14_QUERY", dbquery_tJDBCInput_14);
 
@@ -11853,7 +11853,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_15 = conn_tJDBCInput_15
 						.createStatement();
 
-				String dbquery_tJDBCInput_15 = "SELECT history_id, upper(cast(vm_interface_id as char(36))) as vm_interface_join_id\nFROM  v4_1_latest_configuration_vms_interfaces";
+				String dbquery_tJDBCInput_15 = "SELECT history_id, upper(cast(vm_interface_id as char(36))) as vm_interface_join_id\nFROM  v4_2_latest_configuration_vms_interfaces";
 
 				globalMap.put("tJDBCInput_15_QUERY", dbquery_tJDBCInput_15);
 
@@ -13903,7 +13903,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_20 = conn_tJDBCInput_20
 						.createStatement();
 
-				String dbquery_tJDBCInput_20 = "SELECT history_id, upper(cast(vm_disk_id as char(36))) as vm_disk_join_id\nFROM  v4_1_latest_configuration_vms_disks";
+				String dbquery_tJDBCInput_20 = "SELECT history_id, upper(cast(vm_disk_id as char(36))) as vm_disk_join_id\nFROM  v4_2_latest_configuration_vms_disks";
 
 				globalMap.put("tJDBCInput_20_QUERY", dbquery_tJDBCInput_20);
 
@@ -15707,7 +15707,7 @@ public class StatisticsSync implements TalendJob {
 			// the default context instead.
 			java.io.InputStream inContext = StatisticsSync.class
 					.getClassLoader().getResourceAsStream(
-							"ovirt_engine_dwh/statisticssync_4_1/contexts/"
+							"ovirt_engine_dwh/statisticssync_4_2/contexts/"
 									+ contextStr + ".properties");
 			if (isDefaultContext && inContext == null) {
 

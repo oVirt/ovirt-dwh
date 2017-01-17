@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ovirt_engine_dwh.aggregationtohourly_4_1;
+package ovirt_engine_dwh.aggregationtohourly_4_2;
 
 import routines.Numeric;
 import routines.DataOperation;
@@ -25040,7 +25040,7 @@ public class AggregationToHourly implements TalendJob {
 			// the default context instead.
 			java.io.InputStream inContext = AggregationToHourly.class
 					.getClassLoader().getResourceAsStream(
-							"ovirt_engine_dwh/aggregationtohourly_4_1/contexts/"
+							"ovirt_engine_dwh/aggregationtohourly_4_2/contexts/"
 									+ contextStr + ".properties");
 			if (isDefaultContext && inContext == null) {
 

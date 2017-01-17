@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ovirt_engine_dwh.validateinstallation_4_1;
+package ovirt_engine_dwh.validateinstallation_4_2;
 
 import routines.Mathematical;
 import routines.DataOperation;
@@ -3631,7 +3631,7 @@ public class ValidateInstallation implements TalendJob {
 			// the default context instead.
 			java.io.InputStream inContext = ValidateInstallation.class
 					.getClassLoader().getResourceAsStream(
-							"ovirt_engine_dwh/validateinstallation_4_1/contexts/"
+							"ovirt_engine_dwh/validateinstallation_4_2/contexts/"
 									+ contextStr + ".properties");
 			if (isDefaultContext && inContext == null) {
 

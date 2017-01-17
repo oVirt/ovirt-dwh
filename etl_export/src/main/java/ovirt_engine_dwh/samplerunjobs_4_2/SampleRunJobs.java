@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ovirt_engine_dwh.samplerunjobs_4_1;
+package ovirt_engine_dwh.samplerunjobs_4_2;
 
 import routines.Mathematical;
 import routines.DataOperation;
@@ -925,7 +925,7 @@ public class SampleRunJobs implements TalendJob {
 
 				Object obj_tRunJob_4 = null;
 
-				ovirt_engine_dwh.osenumupdate_4_1.OsEnumUpdate childJob_tRunJob_4 = new ovirt_engine_dwh.osenumupdate_4_1.OsEnumUpdate();
+				ovirt_engine_dwh.osenumupdate_4_2.OsEnumUpdate childJob_tRunJob_4 = new ovirt_engine_dwh.osenumupdate_4_2.OsEnumUpdate();
 				// pass DataSources
 				java.util.Map<String, routines.system.TalendDataSource> talendDataSources_tRunJob_4 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
 						.get(KEY_DB_DATASOURCES);
@@ -1153,7 +1153,7 @@ public class SampleRunJobs implements TalendJob {
 
 				Object obj_tRunJob_1 = null;
 
-				ovirt_engine_dwh.configurationsync_4_1.ConfigurationSync childJob_tRunJob_1 = new ovirt_engine_dwh.configurationsync_4_1.ConfigurationSync();
+				ovirt_engine_dwh.configurationsync_4_2.ConfigurationSync childJob_tRunJob_1 = new ovirt_engine_dwh.configurationsync_4_2.ConfigurationSync();
 				// pass DataSources
 				java.util.Map<String, routines.system.TalendDataSource> talendDataSources_tRunJob_1 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
 						.get(KEY_DB_DATASOURCES);
@@ -1381,7 +1381,7 @@ public class SampleRunJobs implements TalendJob {
 
 				Object obj_tRunJob_6 = null;
 
-				ovirt_engine_dwh.hostconfigcheck_4_1.HostConfigCheck childJob_tRunJob_6 = new ovirt_engine_dwh.hostconfigcheck_4_1.HostConfigCheck();
+				ovirt_engine_dwh.hostconfigcheck_4_2.HostConfigCheck childJob_tRunJob_6 = new ovirt_engine_dwh.hostconfigcheck_4_2.HostConfigCheck();
 				// pass DataSources
 				java.util.Map<String, routines.system.TalendDataSource> talendDataSources_tRunJob_6 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
 						.get(KEY_DB_DATASOURCES);
@@ -1609,7 +1609,7 @@ public class SampleRunJobs implements TalendJob {
 
 				Object obj_tRunJob_5 = null;
 
-				ovirt_engine_dwh.statisticssync_4_1.StatisticsSync childJob_tRunJob_5 = new ovirt_engine_dwh.statisticssync_4_1.StatisticsSync();
+				ovirt_engine_dwh.statisticssync_4_2.StatisticsSync childJob_tRunJob_5 = new ovirt_engine_dwh.statisticssync_4_2.StatisticsSync();
 				// pass DataSources
 				java.util.Map<String, routines.system.TalendDataSource> talendDataSources_tRunJob_5 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
 						.get(KEY_DB_DATASOURCES);
@@ -2470,7 +2470,7 @@ public class SampleRunJobs implements TalendJob {
 			// the default context instead.
 			java.io.InputStream inContext = SampleRunJobs.class
 					.getClassLoader().getResourceAsStream(
-							"ovirt_engine_dwh/samplerunjobs_4_1/contexts/"
+							"ovirt_engine_dwh/samplerunjobs_4_2/contexts/"
 									+ contextStr + ".properties");
 			if (isDefaultContext && inContext == null) {
 

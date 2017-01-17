@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ovirt_engine_dwh.hostconfigcheck_4_1;
+package ovirt_engine_dwh.hostconfigcheck_4_2;
 
 import routines.Mathematical;
 import routines.DataOperation;
@@ -5603,7 +5603,7 @@ public class HostConfigCheck implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_1 = conn_tJDBCInput_1
 						.createStatement();
 
-				String dbquery_tJDBCInput_1 = "SELECT upper(cast(host_id as char(36))) as host_join_id,\n		memory_size_mb, \n		swap_size_mb,\n		cpu_model, \n		number_of_cores,\n        number_of_sockets,\n        cpu_speed_mh,\n		host_os, \n		kernel_version, \n		kvm_version, \n		vdsm_version\nFROM v4_1_latest_configuration_hosts";
+				String dbquery_tJDBCInput_1 = "SELECT upper(cast(host_id as char(36))) as host_join_id,\n		memory_size_mb, \n		swap_size_mb,\n		cpu_model, \n		number_of_cores,\n        number_of_sockets,\n        cpu_speed_mh,\n		host_os, \n		kernel_version, \n		kvm_version, \n		vdsm_version\nFROM v4_2_latest_configuration_hosts";
 
 				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
 
@@ -6176,7 +6176,7 @@ public class HostConfigCheck implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_3 = conn_tJDBCInput_3
 						.createStatement();
 
-				String dbquery_tJDBCInput_3 = "SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id\nFROM  v4_1_latest_configuration_clusters";
+				String dbquery_tJDBCInput_3 = "SELECT history_id, upper(cast(cluster_id as char(36))) as cluster_join_id\nFROM  v4_2_latest_configuration_clusters";
 
 				globalMap.put("tJDBCInput_3_QUERY", dbquery_tJDBCInput_3);
 
@@ -7081,7 +7081,7 @@ public class HostConfigCheck implements TalendJob {
 			// the default context instead.
 			java.io.InputStream inContext = HostConfigCheck.class
 					.getClassLoader().getResourceAsStream(
-							"ovirt_engine_dwh/hostconfigcheck_4_1/contexts/"
+							"ovirt_engine_dwh/hostconfigcheck_4_2/contexts/"
 									+ contextStr + ".properties");
 			if (isDefaultContext && inContext == null) {
 

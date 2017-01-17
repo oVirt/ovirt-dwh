@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ovirt_engine_dwh.hourlytimekeepingjob_4_1;
+package ovirt_engine_dwh.hourlytimekeepingjob_4_2;
 
 import routines.Mathematical;
 import routines.DataOperation;
@@ -2627,7 +2627,7 @@ public class HourlyTimeKeepingJob implements TalendJob {
 
 				Object obj_tRunJob_1 = null;
 
-				ovirt_engine_dwh.aggregationtohourly_4_1.AggregationToHourly childJob_tRunJob_1 = new ovirt_engine_dwh.aggregationtohourly_4_1.AggregationToHourly();
+				ovirt_engine_dwh.aggregationtohourly_4_2.AggregationToHourly childJob_tRunJob_1 = new ovirt_engine_dwh.aggregationtohourly_4_2.AggregationToHourly();
 				// pass DataSources
 				java.util.Map<String, routines.system.TalendDataSource> talendDataSources_tRunJob_1 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
 						.get(KEY_DB_DATASOURCES);
@@ -7929,7 +7929,7 @@ public class HourlyTimeKeepingJob implements TalendJob {
 			// the default context instead.
 			java.io.InputStream inContext = HourlyTimeKeepingJob.class
 					.getClassLoader().getResourceAsStream(
-							"ovirt_engine_dwh/hourlytimekeepingjob_4_1/contexts/"
+							"ovirt_engine_dwh/hourlytimekeepingjob_4_2/contexts/"
 									+ contextStr + ".properties");
 			if (isDefaultContext && inContext == null) {
 

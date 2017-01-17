@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package ovirt_engine_dwh.historyetl_4_1;
+package ovirt_engine_dwh.historyetl_4_2;
 
 import routines.Mathematical;
 import routines.DataOperation;
@@ -1665,7 +1665,7 @@ public class HistoryETL implements TalendJob {
 
 				Object obj_tRunJob_4 = null;
 
-				ovirt_engine_dwh.parallelrun_4_1.ParallelRun childJob_tRunJob_4 = new ovirt_engine_dwh.parallelrun_4_1.ParallelRun();
+				ovirt_engine_dwh.parallelrun_4_2.ParallelRun childJob_tRunJob_4 = new ovirt_engine_dwh.parallelrun_4_2.ParallelRun();
 				// pass DataSources
 				java.util.Map<String, routines.system.TalendDataSource> talendDataSources_tRunJob_4 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
 						.get(KEY_DB_DATASOURCES);
@@ -7987,7 +7987,7 @@ public class HistoryETL implements TalendJob {
 
 				Object obj_tRunJob_2 = null;
 
-				ovirt_engine_dwh.minimalversioncheck_4_1.MinimalVersionCheck childJob_tRunJob_2 = new ovirt_engine_dwh.minimalversioncheck_4_1.MinimalVersionCheck();
+				ovirt_engine_dwh.minimalversioncheck_4_2.MinimalVersionCheck childJob_tRunJob_2 = new ovirt_engine_dwh.minimalversioncheck_4_2.MinimalVersionCheck();
 				// pass DataSources
 				java.util.Map<String, routines.system.TalendDataSource> talendDataSources_tRunJob_2 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
 						.get(KEY_DB_DATASOURCES);
@@ -9439,7 +9439,7 @@ public class HistoryETL implements TalendJob {
 
 				Object obj_tRunJob_1 = null;
 
-				ovirt_engine_dwh.validateinstallation_4_1.ValidateInstallation childJob_tRunJob_1 = new ovirt_engine_dwh.validateinstallation_4_1.ValidateInstallation();
+				ovirt_engine_dwh.validateinstallation_4_2.ValidateInstallation childJob_tRunJob_1 = new ovirt_engine_dwh.validateinstallation_4_2.ValidateInstallation();
 				// pass DataSources
 				java.util.Map<String, routines.system.TalendDataSource> talendDataSources_tRunJob_1 = (java.util.Map<String, routines.system.TalendDataSource>) globalMap
 						.get(KEY_DB_DATASOURCES);
@@ -11155,7 +11155,7 @@ public class HistoryETL implements TalendJob {
 			// the default context instead.
 			java.io.InputStream inContext = HistoryETL.class.getClassLoader()
 					.getResourceAsStream(
-							"ovirt_engine_dwh/historyetl_4_1/contexts/"
+							"ovirt_engine_dwh/historyetl_4_2/contexts/"
 									+ contextStr + ".properties");
 			if (isDefaultContext && inContext == null) {
 
