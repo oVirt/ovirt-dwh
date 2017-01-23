@@ -252,6 +252,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Mon Jan 23 2017 Shirly Radco <sradco@redhat.com> - 4.0.7
+Fixed issues:
+- Bug 1408652 - Update default mem heap values
+
 * Sun Dec 04 2016 Shirly Radco <sradco@redhat.com> - 4.0.6
 Fixed issues:
 - Bug 1364062 - setup: Notify to restart remote engine
