@@ -16,15 +16,15 @@
 
 package ovirt_engine_dwh.historyetl_4_2;
 
-import routines.Mathematical;
+import routines.Numeric;
 import routines.DataOperation;
+import routines.TalendDataGenerator;
+import routines.TalendString;
+import routines.RoutineHistoryETL;
+import routines.StringHandling;
 import routines.Relational;
 import routines.TalendDate;
-import routines.TalendDataGenerator;
-import routines.RoutineHistoryETL;
-import routines.Numeric;
-import routines.TalendString;
-import routines.StringHandling;
+import routines.Mathematical;
 import routines.system.*;
 import routines.system.api.*;
 import java.text.ParseException;
@@ -387,7 +387,7 @@ public class HistoryETL implements TalendJob {
 		return this.context;
 	}
 
-	private final String jobVersion = "4.1";
+	private final String jobVersion = "4.2";
 	private final String jobName = "HistoryETL";
 	private final String projectName = "OVIRT_ENGINE_DWH";
 	public Integer errorCode = null;
