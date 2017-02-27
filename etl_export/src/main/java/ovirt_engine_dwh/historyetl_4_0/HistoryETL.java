@@ -16,15 +16,15 @@
 
 package ovirt_engine_dwh.historyetl_4_0;
 
-import routines.Mathematical;
+import routines.Numeric;
 import routines.DataOperation;
+import routines.TalendDataGenerator;
+import routines.TalendString;
+import routines.RoutineHistoryETL;
+import routines.StringHandling;
 import routines.Relational;
 import routines.TalendDate;
-import routines.TalendDataGenerator;
-import routines.RoutineHistoryETL;
-import routines.Numeric;
-import routines.TalendString;
-import routines.StringHandling;
+import routines.Mathematical;
 import routines.system.*;
 import routines.system.api.*;
 import java.text.ParseException;
@@ -569,7 +569,7 @@ public class HistoryETL implements TalendJob {
 		tPostjob_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tJDBCRollback_1_error(Exception exception,
+	public void tJDBCConnection_8_error(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -577,51 +577,7 @@ public class HistoryETL implements TalendJob {
 
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
-		tJDBCRollback_1_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCRollback_2_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCRollback_2_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCRollback_3_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCRollback_3_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCRollback_4_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCRollback_4_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCRollback_5_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCRollback_5_onSubJobError(exception, errorComponent, globalMap);
+		tJDBCConnection_8_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tRowGenerator_1_error(Exception exception,
@@ -699,6 +655,61 @@ public class HistoryETL implements TalendJob {
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
 		tRowGenerator_8_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCRollback_1_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCRollback_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCRollback_2_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCRollback_2_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCRollback_3_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCRollback_3_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCRollback_4_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCRollback_4_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tJDBCRollback_5_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCRollback_5_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tJDBCClose_1_error(Exception exception, String errorComponent,
@@ -1151,6 +1162,50 @@ public class HistoryETL implements TalendJob {
 
 	}
 
+	public void tJDBCConnection_8_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tRowGenerator_1_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tRowGenerator_5_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tRowGenerator_8_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
 	public void tJDBCRollback_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1196,39 +1251,6 @@ public class HistoryETL implements TalendJob {
 	}
 
 	public void tJDBCRollback_5_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tRowGenerator_1_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tRowGenerator_5_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tRowGenerator_8_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1820,7 +1842,7 @@ public class HistoryETL implements TalendJob {
 				ok_Hash.put("tPostjob_1", true);
 				end_Hash.put("tPostjob_1", System.currentTimeMillis());
 
-				tJDBCRollback_1Process(globalMap);
+				tJDBCConnection_8Process(globalMap);
 
 				/**
 				 * [tPostjob_1 end ] stop
@@ -1860,10 +1882,10 @@ public class HistoryETL implements TalendJob {
 		globalMap.put("tPostjob_1_SUBPROCESS_STATE", 1);
 	}
 
-	public void tJDBCRollback_1Process(
+	public void tJDBCConnection_8Process(
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		globalMap.put("tJDBCRollback_1_SUBPROCESS_STATE", 0);
+		globalMap.put("tJDBCConnection_8_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -1883,561 +1905,78 @@ public class HistoryETL implements TalendJob {
 				globalResumeTicket = true;
 
 				/**
-				 * [tJDBCRollback_1 begin ] start
+				 * [tJDBCConnection_8 begin ] start
 				 */
 
-				ok_Hash.put("tJDBCRollback_1", false);
-				start_Hash.put("tJDBCRollback_1", System.currentTimeMillis());
+				ok_Hash.put("tJDBCConnection_8", false);
+				start_Hash.put("tJDBCConnection_8", System.currentTimeMillis());
 
-				currentComponent = "tJDBCRollback_1";
+				currentComponent = "tJDBCConnection_8";
 
-				int tos_count_tJDBCRollback_1 = 0;
+				int tos_count_tJDBCConnection_8 = 0;
 
-				/**
-				 * [tJDBCRollback_1 begin ] stop
-				 */
+				String url_tJDBCConnection_8 = context.ovirtEngineDbJdbcConnection;
 
-				/**
-				 * [tJDBCRollback_1 main ] start
-				 */
+				String dbUser_tJDBCConnection_8 = context.ovirtEngineDbUser;
 
-				currentComponent = "tJDBCRollback_1";
+				final String decryptedPassword_tJDBCConnection_8 = context.ovirtEngineDbPassword;
+				String dbPwd_tJDBCConnection_8 = decryptedPassword_tJDBCConnection_8;
 
-				java.sql.Connection conn_tJDBCRollback_1 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_2");
-				if (conn_tJDBCRollback_1 != null
-						&& !conn_tJDBCRollback_1.isClosed()) {
+				java.sql.Connection conn_tJDBCConnection_8 = null;
 
-					try {
+				String sharedConnectionName_tJDBCConnection_8 = "engine-events";
+				conn_tJDBCConnection_8 = SharedDBConnection.getDBConnection(
+						context.ovirtEngineDbDriverClass,
+						url_tJDBCConnection_8, dbUser_tJDBCConnection_8,
+						dbPwd_tJDBCConnection_8,
+						sharedConnectionName_tJDBCConnection_8);
+				if (null != conn_tJDBCConnection_8) {
 
-						conn_tJDBCRollback_1.rollback();
-
-					} finally {
-
-						conn_tJDBCRollback_1.close();
-
-					}
-
+					conn_tJDBCConnection_8.setAutoCommit(true);
 				}
 
-				tos_count_tJDBCRollback_1++;
+				globalMap.put("conn_tJDBCConnection_8", conn_tJDBCConnection_8);
+				globalMap.put("url_tJDBCConnection_8", url_tJDBCConnection_8);
+				// globalMap.put("user_tJDBCConnection_8",
+				// dbUser_tJDBCConnection_8);
+				// globalMap.put("pass_tJDBCConnection_8",
+				// dbPwd_tJDBCConnection_8);
 
 				/**
-				 * [tJDBCRollback_1 main ] stop
+				 * [tJDBCConnection_8 begin ] stop
 				 */
 
 				/**
-				 * [tJDBCRollback_1 end ] start
+				 * [tJDBCConnection_8 main ] start
 				 */
 
-				currentComponent = "tJDBCRollback_1";
+				currentComponent = "tJDBCConnection_8";
 
-				ok_Hash.put("tJDBCRollback_1", true);
-				end_Hash.put("tJDBCRollback_1", System.currentTimeMillis());
+				tos_count_tJDBCConnection_8++;
 
 				/**
-				 * [tJDBCRollback_1 end ] stop
+				 * [tJDBCConnection_8 main ] stop
+				 */
+
+				/**
+				 * [tJDBCConnection_8 end ] start
+				 */
+
+				currentComponent = "tJDBCConnection_8";
+
+				ok_Hash.put("tJDBCConnection_8", true);
+				end_Hash.put("tJDBCConnection_8", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCConnection_8 end ] stop
 				 */
 			}// end the resume
 
 			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tJDBCRollback_1:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			tJDBCRollback_2Process(globalMap);
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tJDBCRollback_1 finally ] start
-				 */
-
-				currentComponent = "tJDBCRollback_1";
-
-				/**
-				 * [tJDBCRollback_1 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tJDBCRollback_1_SUBPROCESS_STATE", 1);
-	}
-
-	public void tJDBCRollback_2Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCRollback_2_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tJDBCRollback_2 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCRollback_2", false);
-				start_Hash.put("tJDBCRollback_2", System.currentTimeMillis());
-
-				currentComponent = "tJDBCRollback_2";
-
-				int tos_count_tJDBCRollback_2 = 0;
-
-				/**
-				 * [tJDBCRollback_2 begin ] stop
-				 */
-
-				/**
-				 * [tJDBCRollback_2 main ] start
-				 */
-
-				currentComponent = "tJDBCRollback_2";
-
-				java.sql.Connection conn_tJDBCRollback_2 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_1");
-				if (conn_tJDBCRollback_2 != null
-						&& !conn_tJDBCRollback_2.isClosed()) {
-
-					try {
-
-						conn_tJDBCRollback_2.rollback();
-
-					} finally {
-
-						conn_tJDBCRollback_2.close();
-
-					}
-
-				}
-
-				tos_count_tJDBCRollback_2++;
-
-				/**
-				 * [tJDBCRollback_2 main ] stop
-				 */
-
-				/**
-				 * [tJDBCRollback_2 end ] start
-				 */
-
-				currentComponent = "tJDBCRollback_2";
-
-				ok_Hash.put("tJDBCRollback_2", true);
-				end_Hash.put("tJDBCRollback_2", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCRollback_2 end ] stop
-				 */
-			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tJDBCRollback_2:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			tJDBCRollback_3Process(globalMap);
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tJDBCRollback_2 finally ] start
-				 */
-
-				currentComponent = "tJDBCRollback_2";
-
-				/**
-				 * [tJDBCRollback_2 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tJDBCRollback_2_SUBPROCESS_STATE", 1);
-	}
-
-	public void tJDBCRollback_3Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCRollback_3_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tJDBCRollback_3 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCRollback_3", false);
-				start_Hash.put("tJDBCRollback_3", System.currentTimeMillis());
-
-				currentComponent = "tJDBCRollback_3";
-
-				int tos_count_tJDBCRollback_3 = 0;
-
-				/**
-				 * [tJDBCRollback_3 begin ] stop
-				 */
-
-				/**
-				 * [tJDBCRollback_3 main ] start
-				 */
-
-				currentComponent = "tJDBCRollback_3";
-
-				java.sql.Connection conn_tJDBCRollback_3 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_3");
-				if (conn_tJDBCRollback_3 != null
-						&& !conn_tJDBCRollback_3.isClosed()) {
-
-					try {
-
-						conn_tJDBCRollback_3.rollback();
-
-					} finally {
-
-						conn_tJDBCRollback_3.close();
-
-					}
-
-				}
-
-				tos_count_tJDBCRollback_3++;
-
-				/**
-				 * [tJDBCRollback_3 main ] stop
-				 */
-
-				/**
-				 * [tJDBCRollback_3 end ] start
-				 */
-
-				currentComponent = "tJDBCRollback_3";
-
-				ok_Hash.put("tJDBCRollback_3", true);
-				end_Hash.put("tJDBCRollback_3", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCRollback_3 end ] stop
-				 */
-			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tJDBCRollback_3:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			tJDBCRollback_4Process(globalMap);
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tJDBCRollback_3 finally ] start
-				 */
-
-				currentComponent = "tJDBCRollback_3";
-
-				/**
-				 * [tJDBCRollback_3 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tJDBCRollback_3_SUBPROCESS_STATE", 1);
-	}
-
-	public void tJDBCRollback_4Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCRollback_4_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tJDBCRollback_4 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCRollback_4", false);
-				start_Hash.put("tJDBCRollback_4", System.currentTimeMillis());
-
-				currentComponent = "tJDBCRollback_4";
-
-				int tos_count_tJDBCRollback_4 = 0;
-
-				/**
-				 * [tJDBCRollback_4 begin ] stop
-				 */
-
-				/**
-				 * [tJDBCRollback_4 main ] start
-				 */
-
-				currentComponent = "tJDBCRollback_4";
-
-				java.sql.Connection conn_tJDBCRollback_4 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_4");
-				if (conn_tJDBCRollback_4 != null
-						&& !conn_tJDBCRollback_4.isClosed()) {
-
-					try {
-
-						conn_tJDBCRollback_4.rollback();
-
-					} finally {
-
-						conn_tJDBCRollback_4.close();
-
-					}
-
-				}
-
-				tos_count_tJDBCRollback_4++;
-
-				/**
-				 * [tJDBCRollback_4 main ] stop
-				 */
-
-				/**
-				 * [tJDBCRollback_4 end ] start
-				 */
-
-				currentComponent = "tJDBCRollback_4";
-
-				ok_Hash.put("tJDBCRollback_4", true);
-				end_Hash.put("tJDBCRollback_4", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCRollback_4 end ] stop
-				 */
-			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tJDBCRollback_4:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			tJDBCRollback_5Process(globalMap);
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tJDBCRollback_4 finally ] start
-				 */
-
-				currentComponent = "tJDBCRollback_4";
-
-				/**
-				 * [tJDBCRollback_4 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tJDBCRollback_4_SUBPROCESS_STATE", 1);
-	}
-
-	public void tJDBCRollback_5Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCRollback_5_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tJDBCRollback_5 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCRollback_5", false);
-				start_Hash.put("tJDBCRollback_5", System.currentTimeMillis());
-
-				currentComponent = "tJDBCRollback_5";
-
-				int tos_count_tJDBCRollback_5 = 0;
-
-				/**
-				 * [tJDBCRollback_5 begin ] stop
-				 */
-
-				/**
-				 * [tJDBCRollback_5 main ] start
-				 */
-
-				currentComponent = "tJDBCRollback_5";
-
-				java.sql.Connection conn_tJDBCRollback_5 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_5");
-				if (conn_tJDBCRollback_5 != null
-						&& !conn_tJDBCRollback_5.isClosed()) {
-
-					try {
-
-						conn_tJDBCRollback_5.rollback();
-
-					} finally {
-
-						conn_tJDBCRollback_5.close();
-
-					}
-
-				}
-
-				tos_count_tJDBCRollback_5++;
-
-				/**
-				 * [tJDBCRollback_5 main ] stop
-				 */
-
-				/**
-				 * [tJDBCRollback_5 end ] start
-				 */
-
-				currentComponent = "tJDBCRollback_5";
-
-				ok_Hash.put("tJDBCRollback_5", true);
-				end_Hash.put("tJDBCRollback_5", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCRollback_5 end ] stop
-				 */
-			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tJDBCRollback_5:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
+				resumeUtil.addLog("CHECKPOINT",
+						"CONNECTION:SUBJOB_OK:tJDBCConnection_8:OnSubjobOk",
+						"", Thread.currentThread().getId() + "", "", "", "",
+						"", "");
 			}
 
 			tRowGenerator_1Process(globalMap);
@@ -2456,13 +1995,13 @@ public class HistoryETL implements TalendJob {
 			try {
 
 				/**
-				 * [tJDBCRollback_5 finally ] start
+				 * [tJDBCConnection_8 finally ] start
 				 */
 
-				currentComponent = "tJDBCRollback_5";
+				currentComponent = "tJDBCConnection_8";
 
 				/**
-				 * [tJDBCRollback_5 finally ] stop
+				 * [tJDBCConnection_8 finally ] stop
 				 */
 			} catch (java.lang.Exception e) {
 				// ignore
@@ -2472,7 +2011,7 @@ public class HistoryETL implements TalendJob {
 			resourceMap = null;
 		}
 
-		globalMap.put("tJDBCRollback_5_SUBPROCESS_STATE", 1);
+		globalMap.put("tJDBCConnection_8_SUBPROCESS_STATE", 1);
 	}
 
 	public static class row6Struct implements
@@ -4045,7 +3584,7 @@ public class HistoryETL implements TalendJob {
 								"", "", "", "");
 			}
 
-			tJDBCClose_1Process(globalMap);
+			tJDBCRollback_1Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -4089,6 +3628,621 @@ public class HistoryETL implements TalendJob {
 		}
 
 		globalMap.put("tRowGenerator_8_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCRollback_1Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCRollback_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCRollback_1 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCRollback_1", false);
+				start_Hash.put("tJDBCRollback_1", System.currentTimeMillis());
+
+				currentComponent = "tJDBCRollback_1";
+
+				int tos_count_tJDBCRollback_1 = 0;
+
+				/**
+				 * [tJDBCRollback_1 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCRollback_1 main ] start
+				 */
+
+				currentComponent = "tJDBCRollback_1";
+
+				java.sql.Connection conn_tJDBCRollback_1 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_2");
+				if (conn_tJDBCRollback_1 != null
+						&& !conn_tJDBCRollback_1.isClosed()) {
+
+					try {
+
+						conn_tJDBCRollback_1.rollback();
+
+					} finally {
+
+						conn_tJDBCRollback_1.close();
+
+					}
+
+				}
+
+				tos_count_tJDBCRollback_1++;
+
+				/**
+				 * [tJDBCRollback_1 main ] stop
+				 */
+
+				/**
+				 * [tJDBCRollback_1 end ] start
+				 */
+
+				currentComponent = "tJDBCRollback_1";
+
+				ok_Hash.put("tJDBCRollback_1", true);
+				end_Hash.put("tJDBCRollback_1", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCRollback_1 end ] stop
+				 */
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCRollback_1:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCRollback_2Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCRollback_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCRollback_1";
+
+				/**
+				 * [tJDBCRollback_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCRollback_1_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCRollback_2Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCRollback_2_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCRollback_2 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCRollback_2", false);
+				start_Hash.put("tJDBCRollback_2", System.currentTimeMillis());
+
+				currentComponent = "tJDBCRollback_2";
+
+				int tos_count_tJDBCRollback_2 = 0;
+
+				/**
+				 * [tJDBCRollback_2 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCRollback_2 main ] start
+				 */
+
+				currentComponent = "tJDBCRollback_2";
+
+				java.sql.Connection conn_tJDBCRollback_2 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+				if (conn_tJDBCRollback_2 != null
+						&& !conn_tJDBCRollback_2.isClosed()) {
+
+					try {
+
+						conn_tJDBCRollback_2.rollback();
+
+					} finally {
+
+						conn_tJDBCRollback_2.close();
+
+					}
+
+				}
+
+				tos_count_tJDBCRollback_2++;
+
+				/**
+				 * [tJDBCRollback_2 main ] stop
+				 */
+
+				/**
+				 * [tJDBCRollback_2 end ] start
+				 */
+
+				currentComponent = "tJDBCRollback_2";
+
+				ok_Hash.put("tJDBCRollback_2", true);
+				end_Hash.put("tJDBCRollback_2", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCRollback_2 end ] stop
+				 */
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCRollback_2:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCRollback_3Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCRollback_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCRollback_2";
+
+				/**
+				 * [tJDBCRollback_2 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCRollback_2_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCRollback_3Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCRollback_3_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCRollback_3 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCRollback_3", false);
+				start_Hash.put("tJDBCRollback_3", System.currentTimeMillis());
+
+				currentComponent = "tJDBCRollback_3";
+
+				int tos_count_tJDBCRollback_3 = 0;
+
+				/**
+				 * [tJDBCRollback_3 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCRollback_3 main ] start
+				 */
+
+				currentComponent = "tJDBCRollback_3";
+
+				java.sql.Connection conn_tJDBCRollback_3 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_3");
+				if (conn_tJDBCRollback_3 != null
+						&& !conn_tJDBCRollback_3.isClosed()) {
+
+					try {
+
+						conn_tJDBCRollback_3.rollback();
+
+					} finally {
+
+						conn_tJDBCRollback_3.close();
+
+					}
+
+				}
+
+				tos_count_tJDBCRollback_3++;
+
+				/**
+				 * [tJDBCRollback_3 main ] stop
+				 */
+
+				/**
+				 * [tJDBCRollback_3 end ] start
+				 */
+
+				currentComponent = "tJDBCRollback_3";
+
+				ok_Hash.put("tJDBCRollback_3", true);
+				end_Hash.put("tJDBCRollback_3", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCRollback_3 end ] stop
+				 */
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCRollback_3:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCRollback_4Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCRollback_3 finally ] start
+				 */
+
+				currentComponent = "tJDBCRollback_3";
+
+				/**
+				 * [tJDBCRollback_3 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCRollback_3_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCRollback_4Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCRollback_4_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCRollback_4 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCRollback_4", false);
+				start_Hash.put("tJDBCRollback_4", System.currentTimeMillis());
+
+				currentComponent = "tJDBCRollback_4";
+
+				int tos_count_tJDBCRollback_4 = 0;
+
+				/**
+				 * [tJDBCRollback_4 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCRollback_4 main ] start
+				 */
+
+				currentComponent = "tJDBCRollback_4";
+
+				java.sql.Connection conn_tJDBCRollback_4 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_4");
+				if (conn_tJDBCRollback_4 != null
+						&& !conn_tJDBCRollback_4.isClosed()) {
+
+					try {
+
+						conn_tJDBCRollback_4.rollback();
+
+					} finally {
+
+						conn_tJDBCRollback_4.close();
+
+					}
+
+				}
+
+				tos_count_tJDBCRollback_4++;
+
+				/**
+				 * [tJDBCRollback_4 main ] stop
+				 */
+
+				/**
+				 * [tJDBCRollback_4 end ] start
+				 */
+
+				currentComponent = "tJDBCRollback_4";
+
+				ok_Hash.put("tJDBCRollback_4", true);
+				end_Hash.put("tJDBCRollback_4", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCRollback_4 end ] stop
+				 */
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCRollback_4:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCRollback_5Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCRollback_4 finally ] start
+				 */
+
+				currentComponent = "tJDBCRollback_4";
+
+				/**
+				 * [tJDBCRollback_4 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCRollback_4_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCRollback_5Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCRollback_5_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCRollback_5 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCRollback_5", false);
+				start_Hash.put("tJDBCRollback_5", System.currentTimeMillis());
+
+				currentComponent = "tJDBCRollback_5";
+
+				int tos_count_tJDBCRollback_5 = 0;
+
+				/**
+				 * [tJDBCRollback_5 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCRollback_5 main ] start
+				 */
+
+				currentComponent = "tJDBCRollback_5";
+
+				java.sql.Connection conn_tJDBCRollback_5 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_5");
+				if (conn_tJDBCRollback_5 != null
+						&& !conn_tJDBCRollback_5.isClosed()) {
+
+					try {
+
+						conn_tJDBCRollback_5.rollback();
+
+					} finally {
+
+						conn_tJDBCRollback_5.close();
+
+					}
+
+				}
+
+				tos_count_tJDBCRollback_5++;
+
+				/**
+				 * [tJDBCRollback_5 main ] stop
+				 */
+
+				/**
+				 * [tJDBCRollback_5 end ] start
+				 */
+
+				currentComponent = "tJDBCRollback_5";
+
+				ok_Hash.put("tJDBCRollback_5", true);
+				end_Hash.put("tJDBCRollback_5", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCRollback_5 end ] stop
+				 */
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCRollback_5:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCClose_1Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCRollback_5 finally ] start
+				 */
+
+				currentComponent = "tJDBCRollback_5";
+
+				/**
+				 * [tJDBCRollback_5 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCRollback_5_SUBPROCESS_STATE", 1);
 	}
 
 	public void tJDBCClose_1Process(
@@ -11750,6 +11904,10 @@ public class HistoryETL implements TalendJob {
 	private void closeSqlDbConnections() {
 		try {
 			Object obj_conn;
+			obj_conn = globalMap.remove("conn_tJDBCConnection_8");
+			if (null != obj_conn) {
+				((java.sql.Connection) obj_conn).close();
+			}
 			obj_conn = globalMap.remove("conn_tJDBCConnection_6");
 			if (null != obj_conn) {
 				((java.sql.Connection) obj_conn).close();
@@ -11784,6 +11942,8 @@ public class HistoryETL implements TalendJob {
 
 	private java.util.Map<String, Object> getSharedConnections4REST() {
 		java.util.Map<String, Object> connections = new java.util.HashMap<String, Object>();
+		connections.put("conn_tJDBCConnection_8",
+				globalMap.get("conn_tJDBCConnection_8"));
 		connections.put("conn_tJDBCConnection_6",
 				globalMap.get("conn_tJDBCConnection_6"));
 		connections.put("conn_tJDBCConnection_2",
@@ -11897,6 +12057,6 @@ public class HistoryETL implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 300996 characters generated by Talend Open Studio for Data Integration on the
- * May 15, 2016 2:41:18 PM IDT
+ * 305345 characters generated by Talend Open Studio for Data Integration on the
+ * February 27, 2017 3:14:55 PM IST
  ************************************************************************************************/
