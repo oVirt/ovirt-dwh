@@ -26,6 +26,8 @@ from . import misc
 from . import remote_engine
 from . import scale
 from . import service
+from . import dwh
+from . import dwh_database
 
 
 @util.export
@@ -37,6 +39,8 @@ def createPlugins(context):
     remote_engine.Plugin(context=context)
     scale.Plugin(context=context)
     service.Plugin(context=context)
+    dwh.Plugin(context=context)
+    dwh_database.Plugin(context=context)
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
