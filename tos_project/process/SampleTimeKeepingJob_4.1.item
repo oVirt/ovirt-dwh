@@ -499,7 +499,7 @@
       <column comment="" key="false" length="-1" name="var_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="event_output">
         <mapperTableEntries name="log_time" expression="row5.moment " type="id_Date"/>
@@ -512,7 +512,7 @@
         <mapperTableEntries name="var_name" expression="&quot;lastErrorSent&quot;" type="id_String"/>
         <mapperTableEntries name="var_datetime" expression="row5.moment " type="id_Date"/>
       </outputTables>
-      <inputTables sizeState="INTERMEDIATE" name="row5" expressionFilter="row5.moment.getTime() - context.lastErrorSent.getTime() >= context.timeBetweenErrorEvents" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
+      <inputTables sizeState="INTERMEDIATE" name="row5" expressionFilter="row5.moment.getTime() - context.lastErrorSent.getTime() >= context.timeBetweenErrorEvents&#xA;&amp;&amp;&#xA;!(row5.origin == &quot;tWarn_1&quot; &amp;&amp; (RoutineHistoryETL.dateDifference(context.lastSampling,context.lastStatisticsUpdate,&quot;ss&quot;) &lt; 60))" activateExpressionFilter="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="moment" type="id_Date" nullable="true"/>
         <mapperTableEntries name="pid" type="id_String" nullable="true"/>
         <mapperTableEntries name="root_pid" type="id_String" nullable="true"/>
@@ -1433,7 +1433,7 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
   </subjob>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>
