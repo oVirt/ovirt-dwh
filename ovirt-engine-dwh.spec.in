@@ -107,7 +107,7 @@ BuildRequires:	systemd
 Requires:	%{commons_collections}
 Requires:	%{dom4j}
 Requires:	%{name}-setup >= %{version}-%{release}
-Requires:	java-openjdk >= 1:1.8.0
+Requires:	java-openjdk-headless >= 1:1.8.0
 Requires:	jpackage-utils
 Requires:	logrotate
 Requires:	postgresql-jdbc
