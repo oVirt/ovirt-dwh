@@ -252,6 +252,11 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Mar 21 2017 Shirly Radco <sradco@redhat.com> - 4.1.1
+Fixed issues:
+- Bug 1404812 - update dwh stop process
+- Bug 1371111 - heartbeat error message interval
+
 * Tue Jan 17 2017 Shirly Radco <sradco@redhat.com> - 4.1.0
 Fixed issues:
 - Bug 1408652 -  Update default mem heap values
