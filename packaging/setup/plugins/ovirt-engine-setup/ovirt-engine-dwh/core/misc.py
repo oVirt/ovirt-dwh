@@ -54,11 +54,13 @@ class Plugin(plugin.PluginBase):
             if self.environment[oenginecons.CoreEnv.ENABLE]:
                 self.dialog.note(
                     text=_(
-                        'Please note: Data Warehouse is required for the '
-                        'engine. If you choose to not configure it on this '
-                        'host, you have to configure it on a remote host, and '
-                        'then configure the engine on this host so that it '
-                        'can access the database of the remote Data '
+                        '\n* Please note * : Data Warehouse is required for '
+                        'the engine.\n'
+                        'If you choose to not configure it on this host, you '
+                        'have to configure\n'
+                        'it on a remote host, and then configure the engine '
+                        'on this host so\n'
+                        'that it can access the database of the remote Data '
                         'Warehouse host.'
                     )
                 )
