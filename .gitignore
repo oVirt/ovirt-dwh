@@ -8,6 +8,7 @@ build/python-check.sh
 ovirt-engine-dwh.spec
 packaging/conf/settings.properties
 packaging/etc/ovirt-engine-dwhd.conf.d/README
+packaging/bin/dwh-prolog.sh
 packaging/services/ovirt-engine-dwhd/config.py
 packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.conf
 packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.systemd

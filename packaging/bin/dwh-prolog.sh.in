@@ -1,0 +1,37 @@
+
+export DWH_DEFAULTS="${DWH_DEFAULTS:-@DWH_DEFAULTS@}"
+export DWH_VARS="${DWH_VARS:-@DWH_VARS@}"
+PACKAGE_NAME="@PACKAGE_NAME@"
+PACKAGE_VERSION="@PACKAGE_VERSION@"
+DISPLAY_VERSION="@DISPLAY_VERSION@"
+
+die() {
+	local m="$1"
+	echo "FATAL: ${m}" >&2
+	exit 1
+}
+
+load_config() {
+
+	[ -r "${DWH_DEFAULTS}" ] || die "Can't load defaults file \"${DWH_DEFAULTS}\"."
+
+	for f in \
+		"${DWH_DEFAULTS}" \
+		"${DWH_VARS}" \
+		$([ -d "${DWH_VARS}.d" ] && find "${DWH_VARS}.d" -name '*.conf' | sort) \
+		; do
+
+		[ -r "${f}" ] && . "${f}"
+	done
+
+	[ -n "${OVIRT_JBOSS_HOME}" ] && JBOSS_HOME="${OVIRT_JBOSS_HOME}"
+
+	JAVA_HOME="$(/usr/share/ovirt-engine/bin/java-home)" || die "Cannot set JAVA_HOME"
+	export JAVA_HOME
+
+	# clean the class path
+	# jboss module loader will not run otherwise.
+	export CLASSPATH=""
+}
+
+load_config

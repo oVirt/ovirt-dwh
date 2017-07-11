@@ -168,6 +168,11 @@ class FileLocations(object):
         'backups',
     )
 
+    OVIRT_ENGINE_DWH_BINDIR = os.path.join(
+        PKG_DATA_DIR,
+        'bin',
+    )
+
     OVIRT_ENGINE_DB_MD5_DIR = os.path.join(
         PKG_STATE_DIR,
         'dwh_dbmd5',
@@ -179,6 +184,11 @@ class FileLocations(object):
         'ovirt-engine',
         'ovirt-engine-dwh',
         'Default.properties',
+    )
+
+    OVIRT_DWH_VACUUM_TOOL = os.path.join(
+        OVIRT_ENGINE_DWH_BINDIR,
+        'dwh-vacuum.sh',
     )
 
 
@@ -343,6 +353,12 @@ class DBEnv(object):
     )
     def DISCONNECT_EXISTING_DWH(self):
         return 'OVESETUP_DWH_DB/disconnectExistingDwh'
+
+    @osetupattrs(
+        answerfile=True,
+    )
+    def DWH_VACUUM_FULL(self):
+        return 'OVESETUP_DB/dwhVacuumFull'
 
 
 @util.export

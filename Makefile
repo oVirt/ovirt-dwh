@@ -100,6 +100,7 @@ GENERATED = \
 	build/python-check.sh \
 	ovirt-engine-dwh.spec \
 	packaging/etc/ovirt-engine-dwhd.conf.d/README \
+	packaging/bin/dwh-prolog.sh \
 	packaging/services/ovirt-engine-dwhd/config.py \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.conf \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.systemd \
@@ -204,6 +205,9 @@ install-layout: \
 		$(NULL)
 
 	install -dm 755 "$(DESTDIR)$(PKG_STATE_DIR)/backups"
+
+	install -d -m 755 "$(DESTDIR)$(BIN_DIR)"
+	ln -sf "$(PKG_DATA_DIR)/bin/dwh-vacuum.sh" "$(DESTDIR)$(BIN_DIR)/dwh-vacuum"
 
 all-dev:
 	rm -f $(GENERATED)
