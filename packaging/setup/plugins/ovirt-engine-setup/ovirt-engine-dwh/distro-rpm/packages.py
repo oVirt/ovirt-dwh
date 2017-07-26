@@ -93,5 +93,20 @@ class Plugin(plugin.PluginBase):
                 osetupcons.RPMDistroEnv.VERSION_LOCK_APPLY
             ].extend(packages)
 
+            self.environment[
+                osetupcons.RPMDistroEnv.VERSION_LOCK_FILTER
+            ].extend(
+                tolist(
+                    self.environment[odwhcons.RPMDistroEnv.PACKAGES]
+                )
+            )
+            self.environment[
+                osetupcons.RPMDistroEnv.VERSION_LOCK_FILTER
+            ].extend(
+                tolist(
+                    self.environment[odwhcons.RPMDistroEnv.PACKAGES_SETUP]
+                )
+            )
+
 
 # vim: expandtab tabstop=4 shiftwidth=4
