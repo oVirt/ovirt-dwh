@@ -256,6 +256,14 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Thu Jul 27 2017 Shirly Radco <sradco@redhat.com> - 4.2.0
+Fixed issues:
+- Bug 1371111 - history: heartbeat error message interval
+- packaging: spec: move to headless java
+- Bug 1263785 - packaging: setup: Move dwh-plugins from engine to dwh
+- Bug 1431632 - packaging: setup: Display the DWH setup requirement better to the user
+- Bug 1409766 - packaging: Add a tool to perform vacuum on dwh db
+
 * Wed Dec 21 2016 Shirly Radco <sradco@redhat.com> - 4.1.0
 Fixed issues:
 - Bug 1399162 - Fixed firstSync updating process
