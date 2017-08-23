@@ -30543,12 +30543,6 @@ public class ConfigurationSync implements TalendJob {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
 
-		public Object image_id;
-
-		public Object getImage_id() {
-			return this.image_id;
-		}
-
 		public Object storage_domain_id;
 
 		public Object getStorage_domain_id() {
@@ -30704,8 +30698,6 @@ public class ConfigurationSync implements TalendJob {
 
 					int length = 0;
 
-					this.image_id = (Object) dis.readObject();
-
 					this.storage_domain_id = (Object) dis.readObject();
 
 					this.vm_disk_description = readString(dis);
@@ -30757,10 +30749,6 @@ public class ConfigurationSync implements TalendJob {
 
 		public void writeData(ObjectOutputStream dos) {
 			try {
-
-				// Object
-
-				dos.writeObject(this.image_id);
 
 				// Object
 
@@ -30832,8 +30820,7 @@ public class ConfigurationSync implements TalendJob {
 			StringBuilder sb = new StringBuilder();
 			sb.append(super.toString());
 			sb.append("[");
-			sb.append("image_id=" + String.valueOf(image_id));
-			sb.append(",storage_domain_id=" + String.valueOf(storage_domain_id));
+			sb.append("storage_domain_id=" + String.valueOf(storage_domain_id));
 			sb.append(",vm_disk_description=" + vm_disk_description);
 			sb.append(",vm_disk_size_mb=" + String.valueOf(vm_disk_size_mb));
 			sb.append(",vm_disk_type=" + String.valueOf(vm_disk_type));
@@ -30904,12 +30891,6 @@ public class ConfigurationSync implements TalendJob {
 
 		public String getVm_disk_description() {
 			return this.vm_disk_description;
-		}
-
-		public Object image_id;
-
-		public Object getImage_id() {
-			return this.image_id;
 		}
 
 		public Object storage_domain_id;
@@ -31049,8 +31030,6 @@ public class ConfigurationSync implements TalendJob {
 
 					this.vm_disk_description = readString(dis);
 
-					this.image_id = (Object) dis.readObject();
-
 					this.storage_domain_id = (Object) dis.readObject();
 
 					this.vm_disk_size_mb = readInteger(dis);
@@ -31109,10 +31088,6 @@ public class ConfigurationSync implements TalendJob {
 
 				// Object
 
-				dos.writeObject(this.image_id);
-
-				// Object
-
 				dos.writeObject(this.storage_domain_id);
 
 				// Integer
@@ -31168,7 +31143,6 @@ public class ConfigurationSync implements TalendJob {
 			sb.append("vm_disk_id=" + String.valueOf(vm_disk_id));
 			sb.append(",vm_disk_name=" + vm_disk_name);
 			sb.append(",vm_disk_description=" + vm_disk_description);
-			sb.append(",image_id=" + String.valueOf(image_id));
 			sb.append(",storage_domain_id=" + String.valueOf(storage_domain_id));
 			sb.append(",vm_disk_size_mb=" + String.valueOf(vm_disk_size_mb));
 			sb.append(",vm_disk_type=" + String.valueOf(vm_disk_type));
@@ -31271,7 +31245,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_7 = "INSERT INTO "
 						+ "vm_disk_configuration"
-						+ " (image_id,storage_domain_id,vm_disk_description,vm_disk_size_mb,vm_disk_type,vm_disk_format,create_date,update_date,delete_date,vm_disk_id,vm_disk_name,is_shared) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (storage_domain_id,vm_disk_description,vm_disk_size_mb,vm_disk_type,vm_disk_format,create_date,update_date,delete_date,vm_disk_id,vm_disk_name,is_shared) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_7 = connection_tJDBCOutput_7
 						.prepareStatement(insert_tJDBCOutput_7);
 
@@ -31329,7 +31303,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_7 = conn_tJDBCInput_7
 						.createStatement();
 
-				String dbquery_tJDBCInput_7 = "SELECT vm_disk_id,\n        vm_disk_name,\n        vm_disk_description,\n        image_id,\n		storage_domain_id,\n		vm_disk_size_mb,\n		vm_disk_type,\n		vm_disk_format,\n        is_shared,\n		create_date,\n		update_date \nFROM dwh_vm_disk_configuration_history_view";
+				String dbquery_tJDBCInput_7 = "SELECT vm_disk_id,\n        vm_disk_name,\n        vm_disk_description,\n		storage_domain_id,\n		vm_disk_size_mb,\n		vm_disk_type,\n		vm_disk_format,\n        is_shared,\n		create_date,\n		update_date \nFROM dwh_vm_disk_configuration_history_view";
 
 				globalMap.put("tJDBCInput_7_QUERY", dbquery_tJDBCInput_7);
 
@@ -31372,70 +31346,73 @@ public class ConfigurationSync implements TalendJob {
 									.getString(rs_tJDBCInput_7, 3, false);
 						}
 						if (colQtyInRs_tJDBCInput_7 < 4) {
-							row6.image_id = null;
-						} else {
-
-							if (rs_tJDBCInput_7.getObject(4) != null) {
-								row6.image_id = rs_tJDBCInput_7.getObject(4);
-							} else {
-								row6.image_id = null;
-							}
-						}
-						if (colQtyInRs_tJDBCInput_7 < 5) {
 							row6.storage_domain_id = null;
 						} else {
 
-							if (rs_tJDBCInput_7.getObject(5) != null) {
+							if (rs_tJDBCInput_7.getObject(4) != null) {
 								row6.storage_domain_id = rs_tJDBCInput_7
-										.getObject(5);
+										.getObject(4);
 							} else {
 								row6.storage_domain_id = null;
 							}
 						}
-						if (colQtyInRs_tJDBCInput_7 < 6) {
+						if (colQtyInRs_tJDBCInput_7 < 5) {
 							row6.vm_disk_size_mb = null;
 						} else {
 
-							if (rs_tJDBCInput_7.getObject(6) != null) {
+							if (rs_tJDBCInput_7.getObject(5) != null) {
 								row6.vm_disk_size_mb = rs_tJDBCInput_7
-										.getInt(6);
+										.getInt(5);
 							} else {
 								row6.vm_disk_size_mb = null;
 							}
 						}
-						if (colQtyInRs_tJDBCInput_7 < 7) {
+						if (colQtyInRs_tJDBCInput_7 < 6) {
 							row6.vm_disk_type = null;
 						} else {
 
-							if (rs_tJDBCInput_7.getObject(7) != null) {
-								row6.vm_disk_type = rs_tJDBCInput_7.getShort(7);
+							if (rs_tJDBCInput_7.getObject(6) != null) {
+								row6.vm_disk_type = rs_tJDBCInput_7.getShort(6);
 							} else {
 								row6.vm_disk_type = null;
 							}
 						}
-						if (colQtyInRs_tJDBCInput_7 < 8) {
+						if (colQtyInRs_tJDBCInput_7 < 7) {
 							row6.vm_disk_format = null;
 						} else {
 
-							if (rs_tJDBCInput_7.getObject(8) != null) {
+							if (rs_tJDBCInput_7.getObject(7) != null) {
 								row6.vm_disk_format = rs_tJDBCInput_7
-										.getShort(8);
+										.getShort(7);
 							} else {
 								row6.vm_disk_format = null;
 							}
 						}
-						if (colQtyInRs_tJDBCInput_7 < 9) {
+						if (colQtyInRs_tJDBCInput_7 < 8) {
 							row6.is_shared = null;
 						} else {
 
-							if (rs_tJDBCInput_7.getObject(9) != null) {
-								row6.is_shared = rs_tJDBCInput_7.getBoolean(9);
+							if (rs_tJDBCInput_7.getObject(8) != null) {
+								row6.is_shared = rs_tJDBCInput_7.getBoolean(8);
 							} else {
 								row6.is_shared = null;
 							}
 						}
-						if (colQtyInRs_tJDBCInput_7 < 10) {
+						if (colQtyInRs_tJDBCInput_7 < 9) {
 							row6.create_date = null;
+						} else {
+
+							java.util.Date date_tJDBCInput_7 = null;
+							try {
+								date_tJDBCInput_7 = rs_tJDBCInput_7
+										.getTimestamp(9);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_7 = rs_tJDBCInput_7.getDate(9);
+							}
+							row6.create_date = date_tJDBCInput_7;
+						}
+						if (colQtyInRs_tJDBCInput_7 < 10) {
+							row6.update_date = null;
 						} else {
 
 							java.util.Date date_tJDBCInput_7 = null;
@@ -31444,19 +31421,6 @@ public class ConfigurationSync implements TalendJob {
 										.getTimestamp(10);
 							} catch (java.lang.Exception e) {
 								date_tJDBCInput_7 = rs_tJDBCInput_7.getDate(10);
-							}
-							row6.create_date = date_tJDBCInput_7;
-						}
-						if (colQtyInRs_tJDBCInput_7 < 11) {
-							row6.update_date = null;
-						} else {
-
-							java.util.Date date_tJDBCInput_7 = null;
-							try {
-								date_tJDBCInput_7 = rs_tJDBCInput_7
-										.getTimestamp(11);
-							} catch (java.lang.Exception e) {
-								date_tJDBCInput_7 = rs_tJDBCInput_7.getDate(11);
 							}
 							row6.update_date = date_tJDBCInput_7;
 						}
@@ -31517,7 +31481,6 @@ public class ConfigurationSync implements TalendJob {
 								vm_disk_configuration = null;
 
 								// # Output table : 'vm_disk_configuration'
-								vm_disk_configuration_tmp.image_id = row6.image_id;
 								vm_disk_configuration_tmp.storage_domain_id = row6.storage_domain_id;
 								vm_disk_configuration_tmp.vm_disk_description = StringHandling
 										.TRIM(row6.vm_disk_description);
@@ -31552,118 +31515,110 @@ public class ConfigurationSync implements TalendJob {
 								currentComponent = "tJDBCOutput_7";
 
 								whetherReject_tJDBCOutput_7 = false;
-								if (vm_disk_configuration.image_id == null) {
-									pstmt_tJDBCOutput_7.setNull(1,
-											java.sql.Types.OTHER);
-								} else {
-									pstmt_tJDBCOutput_7.setObject(1,
-											vm_disk_configuration.image_id);
-								}
-
 								if (vm_disk_configuration.storage_domain_id == null) {
-									pstmt_tJDBCOutput_7.setNull(2,
+									pstmt_tJDBCOutput_7.setNull(1,
 											java.sql.Types.OTHER);
 								} else {
 									pstmt_tJDBCOutput_7
 											.setObject(
-													2,
+													1,
 													vm_disk_configuration.storage_domain_id);
 								}
 
 								if (vm_disk_configuration.vm_disk_description == null) {
-									pstmt_tJDBCOutput_7.setNull(3,
+									pstmt_tJDBCOutput_7.setNull(2,
 											java.sql.Types.VARCHAR);
 								} else {
 									pstmt_tJDBCOutput_7
 											.setString(
-													3,
+													2,
 													vm_disk_configuration.vm_disk_description);
 								}
 
 								if (vm_disk_configuration.vm_disk_size_mb == null) {
-									pstmt_tJDBCOutput_7.setNull(4,
+									pstmt_tJDBCOutput_7.setNull(3,
 											java.sql.Types.INTEGER);
 								} else {
 									pstmt_tJDBCOutput_7
-											.setInt(4,
+											.setInt(3,
 													vm_disk_configuration.vm_disk_size_mb);
 								}
 
 								if (vm_disk_configuration.vm_disk_type == null) {
-									pstmt_tJDBCOutput_7.setNull(5,
+									pstmt_tJDBCOutput_7.setNull(4,
 											java.sql.Types.INTEGER);
 								} else {
-									pstmt_tJDBCOutput_7.setShort(5,
+									pstmt_tJDBCOutput_7.setShort(4,
 											vm_disk_configuration.vm_disk_type);
 								}
 
 								if (vm_disk_configuration.vm_disk_format == null) {
-									pstmt_tJDBCOutput_7.setNull(6,
+									pstmt_tJDBCOutput_7.setNull(5,
 											java.sql.Types.INTEGER);
 								} else {
 									pstmt_tJDBCOutput_7
 											.setShort(
-													6,
+													5,
 													vm_disk_configuration.vm_disk_format);
 								}
 
 								if (vm_disk_configuration.create_date != null) {
 									pstmt_tJDBCOutput_7
 											.setTimestamp(
-													7,
+													6,
 													new java.sql.Timestamp(
 															vm_disk_configuration.create_date
 																	.getTime()));
 								} else {
-									pstmt_tJDBCOutput_7.setNull(7,
+									pstmt_tJDBCOutput_7.setNull(6,
 											java.sql.Types.DATE);
 								}
 
 								if (vm_disk_configuration.update_date != null) {
 									pstmt_tJDBCOutput_7
 											.setTimestamp(
-													8,
+													7,
 													new java.sql.Timestamp(
 															vm_disk_configuration.update_date
 																	.getTime()));
 								} else {
-									pstmt_tJDBCOutput_7.setNull(8,
+									pstmt_tJDBCOutput_7.setNull(7,
 											java.sql.Types.DATE);
 								}
 
 								if (vm_disk_configuration.delete_date != null) {
 									pstmt_tJDBCOutput_7
 											.setTimestamp(
-													9,
+													8,
 													new java.sql.Timestamp(
 															vm_disk_configuration.delete_date
 																	.getTime()));
 								} else {
-									pstmt_tJDBCOutput_7.setNull(9,
+									pstmt_tJDBCOutput_7.setNull(8,
 											java.sql.Types.DATE);
 								}
 
 								if (vm_disk_configuration.vm_disk_id == null) {
-									pstmt_tJDBCOutput_7.setNull(10,
+									pstmt_tJDBCOutput_7.setNull(9,
 											java.sql.Types.OTHER);
 								} else {
-									pstmt_tJDBCOutput_7.setObject(10,
+									pstmt_tJDBCOutput_7.setObject(9,
 											vm_disk_configuration.vm_disk_id);
 								}
 
 								if (vm_disk_configuration.vm_disk_name == null) {
-									pstmt_tJDBCOutput_7.setNull(11,
+									pstmt_tJDBCOutput_7.setNull(10,
 											java.sql.Types.VARCHAR);
 								} else {
-									pstmt_tJDBCOutput_7.setString(11,
+									pstmt_tJDBCOutput_7.setString(10,
 											vm_disk_configuration.vm_disk_name);
 								}
 
 								if (vm_disk_configuration.is_shared == null) {
-									pstmt_tJDBCOutput_7.setNull(12,
+									pstmt_tJDBCOutput_7.setNull(11,
 											java.sql.Types.BOOLEAN);
 								} else {
-									pstmt_tJDBCOutput_7.setBoolean(12,
+									pstmt_tJDBCOutput_7.setBoolean(11,
 											vm_disk_configuration.is_shared);
 								}
 
@@ -31836,12 +31791,6 @@ public class ConfigurationSync implements TalendJob {
 		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
 		static byte[] commonByteArray_OVIRT_ENGINE_DWH_ConfigurationSync = new byte[0];
 
-		public Object image_id;
-
-		public Object getImage_id() {
-			return this.image_id;
-		}
-
 		public Object storage_domain_id;
 
 		public Object getStorage_domain_id() {
@@ -31997,8 +31946,6 @@ public class ConfigurationSync implements TalendJob {
 
 					int length = 0;
 
-					this.image_id = (Object) dis.readObject();
-
 					this.storage_domain_id = (Object) dis.readObject();
 
 					this.vm_disk_description = readString(dis);
@@ -32050,10 +31997,6 @@ public class ConfigurationSync implements TalendJob {
 
 		public void writeData(ObjectOutputStream dos) {
 			try {
-
-				// Object
-
-				dos.writeObject(this.image_id);
 
 				// Object
 
@@ -32125,8 +32068,7 @@ public class ConfigurationSync implements TalendJob {
 			StringBuilder sb = new StringBuilder();
 			sb.append(super.toString());
 			sb.append("[");
-			sb.append("image_id=" + String.valueOf(image_id));
-			sb.append(",storage_domain_id=" + String.valueOf(storage_domain_id));
+			sb.append("storage_domain_id=" + String.valueOf(storage_domain_id));
 			sb.append(",vm_disk_description=" + vm_disk_description);
 			sb.append(",vm_disk_size_mb=" + String.valueOf(vm_disk_size_mb));
 			sb.append(",vm_disk_type=" + String.valueOf(vm_disk_type));
@@ -32211,12 +32153,6 @@ public class ConfigurationSync implements TalendJob {
 			return this.vm_disk_description;
 		}
 
-		public Object image_id;
-
-		public Object getImage_id() {
-			return this.image_id;
-		}
-
 		public Object storage_domain_id;
 
 		public Object getStorage_domain_id() {
@@ -32358,8 +32294,6 @@ public class ConfigurationSync implements TalendJob {
 
 					this.vm_disk_description = readString(dis);
 
-					this.image_id = (Object) dis.readObject();
-
 					this.storage_domain_id = (Object) dis.readObject();
 
 					this.vm_disk_size_mb = readInteger(dis);
@@ -32426,10 +32360,6 @@ public class ConfigurationSync implements TalendJob {
 
 				// Object
 
-				dos.writeObject(this.image_id);
-
-				// Object
-
 				dos.writeObject(this.storage_domain_id);
 
 				// Integer
@@ -32487,7 +32417,6 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",vm_disk_join_id=" + vm_disk_join_id);
 			sb.append(",vm_disk_name=" + vm_disk_name);
 			sb.append(",vm_disk_description=" + vm_disk_description);
-			sb.append(",image_id=" + String.valueOf(image_id));
 			sb.append(",storage_domain_id=" + String.valueOf(storage_domain_id));
 			sb.append(",vm_disk_size_mb=" + String.valueOf(vm_disk_size_mb));
 			sb.append(",vm_disk_type=" + String.valueOf(vm_disk_type));
@@ -32569,12 +32498,6 @@ public class ConfigurationSync implements TalendJob {
 			return this.vm_disk_description;
 		}
 
-		public Object image_id;
-
-		public Object getImage_id() {
-			return this.image_id;
-		}
-
 		public Object storage_domain_id;
 
 		public Object getStorage_domain_id() {
@@ -32716,8 +32639,6 @@ public class ConfigurationSync implements TalendJob {
 
 					this.vm_disk_description = readString(dis);
 
-					this.image_id = (Object) dis.readObject();
-
 					this.storage_domain_id = (Object) dis.readObject();
 
 					this.vm_disk_size_mb = readInteger(dis);
@@ -32784,10 +32705,6 @@ public class ConfigurationSync implements TalendJob {
 
 				// Object
 
-				dos.writeObject(this.image_id);
-
-				// Object
-
 				dos.writeObject(this.storage_domain_id);
 
 				// Integer
@@ -32845,7 +32762,6 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",vm_disk_join_id=" + vm_disk_join_id);
 			sb.append(",vm_disk_name=" + vm_disk_name);
 			sb.append(",vm_disk_description=" + vm_disk_description);
-			sb.append(",image_id=" + String.valueOf(image_id));
 			sb.append(",storage_domain_id=" + String.valueOf(storage_domain_id));
 			sb.append(",vm_disk_size_mb=" + String.valueOf(vm_disk_size_mb));
 			sb.append(",vm_disk_type=" + String.valueOf(vm_disk_type));
@@ -32950,7 +32866,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_20 = "INSERT INTO "
 						+ "vm_disk_configuration"
-						+ " (image_id,storage_domain_id,vm_disk_description,vm_disk_size_mb,vm_disk_type,vm_disk_format,create_date,update_date,delete_date,vm_disk_id,vm_disk_name,is_shared) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (storage_domain_id,vm_disk_description,vm_disk_size_mb,vm_disk_type,vm_disk_format,create_date,update_date,delete_date,vm_disk_id,vm_disk_name,is_shared) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_20 = connection_tJDBCOutput_20
 						.prepareStatement(insert_tJDBCOutput_20);
 
@@ -33014,7 +32930,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_28 = conn_tJDBCInput_28
 						.createStatement();
 
-				String dbquery_tJDBCInput_28 = "SELECT	history_id, \n		vm_disk_id, \n		upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,\n        vm_disk_name,\n        vm_disk_description,\n        image_id,\n		storage_domain_id,\n		vm_disk_size_mb,\n		vm_disk_type, \n		vm_disk_format,\n        is_shared,\n		create_date, \n		update_date\nFROM v4_2_latest_configuration_vms_disks";
+				String dbquery_tJDBCInput_28 = "SELECT	history_id, \n		vm_disk_id, \n		upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,\n        vm_disk_name,\n        vm_disk_description,\n		storage_domain_id,\n		vm_disk_size_mb,\n		vm_disk_type, \n		vm_disk_format,\n        is_shared,\n		create_date, \n		update_date\nFROM v4_2_latest_configuration_vms_disks";
 
 				globalMap.put("tJDBCInput_28_QUERY", dbquery_tJDBCInput_28);
 
@@ -33075,72 +32991,76 @@ public class ConfigurationSync implements TalendJob {
 									.getString(rs_tJDBCInput_28, 5, false);
 						}
 						if (colQtyInRs_tJDBCInput_28 < 6) {
-							row27.image_id = null;
-						} else {
-
-							if (rs_tJDBCInput_28.getObject(6) != null) {
-								row27.image_id = rs_tJDBCInput_28.getObject(6);
-							} else {
-								row27.image_id = null;
-							}
-						}
-						if (colQtyInRs_tJDBCInput_28 < 7) {
 							row27.storage_domain_id = null;
 						} else {
 
-							if (rs_tJDBCInput_28.getObject(7) != null) {
+							if (rs_tJDBCInput_28.getObject(6) != null) {
 								row27.storage_domain_id = rs_tJDBCInput_28
-										.getObject(7);
+										.getObject(6);
 							} else {
 								row27.storage_domain_id = null;
 							}
 						}
-						if (colQtyInRs_tJDBCInput_28 < 8) {
+						if (colQtyInRs_tJDBCInput_28 < 7) {
 							row27.vm_disk_size_mb = null;
 						} else {
 
-							if (rs_tJDBCInput_28.getObject(8) != null) {
+							if (rs_tJDBCInput_28.getObject(7) != null) {
 								row27.vm_disk_size_mb = rs_tJDBCInput_28
-										.getInt(8);
+										.getInt(7);
 							} else {
 								row27.vm_disk_size_mb = null;
 							}
 						}
-						if (colQtyInRs_tJDBCInput_28 < 9) {
+						if (colQtyInRs_tJDBCInput_28 < 8) {
 							row27.vm_disk_type = null;
 						} else {
 
-							if (rs_tJDBCInput_28.getObject(9) != null) {
+							if (rs_tJDBCInput_28.getObject(8) != null) {
 								row27.vm_disk_type = rs_tJDBCInput_28
-										.getShort(9);
+										.getShort(8);
 							} else {
 								row27.vm_disk_type = null;
 							}
 						}
-						if (colQtyInRs_tJDBCInput_28 < 10) {
+						if (colQtyInRs_tJDBCInput_28 < 9) {
 							row27.vm_disk_format = null;
 						} else {
 
-							if (rs_tJDBCInput_28.getObject(10) != null) {
+							if (rs_tJDBCInput_28.getObject(9) != null) {
 								row27.vm_disk_format = rs_tJDBCInput_28
-										.getShort(10);
+										.getShort(9);
 							} else {
 								row27.vm_disk_format = null;
 							}
 						}
-						if (colQtyInRs_tJDBCInput_28 < 11) {
+						if (colQtyInRs_tJDBCInput_28 < 10) {
 							row27.is_shared = null;
 						} else {
 
-							if (rs_tJDBCInput_28.getObject(11) != null) {
+							if (rs_tJDBCInput_28.getObject(10) != null) {
 								row27.is_shared = rs_tJDBCInput_28
-										.getBoolean(11);
+										.getBoolean(10);
 							} else {
 								row27.is_shared = null;
 							}
 						}
-						if (colQtyInRs_tJDBCInput_28 < 12) {
+						if (colQtyInRs_tJDBCInput_28 < 11) {
 							row27.create_date = null;
+						} else {
+
+							java.util.Date date_tJDBCInput_28 = null;
+							try {
+								date_tJDBCInput_28 = rs_tJDBCInput_28
+										.getTimestamp(11);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_28 = rs_tJDBCInput_28
+										.getDate(11);
+							}
+							row27.create_date = date_tJDBCInput_28;
+						}
+						if (colQtyInRs_tJDBCInput_28 < 12) {
+							row27.update_date = null;
 						} else {
 
 							java.util.Date date_tJDBCInput_28 = null;
@@ -33150,20 +33070,6 @@ public class ConfigurationSync implements TalendJob {
 							} catch (java.lang.Exception e) {
 								date_tJDBCInput_28 = rs_tJDBCInput_28
 										.getDate(12);
-							}
-							row27.create_date = date_tJDBCInput_28;
-						}
-						if (colQtyInRs_tJDBCInput_28 < 13) {
-							row27.update_date = null;
-						} else {
-
-							java.util.Date date_tJDBCInput_28 = null;
-							try {
-								date_tJDBCInput_28 = rs_tJDBCInput_28
-										.getTimestamp(13);
-							} catch (java.lang.Exception e) {
-								date_tJDBCInput_28 = rs_tJDBCInput_28
-										.getDate(13);
 							}
 							row27.update_date = date_tJDBCInput_28;
 						}
@@ -33266,7 +33172,6 @@ public class ConfigurationSync implements TalendJob {
 							// # Output reject table : 'delete_disks'
 							// # Filter conditions
 							if (rejectedInnerJoin_tMap_20) {
-								delete_disks_tmp.image_id = row27.image_id;
 								delete_disks_tmp.storage_domain_id = row27.storage_domain_id;
 								delete_disks_tmp.vm_disk_description = row27.vm_disk_description;
 								delete_disks_tmp.vm_disk_size_mb = row27.vm_disk_size_mb;
@@ -33301,108 +33206,100 @@ public class ConfigurationSync implements TalendJob {
 							currentComponent = "tJDBCOutput_20";
 
 							whetherReject_tJDBCOutput_20 = false;
-							if (delete_disks.image_id == null) {
+							if (delete_disks.storage_domain_id == null) {
 								pstmt_tJDBCOutput_20.setNull(1,
 										java.sql.Types.OTHER);
 							} else {
 								pstmt_tJDBCOutput_20.setObject(1,
-										delete_disks.image_id);
-							}
-
-							if (delete_disks.storage_domain_id == null) {
-								pstmt_tJDBCOutput_20.setNull(2,
-										java.sql.Types.OTHER);
-							} else {
-								pstmt_tJDBCOutput_20.setObject(2,
 										delete_disks.storage_domain_id);
 							}
 
 							if (delete_disks.vm_disk_description == null) {
-								pstmt_tJDBCOutput_20.setNull(3,
+								pstmt_tJDBCOutput_20.setNull(2,
 										java.sql.Types.VARCHAR);
 							} else {
-								pstmt_tJDBCOutput_20.setString(3,
+								pstmt_tJDBCOutput_20.setString(2,
 										delete_disks.vm_disk_description);
 							}
 
 							if (delete_disks.vm_disk_size_mb == null) {
-								pstmt_tJDBCOutput_20.setNull(4,
+								pstmt_tJDBCOutput_20.setNull(3,
 										java.sql.Types.INTEGER);
 							} else {
-								pstmt_tJDBCOutput_20.setInt(4,
+								pstmt_tJDBCOutput_20.setInt(3,
 										delete_disks.vm_disk_size_mb);
 							}
 
 							if (delete_disks.vm_disk_type == null) {
-								pstmt_tJDBCOutput_20.setNull(5,
+								pstmt_tJDBCOutput_20.setNull(4,
 										java.sql.Types.INTEGER);
 							} else {
-								pstmt_tJDBCOutput_20.setShort(5,
+								pstmt_tJDBCOutput_20.setShort(4,
 										delete_disks.vm_disk_type);
 							}
 
 							if (delete_disks.vm_disk_format == null) {
-								pstmt_tJDBCOutput_20.setNull(6,
+								pstmt_tJDBCOutput_20.setNull(5,
 										java.sql.Types.INTEGER);
 							} else {
-								pstmt_tJDBCOutput_20.setShort(6,
+								pstmt_tJDBCOutput_20.setShort(5,
 										delete_disks.vm_disk_format);
 							}
 
 							if (delete_disks.create_date != null) {
 								pstmt_tJDBCOutput_20.setTimestamp(
-										7,
+										6,
 										new java.sql.Timestamp(
 												delete_disks.create_date
+														.getTime()));
+							} else {
+								pstmt_tJDBCOutput_20.setNull(6,
+										java.sql.Types.DATE);
+							}
+
+							if (delete_disks.update_date != null) {
+								pstmt_tJDBCOutput_20.setTimestamp(
+										7,
+										new java.sql.Timestamp(
+												delete_disks.update_date
 														.getTime()));
 							} else {
 								pstmt_tJDBCOutput_20.setNull(7,
 										java.sql.Types.DATE);
 							}
 
-							if (delete_disks.update_date != null) {
+							if (delete_disks.delete_date != null) {
 								pstmt_tJDBCOutput_20.setTimestamp(
 										8,
 										new java.sql.Timestamp(
-												delete_disks.update_date
+												delete_disks.delete_date
 														.getTime()));
 							} else {
 								pstmt_tJDBCOutput_20.setNull(8,
 										java.sql.Types.DATE);
 							}
 
-							if (delete_disks.delete_date != null) {
-								pstmt_tJDBCOutput_20.setTimestamp(
-										9,
-										new java.sql.Timestamp(
-												delete_disks.delete_date
-														.getTime()));
-							} else {
-								pstmt_tJDBCOutput_20.setNull(9,
-										java.sql.Types.DATE);
-							}
-
 							if (delete_disks.vm_disk_id == null) {
-								pstmt_tJDBCOutput_20.setNull(10,
+								pstmt_tJDBCOutput_20.setNull(9,
 										java.sql.Types.OTHER);
 							} else {
-								pstmt_tJDBCOutput_20.setObject(10,
+								pstmt_tJDBCOutput_20.setObject(9,
 										delete_disks.vm_disk_id);
 							}
 
 							if (delete_disks.vm_disk_name == null) {
-								pstmt_tJDBCOutput_20.setNull(11,
+								pstmt_tJDBCOutput_20.setNull(10,
 										java.sql.Types.VARCHAR);
 							} else {
-								pstmt_tJDBCOutput_20.setString(11,
+								pstmt_tJDBCOutput_20.setString(10,
 										delete_disks.vm_disk_name);
 							}
 
 							if (delete_disks.is_shared == null) {
-								pstmt_tJDBCOutput_20.setNull(12,
+								pstmt_tJDBCOutput_20.setNull(11,
 										java.sql.Types.BOOLEAN);
 							} else {
-								pstmt_tJDBCOutput_20.setBoolean(12,
+								pstmt_tJDBCOutput_20.setBoolean(11,
 										delete_disks.is_shared);
 							}
 
@@ -60198,6 +60095,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1576863 characters generated by Talend Open Studio for Data Integration on
- * the February 27, 2017 9:23:35 AM IST
+ * 1574213 characters generated by Talend Open Studio for Data Integration on
+ * the August 23, 2017 4:53:38 PM IDT
  ************************************************************************************************/

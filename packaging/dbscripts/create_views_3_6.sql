@@ -728,7 +728,7 @@ SELECT
           ELSE 'disk ' || cast(vm_internal_drive_mapping as varchar)
     END as vm_disk_name,
     vm_disk_description as vm_disk_description,
-    image_id as image_id,
+    cast(NULL as uuid) as image_id,
     storage_domain_id as storage_domain_id,
     vm_disk_size_mb as vm_disk_size_mb,
     vm_disk_type as vm_disk_type,
@@ -750,7 +750,7 @@ SELECT
           ELSE 'disk ' || cast(vm_internal_drive_mapping as varchar)
     END as vm_disk_name,
     vm_disk_description as vm_disk_description,
-    image_id as image_id,
+    cast(NULL as uuid) as image_id,
     storage_domain_id as storage_domain_id,
     vm_disk_size_mb as vm_disk_size_mb,
     vm_disk_type as vm_disk_type,

@@ -1707,7 +1707,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_configuration">
         <mapperTableEntries name="vm_id" expression="row4.vm_id" type="id_Object"/>
@@ -2081,7 +2081,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT vm_disk_id,&#xA;        vm_disk_name,&#xA;        vm_disk_description,&#xA;        image_id,&#xA;&#x9;&#x9;storage_domain_id,&#xA;&#x9;&#x9;vm_disk_size_mb,&#xA;&#x9;&#x9;vm_disk_type,&#xA;&#x9;&#x9;vm_disk_format,&#xA;        is_shared,&#xA;&#x9;&#x9;create_date,&#xA;&#x9;&#x9;update_date &#xA;FROM dwh_vm_disk_configuration_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT vm_disk_id,&#xA;        vm_disk_name,&#xA;        vm_disk_description,&#xA;&#x9;&#x9;storage_domain_id,&#xA;&#x9;&#x9;vm_disk_size_mb,&#xA;&#x9;&#x9;vm_disk_type,&#xA;&#x9;&#x9;vm_disk_format,&#xA;        is_shared,&#xA;&#x9;&#x9;create_date,&#xA;&#x9;&#x9;update_date &#xA;FROM dwh_vm_disk_configuration_history_view&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -2096,8 +2096,6 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_name"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_description"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="image_id"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="storage_domain_id"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -2122,7 +2120,6 @@
       <column comment="" key="false" length="2147483647" name="vm_disk_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vm_disk_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="500" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="5" name="vm_disk_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -2144,7 +2141,6 @@
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="vm_disk_configuration" name="vm_disk_configuration">
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -2158,10 +2154,9 @@
       <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_configuration">
-        <mapperTableEntries name="image_id" expression="row6.image_id " type="id_Object"/>
         <mapperTableEntries name="storage_domain_id" expression="row6.storage_domain_id " type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_disk_description" expression="StringHandling.TRIM(row6.vm_disk_description)" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_disk_size_mb" expression="row6.vm_disk_size_mb" type="id_Integer" nullable="true"/>
@@ -2178,7 +2173,6 @@
         <mapperTableEntries name="vm_disk_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_disk_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_disk_description" type="id_String" nullable="true"/>
-        <mapperTableEntries name="image_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="storage_domain_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_disk_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="vm_disk_type" type="id_Short" nullable="true"/>
@@ -2211,11 +2205,6 @@
     <elementParameter field="TABLE" name="ADD_COLS"/>
     <elementParameter field="CHECK" name="USE_FIELD_OPTIONS" value="false"/>
     <elementParameter field="TABLE" name="FIELD_OPTIONS" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="image_id"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="storage_domain_id"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -2279,7 +2268,6 @@
     <elementParameter field="TEXT" name="LABEL" value="__TABLE__"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="vm_disk_configuration" name="tJDBCOutput_7">
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -2293,7 +2281,6 @@
       <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="vm_disk_configuration" name="REJECT">
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -4578,7 +4565,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#x9;history_id, &#xD;&#xA;&#x9;&#x9;vm_disk_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,&#xA;        vm_disk_name,&#xA;        vm_disk_description,&#xA;        image_id,&#xD;&#xA;&#x9;&#x9;storage_domain_id,&#xD;&#xA;&#x9;&#x9;vm_disk_size_mb,&#xD;&#xA;&#x9;&#x9;vm_disk_type, &#xD;&#xA;&#x9;&#x9;vm_disk_format,&#xA;        is_shared,&#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v4_2_latest_configuration_vms_disks&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT&#x9;history_id, &#xD;&#xA;&#x9;&#x9;vm_disk_id, &#xD;&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,&#xA;        vm_disk_name,&#xA;        vm_disk_description,&#xA;&#x9;&#x9;storage_domain_id,&#xD;&#xA;&#x9;&#x9;vm_disk_size_mb,&#xD;&#xA;&#x9;&#x9;vm_disk_type, &#xD;&#xA;&#x9;&#x9;vm_disk_format,&#xA;        is_shared,&#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v4_2_latest_configuration_vms_disks&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -4597,8 +4584,6 @@
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_name"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vm_disk_description"/>
-      <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="image_id"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="storage_domain_id"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -4625,7 +4610,6 @@
       <column comment="" key="false" length="-1" name="vm_disk_join_id" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="vm_disk_name" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="5" name="vm_disk_type" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
@@ -4682,7 +4666,6 @@
     <elementParameter field="CHECK" name="CHANGE_HASH_AND_EQUALS_FOR_BIGDECIMAL" value="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="vm_disk_configuration" name="delete_disks">
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -4696,10 +4679,9 @@
       <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_disks" activateCondensedTool="true" rejectInnerJoin="true">
-        <mapperTableEntries name="image_id" expression="row27.image_id" type="id_Object"/>
         <mapperTableEntries name="storage_domain_id" expression="row27.storage_domain_id " type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_disk_description" expression="row27.vm_disk_description" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_disk_size_mb" expression="row27.vm_disk_size_mb " type="id_Integer" nullable="true"/>
@@ -4718,7 +4700,6 @@
         <mapperTableEntries name="vm_disk_join_id" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_disk_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="vm_disk_description" type="id_String" nullable="true"/>
-        <mapperTableEntries name="image_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="storage_domain_id" type="id_Object" nullable="true"/>
         <mapperTableEntries name="vm_disk_size_mb" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="vm_disk_type" type="id_Short" nullable="true"/>
@@ -4754,11 +4735,6 @@
     <elementParameter field="TABLE" name="ADD_COLS"/>
     <elementParameter field="CHECK" name="USE_FIELD_OPTIONS" value="false"/>
     <elementParameter field="TABLE" name="FIELD_OPTIONS" show="false">
-      <elementValue elementRef="SCHEMA_COLUMN" value="image_id"/>
-      <elementValue elementRef="UPDATE_KEY" value="false"/>
-      <elementValue elementRef="DELETE_KEY" value="false"/>
-      <elementValue elementRef="UPDATABLE" value="true"/>
-      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="storage_domain_id"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -4821,7 +4797,6 @@
     <elementParameter field="TEXT" name="BATCH_SIZE" value="10000" show="false"/>
     <elementParameter field="TEXT" name="CONNECTION_FORMAT" value="row"/>
     <metadata connector="FLOW" label="vm_disk_configuration" name="tJDBCOutput_20">
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -4835,7 +4810,6 @@
       <column comment="" key="false" length="1" name="is_shared" nullable="true" pattern="" precision="0" sourceType="BOOL" type="id_Boolean" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="vm_disk_configuration" name="REJECT">
-      <column comment="" key="false" length="2147483647" name="image_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="2147483647" name="storage_domain_id" nullable="true" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
       <column comment="" key="false" length="4000" name="vm_disk_description" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_size_mb" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
