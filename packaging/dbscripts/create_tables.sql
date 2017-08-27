@@ -373,7 +373,7 @@ CREATE TABLE vm_configuration
    vm_type SMALLINT,
    cluster_id UUID NOT NULL,
    template_id UUID NOT NULL,
-   template_name VARCHAR(40),
+   template_name VARCHAR(255),
    cpu_per_socket SMALLINT,
    number_of_sockets SMALLINT,
    memory_size_mb INTEGER,
