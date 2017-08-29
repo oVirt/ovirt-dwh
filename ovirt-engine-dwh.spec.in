@@ -252,6 +252,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Aug 29 2017 Shirly Radco <sradco@redhat.com> - 4.1.6
+Fixed issues:
+- Bug 1482043 - update vm template name length
+
 * Tue Mar 21 2017 Shirly Radco <sradco@redhat.com> - 4.1.1
 Fixed issues:
 - Bug 1404812 - update dwh stop process
