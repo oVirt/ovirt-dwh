@@ -111,7 +111,12 @@ Requires:	java-openjdk-headless >= 1:1.8.0
 Requires:	jpackage-utils
 Requires:	logrotate
 Requires:	postgresql-jdbc
-Requires:	postgresql-server >= 8.4.7
+
+%if 0%{?fedora}
+Requires:	postgresql-server >= 9.5
+%else
+Requires:	rh-postgresql95-postgresql-server
+%endif
 
 %description
 The %{product_description} package provides

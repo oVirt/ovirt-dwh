@@ -128,6 +128,7 @@ class Plugin(plugin.PluginBase):
         self.environment[oenginecons.EngineDBEnv.CONNECTION] = None
         self.environment[oenginecons.EngineDBEnv.STATEMENT] = None
         self.environment[oenginecons.EngineDBEnv.NEW_DATABASE] = True
+        self.environment[oenginecons.EngineDBEnv.NEED_DBMSUPGRADE] = False
 
     @plugin.event(
         stage=plugin.Stages.STAGE_SETUP,
@@ -187,6 +188,9 @@ class Plugin(plugin.PluginBase):
                 self.environment[
                     oenginecons.EngineDBEnv.NEW_DATABASE
                 ] = dbovirtutils.isNewDatabase()
+                self.environment[
+                    oenginecons.EngineDBEnv.NEED_DBMSUPGRADE
+                ] = dbovirtutils.checkDBMSUpgrade()
             except RuntimeError as e:
                 self.logger.debug(
                     'Existing credential use failed',

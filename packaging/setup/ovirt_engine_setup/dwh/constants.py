@@ -70,6 +70,7 @@ class Const(object):
             DEK.CONNECTION: DBEnv.CONNECTION,
             DEK.PGPASSFILE: DBEnv.PGPASS_FILE,
             DEK.NEW_DATABASE: DBEnv.NEW_DATABASE,
+            DEK.NEED_DBMSUPGRADE: DBEnv.NEED_DBMSUPGRADE,
             DEK.DUMPER: DBEnv.DUMPER,
             DEK.FILTER: DBEnv.FILTER,
             DEK.RESTORE_JOBS: DBEnv.RESTORE_JOBS,
@@ -333,6 +334,7 @@ class DBEnv(object):
     STATEMENT = 'OVESETUP_DWH_DB/statement'
     PGPASS_FILE = 'OVESETUP_DWH_DB/pgPassFile'
     NEW_DATABASE = 'OVESETUP_DWH_DB/newDatabase'
+    NEED_DBMSUPGRADE = 'OVESETUP_DWH_DB/needDBMSUpgrade'
 
     @osetupattrs(
         answerfile=True,

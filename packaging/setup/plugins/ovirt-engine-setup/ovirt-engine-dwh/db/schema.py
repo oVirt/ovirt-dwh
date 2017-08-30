@@ -208,6 +208,7 @@ class Plugin(plugin.PluginBase):
         ),
         after=(
             odwhcons.Stages.DB_CONNECTION_CUSTOMIZATION,
+            oengcommcons.Stages.DB_CUST_UPGRADEDBMS_DWH,
         ),
     )
     def _customization(self):
