@@ -9,7 +9,7 @@
     <contextParameter comment="Enter the JDBC driver class for the ovirt engine history database." name="ovirtEngineHistoryDbDriverClass" prompt="Enter the JDBC driver class for the ovirt engine history database." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="org.postgresql.Driver"/>
     <contextParameter comment="Enter the ovirt engine history admin user's password." name="ovirtEngineHistoryDbPassword" prompt="Enter the ovirt engine history admin user's password." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Password" value=""/>
     <contextParameter comment="Enter the ovirt engine history admin database user." name="ovirtEngineHistoryDbUser" prompt="Enter the ovirt engine history admin database user." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="postgres"/>
-    <contextParameter comment="Enter the run interleave in seconds" name="runInterleave" prompt="Enter the run interleave in seconds?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="20"/>
+    <contextParameter comment="Enter the run interleave in seconds" name="runInterleave" prompt="Enter the run interleave in seconds?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="60"/>
     <contextParameter comment="Start run time." name="runTime" prompt="runTime?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Date" value="yyyy-MM-dd HH:mm:ss.SSSSSS;2011-07-03 12:46:47.000000"/>
   </context>
   <parameters>
@@ -182,7 +182,7 @@
       <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="storage_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -433,7 +433,7 @@
       <column comment="" key="false" length="4" name="host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="host_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -996,7 +996,7 @@
       <column comment="" key="false" length="2147483647" name="disks_usage" nullable="true" pattern="" precision="0" sourceType="TEXT" type="id_String" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -1687,7 +1687,7 @@
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -2784,7 +2784,7 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
   </subjob>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPrejob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>

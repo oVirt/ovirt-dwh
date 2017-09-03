@@ -17,7 +17,7 @@
     <contextParameter comment="Enter the ovirt engine history JDBC connection URL." name="ovirtEngineHistoryDbJdbcConnection" prompt="Enter the ovirt engine history JDBC connection URL." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="jdbc:postgresql://localhost:5432/ovirt_engine_history?stringtype=unspecified"/>
     <contextParameter comment="Enter the ovirt engine history admin user's password." name="ovirtEngineHistoryDbPassword" prompt="Enter the ovirt engine history admin user's password." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Password" value=""/>
     <contextParameter comment="Enter the ovirt engine history admin database user." name="ovirtEngineHistoryDbUser" prompt="Enter the ovirt engine history admin database user." promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_String" value="postgres"/>
-    <contextParameter comment="Enter the run interleave in seconds" name="runInterleave" prompt="Enter the run interleave in seconds?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="20"/>
+    <contextParameter comment="Enter the run interleave in seconds" name="runInterleave" prompt="Enter the run interleave in seconds?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="60"/>
     <contextParameter comment="Start run time." name="runTime" prompt="runTime?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Date" value="yyyy-MM-dd HH:mm:ss.SSSSSS;2011-07-03 12:46:47.000000"/>
     <contextParameter comment="Enter the amout of to wait between sending error events to audit log" name="timeBetweenErrorEvents" prompt="timeBetweenErrorEvents?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Long" value="300000"/>
     <contextParameter comment="" name="timesFailed" prompt="timesFailed?" promptNeeded="false" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Integer" value="0"/>
@@ -499,7 +499,7 @@
       <column comment="" key="false" length="-1" name="var_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="0" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="event_output">
         <mapperTableEntries name="log_time" expression="row5.moment " type="id_Date"/>
@@ -1433,7 +1433,7 @@
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="220;220;250"/>
   </subjob>
   <subjob>
-    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true" show="false"/>
+    <elementParameter field="CHECK" name="SHOW_SUBJOB_TITLE" value="true"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="tPostjob_1" show="false"/>
     <elementParameter field="COLOR" name="SUBJOB_TITLE_COLOR" value="230;100;0"/>
     <elementParameter field="COLOR" name="SUBJOB_COLOR" value="255;220;180"/>

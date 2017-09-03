@@ -9,7 +9,7 @@
   <contextParameter comment="Enter the JDBC driver class for the ovirt engine history database." name="ovirtEngineHistoryDbDriverClass" prompt="Enter the JDBC driver class for the ovirt engine history database." promptNeeded="true" type="id_String" value="org.postgresql.Driver"/>
   <contextParameter comment="Enter the ovirt engine history admin user's password." name="ovirtEngineHistoryDbPassword" prompt="Enter the ovirt engine history admin user's password." promptNeeded="true" type="id_Password" value=""/>
   <contextParameter comment="Start run time." name="runTime" prompt="runTime?" promptNeeded="true" type="id_Date" value="yyyy-MM-dd HH:mm:ss.SSSSSS;2011-07-03 12:46:47.000000"/>
-  <contextParameter comment="Enter the run interleave in seconds" name="runInterleave" prompt="Enter the run interleave in seconds?" promptNeeded="true" type="id_Integer" value="20"/>
+  <contextParameter comment="Enter the run interleave in seconds" name="runInterleave" prompt="Enter the run interleave in seconds?" promptNeeded="true" type="id_Integer" value="60"/>
   <contextParameter comment="Enter the amout of hour to keep Hourly level records." name="hoursToKeepHourly" prompt="How many hours to keep of hourly data?" promptNeeded="true" type="id_Integer" value="1440"/>
   <contextParameter comment="Enter the amout of hour to keep Daily level records." name="hoursToKeepDaily" prompt="How many hours to keep of daily data?" promptNeeded="true" type="id_Integer" value="43800"/>
   <contextParameter comment="Enter the amout of hour to keep Samples level records." name="hoursToKeepSamples" prompt="How many hours to keep of samples data?" promptNeeded="true" type="id_Integer" value="24"/>
