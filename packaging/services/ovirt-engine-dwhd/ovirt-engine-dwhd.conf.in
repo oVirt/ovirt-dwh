@@ -110,7 +110,7 @@ ENGINE_DB_URL="jdbc:postgresql://${ENGINE_DB_HOST}:${ENGINE_DB_PORT}/${ENGINE_DB
 
 
 # Samples Collection Interleave in Seconds
-DWH_SAMPLING=20
+DWH_SAMPLING=60
 
 # Table Sizes Control in Hours
 DWH_TABLES_KEEP_SAMPLES=24
