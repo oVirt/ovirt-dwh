@@ -135,6 +135,11 @@ Group:		Virtualization/Management
 Requires:	ovirt-engine-setup-plugin-ovirt-engine-common
 Requires:	ovirt-setup-lib
 Requires:	%{name} >= 3.6.0
+%if 0%{?fedora}
+Requires:       postgresql-server >= 9.5
+%else
+Requires:       rh-postgresql95-postgresql-server
+%endif
 BuildRequires:	python
 
 %description setup
