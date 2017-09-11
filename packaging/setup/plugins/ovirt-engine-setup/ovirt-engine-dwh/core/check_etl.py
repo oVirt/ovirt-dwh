@@ -102,7 +102,7 @@ class Plugin(plugin.PluginBase):
         if not (
             (int(odwhcons.Const.VERSION_MAJOR) == int(minMajor)) and
             (int(odwhcons.Const.VERSION_MINOR) == int(minMinor)) and
-            (int(odwhcons.Const.VERSION_PATCH_LEVEL) >= int(minPatchLevel))
+            (float(odwhcons.Const.VERSION_PATCH_LEVEL) >= int(minPatchLevel))
         ):
             raise RuntimeError(
                 _(
