@@ -252,7 +252,7 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
-* Tue Sep 05 2017 Shirly Radco <sradco@redhat.com> - 4.1.6.1
+* Tue Sep 12 2017 Shirly Radco <sradco@redhat.com> - 4.1.7
 Fixed issues:
 - Bug 1478859 - update etl sampling interval to 60s
 
