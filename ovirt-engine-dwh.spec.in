@@ -132,7 +132,7 @@ Requires(postun):	systemd
 %package setup
 Summary:	%{product_name} setup
 Group:		Virtualization/Management
-Requires:	ovirt-engine-setup-plugin-ovirt-engine-common
+Requires:	ovirt-engine-setup-plugin-ovirt-engine-common >= 4.2.0
 Requires:	ovirt-setup-lib
 Requires:	%{name} >= 3.6.0
 %if 0%{?fedora}
