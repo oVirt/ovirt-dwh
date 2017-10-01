@@ -16,15 +16,15 @@
 
 package ovirt_engine_dwh.hourlytimekeepingjob_4_1;
 
-import routines.Mathematical;
+import routines.Numeric;
 import routines.DataOperation;
+import routines.TalendDataGenerator;
+import routines.TalendString;
+import routines.RoutineHistoryETL;
+import routines.StringHandling;
 import routines.Relational;
 import routines.TalendDate;
-import routines.TalendDataGenerator;
-import routines.RoutineHistoryETL;
-import routines.Numeric;
-import routines.TalendString;
-import routines.StringHandling;
+import routines.Mathematical;
 import routines.system.*;
 import routines.system.api.*;
 import java.text.ParseException;
@@ -181,6 +181,26 @@ public class HourlyTimeKeepingJob implements TalendJob {
 
 			}
 
+			if (lastHourAggr != null) {
+
+				String pattern_lastHourAggr = "yyyy-MM-dd HH:mm:ss";
+				String value_lastHourAggr = "yyyy-MM-dd HH:mm:ss;2000-01-01 00:00:00";
+				String[] parts_lastHourAggr = value_lastHourAggr.split(";");
+				if (parts_lastHourAggr.length > 1) {
+					pattern_lastHourAggr = parts_lastHourAggr[0];
+					this.setProperty(
+							"lastHourAggr",
+							pattern_lastHourAggr
+									+ ";"
+									+ FormatterUtils.format_Date(lastHourAggr,
+											pattern_lastHourAggr));
+				} else {
+					this.setProperty("lastHourAggr", FormatterUtils
+							.format_Date(lastHourAggr, pattern_lastHourAggr));
+				}
+
+			}
+
 		}
 
 		public Integer continueAgg;
@@ -247,6 +267,12 @@ public class HourlyTimeKeepingJob implements TalendJob {
 
 		public java.util.Date getRunTime() {
 			return this.runTime;
+		}
+
+		public java.util.Date lastHourAggr;
+
+		public java.util.Date getLastHourAggr() {
+			return this.lastHourAggr;
 		}
 	}
 
@@ -506,6 +532,28 @@ public class HourlyTimeKeepingJob implements TalendJob {
 		tJDBCInput_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tJDBCInput_4_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCInput_4_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tContextLoad_4_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCInput_4_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tRunJob_1_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -619,6 +667,17 @@ public class HourlyTimeKeepingJob implements TalendJob {
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
 		tJDBCInput_2_onSubJobError(exception, errorComponent, globalMap);
+	}
+
+	public void tWarn_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tWarn_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tLogCatcher_1_error(Exception exception, String errorComponent,
@@ -783,6 +842,17 @@ public class HourlyTimeKeepingJob implements TalendJob {
 
 	}
 
+	public void tJDBCInput_4_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
 	public void tRunJob_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -883,6 +953,17 @@ public class HourlyTimeKeepingJob implements TalendJob {
 	}
 
 	public void tJDBCInput_2_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tWarn_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1409,6 +1490,27 @@ public class HourlyTimeKeepingJob implements TalendJob {
 									}
 									context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
 											context_runTime_pattern)
+											.parse(value_tContextLoad_3));
+
+								}
+
+								if (key_tContextLoad_3 != null
+										&& "lastHourAggr"
+												.equals(key_tContextLoad_3)) {
+									String context_lastHourAggr_value = context
+											.getProperty("lastHourAggr");
+									if (context_lastHourAggr_value == null)
+										context_lastHourAggr_value = "";
+									int context_lastHourAggr_pos = context_lastHourAggr_value
+											.indexOf(";");
+									String context_lastHourAggr_pattern = "yyyy-MM-dd HH:mm:ss";
+									if (context_lastHourAggr_pos > -1) {
+										context_lastHourAggr_pattern = context_lastHourAggr_value
+												.substring(0,
+														context_lastHourAggr_pos);
+									}
+									context.lastHourAggr = (java.util.Date) (new java.text.SimpleDateFormat(
+											context_lastHourAggr_pattern)
 											.parse(value_tContextLoad_3));
 
 								}
@@ -2339,6 +2441,27 @@ public class HourlyTimeKeepingJob implements TalendJob {
 
 								}
 
+								if (key_tContextLoad_1 != null
+										&& "lastHourAggr"
+												.equals(key_tContextLoad_1)) {
+									String context_lastHourAggr_value = context
+											.getProperty("lastHourAggr");
+									if (context_lastHourAggr_value == null)
+										context_lastHourAggr_value = "";
+									int context_lastHourAggr_pos = context_lastHourAggr_value
+											.indexOf(";");
+									String context_lastHourAggr_pattern = "yyyy-MM-dd HH:mm:ss";
+									if (context_lastHourAggr_pos > -1) {
+										context_lastHourAggr_pattern = context_lastHourAggr_value
+												.substring(0,
+														context_lastHourAggr_pos);
+									}
+									context.lastHourAggr = (java.util.Date) (new java.text.SimpleDateFormat(
+											context_lastHourAggr_pattern)
+											.parse(value_tContextLoad_1));
+
+								}
+
 								if (context.getProperty(key_tContextLoad_1) != null) {
 									assignList_tContextLoad_1
 											.add(key_tContextLoad_1);
@@ -2457,7 +2580,7 @@ public class HourlyTimeKeepingJob implements TalendJob {
 								"", "", "", "");
 			}
 
-			tRunJob_1Process(globalMap);
+			tJDBCInput_4Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -2501,6 +2624,553 @@ public class HourlyTimeKeepingJob implements TalendJob {
 		}
 
 		globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", 1);
+	}
+
+	public static class row11Struct implements
+			routines.system.IPersistableRow<row11Struct> {
+		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_HourlyTimeKeepingJob = new byte[0];
+		static byte[] commonByteArray_OVIRT_ENGINE_DWH_HourlyTimeKeepingJob = new byte[0];
+
+		public String key;
+
+		public String getKey() {
+			return this.key;
+		}
+
+		public String value;
+
+		public String getValue() {
+			return this.value;
+		}
+
+		private String readString(ObjectInputStream dis) throws IOException {
+			String strReturn = null;
+			int length = 0;
+			length = dis.readInt();
+			if (length == -1) {
+				strReturn = null;
+			} else {
+				if (length > commonByteArray_OVIRT_ENGINE_DWH_HourlyTimeKeepingJob.length) {
+					if (length < 1024
+							&& commonByteArray_OVIRT_ENGINE_DWH_HourlyTimeKeepingJob.length == 0) {
+						commonByteArray_OVIRT_ENGINE_DWH_HourlyTimeKeepingJob = new byte[1024];
+					} else {
+						commonByteArray_OVIRT_ENGINE_DWH_HourlyTimeKeepingJob = new byte[2 * length];
+					}
+				}
+				dis.readFully(
+						commonByteArray_OVIRT_ENGINE_DWH_HourlyTimeKeepingJob,
+						0, length);
+				strReturn = new String(
+						commonByteArray_OVIRT_ENGINE_DWH_HourlyTimeKeepingJob,
+						0, length, utf8Charset);
+			}
+			return strReturn;
+		}
+
+		private void writeString(String str, ObjectOutputStream dos)
+				throws IOException {
+			if (str == null) {
+				dos.writeInt(-1);
+			} else {
+				byte[] byteArray = str.getBytes(utf8Charset);
+				dos.writeInt(byteArray.length);
+				dos.write(byteArray);
+			}
+		}
+
+		public void readData(ObjectInputStream dis) {
+
+			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_HourlyTimeKeepingJob) {
+
+				try {
+
+					int length = 0;
+
+					this.key = readString(dis);
+
+					this.value = readString(dis);
+
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+
+				}
+
+			}
+
+		}
+
+		public void writeData(ObjectOutputStream dos) {
+			try {
+
+				// String
+
+				writeString(this.key, dos);
+
+				// String
+
+				writeString(this.value, dos);
+
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
+
+		public String toString() {
+
+			StringBuilder sb = new StringBuilder();
+			sb.append(super.toString());
+			sb.append("[");
+			sb.append("key=" + key);
+			sb.append(",value=" + value);
+			sb.append("]");
+
+			return sb.toString();
+		}
+
+		/**
+		 * Compare keys
+		 */
+		public int compareTo(row11Struct other) {
+
+			int returnValue = -1;
+
+			return returnValue;
+		}
+
+		private int checkNullsAndCompare(Object object1, Object object2) {
+			int returnValue = 0;
+			if (object1 instanceof Comparable && object2 instanceof Comparable) {
+				returnValue = ((Comparable) object1).compareTo(object2);
+			} else if (object1 != null && object2 != null) {
+				returnValue = compareStrings(object1.toString(),
+						object2.toString());
+			} else if (object1 == null && object2 != null) {
+				returnValue = 1;
+			} else if (object1 != null && object2 == null) {
+				returnValue = -1;
+			} else {
+				returnValue = 0;
+			}
+
+			return returnValue;
+		}
+
+		private int compareStrings(String string1, String string2) {
+			return string1.compareTo(string2);
+		}
+
+	}
+
+	public void tJDBCInput_4Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				row11Struct row11 = new row11Struct();
+
+				/**
+				 * [tContextLoad_4 begin ] start
+				 */
+
+				ok_Hash.put("tContextLoad_4", false);
+				start_Hash.put("tContextLoad_4", System.currentTimeMillis());
+
+				currentComponent = "tContextLoad_4";
+
+				int tos_count_tContextLoad_4 = 0;
+
+				java.util.List<String> assignList_tContextLoad_4 = new java.util.ArrayList<String>();
+				java.util.List<String> newPropertyList_tContextLoad_4 = new java.util.ArrayList<String>();
+				java.util.List<String> noAssignList_tContextLoad_4 = new java.util.ArrayList<String>();
+				int nb_line_tContextLoad_4 = 0;
+
+				/**
+				 * [tContextLoad_4 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCInput_4 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCInput_4", false);
+				start_Hash.put("tJDBCInput_4", System.currentTimeMillis());
+
+				currentComponent = "tJDBCInput_4";
+
+				int tos_count_tJDBCInput_4 = 0;
+
+				int nb_line_tJDBCInput_4 = 0;
+				java.sql.Connection conn_tJDBCInput_4 = null;
+				conn_tJDBCInput_4 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				java.sql.Statement stmt_tJDBCInput_4 = conn_tJDBCInput_4
+						.createStatement();
+
+				String dbquery_tJDBCInput_4 = "\nSELECT DISTINCT var_name, var_datetime\nFROM history_configuration\nWHERE var_name = 'lastHourAggr'\n";
+
+				globalMap.put("tJDBCInput_4_QUERY", dbquery_tJDBCInput_4);
+
+				java.sql.ResultSet rs_tJDBCInput_4 = null;
+				try {
+					rs_tJDBCInput_4 = stmt_tJDBCInput_4
+							.executeQuery(dbquery_tJDBCInput_4);
+					java.sql.ResultSetMetaData rsmd_tJDBCInput_4 = rs_tJDBCInput_4
+							.getMetaData();
+					int colQtyInRs_tJDBCInput_4 = rsmd_tJDBCInput_4
+							.getColumnCount();
+
+					String tmpContent_tJDBCInput_4 = null;
+
+					while (rs_tJDBCInput_4.next()) {
+						nb_line_tJDBCInput_4++;
+
+						if (colQtyInRs_tJDBCInput_4 < 1) {
+							row11.key = null;
+						} else {
+
+							row11.key = routines.system.JDBCUtil.getString(
+									rs_tJDBCInput_4, 1, false);
+						}
+						if (colQtyInRs_tJDBCInput_4 < 2) {
+							row11.value = null;
+						} else {
+
+							row11.value = routines.system.JDBCUtil.getString(
+									rs_tJDBCInput_4, 2, false);
+						}
+
+						/**
+						 * [tJDBCInput_4 begin ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_4 main ] start
+						 */
+
+						currentComponent = "tJDBCInput_4";
+
+						tos_count_tJDBCInput_4++;
+
+						/**
+						 * [tJDBCInput_4 main ] stop
+						 */
+
+						/**
+						 * [tContextLoad_4 main ] start
+						 */
+
+						currentComponent = "tContextLoad_4";
+
+						// ////////////////////////
+						String tmp_key_tContextLoad_4 = null;
+						String key_tContextLoad_4 = null;
+						if (row11.key != null) {
+							tmp_key_tContextLoad_4 = row11.key.trim();
+							if ((tmp_key_tContextLoad_4.startsWith("#") || tmp_key_tContextLoad_4
+									.startsWith("!"))) {
+								tmp_key_tContextLoad_4 = null;
+							} else {
+								row11.key = tmp_key_tContextLoad_4;
+							}
+						}
+						if (row11.key != null) {
+							key_tContextLoad_4 = row11.key;
+						}
+						String value_tContextLoad_4 = null;
+						if (row11.value != null) {
+							value_tContextLoad_4 = row11.value;
+						}
+
+						if (tmp_key_tContextLoad_4 != null) {
+							try {
+								if (key_tContextLoad_4 != null
+										&& "continueAgg"
+												.equals(key_tContextLoad_4)) {
+
+									context.continueAgg = Integer
+											.parseInt(value_tContextLoad_4);
+
+								}
+
+								if (key_tContextLoad_4 != null
+										&& "dwhAggregationDebug"
+												.equals(key_tContextLoad_4)) {
+									context.dwhAggregationDebug = value_tContextLoad_4;
+								}
+
+								if (key_tContextLoad_4 != null
+										&& "ovirtEngineDbDriverClass"
+												.equals(key_tContextLoad_4)) {
+									context.ovirtEngineDbDriverClass = value_tContextLoad_4;
+								}
+
+								if (key_tContextLoad_4 != null
+										&& "ovirtEngineDbJdbcConnection"
+												.equals(key_tContextLoad_4)) {
+									context.ovirtEngineDbJdbcConnection = value_tContextLoad_4;
+								}
+
+								if (key_tContextLoad_4 != null
+										&& "ovirtEngineDbPassword"
+												.equals(key_tContextLoad_4)) {
+									context.ovirtEngineDbPassword = value_tContextLoad_4;
+								}
+
+								if (key_tContextLoad_4 != null
+										&& "ovirtEngineDbUser"
+												.equals(key_tContextLoad_4)) {
+									context.ovirtEngineDbUser = value_tContextLoad_4;
+								}
+
+								if (key_tContextLoad_4 != null
+										&& "ovirtEngineHistoryDbDriverClass"
+												.equals(key_tContextLoad_4)) {
+									context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_4;
+								}
+
+								if (key_tContextLoad_4 != null
+										&& "ovirtEngineHistoryDbJdbcConnection"
+												.equals(key_tContextLoad_4)) {
+									context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_4;
+								}
+
+								if (key_tContextLoad_4 != null
+										&& "ovirtEngineHistoryDbPassword"
+												.equals(key_tContextLoad_4)) {
+									context.ovirtEngineHistoryDbPassword = value_tContextLoad_4;
+								}
+
+								if (key_tContextLoad_4 != null
+										&& "ovirtEngineHistoryDbUser"
+												.equals(key_tContextLoad_4)) {
+									context.ovirtEngineHistoryDbUser = value_tContextLoad_4;
+								}
+
+								if (key_tContextLoad_4 != null
+										&& "runTime".equals(key_tContextLoad_4)) {
+									String context_runTime_value = context
+											.getProperty("runTime");
+									if (context_runTime_value == null)
+										context_runTime_value = "";
+									int context_runTime_pos = context_runTime_value
+											.indexOf(";");
+									String context_runTime_pattern = "yyyy-MM-dd HH:mm:ss";
+									if (context_runTime_pos > -1) {
+										context_runTime_pattern = context_runTime_value
+												.substring(0,
+														context_runTime_pos);
+									}
+									context.runTime = (java.util.Date) (new java.text.SimpleDateFormat(
+											context_runTime_pattern)
+											.parse(value_tContextLoad_4));
+
+								}
+
+								if (key_tContextLoad_4 != null
+										&& "lastHourAggr"
+												.equals(key_tContextLoad_4)) {
+									String context_lastHourAggr_value = context
+											.getProperty("lastHourAggr");
+									if (context_lastHourAggr_value == null)
+										context_lastHourAggr_value = "";
+									int context_lastHourAggr_pos = context_lastHourAggr_value
+											.indexOf(";");
+									String context_lastHourAggr_pattern = "yyyy-MM-dd HH:mm:ss";
+									if (context_lastHourAggr_pos > -1) {
+										context_lastHourAggr_pattern = context_lastHourAggr_value
+												.substring(0,
+														context_lastHourAggr_pos);
+									}
+									context.lastHourAggr = (java.util.Date) (new java.text.SimpleDateFormat(
+											context_lastHourAggr_pattern)
+											.parse(value_tContextLoad_4));
+
+								}
+
+								if (context.getProperty(key_tContextLoad_4) != null) {
+									assignList_tContextLoad_4
+											.add(key_tContextLoad_4);
+								} else {
+									newPropertyList_tContextLoad_4
+											.add(key_tContextLoad_4);
+								}
+								if (value_tContextLoad_4 == null) {
+									context.setProperty(key_tContextLoad_4, "");
+								} else {
+									context.setProperty(key_tContextLoad_4,
+											value_tContextLoad_4);
+								}
+							} catch (java.lang.Exception e) {
+								System.err
+										.println("Setting a value for the key \""
+												+ key_tContextLoad_4
+												+ "\" has failed. Error message: "
+												+ e.getMessage());
+							}
+							nb_line_tContextLoad_4++;
+						}
+						// ////////////////////////
+
+						tos_count_tContextLoad_4++;
+
+						/**
+						 * [tContextLoad_4 main ] stop
+						 */
+
+						/**
+						 * [tJDBCInput_4 end ] start
+						 */
+
+						currentComponent = "tJDBCInput_4";
+
+					}
+				} finally {
+					if (rs_tJDBCInput_4 != null) {
+						rs_tJDBCInput_4.close();
+					}
+					stmt_tJDBCInput_4.close();
+
+				}
+				globalMap.put("tJDBCInput_4_NB_LINE", nb_line_tJDBCInput_4);
+
+				ok_Hash.put("tJDBCInput_4", true);
+				end_Hash.put("tJDBCInput_4", System.currentTimeMillis());
+
+				if (TalendDate.diffDate(context.runTime, context.lastHourAggr,
+						"HH") >= 2) {
+
+					tRunJob_1Process(globalMap);
+				}
+
+				if (TalendDate.diffDate(context.runTime, context.lastHourAggr,
+						"HH") < 2) {
+
+					tWarn_1Process(globalMap);
+				}
+
+				/**
+				 * [tJDBCInput_4 end ] stop
+				 */
+
+				/**
+				 * [tContextLoad_4 end ] start
+				 */
+
+				currentComponent = "tContextLoad_4";
+
+				java.util.Enumeration<?> enu_tContextLoad_4 = context
+						.propertyNames();
+				while (enu_tContextLoad_4.hasMoreElements()) {
+					String key_tContextLoad_4 = (String) enu_tContextLoad_4
+							.nextElement();
+					if (!assignList_tContextLoad_4.contains(key_tContextLoad_4)
+							&& !newPropertyList_tContextLoad_4
+									.contains(key_tContextLoad_4)) {
+						noAssignList_tContextLoad_4.add(key_tContextLoad_4);
+					}
+				}
+
+				String newPropertyStr_tContextLoad_4 = newPropertyList_tContextLoad_4
+						.toString();
+				String newProperty_tContextLoad_4 = newPropertyStr_tContextLoad_4
+						.substring(1,
+								newPropertyStr_tContextLoad_4.length() - 1);
+
+				String noAssignStr_tContextLoad_4 = noAssignList_tContextLoad_4
+						.toString();
+				String noAssign_tContextLoad_4 = noAssignStr_tContextLoad_4
+						.substring(1, noAssignStr_tContextLoad_4.length() - 1);
+
+				globalMap.put("tContextLoad_4_KEY_NOT_INCONTEXT",
+						newProperty_tContextLoad_4);
+				globalMap.put("tContextLoad_4_KEY_NOT_LOADED",
+						noAssign_tContextLoad_4);
+
+				globalMap.put("tContextLoad_4_NB_LINE", nb_line_tContextLoad_4);
+
+				List<String> parametersToEncrypt_tContextLoad_4 = new java.util.ArrayList<String>();
+
+				parametersToEncrypt_tContextLoad_4.add("ovirtEngineDbPassword");
+
+				parametersToEncrypt_tContextLoad_4
+						.add("ovirtEngineHistoryDbPassword");
+
+				resumeUtil.addLog("NODE", "NODE:tContextLoad_4", "", Thread
+						.currentThread().getId() + "", "", "", "", "",
+						resumeUtil.convertToJsonText(context,
+								parametersToEncrypt_tContextLoad_4));
+
+				ok_Hash.put("tContextLoad_4", true);
+				end_Hash.put("tContextLoad_4", System.currentTimeMillis());
+
+				/**
+				 * [tContextLoad_4 end ] stop
+				 */
+
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCInput_4 finally ] start
+				 */
+
+				currentComponent = "tJDBCInput_4";
+
+				/**
+				 * [tJDBCInput_4 finally ] stop
+				 */
+
+				/**
+				 * [tContextLoad_4 finally ] start
+				 */
+
+				currentComponent = "tContextLoad_4";
+
+				/**
+				 * [tContextLoad_4 finally ] stop
+				 */
+
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCInput_4_SUBPROCESS_STATE", 1);
 	}
 
 	public void tRunJob_1Process(final java.util.Map<String, Object> globalMap)
@@ -2624,6 +3294,9 @@ public class HourlyTimeKeepingJob implements TalendJob {
 						context.ovirtEngineHistoryDbUser);
 
 				parentContextMap_tRunJob_1.put("runTime", context.runTime);
+
+				parentContextMap_tRunJob_1.put("lastHourAggr",
+						context.lastHourAggr);
 
 				Object obj_tRunJob_1 = null;
 
@@ -4534,6 +5207,27 @@ public class HourlyTimeKeepingJob implements TalendJob {
 
 								}
 
+								if (key_tContextLoad_2 != null
+										&& "lastHourAggr"
+												.equals(key_tContextLoad_2)) {
+									String context_lastHourAggr_value = context
+											.getProperty("lastHourAggr");
+									if (context_lastHourAggr_value == null)
+										context_lastHourAggr_value = "";
+									int context_lastHourAggr_pos = context_lastHourAggr_value
+											.indexOf(";");
+									String context_lastHourAggr_pattern = "yyyy-MM-dd HH:mm:ss";
+									if (context_lastHourAggr_pos > -1) {
+										context_lastHourAggr_pattern = context_lastHourAggr_value
+												.substring(0,
+														context_lastHourAggr_pos);
+									}
+									context.lastHourAggr = (java.util.Date) (new java.text.SimpleDateFormat(
+											context_lastHourAggr_pattern)
+											.parse(value_tContextLoad_2));
+
+								}
+
 								if (context.getProperty(key_tContextLoad_2) != null) {
 									assignList_tContextLoad_2
 											.add(key_tContextLoad_2);
@@ -4686,6 +5380,152 @@ public class HourlyTimeKeepingJob implements TalendJob {
 		}
 
 		globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", 1);
+	}
+
+	public void tWarn_1Process(final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tWarn_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tWarn_1 begin ] start
+				 */
+
+				ok_Hash.put("tWarn_1", false);
+				start_Hash.put("tWarn_1", System.currentTimeMillis());
+
+				currentComponent = "tWarn_1";
+
+				int tos_count_tWarn_1 = 0;
+
+				/**
+				 * [tWarn_1 begin ] stop
+				 */
+
+				/**
+				 * [tWarn_1 main ] start
+				 */
+
+				currentComponent = "tWarn_1";
+
+				resumeUtil
+						.addLog("USER_DEF_LOG",
+								"NODE:tWarn_1",
+								"",
+								Thread.currentThread().getId() + "",
+								"WARN",
+								"",
+								TalendDate.getDate("YYYY-MM-DD hh:mm:ss")
+										+ "| ETL service aggregation to hourly tables has encountered an error. lastHourAgg value ="
+										+ context.lastHourAggr
+										+ " and runTime = "
+										+ context.runTime
+										+ " .Please consult the service log for more details.",
+								"", "");
+				tLogCatcher_1
+						.addMessage(
+								"tWarn",
+								"tWarn_1",
+								4,
+								TalendDate.getDate("YYYY-MM-DD hh:mm:ss")
+										+ "| ETL service aggregation to hourly tables has encountered an error. lastHourAgg value ="
+										+ context.lastHourAggr
+										+ " and runTime = "
+										+ context.runTime
+										+ " .Please consult the service log for more details.",
+								42);
+				tLogCatcher_1Process(globalMap);
+				talendLogs_LOGS
+						.addMessage(
+								"tWarn",
+								"tWarn_1",
+								4,
+								TalendDate.getDate("YYYY-MM-DD hh:mm:ss")
+										+ "| ETL service aggregation to hourly tables has encountered an error. lastHourAgg value ="
+										+ context.lastHourAggr
+										+ " and runTime = "
+										+ context.runTime
+										+ " .Please consult the service log for more details.",
+								42);
+				talendLogs_LOGSProcess(globalMap);
+				globalMap
+						.put("tWarn_1_WARN_MESSAGES",
+								TalendDate.getDate("YYYY-MM-DD hh:mm:ss")
+										+ "| ETL service aggregation to hourly tables has encountered an error. lastHourAgg value ="
+										+ context.lastHourAggr
+										+ " and runTime = "
+										+ context.runTime
+										+ " .Please consult the service log for more details.");
+				globalMap.put("tWarn_1_WARN_PRIORITY", 4);
+				globalMap.put("tWarn_1_WARN_CODE", 42);
+
+				tos_count_tWarn_1++;
+
+				/**
+				 * [tWarn_1 main ] stop
+				 */
+
+				/**
+				 * [tWarn_1 end ] start
+				 */
+
+				currentComponent = "tWarn_1";
+
+				ok_Hash.put("tWarn_1", true);
+				end_Hash.put("tWarn_1", System.currentTimeMillis());
+
+				/**
+				 * [tWarn_1 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tWarn_1 finally ] start
+				 */
+
+				currentComponent = "tWarn_1";
+
+				/**
+				 * [tWarn_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tWarn_1_SUBPROCESS_STATE", 1);
 	}
 
 	public static class event_outputStruct implements
@@ -8051,6 +8891,29 @@ public class HourlyTimeKeepingJob implements TalendJob {
 			} catch (ParseException e) {
 				context.runTime = null;
 			}
+			try {
+				String context_lastHourAggr_value = context
+						.getProperty("lastHourAggr");
+				if (context_lastHourAggr_value == null) {
+					context_lastHourAggr_value = "";
+				}
+				int context_lastHourAggr_pos = context_lastHourAggr_value
+						.indexOf(";");
+				String context_lastHourAggr_pattern = "yyyy-MM-dd HH:mm:ss";
+				if (context_lastHourAggr_pos > -1) {
+					context_lastHourAggr_pattern = context_lastHourAggr_value
+							.substring(0, context_lastHourAggr_pos);
+					context_lastHourAggr_value = context_lastHourAggr_value
+							.substring(context_lastHourAggr_pos + 1);
+				}
+
+				context.lastHourAggr = (java.util.Date) (new java.text.SimpleDateFormat(
+						context_lastHourAggr_pattern)
+						.parse(context_lastHourAggr_value));
+
+			} catch (ParseException e) {
+				context.lastHourAggr = null;
+			}
 		} catch (java.io.IOException ie) {
 			System.err.println("Could not load context " + contextStr);
 			ie.printStackTrace();
@@ -8102,6 +8965,10 @@ public class HourlyTimeKeepingJob implements TalendJob {
 			if (parentContextMap.containsKey("runTime")) {
 				context.runTime = (java.util.Date) parentContextMap
 						.get("runTime");
+			}
+			if (parentContextMap.containsKey("lastHourAggr")) {
+				context.lastHourAggr = (java.util.Date) parentContextMap
+						.get("lastHourAggr");
 			}
 		}
 
@@ -8372,6 +9239,6 @@ public class HourlyTimeKeepingJob implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 215946 characters generated by Talend Open Studio for Data Integration on the
- * April 13, 2016 10:29:28 AM IDT
+ * 240056 characters generated by Talend Open Studio for Data Integration on the
+ * October 1, 2017 12:00:47 PM IDT
  ************************************************************************************************/
