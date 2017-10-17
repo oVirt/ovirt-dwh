@@ -252,6 +252,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Oct 17 2017 Shirly Radco <sradco@redhat.com> - 4.1.8
+Fixed issues:
+- Bug 1465825 - history: validate lastHourAgg value
+
 * Tue Sep 12 2017 Shirly Radco <sradco@redhat.com> - 4.1.7
 Fixed issues:
 - Bug 1478859 - update etl sampling interval to 60s
