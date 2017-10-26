@@ -266,6 +266,19 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Thu Oct 26 2017 Shirly Radco <sradco@redhat.com> - 4.2.0
+Fixed issues:
+- Bug 1167903 - setup: Add dwh-packages to versionlock filter
+- Bug 1482043 - update vm template name length
+- Bug 1432916 - remove image_id collection
+- Bug 1478859 - update etl sampling interval to 60s
+- Bug 80795 - postgres95: enable postgres95 migration support
+- Bug 81476, 1459134 - postgres95: require postgres-server upgrade from setup
+- Bug 1490272 - Fix minimal ETL version check for a float patch level
+- Bug 1490272 - fix minimal version check
+- Bug 1492065 - spec: Require new engine-common setup plugin
+- Bug 1465825 - validate lastHourAgg value
+
 * Thu Jul 27 2017 Shirly Radco <sradco@redhat.com> - 4.2.0
 Fixed issues:
 - Bug 1371111 - history: heartbeat error message interval
