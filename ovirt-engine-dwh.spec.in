@@ -266,6 +266,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed Nov 29 2017 Shirly Radco <sradco@redhat.com> - 4.2.1
+Fixed issues:
+- Bug 1474570 - Revert "packaging: setup: Configure scale only on new database"
+
 * Thu Oct 26 2017 Shirly Radco <sradco@redhat.com> - 4.2.0
 Fixed issues:
 - Bug 1167903 - setup: Add dwh-packages to versionlock filter
