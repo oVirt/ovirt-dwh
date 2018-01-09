@@ -252,6 +252,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Jan 9 2018 Shirly Radco <sradco@redhat.com> - 4.1.9
+Fixed issues:
+- Bug 1474570 - Revert "packaging: setup: Configure scale only on new database"
+
 * Tue Oct 17 2017 Shirly Radco <sradco@redhat.com> - 4.1.8
 Fixed issues:
 - Bug 1465825 - history: validate lastHourAgg value
