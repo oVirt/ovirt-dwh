@@ -266,6 +266,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed Jan 17 2018 Shirly Radco <sradco@redhat.com> - 4.2.1.1
+Fixed issues:
+- Bug 1490941 - history: update dwh-vacuum help message
+
 * Wed Nov 29 2017 Shirly Radco <sradco@redhat.com> - 4.2.1
 Fixed issues:
 - Bug 1474570 - Revert "packaging: setup: Configure scale only on new database"
