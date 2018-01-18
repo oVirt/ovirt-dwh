@@ -47,6 +47,9 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_MISC,
+        after=(
+            odwhcons.Stages.DB_SCHEMA,
+        ),
         condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
     )
     def _misc(self):
