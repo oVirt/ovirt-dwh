@@ -79,7 +79,11 @@ class Plugin(plugin.PluginBase):
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
         name=odwhcons.Stages.DB_CONNECTION_CUSTOMIZATION,
-        condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
+        condition=lambda self: self.environment[
+            odwhcons.CoreEnv.ENABLE
+        ] and not self.environment[
+            odwhcons.ProvisioningEnv.POSTGRES_PROVISIONING_ENABLED
+        ],
         before=(
             oengcommcons.Stages.DB_OWNERS_CONNECTIONS_CUSTOMIZED,
         ),

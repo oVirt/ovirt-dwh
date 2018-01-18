@@ -135,9 +135,6 @@ class Plugin(plugin.PluginBase):
                     default=True,
                 )
 
-        if enabled:
-            self._provisioning.applyEnvironment()
-
         self.environment[
             odwhcons.ProvisioningEnv.POSTGRES_PROVISIONING_ENABLED
         ] = self._enabled = enabled
@@ -176,6 +173,7 @@ class Plugin(plugin.PluginBase):
         condition=lambda self: self._enabled,
     )
     def _misc(self):
+        self._provisioning.applyEnvironment()
         self._provisioning.provision()
 
     @plugin.event(

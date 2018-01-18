@@ -45,7 +45,11 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
-        condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
+        condition=lambda self: self.environment[
+            odwhcons.CoreEnv.ENABLE
+        ] and not self.environment[
+            oengcommcons.ProvisioningEnv.POSTGRES_PROVISIONING_ENABLED
+        ],
         before=(
             oengcommcons.Stages.DIALOG_TITLES_E_DATABASE,
         ),
