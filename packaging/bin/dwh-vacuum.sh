@@ -8,7 +8,7 @@ Usage $0:
 
     -a          - run analyze, update optimizer statistics
     -A          - run analyze only, only update optimizer stats, no vacuum
-    -f          - do full vacuuming. DWH should not be running when doing full vaccuming
+    -f          - do full vacuum. DWH service should not be running when doing full vacuum
     -t          - vacuum specific table
     -v          - verbose output
 
