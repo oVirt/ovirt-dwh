@@ -266,6 +266,12 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Jan 23 2018 Shirly Radco <sradco@redhat.com> - 4.2.1.2
+Fixed issues:
+- Bug 1490941 - istory: update dwh-vacuum help message
+- Bug 1535935 - packaging: setup: Schedule 10-setup-database.conf
+- Bug 1535935 - packaging: setup: Provisioning.applyEnvironment only at MISC
+
 * Wed Jan 17 2018 Shirly Radco <sradco@redhat.com> - 4.2.1.1
 Fixed issues:
 - Bug 1490941 - history: update dwh-vacuum help message
