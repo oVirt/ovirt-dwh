@@ -71,11 +71,11 @@ class Plugin(plugin.PluginBase):
                     odwhcons.DBEnv.HOST
                 ] == self.environment[
                     oenginecons.EngineDBEnv.HOST
-                ] and self.environment[
+                ] and str(self.environment[
                     odwhcons.DBEnv.PORT
-                ] == self.environment[
+                ]) == str(self.environment[
                     oenginecons.EngineDBEnv.PORT
-                ]
+                ])
             ):
                 self.logger.info(_(
                     'Engine DB and DWH one shares the same PostgreSQL '
