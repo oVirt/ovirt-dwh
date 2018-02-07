@@ -49,7 +49,10 @@ class Plugin(plugin.PluginBase):
     @plugin.event(
         stage=plugin.Stages.STAGE_MISC,
         name=odwhcons.Stages.DB_CREDENTIALS_AVAILABLE,
-        condition=lambda self: self.environment[odwhcons.CoreEnv.ENABLE],
+        condition=lambda self: (
+            self.environment[odwhcons.CoreEnv.ENABLE] and
+            self.environment[odwhcons.DBEnv.PASSWORD] is not None
+        ),
     )
     def _misc(self):
         database.OvirtUtils(
