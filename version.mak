@@ -5,8 +5,8 @@
 # Fix release is manually specified,
 # increment after releasing/branching
 VERSION_MAJOR=4
-VERSION_MINOR=2
-VERSION_PATCH_LEVEL=2
+VERSION_MINOR=3
+VERSION_PATCH_LEVEL=0
 VERSION=$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH_LEVEL)
 
 # Milestone is manually specified,
