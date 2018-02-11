@@ -18,7 +18,7 @@
 %global ovirt_install_systemd 1
 %global ovirt_install_systemv 0
 %global commons_collections apache-commons-collections
-%global dom4j dom4j
+%global dom4j ovirt-engine-wildfly
 %endif
 
 %if 0%{?rhel}
