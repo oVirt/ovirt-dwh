@@ -164,7 +164,7 @@ make %{make_common_opts} install DESTDIR=%{buildroot}
 # /var creation
 #
 install -dm 755 "%{buildroot}/%{_localstatedir}/lib/ovirt-engine-dwh"
-install -dm 755 "%{buildroot}/%{_localstatedir}/log/ovirt-engine-dwh"
+install -dm 700 "%{buildroot}/%{_localstatedir}/log/ovirt-engine-dwh"
 
 #
 # Move jars to destribution location
