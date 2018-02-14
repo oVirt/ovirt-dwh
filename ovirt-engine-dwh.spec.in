@@ -266,6 +266,11 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed Feb 14 2018 Shirly Radco <sradco@redhat.com> - 4.2.2
+Fixed issues:
+- Bug 1541924 - history: Update stat. table history_id to bigint
+- Bug 1529489 - packaging: setup: Create pgpass only if password is not None
+
 * Tue Jan 23 2018 Shirly Radco <sradco@redhat.com> - 4.2.1.2
 Fixed issues:
 - Bug 1490941 - istory: update dwh-vacuum help message
