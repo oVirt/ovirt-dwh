@@ -47,9 +47,9 @@ class Plugin(plugin.PluginBase):
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
         condition=lambda self: self.environment[
             odwhcons.CoreEnv.ENABLE
-        ] and not self.environment[
+        ] and not self.environment.get(
             oengcommcons.ProvisioningEnv.POSTGRES_PROVISIONING_ENABLED
-        ],
+        ),
         before=(
             oengcommcons.Stages.DIALOG_TITLES_E_DATABASE,
         ),
