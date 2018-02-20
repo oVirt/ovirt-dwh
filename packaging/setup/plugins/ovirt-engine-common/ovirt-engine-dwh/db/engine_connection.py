@@ -218,7 +218,8 @@ class Plugin(plugin.PluginBase):
         condition=lambda self: (
             self.environment[odwhcons.CoreEnv.ENABLE] and
             # If engine is enabled, STATEMENT and CONNECTION are set there
-            not self.environment[oenginecons.CoreEnv.ENABLE]
+            not self.environment[oenginecons.CoreEnv.ENABLE] and
+            self.environment[oenginecons.EngineDBEnv.PASSWORD] is not None
         ),
         after=(
             odwhcons.Stages.DB_SCHEMA,
