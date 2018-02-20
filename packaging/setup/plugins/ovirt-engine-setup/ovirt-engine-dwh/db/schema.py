@@ -312,26 +312,29 @@ class Plugin(plugin.PluginBase):
         self._backup = None
 
         if not self.environment[
-            odwhcons.DBEnv.NEW_DATABASE
-        ] and self.environment[
-            odwhcons.DBEnv.PERFORM_BACKUP
+            odwhcons.DBEnv.NEED_DBMSUPGRADE
         ]:
-            dbovirtutils = database.OvirtUtils(
-                plugin=self,
-                dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
-            )
-            self._backup = dbovirtutils.backup(
-                dir=self.environment[
-                    odwhcons.ConfigEnv.OVIRT_ENGINE_DWH_DB_BACKUP_DIR
-                ],
-                prefix=odwhcons.Const.OVIRT_ENGINE_DWH_DB_BACKUP_PREFIX,
-            )
+            if not self.environment[
+                odwhcons.DBEnv.NEW_DATABASE
+            ] and self.environment[
+                odwhcons.DBEnv.PERFORM_BACKUP
+            ]:
+                dbovirtutils = database.OvirtUtils(
+                    plugin=self,
+                    dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
+                )
+                self._backup = dbovirtutils.backup(
+                    dir=self.environment[
+                        odwhcons.ConfigEnv.OVIRT_ENGINE_DWH_DB_BACKUP_DIR
+                    ],
+                    prefix=odwhcons.Const.OVIRT_ENGINE_DWH_DB_BACKUP_PREFIX,
+                )
 
-        self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
-            self.SchemaTransaction(
-                parent=self,
+            self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
+                self.SchemaTransaction(
+                    parent=self,
+                )
             )
-        )
 
         self.logger.info(_('Creating/refreshing DWH database schema'))
         args = [
