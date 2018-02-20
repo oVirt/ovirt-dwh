@@ -266,6 +266,13 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Feb 20 2018 Shirly Radco <sradco@redhat.com> - 4.2.2.1
+Fixed issues:
+- Bug 1540627 - spec: Change permissions for /var/log/ovirt-engine-dwh
+- Bug 1546969 - packaging: setup: Do not fail on missing POSTGRES_PROVISIONING_ENABLED
+- Bug 1546487 - packaging: setup: postgres95: Fixes
+- Bug 1547018 - packaging: setup: postgres95: Do not clear db on upgrade rollback
+
 * Wed Feb 14 2018 Shirly Radco <sradco@redhat.com> - 4.2.2
 Fixed issues:
 - Bug 1541924 - history: Update stat. table history_id to bigint
