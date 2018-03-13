@@ -266,6 +266,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Mar 13 2018 Shirly Radco <sradco@redhat.com> - 4.2.2.2
+Fixed issues:
+- Bug 1518802 - dbms: upgrade: compare engine DBMS port and DWH one as string
+
 * Tue Feb 20 2018 Shirly Radco <sradco@redhat.com> - 4.2.2.1
 Fixed issues:
 - Bug 1540627 - spec: Change permissions for /var/log/ovirt-engine-dwh
