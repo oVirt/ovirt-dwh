@@ -1,4 +1,4 @@
-dnf-utils
+yum-utils
 autoconf
 make
 pyflakes
