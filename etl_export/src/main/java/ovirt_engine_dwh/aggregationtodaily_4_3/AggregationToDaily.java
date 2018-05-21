@@ -4813,27 +4813,27 @@ public class AggregationToDaily implements TalendJob {
 			return this.host_interface_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short max_receive_rate_percent;
+		public Double max_receive_rate_percent;
 
-		public Short getMax_receive_rate_percent() {
+		public Double getMax_receive_rate_percent() {
 			return this.max_receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
-		public Short max_transmit_rate_percent;
+		public Double max_transmit_rate_percent;
 
-		public Short getMax_transmit_rate_percent() {
+		public Double getMax_transmit_rate_percent() {
 			return this.max_transmit_rate_percent;
 		}
 
@@ -4916,28 +4916,28 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.max_receive_rate_percent = null;
 					} else {
-						this.max_receive_rate_percent = dis.readShort();
+						this.max_receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.max_transmit_rate_percent = null;
 					} else {
-						this.max_transmit_rate_percent = dis.readShort();
+						this.max_transmit_rate_percent = dis.readDouble();
 					}
 
 					this.host_interface_configuration_version = readInteger(dis);
@@ -4979,40 +4979,40 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeObject(this.host_interface_id);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.max_receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.max_receive_rate_percent);
+					dos.writeDouble(this.max_receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.max_transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.max_transmit_rate_percent);
+					dos.writeDouble(this.max_transmit_rate_percent);
 				}
 
 				// Integer
@@ -5120,27 +5120,27 @@ public class AggregationToDaily implements TalendJob {
 			return this.host_interface_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short max_receive_rate_percent;
+		public Double max_receive_rate_percent;
 
-		public Short getMax_receive_rate_percent() {
+		public Double getMax_receive_rate_percent() {
 			return this.max_receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
-		public Short max_transmit_rate_percent;
+		public Double max_transmit_rate_percent;
 
-		public Short getMax_transmit_rate_percent() {
+		public Double getMax_transmit_rate_percent() {
 			return this.max_transmit_rate_percent;
 		}
 
@@ -5223,28 +5223,28 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.max_receive_rate_percent = null;
 					} else {
-						this.max_receive_rate_percent = dis.readShort();
+						this.max_receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.max_transmit_rate_percent = null;
 					} else {
-						this.max_transmit_rate_percent = dis.readShort();
+						this.max_transmit_rate_percent = dis.readDouble();
 					}
 
 					this.host_interface_configuration_version = readInteger(dis);
@@ -5286,40 +5286,40 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeObject(this.host_interface_id);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.max_receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.max_receive_rate_percent);
+					dos.writeDouble(this.max_receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.max_transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.max_transmit_rate_percent);
+					dos.writeDouble(this.max_transmit_rate_percent);
 				}
 
 				// Integer
@@ -5428,15 +5428,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.host_interface_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
@@ -5519,14 +5519,14 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					this.host_interface_configuration_version = readInteger(dis);
@@ -5568,22 +5568,22 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeObject(this.host_interface_id);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
 				// Integer
@@ -5693,15 +5693,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.host_interface_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
@@ -5786,14 +5786,14 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					this.host_interface_configuration_version = readInteger(dis);
@@ -5839,22 +5839,22 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeObject(this.host_interface_id);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
 				// Integer
@@ -6193,14 +6193,14 @@ public class AggregationToDaily implements TalendJob {
 
 					java.util.Date history_datetime;
 					Object host_interface_id;
-					Double receive_rate_percent_sum;
+					BigDecimal receive_rate_percent_sum;
 					int receive_rate_percent_count = 0;
 
-					Short max_receive_rate_percent_max;
-					Double transmit_rate_percent_sum;
+					Double max_receive_rate_percent_max;
+					BigDecimal transmit_rate_percent_sum;
 					int transmit_rate_percent_count = 0;
 
-					Short max_transmit_rate_percent_max;
+					Double max_transmit_rate_percent_max;
 					Integer host_interface_configuration_version_last;
 					Long received_total_byte_last;
 					Long transmitted_total_byte_last;
@@ -6381,7 +6381,7 @@ public class AggregationToDaily implements TalendJob {
 
 							if (rs_tJDBCInput_3.getObject(4) != null) {
 								row3.receive_rate_percent = rs_tJDBCInput_3
-										.getShort(4);
+										.getDouble(4);
 							} else {
 								row3.receive_rate_percent = null;
 							}
@@ -6392,7 +6392,7 @@ public class AggregationToDaily implements TalendJob {
 
 							if (rs_tJDBCInput_3.getObject(5) != null) {
 								row3.transmit_rate_percent = rs_tJDBCInput_3
-										.getShort(5);
+										.getDouble(5);
 							} else {
 								row3.transmit_rate_percent = null;
 							}
@@ -6534,11 +6534,12 @@ public class AggregationToDaily implements TalendJob {
 								operation_result_tAggregateRow_3.receive_rate_percent_count++;
 
 								if (operation_result_tAggregateRow_3.receive_rate_percent_sum == null) {
-									operation_result_tAggregateRow_3.receive_rate_percent_sum = (double) 0;
+									operation_result_tAggregateRow_3.receive_rate_percent_sum = new BigDecimal(
+											0).setScale(4);
 								}
-								operation_result_tAggregateRow_3.receive_rate_percent_sum = (double) (operation_result_tAggregateRow_3.receive_rate_percent_sum
-										.doubleValue() + host_history_history_aggregate.receive_rate_percent
-										.shortValue());
+								operation_result_tAggregateRow_3.receive_rate_percent_sum = operation_result_tAggregateRow_3.receive_rate_percent_sum
+										.add(new BigDecimal(
+												String.valueOf(host_history_history_aggregate.receive_rate_percent)));
 
 							} // G_OutMain_AggR_546
 
@@ -6558,11 +6559,12 @@ public class AggregationToDaily implements TalendJob {
 								operation_result_tAggregateRow_3.transmit_rate_percent_count++;
 
 								if (operation_result_tAggregateRow_3.transmit_rate_percent_sum == null) {
-									operation_result_tAggregateRow_3.transmit_rate_percent_sum = (double) 0;
+									operation_result_tAggregateRow_3.transmit_rate_percent_sum = new BigDecimal(
+											0).setScale(4);
 								}
-								operation_result_tAggregateRow_3.transmit_rate_percent_sum = (double) (operation_result_tAggregateRow_3.transmit_rate_percent_sum
-										.doubleValue() + host_history_history_aggregate.transmit_rate_percent
-										.shortValue());
+								operation_result_tAggregateRow_3.transmit_rate_percent_sum = operation_result_tAggregateRow_3.transmit_rate_percent_sum
+										.add(new BigDecimal(
+												String.valueOf(host_history_history_aggregate.transmit_rate_percent)));
 
 							} // G_OutMain_AggR_546
 
@@ -6738,31 +6740,39 @@ public class AggregationToDaily implements TalendJob {
 
 					if (aggregated_row_tAggregateRow_3.receive_rate_percent_count > 0) {
 
-						double row8_receive_rate_percent_temp = (double) aggregated_row_tAggregateRow_3.receive_rate_percent_sum
-								/ (double) aggregated_row_tAggregateRow_3.receive_rate_percent_count;
+						row8.receive_rate_percent = aggregated_row_tAggregateRow_3.receive_rate_percent_sum
+								.divide(new BigDecimal(
+										String.valueOf(aggregated_row_tAggregateRow_3.receive_rate_percent_count)),
+										4, BigDecimal.ROUND_HALF_UP)
 
-						row8.receive_rate_percent = (short) row8_receive_rate_percent_temp;
+								.doubleValue()
+
+						;
 
 					} else {
 						String count = "0";
 
 						row8.receive_rate_percent = ParserUtils
-								.parseTo_Short(count);
+								.parseTo_Double(count);
 
 					}
 					row8.max_receive_rate_percent = aggregated_row_tAggregateRow_3.max_receive_rate_percent_max;
 					if (aggregated_row_tAggregateRow_3.transmit_rate_percent_count > 0) {
 
-						double row8_transmit_rate_percent_temp = (double) aggregated_row_tAggregateRow_3.transmit_rate_percent_sum
-								/ (double) aggregated_row_tAggregateRow_3.transmit_rate_percent_count;
+						row8.transmit_rate_percent = aggregated_row_tAggregateRow_3.transmit_rate_percent_sum
+								.divide(new BigDecimal(
+										String.valueOf(aggregated_row_tAggregateRow_3.transmit_rate_percent_count)),
+										4, BigDecimal.ROUND_HALF_UP)
 
-						row8.transmit_rate_percent = (short) row8_transmit_rate_percent_temp;
+								.doubleValue()
+
+						;
 
 					} else {
 						String count = "0";
 
 						row8.transmit_rate_percent = ParserUtils
-								.parseTo_Short(count);
+								.parseTo_Double(count);
 
 					}
 					row8.max_transmit_rate_percent = aggregated_row_tAggregateRow_3.max_transmit_rate_percent_max;
@@ -6800,30 +6810,30 @@ public class AggregationToDaily implements TalendJob {
 					}
 
 					if (row8.receive_rate_percent == null) {
-						pstmt_tJDBCOutput_3.setNull(3, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_3.setNull(3, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_3.setShort(3,
+						pstmt_tJDBCOutput_3.setDouble(3,
 								row8.receive_rate_percent);
 					}
 
 					if (row8.max_receive_rate_percent == null) {
-						pstmt_tJDBCOutput_3.setNull(4, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_3.setNull(4, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_3.setShort(4,
+						pstmt_tJDBCOutput_3.setDouble(4,
 								row8.max_receive_rate_percent);
 					}
 
 					if (row8.transmit_rate_percent == null) {
-						pstmt_tJDBCOutput_3.setNull(5, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_3.setNull(5, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_3.setShort(5,
+						pstmt_tJDBCOutput_3.setDouble(5,
 								row8.transmit_rate_percent);
 					}
 
 					if (row8.max_transmit_rate_percent == null) {
-						pstmt_tJDBCOutput_3.setNull(6, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_3.setNull(6, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_3.setShort(6,
+						pstmt_tJDBCOutput_3.setDouble(6,
 								row8.max_transmit_rate_percent);
 					}
 
@@ -10449,27 +10459,27 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_interface_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short max_receive_rate_percent;
+		public Double max_receive_rate_percent;
 
-		public Short getMax_receive_rate_percent() {
+		public Double getMax_receive_rate_percent() {
 			return this.max_receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
-		public Short max_transmit_rate_percent;
+		public Double max_transmit_rate_percent;
 
-		public Short getMax_transmit_rate_percent() {
+		public Double getMax_transmit_rate_percent() {
 			return this.max_transmit_rate_percent;
 		}
 
@@ -10552,28 +10562,28 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.max_receive_rate_percent = null;
 					} else {
-						this.max_receive_rate_percent = dis.readShort();
+						this.max_receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.max_transmit_rate_percent = null;
 					} else {
-						this.max_transmit_rate_percent = dis.readShort();
+						this.max_transmit_rate_percent = dis.readDouble();
 					}
 
 					this.vm_interface_configuration_version = readInteger(dis);
@@ -10615,40 +10625,40 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeObject(this.vm_interface_id);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.max_receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.max_receive_rate_percent);
+					dos.writeDouble(this.max_receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.max_transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.max_transmit_rate_percent);
+					dos.writeDouble(this.max_transmit_rate_percent);
 				}
 
 				// Integer
@@ -10756,27 +10766,27 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_interface_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short max_receive_rate_percent;
+		public Double max_receive_rate_percent;
 
-		public Short getMax_receive_rate_percent() {
+		public Double getMax_receive_rate_percent() {
 			return this.max_receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
-		public Short max_transmit_rate_percent;
+		public Double max_transmit_rate_percent;
 
-		public Short getMax_transmit_rate_percent() {
+		public Double getMax_transmit_rate_percent() {
 			return this.max_transmit_rate_percent;
 		}
 
@@ -10859,28 +10869,28 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.max_receive_rate_percent = null;
 					} else {
-						this.max_receive_rate_percent = dis.readShort();
+						this.max_receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.max_transmit_rate_percent = null;
 					} else {
-						this.max_transmit_rate_percent = dis.readShort();
+						this.max_transmit_rate_percent = dis.readDouble();
 					}
 
 					this.vm_interface_configuration_version = readInteger(dis);
@@ -10922,40 +10932,40 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeObject(this.vm_interface_id);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.max_receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.max_receive_rate_percent);
+					dos.writeDouble(this.max_receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.max_transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.max_transmit_rate_percent);
+					dos.writeDouble(this.max_transmit_rate_percent);
 				}
 
 				// Integer
@@ -11063,15 +11073,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_interface_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
@@ -11154,14 +11164,14 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					this.vm_interface_configuration_version = readInteger(dis);
@@ -11203,22 +11213,22 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeObject(this.vm_interface_id);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
 				// Integer
@@ -11328,15 +11338,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_interface_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
@@ -11421,14 +11431,14 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					this.vm_interface_configuration_version = readInteger(dis);
@@ -11474,22 +11484,22 @@ public class AggregationToDaily implements TalendJob {
 
 				dos.writeObject(this.vm_interface_id);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
 				// Integer
@@ -11828,14 +11838,14 @@ public class AggregationToDaily implements TalendJob {
 
 					java.util.Date history_datetime;
 					Object vm_interface_id;
-					Double receive_rate_percent_sum;
+					BigDecimal receive_rate_percent_sum;
 					int receive_rate_percent_count = 0;
 
-					Short max_receive_rate_percent_max;
-					Double transmit_rate_percent_sum;
+					Double max_receive_rate_percent_max;
+					BigDecimal transmit_rate_percent_sum;
 					int transmit_rate_percent_count = 0;
 
-					Short max_transmit_rate_percent_max;
+					Double max_transmit_rate_percent_max;
 					Integer vm_interface_configuration_version_last;
 					Long received_total_byte_last;
 					Long transmitted_total_byte_last;
@@ -12016,7 +12026,7 @@ public class AggregationToDaily implements TalendJob {
 
 							if (rs_tJDBCInput_5.getObject(4) != null) {
 								row5.receive_rate_percent = rs_tJDBCInput_5
-										.getShort(4);
+										.getDouble(4);
 							} else {
 								row5.receive_rate_percent = null;
 							}
@@ -12027,7 +12037,7 @@ public class AggregationToDaily implements TalendJob {
 
 							if (rs_tJDBCInput_5.getObject(5) != null) {
 								row5.transmit_rate_percent = rs_tJDBCInput_5
-										.getShort(5);
+										.getDouble(5);
 							} else {
 								row5.transmit_rate_percent = null;
 							}
@@ -12169,11 +12179,12 @@ public class AggregationToDaily implements TalendJob {
 								operation_result_tAggregateRow_5.receive_rate_percent_count++;
 
 								if (operation_result_tAggregateRow_5.receive_rate_percent_sum == null) {
-									operation_result_tAggregateRow_5.receive_rate_percent_sum = (double) 0;
+									operation_result_tAggregateRow_5.receive_rate_percent_sum = new BigDecimal(
+											0).setScale(4);
 								}
-								operation_result_tAggregateRow_5.receive_rate_percent_sum = (double) (operation_result_tAggregateRow_5.receive_rate_percent_sum
-										.doubleValue() + vm_interface_aggregate.receive_rate_percent
-										.shortValue());
+								operation_result_tAggregateRow_5.receive_rate_percent_sum = operation_result_tAggregateRow_5.receive_rate_percent_sum
+										.add(new BigDecimal(
+												String.valueOf(vm_interface_aggregate.receive_rate_percent)));
 
 							} // G_OutMain_AggR_546
 
@@ -12193,11 +12204,12 @@ public class AggregationToDaily implements TalendJob {
 								operation_result_tAggregateRow_5.transmit_rate_percent_count++;
 
 								if (operation_result_tAggregateRow_5.transmit_rate_percent_sum == null) {
-									operation_result_tAggregateRow_5.transmit_rate_percent_sum = (double) 0;
+									operation_result_tAggregateRow_5.transmit_rate_percent_sum = new BigDecimal(
+											0).setScale(4);
 								}
-								operation_result_tAggregateRow_5.transmit_rate_percent_sum = (double) (operation_result_tAggregateRow_5.transmit_rate_percent_sum
-										.doubleValue() + vm_interface_aggregate.transmit_rate_percent
-										.shortValue());
+								operation_result_tAggregateRow_5.transmit_rate_percent_sum = operation_result_tAggregateRow_5.transmit_rate_percent_sum
+										.add(new BigDecimal(
+												String.valueOf(vm_interface_aggregate.transmit_rate_percent)));
 
 							} // G_OutMain_AggR_546
 
@@ -12373,31 +12385,39 @@ public class AggregationToDaily implements TalendJob {
 
 					if (aggregated_row_tAggregateRow_5.receive_rate_percent_count > 0) {
 
-						double row10_receive_rate_percent_temp = (double) aggregated_row_tAggregateRow_5.receive_rate_percent_sum
-								/ (double) aggregated_row_tAggregateRow_5.receive_rate_percent_count;
+						row10.receive_rate_percent = aggregated_row_tAggregateRow_5.receive_rate_percent_sum
+								.divide(new BigDecimal(
+										String.valueOf(aggregated_row_tAggregateRow_5.receive_rate_percent_count)),
+										4, BigDecimal.ROUND_HALF_UP)
 
-						row10.receive_rate_percent = (short) row10_receive_rate_percent_temp;
+								.doubleValue()
+
+						;
 
 					} else {
 						String count = "0";
 
 						row10.receive_rate_percent = ParserUtils
-								.parseTo_Short(count);
+								.parseTo_Double(count);
 
 					}
 					row10.max_receive_rate_percent = aggregated_row_tAggregateRow_5.max_receive_rate_percent_max;
 					if (aggregated_row_tAggregateRow_5.transmit_rate_percent_count > 0) {
 
-						double row10_transmit_rate_percent_temp = (double) aggregated_row_tAggregateRow_5.transmit_rate_percent_sum
-								/ (double) aggregated_row_tAggregateRow_5.transmit_rate_percent_count;
+						row10.transmit_rate_percent = aggregated_row_tAggregateRow_5.transmit_rate_percent_sum
+								.divide(new BigDecimal(
+										String.valueOf(aggregated_row_tAggregateRow_5.transmit_rate_percent_count)),
+										4, BigDecimal.ROUND_HALF_UP)
 
-						row10.transmit_rate_percent = (short) row10_transmit_rate_percent_temp;
+								.doubleValue()
+
+						;
 
 					} else {
 						String count = "0";
 
 						row10.transmit_rate_percent = ParserUtils
-								.parseTo_Short(count);
+								.parseTo_Double(count);
 
 					}
 					row10.max_transmit_rate_percent = aggregated_row_tAggregateRow_5.max_transmit_rate_percent_max;
@@ -12434,30 +12454,30 @@ public class AggregationToDaily implements TalendJob {
 					}
 
 					if (row10.receive_rate_percent == null) {
-						pstmt_tJDBCOutput_5.setNull(3, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_5.setNull(3, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_5.setShort(3,
+						pstmt_tJDBCOutput_5.setDouble(3,
 								row10.receive_rate_percent);
 					}
 
 					if (row10.max_receive_rate_percent == null) {
-						pstmt_tJDBCOutput_5.setNull(4, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_5.setNull(4, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_5.setShort(4,
+						pstmt_tJDBCOutput_5.setDouble(4,
 								row10.max_receive_rate_percent);
 					}
 
 					if (row10.transmit_rate_percent == null) {
-						pstmt_tJDBCOutput_5.setNull(5, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_5.setNull(5, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_5.setShort(5,
+						pstmt_tJDBCOutput_5.setDouble(5,
 								row10.transmit_rate_percent);
 					}
 
 					if (row10.max_transmit_rate_percent == null) {
-						pstmt_tJDBCOutput_5.setNull(6, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_5.setNull(6, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_5.setShort(6,
+						pstmt_tJDBCOutput_5.setDouble(6,
 								row10.max_transmit_rate_percent);
 					}
 
@@ -25225,6 +25245,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 717835 characters generated by Talend Open Studio for Data Integration on the
- * February 11, 2018 1:56:26 PM IST
+ * 718207 characters generated by Talend Open Studio for Data Integration on the
+ * May 21, 2018 1:13:13 PM IDT
  ************************************************************************************************/
