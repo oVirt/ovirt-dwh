@@ -5147,15 +5147,15 @@ public class StatisticsSync implements TalendJob {
 			return this.host_interface_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
@@ -5238,14 +5238,14 @@ public class StatisticsSync implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					this.host_interface_configuration_version = readInteger(dis);
@@ -5287,22 +5287,22 @@ public class StatisticsSync implements TalendJob {
 
 				dos.writeObject(this.host_interface_id);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
 				// Integer
@@ -5406,15 +5406,15 @@ public class StatisticsSync implements TalendJob {
 			return this.host_interface_join_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
@@ -5481,14 +5481,14 @@ public class StatisticsSync implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -5528,22 +5528,22 @@ public class StatisticsSync implements TalendJob {
 
 				writeString(this.host_interface_join_id, dos);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
 				// Long
@@ -5641,15 +5641,15 @@ public class StatisticsSync implements TalendJob {
 			return this.host_interface_join_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
@@ -5716,14 +5716,14 @@ public class StatisticsSync implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -5763,22 +5763,22 @@ public class StatisticsSync implements TalendJob {
 
 				writeString(this.host_interface_join_id, dos);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
 				// Long
@@ -6023,7 +6023,7 @@ public class StatisticsSync implements TalendJob {
 
 							if (rs_tJDBCInput_8.getObject(3) != null) {
 								row11.receive_rate_percent = rs_tJDBCInput_8
-										.getShort(3);
+										.getDouble(3);
 							} else {
 								row11.receive_rate_percent = null;
 							}
@@ -6034,7 +6034,7 @@ public class StatisticsSync implements TalendJob {
 
 							if (rs_tJDBCInput_8.getObject(4) != null) {
 								row11.transmit_rate_percent = rs_tJDBCInput_8
-										.getShort(4);
+										.getDouble(4);
 							} else {
 								row11.transmit_rate_percent = null;
 							}
@@ -6208,20 +6208,20 @@ public class StatisticsSync implements TalendJob {
 
 							if (hinterface_history.receive_rate_percent == null) {
 								pstmt_tJDBCOutput_4.setNull(3,
-										java.sql.Types.INTEGER);
+										java.sql.Types.DOUBLE);
 							} else {
 								pstmt_tJDBCOutput_4
-										.setShort(
+										.setDouble(
 												3,
 												hinterface_history.receive_rate_percent);
 							}
 
 							if (hinterface_history.transmit_rate_percent == null) {
 								pstmt_tJDBCOutput_4.setNull(4,
-										java.sql.Types.INTEGER);
+										java.sql.Types.DOUBLE);
 							} else {
 								pstmt_tJDBCOutput_4
-										.setShort(
+										.setDouble(
 												4,
 												hinterface_history.transmit_rate_percent);
 							}
@@ -10267,15 +10267,15 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_interface_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
@@ -10358,14 +10358,14 @@ public class StatisticsSync implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					this.vm_interface_configuration_version = readInteger(dis);
@@ -10407,22 +10407,22 @@ public class StatisticsSync implements TalendJob {
 
 				dos.writeObject(this.vm_interface_id);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
 				// Integer
@@ -10526,15 +10526,15 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_interface_join_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
@@ -10601,14 +10601,14 @@ public class StatisticsSync implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -10648,22 +10648,22 @@ public class StatisticsSync implements TalendJob {
 
 				writeString(this.vm_interface_join_id, dos);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
 				// Long
@@ -10761,15 +10761,15 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_interface_join_id;
 		}
 
-		public Short receive_rate_percent;
+		public Double receive_rate_percent;
 
-		public Short getReceive_rate_percent() {
+		public Double getReceive_rate_percent() {
 			return this.receive_rate_percent;
 		}
 
-		public Short transmit_rate_percent;
+		public Double transmit_rate_percent;
 
-		public Short getTransmit_rate_percent() {
+		public Double getTransmit_rate_percent() {
 			return this.transmit_rate_percent;
 		}
 
@@ -10836,14 +10836,14 @@ public class StatisticsSync implements TalendJob {
 					if (length == -1) {
 						this.receive_rate_percent = null;
 					} else {
-						this.receive_rate_percent = dis.readShort();
+						this.receive_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmit_rate_percent = null;
 					} else {
-						this.transmit_rate_percent = dis.readShort();
+						this.transmit_rate_percent = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -10883,22 +10883,22 @@ public class StatisticsSync implements TalendJob {
 
 				writeString(this.vm_interface_join_id, dos);
 
-				// Short
+				// Double
 
 				if (this.receive_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.receive_rate_percent);
+					dos.writeDouble(this.receive_rate_percent);
 				}
 
-				// Short
+				// Double
 
 				if (this.transmit_rate_percent == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeShort(this.transmit_rate_percent);
+					dos.writeDouble(this.transmit_rate_percent);
 				}
 
 				// Long
@@ -11143,7 +11143,7 @@ public class StatisticsSync implements TalendJob {
 
 							if (rs_tJDBCInput_12.getObject(3) != null) {
 								row13.receive_rate_percent = rs_tJDBCInput_12
-										.getShort(3);
+										.getDouble(3);
 							} else {
 								row13.receive_rate_percent = null;
 							}
@@ -11154,7 +11154,7 @@ public class StatisticsSync implements TalendJob {
 
 							if (rs_tJDBCInput_12.getObject(4) != null) {
 								row13.transmit_rate_percent = rs_tJDBCInput_12
-										.getShort(4);
+										.getDouble(4);
 							} else {
 								row13.transmit_rate_percent = null;
 							}
@@ -11328,20 +11328,20 @@ public class StatisticsSync implements TalendJob {
 
 							if (vinterface_history.receive_rate_percent == null) {
 								pstmt_tJDBCOutput_6.setNull(3,
-										java.sql.Types.INTEGER);
+										java.sql.Types.DOUBLE);
 							} else {
 								pstmt_tJDBCOutput_6
-										.setShort(
+										.setDouble(
 												3,
 												vinterface_history.receive_rate_percent);
 							}
 
 							if (vinterface_history.transmit_rate_percent == null) {
 								pstmt_tJDBCOutput_6.setNull(4,
-										java.sql.Types.INTEGER);
+										java.sql.Types.DOUBLE);
 							} else {
 								pstmt_tJDBCOutput_6
-										.setShort(
+										.setDouble(
 												4,
 												vinterface_history.transmit_rate_percent);
 							}
@@ -16359,6 +16359,6 @@ public class StatisticsSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 444602 characters generated by Talend Open Studio for Data Integration on the
- * February 27, 2017 9:23:37 AM IST
+ * 444666 characters generated by Talend Open Studio for Data Integration on the
+ * May 16, 2018 3:26:03 PM IDT
  ************************************************************************************************/
