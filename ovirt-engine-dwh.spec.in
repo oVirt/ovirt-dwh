@@ -266,6 +266,11 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Wed May 23 2018 Shirly Radco <sradco@redhat.com> - 4.2.4
+Fixed issues:
+- Bug 1576937 - Update network_name field length
+- Bug 1573145 - history: update rx and tx rate percent percition
+
 * Tue Mar 13 2018 Shirly Radco <sradco@redhat.com> - 4.2.2.2
 Fixed issues:
 - Bug 1518802 - dbms: upgrade: compare engine DBMS port and DWH one as string
