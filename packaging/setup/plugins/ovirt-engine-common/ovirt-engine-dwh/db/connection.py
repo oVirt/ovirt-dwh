@@ -123,7 +123,11 @@ class Plugin(plugin.PluginBase):
         stage=plugin.Stages.STAGE_SETUP,
         name=odwhcons.Stages.DB_CONNECTION_SETUP,
         condition=lambda self: (
-            self.environment[odwhcons.CoreEnv.ENABLE]
+            self.environment[odwhcons.CoreEnv.ENABLE] and (
+                self.environment[
+                    osetupcons.CoreEnv.ACTION
+                ] != osetupcons.Const.ACTION_PROVISIONDB
+            )
         ),
     )
     def _setup(self):

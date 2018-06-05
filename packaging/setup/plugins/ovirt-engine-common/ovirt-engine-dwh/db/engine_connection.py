@@ -146,7 +146,11 @@ class Plugin(plugin.PluginBase):
         # If engine is enabled too, we let its plugin read the setup
         condition=lambda self: not self.environment[
             oenginecons.CoreEnv.ENABLE
-        ],
+        ] and (
+            self.environment[
+                osetupcons.CoreEnv.ACTION
+            ] != osetupcons.Const.ACTION_PROVISIONDB
+        ),
     )
     def _setup_engine_db_credentials(self):
         # TODO: refactor the code in this function to be usable by similar
