@@ -321,8 +321,8 @@ CREATE TABLE host_interface_samples_history
    history_id INTEGER DEFAULT NEXTVAL('host_interface_history_seq1') primary key NOT NULL,
    history_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
    host_interface_id UUID NOT NULL,
-   receive_rate_percent DECIMAL(18,4),
-   transmit_rate_percent DECIMAL(18,4),
+   receive_rate_percent SMALLINT,
+   transmit_rate_percent SMALLINT,
    host_interface_configuration_version INTEGER REFERENCES host_interface_configuration (history_id)
 ) WITH OIDS;
 
@@ -336,10 +336,10 @@ CREATE TABLE host_interface_hourly_history
    history_id INTEGER DEFAULT NEXTVAL('host_interface_history_seq2') primary key NOT NULL,
    history_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
    host_interface_id UUID NOT NULL,
-   receive_rate_percent DECIMAL(18,4),
-   max_receive_rate_percent DECIMAL(18,4),
-   transmit_rate_percent DECIMAL(18,4),
-   max_transmit_rate_percent DECIMAL(18,4),
+   receive_rate_percent SMALLINT,
+   max_receive_rate_percent SMALLINT,
+   transmit_rate_percent SMALLINT,
+   max_transmit_rate_percent SMALLINT,
    host_interface_configuration_version INTEGER REFERENCES host_interface_configuration (history_id)
 ) WITH OIDS;
 
@@ -353,10 +353,10 @@ CREATE TABLE host_interface_daily_history
    history_id INTEGER DEFAULT NEXTVAL('host_interface_history_seq3') primary key NOT NULL,
    history_datetime DATE NOT NULL,
    host_interface_id UUID NOT NULL,
-   receive_rate_percent DECIMAL(18,4),
-   max_receive_rate_percent DECIMAL(18,4),
-   transmit_rate_percent DECIMAL(18,4),
-   max_transmit_rate_percent DECIMAL(18,4),
+   receive_rate_percent SMALLINT,
+   max_receive_rate_percent SMALLINT,
+   transmit_rate_percent SMALLINT,
+   max_transmit_rate_percent SMALLINT,
    host_interface_configuration_version INTEGER REFERENCES host_interface_configuration (history_id)
 ) WITH OIDS;
 
@@ -522,8 +522,8 @@ CREATE TABLE vm_interface_samples_history
    history_id INTEGER DEFAULT NEXTVAL('vm_interface_history_seq1') primary key NOT NULL,
    history_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
    vm_interface_id UUID NOT NULL,
-   receive_rate_percent DECIMAL(18,4),
-   transmit_rate_percent DECIMAL(18,4),
+   receive_rate_percent SMALLINT,
+   transmit_rate_percent SMALLINT,
    vm_interface_configuration_version INTEGER REFERENCES vm_interface_configuration (history_id)
 ) WITH OIDS;
 
@@ -537,10 +537,10 @@ CREATE TABLE vm_interface_hourly_history
    history_id INTEGER DEFAULT NEXTVAL('vm_interface_history_seq2') primary key NOT NULL,
    history_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
    vm_interface_id UUID NOT NULL,
-   receive_rate_percent DECIMAL(18,4),
-   max_receive_rate_percent DECIMAL(18,4),
-   transmit_rate_percent DECIMAL(18,4),
-   max_transmit_rate_percent DECIMAL(18,4),
+   receive_rate_percent SMALLINT,
+   max_receive_rate_percent SMALLINT,
+   transmit_rate_percent SMALLINT,
+   max_transmit_rate_percent SMALLINT,
    vm_interface_configuration_version INTEGER REFERENCES vm_interface_configuration (history_id)
 ) WITH OIDS;
 
@@ -555,10 +555,10 @@ CREATE TABLE vm_interface_daily_history
    history_id INTEGER DEFAULT NEXTVAL('vm_interface_history_seq3') primary key NOT NULL,
    history_datetime DATE NOT NULL,
    vm_interface_id UUID NOT NULL,
-   receive_rate_percent DECIMAL(18,4),
-   max_receive_rate_percent DECIMAL(18,4),
-   transmit_rate_percent DECIMAL(18,4),
-   max_transmit_rate_percent DECIMAL(18,4),
+   receive_rate_percent SMALLINT,
+   max_receive_rate_percent SMALLINT,
+   transmit_rate_percent SMALLINT,
+   max_transmit_rate_percent SMALLINT,
    vm_interface_configuration_version INTEGER REFERENCES vm_interface_configuration (history_id)
 ) WITH OIDS;
 

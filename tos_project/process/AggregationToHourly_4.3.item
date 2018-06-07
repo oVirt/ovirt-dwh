@@ -245,7 +245,7 @@
       <column comment="" key="false" length="4" name="host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="host_aggregation">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row2.history_datetime) " type="id_Date"/>
@@ -701,8 +701,8 @@
       <column comment="" defaultValue="&quot;nextval('host_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
@@ -722,20 +722,20 @@
     <metadata connector="FLOW" label="host_interface_samples_history" name="host_history_history_aggregate">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="host_history_history_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row3.history_datetime) " type="id_Date"/>
         <mapperTableEntries name="host_interface_id" expression="row3.host_interface_id" type="id_Object"/>
-        <mapperTableEntries name="receive_rate_percent" expression="row3.receive_rate_percent" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="transmit_rate_percent" expression="row3.transmit_rate_percent" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="receive_rate_percent" expression="row3.receive_rate_percent" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="transmit_rate_percent" expression="row3.transmit_rate_percent" type="id_Double" nullable="true"/>
         <mapperTableEntries name="host_interface_configuration_version" expression="row3.host_interface_configuration_version" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="received_total_byte" expression="row3.received_total_byte " type="id_Long" nullable="true"/>
         <mapperTableEntries name="transmitted_total_byte" expression="row3.transmitted_total_byte " type="id_Long" nullable="true"/>
@@ -744,8 +744,8 @@
         <mapperTableEntries name="history_id" type="id_Long"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="host_interface_id" type="id_Object"/>
-        <mapperTableEntries name="receive_rate_percent" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="transmit_rate_percent" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="receive_rate_percent" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="transmit_rate_percent" type="id_Double" nullable="true"/>
         <mapperTableEntries name="host_interface_configuration_version" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="received_total_byte" type="id_Long" nullable="true"/>
         <mapperTableEntries name="transmitted_total_byte" type="id_Long" nullable="true"/>
@@ -798,10 +798,10 @@
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tAggregateRow_3">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="max_receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="max_transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
@@ -883,10 +883,10 @@
     <metadata connector="FLOW" label="host_interface_hourly_history" name="tJDBCOutput_3">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="max_receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="max_transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
@@ -894,10 +894,10 @@
     <metadata connector="REJECT" label="host_interface_hourly_history" name="REJECT">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="host_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="max_receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="max_transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
@@ -1016,7 +1016,7 @@
       <column comment="" key="false" length="-1" name="memory_cached_kb" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_aggregate_history">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row4.history_datetime) " type="id_Date"/>
@@ -1399,8 +1399,8 @@
       <column comment="" defaultValue="&quot;nextval('vm_interface_history_seq1'::regclass)&quot;" key="true" length="4" name="history_id" nullable="false" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
@@ -1420,20 +1420,20 @@
     <metadata connector="FLOW" label="vm_interface_samples_history" name="vm_interface_aggregate">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_interface_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row5.history_datetime) " type="id_Date"/>
         <mapperTableEntries name="vm_interface_id" expression="row5.vm_interface_id" type="id_Object"/>
-        <mapperTableEntries name="receive_rate_percent" expression="row5.receive_rate_percent" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="transmit_rate_percent" expression="row5.transmit_rate_percent" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="receive_rate_percent" expression="row5.receive_rate_percent" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="transmit_rate_percent" expression="row5.transmit_rate_percent" type="id_Double" nullable="true"/>
         <mapperTableEntries name="vm_interface_configuration_version" expression="row5.vm_interface_configuration_version" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="received_total_byte" expression="row5.received_total_byte " type="id_Long" nullable="true"/>
         <mapperTableEntries name="transmitted_total_byte" expression="row5.transmitted_total_byte " type="id_Long" nullable="true"/>
@@ -1442,8 +1442,8 @@
         <mapperTableEntries name="history_id" type="id_Long"/>
         <mapperTableEntries name="history_datetime" type="id_Date"/>
         <mapperTableEntries name="vm_interface_id" type="id_Object"/>
-        <mapperTableEntries name="receive_rate_percent" type="id_Short" nullable="true"/>
-        <mapperTableEntries name="transmit_rate_percent" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="receive_rate_percent" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="transmit_rate_percent" type="id_Double" nullable="true"/>
         <mapperTableEntries name="vm_interface_configuration_version" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="received_total_byte" type="id_Long" nullable="true"/>
         <mapperTableEntries name="transmitted_total_byte" type="id_Long" nullable="true"/>
@@ -1496,10 +1496,10 @@
     <metadata connector="FLOW" label="vm_interface_hourly_history" name="tAggregateRow_5">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="max_receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="max_transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
@@ -1581,10 +1581,10 @@
     <metadata connector="FLOW" label="vm_interface_hourly_history" name="tJDBCOutput_5">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="max_receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="max_transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
@@ -1592,10 +1592,10 @@
     <metadata connector="REJECT" label="vm_interface_hourly_history" name="REJECT">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="16" name="vm_interface_id" nullable="false" pattern="" precision="0" sourceType="POINT" type="id_Object" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_receive_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
-      <column comment="" key="false" length="2" name="max_transmit_rate_percent" nullable="true" pattern="" precision="0" sourceType="INT2" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="max_receive_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="max_transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
@@ -1679,7 +1679,7 @@
       <column comment="" key="false" length="4" name="storage_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="storage_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row16.history_datetime)" type="id_Date"/>
@@ -1922,7 +1922,7 @@
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row19.history_datetime)" type="id_Date"/>
@@ -2469,7 +2469,7 @@
       <column comment="" key="false" length="4" name="current_host_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_users_aggregate_history">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row13.history_datetime) " type="id_Date"/>
