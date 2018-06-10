@@ -42,13 +42,9 @@ if [ -x /usr/bin/java-config ]; then
 			|| die "Cannot locate ${package}"
 	done
 elif [ -x /usr/bin/build-classpath ]; then
-	if [ -r /etc/fedora-release ];	then
-		dom4j="/usr/share/ovirt-engine-wildfly/modules/system/layers/base/org/dom4j/main/dom4j-1.6.1.jar"
-	else
-		dom4j="$(build-classpath dom4j 2> /dev/null)"
-		[ -z "${dom4j}" ] && dom4j="$(build-classpath dom4j-eap6 2> /dev/null)"
-		[ -n "${dom4j}" ] || die "Cannot find dom4j"
-	fi
+	dom4j="$(build-classpath dom4j 2> /dev/null)"
+	[ -z "${dom4j}" ] && dom4j="$(build-classpath dom4j-eap6 2> /dev/null)"
+	[ -n "${dom4j}" ] || die "Cannot find dom4j"
 	commons_collections="$(build-classpath apache-commons-collections 2> /dev/null)"
 	[ -z "${commons_collections}" ] && commons_collections="$(build-classpath commons-collections 2> /dev/null)"
 	[ -n "${commons_collections}" ] || die "Cannot find commons-collections"
