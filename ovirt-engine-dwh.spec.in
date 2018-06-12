@@ -266,6 +266,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Jun 12 2018 Shirly Radco <sradco@redhat.com> - 4.2.4.3
+Fixed issues:
+- Bug 1573145 - history: fix bug in rx and tx rate percent percition
+
 * Tue Jun 05 2018 Shirly Radco <sradco@redhat.com> - 4.2.4.2
 Fixed issues:
 - Bug 1586011 - packaging: Do not connect to databases if provisioning a db
