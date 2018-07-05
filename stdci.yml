@@ -1,0 +1,5 @@
+---
+Distributions: ["el7"]
+Release Branches:
+  ovirt-engine-dwh-4.2:
+    - ovirt-4.2
