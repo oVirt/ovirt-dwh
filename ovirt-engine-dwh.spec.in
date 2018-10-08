@@ -266,9 +266,30 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Mon Oct 8 2018 Shirly Radco <sradco@redhat.com> - 4.3.0
+Fixed issues:
+- Bug 1546486 - build: fix dwh to support dom4j 2.0.0
+- Bug 1573145 - history: fix bug in rx and tx rate percent percition
+- Bug 1586011 - packaging: Do not connect to databases if provisioning a db
+- Bug 1576937 - fix bug with logical_network_name lenght
+- Bug 1573145 - history: update rx and tx rate percent percition
+- Bug 1577789 - automation: Use dnf-utils on Fedora
+- Bug 1507037 - history: wait longer before first sampling
+- Bug 1518802 - dbms: upgrade: compare engine DBMS port and DWH one as string
+- packaging: Do not fail engine-cleanup if engine db is inaccessible
+- Bug 1547018 - packaging: setup: postgres95: Do not clear db on upgrade rollback
+- Bug 1546969 - packaging: setup: Do not fail on missing POSTGRES_PROVISIONING_ENABLED
+- Bug 1546487 - packaging: setup: postgres95: Fixes
+- Bug 1540627 - spec: Change permissions for /var/log/ovirt-engine-dwh
+- build: update dwh-classpath
+- build: moved major version to 4.3.0
+- Bug 1507294 - build: Use ovirt-engine-wildfly dom4j
+- Bug 1529489 - packaging: setup: Create pgpass only if password is not None
+- Bug 1541924 - history: Update stat. table history_id to bigint
+
 * Tue Jan 23 2018 Shirly Radco <sradco@redhat.com> - 4.2.1.2
 Fixed issues:
-- Bug 1490941 - istory: update dwh-vacuum help message
+- Bug 1490941 - history: update dwh-vacuum help message
 - Bug 1535935 - packaging: setup: Schedule 10-setup-database.conf
 - Bug 1535935 - packaging: setup: Provisioning.applyEnvironment only at MISC
 
