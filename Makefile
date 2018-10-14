@@ -30,6 +30,7 @@ BUILD_VALIDATION=1
 PACKAGE_NAME=ovirt-engine-dwh
 ANT=ant
 PYTHON=python
+PYTHON3=$(shell which python3 2> /dev/null)
 PYFLAKES=pyflakes
 PEP8=pep8
 PREFIX=/usr/local
@@ -48,7 +49,9 @@ PKG_LOG_DIR=$(LOCALSTATE_DIR)/log/ovirt-engine-dwh
 PKG_TMP_DIR=$(LOCALSTATE_DIR)/tmp/ovirt-engine-dwh
 PKG_STATE_DIR=$(LOCALSTATE_DIR)/lib/ovirt-engine-dwh
 PYTHON_DIR=$(PYTHON_SYS_DIR)
+PYTHON3_DIR=$(PYTHON3_SYS_DIR)
 DEV_PYTHON_DIR=
+DEV_PYTHON3_DIR=
 PKG_USER=ovirt
 PKG_GROUP=ovirt
 #
@@ -64,6 +67,10 @@ DWH_VERSION=$(VERSION)
 BUILD_FLAGS:=$(BUILD_FLAGS) $(EXTRA_BUILD_FLAGS)
 
 PYTHON_SYS_DIR:=$(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib as f;print(f())")
+ifneq ($(PYTHON3),)
+PYTHON3_SYS_DIR:=$(shell $(PYTHON3) -c "from distutils.sysconfig import get_python_lib as f;print(f())")
+endif
+
 TARBALL=$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
 BUILD_FILE=tmp.built
 
@@ -81,6 +88,7 @@ BUILD_FILE=tmp.built
 	-e "s|@PKG_STATE_DIR@|$(PKG_STATE_DIR)|g" \
 	-e "s|@PKG_JAVA_LIB@|$(PKG_JAVA_LIB)|g" \
 	-e "s|@DEV_PYTHON_DIR@|$(DEV_PYTHON_DIR)|g" \
+	-e "s|@DEV_PYTHON3_DIR@|$(DEV_PYTHON3_DIR)|g" \
 	-e "s|@DWH_VARS@|$(PKG_SYSCONF_DIR)/ovirt-engine-dwhd.conf|g" \
 	-e "s|@DWH_DEFAULTS@|$(PKG_DATA_DIR)/services/ovirt-engine-dwhd/ovirt-engine-dwhd.conf|g" \
 	-e "s|@RPM_VERSION@|$(RPM_VERSION)|g" \
@@ -214,6 +222,7 @@ all-dev:
 	$(MAKE) \
 		all \
 		DEV_PYTHON_DIR="$(PREFIX)$(PYTHON_SYS_DIR)" \
+		DEV_PYTHON3_DIR="$(PREFIX)$(PYTHON3_SYS_DIR)" \
 		$(NULL)
 
 install-dev:	\
@@ -235,6 +244,7 @@ install-dev:	\
 		install \
 		BUILD_VALIDATION=0 \
 		PYTHON_DIR="$(PREFIX)$(PYTHON_SYS_DIR)" \
+		PYTHON3_DIR="$(PREFIX)$(PYTHON3_SYS_DIR)" \
 		DEV_FLIST=tmp.dev.flist \
 		$(NULL)
 	cp tmp.dev.flist "$(DESTDIR)$(PREFIX)/dev.$(PACKAGE_NAME).flist"

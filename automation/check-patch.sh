@@ -53,8 +53,11 @@ rpmbuild \
     -ts ./*.gz
 
 # install any build requirements
-yum-builddep output/*src.rpm
-
+if [ -e /etc/fedora-release ]; then
+	dnf builddep --srpm output/*src.rpm
+else
+	yum-builddep output/*src.rpm
+fi
 # create the rpms
 rpmbuild \
     -D "_rpmdir $PWD/output" \

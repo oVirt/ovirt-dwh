@@ -1,9 +1,12 @@
 dnf-utils
 autoconf
 make
-pyflakes
-python-pep8
-python-devel
+python3-pyflakes
+python3-pep8
+python3-devel
+python2-pep8
+python2-devel
+python2-pyflakes
 git
 maven
 java-1.8.0-openjdk-devel

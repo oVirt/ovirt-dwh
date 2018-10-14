@@ -42,6 +42,9 @@
 %global product_name Data warehouse package for oVirt Virtualization Suite
 %global product_description oVirt virtualization manager data warehouse
 
+# Turn off the brp-python-bytecompile automagic
+%global _python_bytecompile_extra 0
+
 %global engine_gid 108
 %global engine_group ovirt
 %global engine_uid 108
@@ -61,7 +64,20 @@ getent group %3 >/dev/null || groupadd -r -g %4 %3; \
 getent passwd %1 >/dev/null || useradd -r -u %2 -g %3 -c %5 -s /sbin/nologin -d %6 %1
 
 %global ovirt_create_user_engine \
-%_ovirt_create_user %{engine_user} %{engine_uid} %{engine_group} %{engine_gid} "%{ovirt_user_description}" %{engine_state}
+%_ovirt_create_user %{engine_user} %{engine_uid} %{engine_group} %{engine_gid} "%%{ovirt_user_description}" %{engine_state}
+
+%if 0%{?fedora} || 0%{?rhel} >= 8
+%global with_python3 1
+%global __python %{__python3}
+%else
+%global with_python3 0
+%endif
+
+%if 0%{?rhel} >= 8
+%global with_python2 0
+%else
+%global with_python2 1
+%endif
 
 %global make_common_opts \\\
 	-j1 \\\
@@ -76,8 +92,10 @@ getent passwd %1 >/dev/null || useradd -r -u %2 -g %3 -c %5 -s /sbin/nologin -d 
 	DATAROOT_DIR=%{_datadir} \\\
 	MAN_DIR=%{_mandir} \\\
 	DOC_DIR=%{_docdir} \\\
-	PYTHON=%{__python} \\\
-	PYTHON_DIR=%{python_sitelib} \\\
+	PYTHON=%{__python2} \\\
+	PYTHON_DIR=%{python2_sitelib} \\\
+	%{?with_python3: PYTHON3=%{__python3}} \\\
+	%{?with_python3: PYTHON3_DIR=%{python3_sitelib}} \\\
 	JAVA_DIR=%{_javadir} \\\
 	PKG_USER=%{engine_user} \\\
 	PKG_GROUP=%{engine_group} \\\
@@ -99,6 +117,15 @@ BuildRequires:	%{dom4j}
 BuildRequires:	ant
 BuildRequires:	jpackage-utils
 BuildRequires:	make
+
+%if 0%{?with_python2}
+BuildRequires:	python
+BuildRequires:	python2-devel
+%endif
+%if 0%{?with_python3}
+BuildRequires:	python3
+BuildRequires:	python3-devel
+%endif
 
 %if %{ovirt_install_systemd}
 BuildRequires:	systemd
@@ -133,14 +160,22 @@ Requires(postun):	systemd
 Summary:	%{product_name} setup
 Group:		Virtualization/Management
 Requires:	ovirt-engine-setup-plugin-ovirt-engine-common >= 4.3.0
-Requires:	ovirt-setup-lib
+%if 0%{?with_python2}
+BuildRequires:	python
+Requires: python2-ovirt-setup-lib
+BuildRequires:	python2-devel
+%endif
+%if 0%{?with_python3}
+BuildRequires:	python3
+BuildRequires:	python3-devel
+Requires: python%{python3_pkgversion}-ovirt-setup-lib
+%endif
 Requires:	%{name} >= 3.6.0
 %if 0%{?fedora}
 Requires:       postgresql-server >= 9.5
 %else
 Requires:       rh-postgresql95-postgresql-server
 %endif
-BuildRequires:	python
 
 %description setup
 %{product_description} setup package.
@@ -156,9 +191,13 @@ rm -fr "%{buildroot}"
 
 make %{make_common_opts} install DESTDIR=%{buildroot}
 
-# Compile python files
-%{__python} -m compileall -f -q -d / "%{buildroot}"
-%{__python} -O -m compileall -f -q -d / "%{buildroot}"
+%if 0%{?with_python3}
+%py_byte_compile %{__python3} %{buildroot}/%{_datadir}/*
+%endif
+
+%if 0%{?with_python2}
+%py_byte_compile %{__python2} %{buildroot}/%{_datadir}/*
+%endif
 
 #
 # /var creation
