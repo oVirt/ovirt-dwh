@@ -42,8 +42,28 @@
 %global product_name Data warehouse package for oVirt Virtualization Suite
 %global product_description oVirt virtualization manager data warehouse
 
-# Turn off the brp-python-bytecompile automagic
+#
+# Automatic byte compiling outside of /usr/lib(64)?/pythonX.Y/ should be used
+# on Fedora 28+ and EL8 [1], but it would require too much work to support
+# on EL7, so it's turned off
+#
+# [1] https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation#How_we_are_changing_it
+#
+%if 0%{?fedora} || 0%{?rhel} >= 8
+%global use_python_bytecompile 1
 %global _python_bytecompile_extra 0
+%global with_python3 1
+%else
+%global use_python_bytecompile 0
+%global _python_bytecompile_extra 1
+%global with_python3 0
+%endif
+
+%if 0%{?rhel} >= 8
+%global with_python2 0
+%else
+%global with_python2 1
+%endif
 
 %global engine_gid 108
 %global engine_group ovirt
@@ -65,19 +85,6 @@ getent passwd %1 >/dev/null || useradd -r -u %2 -g %3 -c %5 -s /sbin/nologin -d 
 
 %global ovirt_create_user_engine \
 %_ovirt_create_user %{engine_user} %{engine_uid} %{engine_group} %{engine_gid} "%%{ovirt_user_description}" %{engine_state}
-
-%if 0%{?fedora} || 0%{?rhel} >= 8
-%global with_python3 1
-%global __python %{__python3}
-%else
-%global with_python3 0
-%endif
-
-%if 0%{?rhel} >= 8
-%global with_python2 0
-%else
-%global with_python2 1
-%endif
 
 %global make_common_opts \\\
 	-j1 \\\
@@ -191,11 +198,11 @@ rm -fr "%{buildroot}"
 
 make %{make_common_opts} install DESTDIR=%{buildroot}
 
-%if 0%{?with_python3}
+%if 0%{?with_python3} && 0%{?use_python_bytecompile}
 %py_byte_compile %{__python3} %{buildroot}/%{_datadir}/*
 %endif
 
-%if 0%{?with_python2}
+%if 0%{?with_python2} && 0%{?use_python_bytecompile}
 %py_byte_compile %{__python2} %{buildroot}/%{_datadir}/*
 %endif
 
