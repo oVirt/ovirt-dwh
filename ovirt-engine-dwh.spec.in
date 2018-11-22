@@ -312,6 +312,11 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Thu Nov 22 2018 Shirly Radco <sradco@redhat.com> - 4.3.0
+Fixed issues:
+- Bug 1639006 - packaging: support python2/3
+- Packaging: Spec: Disable Python bytecompile feature on EL7
+
 * Mon Oct 8 2018 Shirly Radco <sradco@redhat.com> - 4.3.0
 Fixed issues:
 - Bug 1546486 - build: fix dwh to support dom4j 2.0.0
