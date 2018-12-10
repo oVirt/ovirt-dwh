@@ -24,7 +24,7 @@ VERSION=$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH_LEVEL)
 # - master
 # - <none>
 #
-MILESTONE=beta2
+MILESTONE=master
 
 # RPM release is manually specified,
 # For pre-release:
@@ -36,4 +36,4 @@ MILESTONE=beta2
 # while N is incremented each re-release
 # Use only for spec file changes
 #
-RPM_RELEASE=0.3.$(MILESTONE).$(shell date -u +%Y%m%d%H%M%S)
+RPM_RELEASE=0.4.$(MILESTONE).$(shell date -u +%Y%m%d%H%M%S)
