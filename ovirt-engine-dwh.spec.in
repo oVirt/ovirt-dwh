@@ -312,6 +312,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Mon Dec 10 2018 Shirly Radco <sradco@redhat.com> - 4.3.0
+Fixed issues:
+- Bug 1614818 - core: Require PostgreSQL 10
+
 * Thu Nov 22 2018 Shirly Radco <sradco@redhat.com> - 4.3.0
 Fixed issues:
 - Bug 1639006 - packaging: support python2/3
