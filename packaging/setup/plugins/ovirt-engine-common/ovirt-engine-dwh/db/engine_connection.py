@@ -195,7 +195,7 @@ class Plugin(plugin.PluginBase):
                 self.environment[
                     oenginecons.EngineDBEnv.NEED_DBMSUPGRADE
                 ] = dbovirtutils.checkDBMSUpgrade()
-            except RuntimeError as e:
+            except RuntimeError:
                 self.logger.debug(
                     'Existing credential use failed',
                     exc_info=True,
