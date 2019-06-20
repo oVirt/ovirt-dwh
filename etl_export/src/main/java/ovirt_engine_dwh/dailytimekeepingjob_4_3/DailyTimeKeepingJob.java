@@ -542,6 +542,17 @@ public class DailyTimeKeepingJob implements TalendJob {
 		tJDBCInput_3_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tJDBCClose_2_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCClose_2_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tJava_1_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -694,6 +705,17 @@ public class DailyTimeKeepingJob implements TalendJob {
 		tJDBCInput_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tJDBCClose_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCClose_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tLogCatcher_1_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -802,6 +824,17 @@ public class DailyTimeKeepingJob implements TalendJob {
 	}
 
 	public void tJDBCInput_3_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCClose_2_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -923,6 +956,17 @@ public class DailyTimeKeepingJob implements TalendJob {
 	}
 
 	public void tJDBCInput_2_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCClose_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1640,7 +1684,7 @@ public class DailyTimeKeepingJob implements TalendJob {
 								"", "", "", "");
 			}
 
-			tJava_1Process(globalMap);
+			tJDBCClose_2Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -1684,6 +1728,121 @@ public class DailyTimeKeepingJob implements TalendJob {
 		}
 
 		globalMap.put("tJDBCInput_3_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCClose_2Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCClose_2_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCClose_2 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCClose_2", false);
+				start_Hash.put("tJDBCClose_2", System.currentTimeMillis());
+
+				currentComponent = "tJDBCClose_2";
+
+				int tos_count_tJDBCClose_2 = 0;
+
+				/**
+				 * [tJDBCClose_2 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCClose_2 main ] start
+				 */
+
+				currentComponent = "tJDBCClose_2";
+
+				java.sql.Connection conn_tJDBCClose_2 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_2");
+
+				if (conn_tJDBCClose_2 != null && !conn_tJDBCClose_2.isClosed()) {
+
+					conn_tJDBCClose_2.close();
+
+				}
+
+				tos_count_tJDBCClose_2++;
+
+				/**
+				 * [tJDBCClose_2 main ] stop
+				 */
+
+				/**
+				 * [tJDBCClose_2 end ] start
+				 */
+
+				currentComponent = "tJDBCClose_2";
+
+				ok_Hash.put("tJDBCClose_2", true);
+				end_Hash.put("tJDBCClose_2", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCClose_2 end ] stop
+				 */
+			}// end the resume
+
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCClose_2:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJava_1Process(globalMap);
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCClose_2 finally ] start
+				 */
+
+				currentComponent = "tJDBCClose_2";
+
+				/**
+				 * [tJDBCClose_2 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCClose_2_SUBPROCESS_STATE", 1);
 	}
 
 	public void tJava_1Process(final java.util.Map<String, Object> globalMap)
@@ -4864,6 +5023,16 @@ public class DailyTimeKeepingJob implements TalendJob {
 
 			}// end the resume
 
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCInput_2:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCClose_1Process(globalMap);
+
 		} catch (java.lang.Exception e) {
 
 			TalendException te = new TalendException(e, currentComponent,
@@ -4906,6 +5075,111 @@ public class DailyTimeKeepingJob implements TalendJob {
 		}
 
 		globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCClose_1Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCClose_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCClose_1 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCClose_1", false);
+				start_Hash.put("tJDBCClose_1", System.currentTimeMillis());
+
+				currentComponent = "tJDBCClose_1";
+
+				int tos_count_tJDBCClose_1 = 0;
+
+				/**
+				 * [tJDBCClose_1 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCClose_1 main ] start
+				 */
+
+				currentComponent = "tJDBCClose_1";
+
+				java.sql.Connection conn_tJDBCClose_1 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				if (conn_tJDBCClose_1 != null && !conn_tJDBCClose_1.isClosed()) {
+
+					conn_tJDBCClose_1.close();
+
+				}
+
+				tos_count_tJDBCClose_1++;
+
+				/**
+				 * [tJDBCClose_1 main ] stop
+				 */
+
+				/**
+				 * [tJDBCClose_1 end ] start
+				 */
+
+				currentComponent = "tJDBCClose_1";
+
+				ok_Hash.put("tJDBCClose_1", true);
+				end_Hash.put("tJDBCClose_1", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCClose_1 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCClose_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCClose_1";
+
+				/**
+				 * [tJDBCClose_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCClose_1_SUBPROCESS_STATE", 1);
 	}
 
 	public static class event_outputStruct implements
@@ -8679,6 +8953,6 @@ public class DailyTimeKeepingJob implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 229694 characters generated by Talend Open Studio for Data Integration on the
- * February 11, 2018 1:56:26 PM IST
+ * 235975 characters generated by Talend Open Studio for Data Integration on the
+ * June 20, 2019 3:12:08 PM IDT
  ************************************************************************************************/
