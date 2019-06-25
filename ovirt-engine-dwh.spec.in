@@ -312,6 +312,11 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Jun 25 2019 Shirly Radco <sradco@redhat.com> - 4.3.5
+Fixed issues:
+- Bug 1673808 - Close DWH db connections open transactions
+- docs: point to postgresql 10 docs for vacuum
+
 * Mon Dec 10 2018 Shirly Radco <sradco@redhat.com> - 4.3.0
 Fixed issues:
 - Bug 1614818 - core: Require PostgreSQL 10
