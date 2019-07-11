@@ -148,8 +148,10 @@ Requires:	postgresql-jdbc
 
 %if 0%{?fedora}
 Requires:	postgresql-server >= 10.0
+Requires:	postgresql-contrib >= 10.0
 %else
 Requires:	rh-postgresql10-postgresql-server
+Requires:	rh-postgresql10-postgresql-contrib
 %endif
 
 %description
@@ -180,8 +182,10 @@ Requires: python%{python3_pkgversion}-ovirt-setup-lib
 Requires:	%{name} >= 3.6.0
 %if 0%{?fedora}
 Requires:       postgresql-server >= 10.0
+Requires:       postgresql-contrib >= 10.0
 %else
 Requires:       rh-postgresql10-postgresql-server
+Requires:       rh-postgresql10-postgresql-contrib
 %endif
 
 %description setup
