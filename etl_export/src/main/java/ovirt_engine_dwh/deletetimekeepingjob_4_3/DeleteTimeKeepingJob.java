@@ -517,6 +517,17 @@ public class DeleteTimeKeepingJob implements TalendJob {
 		tPostjob_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tJDBCConnection_3_error(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCConnection_3_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tJDBCInput_10_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -561,7 +572,7 @@ public class DeleteTimeKeepingJob implements TalendJob {
 		tRowGenerator_1_onSubJobError(exception, errorComponent, globalMap);
 	}
 
-	public void tJDBCCommit_2_error(Exception exception, String errorComponent,
+	public void tJDBCClose_2_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -569,18 +580,7 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 		((java.util.Map) threadLocal.get()).put("status", "failure");
 
-		tJDBCCommit_2_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCClose_1_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		((java.util.Map) threadLocal.get()).put("status", "failure");
-
-		tJDBCClose_1_onSubJobError(exception, errorComponent, globalMap);
+		tJDBCClose_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
 	public void tJava_1_error(Exception exception, String errorComponent,
@@ -823,6 +823,17 @@ public class DeleteTimeKeepingJob implements TalendJob {
 		tJDBCInput_7_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tJDBCClose_1_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCClose_1_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tLogCatcher_1_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -930,6 +941,17 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 	}
 
+	public void tJDBCConnection_3_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
 	public void tJDBCInput_10_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -952,18 +974,7 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 	}
 
-	public void tJDBCCommit_2_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tJDBCClose_1_onSubJobError(Exception exception,
+	public void tJDBCClose_2_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -1139,6 +1150,17 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 	}
 
+	public void tJDBCClose_1_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
 	public void tLogCatcher_1_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1229,7 +1251,7 @@ public class DeleteTimeKeepingJob implements TalendJob {
 				ok_Hash.put("tPostjob_2", true);
 				end_Hash.put("tPostjob_2", System.currentTimeMillis());
 
-				tJDBCInput_10Process(globalMap);
+				tJDBCConnection_3Process(globalMap);
 
 				/**
 				 * [tPostjob_2 end ] stop
@@ -1267,6 +1289,131 @@ public class DeleteTimeKeepingJob implements TalendJob {
 		}
 
 		globalMap.put("tPostjob_2_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCConnection_3Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCConnection_3_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCConnection_3 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCConnection_3", false);
+				start_Hash.put("tJDBCConnection_3", System.currentTimeMillis());
+
+				currentComponent = "tJDBCConnection_3";
+
+				int tos_count_tJDBCConnection_3 = 0;
+
+				String url_tJDBCConnection_3 = context.ovirtEngineDbJdbcConnection;
+
+				String dbUser_tJDBCConnection_3 = context.ovirtEngineDbUser;
+
+				final String decryptedPassword_tJDBCConnection_3 = context.ovirtEngineDbPassword;
+				String dbPwd_tJDBCConnection_3 = decryptedPassword_tJDBCConnection_3;
+
+				java.sql.Connection conn_tJDBCConnection_3 = null;
+
+				String sharedConnectionName_tJDBCConnection_3 = "engine-events";
+				conn_tJDBCConnection_3 = SharedDBConnection.getDBConnection(
+						context.ovirtEngineDbDriverClass,
+						url_tJDBCConnection_3, dbUser_tJDBCConnection_3,
+						dbPwd_tJDBCConnection_3,
+						sharedConnectionName_tJDBCConnection_3);
+				if (null != conn_tJDBCConnection_3) {
+
+					conn_tJDBCConnection_3.setAutoCommit(true);
+				}
+
+				globalMap.put("conn_tJDBCConnection_3", conn_tJDBCConnection_3);
+				globalMap.put("url_tJDBCConnection_3", url_tJDBCConnection_3);
+				// globalMap.put("user_tJDBCConnection_3",
+				// dbUser_tJDBCConnection_3);
+				// globalMap.put("pass_tJDBCConnection_3",
+				// dbPwd_tJDBCConnection_3);
+
+				/**
+				 * [tJDBCConnection_3 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCConnection_3 main ] start
+				 */
+
+				currentComponent = "tJDBCConnection_3";
+
+				tos_count_tJDBCConnection_3++;
+
+				/**
+				 * [tJDBCConnection_3 main ] stop
+				 */
+
+				/**
+				 * [tJDBCConnection_3 end ] start
+				 */
+
+				currentComponent = "tJDBCConnection_3";
+
+				ok_Hash.put("tJDBCConnection_3", true);
+				end_Hash.put("tJDBCConnection_3", System.currentTimeMillis());
+
+				tJDBCInput_10Process(globalMap);
+
+				/**
+				 * [tJDBCConnection_3 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCConnection_3 finally ] start
+				 */
+
+				currentComponent = "tJDBCConnection_3";
+
+				/**
+				 * [tJDBCConnection_3 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCConnection_3_SUBPROCESS_STATE", 1);
 	}
 
 	public static class row11Struct implements
@@ -1487,7 +1634,7 @@ public class DeleteTimeKeepingJob implements TalendJob {
 				int nb_line_tJDBCInput_10 = 0;
 				java.sql.Connection conn_tJDBCInput_10 = null;
 				conn_tJDBCInput_10 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_2");
+						.get("conn_tJDBCConnection_3");
 
 				java.sql.Statement stmt_tJDBCInput_10 = conn_tJDBCInput_10
 						.createStatement();
@@ -2247,7 +2394,7 @@ public class DeleteTimeKeepingJob implements TalendJob {
 								"", "", "", "");
 			}
 
-			tJDBCCommit_2Process(globalMap);
+			tJDBCClose_2Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -2293,10 +2440,10 @@ public class DeleteTimeKeepingJob implements TalendJob {
 		globalMap.put("tRowGenerator_1_SUBPROCESS_STATE", 1);
 	}
 
-	public void tJDBCCommit_2Process(
+	public void tJDBCClose_2Process(
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
-		globalMap.put("tJDBCCommit_2_SUBPROCESS_STATE", 0);
+		globalMap.put("tJDBCClose_2_SUBPROCESS_STATE", 0);
 
 		final boolean execStat = this.execStat;
 
@@ -2316,73 +2463,56 @@ public class DeleteTimeKeepingJob implements TalendJob {
 				globalResumeTicket = true;
 
 				/**
-				 * [tJDBCCommit_2 begin ] start
+				 * [tJDBCClose_2 begin ] start
 				 */
 
-				ok_Hash.put("tJDBCCommit_2", false);
-				start_Hash.put("tJDBCCommit_2", System.currentTimeMillis());
+				ok_Hash.put("tJDBCClose_2", false);
+				start_Hash.put("tJDBCClose_2", System.currentTimeMillis());
 
-				currentComponent = "tJDBCCommit_2";
+				currentComponent = "tJDBCClose_2";
 
-				int tos_count_tJDBCCommit_2 = 0;
+				int tos_count_tJDBCClose_2 = 0;
 
 				/**
-				 * [tJDBCCommit_2 begin ] stop
+				 * [tJDBCClose_2 begin ] stop
 				 */
 
 				/**
-				 * [tJDBCCommit_2 main ] start
+				 * [tJDBCClose_2 main ] start
 				 */
 
-				currentComponent = "tJDBCCommit_2";
+				currentComponent = "tJDBCClose_2";
 
-				java.sql.Connection conn_tJDBCCommit_2 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_1");
+				java.sql.Connection conn_tJDBCClose_2 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_3");
 
-				if (conn_tJDBCCommit_2 != null
-						&& !conn_tJDBCCommit_2.isClosed()) {
+				if (conn_tJDBCClose_2 != null && !conn_tJDBCClose_2.isClosed()) {
 
-					try {
-
-						conn_tJDBCCommit_2.commit();
-
-					} finally {
-
-						conn_tJDBCCommit_2.close();
-
-					}
+					conn_tJDBCClose_2.close();
 
 				}
 
-				tos_count_tJDBCCommit_2++;
+				tos_count_tJDBCClose_2++;
 
 				/**
-				 * [tJDBCCommit_2 main ] stop
+				 * [tJDBCClose_2 main ] stop
 				 */
 
 				/**
-				 * [tJDBCCommit_2 end ] start
+				 * [tJDBCClose_2 end ] start
 				 */
 
-				currentComponent = "tJDBCCommit_2";
+				currentComponent = "tJDBCClose_2";
 
-				ok_Hash.put("tJDBCCommit_2", true);
-				end_Hash.put("tJDBCCommit_2", System.currentTimeMillis());
+				ok_Hash.put("tJDBCClose_2", true);
+				end_Hash.put("tJDBCClose_2", System.currentTimeMillis());
+
+				tJava_1Process(globalMap);
 
 				/**
-				 * [tJDBCCommit_2 end ] stop
+				 * [tJDBCClose_2 end ] stop
 				 */
 			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tJDBCCommit_2:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			tJDBCClose_1Process(globalMap);
 
 		} catch (java.lang.Exception e) {
 
@@ -2398,13 +2528,13 @@ public class DeleteTimeKeepingJob implements TalendJob {
 			try {
 
 				/**
-				 * [tJDBCCommit_2 finally ] start
+				 * [tJDBCClose_2 finally ] start
 				 */
 
-				currentComponent = "tJDBCCommit_2";
+				currentComponent = "tJDBCClose_2";
 
 				/**
-				 * [tJDBCCommit_2 finally ] stop
+				 * [tJDBCClose_2 finally ] stop
 				 */
 			} catch (java.lang.Exception e) {
 				// ignore
@@ -2414,122 +2544,7 @@ public class DeleteTimeKeepingJob implements TalendJob {
 			resourceMap = null;
 		}
 
-		globalMap.put("tJDBCCommit_2_SUBPROCESS_STATE", 1);
-	}
-
-	public void tJDBCClose_1Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCClose_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
-		String iterateId = "";
-
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
-				globalResumeTicket = true;
-
-				/**
-				 * [tJDBCClose_1 begin ] start
-				 */
-
-				ok_Hash.put("tJDBCClose_1", false);
-				start_Hash.put("tJDBCClose_1", System.currentTimeMillis());
-
-				currentComponent = "tJDBCClose_1";
-
-				int tos_count_tJDBCClose_1 = 0;
-
-				/**
-				 * [tJDBCClose_1 begin ] stop
-				 */
-
-				/**
-				 * [tJDBCClose_1 main ] start
-				 */
-
-				currentComponent = "tJDBCClose_1";
-
-				java.sql.Connection conn_tJDBCClose_1 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_2");
-
-				if (conn_tJDBCClose_1 != null && !conn_tJDBCClose_1.isClosed()) {
-
-					conn_tJDBCClose_1.close();
-
-				}
-
-				tos_count_tJDBCClose_1++;
-
-				/**
-				 * [tJDBCClose_1 main ] stop
-				 */
-
-				/**
-				 * [tJDBCClose_1 end ] start
-				 */
-
-				currentComponent = "tJDBCClose_1";
-
-				ok_Hash.put("tJDBCClose_1", true);
-				end_Hash.put("tJDBCClose_1", System.currentTimeMillis());
-
-				/**
-				 * [tJDBCClose_1 end ] stop
-				 */
-			}// end the resume
-
-			if (resumeEntryMethodName == null || globalResumeTicket) {
-				resumeUtil
-						.addLog("CHECKPOINT",
-								"CONNECTION:SUBJOB_OK:tJDBCClose_1:OnSubjobOk",
-								"", Thread.currentThread().getId() + "", "",
-								"", "", "", "");
-			}
-
-			tJava_1Process(globalMap);
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tJDBCClose_1 finally ] start
-				 */
-
-				currentComponent = "tJDBCClose_1";
-
-				/**
-				 * [tJDBCClose_1 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
-		}
-
-		globalMap.put("tJDBCClose_1_SUBPROCESS_STATE", 1);
+		globalMap.put("tJDBCClose_2_SUBPROCESS_STATE", 1);
 	}
 
 	public void tJava_1Process(final java.util.Map<String, Object> globalMap)
@@ -8071,6 +8086,16 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 			}// end the resume
 
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCInput_7:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCClose_1Process(globalMap);
+
 		} catch (java.lang.Exception e) {
 
 			TalendException te = new TalendException(e, currentComponent,
@@ -8113,6 +8138,111 @@ public class DeleteTimeKeepingJob implements TalendJob {
 		}
 
 		globalMap.put("tJDBCInput_7_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCClose_1Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCClose_1_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCClose_1 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCClose_1", false);
+				start_Hash.put("tJDBCClose_1", System.currentTimeMillis());
+
+				currentComponent = "tJDBCClose_1";
+
+				int tos_count_tJDBCClose_1 = 0;
+
+				/**
+				 * [tJDBCClose_1 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCClose_1 main ] start
+				 */
+
+				currentComponent = "tJDBCClose_1";
+
+				java.sql.Connection conn_tJDBCClose_1 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_1");
+
+				if (conn_tJDBCClose_1 != null && !conn_tJDBCClose_1.isClosed()) {
+
+					conn_tJDBCClose_1.close();
+
+				}
+
+				tos_count_tJDBCClose_1++;
+
+				/**
+				 * [tJDBCClose_1 main ] stop
+				 */
+
+				/**
+				 * [tJDBCClose_1 end ] start
+				 */
+
+				currentComponent = "tJDBCClose_1";
+
+				ok_Hash.put("tJDBCClose_1", true);
+				end_Hash.put("tJDBCClose_1", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCClose_1 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCClose_1 finally ] start
+				 */
+
+				currentComponent = "tJDBCClose_1";
+
+				/**
+				 * [tJDBCClose_1 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCClose_1_SUBPROCESS_STATE", 1);
 	}
 
 	public static class event_outputStruct implements
@@ -11759,6 +11889,10 @@ public class DeleteTimeKeepingJob implements TalendJob {
 	private void closeSqlDbConnections() {
 		try {
 			Object obj_conn;
+			obj_conn = globalMap.remove("conn_tJDBCConnection_3");
+			if (null != obj_conn) {
+				((java.sql.Connection) obj_conn).close();
+			}
 			obj_conn = globalMap.remove("conn_tJDBCConnection_2");
 			if (null != obj_conn) {
 				((java.sql.Connection) obj_conn).close();
@@ -11773,6 +11907,8 @@ public class DeleteTimeKeepingJob implements TalendJob {
 
 	private java.util.Map<String, Object> getSharedConnections4REST() {
 		java.util.Map<String, Object> connections = new java.util.HashMap<String, Object>();
+		connections.put("conn_tJDBCConnection_3",
+				globalMap.get("conn_tJDBCConnection_3"));
 		connections.put("conn_tJDBCConnection_2",
 				globalMap.get("conn_tJDBCConnection_2"));
 		connections.put("conn_tJDBCConnection_1",
@@ -11876,6 +12012,6 @@ public class DeleteTimeKeepingJob implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 308054 characters generated by Talend Open Studio for Data Integration on the
- * June 20, 2019 3:12:10 PM IDT
+ * 311738 characters generated by Talend Open Studio for Data Integration on the
+ * July 25, 2019 3:49:12 PM IDT
  ************************************************************************************************/
