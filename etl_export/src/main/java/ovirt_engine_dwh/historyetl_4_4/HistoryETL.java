@@ -734,6 +734,17 @@ public class HistoryETL implements TalendJob {
 		tJDBCClose_2_onSubJobError(exception, errorComponent, globalMap);
 	}
 
+	public void tJDBCClose_3_error(Exception exception, String errorComponent,
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		end_Hash.put(errorComponent, System.currentTimeMillis());
+
+		((java.util.Map) threadLocal.get()).put("status", "failure");
+
+		tJDBCClose_3_onSubJobError(exception, errorComponent, globalMap);
+	}
+
 	public void tPrejob_1_error(Exception exception, String errorComponent,
 			final java.util.Map<String, Object> globalMap)
 			throws TalendException {
@@ -1273,6 +1284,17 @@ public class HistoryETL implements TalendJob {
 	}
 
 	public void tJDBCClose_2_onSubJobError(Exception exception,
+			String errorComponent, final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+
+		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
+				.currentThread().getId() + "", "FATAL", "",
+				exception.getMessage(),
+				ResumeUtil.getExceptionStackTrace(exception), "");
+
+	}
+
+	public void tJDBCClose_3_onSubJobError(Exception exception,
 			String errorComponent, final java.util.Map<String, Object> globalMap)
 			throws TalendException {
 
@@ -2798,7 +2820,7 @@ public class HistoryETL implements TalendJob {
 				boolean whetherReject_tJDBCOutput_2 = false;
 
 				java.sql.Connection connection_tJDBCOutput_2 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_7");
+						.get("conn_tJDBCConnection_8");
 
 				String insert_tJDBCOutput_2 = "INSERT INTO "
 						+ "audit_log"
@@ -3386,7 +3408,7 @@ public class HistoryETL implements TalendJob {
 				boolean whetherReject_tJDBCOutput_6 = false;
 
 				java.sql.Connection connection_tJDBCOutput_6 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_7");
+						.get("conn_tJDBCConnection_8");
 
 				String update_tJDBCOutput_6 = "UPDATE "
 						+ "dwh_history_timekeeping"
@@ -4432,6 +4454,16 @@ public class HistoryETL implements TalendJob {
 				 */
 			}// end the resume
 
+			if (resumeEntryMethodName == null || globalResumeTicket) {
+				resumeUtil
+						.addLog("CHECKPOINT",
+								"CONNECTION:SUBJOB_OK:tJDBCClose_2:OnSubjobOk",
+								"", Thread.currentThread().getId() + "", "",
+								"", "", "", "");
+			}
+
+			tJDBCClose_3Process(globalMap);
+
 		} catch (java.lang.Exception e) {
 
 			TalendException te = new TalendException(e, currentComponent,
@@ -4463,6 +4495,111 @@ public class HistoryETL implements TalendJob {
 		}
 
 		globalMap.put("tJDBCClose_2_SUBPROCESS_STATE", 1);
+	}
+
+	public void tJDBCClose_3Process(
+			final java.util.Map<String, Object> globalMap)
+			throws TalendException {
+		globalMap.put("tJDBCClose_3_SUBPROCESS_STATE", 0);
+
+		final boolean execStat = this.execStat;
+
+		String iterateId = "";
+
+		String currentComponent = "";
+		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
+
+		try {
+
+			String currentMethodName = new java.lang.Exception()
+					.getStackTrace()[0].getMethodName();
+			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
+			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
+																					// the
+																					// resume
+				globalResumeTicket = true;
+
+				/**
+				 * [tJDBCClose_3 begin ] start
+				 */
+
+				ok_Hash.put("tJDBCClose_3", false);
+				start_Hash.put("tJDBCClose_3", System.currentTimeMillis());
+
+				currentComponent = "tJDBCClose_3";
+
+				int tos_count_tJDBCClose_3 = 0;
+
+				/**
+				 * [tJDBCClose_3 begin ] stop
+				 */
+
+				/**
+				 * [tJDBCClose_3 main ] start
+				 */
+
+				currentComponent = "tJDBCClose_3";
+
+				java.sql.Connection conn_tJDBCClose_3 = (java.sql.Connection) globalMap
+						.get("conn_tJDBCConnection_8");
+
+				if (conn_tJDBCClose_3 != null && !conn_tJDBCClose_3.isClosed()) {
+
+					conn_tJDBCClose_3.close();
+
+				}
+
+				tos_count_tJDBCClose_3++;
+
+				/**
+				 * [tJDBCClose_3 main ] stop
+				 */
+
+				/**
+				 * [tJDBCClose_3 end ] start
+				 */
+
+				currentComponent = "tJDBCClose_3";
+
+				ok_Hash.put("tJDBCClose_3", true);
+				end_Hash.put("tJDBCClose_3", System.currentTimeMillis());
+
+				/**
+				 * [tJDBCClose_3 end ] stop
+				 */
+			}// end the resume
+
+		} catch (java.lang.Exception e) {
+
+			TalendException te = new TalendException(e, currentComponent,
+					globalMap);
+
+			throw te;
+		} catch (java.lang.Error error) {
+
+			throw error;
+		} finally {
+
+			try {
+
+				/**
+				 * [tJDBCClose_3 finally ] start
+				 */
+
+				currentComponent = "tJDBCClose_3";
+
+				/**
+				 * [tJDBCClose_3 finally ] stop
+				 */
+			} catch (java.lang.Exception e) {
+				// ignore
+			} catch (java.lang.Error error) {
+				// ignore
+			}
+			resourceMap = null;
+		}
+
+		globalMap.put("tJDBCClose_3_SUBPROCESS_STATE", 1);
 	}
 
 	public void tPrejob_1Process(final java.util.Map<String, Object> globalMap)
@@ -9949,9 +10086,9 @@ public class HistoryETL implements TalendJob {
 				 * [tLoop_2 begin ] start
 				 */
 
-				int NB_ITERATE_tJavaFlex_1 = 0; // for statistics
-
 				int NB_ITERATE_tJavaFlex_2 = 0; // for statistics
+
+				int NB_ITERATE_tJavaFlex_1 = 0; // for statistics
 
 				ok_Hash.put("tLoop_2", false);
 				start_Hash.put("tLoop_2", System.currentTimeMillis());
@@ -12057,6 +12194,6 @@ public class HistoryETL implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 305345 characters generated by Talend Open Studio for Data Integration on the
- * February 11, 2018 1:56:27 PM IST
+ * 308487 characters generated by Talend Open Studio for Data Integration on the
+ * July 25, 2019 4:01:16 PM IDT
  ************************************************************************************************/
