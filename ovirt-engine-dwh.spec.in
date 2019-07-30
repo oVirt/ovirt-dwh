@@ -312,6 +312,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Jul 30 2019 Shirly Radco <sradco@redhat.com> - 4.3.5.1
+Fixed issues:
+- Bug 1730384 - Fix closed connections issue
+
 * Tue Jun 25 2019 Shirly Radco <sradco@redhat.com> - 4.3.5
 Fixed issues:
 - Bug 1673808 - Close DWH db connections open transactions
