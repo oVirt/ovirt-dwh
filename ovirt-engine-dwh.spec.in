@@ -316,6 +316,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Aug 27 2019 Shirly Radco <sradco@redhat.com> - 4.3.6
+Fixed issues:
+- Bug 1727550 - packaging: Require postgresql-contrib
+
 * Tue Jul 30 2019 Shirly Radco <sradco@redhat.com> - 4.3.5.1
 Fixed issues:
 - Bug 1730384 - Fix closed connections issue
