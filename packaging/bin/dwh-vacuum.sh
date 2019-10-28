@@ -1,5 +1,6 @@
 #!/bin/sh
 
+. "$(dirname "$(readlink -f "$0")")"/dwh-prolog.sh
 . "$(dirname "$(readlink -f "$0")")"/generate-pgpass.sh
 
 usage() {
