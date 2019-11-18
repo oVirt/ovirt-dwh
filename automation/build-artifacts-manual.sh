@@ -3,7 +3,7 @@
 MAVEN_SETTINGS="/etc/maven/settings.xml"
 
 # Set the location of the JDK that will be used for compilation:
-export JAVA_HOME="${JAVA_HOME:=/usr/lib/jvm/java-1.8.0}"
+export JAVA_HOME="${JAVA_HOME:=/usr/lib/jvm/java-11-openjdk}"
 
 # Use ovirt mirror if able, fall back to central maven
 mkdir -p "${MAVEN_SETTINGS%/*}"

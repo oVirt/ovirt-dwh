@@ -127,7 +127,7 @@ URL:		http://www.ovirt.org
 BuildArch:	noarch
 Source:		http://resources.ovirt.org/pub/src/@PACKAGE_NAME@/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
 
-BuildRequires:  java-1.8.0-openjdk-devel >= 1:1.8.0
+BuildRequires:  java-11-openjdk-devel >= 11.0.4
 BuildRequires:	%{commons_collections}
 BuildRequires:	%{dom4j}
 BuildRequires:	ant
@@ -150,7 +150,7 @@ BuildRequires:	systemd
 Requires:	%{commons_collections}
 Requires:	%{dom4j}
 Requires:	%{name}-setup >= %{version}-%{release}
-Requires:	java-openjdk-headless >= 1:1.8.0
+Requires:	java-11-openjdk-headless >= 11.0.4
 Requires:	jpackage-utils
 Requires:	logrotate
 Requires:	postgresql-jdbc
