@@ -341,6 +341,12 @@ fi
 
 
 %changelog
+* Wed Dec 04 2019 Shirly Radco <sradco@redhat.com> - 4.3.8
+Fixed issues:
+- Bug 1761494 - packaging: spec: Add sclenv to dwh conf
+- Bug 1761494 - packaging: bin: dwh-vacuum: Source prolog
+- Bug 1761494 - tools: dwh-vacuum.sh must enable SCL if used by the engine
+
 * Tue Aug 27 2019 Shirly Radco <sradco@redhat.com> - 4.3.6
 Fixed issues:
 - Bug 1727550 - packaging: Require postgresql-contrib
