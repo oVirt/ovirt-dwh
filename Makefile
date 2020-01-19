@@ -29,10 +29,11 @@ BUILD_VALIDATION=1
 
 PACKAGE_NAME=ovirt-engine-dwh
 ANT=ant
-PYTHON=python
+PYTHON=python2
 PYTHON3=$(shell which python3 2> /dev/null)
 PYFLAKES=pyflakes
 PEP8=pep8
+PY_VERSION=$(if $(PYTHON3),3,2)
 PREFIX=/usr/local
 LOCALSTATE_DIR=$(PREFIX)/var
 BIN_DIR=$(PREFIX)/bin
@@ -102,6 +103,7 @@ BUILD_FILE=tmp.built
 	-e "s|@VERSION_PATCH_LEVEL@|$(VERSION_PATCH_LEVEL)|g" \
 	-e "s|@PEP8@|$(PEP8)|g" \
 	-e "s|@PYFLAKES@|$(PYFLAKES)|g" \
+	-e "s|@PY_VERSION@|$(PY_VERSION)|g" \
 	$< > $@
 
 GENERATED = \
@@ -111,6 +113,7 @@ GENERATED = \
 	packaging/bin/dwh-prolog.sh \
 	packaging/services/ovirt-engine-dwhd/config.py \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.conf \
+	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.py \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.systemd \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv \
 	packaging/services/ovirt-engine-dwhd/ovirt_engine_dwh_watchdog.cron \

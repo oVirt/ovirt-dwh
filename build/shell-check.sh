@@ -24,7 +24,7 @@ ret="$(
 		case "${shell}" in
 			/bin/sh) shell="${VALIDATION_SHELL} ${EXTRA_ARGS}" ;;
 			/bin/bash) ;;
-			/usr/bin/python) skip=1 ;;
+			/usr/bin/python*) skip=1 ;;
 			*)
 				echo "ERROR: Unknown shell '${shell}' for '${f}'"
 				ret=1

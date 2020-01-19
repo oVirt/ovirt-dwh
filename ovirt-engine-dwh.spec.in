@@ -73,10 +73,12 @@
 %global use_python_bytecompile 1
 %global _python_bytecompile_extra 0
 %global with_python3 1
+%define py_version 3
 %else
 %global use_python_bytecompile 0
 %global _python_bytecompile_extra 1
 %global with_python3 0
+%define py_version 2
 %endif
 
 %if 0%{?rhel} >= 8
@@ -123,6 +125,7 @@ getent passwd %1 >/dev/null || useradd -r -u %2 -g %3 -c %5 -s /sbin/nologin -d 
 	PYTHON_DIR=%{python2_sitelib} \\\
 	%{?with_python3: PYTHON3=%{__python3}} \\\
 	%{?with_python3: PYTHON3_DIR=%{python3_sitelib}} \\\
+	PY_VERSION=%{py_version} \\\
 	JAVA_DIR=%{_javadir} \\\
 	PKG_USER=%{engine_user} \\\
 	PKG_GROUP=%{engine_group} \\\
