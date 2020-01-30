@@ -22,21 +22,32 @@
 %endif
 
 %if 0%{?rhel}
-%if 0%{?rhel} >= 7
-%global ovirt_install_systemd 1
-%global ovirt_install_systemv 0
-%global commons_collections apache-commons-collections
-%global dom4j dom4j
-%else
-%global ovirt_install_systemd 0
-%global ovirt_install_systemv 1
-%global commons_collections commons-collections
-%if 0%{?centos}
-%global dom4j dom4j
-%else
-%global dom4j dom4j-eap6
-%endif
-%endif
+    %if 0%{?rhel} >= 8
+        %global ovirt_install_systemd 1
+        %global ovirt_install_systemv 0
+        %global commons_collections apache-commons-collections
+        %if 0%{?centos}
+            %global dom4j ovirt-engine-wildfly
+        %else
+            %global dom4j eap7-wildfly
+        %endif
+    %else
+        %if 0%{?rhel} >= 7
+            %global ovirt_install_systemd 1
+            %global ovirt_install_systemv 0
+            %global commons_collections apache-commons-collections
+            %global dom4j dom4j
+        %else
+            %global ovirt_install_systemd 0
+            %global ovirt_install_systemv 1
+            %global commons_collections commons-collections
+            %if 0%{?centos}
+                %global dom4j dom4j
+            %else
+                %global dom4j dom4j-eap6
+            %endif
+        %endif
+    %endif
 %endif
 
 # Set SQL PG vars if needed. We do not need to handle here systemd/services
@@ -132,6 +143,7 @@ BuildRequires:	%{commons_collections}
 BuildRequires:	%{dom4j}
 BuildRequires:	ant
 BuildRequires:	jpackage-utils
+BuildRequires:	javapackages-tools
 BuildRequires:	make
 
 %if 0%{?with_python2}
@@ -152,6 +164,7 @@ Requires:	%{dom4j}
 Requires:	%{name}-setup >= %{version}-%{release}
 Requires:	java-11-openjdk-headless >= 11.0.4
 Requires:	jpackage-utils
+Requires:	javapackages-tools
 Requires:	logrotate
 Requires:	postgresql-jdbc
 
