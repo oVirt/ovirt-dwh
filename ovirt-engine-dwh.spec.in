@@ -52,7 +52,7 @@
 
 # Set SQL PG vars if needed. We do not need to handle here systemd/services
 # nor upgrade - these are done by common engine-setup plugins.
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} >= 8
 %global ovirt_rh_postgresql 0
 %else
 %global ovirt_rh_postgresql 1
