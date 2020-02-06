@@ -357,6 +357,23 @@ fi
 
 
 %changelog
+* Thu Feb 06 2020 Shirly Radco <sradco@redhat.com> - 4.4.0
+Fixed issues:
+- build: moved major version to 4.4.0
+- docs: point to postgresql 10 docs for vacuum
+- lint: drop unused variables
+- Bug 1673808 - Close DWH db connections open transactions
+- Bug 1727550 - packaging: Require postgresql-contrib
+- Bug 1730384 - Fix closed connections issue
+- packaging: setup: Remove unused method name DB_CONNECTION_STATUS
+- Bug 1761494 - packaging: spec: Add sclenv to dwh conf
+- Bug 1761494 - packaging: bin: dwh-vacuum: Source prolog
+- Bug 1761494 - tools: dwh-vacuum.sh must enable SCL if used by the engine.
+- Bug 1734718 - Update java to OpenJDK 11
+- packaging: Use dom4j from wildfly
+- Build for el8, with python3
+- spec: Require SCL PostgreSQL only on EL7
+
 * Mon Dec 10 2018 Shirly Radco <sradco@redhat.com> - 4.3.0
 Fixed issues:
 - Bug 1614818 - core: Require PostgreSQL 10
