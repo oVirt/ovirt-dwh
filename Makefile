@@ -131,6 +131,7 @@ generated-files:	$(GENERATED)
 	chmod a+x build/python-check.sh
 	chmod a+x packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv
 	chmod a+x packaging/services/ovirt-engine-dwhd/ovirt_engine_dwh_watchdog.cron
+	chmod a+x packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.py
 
 $(BUILD_FILE):
 	$(ANT) $(BUILD_FLAGS) all
