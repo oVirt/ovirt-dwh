@@ -357,7 +357,7 @@ fi
 
 
 %changelog
-* Thu Feb 06 2020 Shirly Radco <sradco@redhat.com> - 4.4.0
+* Wed Feb 12 2020 Shirly Radco <sradco@redhat.com> - 4.4.0
 Fixed issues:
 - build: moved major version to 4.4.0
 - docs: point to postgresql 10 docs for vacuum
@@ -373,6 +373,8 @@ Fixed issues:
 - packaging: Use dom4j from wildfly
 - Build for el8, with python3
 - spec: Require SCL PostgreSQL only on EL7
+- make: Set correct permissions for ovirt-engine-dwhd.py
+- Search dom4j also in eap7
 
 * Mon Dec 10 2018 Shirly Radco <sradco@redhat.com> - 4.3.0
 Fixed issues:
