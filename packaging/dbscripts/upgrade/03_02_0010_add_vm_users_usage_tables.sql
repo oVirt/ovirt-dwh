@@ -18,7 +18,7 @@ CREATE TABLE statistics_vms_users_usage_hourly
    currently_running_on_host UUID,
    vm_configuration_version INTEGER REFERENCES vm_configuration (history_id),
    current_host_configuration_version INTEGER REFERENCES host_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_vm_users_usage_history_datetime_hourly ON statistics_vms_users_usage_hourly (history_datetime);
 CREATE INDEX IDX_vm_users_usage_configuration_version_hourly ON statistics_vms_users_usage_hourly (vm_configuration_version);
@@ -44,7 +44,7 @@ CREATE TABLE statistics_vms_users_usage_daily
    currently_running_on_host UUID,
    vm_configuration_version INTEGER REFERENCES vm_configuration (history_id),
    current_host_configuration_version INTEGER REFERENCES host_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_vm_users_usage_history_datetime_daily ON statistics_vms_users_usage_daily (history_datetime);
 CREATE INDEX IDX_vm_users_usage_configuration_version_daily ON statistics_vms_users_usage_daily (vm_configuration_version);

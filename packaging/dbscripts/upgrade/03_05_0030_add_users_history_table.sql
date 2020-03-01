@@ -13,7 +13,7 @@ CREATE TABLE users_details_history
   create_date TIMESTAMP WITH TIME ZONE NOT NULL,
   update_date TIMESTAMP WITH TIME ZONE,
   delete_date TIMESTAMP WITH TIME ZONE
-) WITH OIDS;
+) ;
 
 -- vm_configuration - We can't add to vm_configuration table a FK on created_by_user_id
 -- because this column already existed in the database, before we started to collect

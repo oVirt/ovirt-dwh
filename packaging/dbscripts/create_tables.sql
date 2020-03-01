@@ -4,7 +4,7 @@ CREATE TABLE history_configuration
    var_value VARCHAR(255),
    var_datetime TIMESTAMP WITH TIME ZONE,
    CONSTRAINT PK_history_configuration PRIMARY KEY(var_name)
-) WITH OIDS;
+) ;
 
 CREATE TABLE enum_translator
 (
@@ -13,7 +13,7 @@ CREATE TABLE enum_translator
    language_code VARCHAR(40) NOT NULL,
    value TEXT NOT NULL,
    CONSTRAINT PK_enums PRIMARY KEY(enum_type,enum_key,language_code)
-) WITH OIDS;
+) ;
 
 CREATE SEQUENCE configuration_seq INCREMENT BY 1 START WITH 1;
 
@@ -27,7 +27,7 @@ CREATE TABLE datacenter_configuration
    create_date TIMESTAMP WITH TIME ZONE,
    update_date TIMESTAMP WITH TIME ZONE,
    delete_date TIMESTAMP WITH TIME ZONE
-) WITH OIDS;
+) ;
 
 CREATE INDEX datacenter_configuration_datacenter_id_idx ON datacenter_configuration(datacenter_id);
 
@@ -40,7 +40,7 @@ CREATE TABLE datacenter_samples_history
    datacenter_status SMALLINT NOT NULL,
    minutes_in_status DECIMAL(7,2) NOT NULL DEFAULT 1,
    datacenter_configuration_version INTEGER NOT NULL REFERENCES datacenter_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_datacenter_history_datetime_samples ON datacenter_samples_history (history_datetime);
 CREATE INDEX IDX_datacenter_configuration_version_samples ON datacenter_samples_history (datacenter_configuration_version);
@@ -55,7 +55,7 @@ CREATE TABLE datacenter_hourly_history
    datacenter_status SMALLINT NOT NULL,
    minutes_in_status DECIMAL(7,2) NOT NULL DEFAULT 1,
    datacenter_configuration_version INTEGER NOT NULL REFERENCES datacenter_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_datacenter_history_datetime_hourly ON datacenter_hourly_history (history_datetime);
 CREATE INDEX IDX_datacenter_configuration_version_hourly ON datacenter_hourly_history (datacenter_configuration_version);
@@ -70,7 +70,7 @@ CREATE TABLE datacenter_daily_history
    datacenter_status SMALLINT NOT NULL,
    minutes_in_status DECIMAL(7,2) NOT NULL DEFAULT 1,
    datacenter_configuration_version INTEGER NOT NULL REFERENCES datacenter_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_datacenter_history_datetime_daily ON datacenter_daily_history (history_datetime);
 CREATE INDEX IDX_datacenter_configuration_version_daily ON datacenter_daily_history (datacenter_configuration_version);
@@ -86,7 +86,7 @@ CREATE TABLE storage_domain_configuration
    create_date TIMESTAMP WITH TIME ZONE,
    update_date TIMESTAMP WITH TIME ZONE,
    delete_date TIMESTAMP WITH TIME ZONE
-) WITH OIDS;
+) ;
 
 CREATE INDEX storage_domain_configuration_storage_domain_id_idx ON storage_domain_configuration(storage_domain_id);
 
@@ -98,7 +98,7 @@ CREATE TABLE datacenter_storage_domain_map
    datacenter_id UUID NOT NULL,
    attach_date TIMESTAMP WITH TIME ZONE NOT NULL,
    detach_date TIMESTAMP WITH TIME ZONE
-) WITH OIDS;
+) ;
 
 CREATE INDEX datacenter_storage_domain_map_storage_domain_id_idx ON datacenter_storage_domain_map(storage_domain_id);
 CREATE INDEX datacenter_storage_domain_map_datacenter_id_idx ON datacenter_storage_domain_map(datacenter_id);
@@ -112,7 +112,7 @@ CREATE TABLE storage_domain_samples_history
    available_disk_size_gb INTEGER,
    used_disk_size_gb INTEGER,
    storage_configuration_version INTEGER REFERENCES storage_domain_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_storage_history_datetime_samples ON storage_domain_samples_history (history_datetime);
 CREATE INDEX IDX_storage_configuration_version_samples ON storage_domain_samples_history (storage_configuration_version);
@@ -127,7 +127,7 @@ CREATE TABLE storage_domain_hourly_history
    available_disk_size_gb INTEGER,
    used_disk_size_gb INTEGER,
    storage_configuration_version INTEGER REFERENCES storage_domain_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_storage_history_datetime_hourly ON storage_domain_hourly_history (history_datetime);
 CREATE INDEX IDX_storage_configuration_version_hourly ON storage_domain_hourly_history (storage_configuration_version);
@@ -142,7 +142,7 @@ CREATE TABLE storage_domain_daily_history
    available_disk_size_gb INTEGER,
    used_disk_size_gb INTEGER,
    storage_configuration_version INTEGER REFERENCES storage_domain_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_storage_domain_history_datetime_daily ON storage_domain_daily_history (history_datetime);
 CREATE INDEX IDX_storage_configuration_version_daily ON storage_domain_daily_history (storage_configuration_version);
@@ -161,7 +161,7 @@ CREATE TABLE cluster_configuration
    create_date TIMESTAMP WITH TIME ZONE,
    update_date TIMESTAMP WITH TIME ZONE,
    delete_date TIMESTAMP WITH TIME ZONE
-) WITH OIDS;
+) ;
 
 CREATE INDEX cluster_configuration_cluster_id_idx ON cluster_configuration(cluster_id);
 CREATE INDEX cluster_configuration_datacenter_id_idx ON cluster_configuration(datacenter_id);
@@ -190,7 +190,7 @@ CREATE TABLE host_configuration
    delete_date TIMESTAMP WITH TIME ZONE,
    number_of_sockets SMALLINT,
    cpu_speed_mh DECIMAL(18,0)
-) WITH OIDS;
+) ;
 
 CREATE INDEX host_configuration_host_id_idx ON host_configuration(host_id);
 CREATE INDEX host_configuration_cluster_id_idx ON host_configuration(cluster_id);
@@ -214,7 +214,7 @@ CREATE TABLE host_samples_history
    user_cpu_usage_percent SMALLINT  DEFAULT 0,
    swap_used_mb INTEGER,
    host_configuration_version INTEGER REFERENCES host_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_host_history_datetime_samples ON host_samples_history (history_datetime);
 CREATE INDEX IDX_host_configuration_version_samples ON host_samples_history (host_configuration_version);
@@ -250,7 +250,7 @@ CREATE TABLE host_hourly_history
    swap_used_mb INTEGER,
    max_swap_used_mb INTEGER,
    host_configuration_version INTEGER REFERENCES host_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_host_history_datetime_hourly ON host_hourly_history (history_datetime);
 CREATE INDEX IDX_host_configuration_version_hourly ON host_hourly_history (host_configuration_version);
@@ -285,7 +285,7 @@ CREATE TABLE host_daily_history
    swap_used_mb INTEGER,
    max_swap_used_mb INTEGER,
    host_configuration_version INTEGER REFERENCES host_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_host_history_datetime_daily ON host_daily_history (history_datetime);
 CREATE INDEX IDX_host_configuration_version_daily ON host_daily_history (host_configuration_version);
@@ -310,7 +310,7 @@ CREATE TABLE  host_interface_configuration
    create_date TIMESTAMP WITH TIME ZONE,
    update_date TIMESTAMP WITH TIME ZONE,
    delete_date TIMESTAMP WITH TIME ZONE
-) WITH OIDS;
+) ;
 
 CREATE INDEX host_interface_configuration_host_interface_id_idx ON host_interface_configuration(host_interface_id);
 CREATE INDEX host_interface_configuration_host_id_idx ON host_interface_configuration(host_id);
@@ -324,7 +324,7 @@ CREATE TABLE host_interface_samples_history
    receive_rate_percent SMALLINT,
    transmit_rate_percent SMALLINT,
    host_interface_configuration_version INTEGER REFERENCES host_interface_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_host_interface_history_datetime_samples ON host_interface_samples_history (history_datetime);
 CREATE INDEX IDX_host_interface_configuration_version_samples ON host_interface_samples_history (host_interface_configuration_version);
@@ -341,7 +341,7 @@ CREATE TABLE host_interface_hourly_history
    transmit_rate_percent SMALLINT,
    max_transmit_rate_percent SMALLINT,
    host_interface_configuration_version INTEGER REFERENCES host_interface_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_host_interface_history_datetime_hourly ON host_interface_hourly_history (history_datetime);
 CREATE INDEX IDX_host_interface_configuration_version_hourly ON host_interface_hourly_history (host_interface_configuration_version);
@@ -358,7 +358,7 @@ CREATE TABLE host_interface_daily_history
    transmit_rate_percent SMALLINT,
    max_transmit_rate_percent SMALLINT,
    host_interface_configuration_version INTEGER REFERENCES host_interface_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_host_interface_history_datetime_daily ON host_interface_daily_history (history_datetime);
 CREATE INDEX IDX_host_interface_configuration_version_daily ON host_interface_daily_history (host_interface_configuration_version);
@@ -392,7 +392,7 @@ CREATE TABLE vm_configuration
    create_date TIMESTAMP WITH TIME ZONE,
    update_date TIMESTAMP WITH TIME ZONE,
    delete_date TIMESTAMP WITH TIME ZONE
-) WITH OIDS;
+) ;
 
 CREATE INDEX vm_configuration_vm_id_idx ON vm_configuration(vm_id);
 CREATE INDEX vm_configuration_cluster_id_idx ON vm_configuration(cluster_id);
@@ -413,7 +413,7 @@ CREATE TABLE vm_device_history
   create_date TIMESTAMP WITH TIME ZONE NOT NULL,
   update_date TIMESTAMP WITH TIME ZONE,
   delete_date TIMESTAMP WITH TIME ZONE
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_vm_device_history_vm_id_type ON vm_device_history (vm_id, type);
 
@@ -434,7 +434,7 @@ CREATE TABLE vm_samples_history
    currently_running_on_host UUID,
    vm_configuration_version INTEGER REFERENCES vm_configuration (history_id),
    current_host_configuration_version INTEGER REFERENCES host_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_vm_history_datetime_samples ON vm_samples_history (history_datetime);
 CREATE INDEX IDX_vm_configuration_version_samples ON vm_samples_history (vm_configuration_version);
@@ -462,7 +462,7 @@ CREATE TABLE vm_hourly_history
    currently_running_on_host UUID,
    vm_configuration_version INTEGER REFERENCES vm_configuration (history_id),
    current_host_configuration_version INTEGER REFERENCES host_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_vm_history_datetime_hourly ON vm_hourly_history (history_datetime);
 CREATE INDEX IDX_vm_configuration_version_hourly ON vm_hourly_history (vm_configuration_version);
@@ -490,7 +490,7 @@ CREATE TABLE vm_daily_history
    currently_running_on_host UUID,
    vm_configuration_version INTEGER REFERENCES vm_configuration (history_id),
    current_host_configuration_version INTEGER REFERENCES host_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_vm_history_datetime_daily ON vm_daily_history (history_datetime);
 CREATE INDEX IDX_vm_configuration_version_daily ON vm_daily_history (vm_configuration_version);
@@ -511,7 +511,7 @@ CREATE TABLE  vm_interface_configuration
    create_date TIMESTAMP WITH TIME ZONE,
    update_date TIMESTAMP WITH TIME ZONE,
    delete_date TIMESTAMP WITH TIME ZONE
-) WITH OIDS;
+) ;
 
 CREATE INDEX vm_interface_configuration_vm_interface_id_idx ON vm_interface_configuration(vm_interface_id);
 CREATE INDEX vm_interface_configuration_vm_id_idx ON vm_interface_configuration(vm_id);
@@ -525,7 +525,7 @@ CREATE TABLE vm_interface_samples_history
    receive_rate_percent SMALLINT,
    transmit_rate_percent SMALLINT,
    vm_interface_configuration_version INTEGER REFERENCES vm_interface_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_vm_interface_history_datetime_samples ON vm_interface_samples_history(history_datetime);
 CREATE INDEX IDX_vm_interface_configuration_version_samples ON vm_interface_samples_history(vm_interface_configuration_version);
@@ -542,7 +542,7 @@ CREATE TABLE vm_interface_hourly_history
    transmit_rate_percent SMALLINT,
    max_transmit_rate_percent SMALLINT,
    vm_interface_configuration_version INTEGER REFERENCES vm_interface_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_vm_interface_history_datetime_hourly ON vm_interface_hourly_history(history_datetime);
 CREATE INDEX IDX_vm_interface_configuration_version_hourly ON vm_interface_hourly_history(vm_interface_configuration_version);
@@ -560,7 +560,7 @@ CREATE TABLE vm_interface_daily_history
    transmit_rate_percent SMALLINT,
    max_transmit_rate_percent SMALLINT,
    vm_interface_configuration_version INTEGER REFERENCES vm_interface_configuration (history_id)
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_vm_interface_history_datetime_daily ON vm_interface_daily_history(history_datetime);
 CREATE INDEX IDX_vm_interface_configuration_version_daily ON vm_interface_daily_history(vm_interface_configuration_version);
@@ -583,7 +583,7 @@ CREATE TABLE vm_disk_configuration
    vm_disk_id UUID,
    vm_disk_name VARCHAR(255),
    is_shared BOOLEAN
-) WITH OIDS;
+) ;
 
 CREATE INDEX vm_disk_configuration_vm_disk_id_idx ON vm_disk_configuration(image_id);
 CREATE INDEX vm_disk_configuration_storage_domain_id_idx ON vm_disk_configuration(storage_domain_id);
@@ -604,7 +604,7 @@ CREATE TABLE vm_disk_samples_history
    flush_latency_seconds DECIMAL(18,9),
    vm_disk_configuration_version INTEGER REFERENCES vm_disk_configuration (history_id),
    vm_disk_id UUID
- ) WITH OIDS;
+ ) ;
 
 CREATE INDEX IDX_vm_disk_history_datetime_samples ON vm_disk_samples_history (history_datetime);
 CREATE INDEX IDX_vm_disk_configuration_version_samples ON vm_disk_samples_history (vm_disk_configuration_version);
@@ -631,7 +631,7 @@ CREATE TABLE vm_disk_hourly_history
    max_flush_latency_seconds DECIMAL(18,9),
    vm_disk_configuration_version INTEGER REFERENCES vm_disk_configuration (history_id),
    vm_disk_id UUID
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_vm_disk_history_datetime_hourly ON vm_disk_hourly_history (history_datetime);
 CREATE INDEX IDX_vm_disk_configuration_version_hourly ON vm_disk_hourly_history (vm_disk_configuration_version);
@@ -658,7 +658,7 @@ CREATE TABLE vm_disk_daily_history
    max_flush_latency_seconds DECIMAL(18,9),
    vm_disk_configuration_version INTEGER REFERENCES vm_disk_configuration (history_id),
    vm_disk_id UUID
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_vm_disk_history_datetime_daily ON vm_disk_daily_history (history_datetime);
 CREATE INDEX IDX_vm_disk_configuration_version_daily ON vm_disk_daily_history (vm_disk_configuration_version);
@@ -671,7 +671,7 @@ CREATE TABLE vm_disks_usage_samples_history
     history_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
     vm_id UUID NOT NULL,
     disks_usage TEXT
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_disks_usage_history_datetime_samples ON vm_disks_usage_samples_history (history_datetime);
 CREATE INDEX IDX_disks_usage_vm_id_samples ON vm_disks_usage_samples_history (vm_id);
@@ -683,7 +683,7 @@ CREATE TABLE vm_disks_usage_hourly_history
     history_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
     vm_id UUID NOT NULL,
     disks_usage TEXT
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_disks_usage_history_datetime_hourly ON vm_disks_usage_hourly_history (history_datetime);
 CREATE INDEX IDX_disks_usage_vm_id_hourly ON vm_disks_usage_hourly_history (vm_id);
@@ -695,7 +695,7 @@ CREATE TABLE vm_disks_usage_daily_history
     history_datetime TIMESTAMP WITH TIME ZONE NOT NULL,
     vm_id UUID NOT NULL,
     disks_usage TEXT
-) WITH OIDS;
+) ;
 
 CREATE INDEX IDX_disks_usage_history_datetime_daily ON vm_disks_usage_daily_history (history_datetime);
 CREATE INDEX IDX_disks_usage_vm_id_daily ON vm_disks_usage_daily_history (vm_id);
@@ -708,7 +708,7 @@ CREATE TABLE disks_vm_map
    vm_id UUID NOT NULL,
    attach_date TIMESTAMP WITH TIME ZONE NOT NULL,
    detach_date TIMESTAMP WITH TIME ZONE
-) WITH OIDS;
+) ;
 
 CREATE INDEX disks_vm_map_vm_disk_id_idx ON disks_vm_map(vm_disk_id);
 CREATE INDEX disks_vm_map_vm_id_idx ON disks_vm_map(vm_id);
@@ -724,7 +724,7 @@ CREATE TABLE tag_details
    create_date TIMESTAMP WITH TIME ZONE NOT NULL,
    update_date TIMESTAMP WITH TIME ZONE,
    delete_date TIMESTAMP WITH TIME ZONE
-) WITH OIDS;
+) ;
 
 CREATE INDEX tag_details_tag_id_idx ON tag_details(tag_id);
 CREATE INDEX tag_details_tag_path_idx ON tag_details(tag_path);
@@ -739,7 +739,7 @@ CREATE TABLE tag_relations_history
    parent_id UUID,
    attach_date TIMESTAMP WITH TIME ZONE NOT NULL,
    detach_date TIMESTAMP WITH TIME ZONE
-) WITH OIDS;
+) ;
 
 CREATE INDEX IX_tag_relations_history ON tag_relations_history(entity_id,attach_date);
 CREATE INDEX IX_tag_relations_history_1 ON tag_relations_history(entity_type);
@@ -755,7 +755,7 @@ CREATE TABLE calendar
    the_day smallint NOT NULL,
    day_name character varying(9) NOT NULL,
    the_hour time without time zone NOT NULL
-) WITH OIDS;
+) ;
 
 CREATE INDEX calendar_table_index ON calendar (the_date);
 ALTER TABLE calendar CLUSTER ON calendar_table_index;
