@@ -357,6 +357,10 @@ fi
 
 
 %changelog
+* Tue Mar 24 2020 Shirly Radco <sradco@redhat.com> - 4.4.0.1
+Fixed issues:
+- pg12: remove deprecated 'WITH OID'
+
 * Wed Feb 12 2020 Shirly Radco <sradco@redhat.com> - 4.4.0
 Fixed issues:
 - build: moved major version to 4.4.0
