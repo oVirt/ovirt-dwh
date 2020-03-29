@@ -50,15 +50,6 @@
     %endif
 %endif
 
-# Set SQL PG vars if needed. We do not need to handle here systemd/services
-# nor upgrade - these are done by common engine-setup plugins.
-%if 0%{?fedora} || 0%{?rhel} >= 8
-%global ovirt_rh_postgresql 0
-%else
-%global ovirt_rh_postgresql 1
-%global scl_pg_base rh-postgresql10
-%endif
-
 %global product_name Data warehouse package for oVirt Virtualization Suite
 %global product_description oVirt virtualization manager data warehouse
 
@@ -171,13 +162,8 @@ Requires:	javapackages-tools
 Requires:	logrotate
 Requires:	postgresql-jdbc
 
-%if %{ovirt_rh_postgresql}
-Requires:       %{scl_pg_base}-postgresql-server
-Requires:       %{scl_pg_base}-postgresql-contrib
-%else
-Requires:       postgresql-server >= 10.0
-Requires:       postgresql-contrib >= 10.0
-%endif
+Requires:       postgresql-server >= 12.0
+Requires:       postgresql-contrib >= 12.0
 
 %description
 The %{product_description} package provides
@@ -206,13 +192,8 @@ Requires: python%{python3_pkgversion}-ovirt-setup-lib
 %endif
 Requires:	%{name} >= 3.6.0
 
-%if %{ovirt_rh_postgresql}
-Requires:       %{scl_pg_base}-postgresql-server
-Requires:       %{scl_pg_base}-postgresql-contrib
-%else
-Requires:       postgresql-server >= 10.0
-Requires:       postgresql-contrib >= 10.0
-%endif
+Requires:       postgresql-server >= 12.0
+Requires:       postgresql-contrib >= 12.0
 
 %description setup
 %{product_description} setup package.
@@ -286,12 +267,6 @@ touch "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properti
 # Package customization
 #
 
-%if %{ovirt_rh_postgresql}
-cat > "%{buildroot}%{_sysconfdir}/ovirt-engine-dwh/ovirt-engine-dwhd.conf.d/10-scl-postgres.conf" << __EOF__
-sclenv=%{scl_pg_base}
-__EOF__
-%endif
-
 %pre
 %ovirt_create_user_engine
 
@@ -350,11 +325,6 @@ fi
 %files setup
 %{_datadir}/ovirt-engine/setup/ovirt_engine_setup/dwh/
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
-
-%if %{ovirt_rh_postgresql}
-%config %{_sysconfdir}/ovirt-engine-dwh/ovirt-engine-dwhd.conf.d/10-scl-postgres.conf
-%endif
-
 
 %changelog
 * Tue Mar 24 2020 Shirly Radco <sradco@redhat.com> - 4.4.0.1
