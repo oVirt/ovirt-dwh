@@ -327,6 +327,10 @@ fi
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
 
 %changelog
+* Tue Apr 07 2020 Shirly Radco <sradco@redhat.com> - 4.4.0.2
+Fixed issues:
+- Bump to pg12 and get rid of SCL
+
 * Tue Mar 24 2020 Shirly Radco <sradco@redhat.com> - 4.4.0.1
 Fixed issues:
 - pg12: remove deprecated 'WITH OID'
