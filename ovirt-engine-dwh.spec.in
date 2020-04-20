@@ -156,6 +156,7 @@ BuildRequires:	systemd
 Requires:	%{commons_collections}
 Requires:	%{dom4j}
 Requires:	%{name}-setup >= %{version}-%{release}
+Requires:	%{name}-grafana-integration-setup >= %{version}-%{release}
 Requires:	java-11-openjdk-headless >= 11.0.4
 Requires:	jpackage-utils
 Requires:	javapackages-tools
@@ -180,6 +181,7 @@ Requires(postun):	systemd
 Summary:	%{product_name} setup
 Group:		Virtualization/Management
 Requires:	ovirt-engine-setup-plugin-ovirt-engine-common >= 4.4.0
+Requires:	%{name}-grafana-integration-setup = %{version}-%{release}
 %if 0%{?with_python2}
 BuildRequires:	python
 Requires: python2-ovirt-setup-lib
@@ -197,6 +199,25 @@ Requires:       postgresql-contrib >= 12.0
 
 %description setup
 %{product_description} setup package.
+
+%package grafana-integration-setup
+Summary:	%{product_name} Grafana integration setup
+Group:		Virtualization/Management
+Requires:	ovirt-engine-setup-plugin-ovirt-engine-common >= 4.4.0
+Requires:	grafana >= 6.2
+Requires:	grafana-postgres >= 6.2
+Requires:	httpd
+Requires:	mod_ssl
+BuildRequires:	python3
+BuildRequires:	python3-devel
+Requires:	python3-ovirt-setup-lib
+Requires:	python3-jinja2
+
+Requires:       postgresql-server >= 12.0
+Requires:       postgresql-contrib >= 12.0
+
+%description grafana-integration-setup
+%{product_description} Grafana integration setup package.
 
 %prep
 %setup -c -q
@@ -325,6 +346,11 @@ fi
 %files setup
 %{_datadir}/ovirt-engine/setup/ovirt_engine_setup/dwh/
 %{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-dwh/
+
+%files grafana-integration-setup
+%{_datadir}/ovirt-engine/setup/ovirt_engine_setup/grafana_dwh/
+%{_datadir}/ovirt-engine/setup/plugins/*/ovirt-engine-grafana-dwh/
+%{_sysconfdir}/grafana/conf/
 
 %changelog
 * Tue Apr 07 2020 Shirly Radco <sradco@redhat.com> - 4.4.0.2

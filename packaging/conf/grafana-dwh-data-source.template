@@ -1,0 +1,17 @@
+---
+apiVersion: 1
+
+datasources:
+- name: oVirt DWH
+  type: postgres
+  access: proxy
+  orgId: 1
+  url: @GRAFANA_DB_HOST@:@GRAFANA_DB_PORT@
+  editable: true
+  isDefault: true
+  secureJsonData:
+    password: @GRAFANA_DB_PASSWORD@
+  user: @GRAFANA_DB_USER@
+  database: @GRAFANA_DB_DATABASE@
+  jsonData:
+    sslmode: disable

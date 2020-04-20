@@ -49,6 +49,9 @@ PKG_CACHE_DIR=$(LOCALSTATE_DIR)/cache/ovirt-engine-dwh
 PKG_LOG_DIR=$(LOCALSTATE_DIR)/log/ovirt-engine-dwh
 PKG_TMP_DIR=$(LOCALSTATE_DIR)/tmp/ovirt-engine-dwh
 PKG_STATE_DIR=$(LOCALSTATE_DIR)/lib/ovirt-engine-dwh
+GRAFANA_DATA_DIR=$(DATAROOT_DIR)/grafana
+GRAFANA_SYSCONF_DIR=$(SYSCONF_DIR)/grafana
+GRAFANA_STATE_DIR=$(LOCALSTATE_DIR)/lib/grafana
 PYTHON_DIR=$(PYTHON_SYS_DIR)
 PYTHON3_DIR=$(PYTHON3_SYS_DIR)
 DEV_PYTHON_DIR=
@@ -104,6 +107,9 @@ BUILD_FILE=tmp.built
 	-e "s|@PEP8@|$(PEP8)|g" \
 	-e "s|@PYFLAKES@|$(PYFLAKES)|g" \
 	-e "s|@PY_VERSION@|$(PY_VERSION)|g" \
+	-e "s|@GRAFANA_SYSCONF_DIR@|$(GRAFANA_SYSCONF_DIR)|g" \
+	-e "s|@GRAFANA_DATA_DIR@|$(GRAFANA_DATA_DIR)|g" \
+	-e "s|@GRAFANA_STATE_DIR@|$(GRAFANA_STATE_DIR)|g" \
 	$< > $@
 
 GENERATED = \
@@ -118,6 +124,7 @@ GENERATED = \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv \
 	packaging/services/ovirt-engine-dwhd/ovirt_engine_dwh_watchdog.cron \
 	packaging/setup/ovirt_engine_setup/dwh/config.py \
+	packaging/setup/ovirt_engine_setup/grafana_dwh/config.py \
 	packaging/sys-etc/logrotate.d/ovirt-engine-dwhd \
 	$(NULL)
 

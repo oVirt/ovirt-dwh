@@ -203,6 +203,7 @@ class Stages(object):
     ENGINE_DB_CONNECTION_AVAILABLE = \
         'osetup.dwh.engine.db.connection.available'
     DB_SCHEMA = 'osetup.dwh.db.schema'
+    DB_PROVISIONING_CUSTOMIZATION = 'osetup.dwh.db.provisioning.customization'
 
 
 @util.export

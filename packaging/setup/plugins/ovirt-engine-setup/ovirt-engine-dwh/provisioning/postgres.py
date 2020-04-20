@@ -82,6 +82,7 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
+        name=odwhcons.Stages.DB_PROVISIONING_CUSTOMIZATION,
         before=(
             odwhcons.Stages.DB_CONNECTION_CUSTOMIZATION,
         ),
