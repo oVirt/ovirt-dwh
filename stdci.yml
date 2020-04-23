@@ -1,5 +1,5 @@
 ---
-Distributions: ["el7", "el8"]
+Distributions: ["el8"]
 Release Branches:
   master:
     - ovirt-master
