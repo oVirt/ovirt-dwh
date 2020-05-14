@@ -1,0 +1,15 @@
+---
+apiVersion: 1
+
+providers:
+- name: oVirt DWH Executive Dashboards
+  orgId: 1
+  folder: 'oVirt Executive Dashboards'
+  folderUid: 'executive'
+  type: file
+  disableDeletion: false
+  editable: true
+  updateIntervalSeconds: 10
+  allowUiUpdates: true
+  options:
+    path: /usr/share/ovirt-engine-dwh/conf/grafana-dashboards/executive/

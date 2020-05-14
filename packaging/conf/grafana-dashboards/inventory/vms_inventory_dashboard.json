@@ -1,0 +1,404 @@
+{
+  "__inputs": [
+    {
+      "name": "oVirt DWH",
+      "label": "oVirt DWH",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "postgres",
+      "pluginName": "PostgreSQL"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.2.2"
+    },
+    {
+      "type": "datasource",
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1590069030608,
+  "links": [],
+  "panels": [
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "-- BR9 - This query will return for the specific datacenter, the latest VMs configurations, grouped by clusters.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 17,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 15,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "VM Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cluster_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Cluster Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cluster_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Cluster Delete Date",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cluster_delete",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "Template Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "template_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short",
+          "valueMaps": [
+            {
+              "text": "",
+              "value": "Blank"
+            }
+          ]
+        },
+        {
+          "alias": "VM Create Date",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "create_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "VM Delete Date",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "delete_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "OS Version",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "os_version",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "VM Memory Size",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_memsize",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "Number of CPU Cores",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": null,
+          "mappingType": 1,
+          "pattern": "vm_cpucores",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR9 - This query will return for the specific datacenter,\n-- the latest VMs configurations, grouped by clusters.\n\nSELECT\n    v4_3_configuration_history_vms.vm_name,\n    v4_3_configuration_history_vms.cluster_id,\n    v4_3_configuration_history_clusters.cluster_name,\n    v4_3_configuration_history_vms.template_name,\n    b.value AS os_version,\n    ROUND (\n        COALESCE ( cpu_per_socket, 0 ) *\n        COALESCE ( number_of_sockets, 0 ),\n        0\n    )\n    AS vm_cpucores,\n    ROUND (\n        CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) ::numeric\n        / 1024, 1\n    )\n    AS vm_memsize,\n    v4_3_configuration_history_clusters.delete_date AS cluster_delete,\n    CAST ( v4_3_configuration_history_vms.create_date AS date ) AS create_date,\n    CAST ( v4_3_configuration_history_vms.delete_date AS date ) AS delete_date\nFROM v4_3_configuration_history_vms\n    LEFT OUTER JOIN (\n       SELECT\n            enum_type,\n            enum_key,\n            value\n       FROM enum_translator\n       WHERE language_code = 'en_US'\n       AND enum_type = 'OS_TYPE'\n    )AS b\n        ON (\n            v4_3_configuration_history_vms.operating_system =\n            b.enum_key AND b.enum_type = 'OS_TYPE'\n        )\n    LEFT OUTER JOIN v4_3_configuration_history_clusters\n        ON (\n            v4_3_configuration_history_vms.cluster_id =\n            v4_3_configuration_history_clusters.cluster_id\n            AND v4_3_configuration_history_clusters.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_configuration_history_clusters a\n                GROUP BY a.cluster_id\n            )\n        )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_3_configuration_history_vms.cluster_id IN (\n        SELECT cluster_id\n        FROM v4_3_configuration_history_clusters\n        WHERE datacenter_id = CAST ( '$datacenter_id' AS uuid )\n    )\n    -- Here we filter by the cluster chosen by the user\n    AND v4_3_configuration_history_vms.cluster_id in($cluster_id)\n    -- Here we get the latest vm configurations\n    AND v4_3_configuration_history_vms.history_id IN (\n        SELECT MAX ( a.history_id )\n        FROM v4_3_configuration_history_vms a\n        GROUP BY a.vm_id\n    )\n        -- Here we get or remove deleted entities according to what the user chose\n        -- in the \"show_deleted\" parameter.\n        AND\n            CASE\n              WHEN '$show_deleted'='Yes'\n              THEN 1=1\n              WHEN '$show_deleted'='No'\n              THEN v4_3_configuration_history_vms.delete_date isnull\n            END\nORDER BY\n    v4_3_configuration_history_vms.cluster_id,\n    v4_3_configuration_history_vms.delete_date DESC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Virtual Machines Inventory",
+      "transform": "table",
+      "type": "table"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_configuration_history_datacenters",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Center",
+        "multi": false,
+        "name": "datacenter_id",
+        "options": [],
+        "query": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_configuration_history_datacenters",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": "",
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_configuration_history_clusters WHERE datacenter_id IN  ('$datacenter_id')",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Cluster",
+        "multi": true,
+        "name": "cluster_id",
+        "options": [],
+        "query": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_configuration_history_clusters WHERE datacenter_id IN  ('$datacenter_id')",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "tags": [],
+          "text": "No",
+          "value": "No"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Show Deleted Entities?",
+        "multi": false,
+        "name": "show_deleted",
+        "options": [
+          {
+            "selected": true,
+            "text": "No",
+            "value": "No"
+          },
+          {
+            "selected": false,
+            "text": "Yes",
+            "value": "Yes"
+          }
+        ],
+        "query": "No,Yes",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now/M",
+    "to": "now/M"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "VMs Inventory Dashboard",
+  "uid": "vmsinventorydashboard",
+  "version": 1
+}

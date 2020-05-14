@@ -1,0 +1,820 @@
+{
+  "__inputs": [
+    {
+      "name": "oVirt DWH",
+      "label": "oVirt DWH",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "postgres",
+      "pluginName": "PostgreSQL"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.2.2"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1590323227455,
+  "links": [],
+  "panels": [
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "This report displays a list of all storage domains of the selected data center.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Storage Domain Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "storage_domain_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "storage_domain_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Storage Domain Type",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "storage_domain_type",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Storage Type",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "storage_type",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Available Disk Size",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "available_disk_size_gb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "Used Disk Size",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "used_disk_size_gb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "Total Size",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "total_size",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "create_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "Delete Date",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "delete_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "--BR47 - This query returns for a specific datacenter, the storage domains list,\n-- along with their configuration details, available disk size, used disk size and total.\n\n-- storage_domain_type and storage_type will be returned in localised session language.\n\nSELECT\n    storage_domain_name,\n    v4_3_configuration_history_storage_domains.storage_domain_id,\n    a.value AS storage_domain_type,\n    b.value AS storage_type,\n    -- The disk usage is usually calculated from the samples statistics table,\n    -- so it will be most accurate.\n    -- But if the data is not available from the samples\n    -- then the data will be taken from the daily statistics table\n    COALESCE (\n        samples.available_disk_size_gb,\n        daily.available_disk_size_gb\n    )\n    AS available_disk_size_gb,\n    COALESCE (\n        samples.used_disk_size_gb,\n        daily.used_disk_size_gb\n    )\n    AS used_disk_size_gb,\n    COALESCE (\n        samples.available_disk_size_gb + samples.used_disk_size_gb,\n        daily.available_disk_size_gb + daily.used_disk_size_gb\n    )\n    AS total_size,\n    create_date,\n    delete_date\nFROM v4_3_configuration_history_storage_domains\n    INNER JOIN v4_3_map_history_datacenters_storage_domains\n        ON (\n            v4_3_configuration_history_storage_domains.storage_domain_id =\n            v4_3_map_history_datacenters_storage_domains.storage_domain_id\n            -- -- Here we filter by the datacenter chosen by the user\n            AND v4_3_map_history_datacenters_storage_domains.datacenter_id =\n                CAST ( '$datacenter_id' AS uuid )\n            AND v4_3_map_history_datacenters_storage_domains.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_map_history_datacenters_storage_domains a\n                GROUP BY a.storage_domain_id, a.datacenter_id\n            )\n        )\n    LEFT OUTER JOIN (\n        SELECT\n            enum_translator.enum_type,\n            enum_translator.enum_key,\n            enum_translator.value\n        FROM enum_translator\n        WHERE language_code = 'en_US'\n        ) AS a\n        ON (\n            storage_domain_type = a.enum_key\n            AND a.enum_type = 'STORAGE_DOMAIN_TYPE'\n        )\n    LEFT OUTER JOIN (\n        SELECT\n            enum_translator.enum_type,\n            enum_translator.enum_key,\n            enum_translator.value\n        FROM enum_translator\n        WHERE language_code = 'en_US'\n        ) AS b\n        ON (\n            storage_type = b.enum_key\n            AND b.enum_type = 'STORAGE_TYPE'\n        )\n    LEFT OUTER JOIN v4_3_statistics_storage_domains_resources_usage_samples AS samples\n        ON (\n            v4_3_configuration_history_storage_domains.storage_domain_id =\n            samples.storage_domain_id\n            AND samples.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_statistics_storage_domains_resources_usage_samples a\n                GROUP BY a.storage_domain_id\n            )\n        )\n    LEFT OUTER JOIN v4_3_statistics_storage_domains_resources_usage_daily AS daily\n        ON (\n            v4_3_configuration_history_storage_domains.storage_domain_id =\n            daily.storage_domain_id\n            AND daily.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_statistics_storage_domains_resources_usage_daily a\n                GROUP BY a.storage_domain_id\n            )\n        )\nWHERE\n    v4_3_configuration_history_storage_domains.storage_domain_id in($storage_id)\n    -- Here we filter by the storage type chosen by the user\n    -- If \"All\" storage types were chosen by the user then the\n    -- parameter \"P_Storage_Type\" equals to -1\n    AND storage_domain_type in($storage_type)\n    -- Here we get the storage domain latest configurations\n    AND v4_3_configuration_history_storage_domains.history_id IN (\n        SELECT MAX ( a.history_id )\n        FROM v4_3_configuration_history_storage_domains AS a\n        GROUP BY a.storage_domain_id\n    )\n    -- If the user chose not to view deleted entities then\n    -- this parameter will be equal to \"AND delete_date IS NULL\"\n    -- Otherwise this will be equal to \"Null\" and all storage domains\n    -- for this datacenter will be return in the query\n    AND\n        CASE\n          WHEN '$show_deleted'='Yes'\n          THEN 1=1\n          WHEN '$show_deleted'='No'\n          THEN delete_date isnull\n        END\nORDER BY storage_domain_name",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Storage Domains Inventory (BR47)",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "oVirt DWH",
+      "description": "This report displays daily used disk size versus available disk size data for the selected datacenter and storage domain within a requested period.",
+      "fill": 1,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 8,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR21 - This query returns for a specific storage domain\n-- the available disk size and average used disk size for the chosen period.\n\nSELECT DISTINCT\n    $__time(a.history_datetime),\n    COALESCE (\n        storage_domain_name,\n        MAX ( storage_domain_name ) over ( partition by 1 ),\n        ''\n    )\n    AS storage_domain_name,\n    available_disk_size\nFROM (\n    SELECT\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime,\n        AVG ( available_disk_size_gb ) AS available_disk_size,\n        AVG ( used_disk_size_gb ) AS used_disk_size\n    FROM\n        (\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n            UNION\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n        ) AS hourly_daily,\n        v4_3_configuration_history_storage_domains\n    WHERE\n        -- Here we join the the storage domain configurations table with the statistics table\n        v4_3_configuration_history_storage_domains.storage_domain_id =\n        hourly_daily.storage_domain_id\n        -- Here we filter by the storage domain chosen by the user\n        AND hourly_daily.storage_domain_id in($storage_id)\n        AND history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n        -- Here we get the latest storage domain configurations\n        AND v4_3_configuration_history_storage_domains.history_id IN (\n            SELECT MAX ( a.history_id )\n            FROM v4_3_configuration_history_storage_domains a\n            GROUP BY a.storage_domain_id\n        )\n    GROUP BY\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime\n) a\nORDER BY a.history_datetime",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Storage Domain Available Size Over Time (BR21)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "decgbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "oVirt DWH",
+      "description": "This report displays daily used disk size versus available disk size data for the selected datacenter and storage domain within a requested period.",
+      "fill": 1,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 7,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR21 - This query returns for a specific storage domain\n-- the available disk size and average used disk size for the chosen period.\n\nSELECT DISTINCT\n    $__time(a.history_datetime),\n    COALESCE (\n        storage_domain_name,\n        MAX ( storage_domain_name ) over ( partition by 1 ),\n        ''\n    )\n    AS storage_domain_name,\n    used_disk_size\nFROM (\n    SELECT\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime,\n        AVG ( available_disk_size_gb ) AS available_disk_size,\n        AVG ( used_disk_size_gb ) AS used_disk_size\n    FROM\n        (\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n            UNION\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n        ) AS hourly_daily,\n        v4_3_configuration_history_storage_domains\n    WHERE\n        -- Here we join the the storage domain configurations table with the statistics table\n        v4_3_configuration_history_storage_domains.storage_domain_id =\n        hourly_daily.storage_domain_id\n        -- Here we filter by the storage domain chosen by the user\n        AND hourly_daily.storage_domain_id in($storage_id)\n        AND history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n        -- Here we get the latest storage domain configurations\n        AND v4_3_configuration_history_storage_domains.history_id IN (\n            SELECT MAX ( a.history_id )\n            FROM v4_3_configuration_history_storage_domains a\n            GROUP BY a.storage_domain_id\n        )\n    GROUP BY\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime\n) a\nORDER BY a.history_datetime",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Storage Domain Used Size Over Time (BR21)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "decgbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "oVirt DWH",
+      "description": "This report displays daily used disk size versus available disk size data for the selected datacenter and storage domain within a requested period.",
+      "fill": 1,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 15
+      },
+      "id": 6,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR21 - This query returns for a specific storage domain\n-- the available disk size and average used disk size for the chosen period.\n\nSELECT DISTINCT\n    $__time(a.history_datetime),\n    COALESCE (\n        storage_domain_name,\n        MAX ( storage_domain_name ) over ( partition by 1 ),\n        ''\n    )\n    AS storage_domain_name,\n    available_disk_size,\n    used_disk_size\nFROM (\n    SELECT\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime,\n        AVG ( available_disk_size_gb ) AS available_disk_size,\n        AVG ( used_disk_size_gb ) AS used_disk_size\n    FROM\n        (\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n            UNION\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n        ) AS hourly_daily,\n        v4_3_configuration_history_storage_domains\n    WHERE\n        -- Here we join the the storage domain configurations table with the statistics table\n        v4_3_configuration_history_storage_domains.storage_domain_id =\n        hourly_daily.storage_domain_id\n        -- Here we filter by the storage domain chosen by the user\n        AND hourly_daily.storage_domain_id in($storage_id)\n        AND history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n        -- Here we get the latest storage domain configurations\n        AND v4_3_configuration_history_storage_domains.history_id IN (\n            SELECT MAX ( a.history_id )\n            FROM v4_3_configuration_history_storage_domains a\n            GROUP BY a.storage_domain_id\n        )\n    GROUP BY\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime\n) a\nORDER BY a.history_datetime",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Storage Domain Total Size Over Time (BR21)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "decgbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "oVirt DWH",
+      "description": "This report displays daily used disk size versus available disk size data for the selected datacenter and storage domain within a requested period.",
+      "fill": 1,
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 15
+      },
+      "id": 9,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR21 - This query returns for a specific storage domain\n-- the available disk size and average used disk size for the chosen period.\n\nSELECT DISTINCT\n    $__time(a.history_datetime),\n    COALESCE (\n        storage_domain_name,\n        MAX ( storage_domain_name ) over ( partition by 1 ),\n        ''\n    )\n    AS storage_domain_name,\n    used_disk_size\nFROM (\n    SELECT\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime,\n        AVG ( available_disk_size_gb ) AS available_disk_size,\n        AVG ( used_disk_size_gb ) AS used_disk_size\n    FROM\n        (\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n            UNION\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n        ) AS hourly_daily,\n        v4_3_configuration_history_storage_domains\n    WHERE\n        -- Here we join the the storage domain configurations table with the statistics table\n        v4_3_configuration_history_storage_domains.storage_domain_id =\n        hourly_daily.storage_domain_id\n        -- Here we filter by the storage domain chosen by the user\n        AND hourly_daily.storage_domain_id in($storage_id)\n        AND history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n        -- Here we get the latest storage domain configurations\n        AND v4_3_configuration_history_storage_domains.history_id IN (\n            SELECT MAX ( a.history_id )\n            FROM v4_3_configuration_history_storage_domains a\n            GROUP BY a.storage_domain_id\n        )\n    GROUP BY\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime\n) a\nORDER BY a.history_datetime",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Storage Domain Total Used Size Over Time (BR21)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "decgbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_configuration_history_datacenters",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Center",
+        "multi": false,
+        "name": "datacenter_id",
+        "options": [],
+        "query": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_configuration_history_datacenters",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT     CAST (         v4_3_configuration_history_storage_domains.storage_domain_id AS varchar     ) AS __value,     CASE         WHEN detach_date IS NULL             THEN storage_domain_name         ELSE             storage_domain_name             ||             ' ('             ||             'Detached on'             ||             ' '             ||             to_char (                 detach_date, 'YYYY-MM-DD'             )             ||             ')'     END AS __text FROM v4_3_configuration_history_storage_domains         INNER JOIN v4_3_map_history_datacenters_storage_domains             ON (                 v4_3_map_history_datacenters_storage_domains.storage_domain_id =                 v4_3_configuration_history_storage_domains.storage_domain_id                 AND v4_3_map_history_datacenters_storage_domains.datacenter_id =                 CAST ( '$datacenter_id' AS uuid )             ) WHERE v4_3_configuration_history_storage_domains.storage_domain_type in ($storage_type )     AND v4_3_map_history_datacenters_storage_domains.history_id IN (         SELECT MAX ( a.history_id )         FROM v4_3_map_history_datacenters_storage_domains a         GROUP BY a.storage_domain_id, a.datacenter_id     )     AND v4_3_configuration_history_storage_domains.history_id IN (         SELECT MAX ( a.history_id )         FROM v4_3_configuration_history_storage_domains a         GROUP BY a.storage_domain_id     )     AND         CASE           WHEN '$show_deleted'='Yes'           THEN 1=1           WHEN '$show_deleted'='No'           THEN detach_date isnull         END     AND         CASE           WHEN '$show_deleted'='Yes'           THEN 1=1           WHEN '$show_deleted'='No'           THEN delete_date isnull         END ORDER BY     __text",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Storage Domain",
+        "multi": true,
+        "name": "storage_id",
+        "options": [],
+        "query": "SELECT DISTINCT     CAST (         v4_3_configuration_history_storage_domains.storage_domain_id AS varchar     ) AS __value,     CASE         WHEN detach_date IS NULL             THEN storage_domain_name         ELSE             storage_domain_name             ||             ' ('             ||             'Detached on'             ||             ' '             ||             to_char (                 detach_date, 'YYYY-MM-DD'             )             ||             ')'     END AS __text FROM v4_3_configuration_history_storage_domains         INNER JOIN v4_3_map_history_datacenters_storage_domains             ON (                 v4_3_map_history_datacenters_storage_domains.storage_domain_id =                 v4_3_configuration_history_storage_domains.storage_domain_id                 AND v4_3_map_history_datacenters_storage_domains.datacenter_id =                 CAST ( '$datacenter_id' AS uuid )             ) WHERE v4_3_configuration_history_storage_domains.storage_domain_type in ($storage_type )     AND v4_3_map_history_datacenters_storage_domains.history_id IN (         SELECT MAX ( a.history_id )         FROM v4_3_map_history_datacenters_storage_domains a         GROUP BY a.storage_domain_id, a.datacenter_id     )     AND v4_3_configuration_history_storage_domains.history_id IN (         SELECT MAX ( a.history_id )         FROM v4_3_configuration_history_storage_domains a         GROUP BY a.storage_domain_id     )     AND         CASE           WHEN '$show_deleted'='Yes'           THEN 1=1           WHEN '$show_deleted'='No'           THEN detach_date isnull         END     AND         CASE           WHEN '$show_deleted'='Yes'           THEN 1=1           WHEN '$show_deleted'='No'           THEN delete_date isnull         END ORDER BY     __text",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT     enum_translator.value AS __text,     enum_translator.enum_key AS __value FROM enum_translator  WHERE     enum_translator.language_code = 'en_US'     AND enum_translator.enum_type ='STORAGE_DOMAIN_TYPE'",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Storage Type",
+        "multi": true,
+        "name": "storage_type",
+        "options": [],
+        "query": "SELECT DISTINCT     enum_translator.value AS __text,     enum_translator.enum_key AS __value FROM enum_translator  WHERE     enum_translator.language_code = 'en_US'     AND enum_translator.enum_type ='STORAGE_DOMAIN_TYPE'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "tags": [],
+          "text": "No",
+          "value": "No"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Show Deleted Entities?",
+        "multi": false,
+        "name": "show_deleted",
+        "options": [
+          {
+            "selected": true,
+            "text": "No",
+            "value": "No"
+          },
+          {
+            "selected": false,
+            "text": "Yes",
+            "value": "Yes"
+          }
+        ],
+        "query": "No,Yes",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now/M",
+    "to": "now/M"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Storage Domains Inventory Dashboard",
+  "uid": "storagedDomainsinventorydashboard",
+  "version": 1
+}

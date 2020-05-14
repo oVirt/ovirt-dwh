@@ -1,0 +1,550 @@
+{
+  "__inputs": [
+    {
+      "name": "oVirt DWH",
+      "label": "oVirt DWH",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "postgres",
+      "pluginName": "PostgreSQL"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.2.2"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1589725323686,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 6,
+      "panels": [],
+      "title": "Executive Reports",
+      "type": "row"
+    },
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "The report contains comparative measurements number of running virtual machines and OS usage in for a selected cluster within the requested period.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 11,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD",
+          "pattern": "time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT DISTINCT\n    COALESCE (\n        os_type,\n        'RHEL'\n    )\n    AS os_type,\n    AVG(vm_count),\n    MAX(vm_count),\n    MIN(vm_count)\nFROM (\n    SELECT DISTINCT\n        CASE\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) = 'OTHER OS'\n                THEN 'Other OS'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE '%WINDOWS%'\n                THEN 'Windows'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'RHEL%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'RED HAT%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'OTHER L%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'LINUX'\n                THEN 'Other Linux'\n            WHEN UPPER (COALESCE( enum_os_type.value,'Other OS' ) ) LIKE '%UBUNTU%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE '%SUSE%'\n                THEN 'Other Linux'\n            ELSE 'Other OS'\n        END\n        AS os_type,\n        history_datetime AS time,\n        COUNT ( DISTINCT v4_3_configuration_history_vms.vm_id ) AS vm_count\n    FROM v4_3_statistics_vms_resources_usage_samples\n        INNER JOIN v4_3_configuration_history_vms\n            ON (\n                v4_3_configuration_history_vms.history_id =\n                v4_3_statistics_vms_resources_usage_samples.vm_configuration_version\n            )\n        INNER JOIN enum_translator enum_os_type\n            ON (\n                enum_os_type.enum_key =\n                v4_3_configuration_history_vms.operating_system\n                AND enum_os_type.enum_type = 'OS_TYPE'\n                AND language_code = 'en_US'\n            )\n        INNER JOIN v4_3_configuration_history_vms latest_config\n            ON (\n                latest_config.vm_id =\n                v4_3_statistics_vms_resources_usage_samples.vm_id\n            )\n    WHERE\n        -- Here we filter only the vms that are in active status\n        v4_3_statistics_vms_resources_usage_samples.vm_status = 1\n        -- Filter vms list according to the datacenter that was chosen by the user\n        AND v4_3_configuration_history_vms.cluster_id IN\n            (\n                SELECT cluster_id\n                FROM v4_3_configuration_history_clusters\n                WHERE datacenter_id = '$datacenter_id'\n            )\n        -- Filter vms list according to the cluster that was chosen by the user\n        AND v4_3_configuration_history_vms.cluster_id IN ( '$cluster_id' )\n        -- Here we get the vm latest configuration\n        AND latest_config.history_id IN\n            (\n                SELECT MAX ( b.history_id )\n                FROM v4_3_configuration_history_vms b\n                GROUP BY b.vm_id\n            )\n       AND history_datetime >= $__timeFrom()\n       AND history_datetime < $__timeTo()\n       AND\n            -- This will determine where deleted entities will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            CASE\n                WHEN '$show_deleted' = 'No'\n                    THEN latest_config.delete_date IS NULL\n                ELSE\n                    latest_config.delete_date IS NULL\n                    OR\n                    latest_config.delete_date IS NOT NULL\n            END\n    GROUP BY\n        CASE\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) = 'OTHER OS'\n                THEN 'Other OS'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like '%WINDOWS%'\n                THEN 'Windows'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'RHEL%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'RED HAT%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'OTHER L%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'LINUX'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like '%UBUNTU%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like '%SUSE%'\n                THEN 'Other Linux'\n            ELSE 'Other OS'\n        END,\n        history_datetime\n\nUNION ALL\n\n    SELECT DISTINCT\n        CASE\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) = 'OTHER OS'\n                THEN 'Other OS'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE '%WINDOWS%'\n                THEN 'Windows'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'RHEL%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'RED HAT%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'OTHER L%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'LINUX'\n                THEN 'Other Linux'\n            WHEN UPPER (COALESCE( enum_os_type.value,'Other OS' ) ) LIKE '%UBUNTU%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE '%SUSE%'\n                THEN 'Other Linux'\n            ELSE 'Other OS'\n        END\n        AS os_type,\n        history_datetime AS time,\n        COUNT ( DISTINCT v4_3_configuration_history_vms.vm_id ) AS vm_count\n    FROM v4_3_statistics_vms_resources_usage_hourly\n        INNER JOIN v4_3_configuration_history_vms\n            ON (\n                v4_3_configuration_history_vms.history_id =\n                v4_3_statistics_vms_resources_usage_hourly.vm_configuration_version\n            )\n        INNER JOIN enum_translator enum_os_type\n            ON (\n                enum_os_type.enum_key =\n                v4_3_configuration_history_vms.operating_system\n                AND enum_os_type.enum_type = 'OS_TYPE'\n                AND language_code = 'en_US'\n            )\n        INNER JOIN v4_3_configuration_history_vms latest_config\n            ON (\n                latest_config.vm_id =\n                v4_3_statistics_vms_resources_usage_hourly.vm_id\n            )\n    WHERE\n        -- Here we filter only the vms that are in active status\n        v4_3_statistics_vms_resources_usage_hourly.vm_status = 1\n        -- Filter vms list according to the datacenter that was chosen by the user\n        AND v4_3_configuration_history_vms.cluster_id IN\n            (\n                SELECT cluster_id\n                FROM v4_3_configuration_history_clusters\n                WHERE datacenter_id = '$datacenter_id'\n            )\n        -- Filter vms list according to the cluster that was chosen by the user\n        AND v4_3_configuration_history_vms.cluster_id IN ( '$cluster_id' )\n        -- Here we get the vm latest configuration\n        AND latest_config.history_id IN\n            (\n                SELECT MAX ( b.history_id )\n                FROM v4_3_configuration_history_vms b\n                GROUP BY b.vm_id\n            )\n       AND history_datetime >= $__timeFrom()\n       AND history_datetime < $__timeTo()\n       AND\n            CASE\n                WHEN '$show_deleted' = 'No'\n                    THEN latest_config.delete_date IS NULL\n                ELSE\n                    latest_config.delete_date IS NULL\n                    OR\n                    latest_config.delete_date IS NOT NULL\n            END\n    GROUP BY\n        CASE\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) = 'OTHER OS'\n                THEN 'Other OS'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like '%WINDOWS%'\n                THEN 'Windows'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'RHEL%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'RED HAT%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'OTHER L%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'LINUX'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like '%UBUNTU%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like '%SUSE%'\n                THEN 'Other Linux'\n            ELSE 'Other OS'\n        END,\n        History_datetime\n\nUNION ALL\n\n    SELECT DISTINCT\n        CASE\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) = 'OTHER OS'\n                THEN 'Other OS'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE '%WINDOWS%'\n                THEN 'Windows'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'RHEL%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'RED HAT%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'OTHER L%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'LINUX'\n                THEN 'Other Linux'\n            WHEN UPPER (COALESCE( enum_os_type.value,'Other OS' ) ) LIKE '%UBUNTU%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE '%SUSE%'\n                THEN 'Other Linux'\n            ELSE 'Other OS'\n        END\n        AS os_type,\n        history_datetime AS time,\n        COUNT ( DISTINCT v4_3_configuration_history_vms.vm_id ) AS vm_count\n    FROM v4_3_statistics_vms_resources_usage_daily\n        INNER JOIN v4_3_configuration_history_vms\n            ON (\n                v4_3_configuration_history_vms.history_id =\n                v4_3_statistics_vms_resources_usage_daily.vm_configuration_version\n            )\n        INNER JOIN enum_translator enum_os_type\n            ON (\n                enum_os_type.enum_key =\n                v4_3_configuration_history_vms.operating_system\n                AND enum_os_type.enum_type = 'OS_TYPE'\n                AND language_code = 'en_US'\n            )\n        INNER JOIN v4_3_configuration_history_vms latest_config\n            ON (\n                latest_config.vm_id =\n                v4_3_statistics_vms_resources_usage_daily.vm_id\n            )\n    WHERE\n        -- Here we filter only the vms that are in active status\n        v4_3_statistics_vms_resources_usage_daily.vm_status = 1\n        -- Filter vms list according to the datacenter that was chosen by the user\n        AND v4_3_configuration_history_vms.cluster_id IN\n            (\n                SELECT cluster_id\n                FROM v4_3_configuration_history_clusters\n                WHERE datacenter_id = '$datacenter_id'\n            )\n        -- Filter vms list according to the cluster that was chosen by the user\n        AND v4_3_configuration_history_vms.cluster_id IN ( '$cluster_id' )\n        -- Here we get the vm latest configuration\n        AND latest_config.history_id IN\n            (\n                SELECT MAX ( b.history_id )\n                FROM v4_3_configuration_history_vms b\n                GROUP BY b.vm_id\n            )\n       AND history_datetime >= $__timeFrom()\n       AND history_datetime < $__timeTo()\n       AND\n            CASE\n                WHEN '$show_deleted' = 'No'\n                    THEN latest_config.delete_date IS NULL\n                ELSE\n                    latest_config.delete_date IS NULL\n                    OR\n                    latest_config.delete_date IS NOT NULL\n            END\n    GROUP BY\n        CASE\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) = 'OTHER OS'\n                THEN 'Other OS'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like '%WINDOWS%'\n                THEN 'Windows'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'RHEL%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'RED HAT%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'OTHER L%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'LINUX'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like '%UBUNTU%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like '%SUSE%'\n                THEN 'Other Linux'\n            ELSE 'Other OS'\n        END,\n        history_datetime\n)\nAS all_query\nGROUP BY os_type\nORDER BY os_type",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Active Virtual Machines by OS (BR18)",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "This report contains a table and a chart displaying the number of hosts for each OS version for a selected cluster within a requested period.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 5,
+        "w": 12,
+        "x": 11,
+        "y": 1
+      },
+      "id": 10,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Time",
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "pattern": "time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n    COALESCE ( v4_3_configuration_history_hosts.host_os, 'Unknown' ) AS os_type,\n    COUNT ( DISTINCT v4_3_configuration_history_hosts.host_id ) AS host_count,\n    cluster_name\nFROM  v4_3_statistics_hosts_resources_usage_hourly AS stats_hosts\n    INNER JOIN v4_3_configuration_history_hosts\n        ON (\n            v4_3_configuration_history_hosts.history_id =\n            stats_hosts.host_configuration_version\n        )\n    INNER JOIN v4_3_configuration_history_hosts a\n        ON (\n            a.host_id =\n            stats_hosts.host_id\n        )\n    INNER JOIN v4_3_configuration_history_clusters b\n        ON (\n            b.cluster_id =\n            a.cluster_id\n        )\nWHERE\n    v4_3_configuration_history_hosts.cluster_id IN (\n        SELECT v4_3_configuration_history_clusters.cluster_id\n        FROM v4_3_configuration_history_clusters\n      WHERE\n            v4_3_configuration_history_clusters.datacenter_id = '$datacenter_id'\n    )\n  --  AND history_datetime >= $__timeFrom()\n  --  AND history_datetime < $__timeTo()\n    -- Here we get the latest host configurations\n    AND a.history_id IN (\n        SELECT MAX ( b.history_id )\n        FROM v4_3_configuration_history_hosts b\n        GROUP BY b.host_id\n    )\n    AND\n        CASE\n            WHEN '$show_deleted' = 'No'\n                THEN a.delete_date IS NULL\n            ELSE\n                a.delete_date IS NULL\n                OR\n                a.delete_date IS NOT NULL\n        END\nGROUP BY\n    COALESCE ( v4_3_configuration_history_hosts.host_os, 'Unknown' ), cluster_name",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Host OS Break Down (BR22)",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "oVirt DWH",
+      "description": "The report contains comparative measurements of number of running virtual machines and OS usage for a selected cluster within the requested period.",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 11,
+        "x": 0,
+        "y": 6
+      },
+      "id": 14,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT DISTINCT\n    $__time(time),\n    COALESCE (\n        os_type,\n        'RHEL'\n    )\n    AS os_type,\n    vm_count\nFROM (\n    SELECT DISTINCT\n        CASE\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) = 'OTHER OS'\n                THEN 'Other OS'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE '%WINDOWS%'\n                THEN 'Windows'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'RHEL%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'RED HAT%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'OTHER L%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE 'LINUX'\n                THEN 'Other Linux'\n            WHEN UPPER (COALESCE( enum_os_type.value,'Other OS' ) ) LIKE '%UBUNTU%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE( enum_os_type.value,'Other OS' ) ) LIKE '%SUSE%'\n                THEN 'Other Linux'\n            ELSE 'Other OS'\n        END\n        AS os_type,\n        history_datetime AS time,\n        COUNT ( DISTINCT v4_3_configuration_history_vms.vm_id ) AS vm_count\n    FROM v4_3_statistics_vms_resources_usage_samples\n        INNER JOIN v4_3_configuration_history_vms\n            ON (\n                v4_3_configuration_history_vms.history_id =\n                v4_3_statistics_vms_resources_usage_samples.vm_configuration_version\n            )\n        INNER JOIN enum_translator enum_os_type\n            ON (\n                enum_os_type.enum_key =\n                v4_3_configuration_history_vms.operating_system\n                AND enum_os_type.enum_type = 'OS_TYPE'\n                AND language_code = 'en_US'\n            )\n        INNER JOIN v4_3_configuration_history_vms latest_config\n            ON (\n                latest_config.vm_id =\n                v4_3_statistics_vms_resources_usage_samples.vm_id\n            )\n    WHERE\n        -- Here we filter only the vms that are in active status\n        v4_3_statistics_vms_resources_usage_samples.vm_status = 1\n        -- Filter vms list according to the datacenter that was chosen by the user\n        AND v4_3_configuration_history_vms.cluster_id IN\n            (\n                SELECT cluster_id\n                FROM v4_3_configuration_history_clusters\n                WHERE datacenter_id = '$datacenter_id'\n            )\n        -- Filter vms list according to the cluster that was chosen by the user\n        AND v4_3_configuration_history_vms.cluster_id IN ( '$cluster_id' )\n        -- Here we get the vm latest configuration\n        AND latest_config.history_id IN\n            (\n                SELECT MAX ( b.history_id )\n                FROM v4_3_configuration_history_vms b\n                GROUP BY b.vm_id\n            )\n       AND history_datetime >= $__timeFrom()\n       AND history_datetime < $__timeTo()\n       AND\n            -- This will determine where deleted entities will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            CASE\n                WHEN '$show_deleted' = 'No'\n                    THEN latest_config.delete_date IS NULL\n                ELSE\n                    latest_config.delete_date IS NULL\n                    OR\n                    latest_config.delete_date IS NOT NULL\n            END\n    GROUP BY\n        CASE\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) = 'OTHER OS'\n                THEN 'Other OS'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like '%WINDOWS%'\n                THEN 'Windows'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'RHEL%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'RED HAT%'\n                THEN 'RHEL'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'OTHER L%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like 'LINUX'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like '%UBUNTU%'\n                THEN 'Other Linux'\n            WHEN UPPER ( COALESCE ( enum_os_type.value,'Other OS' ) ) like '%SUSE%'\n                THEN 'Other Linux'\n            ELSE 'Other OS'\n        END,\n        History_datetime\n)\nAS all_query\nORDER BY os_type",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Active Virtual Machines by OS (BR18)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "This report contains a table and a chart displaying the number of hosts for each OS version for a selected cluster within a requested period.",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 11,
+        "y": 6
+      },
+      "id": 12,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT DISTINCT\n    $__time(history_datetime),\n    COALESCE ( os_type, MAX ( os_type ) over (partition by 1), '' ) AS os_type,\n    host_count\nFROM (\n    SELECT\n        history_datetime,\n        COALESCE (\n            v4_3_configuration_history_hosts.host_os,\n            'Unknown'\n        )\n        AS os_type,\n        COUNT ( DISTINCT v4_3_configuration_history_hosts.host_id )\n        AS host_count\n    FROM  v4_3_statistics_hosts_resources_usage_hourly AS stats_hosts\n        INNER JOIN v4_3_configuration_history_hosts\n            ON (\n                v4_3_configuration_history_hosts.history_id =\n                stats_hosts.host_configuration_version\n            )\n        INNER JOIN v4_3_configuration_history_hosts a\n            ON (\n                a.host_id =\n                stats_hosts.host_id\n            )\n    WHERE\n        v4_3_configuration_history_hosts.cluster_id IN (\n            SELECT v4_3_configuration_history_clusters.cluster_id\n            FROM v4_3_configuration_history_clusters\n            WHERE\n                v4_3_configuration_history_clusters.datacenter_id = '$datacenter_id'\n        )\n        AND v4_3_configuration_history_hosts.cluster_id IN ( '$cluster_id' )\n        AND history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n        AND a.history_id IN (\n            SELECT MAX ( b.history_id )\n            FROM v4_3_configuration_history_hosts b\n            GROUP BY b.host_id\n        )\n        AND\n            CASE\n                WHEN '$show_deleted' = 'No'\n                    THEN a.delete_date IS NULL\n                ELSE\n                    a.delete_date IS NULL\n                    OR\n                    a.delete_date IS NOT NULL\n            END\n    GROUP BY\n        history_datetime,\n        COALESCE (\n            v4_3_configuration_history_hosts.host_os,\n            'Unknown'\n        )\n) AS a\nGROUP BY\n    history_datetime,\n    os_type, host_count\nORDER BY history_datetime",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Host OS Break Down Over Time (BR22)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_configuration_history_datacenters",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Center",
+        "multi": false,
+        "name": "datacenter_id",
+        "options": [],
+        "query": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_configuration_history_datacenters",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_configuration_history_clusters WHERE datacenter_id IN  ('$datacenter_id')",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Cluster",
+        "multi": false,
+        "name": "cluster_id",
+        "options": [],
+        "query": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_configuration_history_clusters WHERE datacenter_id IN  ('$datacenter_id')",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "Yes",
+          "value": "Yes"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Show  Deleted Entities?",
+        "multi": false,
+        "name": "show_deleted",
+        "options": [
+          {
+            "selected": false,
+            "text": "No",
+            "value": "No"
+          },
+          {
+            "selected": true,
+            "text": "Yes",
+            "value": "Yes"
+          }
+        ],
+        "query": "No,Yes",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now/M",
+    "to": "now/M"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Executive Dashboard",
+  "uid": "executivedashboard",
+  "version": 1
+}

@@ -1,0 +1,15 @@
+---
+apiVersion: 1
+
+providers:
+- name: oVirt Inventory DWH Dashboards
+  orgId: 1
+  folder: 'oVirt Inventory Dashboards'
+  folderUid: 'inventory'
+  type: file
+  disableDeletion: false
+  editable: true
+  updateIntervalSeconds: 10
+  allowUiUpdates: true
+  options:
+    path: /usr/share/ovirt-engine-dwh/conf/grafana-dashboards/inventory/

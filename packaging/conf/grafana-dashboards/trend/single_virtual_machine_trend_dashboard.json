@@ -1,0 +1,611 @@
+{
+  "__inputs": [
+    {
+      "name": "oVirt DWH",
+      "label": "oVirt DWH",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "postgres",
+      "pluginName": "PostgreSQL"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.2.2"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "version": "1.0.0"
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1590042163059,
+  "links": [],
+  "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "oVirt DWH",
+      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, Disk IO rates) for a selected virtual machine over the selected time.",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 17,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR10A - This query returns the\n-- VMs Disk Read_Rate, Write_Rate Usage\n-- over time.\n\nSELECT DISTINCT\n    $__time(a.time),\n    COALESCE (\n        disk_name,\n        MAX ( disk_name ) over ( partition by 1 ),\n        ''\n    ) AS disk_name,\n    AVG ( Read_Rate ) AS Read_Rate,\n    AVG ( Write_Rate ) AS Write_Rate\nFROM (\n    SELECT\n        CASE\n            WHEN delete_date IS NULL\n                THEN vm_disk_name\n            ELSE\n                vm_disk_name\n                ||\n                '*'\n        END AS disk_name,\n        history_datetime AS Time,\n        MAX (\n            ROUND (\n                CAST (\n                    COALESCE (\n                        read_rate_bytes_per_second,\n                        0\n                    )\n                    AS FLOAT\n                ) ::numeric /\n                ( 1024 * 1024 ),\n                1\n            )\n        ) AS Read_Rate,\n        MAX (\n            ROUND (\n                CAST (\n                    COALESCE (\n                        write_rate_bytes_per_second,\n                        0\n                    )\n                    AS FLOAT\n                ) ::numeric /\n                ( 1024 * 1024 ),\n                1\n            )\n        ) AS Write_Rate\n    FROM v4_3_statistics_vms_disks_resources_usage_hourly\n        INNER JOIN v4_3_configuration_history_vms_disks\n            ON (\n                v4_3_configuration_history_vms_disks.vm_disk_id =\n                v4_3_statistics_vms_disks_resources_usage_hourly.vm_disk_id\n            )\n        AND history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n        -- Here we filter by the latest vms_disks  configuration\n        AND v4_3_configuration_history_vms_disks.history_id IN (\n            SELECT MAX ( a.history_id )\n            FROM v4_3_configuration_history_vms_disks AS a\n            GROUP BY a.vm_disk_id\n        )\n        AND v4_3_configuration_history_vms_disks.vm_disk_id IN (\n            SELECT c.vm_disk_id\n            FROM v4_3_statistics_vms_disks_resources_usage_hourly AS b\n                INNER JOIN v4_3_configuration_history_vms_disks AS c\n                    ON (\n                        c.vm_disk_id = b.vm_disk_id\n                    )\n            WHERE\n                -- Here we filter by active vms disks only\n                b.vm_disk_status = 1\n                AND c.vm_disk_id IN (\n                    SELECT device_id\n                    FROM v4_3_configuration_history_vms_devices\n                        INNER JOIN v4_3_statistics_vms_resources_usage_hourly\n                            ON (\n                                v4_3_statistics_vms_resources_usage_hourly.vm_configuration_version =\n                                v4_3_configuration_history_vms_devices.vm_configuration_version\n                            )\n                    WHERE\n                        -- Here we filter by active vms only\n                        v4_3_statistics_vms_resources_usage_hourly.vm_status = 1\n                        -- Here we filter by the vm chosen by the user\n                        AND v4_3_configuration_history_vms_devices.vm_id in($vm_id)\n                        AND create_date < $__timeTo()\n                        AND (\n                            delete_date > $__timeFrom()\n                            OR\n                            delete_date IS NULL\n                        )\n                        -- Here we get the latest vm_devices configuration\n                        AND v4_3_configuration_history_vms_devices.history_id IN (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_3_configuration_history_vms_devices a\n                            GROUP BY\n                                a.vm_id,\n                                a.device_id\n                        )\n                        -- Here we get or remove deleted VM devices according to what the user chose\n                        -- in the \"show_deleted\" parameter.\n                        AND\n                            CASE\n                              WHEN '$show_deleted'='Yes'\n                              THEN 1=1\n                              WHEN '$show_deleted'='No'\n                              THEN delete_date isnull\n                            END\n                )\n                AND history_datetime >= $__timeFrom()\n                AND history_datetime < $__timeTo()\n                -- Here we get the latest vm_disks configuration\n                AND c.history_id IN (\n                    SELECT MAX ( d.history_id )\n                    FROM  v4_3_configuration_history_vms_disks AS d\n                    GROUP BY d.vm_disk_id\n                )\n                -- Here we get or remove deleted VM disks according to what the user chose\n                -- in the \"show_deleted\" parameter.\n                AND\n                    CASE\n                      WHEN '$show_deleted'='Yes'\n                      THEN 1=1\n                      WHEN '$show_deleted'='No'\n                      THEN delete_date isnull\n                    END\n            GROUP BY c.vm_disk_id\n            -- Here we sort by the disks that have the max read and write rate.\n            ORDER BY\n                MAX (\n                    ROUND (\n                        CAST (\n                            COALESCE (\n                                b.read_rate_bytes_per_second,\n                                0\n                            )\n                            AS FLOAT\n                        ) ::numeric,\n                        1\n                    )\n                ) +\n                MAX (\n                    ROUND (\n                        CAST (\n                            COALESCE (\n                                b.write_rate_bytes_per_second,\n                                0\n                            )\n                            AS FLOAT\n                        ) ::numeric,\n                        1\n                    )\n                ) DESC\n            LIMIT 5\n        )\n        -- Here we get or remove deleted entities according to what the user chose\n        -- in the \"show_deleted\" parameter.\n        AND\n            CASE\n              WHEN '$show_deleted'='Yes'\n              THEN 1=1\n              WHEN '$show_deleted'='No'\n              THEN delete_date isnull\n            END\n    GROUP BY\n        v4_3_statistics_vms_disks_resources_usage_hourly.vm_disk_id,\n        disk_name, history_datetime\n) AS a\nGROUP BY\n    a.time,\n    disk_name\nORDER BY\n    a.time,\n    COALESCE (\n        disk_name,\n        MAX ( disk_name ) over ( partition by 1 ),\n        ''\n    )",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Single Virtual Machine Resources - Disk IO rates (Over Time) (BR10A)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "oVirt DWH",
+      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, Disk IO rates) for a selected virtual machine over the selected time.",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 18,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR10A - This query returns the\n--  VMs Ethernet Interface Tx and Rx Rates\n-- over time.\n\nSELECT DISTINCT\n    $__time(a.time),\n    COALESCE (\n        interface_name,\n        MAX ( interface_name ) over ( partition by 1 ),\n        ''\n    ) AS interface_name,\n    AVG ( Rx_rate ) AS Rx_rate,\n    AVG ( Tx_rate ) AS Tx_rate\nFROM (\n    SELECT v4_3_configuration_history_vms_interfaces.vm_interface_id,\n        CASE\n            WHEN delete_date IS NULL\n                THEN v4_3_configuration_history_vms_interfaces.vm_interface_name\n            ELSE\n                v4_3_configuration_history_vms_interfaces.vm_interface_name\n                ||\n                '*'\n        END AS interface_name,\n        history_datetime AS time,\n        AVG (\n            COALESCE (\n                receive_rate_percent, 0\n            )\n        ) AS Rx_rate,\n        AVG (\n            COALESCE (\n                transmit_rate_percent,\n                0\n            )\n        ) AS Tx_rate\n    FROM v4_3_statistics_vms_interfaces_resources_usage_hourly\n        INNER JOIN v4_3_configuration_history_vms_interfaces\n            ON (\n                v4_3_configuration_history_vms_interfaces.vm_interface_id =\n                v4_3_statistics_vms_interfaces_resources_usage_hourly.vm_interface_id\n            )\n    WHERE history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n        -- Here we get the latest vm_interfaces configuration\n        AND v4_3_configuration_history_vms_interfaces.history_id IN (\n            SELECT MAX ( a.history_id )\n            FROM v4_3_configuration_history_vms_interfaces AS a\n            GROUP BY a.vm_interface_id\n        )\n        -- Here we get or remove deleted vm_interfaces according to what the user chose\n        -- in the \"show_deleted\" parameter.\n        AND\n            CASE\n              WHEN '$show_deleted'='Yes'\n              THEN 1=1\n              WHEN '$show_deleted'='No'\n              THEN delete_date isnull\n            END\n        AND v4_3_configuration_history_vms_interfaces.vm_interface_id IN (\n            SELECT c.vm_interface_id\n            FROM v4_3_statistics_vms_interfaces_resources_usage_hourly AS b\n                INNER JOIN v4_3_configuration_history_vms_interfaces AS c\n                    ON (\n                        c.vm_interface_id = b.vm_interface_id\n                    )\n                INNER JOIN v4_3_statistics_vms_resources_usage_hourly d\n                    ON (\n                        d.vm_configuration_version =\n                        c.vm_configuration_version\n                        AND\n                        d.history_datetime =\n                        b.history_datetime\n                    )\n            WHERE\n                -- Here we filter by active vms only\n                d.vm_status = 1\n                AND c.vm_interface_id IN (\n                    -- Here we filter by the VM chosen by the user\n                    SELECT device_id\n                    FROM v4_3_configuration_history_vms_devices\n                    WHERE\n                        vm_id in($vm_id)\n                        AND create_date < $__timeTo()\n                        AND (\n                            delete_date > $__timeFrom()\n                            OR\n                            delete_date IS NULL\n                        )\n                        -- Here we get the latest vm_devices configuration\n                        AND history_id IN (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_3_configuration_history_vms_devices AS a\n                            GROUP BY a.vm_id, a.device_id\n                        )\n                        -- Here we get or remove deleted VMs according to what the user chose\n                        -- in the \"show_deleted\" parameter.\n                        AND\n                            CASE\n                              WHEN '$show_deleted'='Yes'\n                              THEN 1=1\n                              WHEN '$show_deleted'='No'\n                              THEN delete_date isnull\n                            END\n                )\n                AND b.history_datetime >= $__timeFrom()\n                AND b.history_datetime < $__timeTo()\n                AND c.history_id IN (\n                    SELECT MAX ( d.history_id )\n                    FROM v4_3_configuration_history_vms_interfaces AS d\n                    GROUP BY d.vm_interface_id\n                )\n                -- Here we get or remove deleted vm_interfaces according to what the user chose\n                -- in the \"show_deleted\" parameter.\n                AND\n                    CASE\n                      WHEN '$show_deleted'='Yes'\n                      THEN 1=1\n                      WHEN '$show_deleted'='No'\n                      THEN delete_date isnull\n                    END\n            GROUP BY c.vm_interface_id\n            ORDER BY\n                AVG (\n                    COALESCE (\n                        b.receive_rate_percent,\n                        0\n                    )\n                ) +\n                AVG (\n                    COALESCE (\n                        b.transmit_rate_percent,\n                        0\n                    )\n                ) DESC\n            LIMIT 3\n        )\n    GROUP BY\n        v4_3_configuration_history_vms_interfaces.vm_interface_id,\n        interface_name,\n        history_datetime\n) AS a\nGROUP BY\n    a.time,\n    interface_name\nORDER BY a.time ASC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Single Virtual Machine Resources - Network Tx/Rx (Over Time) (BR10A)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, Disk IO rates) for a selected virtual machine over the selected time.",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 15,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR10A - This query returns the\n-- VMs Max and Average MEMory Usage Peaks\n-- over time.\n\nSELECT\n    $__time(time),\n    MEM_Usage AS \"Memory Usage\",\n    MEM_Peak AS \"Memory Peak\"\nFROM (\n    -- VMs Max and Average MEMory Usage Peaks\n    SELECT\n        history_datetime AS time,\n        SUM (\n            COALESCE (\n                memory_usage_percent,\n                0\n            ) *\n            COALESCE (\n                minutes_in_status,\n                0\n            )\n        ) /\n        SUM (\n            COALESCE (\n                minutes_in_status,\n                0\n            )\n        ) AS MEM_Usage,\n        SUM (\n            COALESCE (\n                max_memory_usage,\n                0\n            ) *\n            COALESCE (\n                minutes_in_status,\n                0\n            )\n        ) /\n        SUM (\n            COALESCE (\n                minutes_in_status,\n                0\n            )\n        ) AS MEM_Peak\n    FROM v4_3_statistics_vms_resources_usage_hourly\n    WHERE\n        -- Here we filter by active vms only\n        v4_3_statistics_vms_resources_usage_hourly.vm_status = 1\n        -- Here we filter by the vm chosen by the user\n        AND v4_3_statistics_vms_resources_usage_hourly.vm_id in($vm_id)\n        AND history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n    GROUP BY\n        history_datetime\n) AS a\nGROUP BY\n    time,\n    MEM_Usage,\n    MEM_Peak\nORDER BY time\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Single Virtual Machine Resources - Memory (Over Time) (BR10A)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "oVirt DWH",
+      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, Disk IO rates) for a selected virtual machine over the selected time.",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 19,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR10A - This query returns the\n-- VMs Max and Average CPU Usage Peaks\n-- over time.\n\nSELECT\n    $__time(a.time),\n    CPU_Usage,\n    CPU_Peak\nFROM (\n    -- Here we get the vms Max and Average CPU Usage Peaks\n    SELECT\n        history_datetime AS time,\n        SUM (\n            COALESCE (\n                cpu_usage_percent,\n                0\n            ) *\n            COALESCE (\n                minutes_in_status,\n                0\n            )\n        ) /\n        SUM (\n            COALESCE (\n                minutes_in_status,\n                0\n            )\n        ) AS CPU_Usage,\n        SUM (\n            COALESCE (\n                max_cpu_usage,\n                0\n            ) *\n            COALESCE (\n                minutes_in_status,\n                0\n            )\n        ) /\n        SUM (\n            COALESCE (\n                minutes_in_status,\n                0\n            )\n        ) AS CPU_Peak\n    FROM v4_3_statistics_vms_resources_usage_hourly\n    WHERE\n        -- Here we filter by active vms only\n        v4_3_statistics_vms_resources_usage_hourly.vm_status = 1\n        -- Here we filter by the vm chosen by the user\n        AND v4_3_statistics_vms_resources_usage_hourly.vm_id in($vm_id)\n        AND history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n    GROUP BY history_datetime\n) AS a\nGROUP BY\n    a.time,\n    CPU_Usage,\n    CPU_Peak\nORDER BY a.time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Single Virtual Machine Resources - CPU (Over Time) (BR10A)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_configuration_history_datacenters ",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Center",
+        "multi": false,
+        "name": "datacenter_id",
+        "options": [],
+        "query": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_configuration_history_datacenters ",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": "blank=auto",
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_configuration_history_clusters WHERE datacenter_id IN  ('$datacenter_id')",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Cluster",
+        "multi": false,
+        "name": "cluster_id",
+        "options": [],
+        "query": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_configuration_history_clusters WHERE datacenter_id IN  ('$datacenter_id')",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT vm_name AS __text , vm_id AS __value FROM v4_3_configuration_history_vms WHERE cluster_id IN ('$cluster_id')",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Virtual Machine",
+        "multi": true,
+        "name": "vm_id",
+        "options": [],
+        "query": "SELECT DISTINCT vm_name AS __text , vm_id AS __value FROM v4_3_configuration_history_vms WHERE cluster_id IN ('$cluster_id')",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "Yes",
+          "value": "Yes"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Show Deleted Entities?",
+        "multi": false,
+        "name": "show_deleted",
+        "options": [
+          {
+            "selected": false,
+            "text": "No",
+            "value": "No"
+          },
+          {
+            "selected": true,
+            "text": "Yes",
+            "value": "Yes"
+          }
+        ],
+        "query": "No,Yes",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now/M",
+    "to": "now/M"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Single Virtual Machine Trend Dashboard",
+  "uid": "singlevirtualmachinetrenddashboard",
+  "version": 1
+}

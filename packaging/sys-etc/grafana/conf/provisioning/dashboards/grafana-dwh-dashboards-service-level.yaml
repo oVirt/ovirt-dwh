@@ -1,0 +1,15 @@
+---
+apiVersion: 1
+
+providers:
+- name: oVirt DWH Service Level Dashboards
+  orgId: 1
+  folder: 'oVirt Service Level Dashboards'
+  folderUid: 'servicelevel'
+  type: file
+  disableDeletion: false
+  editable: true
+  updateIntervalSeconds: 10
+  allowUiUpdates: true
+  options:
+    path: /usr/share/ovirt-engine-dwh/conf/grafana-dashboards/servicelevel/
