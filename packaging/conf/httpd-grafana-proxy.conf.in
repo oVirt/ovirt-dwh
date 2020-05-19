@@ -2,7 +2,7 @@
     LoadModule proxy_module modules/mod_proxy.so
 </IfModule>
 
-<Location /ovirt-engine-grafana>
+<Location @GRAFANA_URI_PATH@>
     ProxyPass http://127.0.0.1:@GRAFANA_PORT@ retry=0 disablereuse=On
-    ProxyPassReverse http://127.0.0.1:@GRAFANA_PORT@/ovirt-engine-grafana
+    ProxyPassReverse http://127.0.0.1:@GRAFANA_PORT@@GRAFANA_URI_PATH@
 </Location>

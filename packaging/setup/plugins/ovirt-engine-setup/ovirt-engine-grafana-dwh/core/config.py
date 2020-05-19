@@ -49,7 +49,6 @@ class Plugin(plugin.PluginBase):
     def __init__(self, context):
         super(Plugin, self).__init__(context=context)
         self._sso_config = None
-        self._grafana_fqdn = None
 
     @staticmethod
     def _generatePassword():
@@ -71,6 +70,24 @@ class Plugin(plugin.PluginBase):
         self.environment.setdefault(
             ogdwhcons.ConfigEnv.CONF_SECRET_KEY,
             self._generatePassword()
+        )
+
+    @plugin.event(
+        stage=plugin.Stages.STAGE_CUSTOMIZATION,
+        before=(
+            osetupcons.Stages.DIALOG_TITLES_S_MISC,
+        ),
+        after=(
+            osetupcons.Stages.CONFIG_PROTOCOLS_CUSTOMIZATION,
+        ),
+    )
+    def _customization_url(self):
+        # TODO: Fix for separate machines
+        self._grafana_url = 'https://{grafana_fqdn}{path}/'.format(
+            grafana_fqdn=self.environment[
+                oenginecons.ConfigEnv.ENGINE_FQDN
+            ],
+            path=ogdwhcons.Const.GRAFANA_URI_PATH,
         )
 
     @plugin.event(
@@ -124,22 +141,17 @@ class Plugin(plugin.PluginBase):
             # own file
             raise RuntimeError(_('{tool} is missing').format(sso_client_tool))
 
-        # TODO: Fix for separate machines
-        self._grafana_fqdn = self.environment[
-            oenginecons.ConfigEnv.ENGINE_FQDN
-        ]
-
         return (
             '{tool} '
             '--callback-prefix-url='
-            'https://{grafana_fqdn}/ovirt-engine-grafana/ '
+            '{grafana_url} '
             '--client-ca-location={ca_pem} '
             '--client-id={client_id} '
             '--encrypted-userinfo=false '
             '--conf-file-name={tmpconf}'
         ).format(
             tool=sso_client_tool,
-            grafana_fqdn=self._grafana_fqdn,
+            grafana_url=self._grafana_url,
             ca_pem=oenginecons.FileLocations.OVIRT_ENGINE_PKI_ENGINE_CA_CERT,
             client_id=ogdwhcons.Const.OVIRT_GRAFANA_SSO_CLIENT_ID,
             tmpconf=tmpconf,
@@ -271,14 +283,35 @@ class Plugin(plugin.PluginBase):
                                 ],
                             )
                         ),
-                        '@ROOT_URL@': (
-                            'https://{fqdn}/ovirt-engine-grafana/'.format(
-                                fqdn=self._grafana_fqdn,
-                            )
-                        ),
+                        '@ROOT_URL@': '%s' % self._grafana_url,
                     },
                 ),
                 modifiedList=uninstall_files,
+            )
+        )
+
+    @plugin.event(
+        stage=plugin.Stages.STAGE_CLOSEUP,
+        before=(
+            osetupcons.Stages.DIALOG_TITLES_E_SUMMARY,
+        ),
+        after=(
+            osetupcons.Stages.DIALOG_TITLES_S_SUMMARY,
+        ),
+        condition=lambda self: (
+            self.environment[ogdwhcons.CoreEnv.ENABLE] and
+            not self.environment[
+                osetupcons.CoreEnv.DEVELOPER_MODE
+            ]
+        ),
+    )
+    def _closeup_inform_UI(self):
+        self.dialog.note(
+            text=_(
+                'Web access for grafana is enabled at:\n'
+                '    {url}\n'
+            ).format(
+                url=self._grafana_url,
             )
         )
 

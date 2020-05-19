@@ -48,6 +48,7 @@ class Const(object):
     SERVICE_NAME = 'grafana-server'
     OVIRT_ENGINE_GRAFANA_DWH_SETUP_PACKAGE_NAME = \
         'ovirt-engine-dwh-grafana-integration-setup'
+    GRAFANA_URI_PATH = '/ovirt-engine-grafana'
 
     @classproperty
     def DWH_DB_ENV_KEYS(self):
