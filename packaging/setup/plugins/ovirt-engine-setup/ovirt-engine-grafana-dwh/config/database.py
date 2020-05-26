@@ -30,7 +30,7 @@ def _(m):
 
 @util.export
 class Plugin(plugin.PluginBase):
-    """Cinderlib Database plugin."""
+    """Grafana Database plugin."""
 
     def __init__(self, context):
         super(Plugin, self).__init__(context=context)

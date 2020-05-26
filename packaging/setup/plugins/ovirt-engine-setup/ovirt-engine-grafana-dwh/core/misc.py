@@ -14,6 +14,7 @@ from otopi import util
 from otopi import plugin
 
 from ovirt_engine_setup.engine import constants as oenginecons
+from ovirt_engine_setup.engine_common import constants as oengcommcons
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.grafana_dwh import constants as ogdwhcons
 from ovirt_setup_lib import dialog
@@ -68,6 +69,7 @@ class Plugin(plugin.PluginBase):
                 default=True,
             )
         if self.environment[ogdwhcons.CoreEnv.ENABLE]:
+            self.environment[oengcommcons.ApacheEnv.ENABLE] = True
             self.environment[
                 ogdwhcons.ConfigEnv.GRAFANA_SERVICE_STOP_NEEDED
             ] = True

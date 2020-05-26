@@ -7,17 +7,17 @@
 #
 
 
-"""oVirt engine-setup dwh grafana datebase plugin."""
-
-
 from otopi import util
 
-from . import connection
+
+from . import apache
+from . import misc
 
 
 @util.export
 def createPlugins(context):
-    connection.Plugin(context=context)
+    apache.Plugin(context=context)
+    misc.Plugin(context=context)
 
 
 # vim: expandtab tabstop=4 shiftwidth=4

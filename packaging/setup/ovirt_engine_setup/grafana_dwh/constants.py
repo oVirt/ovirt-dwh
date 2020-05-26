@@ -108,6 +108,8 @@ class Const(object):
     # Is there a need to make this configurable?
     OVIRT_GRAFANA_SSO_CLIENT_ID = 'ovirt-grafana'
 
+    PKI_GRAFANA_APACHE_CERT_NAME = 'apache-grafana'
+
 
 @util.export
 @util.codegen
@@ -119,6 +121,7 @@ class Defaults(object):
     GRAFANA_PORT = 3000
     GRAFANA_DEFAULT_USER = 'grafana'
     GRAFANA_DEFAULT_GROUP = 'grafana'
+    DEFAULT_KEY_SIZE = 2048
 
 
 @util.export
@@ -142,7 +145,7 @@ class GrafanaDefaults(object):
 
 @util.export
 @util.codegen
-class FileLocations(object):
+class FileLocations(oengcommcons.FileLocations):
     GRAFANA_SYSCONF_DIR = config.GRAFANA_SYSCONF_DIR
     GRAFANA_STATE_DIR = config.GRAFANA_STATE_DIR
     GRAFANA_DATA_DIR = config.GRAFANA_DATA_DIR
@@ -194,6 +197,24 @@ class FileLocations(object):
     # GRAFANA_STATE_DIR
     GRAFANA_DB = 'grafana.db'
 
+    # PKI stuff. DIRs are taken from oengcommcons.FileLocations
+    # which we inherit.
+
+    # These are generated and used in case the engine-generated
+    # apache pki is not found.
+    OVIRT_ENGINE_PKI_GRAFANA_APACHE_KEY = os.path.join(
+        oengcommcons.FileLocations.OVIRT_ENGINE_PKIKEYSDIR,
+        '%s.key.nopass' % Const.PKI_GRAFANA_APACHE_CERT_NAME,
+    )
+    OVIRT_ENGINE_PKI_GRAFANA_APACHE_CA_CERT = os.path.join(
+        oengcommcons.FileLocations.OVIRT_ENGINE_PKIDIR,
+        '%s-ca.pem' % Const.PKI_GRAFANA_APACHE_CERT_NAME,
+    )
+    OVIRT_ENGINE_PKI_GRAFANA_APACHE_CERT = os.path.join(
+        oengcommcons.FileLocations.OVIRT_ENGINE_PKICERTSDIR,
+        '%s.cer' % Const.PKI_GRAFANA_APACHE_CERT_NAME,
+    )
+
 
 @util.export
 class Stages(object):
@@ -201,6 +222,7 @@ class Stages(object):
     DB_GRAFANA_CONNECTION_CUSTOMIZATION = \
         'osetup.grafana.db.connection.customization'
     DB_CONNECTION_SETUP = 'osetup.grafana.db.connection.setup'
+    PKI_MISC = 'osetup.grafana.pki.misc'
 
 
 @util.export
@@ -256,6 +278,12 @@ class ConfigEnv(object):
     )
     def GRAFANA_DB_CREATED_BY_US(self):
         return 'OVESETUP_GRAFANA_CORE/grafanaDbCreatedByUs'
+
+    GRAFANA_FQDN = 'OVESETUP_GRAFANA_CONFIG/grafanaFQDN'
+
+    KEY_SIZE = 'OVESETUP_GRAFANA_CONFIG/keySize'
+
+    PKI_APACHE_CSR_FILENAME = 'OVESETUP_GRAFANA_CONFIG/pkiApacheCSRFilename'
 
 
 @util.export

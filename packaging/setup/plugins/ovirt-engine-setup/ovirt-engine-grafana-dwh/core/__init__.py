@@ -12,6 +12,7 @@ from otopi import util
 
 from . import config
 from . import misc
+from . import remote_engine
 from . import service
 
 
@@ -19,6 +20,7 @@ from . import service
 def createPlugins(context):
     config.Plugin(context=context)
     misc.Plugin(context=context)
+    remote_engine.Plugin(context=context)
     service.Plugin(context=context)
 
 

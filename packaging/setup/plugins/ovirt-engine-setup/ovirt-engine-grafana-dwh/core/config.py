@@ -40,6 +40,7 @@ class Plugin(plugin.PluginBase):
     def __init__(self, context):
         super(Plugin, self).__init__(context=context)
         self._sso_config = None
+        self._register_sso_client = False
 
     @staticmethod
     def _generatePassword():
@@ -65,18 +66,18 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
+        condition=lambda self: self.environment[ogdwhcons.CoreEnv.ENABLE],
         before=(
             osetupcons.Stages.DIALOG_TITLES_S_MISC,
         ),
         after=(
-            osetupcons.Stages.CONFIG_PROTOCOLS_CUSTOMIZATION,
+            oengcommcons.Stages.NETWORK_OWNERS_CONFIG_CUSTOMIZED,
         ),
     )
     def _customization_url(self):
-        # TODO: Fix for separate machines
         self._grafana_url = 'https://{grafana_fqdn}{path}/'.format(
             grafana_fqdn=self.environment[
-                oenginecons.ConfigEnv.ENGINE_FQDN
+                ogdwhcons.ConfigEnv.GRAFANA_FQDN
             ],
             path=ogdwhcons.Const.GRAFANA_URI_PATH,
         )
@@ -97,7 +98,7 @@ class Plugin(plugin.PluginBase):
     )
     def _customization_admin_password(self):
         password = None
-        if self.environment[oenginecons.ConfigEnv.ADMIN_PASSWORD]:
+        if self.environment.get(oenginecons.ConfigEnv.ADMIN_PASSWORD):
             use_engine_admin_password = dialog.queryBoolean(
                 dialog=self.dialog,
                 name='GRAFANA_USE_ENGINE_ADMIN_PASSWORD',
@@ -125,15 +126,8 @@ class Plugin(plugin.PluginBase):
         self.environment[ogdwhcons.ConfigEnv.ADMIN_PASSWORD] = password
 
     def _get_sso_client_registration_cmd(self, tmpconf):
-        sso_client_tool = '/usr/bin/ovirt-register-sso-client-tool'
-        if not os.path.exists(sso_client_tool):
-            # TODO: make this optional
-            # After grafana supports split config files, have sso in its
-            # own file
-            raise RuntimeError(_('{tool} is missing').format(sso_client_tool))
-
         return (
-            '{tool} '
+            '/usr/bin/ovirt-register-sso-client-tool '
             '--callback-prefix-url='
             '{grafana_url} '
             '--client-ca-location={ca_pem} '
@@ -141,7 +135,6 @@ class Plugin(plugin.PluginBase):
             '--encrypted-userinfo=false '
             '--conf-file-name={tmpconf}'
         ).format(
-            tool=sso_client_tool,
             grafana_url=self._grafana_url,
             ca_pem=oenginecons.FileLocations.OVIRT_ENGINE_PKI_ENGINE_CA_CERT,
             client_id=ogdwhcons.Const.OVIRT_GRAFANA_SSO_CLIENT_ID,
@@ -175,27 +168,32 @@ class Plugin(plugin.PluginBase):
         if self.environment[oenginecons.CoreEnv.ENABLE]:
             self._register_sso_client = True
         else:
+            self._remote_engine = self.environment[
+                osetupcons.CoreEnv.REMOTE_ENGINE
+            ]
             fd, tmpconf = tempfile.mkstemp()
             atexit.register(os.unlink, tmpconf)
-            # TODO: do this with remote_engine
-            dialog.queryString(
-                name='PROMPT_GRAFANA_REMOTE_ENGINE_SSO',
-                note=_(
+            cmd = self._get_sso_client_registration_cmd(tmpconf)
+            self._remote_engine.execute_on_engine(
+                cmd=cmd,
+                timeout=120,
+                text=_(
                     'Please run the following command on the engine machine '
                     '{engine_fqdn}:\n'
                     '{cmd}\n'
-                    'Then copy the file {tmpconf} from the engine machine to '
-                    'this machine, and press Enter to continue: '
                 ).format(
                     engine_fqdn=self.environment[
                         oenginecons.ConfigEnv.ENGINE_FQDN
                     ],
-                    cmd=self._get_sso_client_registration_cmd(tmpconf),
-                    tmpconf=tmpconf,
+                    cmd=cmd,
                 ),
-                prompt=True,
-                default='y',  # Allow Enter without any value
             )
+            res = self._remote_engine.copy_from_engine(
+                file_name=tmpconf,
+                dialog_name='PROMPT_GRAFANA_REMOTE_ENGINE_SSO',
+            )
+            with open(tmpconf, 'wb') as f:
+                f.write(res)
             self._process_sso_client_registration_result(tmpconf)
 
     @plugin.event(
@@ -275,6 +273,10 @@ class Plugin(plugin.PluginBase):
                             )
                         ),
                         '@ROOT_URL@': '%s' % self._grafana_url,
+                        '@GRAFANA_TLS_CLIENT_CA@': (
+                            oengcommcons.FileLocations.
+                            OVIRT_ENGINE_PKI_APACHE_CA_CERT
+                        ),
                     },
                 ),
                 modifiedList=uninstall_files,

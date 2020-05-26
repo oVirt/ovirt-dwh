@@ -195,7 +195,9 @@ class Plugin(plugin.PluginBase):
         # If we upgrade by copying, we can rollback by using the old
         # version. If we upgrade in-place, we do not support rollback,
         # and user should take care of backups elsewhere.
-        condition=lambda self: not self.environment[
+        condition=lambda self: self.environment[
+            odwhcons.CoreEnv.ENABLE
+        ] and not self.environment[
             odwhcons.DBEnv.NEW_DATABASE
         ] and not self.environment[
             odwhcons.DBEnv.NEED_DBMSUPGRADE

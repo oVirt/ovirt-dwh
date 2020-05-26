@@ -14,12 +14,14 @@ from otopi import util
 
 from . import database
 from . import datasource
+from . import grafana_fqdn
 
 
 @util.export
 def createPlugins(context):
     database.Plugin(context=context)
     datasource.Plugin(context=context)
+    grafana_fqdn.Plugin(context=context)
 
 
 # vim: expandtab tabstop=4 shiftwidth=4

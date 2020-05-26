@@ -385,7 +385,7 @@ allowed_organizations =
 tls_skip_verify_insecure = false
 tls_client_cert =
 tls_client_key =
-tls_client_ca = /etc/pki/ovirt-engine/ca.pem
+tls_client_ca = @GRAFANA_TLS_CLIENT_CA@
 send_client_credentials_via_post = false
 
 #################################### SAML Auth ###########################

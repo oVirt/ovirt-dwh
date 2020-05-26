@@ -135,6 +135,8 @@ class Plugin(plugin.PluginBase):
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
         priority=plugin.Stages.PRIORITY_LAST,
         condition=lambda self: self.environment[
+            odwhcons.CoreEnv.ENABLE
+        ] and self.environment[
             odwhcons.DBEnv.HOST
         ] == 'localhost',
     )
