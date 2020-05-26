@@ -46,7 +46,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1590321551702,
+  "iteration": 1590481927639,
   "links": [],
   "panels": [
     {
@@ -155,11 +155,11 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "percent",
           "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
+          "max": "100",
+          "min": "0",
           "show": true
         },
         {
@@ -270,11 +270,11 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "format": "percent",
           "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
+          "max": "100",
+          "min": "0",
           "show": true
         },
         {
@@ -376,11 +376,12 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "decimals": null,
+          "format": "percent",
           "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
+          "max": "100",
+          "min": "0",
           "show": true
         },
         {
@@ -482,11 +483,12 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "decimals": null,
+          "format": "percent",
           "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
+          "max": "100",
+          "min": "0",
           "show": true
         },
         {
@@ -580,8 +582,9 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "Yes",
-          "value": "Yes"
+          "tags": [],
+          "text": "No",
+          "value": "No"
         },
         "hide": 0,
         "includeAll": false,
@@ -590,12 +593,12 @@
         "name": "show_deleted",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "No",
             "value": "No"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "Yes",
             "value": "Yes"
           }
