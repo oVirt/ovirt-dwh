@@ -608,7 +608,7 @@
     ]
   },
   "timezone": "",
-  "title": "Single Host Trend Dashboard",
-  "uid": "singlehosttrenddashboard",
+  "title": "Hosts Trend Dashboard",
+  "uid": "hoststrenddashboard",
   "version": 1
 }

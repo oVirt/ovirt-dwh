@@ -118,7 +118,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Single Virtual Machine Resources - Disk IO rates (Over Time) (BR10A)",
+      "title": "Disk IO rates (Over Time) (BR10A)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -224,7 +224,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Single Virtual Machine Resources - Network Tx/Rx (Over Time) (BR10A)",
+      "title": "Network Tx/Rx (Over Time) (BR10A)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -329,7 +329,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Single Virtual Machine Resources - Memory (Over Time) (BR10A)",
+      "title": "Memory (Over Time) (BR10A)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -435,7 +435,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Single Virtual Machine Resources - CPU (Over Time) (BR10A)",
+      "title": "CPU (Over Time) (BR10A)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -605,7 +605,7 @@
     ]
   },
   "timezone": "",
-  "title": "Single Virtual Machine Trend Dashboard",
-  "uid": "singlevirtualmachinetrenddashboard",
+  "title": "Virtual Machines Trend Dashboard",
+  "uid": "vmstrenddashboard",
   "version": 1
 }
