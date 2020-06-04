@@ -1,0 +1,465 @@
+{
+  "__inputs": [
+    {
+      "name": "oVirt DWH",
+      "label": "oVirt DWH",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "postgres",
+      "pluginName": "PostgreSQL"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.2.2"
+    },
+    {
+      "type": "datasource",
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1591176931022,
+  "links": [],
+  "panels": [
+    {
+      "cacheTimeout": null,
+      "datasource": "oVirt DWH",
+      "description": "This report contains 2  gauges displaying the average planned and unplanned uptime of a selected VM for a requested period.",
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 6,
+        "y": 0
+      },
+      "id": 3,
+      "links": [],
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "max": 100,
+            "min": 0,
+            "unit": "percentunit"
+          },
+          "mappings": [],
+          "override": {},
+          "thresholds": [
+            {
+              "color": "green",
+              "index": 0,
+              "value": null
+            },
+            {
+              "color": "red",
+              "index": 1,
+              "value": 80
+            }
+          ],
+          "values": true
+        },
+        "orientation": "horizontal",
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "6.2.2",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR46 - This query returns for the specific vm\n-- the total Unplanned_Downtime, Planned_Downtime, Uptime and total time in minutes.\n\nSELECT\n    SUM (\n        CASE\n            WHEN vm_status IN ( 2, 0 )\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) /\n    SUM (\n        hourly_daily.minutes_in_status\n    ) AS \"Planned Downtime\",\n    SUM (\n        CASE\n            WHEN vm_status = 3\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) /\n    SUM (\n        hourly_daily.minutes_in_status\n    ) AS \"Unplanned Downtime\"\nFROM\n    (\n     SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n     UNION\n     SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n    ) AS hourly_daily\nWHERE\n    -- Here we filter by the vm id chosen by the user\n    hourly_daily.vm_id in($vm_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Virtual Machine Uptime (BR46)",
+      "type": "gauge"
+    },
+    {
+      "cacheTimeout": null,
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "This report contains a table displaying the average uptime of the selected VMs for a requested period.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 16,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "id": 4,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "pluginVersion": "6.2.2",
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 5,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "VM Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Planned  Downtime",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "planned_downtime",
+          "thresholds": [
+            "0.8",
+            "0.9"
+          ],
+          "type": "number",
+          "unit": "percentunit"
+        },
+        {
+          "alias": "Unplanned  Downtime",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "unplanned_downtime",
+          "thresholds": [
+            "0.8",
+            "0.9"
+          ],
+          "type": "number",
+          "unit": "percentunit"
+        },
+        {
+          "alias": "Planned Downtime (time)",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "planned_downtime_in_time",
+          "thresholds": [],
+          "type": "number",
+          "unit": "m"
+        },
+        {
+          "alias": "Unplanned Downtime (time)",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "unplanned_downtime_in_time",
+          "thresholds": [],
+          "type": "number",
+          "unit": "m"
+        },
+        {
+          "alias": "Total Time",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "total_time",
+          "thresholds": [],
+          "type": "number",
+          "unit": "m"
+        },
+        {
+          "alias": "Create Date",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "create_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "Update Date",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "update_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "Uptime (time)",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "uptime_in_min",
+          "thresholds": [],
+          "type": "number",
+          "unit": "m"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR46 - This query returns for the specific vm\n-- the total Unplanned_Downtime, Planned_Downtime, Uptime and total time in minutes.\n\nSELECT\n    vm_name,\n    SUM (\n        CASE\n            WHEN vm_status IN ( 2, 0 )\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) /\n    SUM (\n        hourly_daily.minutes_in_status\n    ) AS \"planned_downtime\",\n    SUM (\n        CASE\n            WHEN vm_status = 3\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) /\n    SUM (\n        hourly_daily.minutes_in_status\n    ) AS \"unplanned_downtime\",\n        SUM (\n        CASE\n            WHEN vm_status IN ( 2, 0 )\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) AS \"planned_downtime_in_time\",\n    SUM (\n        CASE\n            WHEN vm_status = 3\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) AS \"unplanned_downtime_in_time\",\n--    SUM (\n--        hourly_daily.minutes_in_status\n--    ) AS \"total_time\",\n     SUM (\n        CASE\n            WHEN vm_status = 1\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) AS uptime_in_min,\n    create_date,\n    update_date\nFROM\n    (\n     SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n     UNION\n     SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n    ) AS hourly_daily\n    INNER JOIN\n        v4_3_latest_configuration_vms\n        ON (v4_3_latest_configuration_vms.vm_id=\n            hourly_daily.vm_id)\nWHERE\n    -- Here we filter by the vm id chosen by the user\n    hourly_daily.vm_id in($vm_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\nGROUP BY vm_name, create_date, update_date\nORDER BY vm_name",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Virtual Machines Uptime (BR46)",
+      "transform": "table",
+      "type": "table"
+    }
+  ],
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT datacenter_name AS __text, datacenter_id AS __value FROM v4_3_configuration_history_datacenters",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Center",
+        "multi": false,
+        "name": "datacenter_id",
+        "options": [],
+        "query": "SELECT DISTINCT datacenter_name AS __text, datacenter_id AS __value FROM v4_3_configuration_history_datacenters",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_configuration_history_clusters WHERE datacenter_id = '$datacenter_id'",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Cluster",
+        "multi": true,
+        "name": "cluster_id",
+        "options": [],
+        "query": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_configuration_history_clusters WHERE datacenter_id = '$datacenter_id'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT vm_name AS __text, vm_id AS __value FROM v4_3_configuration_history_vms WHERE cluster_id in ($cluster_id)",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Virtual Machine",
+        "multi": true,
+        "name": "vm_id",
+        "options": [],
+        "query": "SELECT DISTINCT vm_name AS __text, vm_id AS __value FROM v4_3_configuration_history_vms WHERE cluster_id in ($cluster_id)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-90d",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": false,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Virtual Machines Uptime Dashboard",
+  "uid": "vmsuptimedashboard",
+  "version": 1
+}
