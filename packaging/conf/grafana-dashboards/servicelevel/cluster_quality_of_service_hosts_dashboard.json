@@ -1,0 +1,829 @@
+{
+  "__inputs": [
+    {
+      "name": "oVirt DWH",
+      "label": "oVirt DWH",
+      "description": "",
+      "type": "datasource",
+      "pluginId": "postgres",
+      "pluginName": "PostgreSQL"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.2.2"
+    },
+    {
+      "type": "datasource",
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "singlestat",
+      "name": "Singlestat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1591283019191,
+  "links": [],
+  "panels": [
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "oVirt DWH",
+      "decimals": 2,
+      "description": "This report contains a chart displaying the time hosts have performed above a selected threshold ",
+      "format": "m",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 7,
+        "x": 0,
+        "y": 0
+      },
+      "id": 11,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "Time Above CPU Threshold",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "cpu_above",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR6 - Pie Charts\n-- Hosts performance above thresholds\n\nSELECT\n--    COALESCE ( AVG ( cpu_below ), 0 ) AS cpu_below,\n    COALESCE ( AVG ( cpu_above ), 0 ) AS cpu_above\n--    COALESCE ( AVG ( mem_below ), 0 ) AS mem_below,\n--    COALESCE ( AVG ( mem_above ), 0 ) AS mem_above\nFROM (\n    SELECT\n        SUM (\n            CASE\n                WHEN cpu_usage_percent < '$cpu_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS cpu_below,\n        SUM (\n            CASE\n                WHEN cpu_usage_percent >= '$cpu_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS cpu_above,\n        SUM (\n            CASE\n                WHEN memory_usage_percent < '$mem_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS mem_below,\n        SUM (\n            CASE\n                WHEN memory_usage_percent >= '$mem_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS mem_above\n    FROM (\n        SELECT DISTINCT\n            v4_3_configuration_history_hosts.host_id,\n            history_datetime,\n            cpu_usage_percent,\n            memory_usage_percent,\n            minutes_in_status\n        FROM\n            (\n             SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n             UNION\n             SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n            ) AS stats_hosts\n            INNER JOIN v4_3_configuration_history_hosts\n                ON (\n                    v4_3_configuration_history_hosts.host_id =\n                    stats_hosts.host_id\n                )\n        WHERE\n            -- Here we filter only host in active status\n            stats_hosts.host_status = 1\n            -- Here we filter by the datacenter chosen by the users\n            AND v4_3_configuration_history_hosts.cluster_id IN (\n                SELECT cluster_id\n                FROM v4_3_configuration_history_clusters\n                WHERE\n                    datacenter_id = '$datacenter_id'\n            )\n            -- Here we filter by the cluster chosen by the users\n            AND v4_3_configuration_history_hosts.cluster_id = '$cluster_id'\n            -- Here we get the latest host configurations\n            AND v4_3_configuration_history_hosts.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_configuration_history_hosts a\n                GROUP BY a.host_id\n            )\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- This will determine if deleted entities will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            AND\n              CASE\n                WHEN '$show_deleted'='Yes'\n                  THEN 1=1\n                WHEN '$show_deleted'='No'\n                  THEN delete_date isnull\n              END\n    ) a\n    GROUP BY host_id\n)\nAS t",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "oVirt DWH",
+      "decimals": 2,
+      "description": "This report contains a chart displaying the time hosts have performed above a selected threshold ",
+      "format": "m",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 8,
+        "x": 7,
+        "y": 0
+      },
+      "id": 10,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "Time Above Memory Threshold",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "mem_above",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR6 - Pie Charts\n-- Hosts performance above thresholds\n\nSELECT\n--    COALESCE ( AVG ( cpu_below ), 0 ) AS cpu_below,\n--    COALESCE ( AVG ( cpu_above ), 0 ) AS cpu_above,\n--    COALESCE ( AVG ( mem_below ), 0 ) AS mem_below,\n    COALESCE ( AVG ( mem_above ), 0 ) AS mem_above\nFROM (\n    SELECT\n        SUM (\n            CASE\n                WHEN cpu_usage_percent < '$cpu_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS cpu_below,\n        SUM (\n            CASE\n                WHEN cpu_usage_percent >= '$cpu_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS cpu_above,\n        SUM (\n            CASE\n                WHEN memory_usage_percent < '$mem_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS mem_below,\n        SUM (\n            CASE\n                WHEN memory_usage_percent >= '$mem_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS mem_above\n    FROM (\n        SELECT DISTINCT\n            v4_3_configuration_history_hosts.host_id,\n            history_datetime,\n            cpu_usage_percent,\n            memory_usage_percent,\n            minutes_in_status\n        FROM\n            (\n             SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n             UNION\n             SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n            ) AS stats_hosts\n            INNER JOIN v4_3_configuration_history_hosts\n                ON (\n                    v4_3_configuration_history_hosts.host_id =\n                    stats_hosts.host_id\n                )\n        WHERE\n            -- Here we filter only host in active status\n            stats_hosts.host_status = 1\n            -- Here we filter by the datacenter chosen by the users\n            AND v4_3_configuration_history_hosts.cluster_id IN (\n                SELECT cluster_id\n                FROM v4_3_configuration_history_clusters\n                WHERE\n                    datacenter_id = '$datacenter_id'\n            )\n            -- Here we filter by the cluster chosen by the users\n            AND v4_3_configuration_history_hosts.cluster_id = '$cluster_id'\n            -- Here we get the latest host configurations\n            AND v4_3_configuration_history_hosts.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_configuration_history_hosts a\n                GROUP BY a.host_id\n            )\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- This will determine if deleted entities will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            AND\n              CASE\n                WHEN '$show_deleted'='Yes'\n                  THEN 1=1\n                WHEN '$show_deleted'='No'\n                  THEN delete_date isnull\n              END\n    ) a\n    GROUP BY host_id\n)\nAS t",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "oVirt DWH",
+      "decimals": 2,
+      "description": "This report contains a chart displaying the time hosts have performed above a selected threshold ",
+      "format": "m",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 7,
+        "x": 0,
+        "y": 2
+      },
+      "id": 8,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "Time Below CPU Threshold",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "cpu_below",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR6 - Pie Charts\n-- Hosts performance above thresholds\n\nSELECT\n    COALESCE ( AVG ( cpu_below ), 0 ) AS cpu_below\n--    COALESCE ( AVG ( cpu_above ), 0 ) AS cpu_above,\n--    COALESCE ( AVG ( mem_below ), 0 ) AS mem_below,\n--    COALESCE ( AVG ( mem_above ), 0 ) AS mem_above\nFROM (\n    SELECT\n        SUM (\n            CASE\n                WHEN cpu_usage_percent < '$cpu_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS cpu_below,\n        SUM (\n            CASE\n                WHEN cpu_usage_percent >= '$cpu_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS cpu_above,\n        SUM (\n            CASE\n                WHEN memory_usage_percent < '$mem_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS mem_below,\n        SUM (\n            CASE\n                WHEN memory_usage_percent >= '$mem_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS mem_above\n    FROM (\n        SELECT DISTINCT\n            v4_3_configuration_history_hosts.host_id,\n            history_datetime,\n            cpu_usage_percent,\n            memory_usage_percent,\n            minutes_in_status\n        FROM\n            (\n             SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n             UNION\n             SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n            ) AS stats_hosts\n            INNER JOIN v4_3_configuration_history_hosts\n                ON (\n                    v4_3_configuration_history_hosts.host_id =\n                    stats_hosts.host_id\n                )\n        WHERE\n            -- Here we filter only host in active status\n            stats_hosts.host_status = 1\n            -- Here we filter by the datacenter chosen by the users\n            AND v4_3_configuration_history_hosts.cluster_id IN (\n                SELECT cluster_id\n                FROM v4_3_configuration_history_clusters\n                WHERE\n                    datacenter_id = '$datacenter_id'\n            )\n            -- Here we filter by the cluster chosen by the users\n            AND v4_3_configuration_history_hosts.cluster_id = '$cluster_id'\n            -- Here we get the latest host configurations\n            AND v4_3_configuration_history_hosts.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_configuration_history_hosts a\n                GROUP BY a.host_id\n            )\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- This will determine if deleted entities will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            AND\n              CASE\n                WHEN '$show_deleted'='Yes'\n                  THEN 1=1\n                WHEN '$show_deleted'='No'\n                  THEN delete_date isnull\n              END\n    ) a\n    GROUP BY host_id\n)\nAS t",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "oVirt DWH",
+      "decimals": 2,
+      "description": "This report contains a chart displaying the time hosts have performed above a selected threshold ",
+      "format": "m",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 8,
+        "x": 7,
+        "y": 2
+      },
+      "id": 9,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "Time Below Memory Threshold",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "mem_below",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR6 - Pie Charts\n-- Hosts performance above thresholds\n\nSELECT\n--    COALESCE ( AVG ( cpu_below ), 0 ) AS cpu_below,\n--    COALESCE ( AVG ( cpu_above ), 0 ) AS cpu_above,\n    COALESCE ( AVG ( mem_below ), 0 ) AS mem_below\n--    COALESCE ( AVG ( mem_above ), 0 ) AS mem_above\nFROM (\n    SELECT\n        SUM (\n            CASE\n                WHEN cpu_usage_percent < '$cpu_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS cpu_below,\n        SUM (\n            CASE\n                WHEN cpu_usage_percent >= '$cpu_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS cpu_above,\n        SUM (\n            CASE\n                WHEN memory_usage_percent < '$mem_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS mem_below,\n        SUM (\n            CASE\n                WHEN memory_usage_percent >= '$mem_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS mem_above\n    FROM (\n        SELECT DISTINCT\n            v4_3_configuration_history_hosts.host_id,\n            history_datetime,\n            cpu_usage_percent,\n            memory_usage_percent,\n            minutes_in_status\n        FROM\n            (\n             SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n             UNION\n             SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n            ) AS stats_hosts\n            INNER JOIN v4_3_configuration_history_hosts\n                ON (\n                    v4_3_configuration_history_hosts.host_id =\n                    stats_hosts.host_id\n                )\n        WHERE\n            -- Here we filter only host in active status\n            stats_hosts.host_status = 1\n            -- Here we filter by the datacenter chosen by the users\n            AND v4_3_configuration_history_hosts.cluster_id IN (\n                SELECT cluster_id\n                FROM v4_3_configuration_history_clusters\n                WHERE\n                    datacenter_id = '$datacenter_id'\n            )\n            -- Here we filter by the cluster chosen by the users\n            AND v4_3_configuration_history_hosts.cluster_id = '$cluster_id'\n            -- Here we get the latest host configurations\n            AND v4_3_configuration_history_hosts.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_configuration_history_hosts a\n                GROUP BY a.host_id\n            )\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- This will determine if deleted entities will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            AND\n              CASE\n                WHEN '$show_deleted'='Yes'\n                  THEN 1=1\n                WHEN '$show_deleted'='No'\n                  THEN delete_date isnull\n              END\n    ) a\n    GROUP BY host_id\n)\nAS t",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "This report contains a table of total time each host was performing above the CPU or the memory threshold.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 6,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 5,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cluster_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Host Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "is_delete",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Host Delete Date",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_delete_only_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "Time Above CPU Threshold",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "time_above_cpu_threshold",
+          "thresholds": [],
+          "type": "number",
+          "unit": "m"
+        },
+        {
+          "alias": "Time Above Memory Threshold",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "time_above_mem_threshold",
+          "thresholds": [],
+          "type": "number",
+          "unit": "m"
+        },
+        {
+          "alias": "Overall Host Time",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "overall_host_time",
+          "thresholds": [],
+          "type": "number",
+          "unit": "m"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR6 - This query returns for each host in the specific datacenter,\n-- the  \"time_above_cpu_threshold\", the \"time_above_mem_threshold\"\n-- and the \"overall_host_time\".\n-- The user determines the threshold for CPU and Memory.\n\nSELECT *\nFROM (\n    SELECT\n        cluster_id,\n        host_id,\n        host_name,\n        is_delete,\n        host_delete_only_date,\n        SUM (\n            CASE\n                WHEN cpu_usage_percent >= '$cpu_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS time_above_cpu_threshold,\n        SUM (\n            CASE\n                WHEN memory_usage_percent >= '$mem_threshold'\n                    THEN minutes_in_status\n                ELSE 0\n            END\n        )\n        AS time_above_mem_threshold,\n        SUM (\n            COALESCE ( minutes_in_status, 0 )\n        )\n        AS overall_host_time\n    FROM (\n        SELECT DISTINCT\n            v4_3_configuration_history_hosts.cluster_id,\n            v4_3_configuration_history_hosts.host_id,\n            v4_3_configuration_history_hosts.host_name,\n            (\n                CASE\n                    WHEN v4_3_configuration_history_hosts.delete_date IS NULL\n                        THEN FALSE\n                    ELSE TRUE\n                END\n            )\n            AS is_delete,\n            CAST ( v4_3_configuration_history_hosts.delete_date AS date )\n            AS host_delete_only_date,\n            stats_hosts.history_datetime,\n            cpu_usage_percent,\n            memory_usage_percent,\n            minutes_in_status\n        -- If \"Period\" equals to \"Daily\" then \"table_name\" parameter\n        -- equals to \"hourly\" else \"daily\"\n        FROM\n            (\n             SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n             UNION\n             SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n            ) AS stats_hosts\n            INNER JOIN v4_3_configuration_history_hosts\n                ON (\n                    stats_hosts.host_id =\n                    v4_3_configuration_history_hosts.host_id\n                )\n        WHERE\n            -- Here we filter only host in active status\n            stats_hosts.host_status = 1\n            -- Here we filter by the datacenter chosen by the users\n            AND v4_3_configuration_history_hosts.cluster_id IN (\n                SELECT cluster_id\n                FROM v4_3_configuration_history_clusters\n                WHERE\n                    datacenter_id = '$datacenter_id'\n            )\n            -- Here we filter by the cluster chosen by the users\n            AND v4_3_configuration_history_hosts.cluster_id = '$cluster_id'\n            -- Here we get the latest host configurations\n            AND v4_3_configuration_history_hosts.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_configuration_history_hosts a\n                GROUP BY a.host_id\n            )\n            AND stats_hosts.history_datetime >= $__timeFrom()\n            AND stats_hosts.history_datetime < $__timeTo()\n            -- This will determine if deleted entities will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            AND\n              CASE\n                WHEN '$show_deleted'='Yes'\n                  THEN 1=1\n                WHEN '$show_deleted'='No'\n                  THEN delete_date isnull\n              END\n        ) AS query_run\n    GROUP BY cluster_id,\n        host_id,\n        host_name,\n        is_delete,\n        host_delete_only_date\n) AS t\nORDER BY\n    cluster_id,\n    (\n        CASE\n            WHEN\n                time_above_mem_threshold = 0\n                AND time_above_cpu_threshold = 0\n                THEN 1 -- Memory and cpu are below the threshold\n            ELSE 0 -- Memory and / or cpu are above threshold\n        END\n    ) ASC,\n    t.is_delete ASC,\n    -- This will order the hosts based on the time the memory and cpu\n    -- where above the threshold out of the overall host time.\n    (\n        CAST ( t.time_above_cpu_threshold AS float ) /\n        CAST ( t.overall_host_time AS float )\n    ) * 100 +\n    (\n        CAST ( t.time_above_mem_threshold AS float ) /\n        CAST ( t.overall_host_time AS float )\n    ) * 100 DESC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Cluster Quality of Service -Hosts (BR13)",
+      "transform": "table",
+      "type": "table"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT datacenter_name AS __text, datacenter_id AS __value FROM v4_3_configuration_history_datacenters",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Center",
+        "multi": false,
+        "name": "datacenter_id",
+        "options": [],
+        "query": "SELECT DISTINCT datacenter_name AS __text, datacenter_id AS __value FROM v4_3_configuration_history_datacenters",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "oVirt DWH",
+        "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_configuration_history_clusters WHERE datacenter_id = '$datacenter_id'",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Cluster",
+        "multi": false,
+        "name": "cluster_id",
+        "options": [],
+        "query": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_configuration_history_clusters WHERE datacenter_id = '$datacenter_id'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "text": "60",
+          "value": "60"
+        },
+        "hide": 0,
+        "label": "CPU Threshold",
+        "name": "cpu_threshold",
+        "options": [
+          {
+            "text": "60",
+            "value": "60"
+          }
+        ],
+        "query": "60",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "text": "60",
+          "value": "60"
+        },
+        "hide": 0,
+        "label": "Memory Threshold",
+        "name": "mem_threshold",
+        "options": [
+          {
+            "selected": true,
+            "text": "60",
+            "value": "60"
+          }
+        ],
+        "query": "60",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "allValue": null,
+        "current": {
+          "tags": [],
+          "text": "No",
+          "value": "No"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Show Deleted Entities?",
+        "multi": false,
+        "name": "show_deleted",
+        "options": [
+          {
+            "selected": true,
+            "text": "No",
+            "value": "No"
+          },
+          {
+            "selected": false,
+            "text": "Yes",
+            "value": "Yes"
+          }
+        ],
+        "query": "No, Yes",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now/M",
+    "to": "now/M"
+  },
+  "timepicker": {
+    "hidden": false,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Cluster Quality of Service - Hosts Dashboard",
+  "uid": "clusterqualityofservicehosts",
+  "version": 1
+}
