@@ -824,6 +824,6 @@
   },
   "timezone": "",
   "title": "Cluster Quality of Service - Hosts Dashboard",
-  "uid": "clusterqualityofservicehosts",
+  "uid": "ClusterQualityofServiceHosts",
   "version": 1
 }

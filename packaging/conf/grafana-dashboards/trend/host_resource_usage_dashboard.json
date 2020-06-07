@@ -1137,6 +1137,6 @@
   },
   "timezone": "",
   "title": "Hosts Resource Usage Dashboard",
-  "uid": "hostsresourceusage",
+  "uid": "HostsResourceUsage",
   "version": 1
 }

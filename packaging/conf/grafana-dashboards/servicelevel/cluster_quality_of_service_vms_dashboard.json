@@ -824,6 +824,6 @@
   },
   "timezone": "",
   "title": "Cluster Quality of Service - Virtual Machines Dashboard",
-  "uid": "clusterqualityofservicevmsdashboard",
+  "uid": "ClusterQualityofServiceVMs",
   "version": 1
 }
