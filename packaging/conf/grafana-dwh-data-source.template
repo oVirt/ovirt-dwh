@@ -6,6 +6,7 @@ datasources:
   type: postgres
   access: proxy
   orgId: 1
+  uid: DS_OVIRT_DWH
   url: @GRAFANA_DB_HOST@:@GRAFANA_DB_PORT@
   editable: true
   isDefault: true
