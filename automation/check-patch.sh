@@ -42,6 +42,8 @@ make clean
 # perform quick validations
 make validations
 
+automation/check-copyright-notices.sh
+
 # Get the tarball
 make dist
 
