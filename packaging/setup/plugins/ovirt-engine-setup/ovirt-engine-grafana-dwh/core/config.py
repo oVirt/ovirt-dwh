@@ -41,6 +41,7 @@ class Plugin(plugin.PluginBase):
         super(Plugin, self).__init__(context=context)
         self._sso_config = None
         self._register_sso_client = False
+        self._uninstall_files = []
 
     @staticmethod
     def _generatePassword():
@@ -151,6 +152,16 @@ class Plugin(plugin.PluginBase):
             )
         )
 
+    def _get_engine_access_config(self):
+        return (
+            'ENGINE_GRAFANA_FQDN={fqdn}\n'
+            'ENGINE_GRAFANA_BASE_URL='
+            'https://${{ENGINE_GRAFANA_FQDN}}/{uri_path}/\n'
+        ).format(
+            fqdn=self.environment[ogdwhcons.ConfigEnv.GRAFANA_FQDN],
+            uri_path=ogdwhcons.Const.GRAFANA_URI_PATH,
+        )
+
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
         before=(
@@ -217,12 +228,12 @@ class Plugin(plugin.PluginBase):
             )
             self._process_sso_client_registration_result(tmpconf)
 
-        uninstall_files = []
+        self._uninstall_files = []
         self.environment[
             osetupcons.CoreEnv.REGISTER_UNINSTALL_GROUPS
         ].addFiles(
             group='ovirt_grafana_files',
-            fileList=uninstall_files,
+            fileList=self._uninstall_files,
         )
         self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
             filetransaction.FileTransaction(
@@ -279,8 +290,54 @@ class Plugin(plugin.PluginBase):
                         ),
                     },
                 ),
-                modifiedList=uninstall_files,
+                modifiedList=self._uninstall_files,
             )
+        )
+
+    @plugin.event(
+        stage=plugin.Stages.STAGE_MISC,
+        after=(
+            oengcommcons.Stages.DB_CREDENTIALS_WRITTEN,
+        ),
+        condition=lambda self: (
+            self.environment[ogdwhcons.CoreEnv.ENABLE] and
+            self.environment[oenginecons.CoreEnv.ENABLE]
+        ),
+    )
+    def _misc_engine_grafana_access(self):
+        self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
+            filetransaction.FileTransaction(
+                name=(
+                    ogdwhcons.FileLocations.
+                    OVIRT_ENGINE_SERVICE_CONFIG_GRAFANA
+                ),
+                mode=0o640,
+                owner='root',
+                group=self.environment[osetupcons.SystemEnv.GROUP_ENGINE],
+                enforcePermissions=True,
+                content=self._get_engine_access_config(),
+                modifiedList=self._uninstall_files,
+            )
+        )
+
+    @plugin.event(
+        stage=plugin.Stages.STAGE_CLOSEUP,
+        after=(
+            osetupcons.Stages.DIALOG_TITLES_E_SUMMARY,
+        ),
+        condition=lambda self: (
+            self.environment[ogdwhcons.CoreEnv.ENABLE] and
+            self.environment[ogdwhcons.ConfigEnv.NEW_DATABASE] and
+            not self.environment[oenginecons.CoreEnv.ENABLE]
+        ),
+    )
+    def _closeup_engine_grafana_access(self):
+        self._remote_engine.copy_to_engine(
+            file_name=(
+                ogdwhcons.FileLocations.
+                OVIRT_ENGINE_SERVICE_CONFIG_GRAFANA
+            ),
+            content=self._get_engine_access_config(),
         )
 
     @plugin.event(

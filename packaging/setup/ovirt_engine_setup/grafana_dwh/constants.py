@@ -20,6 +20,7 @@ from ovirt_engine_setup.constants import classproperty
 from ovirt_engine_setup.constants import osetupattrsclass
 from ovirt_engine_setup.constants import osetupattrs
 from ovirt_engine_setup.dwh import constants as odwhcons
+from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup.engine_common import constants as oengcommcons
 
 
@@ -213,6 +214,11 @@ class FileLocations(oengcommcons.FileLocations):
     OVIRT_ENGINE_PKI_GRAFANA_APACHE_CERT = os.path.join(
         oengcommcons.FileLocations.OVIRT_ENGINE_PKICERTSDIR,
         '%s.cer' % Const.PKI_GRAFANA_APACHE_CERT_NAME,
+    )
+
+    OVIRT_ENGINE_SERVICE_CONFIG_GRAFANA = os.path.join(
+        oenginecons.FileLocations.OVIRT_ENGINE_SERVICE_CONFIGD,
+        '10-setup-grafana-access.conf'
     )
 
 
