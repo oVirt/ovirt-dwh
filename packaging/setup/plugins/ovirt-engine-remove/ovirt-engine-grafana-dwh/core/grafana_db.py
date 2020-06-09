@@ -44,12 +44,15 @@ class Plugin(plugin.PluginBase):
             db,
             datetime.datetime.now().strftime('%Y%m%d%H%M%S'),
         )
-        os.rename(db, backup)
-        self.logger.info(
-            'Grafana database %s renamed to %s',
-            db,
-            backup
-        )
+        try:
+            os.rename(db, backup)
+            self.logger.info(
+                'Grafana database %s renamed to %s',
+                db,
+                backup
+            )
+        except FileNotFoundError:
+            self.logger.debug('%s not found, not moving', db)
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
