@@ -17,6 +17,7 @@ from otopi import plugin
 from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.engine_common import constants as oengcommcons
+from ovirt_engine_setup.dwh import constants as odwhcons
 from ovirt_engine_setup.grafana_dwh import constants as ogdwhcons
 
 
@@ -55,7 +56,9 @@ class Plugin(plugin.PluginBase):
             ogdwhcons.CoreEnv.ENABLE
         ] and not self.environment[
             oenginecons.CoreEnv.ENABLE
-        ],
+        ] and not self.environment.get(
+            odwhcons.ConfigEnv.REMOTE_ENGINE_CONFIGURED
+        ),
     )
     def _remote_engine_customization(self):
         osetuphostname.Hostname(
