@@ -353,6 +353,20 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Tue Jun 09 2020 Shirly Radco <sradco@redhat.com> - 4.4.1
+Fixed issues:
+- Bug 1814643 - Add grafana integration support
+- Bug 1814643 - Add initial Grafana dashboards
+- Update Grafana dashboards
+- Add uid for Grafana data source
+- licensing: Clarify
+- licensing: Replace copyright notices in most source files
+- licensing: automation: check-patch: Reject notices
+- packaging: setup: Support separate grafana machine
+- Bug 1845049 - packaging: setup: Add grafana access URL to engine conf
+- packaging: grafana: Do not ask engine fqdn on upgrade
+- packaging: cleanup: grafana: Do not fail if db is missing
+
 * Tue Apr 07 2020 Shirly Radco <sradco@redhat.com> - 4.4.0.2
 Fixed issues:
 - Bump to pg12 and get rid of SCL
