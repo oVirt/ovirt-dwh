@@ -27,6 +27,12 @@
       "id": "postgres",
       "name": "PostgreSQL",
       "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
     }
   ],
   "annotations": {
@@ -50,12 +56,363 @@
   "links": [],
   "panels": [
     {
+      "columns": [],
+      "datasource": "oVirt DWH",
+      "description": "This report contains a table detailing user spice activity with regards to time spent and resources used in the session in the selected data center and cluster and within the selected period.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 7,
+        "w": 22,
+        "x": 1,
+        "y": 0
+      },
+      "id": 18,
+      "links": [],
+      "options": {},
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 2,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cluster_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Cluster Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cluster_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Cluster Delete Date",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cluster_delete",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "User Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "user_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "VM Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "VM Delete Date",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "delete_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "Session Length",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "session_time_in_minutes",
+          "thresholds": [],
+          "type": "number",
+          "unit": "m"
+        },
+        {
+          "alias": "CPU Usage",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cpu_usage_percent",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Max CPU Usage",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "max_cpu_usage",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Memory Usage",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "memory_usage_percent",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Max Memory Usage",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "max_memory_usage",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "User CPU Usage",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "user_cpu_usage_percent",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Max User CPU Usage",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "max_user_cpu_usage_percent",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "System CPU Usage",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "system_cpu_usage_percent",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Max System CPU Usage",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "max_system_cpu_usage_percent",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Session Date",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "history_datetime",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR47 - This query returns for each VM in the specific datacenter , the\n-- Hourly or Daily statistics: Session_time, CPU and Memory Usage statistics.\n\n\nSELECT DISTINCT\n    v4_3_configuration_history_clusters.cluster_id,\n    v4_3_configuration_history_clusters.cluster_name,\n    history_datetime,\n    username AS user_name,\n    v4_3_configuration_history_vms.vm_name,\n--    hourly_daily.vm_id,\n    session_time_in_minutes,\n    cpu_usage_percent,\n    max_cpu_usage,\n    memory_usage_percent,\n    max_memory_usage,\n    user_cpu_usage_percent,\n    max_user_cpu_usage_percent,\n    system_cpu_usage_percent,\n    max_system_cpu_usage_percent,\n    v4_3_configuration_history_clusters.delete_date AS cluster_delete,\n    v4_3_configuration_history_vms.delete_date\nFROM\n    (\n     SELECT * FROM v4_3_statistics_vms_users_usage_hourly\n     UNION\n     SELECT * FROM v4_3_statistics_vms_users_usage_daily\n    ) AS hourly_daily\n    LEFT OUTER JOIN v4_3_configuration_history_vms\n        ON (\n            hourly_daily.vm_id =\n            v4_3_configuration_history_vms.vm_id\n        )\n    LEFT OUTER JOIN v4_3_configuration_history_clusters\n        ON (\n            v4_3_configuration_history_vms.cluster_id =\n            v4_3_configuration_history_clusters.cluster_id\n            AND v4_3_configuration_history_clusters.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_configuration_history_clusters a\n                GROUP BY a.cluster_id\n            )\n        )\n    LEFT OUTER JOIN v4_3_users_details_history\n        ON (\n            hourly_daily.user_id =\n            v4_3_users_details_history.user_id\n        )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_3_configuration_history_vms.cluster_id IN (\n        SELECT cluster_id\n        FROM v4_3_configuration_history_clusters\n        WHERE datacenter_id = '$datacenter_id'\n    )\n    -- Here we filter by the cluster chosen by the user\n    AND v4_3_configuration_history_vms.cluster_id in ($cluster_id)\n    -- Here we get the latest vm configurations\n    AND v4_3_configuration_history_vms.history_id IN (\n        SELECT MAX ( a.history_id )\n        FROM v4_3_configuration_history_vms a\n        GROUP BY a.vm_id\n    )\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\n    -- This will determine if deleted entities will be included in the report,\n    -- according to the user selection for \"show_deleted\" parameter\n    AND\n      CASE\n        WHEN '$show_deleted'='Yes'\n          THEN 1=1\n        WHEN '$show_deleted'='No'\n          THEN v4_3_configuration_history_vms.delete_date isnull\n      END\nORDER BY\n    v4_3_configuration_history_clusters.cluster_name,\n    history_datetime,\n    username,\n    session_time_in_minutes DESC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Users' Spice Sessions Activity (BR45)",
+      "transform": "table",
+      "type": "table"
+    },
+    {
       "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 7
       },
       "id": 16,
       "panels": [],
@@ -75,7 +432,7 @@
         "h": 8,
         "w": 11,
         "x": 1,
-        "y": 1
+        "y": 8
       },
       "id": 2,
       "legend": {
@@ -185,7 +542,7 @@
         "h": 8,
         "w": 11,
         "x": 12,
-        "y": 1
+        "y": 8
       },
       "id": 14,
       "legend": {
@@ -287,7 +644,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 9
+        "y": 16
       },
       "id": 6,
       "panels": [],
@@ -307,7 +664,7 @@
         "h": 8,
         "w": 11,
         "x": 1,
-        "y": 10
+        "y": 17
       },
       "id": 10,
       "legend": {
@@ -417,7 +774,7 @@
         "h": 8,
         "w": 11,
         "x": 12,
-        "y": 10
+        "y": 17
       },
       "id": 12,
       "legend": {
@@ -514,7 +871,7 @@
       }
     }
   ],
-  "refresh": "5s",
+  "refresh": "1m",
   "schemaVersion": 18,
   "style": "dark",
   "tags": [],
@@ -568,8 +925,9 @@
         "allValue": null,
         "current": {
           "selected": true,
-          "text": "Yes",
-          "value": "Yes"
+          "tags": [],
+          "text": "No",
+          "value": "No"
         },
         "hide": 0,
         "includeAll": false,
@@ -578,12 +936,12 @@
         "name": "show_deleted",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "No",
             "value": "No"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "Yes",
             "value": "Yes"
           }
@@ -595,8 +953,8 @@
     ]
   },
   "time": {
-    "from": "now-90d",
-    "to": "now"
+    "from": "now/M",
+    "to": "now/M"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -626,5 +984,5 @@
   "timezone": "",
   "title": "Executive Dashboard",
   "uid": "ExecutiveDashboard",
-  "version": 2
+  "version": 1
 }
