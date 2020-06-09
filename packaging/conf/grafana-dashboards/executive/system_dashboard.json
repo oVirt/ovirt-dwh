@@ -48,6 +48,7 @@
       }
     ]
   },
+  "description": "The system dashboard displays the latest configurations, system entities resources status and usages percent",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -56,7 +57,7 @@
   "panels": [
     {
       "columns": [],
-      "description": "System Entities Counts List (DR1) - This query returns entities count per entity",
+      "description": "System entities counts list, this query returns entities count per entity.",
       "fontSize": "100%",
       "gridPos": {
         "h": 3,
@@ -177,7 +178,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR1 - This query returns entities count per entity\n\nSELECT (\n    SELECT COUNT ( * )\n    FROM v4_3_latest_configuration_datacenters\n) AS datacenter_count,\n(\n    SELECT COUNT ( * )\n    FROM v4_3_latest_configuration_clusters\n) AS cluster_count,\n(\n    SELECT COUNT ( * )\n    FROM v4_3_latest_configuration_hosts\n) AS host_count,\n(\n    SELECT COUNT ( * )\n    FROM v4_3_latest_configuration_vms\n) AS vm_count",
+          "rawSql": "-- DR1 - This query returns entities count per entity\n\nSELECT \n    (\n        SELECT COUNT ( * )\n        FROM v4_3_latest_configuration_datacenters\n    ) AS datacenter_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_3_latest_configuration_clusters\n    ) AS cluster_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_3_latest_configuration_hosts\n    ) AS host_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_3_latest_configuration_vms\n    ) AS vm_count",
           "refId": "A",
           "select": [
             [
@@ -203,7 +204,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR1 - This query returns the total count of storage domains\n\nSELECT\n    COUNT (\n        DISTINCT v4_3_latest_map_datacenters_storage_domains.storage_domain_id\n    ) AS storage_count\nFROM v4_3_latest_map_datacenters_storage_domains",
+          "rawSql": "-- DR1 - This query returns the total count of storage domains\n\nSELECT\n    COUNT ( DISTINCT v4_3_latest_map_datacenters_storage_domains.storage_domain_id ) AS storage_count\nFROM \n    v4_3_latest_map_datacenters_storage_domains",
           "refId": "B",
           "select": [
             [
@@ -227,7 +228,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "",
+      "title": "System Entities (DR1) ",
       "transform": "table",
       "transparent": true,
       "type": "table"
@@ -243,7 +244,7 @@
       ],
       "datasource": "oVirt DWH",
       "decimals": 0,
-      "description": "Calculates averages of CPU and memory percent for all hosts and averages the two values. The thresholds are 60% and 80%.\nThis query is calculated from the host statistics samples view for the system.",
+      "description": "Calculates averages of CPU and memory percent for all hosts and averages the two values. The thresholds are 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -301,7 +302,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR10 - This query returns the average\n-- hosts resources ( cpu + memory ) that are unused\n\nSELECT\n    100 -\n    (\n        cpu_usage_percent_avg +\n        memory_usage_percent_avg\n    ) /\n    2\n    AS average_resources_not_used\nFROM (\n    SELECT\n        AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n        AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n    FROM v4_3_statistics_hosts_resources_usage_samples\n        INNER JOIN v4_3_latest_configuration_hosts\n            ON (\n                v4_3_latest_configuration_hosts.host_id =\n                v4_3_statistics_hosts_resources_usage_samples.host_id\n            )\n    WHERE\n        -- Here we filter only active hosts\n        v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n) AS average_resources\n",
+          "rawSql": "-- DR10 - This query returns the average\n-- hosts resources ( cpu + memory ) that are unused,\n-- in the latest configuration.\n\n\nSELECT\n    -- Reduce from all resources the average used one's to reach the average unused one's \n    100 - ( cpu_usage_percent_avg + memory_usage_percent_avg ) / 2 AS average_resources_not_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter only active hosts\n            v4_3_statistics_hosts_resources_usage_samples.host_status = 1  \n    ) AS average_resources",
           "refId": "A",
           "select": [
             [
@@ -349,7 +350,7 @@
       ],
       "datasource": "oVirt DWH",
       "decimals": 0,
-      "description": "Calculates average uptime percent for all hosts. Thresholds are 60% and 80%.\nThis query is calculated from the hosts' statistics samples view for the system.",
+      "description": "Calculates average uptime percent for all hosts. Thresholds are 60% and 80%.\nThis report shows the  latest configuration.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -407,7 +408,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR4 - This query returns the total hosts uptime percent\n\nSELECT\n    (\n        SUM (\n            CASE\n                WHEN v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n                    THEN\n                        COALESCE (\n                            v4_3_statistics_hosts_resources_usage_samples.minutes_in_status,\n                            0\n                        )\n                ELSE 0\n            END\n        ) /\n        SUM (\n            v4_3_statistics_hosts_resources_usage_samples.minutes_in_status\n        )\n    ) * 100\n    AS uptime_mins_percent\nFROM v4_3_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_3_latest_configuration_hosts\n        ON (\n            v4_3_latest_configuration_hosts.host_id =\n            v4_3_statistics_hosts_resources_usage_samples.host_id\n        )",
+          "rawSql": "-- DR4 - This query returns the total hosts uptime percent\n-- in the latest configuration.\n\nSELECT\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_3_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_3_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_3_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_3_latest_configuration_hosts\n        ON \n            (\n                v4_3_latest_configuration_hosts.host_id =\n                v4_3_statistics_hosts_resources_usage_samples.host_id\n            )",
           "refId": "A",
           "select": [
             [
@@ -455,7 +456,7 @@
       ],
       "datasource": "oVirt DWH",
       "decimals": 0,
-      "description": "Calculates free disk size percent average of all storage domains in the system from their latest sample.Thresholds are 60% and 80%.",
+      "description": "Calculates free disk size percent average of all storage domains in the system from their latest configuration. Thresholds are 60% and 80%.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -513,7 +514,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR7 - This query returns the available disk size percent\n-- out of the total storage domains disks space\n\nSELECT\n    CASE\n        WHEN SUM (\n            cast ( used_disk_size_gb as float ) +\n            cast ( available_disk_size_gb as float )\n        ) != 0\n            THEN (\n                SUM (\n                    cast ( available_disk_size_gb as float )\n                ) /\n                SUM (\n                    cast ( used_disk_size_gb as float ) +\n                    cast ( available_disk_size_gb as float )\n                )\n            ) * 100\n        ELSE NULL\n    END AS free_disk_size_gb_percent\nFROM storage_domain_samples_history\nWHERE\n    -- Here we get the latest storage domains configuration\n    history_id IN (\n        SELECT MAX ( a.history_id )\n        FROM storage_domain_samples_history AS a\n        GROUP BY a.storage_domain_id\n    )",
+          "rawSql": "-- DR7 - This query returns the available disk size percent\n-- out of the total storage domains disks space.\n-- in the latest configuration.\n\nSELECT\n    CASE\n        WHEN \n            SUM \n                (\n                    cast ( used_disk_size_gb AS float ) +\n                    cast ( available_disk_size_gb AS float )\n                ) != 0\n            THEN \n                ( \n                    SUM ( cast ( available_disk_size_gb AS float ) ) \n                    /\n                    SUM \n                        (\n                            cast ( used_disk_size_gb AS float ) +\n                            cast ( available_disk_size_gb AS float )\n                        )\n                ) * 100\n        ELSE NULL\n    END AS free_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\nWHERE\n    -- Here we get the latest storage domains configuration\n    history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )",
           "refId": "A",
           "select": [
             [
