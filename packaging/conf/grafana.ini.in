@@ -372,7 +372,7 @@ allowed_organizations =
 [auth.generic_oauth]
 name = oVirt Engine Auth
 enabled = true
-allow_sign_up = true
+allow_sign_up = false
 client_id = @OVIRT_GRAFANA_SSO_CLIENT_ID@
 client_secret = @OVIRT_GRAFANA_SSO_CLIENT_SECRET@
 scopes = ovirt-app-admin,ovirt-app-portal,ovirt-ext=auth:sequence-priority=~
