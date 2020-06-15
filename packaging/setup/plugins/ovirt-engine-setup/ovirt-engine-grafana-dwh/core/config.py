@@ -42,6 +42,7 @@ class Plugin(plugin.PluginBase):
         self._sso_config = None
         self._register_sso_client = False
         self._uninstall_files = []
+        self._restart_remote_engine = False
 
     @staticmethod
     def _generatePassword():
@@ -202,6 +203,18 @@ class Plugin(plugin.PluginBase):
             res = self._remote_engine.copy_from_engine(
                 file_name=tmpconf,
                 dialog_name='PROMPT_GRAFANA_REMOTE_ENGINE_SSO',
+            )
+            self._restart_remote_engine = dialog.queryBoolean(
+                dialog=self.dialog,
+                name='GRAFANA_RESTART_REMOTE_ENGINE_FOR_SSO',
+                note=_(
+                    'The engine should be restarted for Single-Sign-On (SSO) '
+                    'to work. Do this as part of Setup? If not, you will have '
+                    'to do this later by yourself '
+                    '(@VALUES@) [@DEFAULT@]: '
+                ),
+                prompt=True,
+                default=True,
             )
             with open(tmpconf, 'wb') as f:
                 f.write(res)
@@ -364,6 +377,27 @@ class Plugin(plugin.PluginBase):
                 url=self._grafana_url,
             )
         )
+        cmd = 'systemctl restart ovirt-engine'
+        cmd_msg = _(
+            'Please run the following command on the engine machine '
+            '{engine_fqdn}, for SSO to work:\n'
+            '{cmd}\n'
+        ).format(
+            engine_fqdn=self.environment[
+                oenginecons.ConfigEnv.ENGINE_FQDN
+            ],
+            cmd=cmd,
+        )
+        if self._restart_remote_engine:
+            self._remote_engine.execute_on_engine(
+                cmd=cmd,
+                timeout=120,
+                text=cmd_msg,
+            )
+        else:
+            self.dialog.note(
+                text=cmd_msg,
+            )
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
