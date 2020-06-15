@@ -48,6 +48,7 @@
       }
     ]
   },
+  "description": "The storage domain inventory dashboard include storage domain inventory and memory usage",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -58,7 +59,7 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report displays a list of all storage domains of the selected data center.",
+      "description": "This report displays a inventory list of all storage domains of the selected data center.",
       "fontSize": "100%",
       "gridPos": {
         "h": 8,
@@ -228,7 +229,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "--BR47 - This query returns for a specific datacenter, the storage domains list,\n-- along with their configuration details, available disk size, used disk size and total.\n\n-- storage_domain_type and storage_type will be returned in localised session language.\n\nSELECT\n    storage_domain_name,\n    v4_3_configuration_history_storage_domains.storage_domain_id,\n    a.value AS storage_domain_type,\n    b.value AS storage_type,\n    -- The disk usage is usually calculated from the samples statistics table,\n    -- so it will be most accurate.\n    -- But if the data is not available from the samples\n    -- then the data will be taken from the daily statistics table\n    COALESCE (\n        samples.available_disk_size_gb,\n        daily.available_disk_size_gb\n    )\n    AS available_disk_size_gb,\n    COALESCE (\n        samples.used_disk_size_gb,\n        daily.used_disk_size_gb\n    )\n    AS used_disk_size_gb,\n    COALESCE (\n        samples.available_disk_size_gb + samples.used_disk_size_gb,\n        daily.available_disk_size_gb + daily.used_disk_size_gb\n    )\n    AS total_size,\n    create_date,\n    delete_date\nFROM v4_3_configuration_history_storage_domains\n    INNER JOIN v4_3_map_history_datacenters_storage_domains\n        ON (\n            v4_3_configuration_history_storage_domains.storage_domain_id =\n            v4_3_map_history_datacenters_storage_domains.storage_domain_id\n            -- -- Here we filter by the datacenter chosen by the user\n            AND v4_3_map_history_datacenters_storage_domains.datacenter_id =\n                CAST ( '$datacenter_id' AS uuid )\n            AND v4_3_map_history_datacenters_storage_domains.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_map_history_datacenters_storage_domains a\n                GROUP BY a.storage_domain_id, a.datacenter_id\n            )\n        )\n    LEFT OUTER JOIN (\n        SELECT\n            enum_translator.enum_type,\n            enum_translator.enum_key,\n            enum_translator.value\n        FROM enum_translator\n        WHERE language_code = 'en_US'\n        ) AS a\n        ON (\n            storage_domain_type = a.enum_key\n            AND a.enum_type = 'STORAGE_DOMAIN_TYPE'\n        )\n    LEFT OUTER JOIN (\n        SELECT\n            enum_translator.enum_type,\n            enum_translator.enum_key,\n            enum_translator.value\n        FROM enum_translator\n        WHERE language_code = 'en_US'\n        ) AS b\n        ON (\n            storage_type = b.enum_key\n            AND b.enum_type = 'STORAGE_TYPE'\n        )\n    LEFT OUTER JOIN v4_3_statistics_storage_domains_resources_usage_samples AS samples\n        ON (\n            v4_3_configuration_history_storage_domains.storage_domain_id =\n            samples.storage_domain_id\n            AND samples.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_statistics_storage_domains_resources_usage_samples a\n                GROUP BY a.storage_domain_id\n            )\n        )\n    LEFT OUTER JOIN v4_3_statistics_storage_domains_resources_usage_daily AS daily\n        ON (\n            v4_3_configuration_history_storage_domains.storage_domain_id =\n            daily.storage_domain_id\n            AND daily.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_statistics_storage_domains_resources_usage_daily a\n                GROUP BY a.storage_domain_id\n            )\n        )\nWHERE\n    v4_3_configuration_history_storage_domains.storage_domain_id in($storage_id)\n    -- Here we filter by the storage type chosen by the user\n    -- If \"All\" storage types were chosen by the user then the\n    -- parameter \"P_Storage_Type\" equals to -1\n    AND storage_domain_type in($storage_type)\n    -- Here we get the storage domain latest configurations\n    AND v4_3_configuration_history_storage_domains.history_id IN (\n        SELECT MAX ( a.history_id )\n        FROM v4_3_configuration_history_storage_domains AS a\n        GROUP BY a.storage_domain_id\n    )\n    -- If the user chose not to view deleted entities then\n    -- this parameter will be equal to \"AND delete_date IS NULL\"\n    -- Otherwise this will be equal to \"Null\" and all storage domains\n    -- for this datacenter will be return in the query\n    AND\n        CASE\n          WHEN '$show_deleted'='Yes'\n          THEN 1=1\n          WHEN '$show_deleted'='No'\n          THEN delete_date isnull\n        END\nORDER BY storage_domain_name",
+          "rawSql": "--BR47 - This query returns for a specific datacenter, the storage domains list,\n-- along with their configuration details, available disk size, \n-- used disk size and total, up to an hour back.\n\n-- storage_domain_type and storage_type will be returned in localised session language.\nSELECT\n    storage_domain_name,\n    v4_3_configuration_history_storage_domains.storage_domain_id,\n    a.value AS storage_domain_type,\n    b.value AS storage_type,\n    available_disk_size_gb, \n    used_disk_size_gb,\n    ( available_disk_size_gb + used_disk_size_gb ) AS total_size,\n    create_date,\n    delete_date\nFROM \n    v4_3_configuration_history_storage_domains\n    INNER JOIN v4_3_map_history_datacenters_storage_domains\n        ON \n            (\n                v4_3_configuration_history_storage_domains.storage_domain_id =\n                v4_3_map_history_datacenters_storage_domains.storage_domain_id\n                -- Here we filter by the datacenter chosen by the user\n                AND v4_3_map_history_datacenters_storage_domains.datacenter_id =\n                    CAST ( '$datacenter_id' AS uuid )\n                -- Here we get the latest map\n                AND v4_3_map_history_datacenters_storage_domains.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_3_map_history_datacenters_storage_domains a\n                            GROUP BY a.storage_domain_id, a.datacenter_id\n                        )\n            )\n    LEFT OUTER JOIN \n        (\n            SELECT\n                enum_translator.enum_type,\n                enum_translator.enum_key,\n                enum_translator.value\n            FROM enum_translator\n            WHERE language_code = 'en_US'\n        ) AS a\n        ON \n            (\n                storage_domain_type = a.enum_key\n                AND a.enum_type = 'STORAGE_DOMAIN_TYPE'\n            )\n    LEFT OUTER JOIN \n        (\n            SELECT\n                enum_translator.enum_type,\n                enum_translator.enum_key,\n                enum_translator.value\n            FROM enum_translator\n            WHERE language_code = 'en_US'\n        ) AS b\n        ON \n            (\n                storage_type = b.enum_key\n                AND b.enum_type = 'STORAGE_TYPE'\n            )\n    LEFT OUTER JOIN \n        (\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n            union\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n        ) AS hourly_daily\n        ON \n            (\n                v4_3_configuration_history_storage_domains.storage_domain_id =\n                hourly_daily.storage_domain_id\n                AND hourly_daily.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM             \n                                (   \n                                    SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n                                    union\n                                    SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n                                ) AS a    \n                            GROUP BY a.storage_domain_id\n                        )\n            )\nWHERE\n    v4_3_configuration_history_storage_domains.storage_domain_id IN ($storage_id)\n    -- Here we filter by the storage type chosen by the user\n    -- If \"All\" storage types were chosen by the user then the\n    -- parameter \"P_Storage_Type\" equals to -1\n    AND storage_domain_type IN ($storage_type)\n    -- Here we get the storage domain latest configurations\n    AND v4_3_configuration_history_storage_domains.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_configuration_history_storage_domains AS a\n                GROUP BY a.storage_domain_id\n            )\n    -- This will determine where deleted entities will be included in the report,\n    -- according to the user selection for \"show_deleted\" parameter\n    AND\n        CASE\n          WHEN '$show_deleted'='Yes'\n              THEN 1=1\n          WHEN '$show_deleted'='No'\n              THEN delete_date isnull\n        END\nORDER BY storage_domain_name",
           "refId": "A",
           "select": [
             [
@@ -262,7 +263,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report displays daily used disk size versus available disk size data for the selected datacenter and storage domain within a requested period.",
+      "description": "This report displays average available disk size data per hour for the selected data center and storage domain over a requested period.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -276,6 +277,7 @@
         "current": false,
         "max": false,
         "min": false,
+        "rightSide": true,
         "show": true,
         "total": false,
         "values": false
@@ -299,7 +301,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR21 - This query returns for a specific storage domain\n-- the available disk size and average used disk size for the chosen period.\n\nSELECT DISTINCT\n    $__time(a.history_datetime),\n    COALESCE (\n        storage_domain_name,\n        MAX ( storage_domain_name ) over ( partition by 1 ),\n        ''\n    )\n    AS storage_domain_name,\n    available_disk_size\nFROM (\n    SELECT\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime,\n        AVG ( available_disk_size_gb ) AS available_disk_size,\n        AVG ( used_disk_size_gb ) AS used_disk_size\n    FROM\n        (\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n            UNION\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n        ) AS hourly_daily,\n        v4_3_configuration_history_storage_domains\n    WHERE\n        -- Here we join the the storage domain configurations table with the statistics table\n        v4_3_configuration_history_storage_domains.storage_domain_id =\n        hourly_daily.storage_domain_id\n        -- Here we filter by the storage domain chosen by the user\n        AND hourly_daily.storage_domain_id in($storage_id)\n        AND history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n        -- Here we get the latest storage domain configurations\n        AND v4_3_configuration_history_storage_domains.history_id IN (\n            SELECT MAX ( a.history_id )\n            FROM v4_3_configuration_history_storage_domains a\n            GROUP BY a.storage_domain_id\n        )\n    GROUP BY\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime\n) a\nORDER BY a.history_datetime",
+          "rawSql": "-- BR21 - This query returns for a specific storage domain\n-- the average available disk size per hour over the chosen period.\n\nSELECT DISTINCT\n    $__time(sub_query.history_datetime),\n    COALESCE \n        (\n            storage_domain_name,\n            MAX ( storage_domain_name ) over ( partition BY 1 ),\n            ''\n        ) AS storage_domain_name,\n    available_disk_size\nFROM \n    (\n        SELECT\n            v4_3_configuration_history_storage_domains.storage_domain_name,\n            history_datetime,\n            AVG ( available_disk_size_gb ) AS available_disk_size\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n            ) AS hourly_daily,\n            v4_3_configuration_history_storage_domains\n        WHERE\n            -- Here we join the the storage domain configurations table with the statistics table\n            v4_3_configuration_history_storage_domains.storage_domain_id =\n            hourly_daily.storage_domain_id\n            -- Here we filter by the storage domain chosen by the user\n            AND hourly_daily.storage_domain_id IN ($storage_id)\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- Here we get the latest storage domain configurations\n            AND v4_3_configuration_history_storage_domains.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_storage_domains a\n                        GROUP BY a.storage_domain_id\n                    )\n        GROUP BY\n            v4_3_configuration_history_storage_domains.storage_domain_name,\n            history_datetime\n    ) AS sub_query\nORDER BY sub_query.history_datetime",
           "refId": "A",
           "select": [
             [
@@ -341,6 +343,7 @@
       },
       "yaxes": [
         {
+          "decimals": 0,
           "format": "decgbytes",
           "label": null,
           "logBase": 1,
@@ -368,7 +371,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report displays daily used disk size versus available disk size data for the selected datacenter and storage domain within a requested period.",
+      "description": "This report displays average used disk size data per hour for the selected data center and storage domain over a requested period.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -382,6 +385,7 @@
         "current": false,
         "max": false,
         "min": false,
+        "rightSide": true,
         "show": true,
         "total": false,
         "values": false
@@ -405,7 +409,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR21 - This query returns for a specific storage domain\n-- the available disk size and average used disk size for the chosen period.\n\nSELECT DISTINCT\n    $__time(a.history_datetime),\n    COALESCE (\n        storage_domain_name,\n        MAX ( storage_domain_name ) over ( partition by 1 ),\n        ''\n    )\n    AS storage_domain_name,\n    used_disk_size\nFROM (\n    SELECT\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime,\n        AVG ( available_disk_size_gb ) AS available_disk_size,\n        AVG ( used_disk_size_gb ) AS used_disk_size\n    FROM\n        (\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n            UNION\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n        ) AS hourly_daily,\n        v4_3_configuration_history_storage_domains\n    WHERE\n        -- Here we join the the storage domain configurations table with the statistics table\n        v4_3_configuration_history_storage_domains.storage_domain_id =\n        hourly_daily.storage_domain_id\n        -- Here we filter by the storage domain chosen by the user\n        AND hourly_daily.storage_domain_id in($storage_id)\n        AND history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n        -- Here we get the latest storage domain configurations\n        AND v4_3_configuration_history_storage_domains.history_id IN (\n            SELECT MAX ( a.history_id )\n            FROM v4_3_configuration_history_storage_domains a\n            GROUP BY a.storage_domain_id\n        )\n    GROUP BY\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime\n) a\nORDER BY a.history_datetime",
+          "rawSql": "-- BR21 - This query returns for a specific storage domain\n-- the average used disk size per hour for the chosen period.\n\nSELECT DISTINCT\n    $__time(sub_query.history_datetime),\n    COALESCE \n        (\n            storage_domain_name,\n            MAX ( storage_domain_name ) over ( partition BY 1 ),\n            ''\n        ) AS storage_domain_name,\n    used_disk_size\nFROM \n    (\n        SELECT\n            v4_3_configuration_history_storage_domains.storage_domain_name,\n            history_datetime,\n            AVG ( used_disk_size_gb ) AS used_disk_size\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n            ) AS hourly_daily,\n            v4_3_configuration_history_storage_domains\n        WHERE\n            -- Here we join the the storage domain configurations table with the statistics table\n            v4_3_configuration_history_storage_domains.storage_domain_id =\n            hourly_daily.storage_domain_id\n            -- Here we filter by the storage domain chosen by the user\n            AND hourly_daily.storage_domain_id IN ($storage_id)\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- Here we get the latest storage domain configurations\n            AND v4_3_configuration_history_storage_domains.history_id \n                IN \n                    (\n                    SELECT MAX ( a.history_id )\n                    FROM v4_3_configuration_history_storage_domains a\n                    GROUP BY a.storage_domain_id\n                    )\n        GROUP BY\n            v4_3_configuration_history_storage_domains.storage_domain_name,\n            history_datetime\n    ) AS sub_query\nORDER BY sub_query.history_datetime",
           "refId": "A",
           "select": [
             [
@@ -447,6 +451,7 @@
       },
       "yaxes": [
         {
+          "decimals": 0,
           "format": "decgbytes",
           "label": null,
           "logBase": 1,
@@ -455,6 +460,7 @@
           "show": true
         },
         {
+          "decimals": null,
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -474,7 +480,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report displays daily used disk size versus available disk size data for the selected datacenter and storage domain within a requested period.",
+      "description": "This report displays used disk size versus available disk size data ( total disk size )  per hour for the selected data center and storage domain over a requested period.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -488,6 +494,7 @@
         "current": false,
         "max": false,
         "min": false,
+        "rightSide": true,
         "show": true,
         "total": false,
         "values": false
@@ -498,7 +505,7 @@
       "nullPointMode": "null",
       "options": {},
       "percentage": false,
-      "pointradius": 2,
+      "pointradius": 0.5,
       "points": false,
       "renderer": "flot",
       "seriesOverrides": [],
@@ -511,7 +518,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR21 - This query returns for a specific storage domain\n-- the available disk size and average used disk size for the chosen period.\n\nSELECT DISTINCT\n    $__time(a.history_datetime),\n    COALESCE (\n        storage_domain_name,\n        MAX ( storage_domain_name ) over ( partition by 1 ),\n        ''\n    )\n    AS storage_domain_name,\n    available_disk_size,\n    used_disk_size\nFROM (\n    SELECT\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime,\n        AVG ( available_disk_size_gb ) AS available_disk_size,\n        AVG ( used_disk_size_gb ) AS used_disk_size\n    FROM\n        (\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n            UNION\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n        ) AS hourly_daily,\n        v4_3_configuration_history_storage_domains\n    WHERE\n        -- Here we join the the storage domain configurations table with the statistics table\n        v4_3_configuration_history_storage_domains.storage_domain_id =\n        hourly_daily.storage_domain_id\n        -- Here we filter by the storage domain chosen by the user\n        AND hourly_daily.storage_domain_id in($storage_id)\n        AND history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n        -- Here we get the latest storage domain configurations\n        AND v4_3_configuration_history_storage_domains.history_id IN (\n            SELECT MAX ( a.history_id )\n            FROM v4_3_configuration_history_storage_domains a\n            GROUP BY a.storage_domain_id\n        )\n    GROUP BY\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime\n) a\nORDER BY a.history_datetime",
+          "rawSql": "-- BR21 - This query returns for a specific storage domain\n-- the available disk size versus used disk size ( total disk size ), \n-- per hour for the chosen period.\n\nSELECT DISTINCT\n    $__time(sub_query.history_datetime),\n    COALESCE \n        (\n            storage_domain_name,\n            MAX ( storage_domain_name ) over ( partition BY 1 ),\n            ''\n        ) AS storage_domain_name,\n    used_disk_size AS \"( Used disk size )\",\n    available_disk_size AS \"( Available disk size )\"\n    --,( available_disk_size + used_disk_size ) AS \"( Total disk size )\"\nFROM \n    (\n        SELECT\n            v4_3_configuration_history_storage_domains.storage_domain_name,\n            history_datetime,\n            AVG ( available_disk_size_gb ) AS available_disk_size,\n            AVG ( used_disk_size_gb ) AS used_disk_size\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n            ) AS hourly_daily,\n            v4_3_configuration_history_storage_domains\n        WHERE\n            -- Here we join the the storage domain configurations table with the statistics table\n            v4_3_configuration_history_storage_domains.storage_domain_id =\n            hourly_daily.storage_domain_id\n            -- Here we filter by the storage domain chosen by the user\n            AND hourly_daily.storage_domain_id IN ($storage_id)\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- Here we get the latest storage domain configurations\n            AND v4_3_configuration_history_storage_domains.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_storage_domains a\n                        GROUP BY a.storage_domain_id\n                    )\n        GROUP BY\n            v4_3_configuration_history_storage_domains.storage_domain_name,\n            history_datetime\n    ) AS sub_query\n    ORDER BY sub_query.history_datetime",
           "refId": "A",
           "select": [
             [
@@ -553,8 +560,9 @@
       },
       "yaxes": [
         {
+          "decimals": null,
           "format": "decgbytes",
-          "label": null,
+          "label": "",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -580,7 +588,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report displays daily used disk size versus available disk size data for the selected datacenter and storage domain within a requested period.",
+      "description": "This report displays total used disk size data per hour for the selected data center and storage domain over a requested period.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -594,6 +602,7 @@
         "current": false,
         "max": false,
         "min": false,
+        "rightSide": true,
         "show": true,
         "total": false,
         "values": false
@@ -601,7 +610,7 @@
       "lines": true,
       "linewidth": 1,
       "links": [],
-      "nullPointMode": "null",
+      "nullPointMode": "null as zero",
       "options": {},
       "percentage": false,
       "pointradius": 2,
@@ -617,7 +626,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR21 - This query returns for a specific storage domain\n-- the available disk size and average used disk size for the chosen period.\n\nSELECT DISTINCT\n    $__time(a.history_datetime),\n    COALESCE (\n        storage_domain_name,\n        MAX ( storage_domain_name ) over ( partition by 1 ),\n        ''\n    )\n    AS storage_domain_name,\n    used_disk_size\nFROM (\n    SELECT\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime,\n        AVG ( available_disk_size_gb ) AS available_disk_size,\n        AVG ( used_disk_size_gb ) AS used_disk_size\n    FROM\n        (\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n            UNION\n            SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n        ) AS hourly_daily,\n        v4_3_configuration_history_storage_domains\n    WHERE\n        -- Here we join the the storage domain configurations table with the statistics table\n        v4_3_configuration_history_storage_domains.storage_domain_id =\n        hourly_daily.storage_domain_id\n        -- Here we filter by the storage domain chosen by the user\n        AND hourly_daily.storage_domain_id in($storage_id)\n        AND history_datetime >= $__timeFrom()\n        AND history_datetime < $__timeTo()\n        -- Here we get the latest storage domain configurations\n        AND v4_3_configuration_history_storage_domains.history_id IN (\n            SELECT MAX ( a.history_id )\n            FROM v4_3_configuration_history_storage_domains a\n            GROUP BY a.storage_domain_id\n        )\n    GROUP BY\n        v4_3_configuration_history_storage_domains.storage_domain_name,\n        history_datetime\n) a\nORDER BY a.history_datetime",
+          "rawSql": "-- BR21 - This query returns for a specific storage domain\n-- the total used disk size per hour for the chosen period.\n\nSELECT DISTINCT\n    $__time(sub_query.history_datetime),\n    COALESCE \n        (\n            storage_domain_name,\n            MAX ( storage_domain_name ) over ( partition BY 1 ),\n            ''\n        ) AS storage_domain_name,\n    used_disk_size\nFROM \n    (\n        SELECT\n            v4_3_configuration_history_storage_domains.storage_domain_name,\n            history_datetime,\n            AVG ( used_disk_size_gb ) AS used_disk_size\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_storage_domains_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_storage_domains_resources_usage_daily\n            ) AS hourly_daily,\n            v4_3_configuration_history_storage_domains\n        WHERE\n            -- Here we join the the storage domain configurations table with the statistics table\n            v4_3_configuration_history_storage_domains.storage_domain_id =\n            hourly_daily.storage_domain_id\n            -- Here we filter by the storage domain chosen by the user\n            AND hourly_daily.storage_domain_id IN ($storage_id)\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- Here we get the latest storage domain configurations\n            AND v4_3_configuration_history_storage_domains.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_storage_domains a\n                        GROUP BY a.storage_domain_id\n                    )\n        GROUP BY\n            v4_3_configuration_history_storage_domains.storage_domain_name,\n            history_datetime\n    ) AS sub_query\nORDER BY sub_query.history_datetime",
           "refId": "A",
           "select": [
             [
@@ -659,6 +668,7 @@
       },
       "yaxes": [
         {
+          "decimals": 0,
           "format": "decgbytes",
           "label": null,
           "logBase": 1,
@@ -713,14 +723,14 @@
         "allValue": null,
         "current": {},
         "datasource": "oVirt DWH",
-        "definition": "SELECT DISTINCT     CAST (         v4_3_configuration_history_storage_domains.storage_domain_id AS varchar     ) AS __value,     CASE         WHEN detach_date IS NULL             THEN storage_domain_name         ELSE             storage_domain_name             ||             ' ('             ||             'Detached on'             ||             ' '             ||             to_char (                 detach_date, 'YYYY-MM-DD'             )             ||             ')'     END AS __text FROM v4_3_configuration_history_storage_domains         INNER JOIN v4_3_map_history_datacenters_storage_domains             ON (                 v4_3_map_history_datacenters_storage_domains.storage_domain_id =                 v4_3_configuration_history_storage_domains.storage_domain_id                 AND v4_3_map_history_datacenters_storage_domains.datacenter_id =                 CAST ( '$datacenter_id' AS uuid )             ) WHERE v4_3_configuration_history_storage_domains.storage_domain_type in ($storage_type )     AND v4_3_map_history_datacenters_storage_domains.history_id IN (         SELECT MAX ( a.history_id )         FROM v4_3_map_history_datacenters_storage_domains a         GROUP BY a.storage_domain_id, a.datacenter_id     )     AND v4_3_configuration_history_storage_domains.history_id IN (         SELECT MAX ( a.history_id )         FROM v4_3_configuration_history_storage_domains a         GROUP BY a.storage_domain_id     )     AND         CASE           WHEN '$show_deleted'='Yes'           THEN 1=1           WHEN '$show_deleted'='No'           THEN detach_date isnull         END     AND         CASE           WHEN '$show_deleted'='Yes'           THEN 1=1           WHEN '$show_deleted'='No'           THEN delete_date isnull         END ORDER BY     __text",
+        "definition": "SELECT DISTINCT     CAST (         v4_3_configuration_history_storage_domains.storage_domain_id AS varchar     ) AS __value,     CASE         WHEN detach_date IS NULL             THEN storage_domain_name         ELSE             storage_domain_name             ||             ' ('             ||             'Detached on'             ||             ' '             ||             TO_CHAR (                 detach_date, 'YYYY-MM-DD'             )             ||             ')'     END AS __text FROM v4_3_configuration_history_storage_domains         INNER JOIN v4_3_map_history_datacenters_storage_domains             ON (                 v4_3_map_history_datacenters_storage_domains.storage_domain_id =                 v4_3_configuration_history_storage_domains.storage_domain_id                 AND v4_3_map_history_datacenters_storage_domains.datacenter_id =                 CAST ( '$datacenter_id' AS uuid )             ) WHERE v4_3_configuration_history_storage_domains.storage_domain_type IN ($storage_type )     AND v4_3_map_history_datacenters_storage_domains.history_id IN (         SELECT MAX ( a.history_id )         FROM v4_3_map_history_datacenters_storage_domains a         GROUP BY a.storage_domain_id, a.datacenter_id     )     AND v4_3_configuration_history_storage_domains.history_id IN (         SELECT MAX ( a.history_id )         FROM v4_3_configuration_history_storage_domains a         GROUP BY a.storage_domain_id     )     AND         CASE           WHEN '$show_deleted'='Yes'           THEN 1=1           WHEN '$show_deleted'='No'           THEN detach_date isnull         END     AND         CASE           WHEN '$show_deleted'='Yes'           THEN 1=1           WHEN '$show_deleted'='No'           THEN delete_date isnull         END ORDER BY     __text",
         "hide": 0,
         "includeAll": true,
         "label": "Storage Domain",
         "multi": true,
         "name": "storage_id",
         "options": [],
-        "query": "SELECT DISTINCT     CAST (         v4_3_configuration_history_storage_domains.storage_domain_id AS varchar     ) AS __value,     CASE         WHEN detach_date IS NULL             THEN storage_domain_name         ELSE             storage_domain_name             ||             ' ('             ||             'Detached on'             ||             ' '             ||             to_char (                 detach_date, 'YYYY-MM-DD'             )             ||             ')'     END AS __text FROM v4_3_configuration_history_storage_domains         INNER JOIN v4_3_map_history_datacenters_storage_domains             ON (                 v4_3_map_history_datacenters_storage_domains.storage_domain_id =                 v4_3_configuration_history_storage_domains.storage_domain_id                 AND v4_3_map_history_datacenters_storage_domains.datacenter_id =                 CAST ( '$datacenter_id' AS uuid )             ) WHERE v4_3_configuration_history_storage_domains.storage_domain_type in ($storage_type )     AND v4_3_map_history_datacenters_storage_domains.history_id IN (         SELECT MAX ( a.history_id )         FROM v4_3_map_history_datacenters_storage_domains a         GROUP BY a.storage_domain_id, a.datacenter_id     )     AND v4_3_configuration_history_storage_domains.history_id IN (         SELECT MAX ( a.history_id )         FROM v4_3_configuration_history_storage_domains a         GROUP BY a.storage_domain_id     )     AND         CASE           WHEN '$show_deleted'='Yes'           THEN 1=1           WHEN '$show_deleted'='No'           THEN detach_date isnull         END     AND         CASE           WHEN '$show_deleted'='Yes'           THEN 1=1           WHEN '$show_deleted'='No'           THEN delete_date isnull         END ORDER BY     __text",
+        "query": "SELECT DISTINCT     CAST (         v4_3_configuration_history_storage_domains.storage_domain_id AS varchar     ) AS __value,     CASE         WHEN detach_date IS NULL             THEN storage_domain_name         ELSE             storage_domain_name             ||             ' ('             ||             'Detached on'             ||             ' '             ||             TO_CHAR (                 detach_date, 'YYYY-MM-DD'             )             ||             ')'     END AS __text FROM v4_3_configuration_history_storage_domains         INNER JOIN v4_3_map_history_datacenters_storage_domains             ON (                 v4_3_map_history_datacenters_storage_domains.storage_domain_id =                 v4_3_configuration_history_storage_domains.storage_domain_id                 AND v4_3_map_history_datacenters_storage_domains.datacenter_id =                 CAST ( '$datacenter_id' AS uuid )             ) WHERE v4_3_configuration_history_storage_domains.storage_domain_type IN ($storage_type )     AND v4_3_map_history_datacenters_storage_domains.history_id IN (         SELECT MAX ( a.history_id )         FROM v4_3_map_history_datacenters_storage_domains a         GROUP BY a.storage_domain_id, a.datacenter_id     )     AND v4_3_configuration_history_storage_domains.history_id IN (         SELECT MAX ( a.history_id )         FROM v4_3_configuration_history_storage_domains a         GROUP BY a.storage_domain_id     )     AND         CASE           WHEN '$show_deleted'='Yes'           THEN 1=1           WHEN '$show_deleted'='No'           THEN detach_date isnull         END     AND         CASE           WHEN '$show_deleted'='Yes'           THEN 1=1           WHEN '$show_deleted'='No'           THEN delete_date isnull         END ORDER BY     __text",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,

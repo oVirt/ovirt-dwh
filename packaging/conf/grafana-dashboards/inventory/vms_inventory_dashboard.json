@@ -42,6 +42,7 @@
       }
     ]
   },
+  "description": "The vms inventory dashboard displays an inventory list of all vms of the selected data center and cluster.",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -52,7 +53,7 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "-- BR9 - This query will return for the specific datacenter, the latest VMs configurations, grouped by clusters.",
+      "description": "This report displays a inventory list of all vms of the selected data center and cluster.",
       "fontSize": "100%",
       "gridPos": {
         "h": 17,
@@ -258,7 +259,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR9 - This query will return for the specific datacenter,\n-- the latest VMs configurations, grouped by clusters.\n\nSELECT\n    v4_3_configuration_history_vms.vm_name,\n    v4_3_configuration_history_vms.cluster_id,\n    v4_3_configuration_history_clusters.cluster_name,\n    v4_3_configuration_history_vms.template_name,\n    b.value AS os_version,\n    ROUND (\n        COALESCE ( cpu_per_socket, 0 ) *\n        COALESCE ( number_of_sockets, 0 ),\n        0\n    )\n    AS vm_cpucores,\n    ROUND (\n        CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) ::numeric\n        / 1024, 1\n    )\n    AS vm_memsize,\n    v4_3_configuration_history_clusters.delete_date AS cluster_delete,\n    CAST ( v4_3_configuration_history_vms.create_date AS date ) AS create_date,\n    CAST ( v4_3_configuration_history_vms.delete_date AS date ) AS delete_date\nFROM v4_3_configuration_history_vms\n    LEFT OUTER JOIN (\n       SELECT\n            enum_type,\n            enum_key,\n            value\n       FROM enum_translator\n       WHERE language_code = 'en_US'\n       AND enum_type = 'OS_TYPE'\n    )AS b\n        ON (\n            v4_3_configuration_history_vms.operating_system =\n            b.enum_key AND b.enum_type = 'OS_TYPE'\n        )\n    LEFT OUTER JOIN v4_3_configuration_history_clusters\n        ON (\n            v4_3_configuration_history_vms.cluster_id =\n            v4_3_configuration_history_clusters.cluster_id\n            AND v4_3_configuration_history_clusters.history_id IN (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_configuration_history_clusters a\n                GROUP BY a.cluster_id\n            )\n        )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_3_configuration_history_vms.cluster_id IN (\n        SELECT cluster_id\n        FROM v4_3_configuration_history_clusters\n        WHERE datacenter_id = CAST ( '$datacenter_id' AS uuid )\n    )\n    -- Here we filter by the cluster chosen by the user\n    AND v4_3_configuration_history_vms.cluster_id in($cluster_id)\n    -- Here we get the latest vm configurations\n    AND v4_3_configuration_history_vms.history_id IN (\n        SELECT MAX ( a.history_id )\n        FROM v4_3_configuration_history_vms a\n        GROUP BY a.vm_id\n    )\n        -- Here we get or remove deleted entities according to what the user chose\n        -- in the \"show_deleted\" parameter.\n        AND\n            CASE\n              WHEN '$show_deleted'='Yes'\n              THEN 1=1\n              WHEN '$show_deleted'='No'\n              THEN v4_3_configuration_history_vms.delete_date isnull\n            END\nORDER BY\n    v4_3_configuration_history_vms.cluster_id,\n    v4_3_configuration_history_vms.delete_date DESC",
+          "rawSql": "-- BR9 - This query will return for the specific data center,\n-- the latest VMs configurations, grouped by clusters.\n\nSELECT\n    v4_3_configuration_history_vms.vm_name,\n    v4_3_configuration_history_vms.cluster_id,\n    v4_3_configuration_history_clusters.cluster_name,\n    v4_3_configuration_history_vms.template_name,\n    a.value AS os_version,\n    ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) AS vm_cpucores,\n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS vm_memsize,\n    v4_3_configuration_history_clusters.delete_date AS cluster_delete,\n    CAST ( v4_3_configuration_history_vms.create_date AS date ) AS create_date,\n    CAST ( v4_3_configuration_history_vms.delete_date AS date ) AS delete_date\nFROM \n    v4_3_configuration_history_vms\n    LEFT OUTER JOIN \n        (\n           SELECT enum_type, enum_key, value\n           FROM enum_translator\n           WHERE language_code = 'en_US' AND enum_type = 'OS_TYPE'\n        )AS a\n        ON \n            (\n                v4_3_configuration_history_vms.operating_system =\n                a.enum_key AND a.enum_type = 'OS_TYPE'\n            )\n    LEFT OUTER JOIN v4_3_configuration_history_clusters\n        ON \n            (\n                v4_3_configuration_history_vms.cluster_id =\n                v4_3_configuration_history_clusters.cluster_id\n                AND v4_3_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_3_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_3_configuration_history_vms.cluster_id \n        IN \n            (\n                SELECT cluster_id\n                FROM v4_3_configuration_history_clusters\n                WHERE datacenter_id = CAST ( '$datacenter_id' AS uuid )\n            )\n    -- Here we filter by the cluster chosen by the user\n    AND v4_3_configuration_history_vms.cluster_id IN ($cluster_id)\n    -- Here we get the latest vm configurations\n    AND v4_3_configuration_history_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_3_configuration_history_vms a\n                GROUP BY a.vm_id\n            )\n        -- Here we get or remove deleted entities according to what the user chose\n        -- in the \"show_deleted\" parameter.\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN v4_3_configuration_history_vms.delete_date isnull\n        END\nORDER BY\n    v4_3_configuration_history_vms.cluster_id,\n    v4_3_configuration_history_vms.delete_date DESC",
           "refId": "A",
           "select": [
             [
@@ -282,7 +283,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Virtual Machines Inventory",
+      "title": "Virtual Machines Inventory (BR9)",
       "transform": "table",
       "type": "table"
     }
