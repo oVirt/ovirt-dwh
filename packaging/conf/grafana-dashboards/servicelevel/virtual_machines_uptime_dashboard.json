@@ -48,6 +48,7 @@
       }
     ]
   },
+  "description": "The virtual machines uptime dashboard displays data about the vms uptime and downtime",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -58,7 +59,7 @@
     {
       "cacheTimeout": null,
       "datasource": "oVirt DWH",
-      "description": "This report contains 2  gauges displaying the average planned and unplanned uptime of a selected VM for a requested period.",
+      "description": "This report contains gauges displaying the average planned and unplanned downtime of a selected VMs for a requested period.",
       "gridPos": {
         "h": 6,
         "w": 12,
@@ -104,7 +105,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR46 - This query returns for the specific vm\n-- the total Unplanned_Downtime, Planned_Downtime, Uptime and total time in minutes.\n\nSELECT\n    SUM (\n        CASE\n            WHEN vm_status IN ( 2, 0 )\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) /\n    SUM (\n        hourly_daily.minutes_in_status\n    ) AS \"Planned Downtime\",\n    SUM (\n        CASE\n            WHEN vm_status = 3\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) /\n    SUM (\n        hourly_daily.minutes_in_status\n    ) AS \"Unplanned Downtime\"\nFROM\n    (\n     SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n     UNION\n     SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n    ) AS hourly_daily\nWHERE\n    -- Here we filter by the vm id chosen by the user\n    hourly_daily.vm_id in($vm_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()",
+          "rawSql": "-- BR46 - This query returns for the specific vm\n-- the total Unplanned_Downtime, Planned_Downtime, Uptime and total time in minutes.\n\n-- Unplanned downtime and planned downtime\nSELECT\n    SUM \n        (\n            CASE\n                WHEN vm_status IN ( 2, 0 )\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS \"Planned Downtime\",\n    SUM \n        (\n            CASE\n                WHEN vm_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS \"Unplanned Downtime\"\nFROM\n    (\n        SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n        UNION\n        SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n    ) AS hourly_daily\nWHERE\n    -- Here we filter by the vm id chosen by the user\n    hourly_daily.vm_id IN ($vm_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()",
           "refId": "A",
           "select": [
             [
@@ -128,14 +129,14 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Virtual Machine Uptime (BR46)",
+      "title": "Virtual Machine Downtime (BR46)",
       "type": "gauge"
     },
     {
       "cacheTimeout": null,
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report contains a table displaying the average uptime of the selected VMs for a requested period.",
+      "description": "This report contains a table displaying the average uptime and downtime of the selected VMs for a requested period.",
       "fontSize": "100%",
       "gridPos": {
         "h": 16,
@@ -326,7 +327,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR46 - This query returns for the specific vm\n-- the total Unplanned_Downtime, Planned_Downtime, Uptime and total time in minutes.\n\nSELECT\n    vm_name,\n    SUM (\n        CASE\n            WHEN vm_status IN ( 2, 0 )\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) /\n    SUM (\n        hourly_daily.minutes_in_status\n    ) AS \"planned_downtime\",\n    SUM (\n        CASE\n            WHEN vm_status = 3\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) /\n    SUM (\n        hourly_daily.minutes_in_status\n    ) AS \"unplanned_downtime\",\n        SUM (\n        CASE\n            WHEN vm_status IN ( 2, 0 )\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) AS \"planned_downtime_in_time\",\n    SUM (\n        CASE\n            WHEN vm_status = 3\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) AS \"unplanned_downtime_in_time\",\n--    SUM (\n--        hourly_daily.minutes_in_status\n--    ) AS \"total_time\",\n     SUM (\n        CASE\n            WHEN vm_status = 1\n                THEN\n                    COALESCE (\n                        hourly_daily.minutes_in_status,\n                        0\n                    )\n            ELSE 0\n        END\n    ) AS uptime_in_min,\n    create_date,\n    update_date\nFROM\n    (\n     SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n     UNION\n     SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n    ) AS hourly_daily\n    INNER JOIN\n        v4_3_latest_configuration_vms\n        ON (v4_3_latest_configuration_vms.vm_id=\n            hourly_daily.vm_id)\nWHERE\n    -- Here we filter by the vm id chosen by the user\n    hourly_daily.vm_id in($vm_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\nGROUP BY vm_name, create_date, update_date\nORDER BY vm_name",
+          "rawSql": "-- BR46 - This query will return the weighted average uptime\n-- and downtime data of each vm in a requested data center, \n-- and cluster for a requested period.\n\nSELECT\n    vm_name,\n    SUM \n        (\n            CASE\n                WHEN vm_status IN ( 2, 0 )\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS \"planned_downtime\",\n    SUM \n        (\n            CASE\n                WHEN vm_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS \"unplanned_downtime\",\n    SUM \n        (\n            CASE\n                WHEN vm_status IN ( 2, 0 )\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS \"planned_downtime_in_time\",\n    SUM \n        (\n            CASE\n                WHEN vm_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS \"unplanned_downtime_in_time\",\n--  SUM ( hourly_daily.minutes_in_status ) AS \"total_time\",\n    SUM \n        (\n            CASE\n                WHEN vm_status = 1\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS uptime_in_min,\n    create_date,\n    update_date\nFROM\n    (\n        SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n        UNION\n        SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n    ) AS hourly_daily\n    INNER JOIN v4_3_latest_configuration_vms\n        ON \n            (\n                v4_3_latest_configuration_vms.vm_id=\n                hourly_daily.vm_id\n            )\nWHERE\n    -- Here we filter by the vm id chosen by the user\n    hourly_daily.vm_id IN ($vm_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\nGROUP BY vm_name, create_date, update_date\nORDER BY vm_name",
           "refId": "A",
           "select": [
             [
@@ -408,14 +409,14 @@
         "allValue": null,
         "current": {},
         "datasource": "oVirt DWH",
-        "definition": "SELECT DISTINCT vm_name AS __text, vm_id AS __value FROM v4_3_configuration_history_vms WHERE cluster_id in ($cluster_id)",
+        "definition": "SELECT DISTINCT vm_name AS __text, vm_id AS __value FROM v4_3_configuration_history_vms WHERE cluster_id IN ($cluster_id)",
         "hide": 0,
         "includeAll": true,
         "label": "Virtual Machine",
         "multi": true,
         "name": "vm_id",
         "options": [],
-        "query": "SELECT DISTINCT vm_name AS __text, vm_id AS __value FROM v4_3_configuration_history_vms WHERE cluster_id in ($cluster_id)",
+        "query": "SELECT DISTINCT vm_name AS __text, vm_id AS __value FROM v4_3_configuration_history_vms WHERE cluster_id IN ($cluster_id)",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -460,6 +461,6 @@
   },
   "timezone": "",
   "title": "Virtual Machines Uptime Dashboard",
-  "uid": "VMsUptimeDashboard",
+  "uid": "VirtualMachinesUptimeDashboard",
   "version": 1
 }
