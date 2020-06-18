@@ -113,7 +113,7 @@ class Plugin(plugin.PluginBase):
                     dialog=self.dialog,
                     name='OVESETUP_DWH_PROVISIONING_POSTGRES_ENABLED',
                     note=_(
-                        'Setup can configure the local postgresql server '
+                        '\nSetup can configure the local postgresql server '
                         'automatically for the DWH to run. This may '
                         'conflict with existing applications.\n'
                         'Would you like Setup to automatically configure '
