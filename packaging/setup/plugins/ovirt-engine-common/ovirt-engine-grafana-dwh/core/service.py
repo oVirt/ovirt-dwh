@@ -49,12 +49,12 @@ class Plugin(plugin.PluginBase):
         ],
     )
     def _transactionBegin(self):
-        if self.services.exists(name=ogdwhcons.Const.SERVICE_NAME):
-            self.logger.info(_('Stopping grafana service'))
-            self.services.state(
-                name=ogdwhcons.Const.SERVICE_NAME,
-                state=False
-            )
+        self.environment[
+            osetupcons.SystemEnv.HOSTILE_SERVICES
+        ] = '{current},{grafana}'.format(
+            current=self.environment[osetupcons.SystemEnv.HOSTILE_SERVICES],
+            grafana=ogdwhcons.Const.SERVICE_NAME,
+        )
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
