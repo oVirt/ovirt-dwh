@@ -7,19 +7,17 @@
 #
 
 
-"""oVirt engine-setup dwh grafana datebase plugin."""
+"""ovirt-engine-setup grafana config plugin."""
 
 
 from otopi import util
 
-from . import connection
-from . import grafana
+from . import grafana_fqdn
 
 
 @util.export
 def createPlugins(context):
-    connection.Plugin(context=context)
-    grafana.Plugin(context=context)
+    grafana_fqdn.Plugin(context=context)
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
