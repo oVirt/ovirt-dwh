@@ -39,6 +39,12 @@
       "id": "table",
       "name": "Table",
       "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
     }
   ],
   "annotations": {
@@ -54,7 +60,7 @@
       }
     ]
   },
-  "description": "The cluster dashboard displays the latest configurations, resources status and usages percent of the clusters entities",
+  "description": "The cluster dashboard displays the latest configurations, resources status and usages percent of the clusters entities.",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -62,6 +68,75 @@
   "iteration": 1589472284614,
   "links": [],
   "panels": [
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 36,
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### The cluster dashboard displays the latest configurations, resources status and usages percent of the clusters entities.\n\n\n",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 32,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 34,
+      "panels": [],
+      "title": "Reports",
+      "type": "row"
+    },
     {
       "cacheTimeout": null,
       "colorBackground": false,
@@ -73,7 +148,7 @@
         "#d44a3a"
       ],
       "datasource": "oVirt DWH",
-      "description": "Number of Hosts in the Cluster",
+      "description": "Number of Hosts in the Cluster.",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -86,7 +161,7 @@
         "h": 4,
         "w": 3,
         "x": 0,
-        "y": 0
+        "y": 4
       },
       "id": 2,
       "interval": null,
@@ -178,7 +253,7 @@
         "#d44a3a"
       ],
       "datasource": "oVirt DWH",
-      "description": "Number of Virtual Machines in the Cluster",
+      "description": "Number of Virtual Machines in the Cluster.",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -191,7 +266,7 @@
         "h": 4,
         "w": 4,
         "x": 3,
-        "y": 0
+        "y": 4
       },
       "id": 3,
       "interval": null,
@@ -282,7 +357,7 @@
         "#299c46"
       ],
       "datasource": "oVirt DWH",
-      "description": "Average uptime percent for the hosts in the specific cluster",
+      "description": "Average uptime percent for the hosts in the specific cluster.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -295,7 +370,7 @@
         "h": 4,
         "w": 4,
         "x": 7,
-        "y": 0
+        "y": 4
       },
       "id": 9,
       "interval": null,
@@ -387,7 +462,7 @@
         "#299c46"
       ],
       "datasource": "oVirt DWH",
-      "description": "Average resources that are not used ( CPU and memory ) for the specific cluster",
+      "description": "Average resources that are not used ( CPU and memory ) for the specific cluster.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -400,7 +475,7 @@
         "h": 4,
         "w": 4,
         "x": 11,
-        "y": 0
+        "y": 4
       },
       "id": 7,
       "interval": null,
@@ -493,7 +568,7 @@
       ],
       "datasource": "oVirt DWH",
       "decimals": null,
-      "description": "Uptime percent of high availability vms",
+      "description": "Uptime percent of high availability vms.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -506,7 +581,7 @@
         "h": 4,
         "w": 6,
         "x": 15,
-        "y": 0
+        "y": 4
       },
       "id": 5,
       "interval": null,
@@ -590,13 +665,13 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "Average CPU and memory peaks per host for the specific cluster",
+      "description": "Average CPU and memory peaks per host for the specific cluster.",
       "fontSize": "100%",
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 4
+        "y": 8
       },
       "id": 11,
       "links": [],
@@ -725,13 +800,13 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "CPU and memory usage for the top 5 busiest hosts",
+      "description": "CPU and memory usage for the top 5 busiest hosts.",
       "fontSize": "100%",
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 4
+        "y": 8
       },
       "id": 13,
       "links": [],
@@ -901,7 +976,7 @@
         "h": 5,
         "w": 12,
         "x": 0,
-        "y": 11
+        "y": 15
       },
       "id": 25,
       "legend": {
@@ -1009,7 +1084,7 @@
         "h": 5,
         "w": 12,
         "x": 12,
-        "y": 11
+        "y": 15
       },
       "id": 26,
       "legend": {
@@ -1115,7 +1190,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 16
+        "y": 20
       },
       "id": 28,
       "links": [],
@@ -1244,13 +1319,13 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report shows for 5 hosts, that have the least uptime percent, the total uptime, planned and unplanned downtime percent",
+      "description": "This report shows for 5 hosts, that have the least uptime percent, the total uptime, planned and unplanned downtime percent.",
       "fontSize": "100%",
       "gridPos": {
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 16
+        "y": 20
       },
       "id": 30,
       "links": [],

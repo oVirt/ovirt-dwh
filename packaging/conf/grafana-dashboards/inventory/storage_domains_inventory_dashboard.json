@@ -33,6 +33,12 @@
       "id": "table",
       "name": "Table",
       "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
     }
   ],
   "annotations": {
@@ -57,6 +63,74 @@
   "links": [],
   "panels": [
     {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 15,
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### This dashboard include inventory and memory usage for the requested storage domain.\n\n\n\n",
+      "description": "",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 13,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 11,
+      "title": "Reports",
+      "type": "row"
+    },
+    {
       "columns": [],
       "datasource": "oVirt DWH",
       "description": "This report displays a inventory list of all storage domains of the selected data center.",
@@ -65,7 +139,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 4
       },
       "id": 4,
       "links": [],
@@ -269,7 +343,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 12
       },
       "id": 8,
       "legend": {
@@ -377,7 +451,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 8
+        "y": 12
       },
       "id": 7,
       "legend": {
@@ -486,7 +560,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 15
+        "y": 19
       },
       "id": 6,
       "legend": {
@@ -594,7 +668,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 15
+        "y": 19
       },
       "id": 9,
       "legend": {

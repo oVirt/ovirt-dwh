@@ -27,6 +27,12 @@
       "id": "postgres",
       "name": "PostgreSQL",
       "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
     }
   ],
   "annotations": {
@@ -57,6 +63,62 @@
         "x": 0,
         "y": 0
       },
+      "id": 19,
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### This dashboard displays usage rates for the 5 most and least utilized vms by memory and by CPU **over time**, in the selected cluster.\n\n\n\n",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 17,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
       "id": 13,
       "title": "Virtual Machines",
       "type": "row"
@@ -73,7 +135,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 1
+        "y": 4
       },
       "id": 6,
       "legend": {
@@ -189,7 +251,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 1
+        "y": 4
       },
       "id": 9,
       "legend": {
@@ -304,7 +366,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 9
+        "y": 12
       },
       "id": 8,
       "legend": {
@@ -411,7 +473,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 9
+        "y": 12
       },
       "id": 15,
       "legend": {

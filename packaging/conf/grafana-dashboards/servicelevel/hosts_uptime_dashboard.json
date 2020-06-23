@@ -33,6 +33,12 @@
       "id": "table",
       "name": "Table",
       "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
     }
   ],
   "annotations": {
@@ -57,6 +63,74 @@
   "links": [],
   "panels": [
     {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 10,
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### This dashboard displays data about the hosts uptime and downtime.\n\n\n\n",
+      "description": "",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 6,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 8,
+      "title": "Reports",
+      "type": "row"
+    },
+    {
       "cacheTimeout": null,
       "datasource": "oVirt DWH",
       "description": "This report contains gauges displaying the average planned and unplanned downtime of a selected Hosts for a requested period.",
@@ -64,7 +138,7 @@
         "h": 6,
         "w": 12,
         "x": 6,
-        "y": 0
+        "y": 4
       },
       "id": 3,
       "links": [],
@@ -142,7 +216,7 @@
         "h": 16,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 10
       },
       "id": 4,
       "links": [],

@@ -27,6 +27,12 @@
       "id": "table",
       "name": "Table",
       "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
     }
   ],
   "annotations": {
@@ -47,18 +53,88 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
+  "iteration": 1593333987818,
   "links": [],
   "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 13,
+      "panels": [],
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### This dashboard displays inventory reports with data for each data center.\n\n\n",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 11,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 9,
+      "title": "Data Centers Inventory",
+      "type": "row"
+    },
     {
       "columns": [],
       "datasource": "oVirt DWH",
       "description": "This report displays for each data center the number of hosts and configured vms",
       "fontSize": "100%",
       "gridPos": {
-        "h": 6,
+        "h": 5,
         "w": 15,
         "x": 0,
-        "y": 0
+        "y": 4
       },
       "id": 6,
       "links": [],
@@ -521,7 +597,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 6
+        "y": 9
       },
       "id": 5,
       "links": [],
@@ -984,7 +1060,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 12
+        "y": 15
       },
       "id": 4,
       "links": [],
@@ -1447,7 +1523,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 18
+        "y": 21
       },
       "id": 7,
       "links": [],

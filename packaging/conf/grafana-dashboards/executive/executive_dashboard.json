@@ -33,6 +33,12 @@
       "id": "table",
       "name": "Table",
       "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
     }
   ],
   "annotations": {
@@ -48,7 +54,7 @@
       }
     ]
   },
-  "description": "The executive dashboard displays the users usage and operating systems count for hosts and vms",
+  "description": "The executive dashboard displays the users usage and operating systems count for hosts and vms.",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -56,6 +62,74 @@
   "iteration": 1591000630543,
   "links": [],
   "panels": [
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 24,
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### The executive dashboard displays the users usage and operating systems count for hosts and vms.\n\n\n\n",
+      "description": "",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 20,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 22,
+      "title": "Sessions Activity",
+      "type": "row"
+    },
     {
       "columns": [],
       "datasource": "oVirt DWH",
@@ -65,7 +139,7 @@
         "h": 7,
         "w": 22,
         "x": 1,
-        "y": 0
+        "y": 4
       },
       "id": 18,
       "links": [],
@@ -413,7 +487,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 7
+        "y": 11
       },
       "id": 16,
       "panels": [],
@@ -433,7 +507,7 @@
         "h": 8,
         "w": 11,
         "x": 1,
-        "y": 8
+        "y": 12
       },
       "id": 2,
       "legend": {
@@ -543,7 +617,7 @@
         "h": 8,
         "w": 11,
         "x": 12,
-        "y": 8
+        "y": 12
       },
       "id": 14,
       "legend": {
@@ -645,7 +719,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 16
+        "y": 20
       },
       "id": 6,
       "panels": [],
@@ -665,7 +739,7 @@
         "h": 8,
         "w": 11,
         "x": 1,
-        "y": 17
+        "y": 21
       },
       "id": 10,
       "legend": {
@@ -775,7 +849,7 @@
         "h": 8,
         "w": 11,
         "x": 12,
-        "y": 17
+        "y": 21
       },
       "id": 12,
       "legend": {

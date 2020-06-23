@@ -27,6 +27,12 @@
       "id": "postgres",
       "name": "PostgreSQL",
       "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
     }
   ],
   "annotations": {
@@ -47,20 +53,77 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1590907231475,
+  "iteration": 1590481927639,
   "links": [],
   "panels": [
     {
-      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
       },
+      "id": 42,
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### This dashboard displays resources usage measurements by day or hour (CPU and memory average usage/peaks, ethernet interface Tx/Rx rates, and disk usage read/write rates) for the selected vm/s.\n\n\n\n",
+      "description": "",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 40,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
       "id": 25,
       "panels": [],
-      "title": "Host CPU Usage",
+      "title": "Virtual Machine CPU Usage",
       "type": "row"
     },
     {
@@ -75,7 +138,7 @@
         "h": 7,
         "w": 12,
         "x": 0,
-        "y": 1
+        "y": 4
       },
       "id": 21,
       "legend": {
@@ -185,7 +248,7 @@
         "h": 7,
         "w": 12,
         "x": 12,
-        "y": 1
+        "y": 4
       },
       "id": 22,
       "legend": {
@@ -289,11 +352,11 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 8
+        "y": 11
       },
       "id": 30,
       "panels": [],
-      "title": "Host Memory Usage",
+      "title": "Virtual Machine Memory Usage",
       "type": "row"
     },
     {
@@ -309,7 +372,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 9
+        "y": 12
       },
       "hideTimeOverride": false,
       "id": 15,
@@ -420,7 +483,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 9
+        "y": 12
       },
       "hideTimeOverride": false,
       "id": 28,
@@ -524,11 +587,11 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 17
+        "y": 20
       },
       "id": 33,
       "panels": [],
-      "title": "Host Interfatce Rx and Tx Usage",
+      "title": "Virtual Machine Interface Rx and Tx Usage",
       "type": "row"
     },
     {
@@ -543,7 +606,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 18
+        "y": 21
       },
       "id": 37,
       "legend": {
@@ -652,7 +715,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 18
+        "y": 21
       },
       "id": 38,
       "legend": {
@@ -755,11 +818,11 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 26
+        "y": 29
       },
       "id": 36,
       "panels": [],
-      "title": "Host Disk Usage",
+      "title": "Virtual Machine Disk Usage",
       "type": "row"
     },
     {
@@ -774,7 +837,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 27
+        "y": 30
       },
       "id": 19,
       "legend": {
@@ -883,7 +946,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 27
+        "y": 30
       },
       "id": 31,
       "legend": {

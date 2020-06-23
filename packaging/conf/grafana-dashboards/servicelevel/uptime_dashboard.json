@@ -33,6 +33,12 @@
       "id": "table",
       "name": "Table",
       "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
     }
   ],
   "annotations": {
@@ -64,6 +70,65 @@
         "x": 0,
         "y": 0
       },
+      "id": 25,
+      "panels": [],
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### This dashboard displays uptime and downtime data for the hosts, high availability vms and all vms in the selected cluster.\n\n\n\n",
+      "description": "",
+      "gridPos": {
+        "h": 2,
+        "w": 22,
+        "x": 0,
+        "y": 1
+      },
+      "id": 21,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
       "id": 10,
       "panels": [],
       "title": "Hosts",
@@ -76,7 +141,7 @@
         "h": 10,
         "w": 4,
         "x": 0,
-        "y": 1
+        "y": 4
       },
       "id": 6,
       "links": [],
@@ -153,7 +218,7 @@
         "h": 10,
         "w": 4,
         "x": 4,
-        "y": 1
+        "y": 4
       },
       "id": 2,
       "links": [],
@@ -232,7 +297,7 @@
         "h": 4,
         "w": 14,
         "x": 8,
-        "y": 1
+        "y": 4
       },
       "id": 4,
       "links": [],
@@ -415,7 +480,7 @@
         "h": 6,
         "w": 14,
         "x": 8,
-        "y": 5
+        "y": 8
       },
       "id": 15,
       "links": [],
@@ -564,7 +629,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 11
+        "y": 14
       },
       "id": 12,
       "panels": [],
@@ -578,7 +643,7 @@
         "h": 10,
         "w": 4,
         "x": 0,
-        "y": 12
+        "y": 15
       },
       "id": 5,
       "links": [],
@@ -654,7 +719,7 @@
         "h": 10,
         "w": 4,
         "x": 4,
-        "y": 12
+        "y": 15
       },
       "id": 18,
       "links": [],
@@ -732,7 +797,7 @@
         "h": 5,
         "w": 14,
         "x": 8,
-        "y": 12
+        "y": 15
       },
       "id": 3,
       "links": [],
@@ -915,7 +980,7 @@
         "h": 5,
         "w": 14,
         "x": 8,
-        "y": 17
+        "y": 20
       },
       "id": 16,
       "links": [],
@@ -1095,7 +1160,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 22
+        "y": 25
       },
       "id": 14,
       "panels": [],
@@ -1109,7 +1174,7 @@
         "h": 9,
         "w": 4,
         "x": 0,
-        "y": 23
+        "y": 26
       },
       "id": 8,
       "links": [],
@@ -1185,7 +1250,7 @@
         "h": 9,
         "w": 4,
         "x": 4,
-        "y": 23
+        "y": 26
       },
       "id": 17,
       "links": [],
@@ -1263,7 +1328,7 @@
         "h": 4,
         "w": 14,
         "x": 8,
-        "y": 23
+        "y": 26
       },
       "id": 19,
       "links": [],
@@ -1446,7 +1511,7 @@
         "h": 5,
         "w": 14,
         "x": 8,
-        "y": 27
+        "y": 30
       },
       "id": 7,
       "links": [],

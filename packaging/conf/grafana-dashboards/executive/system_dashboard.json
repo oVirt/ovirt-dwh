@@ -33,6 +33,12 @@
       "id": "table",
       "name": "Table",
       "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
     }
   ],
   "annotations": {
@@ -48,13 +54,82 @@
       }
     ]
   },
-  "description": "The system dashboard displays the latest configurations, system entities resources status and usages percent",
+  "description": "The system dashboard displays the latest configurations, system entities resources status and usages percent.",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
   "links": [],
   "panels": [
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 16,
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### The system dashboard displays the latest configurations, system entities resources status and usages percent.\n\n\n\n",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 12,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 14,
+      "panels": [],
+      "title": "Reports",
+      "type": "row"
+    },
     {
       "columns": [],
       "description": "System entities counts list, this query returns entities count per entity.",
@@ -63,7 +138,7 @@
         "h": 3,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 4
       },
       "id": 4,
       "links": [],
@@ -257,7 +332,7 @@
         "h": 3,
         "w": 4,
         "x": 0,
-        "y": 3
+        "y": 7
       },
       "id": 8,
       "interval": null,
@@ -363,7 +438,7 @@
         "h": 3,
         "w": 4,
         "x": 4,
-        "y": 3
+        "y": 7
       },
       "id": 9,
       "interval": null,
@@ -469,7 +544,7 @@
         "h": 3,
         "w": 4,
         "x": 8,
-        "y": 3
+        "y": 7
       },
       "id": 10,
       "interval": null,

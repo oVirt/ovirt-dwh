@@ -39,6 +39,12 @@
       "id": "table",
       "name": "Table",
       "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
     }
   ],
   "annotations": {
@@ -54,7 +60,7 @@
       }
     ]
   },
-  "description": "The data center dashboard displays the latest configurations, resources status and usages percent of the data centers entities",
+  "description": "The data center dashboard displays the latest configurations, resources status and usages percent of the data centers entities.",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -63,14 +69,82 @@
   "links": [],
   "panels": [
     {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 20,
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### The data center dashboard displays the latest configurations, resources status and usages percent of the data centers entities.\n\n\n\n",
+      "description": "",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 16,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 18,
+      "title": "Reports",
+      "type": "row"
+    },
+    {
       "columns": [],
-      "description": "The number of cluster, hosts, vms and storage domains  in the latest data center configuration",
+      "description": "The number of cluster, hosts, vms and storage domains in the latest data center configuration.",
       "fontSize": "100%",
       "gridPos": {
         "h": 3,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 4
       },
       "id": 4,
       "links": [],
@@ -246,7 +320,7 @@
         "h": 4,
         "w": 5,
         "x": 3,
-        "y": 3
+        "y": 7
       },
       "id": 6,
       "interval": null,
@@ -351,7 +425,7 @@
         "h": 4,
         "w": 5,
         "x": 9,
-        "y": 3
+        "y": 7
       },
       "id": 7,
       "interval": null,
@@ -443,7 +517,7 @@
         "#299c46"
       ],
       "datasource": "oVirt DWH",
-      "description": "Calculates free disk size percent average of all storage domains attached to the data center   Thresholds are set to 60% and 80%.\nThis report shows the latest configuration for the selected data center",
+      "description": "Calculates free disk size percent average of all storage domains attached to the data center   Thresholds are set to 60% and 80%.\nThis report shows the latest configuration for the selected data center.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -456,7 +530,7 @@
         "h": 4,
         "w": 5,
         "x": 15,
-        "y": 3
+        "y": 7
       },
       "id": 8,
       "interval": null,
@@ -546,7 +620,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 7
+        "y": 11
       },
       "id": 2,
       "links": [],
@@ -709,7 +783,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 7
+        "y": 11
       },
       "id": 14,
       "links": [],
@@ -863,7 +937,7 @@
         "h": 6,
         "w": 12,
         "x": 0,
-        "y": 15
+        "y": 19
       },
       "id": 12,
       "links": [],
@@ -1021,7 +1095,7 @@
         "h": 6,
         "w": 12,
         "x": 12,
-        "y": 15
+        "y": 19
       },
       "id": 10,
       "legend": {

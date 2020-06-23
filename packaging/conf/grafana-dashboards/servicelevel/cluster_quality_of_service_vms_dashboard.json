@@ -33,6 +33,12 @@
       "id": "table",
       "name": "Table",
       "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
     }
   ],
   "annotations": {
@@ -57,6 +63,74 @@
   "links": [],
   "panels": [
     {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 17,
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "\n###### This dashboard contains reports that shows the time and total time each vm has been performing above/below the CPU/memory threshold.\n\n\n",
+      "description": "",
+      "gridPos": {
+        "h": 2,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "id": 13,
+      "links": [],
+      "mode": "markdown",
+      "options": {},
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": false,
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 15,
+      "title": "Reports",
+      "type": "row"
+    },
+    {
       "cacheTimeout": null,
       "colorBackground": false,
       "colorValue": true,
@@ -80,7 +154,7 @@
         "h": 2,
         "w": 7,
         "x": 0,
-        "y": 0
+        "y": 4
       },
       "id": 11,
       "interval": null,
@@ -185,7 +259,7 @@
         "h": 2,
         "w": 8,
         "x": 7,
-        "y": 0
+        "y": 4
       },
       "id": 10,
       "interval": null,
@@ -290,7 +364,7 @@
         "h": 2,
         "w": 7,
         "x": 0,
-        "y": 2
+        "y": 6
       },
       "id": 8,
       "interval": null,
@@ -395,7 +469,7 @@
         "h": 2,
         "w": 8,
         "x": 7,
-        "y": 2
+        "y": 6
       },
       "id": 9,
       "interval": null,
@@ -485,7 +559,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 4
+        "y": 8
       },
       "id": 6,
       "links": [],
