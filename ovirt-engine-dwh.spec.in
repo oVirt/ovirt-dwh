@@ -353,6 +353,21 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Tue Jun 30 2020 Shirly Radco <sradco@redhat.com> - 4.4.1.1
+Fixed issues:
+- Bug 1846256 - grafana: Do not automatically create users via SSO
+- Bug 1846870 - packaging: grafana: Restart the engine for SSO
+- Bug 1848435 - Update executive dashboard indentation and description
+- Bug 1846365 - packaging: rename: Handle grafana.ini
+- Bug 1846365 - packaging: rename: Make sure grafana service is started
+- Bug 1846365 - packaging: rename: Handle SSO
+- Bug 1849423 - Update trend dashboard indentation and description
+- Bug 1848613 - Update service level dashboard indentation and description
+- packaging: setup: Add a newline before a long question
+- Bug 1849965 - Update inventory dashboard
+- Update mem_threshold and cpu_threshold
+- Bug 1848381 - Add to dashboars description panel
+
 * Tue Jun 09 2020 Shirly Radco <sradco@redhat.com> - 4.4.1
 Fixed issues:
 - Bug 1814643 - Add grafana integration support
