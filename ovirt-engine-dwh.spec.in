@@ -353,6 +353,11 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Jul 01 2020 Shirly Radco <sradco@redhat.com> - 4.4.1.2
+Fixed issues:
+- Bug 1852390 - Fix bug in Trend Dashboard
+- Bug 1852405 - Update Average CPU Usage and Peaks (over time) (BR10A)- Trend dashboard
+
 * Tue Jun 30 2020 Shirly Radco <sradco@redhat.com> - 4.4.1.1
 Fixed issues:
 - Bug 1846256 - grafana: Do not automatically create users via SSO
