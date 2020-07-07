@@ -29,7 +29,7 @@
         %if 0%{?centos}
             %global dom4j ovirt-engine-wildfly
         %else
-            %global dom4j eap7-wildfly
+            %global dom4j eap7-dom4j
         %endif
     %else
         %if 0%{?rhel} >= 7
