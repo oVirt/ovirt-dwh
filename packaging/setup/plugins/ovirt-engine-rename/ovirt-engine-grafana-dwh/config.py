@@ -103,6 +103,9 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_MISC,
+        condition=lambda self: (
+            self.environment[ogdwhcons.CoreEnv.ENABLE]
+        ),
     )
     def _misc(self):
         uninstall_files = []
