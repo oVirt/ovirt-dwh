@@ -292,7 +292,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Data Center Entities ",
+      "title": "Data Center Entities (DR2)",
       "transform": "table",
       "type": "table"
     },
