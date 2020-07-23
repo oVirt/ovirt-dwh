@@ -57,18 +57,20 @@
   "links": [],
   "panels": [
     {
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
       },
-      "id": 19,
+      "id": 21,
+      "panels": [],
       "title": "Description",
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays usage rates for the 5 most and least utilized vms by memory and by CPU **over time**, in the selected cluster.\n\n\n\n",
+      "content": "\n###### This dashboard displays usage rates for the 5 most and least utilized vms and hosts by memory and by CPU **over time**, in the selected cluster.\n\n\n\n",
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -113,11 +115,480 @@
       "type": "text"
     },
     {
+      "collapsed": false,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 3
+      },
+      "id": 19,
+      "panels": [],
+      "title": "Hosts",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "This report contains charts displaying weighted average daily peak memory usage for the top five busiest hosts of a selected cluster and within a given period .",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 4
+      },
+      "id": 26,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR4B - This report returns the\n-- cpu and memory usage over time\n-- for the 5 most utilized hosts.\n\n-- Memory usage\nSELECT DISTINCT\n    $__time(sub_query.time),\n    COALESCE ( host_name, MAX ( host_name ) over ( partition BY 1 ), '' ) AS host_name,\n    MEM_Usage\nFROM \n    (\n        SELECT\n            hourly_daily.host_id,\n            CASE\n                WHEN delete_date IS NULL\n                    THEN host_name\n                ELSE host_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n            END AS host_name,\n            hourly_daily.history_datetime AS time,\n            SUM ( COALESCE ( hourly_daily.max_memory_usage, 0 ) * COALESCE ( hourly_daily.minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( hourly_daily.minutes_in_status, 0 ) ) AS MEM_Usage\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_hosts\n                ON \n                    (\n                    v4_3_configuration_history_hosts.host_id =\n                    hourly_daily.host_id\n                    )   \n        WHERE\n            -- Here we filter by active hosts only\n            hourly_daily.host_status = 1\n            AND hourly_daily.history_datetime >= $__timeFrom()\n            AND hourly_daily.history_datetime < $__timeTo()\n            -- Here we get the latest hosts configuration\n            AND v4_3_configuration_history_hosts.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_hosts a\n                        GROUP BY a.host_id\n                    )\n            AND hourly_daily.host_id \n                IN \n                    (\n                        -- Calculation of top 5 hosts\n                        SELECT a.host_id\n                        FROM\n                            (\n                                SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n                            ) AS a\n                            INNER JOIN v4_3_configuration_history_hosts b\n                                ON \n                                    ( \n                                        a.host_id = \n                                        b.host_id \n                                    )\n                        WHERE\n                            -- Here we filter by the datacenter chosen by the user\n                            b.cluster_id \n                                IN \n                                    (\n                                        SELECT v4_3_configuration_history_clusters.cluster_id\n                                        FROM v4_3_configuration_history_clusters\n                                        WHERE v4_3_configuration_history_clusters.datacenter_id = CAST ( '$datacenter_id' AS uuid )\n                                    )\n                            -- Here we filter by the clusters chosen by the user\n                            AND b.cluster_id IN ('$cluster_id')\n                            AND a.history_datetime >= $__timeFrom()\n                            AND a.history_datetime < $__timeTo()\n                            -- Here we get the latest hosts configuration\n                            AND b.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( g.history_id )\n                                        FROM v4_3_configuration_history_hosts g\n                                        GROUP BY g.host_id\n                                    )\n                            -- Here we get or remove deleted entities according to what the user chose\n                            -- in the \"show_deleted\" parameter.\n                            AND\n                                CASE\n                                    WHEN '$show_deleted'='Yes'\n                                        THEN 1=1\n                                    WHEN '$show_deleted'='No'\n                                        THEN delete_date isnull\n                                END\n                        GROUP BY a.host_id\n                        -- The hosts will be ordered according to the summery of\n                        -- memory usage percent. This defines the busiest hosts.\n                        ORDER BY\n                                SUM ( COALESCE ( a.max_memory_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) \n                                -- Here we order by most utillized hosts\n                                DESC\n                        LIMIT 5\n                    )\n        GROUP BY hourly_daily.host_id, host_name, delete_date, history_datetime\n    ) AS sub_query\nORDER BY sub_query.time\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 80,
+          "yaxis": "left"
+        }
+      ],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Five Most Utilized Hosts by Memory (over time) (BR4B)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": "100",
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "This report contains charts displaying weighted average daily peak of CPU usage for the top five busiest hosts of a selected cluster and within a given period.",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 4
+      },
+      "id": 27,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR4B - This report returns the\n-- cpu and memory usage over time\n-- for the 5 most utilized hosts.\n\n-- CPU usage\nSELECT DISTINCT\n    $__time(sub_query.time),\n    COALESCE ( host_name, MAX ( host_name ) over ( partition BY 1 ), '' ) AS host_name,\n    CPU_Usage\nFROM \n    (\n        SELECT\n            hourly_daily.host_id,\n            CASE\n                WHEN delete_date IS NULL\n                    THEN host_name\n                ELSE host_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n            END AS host_name,\n            hourly_daily.history_datetime AS time,\n            SUM ( COALESCE ( hourly_daily.max_cpu_usage, 0 ) * COALESCE ( hourly_daily.minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( hourly_daily.minutes_in_status, 0 ) ) AS CPU_Usage\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_hosts\n                ON \n                    (\n                    v4_3_configuration_history_hosts.host_id =\n                    hourly_daily.host_id\n                    )   \n        WHERE\n            -- Here we filter by active hosts only\n            hourly_daily.host_status = 1\n            AND hourly_daily.history_datetime >= $__timeFrom()\n            AND hourly_daily.history_datetime < $__timeTo()\n            -- Here we get the latest hosts configuration\n            AND v4_3_configuration_history_hosts.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_hosts a\n                        GROUP BY a.host_id\n                    )\n            AND hourly_daily.host_id \n                IN \n                    (\n                        -- Calculation of top 5 hosts\n                        SELECT a.host_id\n                        FROM\n                            (\n                                SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n                            ) AS a\n                            INNER JOIN v4_3_configuration_history_hosts b\n                                ON \n                                    ( \n                                        a.host_id = \n                                        b.host_id \n                                    )\n                        WHERE\n                            -- Here we filter by the datacenter chosen by the user\n                            b.cluster_id \n                                IN \n                                    (\n                                        SELECT v4_3_configuration_history_clusters.cluster_id\n                                        FROM v4_3_configuration_history_clusters\n                                        WHERE v4_3_configuration_history_clusters.datacenter_id = CAST ( '$datacenter_id' AS uuid )\n                                    )\n                            -- Here we filter by the clusters chosen by the user\n                            AND b.cluster_id IN ('$cluster_id')\n                            AND a.history_datetime >= $__timeFrom()\n                            AND a.history_datetime < $__timeTo()\n                            -- Here we get the latest hosts configuration\n                            AND b.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( g.history_id )\n                                        FROM v4_3_configuration_history_hosts g\n                                        GROUP BY g.host_id\n                                    )\n                            -- Here we get or remove deleted entities according to what the user chose\n                            -- in the \"show_deleted\" parameter.\n                            AND\n                                CASE\n                                    WHEN '$show_deleted'='Yes'\n                                        THEN 1=1\n                                    WHEN '$show_deleted'='No'\n                                        THEN delete_date isnull\n                                END\n                        GROUP BY a.host_id\n                        -- The hosts will be ordered according to the summery of\n                        -- CPU usage percent. This defines the busiest hosts.\n                        ORDER BY\n                                SUM ( COALESCE ( a.max_cpu_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) \n                                -- Here we order by most utillized hosts\n                                DESC\n                        LIMIT 5\n                    )\n        GROUP BY hourly_daily.host_id, host_name, delete_date, history_datetime\n    ) AS sub_query\nORDER BY sub_query.time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 80,
+          "yaxis": "left"
+        }
+      ],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Five Most Utilized Hosts by CPU (over time) (BR4B)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": "100",
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "This report contains charts displaying weighted average daily peak of memory usage for the bottom five busiest hosts of a selected cluster and within a given period.",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 12
+      },
+      "id": 28,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR4B - This report returns the\n-- cpu and memory usage over time\n-- for the 5 least utilized hosts.\n\n-- Memory usage\nSELECT DISTINCT\n    $__time(sub_query.time),\n    COALESCE ( host_name, MAX ( host_name ) over ( partition BY 1 ), '' ) AS host_name,\n    MEM_Usage\nFROM \n    (\n        SELECT\n            hourly_daily.host_id,\n            CASE\n                WHEN delete_date IS NULL\n                    THEN host_name\n                ELSE host_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n            END AS host_name,\n            hourly_daily.history_datetime AS time,\n            SUM ( COALESCE ( hourly_daily.max_memory_usage, 0 ) * COALESCE ( hourly_daily.minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( hourly_daily.minutes_in_status, 0 ) ) AS MEM_Usage\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_hosts\n                ON \n                    (\n                    v4_3_configuration_history_hosts.host_id =\n                    hourly_daily.host_id\n                    )   \n        WHERE\n            hourly_daily.history_datetime >= $__timeFrom()\n            AND hourly_daily.history_datetime < $__timeTo()\n            -- Here we get the latest hosts configuration\n            AND v4_3_configuration_history_hosts.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_hosts a\n                        GROUP BY a.host_id\n                    )\n            AND hourly_daily.host_id \n                IN \n                    (\n                        -- Calculation of the 5 least hosts\n                        SELECT a.host_id\n                        FROM\n                            (\n                                SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n                            ) AS a\n                            INNER JOIN v4_3_configuration_history_hosts b\n                                ON \n                                    ( \n                                        a.host_id = \n                                        b.host_id \n                                    )\n                        WHERE\n                            -- Here we filter by active hosts only\n                            a.host_status = 1\n                            -- Here we filter by the datacenter chosen by the user\n                            AND b.cluster_id \n                                IN \n                                    (\n                                        SELECT v4_3_configuration_history_clusters.cluster_id\n                                        FROM v4_3_configuration_history_clusters\n                                        WHERE v4_3_configuration_history_clusters.datacenter_id = CAST ( '$datacenter_id' AS uuid )\n                                    )\n                            -- Here we filter by the clusters chosen by the user\n                            AND b.cluster_id IN ('$cluster_id')\n                            AND a.history_datetime >= $__timeFrom()\n                            AND a.history_datetime < $__timeTo()\n                            -- Here we get the latest hosts configuration\n                            AND b.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( g.history_id )\n                                        FROM v4_3_configuration_history_hosts g\n                                        GROUP BY g.host_id\n                                    )\n                            -- Here we get or remove deleted entities according to what the user chose\n                            -- in the \"show_deleted\" parameter.\n                            AND\n                                CASE\n                                    WHEN '$show_deleted'='Yes'\n                                        THEN 1=1\n                                    WHEN '$show_deleted'='No'\n                                        THEN delete_date isnull\n                                END\n                        GROUP BY a.host_id\n                        -- The hosts will be ordered according to the summery of\n                        -- memory usage percent. This defines the busiest hosts.\n                        ORDER BY\n                                SUM ( COALESCE ( a.max_memory_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) )\n                                -- Here we order by least utillized\n                                ASC\n                        LIMIT 5\n                    )\n        GROUP BY hourly_daily.host_id, host_name, delete_date, history_datetime\n    ) AS sub_query\nORDER BY sub_query.time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 80,
+          "yaxis": "left"
+        }
+      ],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Five Least Utilized Hosts by Memory (over time) (BR4B)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": "100",
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "description": "This report contains charts displaying weighted average daily peak of CPU usage for the bottom five busiest hosts of a selected cluster and within a given period.",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 12
+      },
+      "id": 29,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {},
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR4B - This report returns the\n-- cpu and memory usage over time\n-- for the 5 least utilized hosts.\n\n-- CPU usage\nSELECT DISTINCT\n    $__time(sub_query.time),\n    COALESCE ( host_name, MAX ( host_name ) over ( partition BY 1 ), '' ) AS host_name,\n    CPU_Usage\nFROM \n    (\n        SELECT\n            hourly_daily.host_id,\n            CASE\n                WHEN delete_date IS NULL\n                    THEN host_name\n                ELSE host_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n            END AS host_name,\n            hourly_daily.history_datetime AS time,\n            SUM ( COALESCE ( hourly_daily.max_cpu_usage, 0 ) * COALESCE ( hourly_daily.minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( hourly_daily.minutes_in_status, 0 ) ) AS CPU_Usage\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_hosts\n                ON \n                    (\n                    v4_3_configuration_history_hosts.host_id =\n                    hourly_daily.host_id\n                    )   \n        WHERE\n            hourly_daily.history_datetime >= $__timeFrom()\n            AND hourly_daily.history_datetime < $__timeTo()\n            -- Here we get the latest hosts configuration\n            AND v4_3_configuration_history_hosts.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_hosts a\n                        GROUP BY a.host_id\n                    )\n            AND hourly_daily.host_id \n                IN \n                    (\n                        -- Calculation of the 5 least hosts\n                        SELECT a.host_id\n                        FROM\n                            (\n                                SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n                            ) AS a\n                            INNER JOIN v4_3_configuration_history_hosts b\n                                ON \n                                    ( \n                                        a.host_id = \n                                        b.host_id \n                                    )\n                        WHERE\n                            -- Here we filter by active hosts only\n                            a.host_status = 1\n                            -- Here we filter by the datacenter chosen by the user\n                            AND b.cluster_id \n                                IN \n                                    (\n                                        SELECT v4_3_configuration_history_clusters.cluster_id\n                                        FROM v4_3_configuration_history_clusters\n                                        WHERE v4_3_configuration_history_clusters.datacenter_id = CAST ( '$datacenter_id' AS uuid )\n                                    )\n                            -- Here we filter by the clusters chosen by the user\n                            AND b.cluster_id IN ('$cluster_id')\n                            AND a.history_datetime >= $__timeFrom()\n                            AND a.history_datetime < $__timeTo()\n                            -- Here we get the latest hosts configuration\n                            AND b.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( g.history_id )\n                                        FROM v4_3_configuration_history_hosts g\n                                        GROUP BY g.host_id\n                                    )\n                            -- Here we get or remove deleted entities according to what the user chose\n                            -- in the \"show_deleted\" parameter.\n                            AND\n                                CASE\n                                    WHEN '$show_deleted'='Yes'\n                                        THEN 1=1\n                                    WHEN '$show_deleted'='No'\n                                        THEN delete_date isnull\n                                END\n                        GROUP BY a.host_id\n                        -- The hosts will be ordered according to the summery of\n                        -- CPU usage percent. This defines the busiest hosts.\n                        ORDER BY\n                                SUM ( COALESCE ( a.max_cpu_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) \n                                -- Here we order by least utillized hosts\n                                ASC\n                        LIMIT 5\n                    )\n        GROUP BY hourly_daily.host_id, host_name, delete_date, history_datetime\n    ) AS sub_query\nORDER BY sub_query.time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 80,
+          "yaxis": "left"
+        }
+      ],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Five Least Utilized Hosts by CPU (over time) (BR4B)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": "100",
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 20
       },
       "id": 13,
       "title": "Virtual Machines",
@@ -129,13 +600,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying weighted average daily peak memory usage for the top five busiest virtual machines of a selected cluster and within a given period month.",
+      "description": "This report contains charts displaying weighted average daily peak memory usage for the top five busiest virtual machines of a selected cluster and within a given period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 4
+        "y": 21
       },
       "id": 6,
       "legend": {
@@ -167,7 +638,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR11 -This query returns for the top 5 busiest vms,\n-- the CPU_Usage and MEM_Usage,\n-- according to the weighted CPU and memory usage peak.\n\n-- Memory usage\nSELECT DISTINCT\n    $__time(sub_query.time),\n    COALESCE ( vm_name, MAX ( vm_name ) over ( partition BY 1 ), '' ) AS vm_name,\n    MEM_Usage\nFROM \n    (\n        SELECT\n            hourly_daily.vm_id,\n            CASE\n                WHEN delete_date IS NULL\n                    THEN vm_name\n                ELSE vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n            END AS vm_name,\n            hourly_daily.history_datetime AS time,\n            SUM ( COALESCE ( hourly_daily.max_memory_usage, 0 ) * COALESCE ( hourly_daily.minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( hourly_daily.minutes_in_status, 0 ) ) AS MEM_Usage\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                    v4_3_configuration_history_vms.vm_id =\n                    hourly_daily.vm_id\n                    )   \n        WHERE\n            -- Here we filter by active vms only\n            hourly_daily.vm_status = 1\n            AND hourly_daily.history_datetime >= $__timeFrom()\n            AND hourly_daily.history_datetime < $__timeTo()\n            -- Here we get the latest vms configuration\n            AND v4_3_configuration_history_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_vms a\n                        GROUP BY a.vm_id\n                    )\n            AND hourly_daily.vm_id \n                IN \n                    (\n                        -- Calculation of top 5 VMs\n                        SELECT a.vm_id\n                        FROM\n                            (\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                            ) AS a\n                            INNER JOIN v4_3_configuration_history_vms b\n                                ON \n                                    ( \n                                        a.vm_id = \n                                        b.vm_id \n                                    )\n                        WHERE\n                            -- Here we filter by the datacenter chosen by the user\n                            b.cluster_id \n                                IN \n                                    (\n                                        SELECT v4_3_configuration_history_clusters.cluster_id\n                                        FROM v4_3_configuration_history_clusters\n                                        WHERE v4_3_configuration_history_clusters.datacenter_id = CAST ( '$datacenter_id' AS uuid )\n                                    )\n                            -- Here we filter by the clusters chosen by the user\n                            AND b.cluster_id IN ('$cluster_id')\n                            AND a.history_datetime >= $__timeFrom()\n                            AND a.history_datetime < $__timeTo()\n                            -- Here we get the latest vms configuration\n                            AND b.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( g.history_id )\n                                        FROM v4_3_configuration_history_vms g\n                                        GROUP BY g.vm_id\n                                    )\n                            -- Here we get or remove deleted entities according to what the user chose\n                            -- in the \"show_deleted\" parameter.\n                            AND\n                                CASE\n                                    WHEN '$show_deleted'='Yes'\n                                        THEN 1=1\n                                    WHEN '$show_deleted'='No'\n                                        THEN delete_date isnull\n                                END\n                        GROUP BY a.vm_id\n                        -- The vms will be ordered according to the summery of\n                        -- memory and CPU usage percent.\n                        --This defines the busiest vms.\n                        ORDER BY\n                                SUM ( COALESCE ( a.max_memory_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) +\n                                SUM ( COALESCE ( a.max_cpu_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) \n                                -- Here we order by most utillized vms\n                                DESC\n                        LIMIT 5\n                    )\n        GROUP BY hourly_daily.vm_id, vm_name, delete_date, history_datetime\n    ) AS sub_query\nORDER BY sub_query.time",
+          "rawSql": "-- BR11 -This query returns for the top 5 busiest vms,\n-- the CPU_Usage and MEM_Usage,\n-- according to the weighted CPU and memory usage peak.\n\n-- Memory usage\nSELECT DISTINCT\n    $__time(sub_query.time),\n    COALESCE ( vm_name, MAX ( vm_name ) over ( partition BY 1 ), '' ) AS vm_name,\n    MEM_Usage\nFROM \n    (\n        SELECT\n            hourly_daily.vm_id,\n            CASE\n                WHEN delete_date IS NULL\n                    THEN vm_name\n                ELSE vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n            END AS vm_name,\n            hourly_daily.history_datetime AS time,\n            SUM ( COALESCE ( hourly_daily.max_memory_usage, 0 ) * COALESCE ( hourly_daily.minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( hourly_daily.minutes_in_status, 0 ) ) AS MEM_Usage\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                    v4_3_configuration_history_vms.vm_id =\n                    hourly_daily.vm_id\n                    )   \n        WHERE\n            -- Here we filter by active vms only\n            hourly_daily.vm_status = 1\n            AND hourly_daily.history_datetime >= $__timeFrom()\n            AND hourly_daily.history_datetime < $__timeTo()\n            -- Here we get the latest vms configuration\n            AND v4_3_configuration_history_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_vms a\n                        GROUP BY a.vm_id\n                    )\n            AND hourly_daily.vm_id \n                IN \n                    (\n                        -- Calculation of top 5 VMs\n                        SELECT a.vm_id\n                        FROM\n                            (\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                            ) AS a\n                            INNER JOIN v4_3_configuration_history_vms b\n                                ON \n                                    ( \n                                        a.vm_id = \n                                        b.vm_id \n                                    )\n                        WHERE\n                            -- Here we filter by the datacenter chosen by the user\n                            b.cluster_id \n                                IN \n                                    (\n                                        SELECT v4_3_configuration_history_clusters.cluster_id\n                                        FROM v4_3_configuration_history_clusters\n                                        WHERE v4_3_configuration_history_clusters.datacenter_id = CAST ( '$datacenter_id' AS uuid )\n                                    )\n                            -- Here we filter by the clusters chosen by the user\n                            AND b.cluster_id IN ('$cluster_id')\n                            AND a.history_datetime >= $__timeFrom()\n                            AND a.history_datetime < $__timeTo()\n                            -- Here we get the latest vms configuration\n                            AND b.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( g.history_id )\n                                        FROM v4_3_configuration_history_vms g\n                                        GROUP BY g.vm_id\n                                    )\n                            -- Here we get or remove deleted entities according to what the user chose\n                            -- in the \"show_deleted\" parameter.\n                            AND\n                                CASE\n                                    WHEN '$show_deleted'='Yes'\n                                        THEN 1=1\n                                    WHEN '$show_deleted'='No'\n                                        THEN delete_date isnull\n                                END\n                        GROUP BY a.vm_id\n                        -- The vms will be ordered according to the summery of\n                        -- memory usage percent. This defines the busiest vms.\n                        ORDER BY\n                                SUM ( COALESCE ( a.max_memory_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) \n                                -- Here we order by most utillized vms\n                                DESC\n                        LIMIT 5\n                    )\n        GROUP BY hourly_daily.vm_id, vm_name, delete_date, history_datetime\n    ) AS sub_query\nORDER BY sub_query.time",
           "refId": "A",
           "select": [
             [
@@ -245,13 +716,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying weighted average daily peak of CPU and memory usage for the top five busiest virtual machines of a selected cluster and within a given period month.",
+      "description": "This report contains charts displaying weighted average daily peak of CPU usage for the top five busiest virtual machines of a selected cluster and within a given period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 4
+        "y": 21
       },
       "id": 9,
       "legend": {
@@ -282,7 +753,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR11 -This query returns for the top 5 busiest vms,\n-- the CPU_Usage and MEM_Usage,\n-- according to the weighted CPU and memory usage peak.\n\n-- CPU usage\nSELECT DISTINCT\n    $__time(sub_query.time),\n    COALESCE ( vm_name, MAX ( vm_name ) over ( partition BY 1 ), '' ) AS vm_name,\n    CPU_Usage\nFROM \n    (\n        SELECT\n            hourly_daily.vm_id,\n            CASE\n                WHEN delete_date IS NULL\n                    THEN vm_name\n                ELSE vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n            END AS vm_name,\n            hourly_daily.history_datetime AS time,\n            SUM ( COALESCE ( hourly_daily.max_cpu_usage, 0 ) * COALESCE ( hourly_daily.minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( hourly_daily.minutes_in_status, 0 ) ) AS CPU_Usage\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                    v4_3_configuration_history_vms.vm_id =\n                    hourly_daily.vm_id\n                    )   \n        WHERE\n            -- Here we filter by active vms only\n            hourly_daily.vm_status = 1\n            AND hourly_daily.history_datetime >= $__timeFrom()\n            AND hourly_daily.history_datetime < $__timeTo()\n            -- Here we get the latest vms configuration\n            AND v4_3_configuration_history_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_vms a\n                        GROUP BY a.vm_id\n                    )\n            AND hourly_daily.vm_id \n                IN \n                    (\n                        -- Calculation of top 5 VMs\n                        SELECT a.vm_id\n                        FROM\n                            (\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                            ) AS a\n                            INNER JOIN v4_3_configuration_history_vms b\n                                ON \n                                    ( \n                                        a.vm_id = \n                                        b.vm_id \n                                    )\n                        WHERE\n                            -- Here we filter by the datacenter chosen by the user\n                            b.cluster_id \n                                IN \n                                    (\n                                        SELECT v4_3_configuration_history_clusters.cluster_id\n                                        FROM v4_3_configuration_history_clusters\n                                        WHERE v4_3_configuration_history_clusters.datacenter_id = CAST ( '$datacenter_id' AS uuid )\n                                    )\n                            -- Here we filter by the clusters chosen by the user\n                            AND b.cluster_id IN ('$cluster_id')\n                            AND a.history_datetime >= $__timeFrom()\n                            AND a.history_datetime < $__timeTo()\n                            -- Here we get the latest vms configuration\n                            AND b.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( g.history_id )\n                                        FROM v4_3_configuration_history_vms g\n                                        GROUP BY g.vm_id\n                                    )\n                            -- Here we get or remove deleted entities according to what the user chose\n                            -- in the \"show_deleted\" parameter.\n                            AND\n                                CASE\n                                    WHEN '$show_deleted'='Yes'\n                                        THEN 1=1\n                                    WHEN '$show_deleted'='No'\n                                        THEN delete_date isnull\n                                END\n                        GROUP BY a.vm_id\n                        -- The vms will be ordered according to the summery of\n                        -- memory and CPU usage percent.\n                        --This defines the busiest vms.\n                        ORDER BY\n                                SUM ( COALESCE ( a.max_memory_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) +\n                                SUM ( COALESCE ( a.max_cpu_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) \n                                -- Here we order by most utillized vms\n                                DESC\n                        LIMIT 5\n                    )\n        GROUP BY hourly_daily.vm_id, vm_name, delete_date, history_datetime\n    ) AS sub_query\nORDER BY sub_query.time",
+          "rawSql": "-- BR11 -This query returns for the top 5 busiest vms,\n-- the CPU_Usage and MEM_Usage,\n-- according to the weighted CPU and memory usage peak.\n\n-- CPU usage\nSELECT DISTINCT\n    $__time(sub_query.time),\n    COALESCE ( vm_name, MAX ( vm_name ) over ( partition BY 1 ), '' ) AS vm_name,\n    CPU_Usage\nFROM \n    (\n        SELECT\n            hourly_daily.vm_id,\n            CASE\n                WHEN delete_date IS NULL\n                    THEN vm_name\n                ELSE vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n            END AS vm_name,\n            hourly_daily.history_datetime AS time,\n            SUM ( COALESCE ( hourly_daily.max_cpu_usage, 0 ) * COALESCE ( hourly_daily.minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( hourly_daily.minutes_in_status, 0 ) ) AS CPU_Usage\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                    v4_3_configuration_history_vms.vm_id =\n                    hourly_daily.vm_id\n                    )   \n        WHERE\n            -- Here we filter by active vms only\n            hourly_daily.vm_status = 1\n            AND hourly_daily.history_datetime >= $__timeFrom()\n            AND hourly_daily.history_datetime < $__timeTo()\n            -- Here we get the latest vms configuration\n            AND v4_3_configuration_history_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_vms a\n                        GROUP BY a.vm_id\n                    )\n            AND hourly_daily.vm_id \n                IN \n                    (\n                        -- Calculation of top 5 VMs\n                        SELECT a.vm_id\n                        FROM\n                            (\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                            ) AS a\n                            INNER JOIN v4_3_configuration_history_vms b\n                                ON \n                                    ( \n                                        a.vm_id = \n                                        b.vm_id \n                                    )\n                        WHERE\n                            -- Here we filter by the datacenter chosen by the user\n                            b.cluster_id \n                                IN \n                                    (\n                                        SELECT v4_3_configuration_history_clusters.cluster_id\n                                        FROM v4_3_configuration_history_clusters\n                                        WHERE v4_3_configuration_history_clusters.datacenter_id = CAST ( '$datacenter_id' AS uuid )\n                                    )\n                            -- Here we filter by the clusters chosen by the user\n                            AND b.cluster_id IN ('$cluster_id')\n                            AND a.history_datetime >= $__timeFrom()\n                            AND a.history_datetime < $__timeTo()\n                            -- Here we get the latest vms configuration\n                            AND b.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( g.history_id )\n                                        FROM v4_3_configuration_history_vms g\n                                        GROUP BY g.vm_id\n                                    )\n                            -- Here we get or remove deleted entities according to what the user chose\n                            -- in the \"show_deleted\" parameter.\n                            AND\n                                CASE\n                                    WHEN '$show_deleted'='Yes'\n                                        THEN 1=1\n                                    WHEN '$show_deleted'='No'\n                                        THEN delete_date isnull\n                                END\n                        GROUP BY a.vm_id\n                        -- The vms will be ordered according to the summery of\n                        -- CPU usage percent. This defines the busiest vms.\n                        ORDER BY\n                                SUM ( COALESCE ( a.max_cpu_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) \n                                -- Here we order by most utillized vms\n                                DESC\n                        LIMIT 5\n                    )\n        GROUP BY hourly_daily.vm_id, vm_name, delete_date, history_datetime\n    ) AS sub_query\nORDER BY sub_query.time",
           "refId": "A",
           "select": [
             [
@@ -360,13 +831,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying weighted average daily peak of memory usage for the bottom five busiest virtual machines of a selected cluster and within a given period month.",
+      "description": "This report contains charts displaying weighted average daily peak of memory usage for the bottom five busiest virtual machines of a selected cluster and within a given period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 12
+        "y": 29
       },
       "id": 8,
       "legend": {
@@ -397,7 +868,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR12 -This query returns for the top 5 least utilized vms,\n-- the CPU_Usage and MEM_Usage,\n-- according to the weighted CPU and memory usage peak.\n\n-- Memory usage\nSELECT DISTINCT\n    $__time(sub_query.time),\n    COALESCE ( vm_name, MAX ( vm_name ) over ( partition BY 1 ), '' ) AS vm_name,\n    MEM_Usage\nFROM \n    (\n        SELECT\n            hourly_daily.vm_id,\n            CASE\n                WHEN delete_date IS NULL\n                    THEN vm_name\n                ELSE vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n            END AS vm_name,\n            hourly_daily.history_datetime AS time,\n            SUM ( COALESCE ( hourly_daily.max_memory_usage, 0 ) * COALESCE ( hourly_daily.minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( hourly_daily.minutes_in_status, 0 ) ) AS MEM_Usage\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                    v4_3_configuration_history_vms.vm_id =\n                    hourly_daily.vm_id\n                    )   \n        WHERE\n            hourly_daily.history_datetime >= $__timeFrom()\n            AND hourly_daily.history_datetime < $__timeTo()\n            -- Here we get the latest vms configuration\n            AND v4_3_configuration_history_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_vms a\n                        GROUP BY a.vm_id\n                    )\n            AND hourly_daily.vm_id \n                IN \n                    (\n                        -- Calculation of the 5 least VMs\n                        SELECT a.vm_id\n                        FROM\n                            (\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                            ) AS a\n                            INNER JOIN v4_3_configuration_history_vms b\n                                ON \n                                    ( \n                                        a.vm_id = \n                                        b.vm_id \n                                    )\n                        WHERE\n                            -- Here we filter by active vms only\n                            a.vm_status = 1\n                            -- Here we filter by the datacenter chosen by the user\n                            AND b.cluster_id \n                                IN \n                                    (\n                                        SELECT v4_3_configuration_history_clusters.cluster_id\n                                        FROM v4_3_configuration_history_clusters\n                                        WHERE v4_3_configuration_history_clusters.datacenter_id = CAST ( '$datacenter_id' AS uuid )\n                                    )\n                            -- Here we filter by the clusters chosen by the user\n                            AND b.cluster_id IN ('$cluster_id')\n                            AND a.history_datetime >= $__timeFrom()\n                            AND a.history_datetime < $__timeTo()\n                            -- Here we get the latest vms configuration\n                            AND b.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( g.history_id )\n                                        FROM v4_3_configuration_history_vms g\n                                        GROUP BY g.vm_id\n                                    )\n                            -- Here we get or remove deleted entities according to what the user chose\n                            -- in the \"show_deleted\" parameter.\n                            AND\n                                CASE\n                                    WHEN '$show_deleted'='Yes'\n                                        THEN 1=1\n                                    WHEN '$show_deleted'='No'\n                                        THEN delete_date isnull\n                                END\n                        GROUP BY a.vm_id\n                        -- The vms will be ordered according to the summery of\n                        -- memory and CPU usage percent.\n                        --This defines the busiest vms.\n                        ORDER BY\n                                SUM ( COALESCE ( a.max_memory_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) +\n                                SUM ( COALESCE ( a.max_cpu_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) \n                                -- Here we order by least utillized\n                                ASC\n                        LIMIT 5\n                    )\n        GROUP BY hourly_daily.vm_id, vm_name, delete_date, history_datetime\n    ) AS sub_query\nORDER BY sub_query.time",
+          "rawSql": "-- BR12 -This query returns for the top 5 least utilized vms,\n-- the CPU_Usage and MEM_Usage,\n-- according to the weighted CPU and memory usage peak.\n\n-- Memory usage\nSELECT DISTINCT\n    $__time(sub_query.time),\n    COALESCE ( vm_name, MAX ( vm_name ) over ( partition BY 1 ), '' ) AS vm_name,\n    MEM_Usage\nFROM \n    (\n        SELECT\n            hourly_daily.vm_id,\n            CASE\n                WHEN delete_date IS NULL\n                    THEN vm_name\n                ELSE vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n            END AS vm_name,\n            hourly_daily.history_datetime AS time,\n            SUM ( COALESCE ( hourly_daily.max_memory_usage, 0 ) * COALESCE ( hourly_daily.minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( hourly_daily.minutes_in_status, 0 ) ) AS MEM_Usage\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                    v4_3_configuration_history_vms.vm_id =\n                    hourly_daily.vm_id\n                    )   \n        WHERE\n            hourly_daily.history_datetime >= $__timeFrom()\n            AND hourly_daily.history_datetime < $__timeTo()\n            -- Here we get the latest vms configuration\n            AND v4_3_configuration_history_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_vms a\n                        GROUP BY a.vm_id\n                    )\n            AND hourly_daily.vm_id \n                IN \n                    (\n                        -- Calculation of the 5 least VMs\n                        SELECT a.vm_id\n                        FROM\n                            (\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                            ) AS a\n                            INNER JOIN v4_3_configuration_history_vms b\n                                ON \n                                    ( \n                                        a.vm_id = \n                                        b.vm_id \n                                    )\n                        WHERE\n                            -- Here we filter by active vms only\n                            a.vm_status = 1\n                            -- Here we filter by the datacenter chosen by the user\n                            AND b.cluster_id \n                                IN \n                                    (\n                                        SELECT v4_3_configuration_history_clusters.cluster_id\n                                        FROM v4_3_configuration_history_clusters\n                                        WHERE v4_3_configuration_history_clusters.datacenter_id = CAST ( '$datacenter_id' AS uuid )\n                                    )\n                            -- Here we filter by the clusters chosen by the user\n                            AND b.cluster_id IN ('$cluster_id')\n                            AND a.history_datetime >= $__timeFrom()\n                            AND a.history_datetime < $__timeTo()\n                            -- Here we get the latest vms configuration\n                            AND b.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( g.history_id )\n                                        FROM v4_3_configuration_history_vms g\n                                        GROUP BY g.vm_id\n                                    )\n                            -- Here we get or remove deleted entities according to what the user chose\n                            -- in the \"show_deleted\" parameter.\n                            AND\n                                CASE\n                                    WHEN '$show_deleted'='Yes'\n                                        THEN 1=1\n                                    WHEN '$show_deleted'='No'\n                                        THEN delete_date isnull\n                                END\n                        GROUP BY a.vm_id\n                        -- The vms will be ordered according to the summery of\n                        -- memory usage percent. This defines the busiest vms.\n                        ORDER BY\n                                SUM ( COALESCE ( a.max_memory_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) )\n                                -- Here we order by least utillized\n                                ASC\n                        LIMIT 5\n                    )\n        GROUP BY hourly_daily.vm_id, vm_name, delete_date, history_datetime\n    ) AS sub_query\nORDER BY sub_query.time",
           "refId": "A",
           "select": [
             [
@@ -467,13 +938,13 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying weighted average daily peak of CPU usage for the bottom five busiest virtual machines of a selected cluster and within a given period month.",
+      "description": "This report contains charts displaying weighted average daily peak of CPU usage for the bottom five busiest virtual machines of a selected cluster and within a given period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 12
+        "y": 29
       },
       "id": 15,
       "legend": {
@@ -504,7 +975,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR12 -This query returns for the top 5 least utilized vms,\n-- the CPU_Usage and MEM_Usage,\n-- according to the weighted CPU and memory usage peak.\n\n-- CPU usage\nSELECT DISTINCT\n    $__time(sub_query.time),\n    COALESCE ( vm_name, MAX ( vm_name ) over ( partition BY 1 ), '' ) AS vm_name,\n    CPU_Usage\nFROM \n    (\n        SELECT\n            hourly_daily.vm_id,\n            CASE\n                WHEN delete_date IS NULL\n                    THEN vm_name\n                ELSE vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n            END AS vm_name,\n            hourly_daily.history_datetime AS time,\n            SUM ( COALESCE ( hourly_daily.max_cpu_usage, 0 ) * COALESCE ( hourly_daily.minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( hourly_daily.minutes_in_status, 0 ) ) AS CPU_Usage\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                    v4_3_configuration_history_vms.vm_id =\n                    hourly_daily.vm_id\n                    )   \n        WHERE\n            hourly_daily.history_datetime >= $__timeFrom()\n            AND hourly_daily.history_datetime < $__timeTo()\n            -- Here we get the latest vms configuration\n            AND v4_3_configuration_history_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_vms a\n                        GROUP BY a.vm_id\n                    )\n            AND hourly_daily.vm_id \n                IN \n                    (\n                        -- Calculation of the 5 least VMs\n                        SELECT a.vm_id\n                        FROM\n                            (\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                            ) AS a\n                            INNER JOIN v4_3_configuration_history_vms b\n                                ON \n                                    ( \n                                        a.vm_id = \n                                        b.vm_id \n                                    )\n                        WHERE\n                            -- Here we filter by active vms only\n                            a.vm_status = 1\n                            -- Here we filter by the datacenter chosen by the user\n                            AND b.cluster_id \n                                IN \n                                    (\n                                        SELECT v4_3_configuration_history_clusters.cluster_id\n                                        FROM v4_3_configuration_history_clusters\n                                        WHERE v4_3_configuration_history_clusters.datacenter_id = CAST ( '$datacenter_id' AS uuid )\n                                    )\n                            -- Here we filter by the clusters chosen by the user\n                            AND b.cluster_id IN ('$cluster_id')\n                            AND a.history_datetime >= $__timeFrom()\n                            AND a.history_datetime < $__timeTo()\n                            -- Here we get the latest vms configuration\n                            AND b.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( g.history_id )\n                                        FROM v4_3_configuration_history_vms g\n                                        GROUP BY g.vm_id\n                                    )\n                            -- Here we get or remove deleted entities according to what the user chose\n                            -- in the \"show_deleted\" parameter.\n                            AND\n                                CASE\n                                    WHEN '$show_deleted'='Yes'\n                                        THEN 1=1\n                                    WHEN '$show_deleted'='No'\n                                        THEN delete_date isnull\n                                END\n                        GROUP BY a.vm_id\n                        -- The vms will be ordered according to the summery of\n                        -- memory and CPU usage percent.\n                        --This defines the busiest vms.\n                        ORDER BY\n                                SUM ( COALESCE ( a.max_memory_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) +\n                                SUM ( COALESCE ( a.max_cpu_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) \n                                -- Here we order by least utillized vms\n                                ASC\n                        LIMIT 5\n                    )\n        GROUP BY hourly_daily.vm_id, vm_name, delete_date, history_datetime\n    ) AS sub_query\nORDER BY sub_query.time",
+          "rawSql": "-- BR12 -This query returns for the top 5 least utilized vms,\n-- the CPU_Usage and MEM_Usage,\n-- according to the weighted CPU and memory usage peak.\n\n-- CPU usage\nSELECT DISTINCT\n    $__time(sub_query.time),\n    COALESCE ( vm_name, MAX ( vm_name ) over ( partition BY 1 ), '' ) AS vm_name,\n    CPU_Usage\nFROM \n    (\n        SELECT\n            hourly_daily.vm_id,\n            CASE\n                WHEN delete_date IS NULL\n                    THEN vm_name\n                ELSE vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n            END AS vm_name,\n            hourly_daily.history_datetime AS time,\n            SUM ( COALESCE ( hourly_daily.max_cpu_usage, 0 ) * COALESCE ( hourly_daily.minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( hourly_daily.minutes_in_status, 0 ) ) AS CPU_Usage\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                    v4_3_configuration_history_vms.vm_id =\n                    hourly_daily.vm_id\n                    )   \n        WHERE\n            hourly_daily.history_datetime >= $__timeFrom()\n            AND hourly_daily.history_datetime < $__timeTo()\n            -- Here we get the latest vms configuration\n            AND v4_3_configuration_history_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_vms a\n                        GROUP BY a.vm_id\n                    )\n            AND hourly_daily.vm_id \n                IN \n                    (\n                        -- Calculation of the 5 least VMs\n                        SELECT a.vm_id\n                        FROM\n                            (\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                                UNION\n                                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n                            ) AS a\n                            INNER JOIN v4_3_configuration_history_vms b\n                                ON \n                                    ( \n                                        a.vm_id = \n                                        b.vm_id \n                                    )\n                        WHERE\n                            -- Here we filter by active vms only\n                            a.vm_status = 1\n                            -- Here we filter by the datacenter chosen by the user\n                            AND b.cluster_id \n                                IN \n                                    (\n                                        SELECT v4_3_configuration_history_clusters.cluster_id\n                                        FROM v4_3_configuration_history_clusters\n                                        WHERE v4_3_configuration_history_clusters.datacenter_id = CAST ( '$datacenter_id' AS uuid )\n                                    )\n                            -- Here we filter by the clusters chosen by the user\n                            AND b.cluster_id IN ('$cluster_id')\n                            AND a.history_datetime >= $__timeFrom()\n                            AND a.history_datetime < $__timeTo()\n                            -- Here we get the latest vms configuration\n                            AND b.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( g.history_id )\n                                        FROM v4_3_configuration_history_vms g\n                                        GROUP BY g.vm_id\n                                    )\n                            -- Here we get or remove deleted entities according to what the user chose\n                            -- in the \"show_deleted\" parameter.\n                            AND\n                                CASE\n                                    WHEN '$show_deleted'='Yes'\n                                        THEN 1=1\n                                    WHEN '$show_deleted'='No'\n                                        THEN delete_date isnull\n                                END\n                        GROUP BY a.vm_id\n                        -- The vms will be ordered according to the summery of\n                        -- CPU usage percent. This defines the busiest vms.\n                        ORDER BY\n                                SUM ( COALESCE ( a.max_cpu_usage * a.minutes_in_status, 0 ) ) /\n                                SUM ( COALESCE ( a.minutes_in_status, 0 ) ) \n                                -- Here we order by least utillized vms\n                                ASC\n                        LIMIT 5\n                    )\n        GROUP BY hourly_daily.vm_id, vm_name, delete_date, history_datetime\n    ) AS sub_query\nORDER BY sub_query.time",
           "refId": "A",
           "select": [
             [
