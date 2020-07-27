@@ -898,7 +898,11 @@
   "refresh": false,
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "SD",
+    "DC",
+    "Disk"
+  ],
   "templating": {
     "list": [
       {

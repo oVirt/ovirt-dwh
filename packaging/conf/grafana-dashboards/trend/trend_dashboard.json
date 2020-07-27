@@ -1282,7 +1282,13 @@
   "refresh": false,
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "Host",
+    "VM",
+    "Cluster",
+    "CPU",
+    "Memory"
+  ],
   "templating": {
     "list": [
       {

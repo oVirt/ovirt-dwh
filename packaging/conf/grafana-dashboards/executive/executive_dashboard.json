@@ -1039,7 +1039,15 @@
   "refresh": "1m",
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "Host",
+    "VM",
+    "Cluster",
+    "DC",
+    "CPU",
+    "Memory",
+    "OS"
+  ],
   "templating": {
     "list": [
       {

@@ -557,7 +557,13 @@
   ],
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "VM",
+    "Cluster",
+    "DC",
+    "Downtime",
+    "Uptime"
+  ],
   "templating": {
     "list": [
       {

@@ -719,7 +719,14 @@
   ],
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "Host",
+    "SD",
+    "CPU",
+    "Memory",
+    "Disk",
+    "Uptime"
+  ],
   "templating": {
     "list": []
   },

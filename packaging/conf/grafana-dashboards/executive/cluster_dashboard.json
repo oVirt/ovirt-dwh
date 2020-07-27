@@ -1524,7 +1524,16 @@
   "refresh": false,
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "Host",
+    "VM",
+    "Cluster",
+    "HA",
+    "CPU",
+    "Memory",
+    "Downtime",
+    "Uptime"
+  ],
   "templating": {
     "list": [
       {

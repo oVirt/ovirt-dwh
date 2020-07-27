@@ -1868,7 +1868,15 @@
   ],
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "Host",
+    "VM",
+    "Cluster",
+    "DC",
+    "HA",
+    "Downtime",
+    "Uptime"
+  ],
   "templating": {
     "list": [
       {

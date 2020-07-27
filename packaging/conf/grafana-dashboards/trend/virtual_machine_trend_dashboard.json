@@ -665,7 +665,14 @@
   "refresh": false,
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "VM",
+    "Cluster",
+    "CPU",
+    "Memory",
+    "Interface",
+    "Disk"
+  ],
   "templating": {
     "list": [
       {

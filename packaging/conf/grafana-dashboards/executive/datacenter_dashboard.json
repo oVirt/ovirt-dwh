@@ -1250,7 +1250,17 @@
   "refresh": false,
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "Host",
+    "SD",
+    "Cluster",
+    "DC",
+    "CPU",
+    "Memory",
+    "Disk",
+    "Downtime",
+    "Uptime"
+  ],
   "templating": {
     "list": [
       {

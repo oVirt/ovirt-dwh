@@ -660,7 +660,13 @@
   "refresh": false,
   "schemaVersion": 18,
   "style": "dark",
-  "tags": [],
+  "tags": [
+    "Host",
+    "Cluster",
+    "CPU",
+    "Memory",
+    "Interface"
+  ],
   "templating": {
     "list": [
       {
