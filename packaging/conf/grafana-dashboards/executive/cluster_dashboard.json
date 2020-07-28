@@ -1033,7 +1033,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Cluster Virtual Machine CPU Over Commit Status (DR14)",
+      "title": "Cluster Virtual Machine CPU Overcommit Status (DR14)",
       "tooltip": {
         "shared": false,
         "sort": 0,
@@ -1141,7 +1141,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Cluster Virtual Machine Memory Over Commit Status (DR14)",
+      "title": "Cluster Virtual Machine Memory Overcommit Status (DR14)",
       "tooltip": {
         "shared": false,
         "sort": 0,

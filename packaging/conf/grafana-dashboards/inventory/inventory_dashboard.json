@@ -426,7 +426,7 @@
           "unit": "decgbytes"
         },
         {
-          "alias": "CPUs Over Commit",
+          "alias": "CPUs Overcommit",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -464,7 +464,7 @@
           "unit": "short"
         },
         {
-          "alias": "Memory Over Commit",
+          "alias": "Memory Overcommit",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -502,7 +502,7 @@
           "unit": "short"
         },
         {
-          "alias": "Disk Over Commit",
+          "alias": "Disk Overcommit",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -591,7 +591,7 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report displays for each data center the CPU usage and over commit ",
+      "description": "This report displays for each data center the CPU usage and overcommit ",
       "fontSize": "100%",
       "gridPos": {
         "h": 6,
@@ -889,7 +889,7 @@
           "unit": "decgbytes"
         },
         {
-          "alias": "CPUs Over Commit",
+          "alias": "CPUs Overcommit",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -927,7 +927,7 @@
           "unit": "percentunit"
         },
         {
-          "alias": "Memory Over Commit",
+          "alias": "Memory Overcommit",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -965,7 +965,7 @@
           "unit": "percentunit"
         },
         {
-          "alias": "Disk Over Commit",
+          "alias": "Disk Overcommit",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -1047,14 +1047,14 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "CPU Usage and Over Commit (BR48)",
+      "title": "CPU Usage and Overcommit (BR48)",
       "transform": "table",
       "type": "table"
     },
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report displays for each data center the memory usage and over commit ",
+      "description": "This report displays for each data center the memory usage and overcommit ",
       "fontSize": "100%",
       "gridPos": {
         "h": 6,
@@ -1352,7 +1352,7 @@
           "unit": "decgbytes"
         },
         {
-          "alias": "CPUs Over Commit",
+          "alias": "CPUs Overcommit",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -1390,7 +1390,7 @@
           "unit": "percentunit"
         },
         {
-          "alias": "Memory Over Commit",
+          "alias": "Memory Overcommit",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -1428,7 +1428,7 @@
           "unit": "percentunit"
         },
         {
-          "alias": "Disk Over Commit",
+          "alias": "Disk Overcommit",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -1510,14 +1510,14 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Memory Usage and Over Commit (BR48)",
+      "title": "Memory Usage and Overcommit (BR48)",
       "transform": "table",
       "type": "table"
     },
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report displays for each data center the disk usage and over commit ",
+      "description": "This report displays for each data center the disk usage and overcommit ",
       "fontSize": "100%",
       "gridPos": {
         "h": 6,
@@ -1815,7 +1815,7 @@
           "unit": "decgbytes"
         },
         {
-          "alias": "CPUs Over Commit",
+          "alias": "CPUs Overcommit",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -1853,7 +1853,7 @@
           "unit": "percentunit"
         },
         {
-          "alias": "Memory Over Commit",
+          "alias": "Memory Overcommit",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -1891,7 +1891,7 @@
           "unit": "percentunit"
         },
         {
-          "alias": "Disk Over Commit",
+          "alias": "Disk Overcommit",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -1973,7 +1973,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Disk Usage and Over Commit (BR48)",
+      "title": "Disk Usage and Overcommit (BR48)",
       "transform": "table",
       "type": "table"
     }
