@@ -73,7 +73,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### The system dashboard displays the latest configurations, system entities resources status and usages percent.\n\n\n\n",
+      "content": "\n###### The system dashboard displays the latest configurations, system entities resources status and usage percent.\n\n\n\n",
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -132,7 +132,7 @@
     },
     {
       "columns": [],
-      "description": "System entities counts list, this query returns entities count per entity.",
+      "description": "System entities counts list. The number of data centers, clusters, hosts, virtual machines, and storage domains. ",
       "fontSize": "100%",
       "gridPos": {
         "h": 3,
@@ -319,7 +319,7 @@
       ],
       "datasource": "oVirt DWH",
       "decimals": 0,
-      "description": "Calculates averages of CPU and memory percent for all hosts and averages the two values. The thresholds are 60% and 80%.\nThis report shows the latest configuration.",
+      "description": "Calculates averages of CPU and memory percent for all hosts in the system and averages the two values. The thresholds are 60% and 80%. This report shows the latest configuration.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -402,7 +402,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "System Host Resources Status (DR10)",
+      "title": "System Host Resources (DR10)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -425,7 +425,7 @@
       ],
       "datasource": "oVirt DWH",
       "decimals": 0,
-      "description": "Calculates average uptime percent for all hosts. Thresholds are 60% and 80%.\nThis report shows the  latest configuration.",
+      "description": "Calculates average uptime percent for all hosts in the system. Thresholds are 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -508,7 +508,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "System Host Uptime Status (DR4)",
+      "title": "System Host Uptime (DR4)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -614,7 +614,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "System Storage Space Status (DR7)",
+      "title": "System Storage Space (DR7)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [

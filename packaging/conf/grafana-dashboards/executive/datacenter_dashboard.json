@@ -138,7 +138,7 @@
     },
     {
       "columns": [],
-      "description": "The number of cluster, hosts, vms and storage domains in the latest data center configuration.",
+      "description": "The number of clusters, hosts, virtual machines, and storage domains in the latest data center configuration.",
       "fontSize": "100%",
       "gridPos": {
         "h": 3,
@@ -307,7 +307,7 @@
         "#d44a3a"
       ],
       "datasource": "oVirt DWH",
-      "description": "Calculates averages of CPU and memory percent for all hosts and averages the two values. The threshold are set to  60% and 80%.\nThis report shows the latest configuration for the selected data center.",
+      "description": "Calculates averages of CPU and memory percentage for all hosts and averages the two values. The thresholds are set at 60% and 80%.\nThis report shows the latest configuration for the selected data center.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -389,7 +389,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Datacenter Host Resources Status (DR11)",
+      "title": "Data Center Host Resources (DR11)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -494,7 +494,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Datacenter Host Uptime Status (DR5)",
+      "title": "Data Center Host Uptime (DR5)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -517,7 +517,7 @@
         "#299c46"
       ],
       "datasource": "oVirt DWH",
-      "description": "Calculates free disk size percent average of all storage domains attached to the data center   Thresholds are set to 60% and 80%.\nThis report shows the latest configuration for the selected data center.",
+      "description": "Calculates free disk size percent average of all storage domains attached to the data center. Thresholds are set to 60% and 80%.\nThis report shows the latest configuration for the selected data center.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -599,7 +599,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Datacenter Storage Space Status (DR8)",
+      "title": "Data Center Storage Space (DR8)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -770,7 +770,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Datacenter Top Five Busiest Clusters (DR21)",
+      "title": "Data Center Top 5 Busiest Clusters (DR21)",
       "transform": "table",
       "type": "table"
     },
@@ -924,14 +924,14 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Datacenter Top Five Clusters Host Downtime (DR16)",
+      "title": "Data Center Top 5 Clusters Host Downtime (DR16)",
       "transform": "table",
       "type": "table"
     },
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "For the  5 storage domains with the lowest available disk space, the available disk size, used disk size and available disk size percent.",
+      "description": "Available disk size, used disk size and available disk size percentage for the 5 storage domains with the lowest available disk space.",
       "fontSize": "100%",
       "gridPos": {
         "h": 6,
@@ -1080,7 +1080,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Datacenter Top Five Used Storage Domain (DR26)",
+      "title": "Data Center Top 5 Used Storage Domains (DR26)",
       "transform": "table",
       "type": "table"
     },
@@ -1089,7 +1089,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "description": "The hosts Average Usage Peaks per cluster for the chosen data center, in the latest configuration.",
+      "description": "The hosts average usage peaks per cluster for the selected data center, in the latest configuration.",
       "fill": 1,
       "gridPos": {
         "h": 6,
@@ -1155,7 +1155,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Datacenter Summary of Cluster Hosts Resources Usage (DR27)",
+      "title": "Data Center Summary of Cluster Host Resource Usage (DR27)",
       "tooltip": {
         "shared": false,
         "sort": 0,
@@ -1257,7 +1257,7 @@
     ]
   },
   "timezone": "",
-  "title": "Datacenter Dashboard",
+  "title": "Data Center Dashboard",
   "uid": "DatacenterDashboard",
   "version": 1
 }

@@ -80,7 +80,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### The cluster dashboard displays the latest configurations, resources status and usages percent of the clusters entities.\n\n\n",
+      "content": "\n###### The cluster dashboard displays the latest configurations, resources status and usage percent of the clusters entities.\n\n\n",
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -148,7 +148,7 @@
         "#d44a3a"
       ],
       "datasource": "oVirt DWH",
-      "description": "Number of Hosts in the Cluster.",
+      "description": "Number of hosts in the cluster.",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -230,7 +230,7 @@
       "thresholds": "",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Number of Host (DR3)",
+      "title": "Number of Hosts (DR3)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -253,7 +253,7 @@
         "#d44a3a"
       ],
       "datasource": "oVirt DWH",
-      "description": "Number of Virtual Machines in the Cluster.",
+      "description": "Number of virtual machines in the cluster.",
       "format": "none",
       "gauge": {
         "maxValue": 100,
@@ -440,7 +440,7 @@
       "thresholds": "",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Cluster Host Uptime Status (DR6)",
+      "title": "Cluster Host Uptime (DR6)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -545,7 +545,7 @@
       "thresholds": "",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Cluster Host Resources Status (DR12)",
+      "title": "Cluster Host Resources (DR12)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -568,7 +568,7 @@
       ],
       "datasource": "oVirt DWH",
       "decimals": null,
-      "description": "Uptime percent of high availability vms.",
+      "description": "Uptime percent of high availability virtual machines.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -650,7 +650,7 @@
       "thresholds": "",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Cluster High Availability Virtual Machine Uptime Status (DR13)",
+      "title": "Cluster High Availability Virtual Machine Uptime (DR13)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -793,7 +793,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Cluster Summary of Hosts Resources Usage (DR28)",
+      "title": "Cluster Summary of Host Resource Usage (DR28)",
       "transform": "table",
       "type": "table"
     },
@@ -960,7 +960,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Cluster Top Five Busiest Hosts (DR23)",
+      "title": "Cluster Top 5 Busiest Hosts (DR23)",
       "transform": "table",
       "type": "table"
     },
@@ -970,7 +970,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "Average number of CPU Cores for the hosts and vms in the specific cluster.",
+      "description": "Average number of CPU Cores for the hosts and virtual machines in the specific cluster.",
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -1033,7 +1033,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Cluster Virtual Machine CPU Overcommit Status (DR14)",
+      "title": "Cluster Virtual Machine CPU Overcommit (DR14)",
       "tooltip": {
         "shared": false,
         "sort": 0,
@@ -1078,7 +1078,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "Average Physical Memory for the hosts and vms in the specific cluster.",
+      "description": "Average Physical Memory for the hosts and virtual machines in the specific cluster.",
       "fill": 1,
       "gridPos": {
         "h": 5,
@@ -1141,7 +1141,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Cluster Virtual Machine Memory Overcommit Status (DR14)",
+      "title": "Cluster Virtual Machine Memory Overcommit (DR14)",
       "tooltip": {
         "shared": false,
         "sort": 0,
@@ -1184,7 +1184,7 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report shows for 5 high availability vms, that have the least uptime percent, the total uptime and planned downtime percent.",
+      "description": "This report displays the total uptime and planned downtime percentage for the 5 high availability virtual machines that have the lowest uptime.",
       "fontSize": "100%",
       "gridPos": {
         "h": 6,
@@ -1319,7 +1319,7 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report shows for 5 hosts, that have the least uptime percent, the total uptime, planned and unplanned downtime percent.",
+      "description": "This report displays the total uptime and planned and unplanned downtime percentage for the 5 hosts that have the lowest uptime.",
       "fontSize": "100%",
       "gridPos": {
         "h": 6,

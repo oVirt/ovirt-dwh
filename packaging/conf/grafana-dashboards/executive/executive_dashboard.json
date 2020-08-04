@@ -74,7 +74,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### The executive dashboard displays the users usage and operating systems count for hosts and vms.\n\n\n\n",
+      "content": "\n###### The executive dashboard displays the users resource usage and operating systems count for hosts and virtual machines.\n\n\n\n",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -133,7 +133,7 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report contains a table detailing user spice activity with regards to time spent and resources used in the session in the selected data center and cluster and within the selected period.",
+      "description": "This table details user Spice activity - time spent and resources used in the session in a selected data center and cluster within a selected period.",
       "fontSize": "100%",
       "gridPos": {
         "h": 7,
@@ -477,7 +477,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Users' Spice Sessions Activity (BR45)",
+      "title": "User Spice Session Activity (BR45)",
       "transform": "table",
       "type": "table"
     },
@@ -501,7 +501,7 @@
       "dashes": false,
       "datasource": "oVirt DWH",
       "decimals": 0,
-      "description": "The report contains comparative measurements number of running virtual machines and OS usage in for a selected cluster within the requested period.",
+      "description": "This report displays the number of running virtual machines and OS usage for a selected cluster within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -611,7 +611,7 @@
       "dashes": false,
       "datasource": "oVirt DWH",
       "decimals": 0,
-      "description": "The report contains comparative measurements of number of running virtual machines and OS usage for a selected cluster within the requested period.",
+      "description": "This report displays the number of running virtual machines and OS usage for a selected cluster over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -675,7 +675,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Active Virtual Machines by OS Over Time (BR18)",
+      "title": "Active Virtual Machines by OS (over time) (BR18)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -733,7 +733,7 @@
       "dashes": false,
       "datasource": "oVirt DWH",
       "decimals": 0,
-      "description": "This report display the number of hosts for each OS version for a selected cluster within a requested period.",
+      "description": "This report displays the number of hosts for each OS version for a selected cluster within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -843,7 +843,7 @@
       "dashLength": 10,
       "dashes": false,
       "decimals": 0,
-      "description": "This report display the number of hosts for each OS version for a selected cluster within a requested period.",
+      "description": "This report displays the number of hosts for each OS version for a selected cluster over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -907,7 +907,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Host OS Break Down Over Time (BR22)",
+      "title": "Host OS Breakdown (over time) (BR22)",
       "tooltip": {
         "shared": true,
         "sort": 0,
