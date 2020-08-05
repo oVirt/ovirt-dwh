@@ -49,10 +49,18 @@ class Plugin(plugin.PluginBase):
             (odwhcons.DBEnv.HOST, 'GRAFANA_DB_HOST'),
             (odwhcons.DBEnv.PORT, 'GRAFANA_DB_PORT'),
             (ogdwhcons.GrafanaDBEnv.USER, 'GRAFANA_DB_USER'),
-            (ogdwhcons.GrafanaDBEnv.PASSWORD, 'GRAFANA_DB_PASSWORD'),
             (odwhcons.DBEnv.DATABASE, 'GRAFANA_DB_DATABASE'),
         ):
             substs['@{}@'.format(k)] = self.environment[e]
+
+        # In the password, for YAML, double each single quote and surround
+        # with single quotes.
+        substs['@GRAFANA_DB_PASSWORD@'] = "'{}'".format(
+            self.environment[
+                ogdwhcons.GrafanaDBEnv.PASSWORD
+            ].replace("'", "''")
+        )
+
         self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
             filetransaction.FileTransaction(
                 name=(
