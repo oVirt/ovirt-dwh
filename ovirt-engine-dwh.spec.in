@@ -353,6 +353,13 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Thu Aug 06 2020 Shirly Radco <sradco@redhat.com> - 4.4.2
+Fixed issues:
+- Bug 1846365 - packaging: rename: Handle config conditionally
+- Bug 1852752 - Fix bug in Hosts Trend Dashboard
+- Add number of query to the title
+- Fix the titles and columns name
+
 * Wed Jul 01 2020 Shirly Radco <sradco@redhat.com> - 4.4.1.2
 Fixed issues:
 - Bug 1852390 - Fix bug in Trend Dashboard
