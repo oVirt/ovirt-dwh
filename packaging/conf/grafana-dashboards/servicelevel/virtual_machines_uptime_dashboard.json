@@ -54,7 +54,7 @@
       }
     ]
   },
-  "description": "The virtual machines uptime dashboard displays data about the vms uptime and downtime",
+  "description": "The virtual machines uptime dashboard displays data about the virtual machines uptime and downtime",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -74,7 +74,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays uptime and downtime data of the vms in the selected cluster.\n\n\n\n\n",
+      "content": "\n###### This dashboard displays data about the virtual machines uptime and downtime.\n\n\n\n\n",
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -132,7 +132,7 @@
     {
       "cacheTimeout": null,
       "datasource": "oVirt DWH",
-      "description": "This report contains gauges displaying the average planned and unplanned downtime of a selected VMs for a requested period.",
+      "description": "This report displays the average planned and unplanned downtime of a selected virtual machine within a selected period.",
       "gridPos": {
         "h": 6,
         "w": 12,
@@ -209,7 +209,7 @@
       "cacheTimeout": null,
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report contains a table displaying the average uptime and downtime of the selected VMs for a requested period.",
+      "description": "This report displays the average uptime and downtime of a selected virtual machine within a selected period.",
       "fontSize": "100%",
       "gridPos": {
         "h": 16,
@@ -424,7 +424,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Virtual Machines Uptime (BR46)",
+      "title": "Virtual Machine Uptime (BR46)",
       "transform": "table",
       "type": "table"
     }

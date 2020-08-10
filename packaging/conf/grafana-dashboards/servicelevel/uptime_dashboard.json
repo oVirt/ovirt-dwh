@@ -76,7 +76,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays uptime and downtime data for the hosts, high availability vms and all vms in the selected cluster.\n\n\n\n",
+      "content": "\n###### This dashboard displays uptime and downtime data for the hosts, high availability virtual machines and all virtual machines in the selected cluster.\n\n\n\n",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -136,7 +136,7 @@
     },
     {
       "datasource": "oVirt DWH",
-      "description": "The average unplanned downtime per cluster",
+      "description": "The average unplanned downtime per cluster.",
       "gridPos": {
         "h": 10,
         "w": 4,
@@ -213,7 +213,7 @@
     },
     {
       "datasource": "oVirt DWH",
-      "description": "The average planned downtime per cluster",
+      "description": "The average planned downtime per cluster.",
       "gridPos": {
         "h": 10,
         "w": 4,
@@ -467,14 +467,14 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Cluster Uptime (BR7A)",
+      "title": "Downtime by Cluster (BR7A)",
       "transform": "table",
       "type": "table"
     },
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "The average planned and unplanned downtime, total time for each host per cluster.",
+      "description": "The average planned and unplanned downtime, and total time for each host per cluster.",
       "fontSize": "100%",
       "gridPos": {
         "h": 6,
@@ -619,7 +619,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Uptime by Host (BR7A)",
+      "title": "Downtime by Host (BR7A)",
       "transform": "table",
       "type": "table"
     },
@@ -638,7 +638,7 @@
     },
     {
       "datasource": "oVirt DWH",
-      "description": "The average unplanned downtime per cluster and vm server",
+      "description": "The average unplanned downtime per cluster and virtual machine server.",
       "gridPos": {
         "h": 10,
         "w": 4,
@@ -714,7 +714,7 @@
     },
     {
       "datasource": "oVirt DWH",
-      "description": "The average planned downtime per cluster and vm server",
+      "description": "The average planned downtime per cluster and virtual machine server.",
       "gridPos": {
         "h": 10,
         "w": 4,
@@ -791,7 +791,7 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "The average planned and unplanned downtime, and total time per cluster and vm server.",
+      "description": "The average planned and unplanned downtime, and total time per cluster and virtual machine server.",
       "fontSize": "100%",
       "gridPos": {
         "h": 5,
@@ -967,14 +967,14 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Uptime by Cluster (BR14A)",
+      "title": "Downtime by Cluster (BR14A)",
       "transform": "table",
       "type": "table"
     },
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "The average planned and unplanned downtime, and total time for each high availability vm per cluster and vm server.",
+      "description": "The average planned and unplanned downtime, and total time for each high availability virtual machine per cluster and virtual machine server.",
       "fontSize": "100%",
       "gridPos": {
         "h": 5,
@@ -1150,7 +1150,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Uptime by Virtual Machine (BR14A)",
+      "title": "Downtime by Virtual Machine (BR14A)",
       "transform": "table",
       "type": "table"
     },
@@ -1169,7 +1169,7 @@
     },
     {
       "datasource": "oVirt DWH",
-      "description": "The average unplanned downtime per cluster and vm server",
+      "description": "The average unplanned downtime per cluster and virtual machine server.",
       "gridPos": {
         "h": 9,
         "w": 4,
@@ -1245,7 +1245,7 @@
     },
     {
       "datasource": "oVirt DWH",
-      "description": "The average planned downtime per cluster and vm server",
+      "description": "The average planned downtime per cluster and virtual machine server.",
       "gridPos": {
         "h": 9,
         "w": 4,
@@ -1498,14 +1498,14 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Uptime by Cluster (BR14A)",
+      "title": "Downtime by Cluster (BR14A)",
       "transform": "table",
       "type": "table"
     },
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "The average planned and unplanned downtime, and total time for each vm per cluster.",
+      "description": "The average planned and unplanned downtime, and total time for each virtual machine per cluster.",
       "fontSize": "100%",
       "gridPos": {
         "h": 5,
@@ -1713,7 +1713,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Uptime by Virtual Machine (BR14A)",
+      "title": "Downtime by Virtual Machine (BR14A)",
       "transform": "table",
       "type": "table"
     }

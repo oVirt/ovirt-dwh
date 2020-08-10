@@ -54,7 +54,7 @@
       }
     ]
   },
-  "description": "The cluster quality of service - virtual machines dashboard contains reports that shows the time and total time each vm was performing above/below the CPU or the memory threshold, using a single stats and a table.",
+  "description": "The cluster quality of service - virtual machines dashboard contains reports that shows the time and total time each virtual machine have preformed above/below the CPU or the memory threshold, using a single stats and a table.",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -74,7 +74,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard contains reports that shows the time and total time each vm has been performing above/below the CPU/memory threshold.\n\n\n",
+      "content": "\n###### This dashboard contains reports that shows the time and total time each virtual machine have preformed above/below the CPU/memory threshold.\n\n\n",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -141,7 +141,7 @@
       ],
       "datasource": "oVirt DWH",
       "decimals": 2,
-      "description": "This report contains a single stat displaying the time virtual machines have performed above CPU threshold.",
+      "description": "This report displays the time virtual machines have preformed above CPU threshold.",
       "format": "m",
       "gauge": {
         "maxValue": 100,
@@ -223,7 +223,7 @@
       "thresholds": "",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Time above CPU Threshold (BR13)",
+      "title": "Time Above CPU Threshold (BR13)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -246,7 +246,7 @@
       ],
       "datasource": "oVirt DWH",
       "decimals": 2,
-      "description": "This report contains a single stat displaying the time virtual machines have performed above memory threshold.",
+      "description": "This report displays the time virtual machines have performed above memory threshold.",
       "format": "m",
       "gauge": {
         "maxValue": 100,
@@ -351,7 +351,7 @@
       ],
       "datasource": "oVirt DWH",
       "decimals": 2,
-      "description": "This report contains a single stat displaying the time virtual machines have performed below CPU threshold.",
+      "description": "This report displays the time virtual machines have performed below CPU threshold.",
       "format": "m",
       "gauge": {
         "maxValue": 100,
@@ -456,7 +456,7 @@
       ],
       "datasource": "oVirt DWH",
       "decimals": 2,
-      "description": "This report contains a single stat displaying the time virtual machines have performed below memory threshold.",
+      "description": "This report displays the time virtual machines have performed below memory threshold.",
       "format": "m",
       "gauge": {
         "maxValue": 100,
@@ -553,7 +553,7 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report contains a table of the total time each virtual machine was performing above the CPU or the memory threshold.",
+      "description": "This report displays the total time each virtual machine have performed above the CPU or the memory threshold.",
       "fontSize": "100%",
       "gridPos": {
         "h": 9,

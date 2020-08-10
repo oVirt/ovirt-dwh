@@ -133,7 +133,7 @@
     {
       "cacheTimeout": null,
       "datasource": "oVirt DWH",
-      "description": "This report contains gauges displaying the average planned and unplanned downtime of a selected Hosts for a requested period.",
+      "description": "This report displays the average planned and unplanned downtime of a selected host within a selected period.",
       "gridPos": {
         "h": 6,
         "w": 12,
@@ -179,7 +179,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR46 - This query returns for the specific host\n-- the total Unplanned_Downtime, Planned_Downtime, Uptime and total time in minutes.\n\n-- Unplanned downtime and planned downtime\nSELECT\n    SUM \n        (\n            CASE\n                WHEN host_status = 2\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS \"Planned Downtime\",\n    SUM \n        (\n            CASE\n                WHEN host_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS \"Unplanned Downtime\"\nFROM\n    (\n        SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n        UNION\n        SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n    ) AS hourly_daily\nWHERE\n    -- Here we filter by the vm id chosen by the user\n    hourly_daily.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()",
+          "rawSql": "-- BR8 - This query returns for the specific host\n-- the total Unplanned_Downtime, Planned_Downtime, Uptime and total time in minutes.\n\n-- Unplanned downtime and planned downtime\nSELECT\n    SUM \n        (\n            CASE\n                WHEN host_status = 2\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS \"Planned Downtime\",\n    SUM \n        (\n            CASE\n                WHEN host_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS \"Unplanned Downtime\"\nFROM\n    (\n        SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n        UNION\n        SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n    ) AS hourly_daily\nWHERE\n    -- Here we filter by the vm id chosen by the user\n    hourly_daily.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()",
           "refId": "A",
           "select": [
             [
@@ -203,14 +203,14 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Hosts Downtime (BR8)",
+      "title": "Host Downtime (BR8)",
       "type": "gauge"
     },
     {
       "cacheTimeout": null,
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report contains a table displaying the average uptime and downtime of the selected Hosts for a requested period.",
+      "description": "This report displays the average uptime and downtime of a selected host within a selected period.",
       "fontSize": "100%",
       "gridPos": {
         "h": 16,
@@ -425,7 +425,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Hosts Uptime (BR8)",
+      "title": "Host Uptime (BR8)",
       "transform": "table",
       "type": "table"
     }
