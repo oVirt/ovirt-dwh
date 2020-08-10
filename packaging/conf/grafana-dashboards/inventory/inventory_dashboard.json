@@ -70,7 +70,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays inventory reports with data for each data center.\n\n\n",
+      "content": "\n###### This dashboard displays inventory reports with details for each data center.\n\n\n",
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -591,7 +591,7 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report displays for each data center the CPU usage and overcommit ",
+      "description": "This report displays CPU usage and overcommit for each data center. ",
       "fontSize": "100%",
       "gridPos": {
         "h": 6,
@@ -1054,7 +1054,7 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report displays for each data center the memory usage and overcommit ",
+      "description": "This report displays memory usage and overcommit for each data center. ",
       "fontSize": "100%",
       "gridPos": {
         "h": 6,
@@ -1517,7 +1517,7 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report displays for each data center the disk usage and overcommit ",
+      "description": "This report displays disk usage and overcommit for each data center. ",
       "fontSize": "100%",
       "gridPos": {
         "h": 6,

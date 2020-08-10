@@ -68,7 +68,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays an inventory list of all VMs in the requested cluster.\n\n\n",
+      "content": "\n###### This dashboard displays an inventory list of all virtual machines in the selected cluster.\n\n\n",
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -126,7 +126,7 @@
     {
       "columns": [],
       "datasource": "oVirt DWH",
-      "description": "This report displays a inventory list of all vms of the selected data center and cluster.",
+      "description": "This report displays a inventory list of all virtual machines of the selected data center and cluster.",
       "fontSize": "100%",
       "gridPos": {
         "h": 17,

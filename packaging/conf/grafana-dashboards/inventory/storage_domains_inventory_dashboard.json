@@ -54,7 +54,7 @@
       }
     ]
   },
-  "description": "The storage domain inventory dashboard include storage domain inventory and memory usage",
+  "description": "The storage domain inventory dashboard include storage domain inventory list and disk usage",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -74,7 +74,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard include inventory and memory usage for the requested storage domain.\n\n\n\n",
+      "content": "\n###### This dashboard include inventory list and disk usage for the selected storage domain.\n\n\n\n",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -337,7 +337,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report displays average available disk size data per hour for the selected data center and storage domain over a requested period.",
+      "description": "This report displays average available disk size for the selected data center and storage domain over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -401,7 +401,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Storage Domain Available Size Over Time (BR21)",
+      "title": "Storage Domain Available Size (over time) (BR21)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -445,7 +445,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report displays average used disk size data per hour for the selected data center and storage domain over a requested period.",
+      "description": "This report displays average used disk size for the selected data center and storage domain over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -509,7 +509,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Storage Domain Used Size Over Time (BR21)",
+      "title": "Storage Domain Used Size (over time) (BR21)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -554,7 +554,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report displays used disk size versus available disk size data ( total disk size )  per hour for the selected data center and storage domain over a requested period.",
+      "description": "This report displays used disk size versus available disk size ( total disk size ) for the selected data center and storage domain over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -618,7 +618,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Storage Domain Total Size Over Time (BR21)",
+      "title": "Storage Domain Total Size (over time) (BR21)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -662,7 +662,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report displays total used disk size data per hour for the selected data center and storage domain over a requested period.",
+      "description": "This report displays total used disk size for the selected data center and storage domain over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -726,7 +726,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Storage Domain Total Used Size Over Time (BR21)",
+      "title": "Storage Domain Total Used Size (over time) (BR21)",
       "tooltip": {
         "shared": true,
         "sort": 0,
