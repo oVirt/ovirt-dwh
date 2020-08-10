@@ -68,7 +68,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays resources usage measurements by day or hour (CPU and memory average usage/peaks, ethernet interface Tx/Rx rates, and disk usage read/write rates) for the selected vm/s.\n\n\n\n",
+      "content": "\n###### This dashboard displays resource usage (CPU, memory, network Tx/Rx, disk I/O) for a selected virtual machines within a selected period.\n\n\n\n",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -132,7 +132,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, disk) for a selected virtual machines over the selected period.",
+      "description": "This report displays average CPU usage for a selected virtual machines within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -242,7 +242,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, disk) for a selected virtual machines over the selected period.",
+      "description": "This report displays average CPU usage peaks for a selected virtual machines within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -366,7 +366,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, disk) for a selected virtual machines over the selected period.",
+      "description": "This report displays average memory usage for a selected virtual machines within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -477,7 +477,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, disk) for a selected virtual machines over the selected period.",
+      "description": "This report displays average memory usage peaks for a selected virtual machines within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -541,7 +541,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Memory Usage Peaks (BR10C)",
+      "title": "Average Memory Usage Peaks (BR10C)",
       "tooltip": {
         "shared": false,
         "sort": 0,
@@ -600,7 +600,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, disk) for a selected virtual machines over the selected period.",
+      "description": "This report displays for the top 3 most utilized network interfaces the average transmit rate for a selected virtual machine within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -709,7 +709,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, disk) for a selected virtual machines over the selected period.",
+      "description": "This report displays for the top 3 most utilized network interfaces the average receive rate for a selected virtual machine within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -831,7 +831,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, disk) for a selected virtual machines over the selected period.",
+      "description": "This report displays for the top 5 most utilized disks the average read rate for a selected virtual machine within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -940,7 +940,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, disk) for a selected virtual machines over the selected period.",
+      "description": "This report displays for the top 5 most utilized disks the average write rate for a selected virtual machine within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,

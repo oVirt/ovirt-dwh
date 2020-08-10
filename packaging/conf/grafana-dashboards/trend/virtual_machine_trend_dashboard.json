@@ -70,7 +70,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displaying resources usage measurements **over time** (disk read & write rates , CPU and memory average usage & peaks, and ethernet interface Tx & Rx rates) for the selected vm/s.\n\n\n\n",
+      "content": "\n###### This dashboard displays resource usage (CPU, memory, network Tx/Rx, disk I/O) for a selected virtual machine over a selected period.\n\n\n\n",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -134,7 +134,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, Disk IO rates) for a selected virtual machine over the selected time.",
+      "description": "This report displays average disk read and write rates for a selected virtual machine over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -242,7 +242,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, Disk IO rates) for a selected virtual machine over the selected time.",
+      "description": "This report displays for the top 3 most utilized network interfaces the average transmit and receive rates for a selected virtual machine over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -305,7 +305,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Network Tx/Rx (over time) (BR10A)",
+      "title": "Top 3 Most Utilized Network Interfaces Tx and Rx Rates (over time) (BR10A)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -347,7 +347,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, Disk IO rates) for a selected virtual machine over the selected time.",
+      "description": "This report displays average memory usage and peaks for a selected virtual machine over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -410,7 +410,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Memory (over time) (BR10A)",
+      "title": "Average Memory Usage and Peaks (over time) (BR10A)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -453,7 +453,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (CPU, Memory, Network Tx/Rx, Disk IO rates) for a selected virtual machine over the selected time.",
+      "description": "This report displays average CPU usage and peaks for a selected virtual machine over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -516,7 +516,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "CPU (over time) (BR10A)",
+      "title": "Average CPU Usage and Peaks (over time) (BR10A)",
       "tooltip": {
         "shared": true,
         "sort": 0,

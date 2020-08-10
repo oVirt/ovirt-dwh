@@ -68,7 +68,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays resources usage measurements (vms average count and peaks, CPU and memory average usage and peaks, and ethernet interface Tx and Rx rates) for the selected host/s.\n\n\n\n",
+      "content": "\n###### This dashboard displays resource usage (number of virtual machines, CPU, memory, network Tx/Rx) for a selected host within a selected period.\n\n\n\n",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -132,7 +132,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (Number of Virtual Machines, CPU, Memory, Network Tx/Rx) for a selected host over the selected period.",
+      "description": "This report displays average number of virtual machines for a selected host within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -241,7 +241,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (Number of Virtual Machines, CPU, Memory, Network Tx/Rx) for a selected host over the selected period.",
+      "description": "This report displays average number of virtual machines peaks for a selected host within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -304,7 +304,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Number of Virtual Machines Peaks (BR2C)",
+      "title": "Average Number of Virtual Machine Peaks (BR2C)",
       "tooltip": {
         "shared": false,
         "sort": 0,
@@ -363,7 +363,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (Number of Virtual Machines, CPU, Memory, Network Tx/Rx) for a selected host over the selected period.",
+      "description": "This report displays average CPU usage for a selected host within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -473,7 +473,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (Number of Virtual Machines, CPU, Memory, Network Tx/Rx) for a selected host over the selected period.",
+      "description": "This report displays average CPU usage peaks for a selected host within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 7,
@@ -597,7 +597,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (Number of Virtual Machines, CPU, Memory, Network Tx/Rx) for a selected host over the selected period.",
+      "description": "This report displays average memory usage for a selected host within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -708,7 +708,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (Number of Virtual Machines, CPU, Memory, Network Tx/Rx) for a selected host over the selected period.",
+      "description": "This report displays average memory usage peaks for a selected host within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -772,7 +772,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Memory Usage Peaks (BR2C)",
+      "title": "Average Memory Usage Peaks (BR2C)",
       "tooltip": {
         "shared": false,
         "sort": 0,
@@ -831,7 +831,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (Number of Virtual Machines, CPU, Memory, Network Tx/Rx) for a selected host over the selected period.",
+      "description": "This report displays for the top 3 most utilized network interfaces the average network interface transmit rate for a selected host within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -894,7 +894,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Network Interface Transmit Rate (BR2C)",
+      "title": "Top 3 Most Utilized Network Interface - Transmit Rate (BR2C)",
       "tooltip": {
         "shared": false,
         "sort": 0,
@@ -940,7 +940,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (Number of Virtual Machines, CPU, Memory, Network Tx/Rx) for a selected host over the selected period.",
+      "description": "This report displays for the top 3 most utilized network interfaces the average network interface receive rate for a selected host within a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -1003,7 +1003,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Network Interface Receive Usage Percent (BR2C)",
+      "title": "Top 3 Most Utilized Network Interface - Receive Rate (BR2C)",
       "tooltip": {
         "shared": false,
         "sort": 0,

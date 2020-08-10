@@ -68,7 +68,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displaying resources usage measurements **over time** (vms average count & peaks, CPU and memory average usage & peaks, and ethernet interface Tx & Rx rates) for the selected host/s.\n",
+      "content": "\n###### This dashboard displays resource usage (number of virtual machines, CPU, memory, and network Tx/Rx) for a selected host over a selected period.\n",
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -129,7 +129,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (Number of Virtual Machines, CPU, Memory, Network Tx/Rx) for a selected host over the selected period.",
+      "description": "This report displays average memory usage and peaks for a selected host over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -235,7 +235,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (Number of Virtual Machines, CPU, Memory, Network Tx/Rx) for a selected host over the selected period.",
+      "description": "This report displays average CPU usage and peaks for a selected host over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -341,7 +341,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (Number of Virtual Machines, CPU, Memory, Network Tx/Rx) for a selected host over the selected period.",
+      "description": "This report displays average number of virtual machines and peaks for a selected host over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -448,7 +448,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying resources usage measurements (Number of Virtual Machines, CPU, Memory, Network Tx/Rx) for a selected host over the selected period.",
+      "description": "This report displays for the top 5 busiest Ethernet interfaces the average transmit and receive rates for a selected host over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -512,7 +512,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Top 5 Busiest Ethernet Interface Tx and Rx Rates (over time) (BR2A)",
+      "title": "Top 5 Busiest Ethernet Interfaces Tx and Rx Rates (over time) (BR2A)",
       "tooltip": {
         "shared": true,
         "sort": 0,

@@ -48,7 +48,7 @@
       }
     ]
   },
-  "description": "The trend dashboard displaying reports containing the 5 most/least utilized virtual machines by memory/CPU, over a requested period",
+  "description": "The trend dashboard displaying reports containing the 5 most/least utilized virtual machines by memory/CPU, over a selected period",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -70,7 +70,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays usage rates for the 5 most and least utilized vms and hosts by memory and by CPU **over time**, in the selected cluster.\n\n\n\n",
+      "content": "\n###### This dashboard displays usage rates for the 5 most and least utilized virtual machines and hosts by memory and by CPU in the selected cluster over a selected period.",
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -132,7 +132,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "description": "This report contains charts displaying weighted average daily peak memory usage for the top five busiest hosts of a selected cluster and within a given period .",
+      "description": "This report displays weighted average daily peak memory usage for the top five busiest hosts of a selected cluster and over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -246,7 +246,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "description": "This report contains charts displaying weighted average daily peak of CPU usage for the top five busiest hosts of a selected cluster and within a given period.",
+      "description": "This report displays weighted average daily peak of CPU usage for the top five busiest hosts of a selected cluster and over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -360,7 +360,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "description": "This report contains charts displaying weighted average daily peak of memory usage for the bottom five busiest hosts of a selected cluster and within a given period.",
+      "description": "This report displays weighted average daily peak of memory usage for the bottom five busiest hosts of a selected cluster and over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -474,7 +474,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "description": "This report contains charts displaying weighted average daily peak of CPU usage for the bottom five busiest hosts of a selected cluster and within a given period.",
+      "description": "This report displays weighted average daily peak of CPU usage for the bottom five busiest hosts of a selected cluster and over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -600,7 +600,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying weighted average daily peak memory usage for the top five busiest virtual machines of a selected cluster and within a given period.",
+      "description": "This report displays weighted average daily peak memory usage for the top five busiest virtual machines of a selected cluster and over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -716,7 +716,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying weighted average daily peak of CPU usage for the top five busiest virtual machines of a selected cluster and within a given period.",
+      "description": "This report displays weighted average daily peak of CPU usage for the top five busiest virtual machines of a selected cluster and over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -831,7 +831,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying weighted average daily peak of memory usage for the bottom five busiest virtual machines of a selected cluster and within a given period.",
+      "description": "This report displays weighted average daily peak of memory usage for the bottom five busiest virtual machines of a selected cluster and over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -890,7 +890,16 @@
           ]
         }
       ],
-      "thresholds": [],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 80,
+          "yaxis": "left"
+        }
+      ],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
@@ -938,7 +947,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "oVirt DWH",
-      "description": "This report contains charts displaying weighted average daily peak of CPU usage for the bottom five busiest virtual machines of a selected cluster and within a given period.",
+      "description": "This report displays weighted average daily peak of CPU usage for the bottom five busiest virtual machines of a selected cluster and over a selected period.",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -997,7 +1006,16 @@
           ]
         }
       ],
-      "thresholds": [],
+      "thresholds": [
+        {
+          "colorMode": "critical",
+          "fill": true,
+          "line": true,
+          "op": "gt",
+          "value": 80,
+          "yaxis": "left"
+        }
+      ],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
