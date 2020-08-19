@@ -353,6 +353,15 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Aug 19 2020 Shirly Radco <sradco@redhat.com> - 4.4.2.1
+Fixed issues:
+- Bug 1857778 - Add to Trend Dashboard a Hosts section
+- Bug 1847966 - grafana: Quote passwords
+- Bug 1866349 - Update descriptions in Executive dashboards
+- Bug 1866349 - Update descriptions in inventory dashboards
+- Bug 1866349 - Update descriptions in trend dashboards
+- Bug 1866349 - Update descriptions in service level dashboards
+
 * Thu Aug 06 2020 Shirly Radco <sradco@redhat.com> - 4.4.2
 Fixed issues:
 - Bug 1846365 - packaging: rename: Handle config conditionally
