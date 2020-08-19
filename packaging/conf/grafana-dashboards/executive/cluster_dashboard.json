@@ -793,7 +793,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Cluster Summary of Host Resource Usage (DR28)",
+      "title": "Cluster Summary of Host Resource Peaks (DR28)",
       "transform": "table",
       "type": "table"
     },
