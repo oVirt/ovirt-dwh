@@ -503,8 +503,8 @@
     ]
   },
   "time": {
-    "from": "now/M",
-    "to": "now/M"
+    "from": "now-30d",
+    "to": "now"
   },
   "timepicker": {
     "hidden": false,
