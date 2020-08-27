@@ -146,6 +146,7 @@
         "current": false,
         "max": false,
         "min": false,
+        "rightSide": false,
         "show": true,
         "total": false,
         "values": false
@@ -233,7 +234,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -347,7 +348,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -461,7 +462,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -575,7 +576,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -702,7 +703,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -817,7 +818,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -933,7 +934,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -1049,7 +1050,7 @@
           "logBase": 1,
           "max": null,
           "min": null,
-          "show": true
+          "show": false
         }
       ],
       "yaxis": {
@@ -1135,8 +1136,8 @@
         "current": {
           "selected": true,
           "tags": [],
-          "text": "Yes",
-          "value": "Yes"
+          "text": "No",
+          "value": "No"
         },
         "hide": 0,
         "includeAll": false,
@@ -1145,12 +1146,12 @@
         "name": "show_deleted",
         "options": [
           {
-            "selected": false,
+            "selected": true,
             "text": "No",
             "value": "No"
           },
           {
-            "selected": true,
+            "selected": false,
             "text": "Yes",
             "value": "Yes"
           }
