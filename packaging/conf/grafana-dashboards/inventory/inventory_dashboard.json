@@ -215,7 +215,7 @@
           "pattern": "number_of_hosts",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total Hosts CPUs",
@@ -231,7 +231,7 @@
           "pattern": "total_hosts_num_of_cpus",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Hosts Memory Size",
@@ -263,7 +263,7 @@
           "pattern": "num_of_running_vms",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total Configured VMs",
@@ -279,7 +279,7 @@
           "pattern": "total_configured_vms",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total VMs - CPU Cores",
@@ -295,7 +295,7 @@
           "pattern": "total_vms_cpu_cores",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Running VMS - CPU Cores",
@@ -311,7 +311,7 @@
           "pattern": "cpu_cores_running",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total VMs - Memory",
@@ -343,7 +343,7 @@
           "pattern": "mem_running",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Used Disk Size",
@@ -442,7 +442,7 @@
             "1"
           ],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "CPU Cores in Running VMs vs. Total Hosts CPUs",
@@ -461,7 +461,7 @@
             "1"
           ],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Memory Overcommit",
@@ -480,7 +480,7 @@
             "1"
           ],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Memory in Running VMs vs. Total Memory",
@@ -499,7 +499,7 @@
             "1"
           ],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Disk Overcommit",
@@ -518,7 +518,7 @@
             "1"
           ],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Actual Disk Used vs. Total disk size",
@@ -537,7 +537,7 @@
             "1"
           ],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "",
@@ -551,7 +551,7 @@
           "pattern": "/.*/",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         }
       ],
       "targets": [
@@ -678,7 +678,7 @@
           "pattern": "number_of_hosts",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total Hosts CPUs",
@@ -694,7 +694,7 @@
           "pattern": "total_hosts_num_of_cpus",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Hosts Memory Size",
@@ -726,7 +726,7 @@
           "pattern": "num_of_running_vms",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total Configured VMs",
@@ -742,7 +742,7 @@
           "pattern": "total_configured_vms",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total VMs - CPU Cores",
@@ -758,7 +758,7 @@
           "pattern": "total_vms_cpu_cores",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Running VMS - CPU Cores",
@@ -774,7 +774,7 @@
           "pattern": "cpu_cores_running",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total VMs - Memory",
@@ -806,7 +806,7 @@
           "pattern": "mem_running",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Used Disk Size",
@@ -1014,7 +1014,7 @@
           "pattern": "/.*/",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         }
       ],
       "targets": [
@@ -1141,7 +1141,7 @@
           "pattern": "number_of_hosts",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total Hosts CPUs",
@@ -1157,7 +1157,7 @@
           "pattern": "total_hosts_num_of_cpus",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Hosts Memory Size",
@@ -1189,7 +1189,7 @@
           "pattern": "num_of_running_vms",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total Configured VMs",
@@ -1205,7 +1205,7 @@
           "pattern": "total_configured_vms",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total VMs - CPU Cores",
@@ -1221,7 +1221,7 @@
           "pattern": "total_vms_cpu_cores",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Running VMS - CPU Cores",
@@ -1237,7 +1237,7 @@
           "pattern": "cpu_cores_running",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total VMs - Memory",
@@ -1477,7 +1477,7 @@
           "pattern": "/.*/",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         }
       ],
       "targets": [
@@ -1604,7 +1604,7 @@
           "pattern": "number_of_hosts",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total Hosts CPUs",
@@ -1620,7 +1620,7 @@
           "pattern": "total_hosts_num_of_cpus",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Hosts Memory Size",
@@ -1652,7 +1652,7 @@
           "pattern": "num_of_running_vms",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total Configured VMs",
@@ -1668,7 +1668,7 @@
           "pattern": "total_configured_vms",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total VMs - CPU Cores",
@@ -1684,7 +1684,7 @@
           "pattern": "total_vms_cpu_cores",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Running VMS - CPU Cores",
@@ -1700,7 +1700,7 @@
           "pattern": "cpu_cores_running",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         },
         {
           "alias": "Total VMs - Memory",
@@ -1940,7 +1940,7 @@
           "pattern": "/.*/",
           "thresholds": [],
           "type": "number",
-          "unit": "short"
+          "unit": "none"
         }
       ],
       "targets": [
