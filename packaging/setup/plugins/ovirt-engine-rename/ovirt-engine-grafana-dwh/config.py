@@ -39,6 +39,11 @@ class Plugin(plugin.PluginBase):
         self._sso_config = None
         self._register_sso_client = False
         self._config = ogdwhcons.FileLocations.GRAFANA_CONFIG_FILE
+        self._engine_config = (
+            ogdwhcons.FileLocations.
+            OVIRT_ENGINE_SERVICE_CONFIG_GRAFANA
+        )
+        self._uninstall_files = []
 
     def _get_sso_client_registration_cmd(self, tmpconf):
         url = 'https://{grafana_fqdn}{path}/'.format(
@@ -73,6 +78,27 @@ class Plugin(plugin.PluginBase):
         )
 
     @plugin.event(
+        stage=plugin.Stages.STAGE_SETUP,
+    )
+    def _setup(self):
+        self.environment[
+            osetupcons.RenameEnv.FILES_TO_BE_MODIFIED
+        ].extend((
+            self._config,
+            self._engine_config,
+        ))
+        self.environment[
+            osetupcons.CoreEnv.REGISTER_UNINSTALL_GROUPS
+        ].createGroup(
+            group='ovirt_grafana_files',
+            description='Grafana files',
+            optional=True,
+        ).addFiles(
+            group='ovirt_grafana_files',
+            fileList=self._uninstall_files,
+        )
+
+    @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
         before=(
             osetupcons.Stages.DIALOG_TITLES_E_MISC,
@@ -94,32 +120,12 @@ class Plugin(plugin.PluginBase):
             ))
 
     @plugin.event(
-        stage=plugin.Stages.STAGE_SETUP,
-    )
-    def _setup(self):
-        self.environment[
-            osetupcons.RenameEnv.FILES_TO_BE_MODIFIED
-        ].append(self._config)
-
-    @plugin.event(
         stage=plugin.Stages.STAGE_MISC,
         condition=lambda self: (
             self.environment[ogdwhcons.CoreEnv.ENABLE]
         ),
     )
     def _misc(self):
-        uninstall_files = []
-
-        self.environment[
-            osetupcons.CoreEnv.REGISTER_UNINSTALL_GROUPS
-        ].createGroup(
-            group='ovirt_grafana_files',
-            description='Grafana files',
-            optional=True,
-        ).addFiles(
-            group='ovirt_grafana_files',
-            fileList=uninstall_files,
-        )
         generic_auth_replacements = {
             'auth_url': '/ovirt-engine/sso/openid/authorize',
             'token_url': '/ovirt-engine/sso/openid/token',
@@ -168,7 +174,31 @@ class Plugin(plugin.PluginBase):
             filetransaction.FileTransaction(
                 name=self._config,
                 content=content,
-                modifiedList=uninstall_files,
+                modifiedList=self._uninstall_files,
+            )
+        )
+
+    @plugin.event(
+        stage=plugin.Stages.STAGE_MISC,
+        condition=lambda self: (
+            self.environment[ogdwhcons.CoreEnv.ENABLE]
+        ),
+    )
+    def _engine_config_misc(self):
+        with open(self._engine_config, 'r') as f:
+            content = []
+            for line in f:
+                if line.startswith('ENGINE_GRAFANA_FQDN='):
+                    line = 'ENGINE_GRAFANA_FQDN={fqdn}'.format(
+                        fqdn=self.environment[osetupcons.RenameEnv.FQDN],
+                    )
+                content.append(line)
+
+        self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
+            filetransaction.FileTransaction(
+                name=self._engine_config,
+                content=content,
+                modifiedList=self._uninstall_files,
             )
         )
 
