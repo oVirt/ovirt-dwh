@@ -391,22 +391,6 @@
           "unit": "m"
         },
         {
-          "alias": "Uptime",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "uptime_mins",
-          "thresholds": [],
-          "type": "number",
-          "unit": "m"
-        },
-        {
           "alias": "Total Time",
           "colorMode": null,
           "colors": [
@@ -421,20 +405,6 @@
           "thresholds": [],
           "type": "number",
           "unit": "m"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "none"
         }
       ],
       "targets": [
@@ -443,7 +413,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR7A - This query returns the\n-- average planned and unplanned downtime,\n-- average uptime and total time per cluster.\n\nSELECT\n    cluster_id,\n    name AS cluster_name,\n    delete_date,\n    AVG ( unplanned_downtime_mins ) AS unplanned_downtime_mins,\n    AVG ( planned_downtime_mins ) AS planned_downtime_mins,\n    AVG ( uptime_mins ) AS uptime_mins,\n    AVG ( total ) AS total\nFROM \n    (\n        SELECT\n            v4_3_configuration_history_hosts.cluster_id,\n            v4_3_configuration_history_clusters.cluster_name AS name,\n            v4_3_configuration_history_clusters.delete_date,\n            hourly_daily.host_id,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.host_status = 2\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS planned_downtime_mins,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.host_status = 3\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS unplanned_downtime_mins,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.host_status = 1\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS uptime_mins,\n            SUM ( hourly_daily.minutes_in_status ) AS total\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_hosts\n                ON \n                    (\n                        v4_3_configuration_history_hosts.host_id =\n                        hourly_daily.host_id\n                    )\n            INNER JOIN v4_3_configuration_history_clusters\n                ON \n                    (\n                        v4_3_configuration_history_clusters.cluster_id =\n                        v4_3_configuration_history_hosts.cluster_id\n                    )\n        WHERE\n            -- Here we filter by the datacenter chosen by the user\n            v4_3_configuration_history_hosts.cluster_id in ($cluster_id)\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- Here we get the latest clusters configuration\n            AND v4_3_configuration_history_clusters.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_clusters AS a\n                        GROUP BY a.cluster_id\n                    )\n            -- Here we get the latest hosts configuration\n            AND v4_3_configuration_history_hosts.history_id \n                IN \n                    (\n                        SELECT MAX ( b.history_id )\n                        FROM v4_3_configuration_history_hosts AS b\n                        GROUP BY b.host_id\n                    )\n            -- This will determine if deleted hosts will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            AND\n                CASE\n                    WHEN '$show_deleted'='Yes'\n                        THEN 1=1\n                    WHEN '$show_deleted'='No'\n                        THEN v4_3_configuration_history_hosts.delete_date isnull\n                END\n        GROUP BY\n            v4_3_configuration_history_hosts.cluster_id,\n            v4_3_configuration_history_clusters.cluster_name,\n            v4_3_configuration_history_clusters.delete_date,\n            hourly_daily.host_id\n    ) AS sub_query\nGROUP BY cluster_id, name, delete_date\nORDER BY\n    (\n        CASE\n            WHEN delete_date IS NULL\n                THEN 0\n            ELSE 1\n        END\n    ) ASC,\n    CAST ( AVG ( uptime_mins ) AS float ) / CAST ( AVG ( total ) AS float ) DESC",
+          "rawSql": "-- BR7A - This query returns the\n-- average planned and unplanned downtime,\n-- average uptime and total time per cluster.\n\nSELECT\n    cluster_id,\n    name AS cluster_name,\n    delete_date,\n    AVG ( unplanned_downtime_mins ) AS unplanned_downtime_mins,\n    AVG ( planned_downtime_mins ) AS planned_downtime_mins,\n    AVG ( total ) AS total\nFROM \n    (\n        SELECT\n            v4_3_configuration_history_hosts.cluster_id,\n            v4_3_configuration_history_clusters.cluster_name AS name,\n            v4_3_configuration_history_clusters.delete_date,\n            hourly_daily.host_id,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.host_status = 2\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS planned_downtime_mins,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.host_status = 3\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS unplanned_downtime_mins,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.host_status = 1\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS uptime_mins,\n            SUM ( hourly_daily.minutes_in_status ) AS total\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_hosts\n                ON \n                    (\n                        v4_3_configuration_history_hosts.host_id =\n                        hourly_daily.host_id\n                    )\n            INNER JOIN v4_3_configuration_history_clusters\n                ON \n                    (\n                        v4_3_configuration_history_clusters.cluster_id =\n                        v4_3_configuration_history_hosts.cluster_id\n                    )\n        WHERE\n            -- Here we filter by the datacenter chosen by the user\n            v4_3_configuration_history_hosts.cluster_id in ($cluster_id)\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- Here we get the latest clusters configuration\n            AND v4_3_configuration_history_clusters.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_clusters AS a\n                        GROUP BY a.cluster_id\n                    )\n            -- Here we get the latest hosts configuration\n            AND v4_3_configuration_history_hosts.history_id \n                IN \n                    (\n                        SELECT MAX ( b.history_id )\n                        FROM v4_3_configuration_history_hosts AS b\n                        GROUP BY b.host_id\n                    )\n            -- This will determine if deleted hosts will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            AND\n                CASE\n                    WHEN '$show_deleted'='Yes'\n                        THEN 1=1\n                    WHEN '$show_deleted'='No'\n                        THEN v4_3_configuration_history_hosts.delete_date isnull\n                END\n        GROUP BY\n            v4_3_configuration_history_hosts.cluster_id,\n            v4_3_configuration_history_clusters.cluster_name,\n            v4_3_configuration_history_clusters.delete_date,\n            hourly_daily.host_id\n    ) AS sub_query\nGROUP BY cluster_id, name, delete_date\nORDER BY\n    (\n        CASE\n            WHEN delete_date IS NULL\n                THEN 0\n            ELSE 1\n        END\n    ) ASC,\n    CAST ( AVG ( uptime_mins ) AS float ) / CAST ( AVG ( total ) AS float ) DESC",
           "refId": "A",
           "select": [
             [
@@ -589,20 +559,6 @@
           "thresholds": [],
           "type": "date",
           "unit": "short"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "none"
         }
       ],
       "targets": [
@@ -907,22 +863,6 @@
           "unit": "m"
         },
         {
-          "alias": "Uptime",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "uptime_mins",
-          "thresholds": [],
-          "type": "number",
-          "unit": "m"
-        },
-        {
           "alias": "Total Time",
           "colorMode": null,
           "colors": [
@@ -937,20 +877,6 @@
           "thresholds": [],
           "type": "number",
           "unit": "m"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "none"
         }
       ],
       "targets": [
@@ -1009,22 +935,6 @@
         "desc": true
       },
       "styles": [
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "cluster_id",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
         {
           "alias": "Cluster Name",
           "colorMode": null,
@@ -1090,22 +1000,6 @@
           "unit": "m"
         },
         {
-          "alias": "Uptime",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "uptime_mins",
-          "thresholds": [],
-          "type": "number",
-          "unit": "m"
-        },
-        {
           "alias": "Total Time",
           "colorMode": null,
           "colors": [
@@ -1136,20 +1030,6 @@
           "thresholds": [],
           "type": "string",
           "unit": "short"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "none"
         }
       ],
       "targets": [
@@ -1158,7 +1038,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR14A - This query returns the\n-- average unplanned downtime, uptime\n-- and total time per cluster and vm server.\n\nSELECT\n    cluster_id,\n    name AS cluster_name,\n    vm_name,\n    delete_date,\n    AVG ( unplanned_downtime_mins ) AS unplanned_downtime_mins,\n    AVG ( planned_downtime_mins ) AS planned_downtime_mins,\n    AVG ( total ) AS total\nFROM \n    (\n        SELECT\n            v4_3_configuration_history_vms.cluster_id,\n            v4_3_configuration_history_clusters.cluster_name AS name,\n            v4_3_configuration_history_vms.vm_name,\n            v4_3_configuration_history_vms.vm_id,\n            v4_3_configuration_history_vms.delete_date,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.vm_status = 3\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS unplanned_downtime_mins,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.vm_status IN ( 2, 0 )\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS planned_downtime_mins,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.vm_status = 1\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS uptime_mins,\n            SUM ( hourly_daily.minutes_in_status ) AS total\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                        v4_3_configuration_history_vms.vm_id =\n                        hourly_daily.vm_id\n                    )\n            INNER JOIN v4_3_configuration_history_clusters\n                ON \n                    (\n                        v4_3_configuration_history_vms.cluster_id =\n                        v4_3_configuration_history_clusters.cluster_id\n                    )\n        WHERE\n            -- Here we filter by the datacenter chosen by the user\n            v4_3_configuration_history_vms.cluster_id in ($cluster_id)\n            -- Here we get only vms of type \"server\"\n            AND v4_3_configuration_history_vms.vm_type = 1\n            -- Here we get only vms that are marked as \"high availability\"\n            AND high_availability = TRUE\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- Here we get the latest clusters configuration\n            AND v4_3_configuration_history_clusters.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_clusters AS a\n                        GROUP BY a.cluster_id\n                    )\n            -- Here we get the latest vms configuration\n            AND v4_3_configuration_history_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( b.history_id )\n                        FROM v4_3_configuration_history_vms AS b\n                        GROUP BY b.vm_id\n                    )\n            -- This will determine if deleted hosts will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            AND\n                CASE\n                    WHEN '$show_deleted'='Yes'\n                        THEN 1=1\n                    WHEN '$show_deleted'='No'\n                        THEN v4_3_configuration_history_vms.delete_date isnull\n                END\n        GROUP BY\n            v4_3_configuration_history_vms.cluster_id,\n            v4_3_configuration_history_clusters.cluster_name,\n            v4_3_configuration_history_vms.vm_name,\n            v4_3_configuration_history_vms.vm_id,\n            v4_3_configuration_history_vms.delete_date\n    ) AS sub_query\nGROUP BY cluster_id, name, delete_date, vm_name \nORDER BY\n    (\n        CASE\n            WHEN delete_date IS NULL\n                THEN 0\n            ELSE 1\n        END\n    ) ASC,\n    CAST ( AVG ( uptime_mins ) AS float ) / CAST ( AVG ( total ) AS float ) DESC",
+          "rawSql": "-- BR14A - This query returns the\n-- average unplanned downtime, uptime\n-- and total time per cluster and vm server.\n\nSELECT\n    name AS cluster_name,\n    vm_name,\n    delete_date,\n    AVG ( unplanned_downtime_mins ) AS unplanned_downtime_mins,\n    AVG ( planned_downtime_mins ) AS planned_downtime_mins,\n    AVG ( total ) AS total\nFROM \n    (\n        SELECT\n            v4_3_configuration_history_vms.cluster_id,\n            v4_3_configuration_history_clusters.cluster_name AS name,\n            v4_3_configuration_history_vms.vm_name,\n            v4_3_configuration_history_vms.vm_id,\n            v4_3_configuration_history_vms.delete_date,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.vm_status = 3\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS unplanned_downtime_mins,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.vm_status IN ( 2, 0 )\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS planned_downtime_mins,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.vm_status = 1\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS uptime_mins,\n            SUM ( hourly_daily.minutes_in_status ) AS total\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                        v4_3_configuration_history_vms.vm_id =\n                        hourly_daily.vm_id\n                    )\n            INNER JOIN v4_3_configuration_history_clusters\n                ON \n                    (\n                        v4_3_configuration_history_vms.cluster_id =\n                        v4_3_configuration_history_clusters.cluster_id\n                    )\n        WHERE\n            -- Here we filter by the datacenter chosen by the user\n            v4_3_configuration_history_vms.cluster_id in ($cluster_id)\n            -- Here we get only vms of type \"server\"\n            AND v4_3_configuration_history_vms.vm_type = 1\n            -- Here we get only vms that are marked as \"high availability\"\n            AND high_availability = TRUE\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- Here we get the latest clusters configuration\n            AND v4_3_configuration_history_clusters.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_clusters AS a\n                        GROUP BY a.cluster_id\n                    )\n            -- Here we get the latest vms configuration\n            AND v4_3_configuration_history_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( b.history_id )\n                        FROM v4_3_configuration_history_vms AS b\n                        GROUP BY b.vm_id\n                    )\n            -- This will determine if deleted hosts will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            AND\n                CASE\n                    WHEN '$show_deleted'='Yes'\n                        THEN 1=1\n                    WHEN '$show_deleted'='No'\n                        THEN v4_3_configuration_history_vms.delete_date isnull\n                END\n        GROUP BY\n            v4_3_configuration_history_vms.cluster_id,\n            v4_3_configuration_history_clusters.cluster_name,\n            v4_3_configuration_history_vms.vm_name,\n            v4_3_configuration_history_vms.vm_id,\n            v4_3_configuration_history_vms.delete_date\n    ) AS sub_query\nGROUP BY cluster_id, name, delete_date, vm_name \nORDER BY\n    (\n        CASE\n            WHEN delete_date IS NULL\n                THEN 0\n            ELSE 1\n        END\n    ) ASC,\n    CAST ( AVG ( uptime_mins ) AS float ) / CAST ( AVG ( total ) AS float ) DESC",
           "refId": "A",
           "select": [
             [
@@ -1454,22 +1334,6 @@
           "unit": "m"
         },
         {
-          "alias": "Uptime",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "uptime_mins",
-          "thresholds": [],
-          "type": "number",
-          "unit": "m"
-        },
-        {
           "alias": "Total Time",
           "colorMode": null,
           "colors": [
@@ -1484,20 +1348,6 @@
           "thresholds": [],
           "type": "number",
           "unit": "m"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "none"
         }
       ],
       "targets": [
@@ -1556,22 +1406,6 @@
         "desc": true
       },
       "styles": [
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "cluster_id",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
         {
           "alias": "Cluster Name",
           "colorMode": null,
@@ -1637,22 +1471,6 @@
           "unit": "m"
         },
         {
-          "alias": "Uptime",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "uptime_mins",
-          "thresholds": [],
-          "type": "number",
-          "unit": "m"
-        },
-        {
           "alias": "Total Time",
           "colorMode": null,
           "colors": [
@@ -1699,20 +1517,6 @@
           "thresholds": [],
           "type": "string",
           "unit": "short"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "none"
         }
       ],
       "targets": [
@@ -1721,7 +1525,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR14A - This query returns the\n-- average unplanned downtime, uptime\n-- and total time per cluster and vm server.\n\nSELECT\n    cluster_id,\n    name AS cluster_name,\n    vm_name,\n    delete_date,\n    CAST (high_availability AS varchar) AS high_availability,\n    AVG ( unplanned_downtime_mins ) AS unplanned_downtime_mins,\n    AVG ( planned_downtime_mins ) AS planned_downtime_mins,\n    AVG ( total ) AS total\nFROM \n    (\n        SELECT\n            v4_3_configuration_history_vms.cluster_id,\n            v4_3_configuration_history_clusters.cluster_name AS name,\n            v4_3_configuration_history_vms.vm_id,\n            v4_3_configuration_history_vms.vm_name,\n            v4_3_configuration_history_vms.delete_date,\n            high_availability,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.vm_status = 3\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS unplanned_downtime_mins,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.vm_status IN ( 2, 0 )\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS planned_downtime_mins,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.vm_status = 1\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS uptime_mins,\n            SUM ( hourly_daily.minutes_in_status ) AS total\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                        v4_3_configuration_history_vms.vm_id =\n                        hourly_daily.vm_id\n                    )\n            INNER JOIN v4_3_configuration_history_clusters\n                ON \n                    (\n                        v4_3_configuration_history_vms.cluster_id =\n                        v4_3_configuration_history_clusters.cluster_id\n                    )\n        WHERE\n            -- Here we filter by the datacenter chosen by the user\n            v4_3_configuration_history_vms.cluster_id in ($cluster_id)\n            -- Here we get only vms of type \"server\"\n         -- AND v4_3_configuration_history_vms.vm_type = 1\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- Here we get the latest clusters configuration\n            AND v4_3_configuration_history_clusters.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_clusters AS a\n                        GROUP BY a.cluster_id\n                    )\n            -- Here we get the latest vms configuration\n            AND v4_3_configuration_history_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( b.history_id )\n                        FROM v4_3_configuration_history_vms AS b\n                        GROUP BY b.vm_id\n                    )\n            -- This will determine if deleted hosts will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            AND\n                CASE\n                    WHEN '$show_deleted'='Yes'\n                        THEN 1=1\n                    WHEN '$show_deleted'='No'\n                        THEN v4_3_configuration_history_vms.delete_date isnull\n                END\n        GROUP BY\n            v4_3_configuration_history_vms.cluster_id,\n            v4_3_configuration_history_clusters.cluster_name,\n            v4_3_configuration_history_vms.vm_id,\n            v4_3_configuration_history_vms.vm_name,\n            v4_3_configuration_history_vms.delete_date,\n            high_availability\n    ) AS sub_query\nGROUP BY cluster_id, name, delete_date, vm_name, high_availability\nORDER BY\n    (\n        CASE\n            WHEN delete_date IS NULL\n                THEN 0\n            ELSE 1\n        END\n    ) ASC,\n    CAST ( AVG ( uptime_mins ) AS float ) / CAST ( AVG ( total ) AS float ) DESC",
+          "rawSql": "-- BR14A - This query returns the\n-- average unplanned downtime, uptime\n-- and total time per cluster and vm server.\n\nSELECT\n    name AS cluster_name,\n    vm_name,\n    delete_date,\n    CAST (high_availability AS varchar) AS high_availability,\n    AVG ( unplanned_downtime_mins ) AS unplanned_downtime_mins,\n    AVG ( planned_downtime_mins ) AS planned_downtime_mins,\n    AVG ( total ) AS total\nFROM \n    (\n        SELECT\n            v4_3_configuration_history_vms.cluster_id,\n            v4_3_configuration_history_clusters.cluster_name AS name,\n            v4_3_configuration_history_vms.vm_id,\n            v4_3_configuration_history_vms.vm_name,\n            v4_3_configuration_history_vms.delete_date,\n            high_availability,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.vm_status = 3\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS unplanned_downtime_mins,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.vm_status IN ( 2, 0 )\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS planned_downtime_mins,\n            SUM \n                (\n                    CASE\n                        WHEN hourly_daily.vm_status = 1\n                            THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                        ELSE 0\n                    END\n                ) AS uptime_mins,\n            SUM ( hourly_daily.minutes_in_status ) AS total\n        FROM\n            (\n                SELECT * FROM v4_3_statistics_vms_resources_usage_hourly\n                UNION\n                SELECT * FROM v4_3_statistics_vms_resources_usage_daily\n            ) AS hourly_daily\n            INNER JOIN v4_3_configuration_history_vms\n                ON \n                    (\n                        v4_3_configuration_history_vms.vm_id =\n                        hourly_daily.vm_id\n                    )\n            INNER JOIN v4_3_configuration_history_clusters\n                ON \n                    (\n                        v4_3_configuration_history_vms.cluster_id =\n                        v4_3_configuration_history_clusters.cluster_id\n                    )\n        WHERE\n            -- Here we filter by the datacenter chosen by the user\n            v4_3_configuration_history_vms.cluster_id in ($cluster_id)\n            -- Here we get only vms of type \"server\"\n         -- AND v4_3_configuration_history_vms.vm_type = 1\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- Here we get the latest clusters configuration\n            AND v4_3_configuration_history_clusters.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_3_configuration_history_clusters AS a\n                        GROUP BY a.cluster_id\n                    )\n            -- Here we get the latest vms configuration\n            AND v4_3_configuration_history_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( b.history_id )\n                        FROM v4_3_configuration_history_vms AS b\n                        GROUP BY b.vm_id\n                    )\n            -- This will determine if deleted hosts will be included in the report,\n            -- according to the user selection for \"show_deleted\" parameter\n            AND\n                CASE\n                    WHEN '$show_deleted'='Yes'\n                        THEN 1=1\n                    WHEN '$show_deleted'='No'\n                        THEN v4_3_configuration_history_vms.delete_date isnull\n                END\n        GROUP BY\n            v4_3_configuration_history_vms.cluster_id,\n            v4_3_configuration_history_clusters.cluster_name,\n            v4_3_configuration_history_vms.vm_id,\n            v4_3_configuration_history_vms.vm_name,\n            v4_3_configuration_history_vms.delete_date,\n            high_availability\n    ) AS sub_query\nGROUP BY cluster_id, name, delete_date, vm_name, high_availability\nORDER BY\n    (\n        CASE\n            WHEN delete_date IS NULL\n                THEN 0\n            ELSE 1\n        END\n    ) ASC,\n    CAST ( AVG ( uptime_mins ) AS float ) / CAST ( AVG ( total ) AS float ) DESC",
           "refId": "A",
           "select": [
             [

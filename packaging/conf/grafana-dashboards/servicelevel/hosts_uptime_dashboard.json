@@ -317,22 +317,6 @@
           "unit": "m"
         },
         {
-          "alias": "Total Time",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "total_time",
-          "thresholds": [],
-          "type": "number",
-          "unit": "m"
-        },
-        {
           "alias": "Create Date",
           "colorMode": null,
           "colors": [
@@ -379,20 +363,6 @@
           "thresholds": [],
           "type": "number",
           "unit": "m"
-        },
-        {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "none"
         }
       ],
       "targets": [
