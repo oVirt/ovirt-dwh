@@ -188,6 +188,7 @@ class Plugin(plugin.PluginBase):
         with open(self._engine_config, 'r') as f:
             content = []
             for line in f:
+                line = line.rstrip('\n')
                 if line.startswith('ENGINE_GRAFANA_FQDN='):
                     line = 'ENGINE_GRAFANA_FQDN={fqdn}'.format(
                         fqdn=self.environment[osetupcons.RenameEnv.FQDN],
