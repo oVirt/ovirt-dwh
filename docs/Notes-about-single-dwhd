@@ -1,0 +1,55 @@
+Notes about keeping a single dwhd/etl per engine
+
+oVirt allows setting up the engine and dwhd on separate machines. Running
+more than one dwhd per the same engine can cause problems, so engine-setup
+and dwh try quite hard to prevent that.
+
+In the engine database, there is a table called 'dwh_history_timekeeping',
+which includes a list of variables and their values. This is maintained by
+both engine-setup and dwh. It includes, among other things:
+
+dwhUuid - This is an identifier of the dwh instance that works with this
+engine. If there is no dwhd set up, it's empty. On the dwh machine, it's
+kept in /etc/ovirt-engine-dwh/ovirt-engine-dwhd.conf.d/10-setup-uuid.conf.
+If they are different, engine-setup prompts you to disconnect "the other".
+If you agree, it's eventually set to "ours" (the one saved or randomly-
+generated on the current machine). engine-cleanup empties it.
+
+dwhHostname - The hostname (as asked by engine-setup) of the dwh machine.
+Used for reporting, not for matching. Updated by engine-setup,
+ovirt-engine-rename, engine-cleanup (to an empty string).
+
+DwhCurrentlyRunning - Set by dwh to 1 when it starts, to 0 when it stops.
+Checked by engine-setup. Also set to 0 by engine-backup --mode=restore
+(unless passing --keep-temporary-data). See also:
+https://bugzilla.redhat.com/1878742
+
+DisconnectDwh - this isn't in this table, but in vdc_options - not sure
+why. Set to 1 by engine-setup to signal to a remote dwh that we want
+it to stop, and to 0 after we finish asking it (either because it
+stopped or because we gave up).
+
+Some example flow:
+
+1. You setup engine+dwh on a new machine A. All files/fields are populated,
+dwhd is up and enabled.
+
+2. You install dwh on another machine B, run engine-setup, and provide
+credentials of the engine DB on A. uuid does not match, so you are
+prompted to disconnect, stop and disable. You agree and stop/disable
+it on A, and engine-setup finishes successfully. At this point, uuid
+in the engine db matches the local one in the file, and these are
+different from the local file on A.
+
+3. You run engine-setup again on A. uuid does not match, so you are prompted
+to disconnect the one on B. You agree, engine-setup asks dwhd on B to stop,
+it does, and setup finishes successfully.
+
+4. You start dwhd on B. It checks uuid. Since it does not match,
+it stops, logging this in /var/log/ovirt-engine-dwh/ovirt-engine-dwhd.log:
+
+    This installation is invalid. There might be a more recent DWH instance on host A.
+
+5. You run engine-setup on B. uuid does not match, so you are prompted to
+disconnect. You agree, but do not stop dwhd. It is stopped automatically,
+on A, but not disabled.
