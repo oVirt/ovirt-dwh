@@ -72,7 +72,6 @@ class Plugin(plugin.PluginBase):
             odwhcons.Stages.STOP_DWHD,
         ),
         condition=lambda self: (
-            self.environment[oenginecons.CoreEnv.ENABLE] and
             not self.environment[oenginecons.EngineDBEnv.NEW_DATABASE]
         ),
     )
