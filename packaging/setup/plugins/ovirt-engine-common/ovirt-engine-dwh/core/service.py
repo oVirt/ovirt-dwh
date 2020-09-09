@@ -39,6 +39,7 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_TRANSACTION_BEGIN,
+        name=odwhcons.Stages.STOP_DWHD,
         before=(
             osetupcons.Stages.SYSTEM_HOSTILE_SERVICES_DETECTION,
         ),

@@ -20,7 +20,6 @@ from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.dwh import constants as odwhcons
 from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup.engine import vdcoption
-from ovirt_engine_setup.engine_common import constants as oengcommcons
 from ovirt_engine_setup.engine_common import database
 from ovirt_engine_setup.engine_common import dwh_history_timekeeping
 
@@ -65,16 +64,19 @@ class Plugin(plugin.PluginBase):
         self._remote_dwh_stopped = False
 
     @plugin.event(
-        stage=plugin.Stages.STAGE_MISC,
+        stage=plugin.Stages.STAGE_TRANSACTION_BEGIN,
         before=(
-            oengcommcons.Stages.DB_SCHEMA,
+            osetupcons.Stages.SYSTEM_HOSTILE_SERVICES_DETECTION,
+        ),
+        after=(
+            odwhcons.Stages.STOP_DWHD,
         ),
         condition=lambda self: (
             self.environment[oenginecons.CoreEnv.ENABLE] and
             not self.environment[oenginecons.EngineDBEnv.NEW_DATABASE]
         ),
     )
-    def _misc_stop_remote_dwh(self):
+    def _stop_remote_dwh(self):
         self._statement = database.Statement(
             dbenvkeys=oenginecons.Const.ENGINE_DB_ENV_KEYS,
             environment=self.environment,
@@ -130,7 +132,12 @@ class Plugin(plugin.PluginBase):
         after=(
             osetupcons.Stages.DIALOG_TITLES_S_SUMMARY,
         ),
-        condition=lambda self: self._remote_dwh_stopped,
+        condition=lambda self: (
+            self._remote_dwh_stopped and not
+            self.environment[
+                odwhcons.DBEnv.DISCONNECT_EXISTING_DWH
+            ]
+        ),
     )
     def _closeup(self):
         self.dialog.note(
