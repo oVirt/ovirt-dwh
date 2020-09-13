@@ -20,6 +20,7 @@ from ovirt_engine_setup.constants import classproperty
 from ovirt_engine_setup.constants import osetupattrsclass
 from ovirt_engine_setup.constants import osetupattrs
 from ovirt_engine_setup.dwh import constants as odwhcons
+from ovirt_engine_setup.dwh.constants import DBEnv as DWHDBEnv
 from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup.engine_common import constants as oengcommcons
 
@@ -290,91 +291,6 @@ class ConfigEnv(object):
     KEY_SIZE = 'OVESETUP_GRAFANA_CONFIG/keySize'
 
     PKI_APACHE_CSR_FILENAME = 'OVESETUP_GRAFANA_CONFIG/pkiApacheCSRFilename'
-
-
-@util.export
-@util.codegen
-@osetupattrsclass
-class DWHDBEnv(object):
-    """Sync with ovirt-dwh"""
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('DWH database host'),
-    )
-    def HOST(self):
-        return 'OVESETUP_DWH_DB/host'
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('DWH database port'),
-    )
-    def PORT(self):
-        return 'OVESETUP_DWH_DB/port'
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('DWH database secured connection'),
-    )
-    def SECURED(self):
-        return 'OVESETUP_DWH_DB/secured'
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('DWH database host name validation'),
-    )
-    def SECURED_HOST_VALIDATION(self):
-        return 'OVESETUP_DWH_DB/securedHostValidation'
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('DWH database name'),
-    )
-    def DATABASE(self):
-        return 'OVESETUP_DWH_DB/database'
-
-    @osetupattrs(
-        answerfile=True,
-        summary=True,
-        description=_('DWH database user name'),
-    )
-    def USER(self):
-        return 'OVESETUP_DWH_DB/user'
-
-    @osetupattrs(
-        answerfile=True,
-    )
-    def PASSWORD(self):
-        return 'OVESETUP_DWH_DB/password'
-
-    CONNECTION = 'OVESETUP_DWH_DB/connection'
-    STATEMENT = 'OVESETUP_DWH_DB/statement'
-    PGPASS_FILE = 'OVESETUP_DWH_DB/pgPassFile'
-    NEW_DATABASE = 'OVESETUP_DWH_DB/newDatabase'
-    NEED_DBMSUPGRADE = 'OVESETUP_DWH_DB/needDBMSUpgrade'
-
-    @osetupattrs(
-        answerfile=True,
-    )
-    def DUMPER(self):
-        return 'OVESETUP_DWH_DB/dumper'
-
-    @osetupattrs(
-        answerfile=True,
-    )
-    def FILTER(self):
-        return 'OVESETUP_DWH_DB/filter'
-
-    @osetupattrs(
-        answerfile=True,
-    )
-    def RESTORE_JOBS(self):
-        return 'OVESETUP_DWH_DB/restoreJobs'
 
 
 @util.export

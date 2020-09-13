@@ -204,6 +204,7 @@ Requires:       postgresql-contrib >= 12.0
 Summary:	%{product_name} Grafana integration setup
 Group:		Virtualization/Management
 Requires:	ovirt-engine-setup-plugin-ovirt-engine-common >= 4.4.0
+Requires:	%{name}-setup = %{version}-%{release}
 Requires:	grafana >= 6.2
 Requires:	grafana-postgres >= 6.2
 Requires:	httpd
