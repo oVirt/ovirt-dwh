@@ -353,6 +353,27 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Tue Sep 15 2020 Shirly Radco <sradco@redhat.com> - 4.4.3
+Fixed issues:
+- Bug 1866356 - Update the dashboards default time period
+- Bug 1861368 - packaging: setup: Give grafana more time to start
+- Fix typo in trend dashboard
+- Bug 1873087 - Update service level dashboards to show exact number of entities
+- Bug 1873087 - Update inventory dashboards to show exact number of entities
+- Bug 1873087 - Update trend dashboards to show exact number of entities
+- Bug 1873087 - Update executive dashboards to show exact number of entities
+- Bug 1846365 - packaging: grafana: rename: Handle engine conf
+- Bug 1874029 - Add missing column in inventory dashboard
+- Bug 1876802 - Adding a missing alias to a column settings
+- Bug 1853252 - Update Inventory Dashboards to include all deleted entities
+- Bug 1846365 - packaging: rename: Drop extra newline
+- Bug 1877280 - Remove time picker in hosts and vms inventory dashboard
+- Bug 1877706 - packaging: Fixed PostgreSQL vacuum SQL cmd. doc. ref.
+- Bug 1874880 - Update column settings in inventory dashboards
+- Bug 1874880 - Update column settings in executive dashboards
+- Bug 1878496 - Add delete_date columns to uptime dashboard
+- Bug 1874880 - Update column settings in service level dashboards
+
 * Wed Aug 19 2020 Shirly Radco <sradco@redhat.com> - 4.4.2.1
 Fixed issues:
 - Bug 1857778 - Add to Trend Dashboard a Hosts section
