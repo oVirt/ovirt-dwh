@@ -636,7 +636,7 @@
           "unit": "short"
         },
         {
-          "alias": "CPU Usage",
+          "alias": "Avg. CPU Usage",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
