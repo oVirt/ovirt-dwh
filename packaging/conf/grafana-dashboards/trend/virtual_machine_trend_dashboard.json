@@ -215,8 +215,9 @@
       },
       "yaxes": [
         {
-          "format": "none",
-          "label": null,
+          "decimals": null,
+          "format": "MBs",
+          "label": "",
           "logBase": 1,
           "max": null,
           "min": null,
@@ -321,7 +322,8 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "decimals": null,
+          "format": "percent",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -426,7 +428,7 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "percent",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -532,7 +534,7 @@
       },
       "yaxes": [
         {
-          "format": "none",
+          "format": "percent",
           "label": null,
           "logBase": 1,
           "max": null,
