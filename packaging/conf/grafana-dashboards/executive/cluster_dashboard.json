@@ -148,6 +148,7 @@
         "#d44a3a"
       ],
       "datasource": "oVirt DWH",
+      "decimals": 0,
       "description": "Number of hosts in the cluster.",
       "format": "none",
       "gauge": {
@@ -253,6 +254,7 @@
         "#d44a3a"
       ],
       "datasource": "oVirt DWH",
+      "decimals": 0,
       "description": "Number of virtual machines in the cluster.",
       "format": "none",
       "gauge": {
@@ -357,6 +359,7 @@
         "#299c46"
       ],
       "datasource": "oVirt DWH",
+      "decimals": 2,
       "description": "Average uptime percent for the hosts in the specific cluster.",
       "format": "percent",
       "gauge": {
@@ -462,6 +465,7 @@
         "#d44a3a"
       ],
       "datasource": "oVirt DWH",
+      "decimals": 2,
       "description": "Average percentage of CPU usage for all hosts in the selected cluster.",
       "format": "percent",
       "gauge": {
@@ -671,7 +675,7 @@
         "#299c46"
       ],
       "datasource": "oVirt DWH",
-      "decimals": null,
+      "decimals": 2,
       "description": "Uptime percent of high availability virtual machines.",
       "format": "percent",
       "gauge": {
@@ -1127,7 +1131,7 @@
       },
       "yaxes": [
         {
-          "decimals": null,
+          "decimals": 1,
           "format": "none",
           "label": null,
           "logBase": 1,
@@ -1236,9 +1240,9 @@
       },
       "yaxes": [
         {
-          "decimals": null,
+          "decimals": 1,
           "format": "decmbytes",
-          "label": null,
+          "label": "",
           "logBase": 1,
           "max": null,
           "min": null,

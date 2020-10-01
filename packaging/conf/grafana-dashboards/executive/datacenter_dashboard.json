@@ -291,6 +291,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
+      "decimals": 2,
       "description": "Average percentage of CPU usage for all hosts in the selected data center. The thresholds are set at 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
       "gauge": {
@@ -502,6 +503,7 @@
         "#299c46"
       ],
       "datasource": "oVirt DWH",
+      "decimals": 2,
       "description": "Calculates average uptime percent for all hosts. Thresholds are set to 60% and 80%.\nThis report shows the latest configuration for the selected data center.",
       "format": "percent",
       "gauge": {
@@ -607,6 +609,7 @@
         "#d44a3a"
       ],
       "datasource": "oVirt DWH",
+      "decimals": 2,
       "description": "Calculates used disk size percent average of all storage domains attached to the selected data center. Thresholds are set to 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
       "gauge": {
