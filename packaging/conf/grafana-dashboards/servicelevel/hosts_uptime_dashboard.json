@@ -148,6 +148,7 @@
             "mean"
           ],
           "defaults": {
+            "decimals": 2,
             "max": 100,
             "min": 0,
             "title": "Planned Downtime",
@@ -249,6 +250,7 @@
             "mean"
           ],
           "defaults": {
+            "decimals": 2,
             "max": 100,
             "min": 0,
             "title": "Unplanned Downtime",
