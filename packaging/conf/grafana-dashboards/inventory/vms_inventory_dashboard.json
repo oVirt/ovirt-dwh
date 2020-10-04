@@ -304,7 +304,7 @@
             "rgba(50, 172, 45, 0.97)"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": null,
+          "decimals": 0,
           "mappingType": 1,
           "pattern": "vm_cpucores",
           "thresholds": [],

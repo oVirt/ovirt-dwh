@@ -469,7 +469,7 @@
       },
       "yaxes": [
         {
-          "decimals": 0,
+          "decimals": 1,
           "format": "decgbytes",
           "label": null,
           "logBase": 1,
@@ -603,7 +603,7 @@
       },
       "yaxes": [
         {
-          "decimals": 0,
+          "decimals": 1,
           "format": "decgbytes",
           "label": null,
           "logBase": 1,
@@ -738,7 +738,7 @@
       },
       "yaxes": [
         {
-          "decimals": null,
+          "decimals": 1,
           "format": "decgbytes",
           "label": "",
           "logBase": 1,
@@ -872,7 +872,7 @@
       },
       "yaxes": [
         {
-          "decimals": 0,
+          "decimals": 1,
           "format": "decgbytes",
           "label": null,
           "logBase": 1,

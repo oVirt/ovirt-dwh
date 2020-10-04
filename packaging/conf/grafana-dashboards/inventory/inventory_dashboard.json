@@ -210,7 +210,7 @@
             "rgba(50, 172, 45, 0.97)"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": null,
+          "decimals": 0,
           "mappingType": 1,
           "pattern": "number_of_hosts",
           "thresholds": [],
@@ -226,7 +226,7 @@
             "rgba(50, 172, 45, 0.97)"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": null,
+          "decimals": 0,
           "mappingType": 1,
           "pattern": "num_of_running_vms",
           "thresholds": [],
@@ -242,7 +242,7 @@
             "rgba(50, 172, 45, 0.97)"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": null,
+          "decimals": 0,
           "mappingType": 1,
           "pattern": "total_configured_vms",
           "thresholds": [],
@@ -369,7 +369,7 @@
             "rgba(50, 172, 45, 0.97)"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": null,
+          "decimals": 0,
           "mappingType": 1,
           "pattern": "total_hosts_num_of_cpus",
           "thresholds": [],
@@ -385,7 +385,7 @@
             "rgba(50, 172, 45, 0.97)"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": null,
+          "decimals": 0,
           "mappingType": 1,
           "pattern": "total_vms_cpu_cores",
           "thresholds": [],
@@ -401,7 +401,7 @@
             "rgba(50, 172, 45, 0.97)"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": null,
+          "decimals": 0,
           "mappingType": 1,
           "pattern": "cpu_cores_running",
           "thresholds": [],
