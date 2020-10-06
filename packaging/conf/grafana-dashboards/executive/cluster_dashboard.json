@@ -457,12 +457,12 @@
       "colorBackground": false,
       "colorValue": false,
       "colors": [
-        "#d44a3a",
+        "#299c46",
         "rgba(237, 129, 40, 0.89)",
-        "#299c46"
+        "#d44a3a"
       ],
       "datasource": "oVirt DWH",
-      "description": "Average resources that are not used ( CPU and memory ) for the specific cluster.",
+      "description": "Average percentage of CPU usage for all hosts in the selected cluster.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -513,14 +513,14 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "average_resources_not_used",
+      "tableColumn": "average_cpu_used",
       "targets": [
         {
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR12 - This query returns the average\n-- resources that are not used ( cpu and memory )\n-- for the hosts in the specific cluster\n\nSELECT\n    100 - ( cpu_usage_percent_avg + memory_usage_percent_avg ) / 2\n    AS average_resources_not_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we get only active hosts\n            v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_3_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n    ) AS average_resources",
+          "rawSql": "-- DR12 - This query returns the average\n-- resources that are used ( cpu and memory )\n-- for the hosts in the specific cluster\n\nSELECT\n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we get only active hosts\n            v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_3_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n    ) AS average_cpu_percent",
           "refId": "A",
           "select": [
             [
@@ -542,10 +542,114 @@
           ]
         }
       ],
-      "thresholds": "",
+      "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Cluster Host Resources (DR12)",
+      "title": "Cluster Host CPU Usage (DR12)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "decimals": 2,
+      "description": "Average percentage of memory usage for all hosts in the selected cluster.",
+      "format": "percent",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": true,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 15,
+        "y": 4
+      },
+      "id": 38,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "average_memory_used",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR12 - This query returns the average\n-- resources that are used ( cpu and memory )\n-- for the hosts in the specific cluster\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we get only active hosts\n            v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_3_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n    ) AS average_memory_percent\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "60,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Cluster Host Memory Usage (DR12)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -579,8 +683,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 15,
+        "w": 5,
+        "x": 19,
         "y": 4
       },
       "id": 5,

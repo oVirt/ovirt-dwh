@@ -285,15 +285,13 @@
     {
       "cacheTimeout": null,
       "colorBackground": true,
-      "colorPrefix": false,
       "colorValue": false,
       "colors": [
         "#299c46",
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "oVirt DWH",
-      "description": "Calculates averages of CPU and memory percentage for all hosts and averages the two values. The thresholds are set at 60% and 80%.\nThis report shows the latest configuration for the selected data center.",
+      "description": "Average percentage of CPU usage for all hosts in the selected data center. The thresholds are set at 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -305,7 +303,113 @@
       "gridPos": {
         "h": 4,
         "w": 5,
-        "x": 3,
+        "x": 2,
+        "y": 7
+      },
+      "id": 22,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "average_cpu_used",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR11 - This query returns for\n-- the specific data center the average hosts\n-- resources that are used ( cpu and memory )\n-- in the latest data center configuration.\n\nSELECT\n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n            INNER JOIN v4_3_latest_configuration_clusters\n                ON \n                    (\n                        v4_3_latest_configuration_clusters.cluster_id =\n                        v4_3_latest_configuration_hosts.cluster_id\n                    )\n        WHERE\n        -- Here we get only active hosts\n        v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n        -- Here we filter by the datacenter chosen by the user\n        AND v4_3_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    ) AS average_cpu_percent",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "60,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Data Center Host CPU Usage (DR11)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": "oVirt DWH",
+      "decimals": 2,
+      "description": "Average percentage of memory usage for all hosts in the selected data center. The thresholds are set at 60% and 80%.\nThis report shows the latest configuration.",
+      "format": "percent",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 7,
         "y": 7
       },
       "id": 6,
@@ -343,14 +447,14 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "average_resources_not_used",
+      "tableColumn": "average_memory_used",
       "targets": [
         {
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR11 - This query returns for\n-- the specific data center the average hosts\n-- resources that are not used ( cpu and memory )\n-- in the latest data center configuration.\n\nSELECT\n    -- Reduce from all resources the average used one's to reach the average unused one's  \n    100 - ( cpu_usage_percent_avg + memory_usage_percent_avg ) / 2 AS average_resources_not_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n            INNER JOIN v4_3_latest_configuration_clusters\n                ON \n                    (\n                        v4_3_latest_configuration_clusters.cluster_id =\n                        v4_3_latest_configuration_hosts.cluster_id\n                    )\n        WHERE\n        -- Here we get only active hosts\n        v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n        -- Here we filter by the datacenter chosen by the user\n        AND v4_3_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    ) AS average_resources",
+          "rawSql": "-- DR11 - This query returns for\n-- the specific data center the average hosts\n-- resources that are used ( cpu and memory )\n-- in the latest data center configuration.\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n            INNER JOIN v4_3_latest_configuration_clusters\n                ON \n                    (\n                        v4_3_latest_configuration_clusters.cluster_id =\n                        v4_3_latest_configuration_hosts.cluster_id\n                    )\n        WHERE\n        -- Here we get only active hosts\n        v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n        -- Here we filter by the datacenter chosen by the user\n        AND v4_3_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    ) AS average_memory_percent",
           "refId": "A",
           "select": [
             [
@@ -375,7 +479,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Data Center Host Resources (DR11)",
+      "title": "Data Center Host Memory Usage (DR11)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -410,7 +514,7 @@
       "gridPos": {
         "h": 4,
         "w": 5,
-        "x": 9,
+        "x": 12,
         "y": 7
       },
       "id": 7,
@@ -498,12 +602,12 @@
       "colorPrefix": false,
       "colorValue": false,
       "colors": [
-        "#d44a3a",
+        "#299c46",
         "rgba(237, 129, 40, 0.89)",
-        "#299c46"
+        "#d44a3a"
       ],
       "datasource": "oVirt DWH",
-      "description": "Calculates free disk size percent average of all storage domains attached to the data center. Thresholds are set to 60% and 80%.\nThis report shows the latest configuration for the selected data center.",
+      "description": "Calculates used disk size percent average of all storage domains attached to the selected data center. Thresholds are set to 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -515,7 +619,7 @@
       "gridPos": {
         "h": 4,
         "w": 5,
-        "x": 15,
+        "x": 17,
         "y": 7
       },
       "id": 8,
@@ -553,14 +657,14 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "free_disk_size_gb_percent",
+      "tableColumn": "used_disk_size_gb_percent",
       "targets": [
         {
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR8 - This query returns the available disk size percent\n-- of the storage domains in the chosen datacenter\n-- in the latest configuration.\n\nSELECT\n    (\n        -- Available disk size\n        SUM ( CAST ( available_disk_size_gb AS float ) ) /\n        -- Total disk size ( available and used )\n        SUM \n            (\n                CAST ( used_disk_size_gb AS float ) +\n                CAST ( available_disk_size_gb AS float )\n            )\n    ) * 100 AS free_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\n    INNER JOIN v4_3_latest_map_datacenters_storage_domains\n        ON \n            (\n                storage_domain_samples_history.storage_domain_id =\n                v4_3_latest_map_datacenters_storage_domains.storage_domain_id\n            )\nWHERE\n    -- Here we filter the datacenter chosen by the user\n    v4_3_latest_map_datacenters_storage_domains.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    -- Here we get the latest storage domains configuration\n    AND storage_domain_samples_history.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )",
+          "rawSql": "-- DR8 - This query returns the used disk size percent\n-- of the storage domains in the chosen datacenter\n-- in the latest configuration.\n\nSELECT\n    (\n        -- Used disk size\n        SUM ( CAST ( used_disk_size_gb AS float ) ) /\n        -- Total disk size ( available and used )\n        SUM \n            (\n                CAST ( used_disk_size_gb AS float ) +\n                CAST ( available_disk_size_gb AS float )\n            )\n    ) * 100 AS used_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\n    INNER JOIN v4_3_latest_map_datacenters_storage_domains\n        ON \n            (\n                storage_domain_samples_history.storage_domain_id =\n                v4_3_latest_map_datacenters_storage_domains.storage_domain_id\n            )\nWHERE\n    -- Here we filter the datacenter chosen by the user\n    v4_3_latest_map_datacenters_storage_domains.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    -- Here we get the latest storage domains configuration\n    AND storage_domain_samples_history.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )",
           "refId": "A",
           "select": [
             [
@@ -585,7 +689,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Data Center Storage Space (DR8)",
+      "title": "Data Center Storage Space Usage (DR8)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [

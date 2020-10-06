@@ -304,8 +304,7 @@
         "#d44a3a"
       ],
       "datasource": "oVirt DWH",
-      "decimals": 0,
-      "description": "Calculates averages of CPU and memory percent for all hosts in the system and averages the two values. The thresholds are 60% and 80%. This report shows the latest configuration.",
+      "description": "Average percentage of CPU usage for all hosts in the system. The thresholds are 60% and 80%. This report shows the latest configuration.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -356,14 +355,14 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "average_resources_not_used",
+      "tableColumn": "average_cpu_used",
       "targets": [
         {
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR10 - This query returns the average\n-- hosts resources ( cpu + memory ) that are unused,\n-- in the latest configuration.\n\n\nSELECT\n    -- Reduce from all resources the average used one's to reach the average unused one's \n    100 - ( cpu_usage_percent_avg + memory_usage_percent_avg ) / 2 AS average_resources_not_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter only active hosts\n            v4_3_statistics_hosts_resources_usage_samples.host_status = 1  \n    ) AS average_resources",
+          "rawSql": "-- DR10 - This query returns the average\n-- hosts resources ( cpu and memory ) that are used,\n-- in the latest configuration.\n\nSELECT \n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter only active hosts\n            v4_3_statistics_hosts_resources_usage_samples.host_status = 1  \n    ) AS average_cpu_percent",
           "refId": "A",
           "select": [
             [
@@ -388,7 +387,111 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "System Host Resources (DR10)",
+      "title": "System Host CPU Usage (DR10)",
+      "type": "singlestat",
+      "valueFontSize": "80%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "avg"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": true,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "decimals": 2,
+      "description": "Average percentage of memory usage for all hosts in the system. The thresholds are 60% and 80%. This report shows the latest configuration.",
+      "format": "percent",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 4,
+        "y": 7
+      },
+      "id": 18,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "options": {},
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false
+      },
+      "tableColumn": "average_memory_used",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR10 - This query returns the average\n-- hosts resources ( cpu and memory ) that are used,\n-- in the latest configuration.\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter only active hosts\n            v4_3_statistics_hosts_resources_usage_samples.host_status = 1  \n    ) AS average_memory_percent",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "60,80",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "System Host memory Usage (DR10)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -423,7 +526,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 4,
+        "x": 8,
         "y": 7
       },
       "id": 9,
@@ -511,13 +614,13 @@
       "colorBackground": true,
       "colorValue": false,
       "colors": [
-        "#d44a3a",
+        "#299c46",
         "rgba(237, 129, 40, 0.89)",
-        "#299c46"
+        "#d44a3a"
       ],
       "datasource": "oVirt DWH",
       "decimals": 0,
-      "description": "Calculates free disk size percent average of all storage domains in the system from their latest configuration. Thresholds are 60% and 80%.",
+      "description": "Calculates used disk size percent average for all storage domains in the system from their latest configuration. Thresholds are 60% and 80%.",
       "format": "percent",
       "gauge": {
         "maxValue": 100,
@@ -529,7 +632,7 @@
       "gridPos": {
         "h": 3,
         "w": 4,
-        "x": 8,
+        "x": 12,
         "y": 7
       },
       "id": 10,
@@ -568,14 +671,14 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "free_disk_size_gb_percent",
+      "tableColumn": "used_disk_size_gb_percent",
       "targets": [
         {
           "format": "table",
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR7 - This query returns the available disk size percent\n-- out of the total storage domains disks space.\n-- in the latest configuration.\n\nSELECT\n    CASE\n        WHEN \n            SUM \n                (\n                    cast ( used_disk_size_gb AS float ) +\n                    cast ( available_disk_size_gb AS float )\n                ) != 0\n            THEN \n                ( \n                    SUM ( cast ( available_disk_size_gb AS float ) ) \n                    /\n                    SUM \n                        (\n                            cast ( used_disk_size_gb AS float ) +\n                            cast ( available_disk_size_gb AS float )\n                        )\n                ) * 100\n        ELSE NULL\n    END AS free_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\nWHERE\n    -- Here we get the latest storage domains configuration\n    history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )",
+          "rawSql": "-- DR7 - This query returns the used disk size percent\n-- out of the total storage domains disks space.\n-- in the latest configuration.\n\nSELECT\n    CASE\n        WHEN \n            SUM \n                (\n                    cast ( used_disk_size_gb AS float ) +\n                    cast ( available_disk_size_gb AS float )\n                ) != 0\n            THEN \n                ( \n                    SUM ( cast ( used_disk_size_gb AS float ) ) \n                    /\n                    SUM \n                        (\n                            cast ( used_disk_size_gb AS float ) +\n                            cast ( available_disk_size_gb AS float )\n                        )\n                ) * 100\n        ELSE NULL\n    END AS used_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\nWHERE\n    -- Here we get the latest storage domains configuration\n    history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )",
           "refId": "A",
           "select": [
             [
@@ -600,7 +703,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "System Storage Space (DR7)",
+      "title": "System Storage Space Usage (DR7)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
