@@ -133,10 +133,10 @@
     {
       "cacheTimeout": null,
       "datasource": "oVirt DWH",
-      "description": "This report displays the average planned and unplanned downtime of a selected host within a selected period.",
+      "description": "This report displays the average planned downtime of a selected host within a selected period.",
       "gridPos": {
         "h": 6,
-        "w": 12,
+        "w": 6,
         "x": 6,
         "y": 4
       },
@@ -150,6 +150,7 @@
           "defaults": {
             "max": 100,
             "min": 0,
+            "title": "Planned Downtime",
             "unit": "percentunit"
           },
           "mappings": [],
@@ -179,8 +180,135 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR8 - This query returns for the specific host\n-- the total Unplanned_Downtime, Planned_Downtime, Uptime and total time in minutes.\n\n-- Unplanned downtime and planned downtime\nSELECT\n    SUM \n        (\n            CASE\n                WHEN host_status = 2\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS \"Planned Downtime\",\n    SUM \n        (\n            CASE\n                WHEN host_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS \"Unplanned Downtime\"\nFROM\n    (\n        SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n        UNION\n        SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n    ) AS hourly_daily\nWHERE\n    -- Here we filter by the vm id chosen by the user\n    hourly_daily.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()",
+          "rawSql": "-- BR8 - This query returns for the specific host\n-- the total Unplanned_Downtime, Planned_Downtime, Uptime and total time in minutes.\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\n\n-- Planned downtime\nSELECT\n    SUM \n        (\n            CASE\n                WHEN host_status = 2\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( samples.minutes_in_status ) AS \"Planned Downtime\"\nFROM v4_3_statistics_hosts_resources_usage_samples AS samples\nWHERE\n    -- Show data only when the selected period is up to 24 hours back\n    $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the vm id chosen by the user\n    AND samples.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()",
           "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR8 - This query returns for the specific host\n-- the total Unplanned_Downtime, Planned_Downtime, Uptime and total time in minutes.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\n\n-- Planned downtime\nSELECT\n    SUM \n        (\n            CASE\n                WHEN host_status = 2\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS \"Planned Downtime\"\nFROM\n    (\n            SELECT history_datetime, host_status, minutes_in_status, host_id\n            FROM v4_3_statistics_hosts_resources_usage_hourly\n        UNION\n            SELECT history_datetime, host_status, minutes_in_status, host_id \n            FROM v4_3_statistics_hosts_resources_usage_daily\n    ) AS hourly_daily\nWHERE\n    -- Show data only when the selected period is more then 24 hours back\n    $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the vm id chosen by the user\n    AND hourly_daily.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Host Downtime (BR8)",
+      "type": "gauge"
+    },
+    {
+      "description": "This report displays the average unplanned downtime of a selected host within a selected period.",
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 4
+      },
+      "id": 12,
+      "links": [],
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "max": 100,
+            "min": 0,
+            "title": "Unplanned Downtime",
+            "unit": "percentunit"
+          },
+          "mappings": [],
+          "override": {},
+          "thresholds": [
+            {
+              "color": "green",
+              "index": 0,
+              "value": null
+            },
+            {
+              "color": "red",
+              "index": 1,
+              "value": 80
+            }
+          ],
+          "values": true
+        },
+        "orientation": "auto",
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "6.2.2",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR8 - This query returns for the specific host\n-- the total Unplanned_Downtime, Planned_Downtime, Uptime and total time in minutes.\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\n\n-- Unplanned downtime\nSELECT\n    SUM \n        (\n            CASE\n                WHEN host_status = 3\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( samples.minutes_in_status ) AS \"Unplanned Downtime\"\nFROM v4_3_statistics_hosts_resources_usage_samples AS samples\nWHERE\n    -- Show data only when the selected period is up to 24 hours back\n    $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the vm id chosen by the user\n    AND samples.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR8 - This query returns for the specific host\n-- the total Unplanned_Downtime, Planned_Downtime, Uptime and total time in minutes.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\n\n-- Unplanned downtime\nSELECT\n    SUM \n        (\n            CASE\n                WHEN host_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS \"Unplanned Downtime\"\nFROM\n    (\n            SELECT history_datetime, host_status, minutes_in_status, host_id\n            FROM v4_3_statistics_hosts_resources_usage_hourly\n        UNION\n            SELECT history_datetime, host_status, minutes_in_status, host_id \n            FROM v4_3_statistics_hosts_resources_usage_daily\n    ) AS hourly_daily\nWHERE\n    -- Show data only when the selected period is more then 24 hours back\n    $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the vm id chosen by the user\n    AND hourly_daily.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()",
+          "refId": "B",
           "select": [
             [
               {
@@ -371,8 +499,34 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR8 - This query will return the weighted average uptime\n-- and downtime data of each host in a requested data center, \n-- and cluster for a requested period.\n\nSELECT\n    host_name,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 2\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS planned_downtime,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS unplanned_downtime,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 2\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS planned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS unplanned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 1\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS uptime_in_min,\n--  SUM ( hourly_daily.minutes_in_status ) AS total_time,\n    create_date,\n    update_date\nFROM\n    (\n        SELECT * FROM v4_3_statistics_hosts_resources_usage_hourly\n        UNION\n        SELECT * FROM v4_3_statistics_hosts_resources_usage_daily\n    ) AS hourly_daily\n    INNER JOIN v4_3_latest_configuration_hosts\n        ON \n            (\n                v4_3_latest_configuration_hosts.host_id =\n                hourly_daily.host_id\n            )\nWHERE\n    hourly_daily.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\nGROUP BY host_name, create_date, update_date",
+          "rawSql": "-- BR8 - This query will return the weighted average uptime\n-- and downtime data of each host in a requested data center, \n-- and cluster for a requested period.\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT\n    host_name,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 2\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( samples.minutes_in_status ) AS planned_downtime,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 3\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( samples.minutes_in_status ) AS unplanned_downtime,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 2\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS planned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 3\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS unplanned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 1\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS uptime_in_min,\n--  SUM ( samples.minutes_in_status ) AS total_time,\n    create_date,\n    update_date\nFROM\n    (\n        SELECT history_datetime, host_id, host_status, minutes_in_status\n        FROM v4_3_statistics_hosts_resources_usage_samples\n    ) AS samples\n    INNER JOIN v4_3_latest_configuration_hosts\n        ON \n            (\n                v4_3_latest_configuration_hosts.host_id =\n                samples.host_id\n            )\nWHERE\n    -- Show data only when the selected period is up to 24 hours back \n    $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\n    AND samples.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\nGROUP BY host_name, create_date, update_date",
           "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR8 - This query will return the weighted average uptime\n-- and downtime data of each host in a requested data center, \n-- and cluster for a requested period.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT\n    host_name,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 2\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS planned_downtime,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS unplanned_downtime,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 2\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS planned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS unplanned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 1\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS uptime_in_min,\n--  SUM ( hourly_daily.minutes_in_status ) AS total_time,\n    create_date,\n    update_date\nFROM\n    (\n            SELECT history_datetime, host_id, host_status, minutes_in_status\n            FROM v4_3_statistics_hosts_resources_usage_hourly\n        UNION\n            SELECT history_datetime, host_id, host_status, minutes_in_status \n            FROM v4_3_statistics_hosts_resources_usage_daily\n    ) AS hourly_daily\n    INNER JOIN v4_3_latest_configuration_hosts\n        ON \n            (\n                v4_3_latest_configuration_hosts.host_id =\n                hourly_daily.host_id\n            )\nWHERE\n    -- Show data only when the selected period is more then 24 hours back\n    $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\n    AND hourly_daily.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\nGROUP BY host_name, create_date, update_date",
+          "refId": "B",
           "select": [
             [
               {
