@@ -241,7 +241,7 @@
       },
       "yaxes": [
         {
-          "decimals": null,
+          "decimals": 1,
           "format": "MBs",
           "label": "",
           "logBase": 1,
@@ -374,7 +374,7 @@
       },
       "yaxes": [
         {
-          "decimals": null,
+          "decimals": 1,
           "format": "percent",
           "label": null,
           "logBase": 1,
@@ -506,6 +506,7 @@
       },
       "yaxes": [
         {
+          "decimals": 1,
           "format": "percent",
           "label": null,
           "logBase": 1,
@@ -638,6 +639,7 @@
       },
       "yaxes": [
         {
+          "decimals": 1,
           "format": "percent",
           "label": null,
           "logBase": 1,
