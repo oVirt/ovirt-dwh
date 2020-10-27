@@ -354,6 +354,23 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Tue Oct 27 2020 Shirly Radco <sradco@redhat.com> - 4.4.3.2
+Fixed issues:
+- spec: Require only eap7-dom4j
+- Bug 1871865 - Update units setting in dashboards
+- Bug 1885654 - Fix resources usage queries to show the used resources
+- Bug 1851029 - Add to Inventory Dashboard queries the samples table
+- Bug 1851029 - Add to Executive Dashboard queries the samples table
+- Bug 1851029 - Add to Trend Dashboard queries the samples table
+- Bug 1851029 - Add to Service Level Dashboard queries the samples table
+- Bug 1853252 - Update Trend Dashboards to include all deleted entities
+- Bug 1853252 - Update Service Level Dashboards to include all deleted entities
+- Bug 1853252 - Update Executive Dashboards to include all deleted entities
+- Update decimals in executive dashboards
+- Update decimals in inventory dashboards
+- Update decimals in service level dashboards
+- Update decimals in trend dashboards
+
 * Wed Oct 14 2020 Shirly Radco <sradco@redhat.com> - 4.4.3.1
 Fixed issues:
 - Update memory_size_mb name in Inventory Dashboards
