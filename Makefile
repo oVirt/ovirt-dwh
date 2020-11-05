@@ -55,7 +55,6 @@ GRAFANA_STATE_DIR=$(LOCALSTATE_DIR)/lib/grafana
 PYTHON_DIR=$(PYTHON_SYS_DIR)
 PYTHON3_DIR=$(PYTHON3_SYS_DIR)
 DEV_PYTHON_DIR=
-DEV_PYTHON3_DIR=
 PKG_USER=ovirt
 PKG_GROUP=ovirt
 #
@@ -92,7 +91,6 @@ BUILD_FILE=tmp.built
 	-e "s|@PKG_STATE_DIR@|$(PKG_STATE_DIR)|g" \
 	-e "s|@PKG_JAVA_LIB@|$(PKG_JAVA_LIB)|g" \
 	-e "s|@DEV_PYTHON_DIR@|$(DEV_PYTHON_DIR)|g" \
-	-e "s|@DEV_PYTHON3_DIR@|$(DEV_PYTHON3_DIR)|g" \
 	-e "s|@DWH_VARS@|$(PKG_SYSCONF_DIR)/ovirt-engine-dwhd.conf|g" \
 	-e "s|@DWH_DEFAULTS@|$(PKG_DATA_DIR)/services/ovirt-engine-dwhd/ovirt-engine-dwhd.conf|g" \
 	-e "s|@RPM_VERSION@|$(RPM_VERSION)|g" \
@@ -232,8 +230,7 @@ all-dev:
 	rm -f $(GENERATED)
 	$(MAKE) \
 		all \
-		DEV_PYTHON_DIR="$(PREFIX)$(PYTHON_SYS_DIR)" \
-		DEV_PYTHON3_DIR="$(PREFIX)$(PYTHON3_SYS_DIR)" \
+		DEV_PYTHON_DIR="$(PREFIX)$(PYTHON3_SYS_DIR)" \
 		$(NULL)
 
 install-dev:	\
