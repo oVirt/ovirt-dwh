@@ -1,4 +1,4 @@
-#!/usr/bin/python@PY_VERSION@
+#!/usr/bin/python3
 
 #
 # Copyright oVirt Authors

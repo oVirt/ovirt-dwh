@@ -53,31 +53,6 @@
 %global product_name Data warehouse package for oVirt Virtualization Suite
 %global product_description oVirt virtualization manager data warehouse
 
-#
-# Automatic byte compiling outside of /usr/lib(64)?/pythonX.Y/ should be used
-# on Fedora 28+ and EL8 [1], but it would require too much work to support
-# on EL7, so it's turned off
-#
-# [1] https://fedoraproject.org/wiki/Changes/No_more_automagic_Python_bytecompilation#How_we_are_changing_it
-#
-%if 0%{?fedora} || 0%{?rhel} >= 8
-%global use_python_bytecompile 1
-%global _python_bytecompile_extra 0
-%global with_python3 1
-%define py_version 3
-%else
-%global use_python_bytecompile 0
-%global _python_bytecompile_extra 1
-%global with_python3 0
-%define py_version 2
-%endif
-
-%if 0%{?rhel} >= 8
-%global with_python2 0
-%else
-%global with_python2 1
-%endif
-
 %global engine_gid 108
 %global engine_group ovirt
 %global engine_uid 108
@@ -112,11 +87,8 @@ getent passwd %1 >/dev/null || useradd -r -u %2 -g %3 -c %5 -s /sbin/nologin -d 
 	DATAROOT_DIR=%{_datadir} \\\
 	MAN_DIR=%{_mandir} \\\
 	DOC_DIR=%{_docdir} \\\
-	PYTHON=%{__python2} \\\
-	PYTHON_DIR=%{python2_sitelib} \\\
-	%{?with_python3: PYTHON3=%{__python3}} \\\
-	%{?with_python3: PYTHON3_DIR=%{python3_sitelib}} \\\
-	PY_VERSION=%{py_version} \\\
+	PYTHON=%{__python3} \\\
+	PYTHON_DIR=%{python3_sitelib} \\\
 	JAVA_DIR=%{_javadir} \\\
 	PKG_USER=%{engine_user} \\\
 	PKG_GROUP=%{engine_group} \\\
@@ -140,14 +112,8 @@ BuildRequires:	jpackage-utils
 BuildRequires:	javapackages-tools
 BuildRequires:	make
 
-%if 0%{?with_python2}
-BuildRequires:	python
-BuildRequires:	python2-devel
-%endif
-%if 0%{?with_python3}
 BuildRequires:	python3
 BuildRequires:	python3-devel
-%endif
 
 %if %{ovirt_install_systemd}
 BuildRequires:	systemd
@@ -182,16 +148,9 @@ Summary:	%{product_name} setup
 Group:		Virtualization/Management
 Requires:	ovirt-engine-setup-plugin-ovirt-engine-common >= 4.4.0
 Requires:	%{name}-grafana-integration-setup = %{version}-%{release}
-%if 0%{?with_python2}
-BuildRequires:	python
-Requires: python2-ovirt-setup-lib
-BuildRequires:	python2-devel
-%endif
-%if 0%{?with_python3}
 BuildRequires:	python3
 BuildRequires:	python3-devel
 Requires: python%{python3_pkgversion}-ovirt-setup-lib
-%endif
 Requires:	%{name} >= 3.6.0
 
 Requires:       postgresql-server >= 12.0
@@ -231,13 +190,7 @@ rm -fr "%{buildroot}"
 
 make %{make_common_opts} install DESTDIR=%{buildroot}
 
-%if 0%{?with_python3} && 0%{?use_python_bytecompile}
 %py_byte_compile %{__python3} %{buildroot}/%{_datadir}/*
-%endif
-
-%if 0%{?with_python2} && 0%{?use_python_bytecompile}
-%py_byte_compile %{__python2} %{buildroot}/%{_datadir}/*
-%endif
 
 #
 # /var creation

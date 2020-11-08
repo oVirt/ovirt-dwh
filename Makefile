@@ -29,11 +29,9 @@ BUILD_VALIDATION=1
 
 PACKAGE_NAME=ovirt-engine-dwh
 ANT=ant
-PYTHON=python2
-PYTHON3=$(shell which python3 2> /dev/null)
+PYTHON=$(shell which python3 2> /dev/null)
 PYFLAKES=pyflakes
 PEP8=pep8
-PY_VERSION=$(if $(PYTHON3),3,2)
 PREFIX=/usr/local
 LOCALSTATE_DIR=$(PREFIX)/var
 BIN_DIR=$(PREFIX)/bin
@@ -53,7 +51,6 @@ GRAFANA_DATA_DIR=$(DATAROOT_DIR)/grafana
 GRAFANA_SYSCONF_DIR=$(SYSCONF_DIR)/grafana
 GRAFANA_STATE_DIR=$(LOCALSTATE_DIR)/lib/grafana
 PYTHON_DIR=$(PYTHON_SYS_DIR)
-PYTHON3_DIR=$(PYTHON3_SYS_DIR)
 DEV_PYTHON_DIR=
 PKG_USER=ovirt
 PKG_GROUP=ovirt
@@ -70,9 +67,6 @@ DWH_VERSION=$(VERSION)
 BUILD_FLAGS:=$(BUILD_FLAGS) $(EXTRA_BUILD_FLAGS)
 
 PYTHON_SYS_DIR:=$(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib as f;print(f())")
-ifneq ($(PYTHON3),)
-PYTHON3_SYS_DIR:=$(shell $(PYTHON3) -c "from distutils.sysconfig import get_python_lib as f;print(f())")
-endif
 
 TARBALL=$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
 BUILD_FILE=tmp.built
@@ -117,7 +111,6 @@ GENERATED = \
 	packaging/bin/dwh-prolog.sh \
 	packaging/services/ovirt-engine-dwhd/config.py \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.conf \
-	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.py \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.systemd \
 	packaging/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv \
 	packaging/services/ovirt-engine-dwhd/ovirt_engine_dwh_watchdog.cron \
@@ -230,7 +223,7 @@ all-dev:
 	rm -f $(GENERATED)
 	$(MAKE) \
 		all \
-		DEV_PYTHON_DIR="$(PREFIX)$(PYTHON3_SYS_DIR)" \
+		DEV_PYTHON_DIR="$(PREFIX)$(PYTHON_SYS_DIR)" \
 		$(NULL)
 
 install-dev:	\
@@ -252,7 +245,6 @@ install-dev:	\
 		install \
 		BUILD_VALIDATION=0 \
 		PYTHON_DIR="$(PREFIX)$(PYTHON_SYS_DIR)" \
-		PYTHON3_DIR="$(PREFIX)$(PYTHON3_SYS_DIR)" \
 		DEV_FLIST=tmp.dev.flist \
 		$(NULL)
 	cp tmp.dev.flist "$(DESTDIR)$(PREFIX)/dev.$(PACKAGE_NAME).flist"
