@@ -492,7 +492,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "System Host memory Usage (DR10)",
+      "title": "System Host Memory Usage (DR10)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
