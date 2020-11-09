@@ -234,7 +234,7 @@
       "type": "gauge"
     },
     {
-      "description": "This report displays the average planned downtime of a selected virtual machine within a selected period.",
+      "description": "This report displays the average unplanned downtime of a selected virtual machine within a selected period.",
       "gridPos": {
         "h": 6,
         "w": 6,
