@@ -354,6 +354,18 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Nov 11 2020 Shirly Radco <sradco@redhat.com> - 4.4.4
+Fixed issues:
+- Bug 1892247 - Fix data duplication at 00:00 each day
+- Fix names in Storage Domains Inventory Dashboard
+- Bug 1894420 - packaging: setup: Fix stop-remote-dwh
+- Fix Column names in Cluster Dashboard
+- Fix description in Virtual Machine Downtime (BR46) panel
+- Fix typo in system dashboard
+- Bug 1894420 - packaging: setup: Support stopping remote dwh also on non-engine machine
+- Bug 1894420 - packaging: setup: text: Note about remote dwh
+- Add docs/Notes-about-single-dwhd
+
 * Tue Oct 27 2020 Shirly Radco <sradco@redhat.com> - 4.4.3.2
 Fixed issues:
 - spec: Require only eap7-dom4j
