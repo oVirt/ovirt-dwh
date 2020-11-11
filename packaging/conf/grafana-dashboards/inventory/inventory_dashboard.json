@@ -361,7 +361,7 @@
           "unit": "short"
         },
         {
-          "alias": "Total Hosts CPUs",
+          "alias": "Total Hosts - CPU Cores",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -428,7 +428,7 @@
           "unit": "percentunit"
         },
         {
-          "alias": "Running VMS - CPU Cores vs. Total Hosts CPUs",
+          "alias": "Running VMS - CPU Cores vs. Total Hosts - CPU Cores",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -625,7 +625,7 @@
           "unit": "percentunit"
         },
         {
-          "alias": "Running VMs - Memory vs. Total Hosts Memory",
+          "alias": "Running VMs - Memory vs. Total Hosts - Memory",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -755,7 +755,7 @@
           "unit": "short"
         },
         {
-          "alias": "Used Disk Size",
+          "alias": "Hosts Used Disk Size",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -819,7 +819,7 @@
           "unit": "decgbytes"
         },
         {
-          "alias": "Actual VMs Disk Size",
+          "alias": "VMs Used Disk Size",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -854,7 +854,7 @@
           "unit": "percentunit"
         },
         {
-          "alias": "Actual Disk Used vs. Total disk size",
+          "alias": "VMs Used Disk Size vs. Total Disk Size",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
