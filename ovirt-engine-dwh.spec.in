@@ -307,6 +307,13 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Thu Nov 19 2020 Shirly Radco <sradco@redhat.com> - 4.4.4.1
+Fixed issues:
+- Bug 1894298 - Makefile: Fix python3 dev env
+- packaging: Completely remove python2 support
+- Bug 1851725 - Add tags to grafana dashboards
+- Fix aliases in inventory dashboard
+
 * Wed Nov 11 2020 Shirly Radco <sradco@redhat.com> - 4.4.4
 Fixed issues:
 - Bug 1892247 - Fix data duplication at 00:00 each day
