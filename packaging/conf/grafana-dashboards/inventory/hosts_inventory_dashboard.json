@@ -69,7 +69,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays an inventory list of all hosts in the selected cluster.\n\n\n",
+      "content": "\n###### This dashboard displays an inventory list of all hosts in the selected cluster.\n\n###### **Note:** CPU Cores and Memory Size ranges must contain numeric values or Null.\n\n",
       "datasource": null,
       "gridPos": {
         "h": 2,
@@ -133,7 +133,7 @@
       "description": "This report displays a inventory list of all hosts in the selected data center and cluster.",
       "fontSize": "100%",
       "gridPos": {
-        "h": 14,
+        "h": 9,
         "w": 24,
         "x": 0,
         "y": 4
@@ -328,7 +328,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "--br1 - This report will display a list of all hosts configuration data by Datacenter and Cluster\n\nSELECT\n    CASE \n        WHEN v4_4_configuration_history_hosts.delete_date IS NULL\n            THEN 'No'\n        WHEN v4_4_configuration_history_hosts.delete_date IS NOT NULL\n            THEN 'Yes'\n    END AS is_deleted,\n    v4_4_configuration_history_hosts.cluster_id,\n    v4_4_configuration_history_hosts.host_id,\n    v4_4_configuration_history_hosts.host_name,\n    v4_4_configuration_history_clusters.cluster_name,\n    -- A fully qualified domain name ( fqdn )\n    v4_4_configuration_history_hosts.fqdn_or_ip,\n    v4_4_configuration_history_hosts.vdsm_version,\n    v4_4_configuration_history_hosts.host_os,\n    CAST ( v4_4_configuration_history_hosts.create_date AS date ) AS create_date,\n    CAST ( v4_4_configuration_history_hosts.delete_date AS date ) AS delete_date\nFROM \n    v4_4_configuration_history_hosts\n    LEFT OUTER JOIN v4_4_configuration_history_clusters\n        ON \n            (\n                v4_4_configuration_history_hosts.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                -- Here we get the cluster latest configuration\n                AND v4_4_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_4_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\nWHERE \n    -- Filter hosts list according to the data center that was chosen by the user\n    v4_4_configuration_history_hosts.cluster_id \n        IN \n            (\n                SELECT a.cluster_id\n                FROM v4_4_configuration_history_clusters a\n                WHERE a.datacenter_id IN ($datacenter_id)\n            )\n    -- Filter list according to the host/s that was chosen by the user\n    AND v4_4_configuration_history_hosts.host_id IN ($host_id)\n    -- Here we get the host latest configuration\n    AND v4_4_configuration_history_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_hosts a\n                GROUP BY a.host_id\n            )\n    -- This will determine where deleted entities will be included in the report,\n    -- according to the user selection for \"show_deleted\" parameter\n    AND\n        CASE\n          WHEN '$show_deleted'='Yes'\n              THEN 1=1\n          WHEN '$show_deleted'='No'\n              THEN v4_4_configuration_history_hosts.delete_date isnull\n        END\nORDER BY\n    v4_4_configuration_history_hosts.cluster_id,\n    v4_4_configuration_history_hosts.delete_date DESC,\n    v4_4_configuration_history_hosts.host_name",
+          "rawSql": "--br1 - This report will display a list of all hosts configuration data by Datacenter and Cluster\n\nSELECT\n    CASE \n        WHEN v4_4_configuration_history_hosts.delete_date IS NULL\n            THEN 'No'\n        WHEN v4_4_configuration_history_hosts.delete_date IS NOT NULL\n            THEN 'Yes'\n    END AS is_deleted,\n    v4_4_configuration_history_hosts.cluster_id,\n    v4_4_configuration_history_hosts.host_id,\n    v4_4_configuration_history_hosts.host_name,\n    v4_4_configuration_history_clusters.cluster_name,\n    -- A fully qualified domain name ( fqdn )\n    v4_4_configuration_history_hosts.fqdn_or_ip,\n    v4_4_configuration_history_hosts.vdsm_version,\n    v4_4_configuration_history_hosts.host_os,\n    CAST ( v4_4_configuration_history_hosts.create_date AS date ) AS create_date,\n    CAST ( v4_4_configuration_history_hosts.delete_date AS date ) AS delete_date\nFROM \n    v4_4_configuration_history_hosts\n    LEFT OUTER JOIN v4_4_configuration_history_clusters\n        ON \n            (\n                v4_4_configuration_history_hosts.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                -- Here we get the cluster latest configuration\n                AND v4_4_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_4_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\nWHERE \n    -- Filter hosts list according to the data center that was chosen by the user\n    v4_4_configuration_history_hosts.cluster_id \n        IN \n            (\n                SELECT a.cluster_id\n                FROM v4_4_configuration_history_clusters a\n                WHERE a.datacenter_id IN ($datacenter_id)\n            )\n    -- Filter list according to the host/s that was chosen by the user\n    AND v4_4_configuration_history_hosts.host_id IN ($host_id)\n    -- Filter list according to the OS that was chosen by the user\n    AND COALESCE ( v4_4_configuration_history_hosts.host_os, 'Unknown' ) IN ($host_os)\n    -- Only show hosts with number of CPU cores greater than or equal to the threshold set by the user\n    AND \n        CASE\n            WHEN LOWER ( '$cpu_lower_threshold' ) != 'null' \n                THEN COALESCE ( number_of_cores, 0 ) >= ($cpu_lower_threshold)\n            ELSE 1=1\n        END\n    -- Only show hosts with number of CPU cores smaller than the threshold set by the user\n    AND \n        CASE \n            WHEN LOWER ( '$cpu_upper_threshold' ) != 'null'\n                THEN COALESCE ( number_of_cores, 0 ) < ($cpu_upper_threshold)\n            ELSE 1=1\n        END\n    -- Only show hosts with memory size greater than or equal to the threshold set by the user\n    AND \n        CASE \n            WHEN LOWER ( '$mem_lower_threshold' ) != 'null'\n                THEN ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) >= ($mem_lower_threshold)\n            ELSE 1=1\n        END \n    -- Only show hosts with memory size smaller than the threshold set by the user\n    AND \n        CASE\n            WHEN LOWER ( '$mem_upper_threshold' ) != 'null'\n                THEN ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) < ($mem_upper_threshold)\n            ELSE 1=1\n        END\n    -- Here we get the host latest configuration\n    AND v4_4_configuration_history_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_hosts a\n                GROUP BY a.host_id\n            )\n    -- This will determine where deleted entities will be included in the report,\n    -- according to the user selection for \"show_deleted\" parameter\n    AND\n        CASE\n          WHEN '$show_deleted'='Yes'\n              THEN 1=1\n          WHEN '$show_deleted'='No'\n              THEN v4_4_configuration_history_hosts.delete_date isnull\n        END\nORDER BY\n    v4_4_configuration_history_hosts.cluster_id,\n    v4_4_configuration_history_hosts.delete_date DESC,\n    v4_4_configuration_history_hosts.host_name",
           "refId": "A",
           "select": [
             [
@@ -363,7 +363,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 18
+        "y": 13
       },
       "id": 19,
       "panels": [],
@@ -376,16 +376,16 @@
       "description": "This report displays a inventory list of hosts hardware details in the selected data center and cluster.",
       "fontSize": "100%",
       "gridPos": {
-        "h": 14,
+        "h": 9,
         "w": 24,
         "x": 0,
-        "y": 19
+        "y": 14
       },
       "id": 25,
       "pageSize": null,
       "showHeader": true,
       "sort": {
-        "col": 0,
+        "col": 1,
         "desc": false
       },
       "styles": [
@@ -552,7 +552,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT DISTINCT \n    CASE \n        WHEN v4_4_configuration_history_hosts.delete_date IS NULL\n            THEN 'No'\n        WHEN v4_4_configuration_history_hosts.delete_date IS NOT NULL\n            THEN 'Yes'\n    END AS is_deleted,\n    v4_4_configuration_history_hosts.host_id,\n    CASE \n        WHEN v4_4_configuration_history_hosts.delete_date IS NULL  \t     \t    \n            THEN host_name \t \t\n        WHEN v4_4_configuration_history_hosts.delete_date IS NOT NULL  \t      \t    \n            THEN host_name || ' (Removed on ' || CAST ( CAST ( v4_4_configuration_history_hosts.delete_date AS date ) AS varchar ) || ')'\n    END AS host_name,\n    cpu_model,\n    number_of_cores AS host_cpu,\n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS host_memsize,\n    hardware_manufacturer AS \"Server Manufacturer\",\n    hardware_product_name AS \"Server Name\",\n    hardware_serial_number AS \"Server Serial Number\"\nFROM \n    v4_4_configuration_history_hosts\n    LEFT OUTER JOIN v4_4_configuration_history_clusters\n        ON \n            (\n                v4_4_configuration_history_hosts.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                -- Here we get the cluster latest configuration\n                AND v4_4_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_4_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\nWHERE \n    -- Filter hosts list according to the data center that was chosen by the user\n    v4_4_configuration_history_hosts.cluster_id \n        IN \n            (\n                SELECT a.cluster_id\n                FROM v4_4_configuration_history_clusters a\n                WHERE a.datacenter_id IN ($datacenter_id)\n            )\n    AND host_id IN ($host_id)\n    AND\n        v4_4_configuration_history_hosts.history_id\n            IN\n                (\n                    SELECT MAX (history_id)\n                    FROM v4_4_configuration_history_hosts\n                    GROUP BY host_id\n                )\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN v4_4_configuration_history_hosts.delete_date isnull\n        END\nORDER BY host_name, hardware_manufacturer, hardware_product_name",
+          "rawSql": "SELECT DISTINCT \n    CASE \n        WHEN v4_4_configuration_history_hosts.delete_date IS NULL\n            THEN 'No'\n        WHEN v4_4_configuration_history_hosts.delete_date IS NOT NULL\n            THEN 'Yes'\n    END AS is_deleted,\n    v4_4_configuration_history_hosts.host_id,\n    CASE \n        WHEN v4_4_configuration_history_hosts.delete_date IS NULL  \t     \t    \n            THEN host_name \t \t\n        WHEN v4_4_configuration_history_hosts.delete_date IS NOT NULL  \t      \t    \n            THEN host_name || ' (Removed on ' || CAST ( CAST ( v4_4_configuration_history_hosts.delete_date AS date ) AS varchar ) || ')'\n    END AS host_name,\n    cpu_model,\n    number_of_cores AS host_cpu,\n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS host_memsize,\n    hardware_manufacturer AS \"Server Manufacturer\",\n    hardware_product_name AS \"Server Name\",\n    hardware_serial_number AS \"Server Serial Number\"\nFROM \n    v4_4_configuration_history_hosts\n    LEFT OUTER JOIN v4_4_configuration_history_clusters\n        ON \n            (\n                v4_4_configuration_history_hosts.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                -- Here we get the cluster latest configuration\n                AND v4_4_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_4_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\nWHERE \n    -- Filter hosts list according to the data center that was chosen by the user\n    v4_4_configuration_history_hosts.cluster_id \n        IN \n            (\n                SELECT a.cluster_id\n                FROM v4_4_configuration_history_clusters a\n                WHERE a.datacenter_id IN ($datacenter_id)\n            )\n    -- Filter list according to the host/s that was chosen by the user\n    AND host_id IN ($host_id)\n    -- Filter list according to the OS that was chosen by the user\n    AND COALESCE ( v4_4_configuration_history_hosts.host_os, 'Unknown' ) IN ($host_os)\n    -- Only show hosts with number of CPU cores greater than or equal to the threshold set by the user\n    AND \n        CASE\n            WHEN LOWER ( '$cpu_lower_threshold' ) != 'null' \n                THEN COALESCE ( number_of_cores, 0 ) >= ($cpu_lower_threshold)\n            ELSE 1=1\n        END\n    -- Only show hosts with number of CPU cores smaller than the threshold set by the user\n    AND \n        CASE \n            WHEN LOWER ( '$cpu_upper_threshold' ) != 'null'\n                THEN COALESCE ( number_of_cores, 0 ) < ($cpu_upper_threshold)\n            ELSE 1=1\n        END\n    -- Only show hosts with memory size greater than or equal to the threshold set by the user\n    AND \n        CASE \n            WHEN LOWER ( '$mem_lower_threshold' ) != 'null'\n                THEN ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) >= ($mem_lower_threshold)\n            ELSE 1=1\n        END \n    -- Only show hosts with memory size smaller than the threshold set by the user\n    AND \n        CASE\n            WHEN LOWER ( '$mem_upper_threshold' ) != 'null'\n                THEN ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) < ($mem_upper_threshold)\n            ELSE 1=1\n        END\n    AND\n        v4_4_configuration_history_hosts.history_id\n            IN\n                (\n                    SELECT MAX (history_id)\n                    FROM v4_4_configuration_history_hosts\n                    GROUP BY host_id\n                )\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN v4_4_configuration_history_hosts.delete_date isnull\n        END\nORDER BY host_name, hardware_manufacturer, hardware_product_name",
           "refId": "A",
           "select": [
             [
@@ -690,6 +690,109 @@
         "tagsQuery": "",
         "type": "query",
         "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": null,
+        "definition": "SELECT DISTINCT                   \n    CASE  \t    \n        WHEN host_os IS NULL\n            THEN 'Unknown'\n \tWHEN host_os IS NOT NULL \t\t    \n            THEN host_os \t\n    END AS __text   \nFROM v4_4_configuration_history_hosts  \t\t\nWHERE       \t\t    \n    history_id           \t\t\t    \n        IN               \t\t\t\t\n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_hosts a  \t\t         \t\t\t\t\t\n                GROUP BY a.host_id \t         \t\t\t\t\n            )\n    AND host_id IN ($host_id)  \t\t\t\n    AND \n        CASE  \t        \t\t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t    \n                THEN 1=1 \t\t    \t\t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    \n                THEN v4_4_configuration_history_hosts.delete_date ISNULL \t                \n        END  ",
+        "hide": 0,
+        "includeAll": true,
+        "index": -1,
+        "label": "OS",
+        "multi": true,
+        "name": "host_os",
+        "options": [],
+        "query": "SELECT DISTINCT                   \n    CASE  \t    \n        WHEN host_os IS NULL\n            THEN 'Unknown'\n \tWHEN host_os IS NOT NULL \t\t    \n            THEN host_os \t\n    END AS __text   \nFROM v4_4_configuration_history_hosts  \t\t\nWHERE       \t\t    \n    history_id           \t\t\t    \n        IN               \t\t\t\t\n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_hosts a  \t\t         \t\t\t\t\t\n                GROUP BY a.host_id \t         \t\t\t\t\n            )\n    AND host_id IN ($host_id)  \t\t\t\n    AND \n        CASE  \t        \t\t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t    \n                THEN 1=1 \t\t    \t\t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    \n                THEN v4_4_configuration_history_hosts.delete_date ISNULL \t                \n        END  ",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Null",
+          "value": "Null"
+        },
+        "hide": 0,
+        "label": "CPU Cores >=",
+        "name": "cpu_lower_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "Null",
+            "value": "Null"
+          }
+        ],
+        "query": "Null",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Null",
+          "value": "Null"
+        },
+        "hide": 0,
+        "label": "CPU Cores <",
+        "name": "cpu_upper_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "Null",
+            "value": "Null"
+          }
+        ],
+        "query": "Null",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Null",
+          "value": "Null"
+        },
+        "hide": 0,
+        "label": "Memory Size (GB) >=",
+        "name": "mem_lower_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "Null",
+            "value": "Null"
+          }
+        ],
+        "query": "Null",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Null",
+          "value": "Null"
+        },
+        "hide": 0,
+        "label": "Memory Size (GB) <",
+        "name": "mem_upper_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "Null",
+            "value": "Null"
+          }
+        ],
+        "query": "Null",
+        "skipUrlSync": false,
+        "type": "textbox"
       }
     ]
   },

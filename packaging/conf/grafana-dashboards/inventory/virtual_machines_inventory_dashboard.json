@@ -69,7 +69,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays an inventory list of all virtual machines in the selected cluster.\n\n\n",
+      "content": "\n###### This dashboard displays an inventory list of all virtual machines in the selected cluster.\n\n###### **Note:** CPU Cores and Memory Size ranges must contain numeric values or Null.\n\n",
       "datasource": null,
       "gridPos": {
         "h": 2,
@@ -142,8 +142,8 @@
       "scroll": true,
       "showHeader": true,
       "sort": {
-        "col": 0,
-        "desc": true
+        "col": 1,
+        "desc": false
       },
       "styles": [
         {
@@ -343,7 +343,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR9 - This query will return for the specific data center,\n-- the latest VMs configurations, grouped by clusters.\n\nSELECT\n    CASE\n        WHEN v4_4_configuration_history_vms.delete_date IS NULL\n            THEN 'No'\n        WHEN v4_4_configuration_history_vms.delete_date IS NOT NULL\n             THEN 'Yes'\n    END AS is_deleted,\n    v4_4_configuration_history_vms.cluster_id,\n    v4_4_configuration_history_vms.vm_id,\n    v4_4_configuration_history_vms.vm_name,\n    v4_4_configuration_history_clusters.cluster_name,\n    v4_4_configuration_history_vms.template_name,\n    a.value AS os_version,\n    ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) AS vm_cpucores,\n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS vm_memsize,\n    CAST ( v4_4_configuration_history_vms.create_date AS date ) AS create_date,\n    CAST ( v4_4_configuration_history_vms.delete_date AS date ) AS delete_date\nFROM \n    v4_4_configuration_history_vms\n    LEFT OUTER JOIN \n        (\n           SELECT enum_type, enum_key, value\n           FROM enum_translator\n           WHERE language_code = 'en_US' AND enum_type = 'OS_TYPE'\n        )AS a\n        ON \n            (\n                v4_4_configuration_history_vms.operating_system =\n                a.enum_key AND a.enum_type = 'OS_TYPE'\n            )\n    LEFT OUTER JOIN v4_4_configuration_history_clusters\n        ON \n            (\n                v4_4_configuration_history_vms.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                AND v4_4_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_4_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_4_configuration_history_vms.cluster_id \n        IN \n            (\n                SELECT cluster_id\n                FROM v4_4_configuration_history_clusters\n                WHERE datacenter_id IN ($datacenter_id)\n            )\n    -- Here we filter by the virtual machine/s chosen by the user\n    AND v4_4_configuration_history_vms.vm_id IN ($vm_id)\n    -- Here we get the latest vm configurations\n    AND v4_4_configuration_history_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_vms a\n                GROUP BY a.vm_id\n            )\n        -- Here we get or remove deleted entities according to what the user chose\n        -- in the \"show_deleted\" parameter.\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN v4_4_configuration_history_vms.delete_date isnull\n        END\nORDER BY\n    v4_4_configuration_history_vms.cluster_id,\n    v4_4_configuration_history_vms.delete_date DESC",
+          "rawSql": "-- BR9 - This query will return for the specific data center,\n-- the latest VMs configurations, grouped by clusters.\n\nSELECT\n    CASE\n        WHEN v4_4_configuration_history_vms.delete_date IS NULL\n            THEN 'No'\n        WHEN v4_4_configuration_history_vms.delete_date IS NOT NULL\n             THEN 'Yes'\n    END AS is_deleted,\n    v4_4_configuration_history_vms.cluster_id,\n    v4_4_configuration_history_vms.vm_id,\n    v4_4_configuration_history_vms.vm_name,\n    v4_4_configuration_history_clusters.cluster_name,\n    v4_4_configuration_history_vms.template_name,\n    a.value AS os_version,\n    ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) AS vm_cpucores,\n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS vm_memsize,\n    CAST ( v4_4_configuration_history_vms.create_date AS date ) AS create_date,\n    CAST ( v4_4_configuration_history_vms.delete_date AS date ) AS delete_date\nFROM \n    v4_4_configuration_history_vms\n    LEFT OUTER JOIN \n        (\n           SELECT enum_type, enum_key, value\n           FROM enum_translator\n           WHERE language_code = 'en_US' AND enum_type = 'OS_TYPE'\n        )AS a\n        ON \n            (\n                v4_4_configuration_history_vms.operating_system =\n                a.enum_key AND a.enum_type = 'OS_TYPE'\n            )\n    LEFT OUTER JOIN v4_4_configuration_history_clusters\n        ON \n            (\n                v4_4_configuration_history_vms.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                AND v4_4_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_4_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_4_configuration_history_vms.cluster_id \n        IN \n            (\n                SELECT cluster_id\n                FROM v4_4_configuration_history_clusters\n                WHERE datacenter_id IN ($datacenter_id)\n            )\n    -- Here we filter by the virtual machine/s chosen by the user\n    AND v4_4_configuration_history_vms.vm_id IN ($vm_id)\n    -- Here we filter by the OS chosen by the user\n    AND operating_system IN ($vm_os)\n    -- Only show vms with number of CPU cores greater than or equal to the threshold set by the user\n    AND \n        CASE \n            WHEN LOWER ( '$cpu_lower_threshold' ) != 'null'\n                THEN ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) >= ($cpu_lower_threshold)\n            ELSE 1=1\n        END\n    -- Only show vms with number of CPU cores smaller than the threshold set by the user\n    AND \n        CASE \n            WHEN LOWER ( '$cpu_upper_threshold' ) != 'null'\n                THEN ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) < ($cpu_upper_threshold)\n            ELSE 1=1\n        END \n    -- Only show vms with memory size greater than or equal to the threshold set by the user\n    AND \n        CASE \n            WHEN LOWER ( '$mem_lower_threshold' ) != 'null'\n                THEN ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) >= ($mem_lower_threshold)\n            ELSE 1=1\n        END \n    -- Only show vms with memory size smaller than the threshold set by the user\n    AND \n        CASE \n            WHEN LOWER ( '$mem_upper_threshold' ) != 'null'\n                THEN ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) < ($mem_upper_threshold)\n            ELSE 1=1\n        END\n    -- Here we get the latest vm configurations\n    AND v4_4_configuration_history_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_vms a\n                GROUP BY a.vm_id\n            )\n        -- Here we get or remove deleted entities according to what the user chose\n        -- in the \"show_deleted\" parameter.\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN v4_4_configuration_history_vms.delete_date isnull\n        END\nORDER BY\n    v4_4_configuration_history_vms.cluster_id,\n    v4_4_configuration_history_vms.delete_date DESC",
           "refId": "A",
           "select": [
             [
@@ -481,6 +481,109 @@
         "tagsQuery": "",
         "type": "query",
         "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": null,
+        "definition": "SELECT DISTINCT      \noperating_system AS __value, \na.value AS __text    \nFROM \n    v4_4_configuration_history_vms      \n    LEFT OUTER JOIN     \n    (          \n        SELECT enum_type, enum_key, value          \n        FROM enum_translator          \n        WHERE \n             language_code = 'en_US' \n            AND enum_type = 'OS_TYPE'     \n    ) AS a         \n        ON              \n        (                 \n            v4_4_configuration_history_vms.operating_system =                 \n            a.enum_key AND a.enum_type = 'OS_TYPE'             \n        )         \nWHERE       \t\t         \n    history_id           \t\t\t             \n        IN             \n            (                 \n                SELECT MAX ( a.history_id )                 \n                FROM v4_4_configuration_history_vms a                 \n                GROUP BY a.vm_id             \n            ) \t \t\t\t     \n    AND vm_id IN ($vm_id)  \t\t\t     \n    AND         \n        CASE             \n            WHEN '$show_deleted'='Yes'                 \n                THEN 1=1 \t\t    \t\t\t\t\t             \n            WHEN '$show_deleted'='No'                 \n                THEN v4_4_configuration_history_vms.delete_date ISNULL         \n        END  \t",
+        "hide": 0,
+        "includeAll": true,
+        "index": -1,
+        "label": "OS",
+        "multi": true,
+        "name": "vm_os",
+        "options": [],
+        "query": "SELECT DISTINCT      \noperating_system AS __value, \na.value AS __text    \nFROM \n    v4_4_configuration_history_vms      \n    LEFT OUTER JOIN     \n    (          \n        SELECT enum_type, enum_key, value          \n        FROM enum_translator          \n        WHERE \n             language_code = 'en_US' \n            AND enum_type = 'OS_TYPE'     \n    ) AS a         \n        ON              \n        (                 \n            v4_4_configuration_history_vms.operating_system =                 \n            a.enum_key AND a.enum_type = 'OS_TYPE'             \n        )         \nWHERE       \t\t         \n    history_id           \t\t\t             \n        IN             \n            (                 \n                SELECT MAX ( a.history_id )                 \n                FROM v4_4_configuration_history_vms a                 \n                GROUP BY a.vm_id             \n            ) \t \t\t\t     \n    AND vm_id IN ($vm_id)  \t\t\t     \n    AND         \n        CASE             \n            WHEN '$show_deleted'='Yes'                 \n                THEN 1=1 \t\t    \t\t\t\t\t             \n            WHEN '$show_deleted'='No'                 \n                THEN v4_4_configuration_history_vms.delete_date ISNULL         \n        END  \t",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Null",
+          "value": "Null"
+        },
+        "hide": 0,
+        "label": "CPU Cores >=",
+        "name": "cpu_lower_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "Null",
+            "value": "Null"
+          }
+        ],
+        "query": "Null",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Null",
+          "value": "Null"
+        },
+        "hide": 0,
+        "label": "CPU Cores <",
+        "name": "cpu_upper_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "Null",
+            "value": "Null"
+          }
+        ],
+        "query": "Null",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Null",
+          "value": "Null"
+        },
+        "hide": 0,
+        "label": "Memory Size (GB) >=",
+        "name": "mem_lower_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "Null",
+            "value": "Null"
+          }
+        ],
+        "query": "Null",
+        "skipUrlSync": false,
+        "type": "textbox"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Null",
+          "value": "Null"
+        },
+        "hide": 0,
+        "label": "Memory Size (GB) <",
+        "name": "mem_upper_threshold",
+        "options": [
+          {
+            "selected": false,
+            "text": "Null",
+            "value": "Null"
+          }
+        ],
+        "query": "Null",
+        "skipUrlSync": false,
+        "type": "textbox"
       }
     ]
   },
