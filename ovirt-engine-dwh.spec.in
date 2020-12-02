@@ -307,6 +307,11 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Dec 2 2020 Aviv Litman <alitman@redhat.com> - 4.4.4.2
+Fixed issues:
+- Bug 1866363 - Add variables to choose specific entity
+- Fix aliases in cluster dashboard
+
 * Thu Nov 19 2020 Shirly Radco <sradco@redhat.com> - 4.4.4.1
 Fixed issues:
 - Bug 1894298 - Makefile: Fix python3 dev env
