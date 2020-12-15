@@ -1240,7 +1240,7 @@
       },
       "yaxes": [
         {
-          "decimals": 1,
+          "decimals": null,
           "format": "decmbytes",
           "label": "",
           "logBase": 1,
