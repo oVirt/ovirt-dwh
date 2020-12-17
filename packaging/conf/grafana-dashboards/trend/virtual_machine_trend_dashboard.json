@@ -225,7 +225,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Disk I/O Rates (over time) (BR10A)",
+      "title": "Top 5 Most Utilized Disks Read and Write Rates (over time) (BR10A)",
       "tooltip": {
         "shared": true,
         "sort": 0,
