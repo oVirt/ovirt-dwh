@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "oVirt DWH",
-      "label": "oVirt DWH",
+      "name": null,
+      "label": null,
       "description": "",
       "type": "datasource",
       "pluginId": "postgres",
@@ -127,7 +127,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays for each data center the number of hosts and configured vms",
       "fontSize": "100%",
       "gridPos": {
@@ -286,7 +286,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays CPU usage and overcommit for each data center. ",
       "fontSize": "100%",
       "gridPos": {
@@ -483,7 +483,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays memory usage and overcommit for each data center. ",
       "fontSize": "100%",
       "gridPos": {
@@ -680,7 +680,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays disk usage and overcommit for each data center. ",
       "fontSize": "100%",
       "gridPos": {
@@ -923,7 +923,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT  datacenter_name AS __text, datacenter_id AS __value FROM v4_3_latest_configuration_datacenters",
         "hide": 0,
         "includeAll": true,

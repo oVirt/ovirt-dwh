@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "oVirt DWH",
-      "label": "oVirt DWH",
+      "name": null,
+      "label": null,
       "description": "",
       "type": "datasource",
       "pluginId": "postgres",
@@ -131,7 +131,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays average CPU usage for a selected virtual machines within a selected period.",
       "fill": 1,
       "gridPos": {
@@ -267,7 +267,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays average CPU usage peaks for a selected virtual machines within a selected period.",
       "fill": 1,
       "gridPos": {
@@ -417,7 +417,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays average memory usage for a selected virtual machines within a selected period.",
       "fill": 1,
       "gridPos": {
@@ -554,7 +554,7 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays average memory usage peaks for a selected virtual machines within a selected period.",
       "fill": 1,
       "gridPos": {
@@ -703,7 +703,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays for the top 3 most utilized network interfaces the average transmit rate for a selected virtual machine within a selected period.",
       "fill": 1,
       "gridPos": {
@@ -838,7 +838,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays for the top 3 most utilized network interfaces the average receive rate for a selected virtual machine within a selected period.",
       "fill": 1,
       "gridPos": {
@@ -986,7 +986,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays for the top 5 most utilized disks the average read rate for a selected virtual machine within a selected period.",
       "fill": 1,
       "gridPos": {
@@ -1121,7 +1121,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays for the top 5 most utilized disks the average write rate for a selected virtual machine within a selected period.",
       "fill": 1,
       "gridPos": {
@@ -1297,7 +1297,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT   CAST ( datacenter_id AS varchar ) AS __value,  CASE          WHEN delete_date IS NULL  \t     \t    THEN datacenter_name \t \tWHEN delete_date IS NOT null  \t      \t    THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  END AS __text  \t\tFROM v4_3_configuration_history_datacenters  \t\tWHERE       \t\t    history_id           \t\t\t    IN               \t\t\t\t(  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_3_configuration_history_datacenters a  \t\t         \t\t\t\t\tGROUP BY a.datacenter_id \t         \t\t\t\t) \t \t\t\tAND datacenter_id  \t         \t\t\t    IN \t\t\t     \t\t\t\t    ( \t\t\t\t\t \t\t\t\t\t\tSELECT DISTINCT datacenter_id \t\t\t\t\t \t\t\t\t\t\tFROM v4_3_configuration_history_clusters \t\t\t\t\t \t\t\t\t\t\tWHERE  \t\t\t\t\t     \t\t\t\t\t\t    cluster_id \t\t\t\t\t         \t\t\t\t\t\t        IN \t\t\t\t\t             \t\t\t\t\t\t            ( \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\tSELECT DISTINCT cluster_id \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\tFROM v4_3_configuration_history_vms  \t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t) \t\t\t\t\t) \t \t\t\tAND \t    \t\t\t    CASE  \t        \t\t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t    THEN 1=1 \t\t    \t\t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    THEN v4_3_configuration_history_datacenters.delete_date ISNULL \t                END  \t\t",
         "hide": 0,
         "includeAll": false,
@@ -1319,7 +1319,7 @@
       {
         "allValue": "blank=auto",
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT        CAST ( cluster_id AS varchar ) AS __value,  \tCASE      \t    WHEN delete_date IS NULL  \t     \t\t    THEN cluster_name \t \t\tWHEN delete_date IS NOT null  \t      \t\t    THEN cluster_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \tEND AS __text  \tFROM v4_3_configuration_history_clusters  \tWHERE       \t    history_id           \t\t    IN               \t\t\t    (  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_3_configuration_history_clusters a  \t\t         \t\t\t\t\tGROUP BY a.cluster_id \t         \t\t\t\t) \t \t\tAND cluster_id  \t\t    IN \t\t\t     \t\t\t    ( \t\t\t\t\t \t\t\t\t\tSELECT DISTINCT cluster_id \t\t\t\t\t \t\t\t\t\tFROM v4_3_configuration_history_vms \t\t\t\t \t\t\t\t) \t\tAND \t    \t\t    CASE  \t        \t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t    THEN 1=1 \t\t    \t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t    THEN v4_3_configuration_history_clusters.delete_date ISNULL \t    \t\t\tEND     \t\tAND datacenter_id IN ('$datacenter_id')  \t\t",
         "hide": 0,
         "includeAll": false,
@@ -1341,7 +1341,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT        CAST ( vm_id AS varchar ) AS __value,  \tCASE      \t    WHEN delete_date IS NULL  \t     \t\t    THEN vm_name \t \t\tWHEN delete_date IS NOT null  \t      \t\t    THEN vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \tEND AS __text  \tFROM v4_3_configuration_history_vms  \tWHERE       \t    history_id           \t\t    IN               \t\t\t    (  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_3_configuration_history_vms a  \t\t         \t\t\t\t\tGROUP BY a.vm_id \t         \t\t\t\t) \t \t\tAND \t    \t\t    CASE  \t        \t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t    THEN 1=1 \t\t    \t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t    THEN v4_3_configuration_history_vms.delete_date ISNULL \t    \t\t\tEND     \t\tAND cluster_id IN ('$cluster_id')  \t\t",
         "hide": 0,
         "includeAll": true,
@@ -1363,7 +1363,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT 'Day of Week' AS __text, 1 AS __value UNION SELECT  'Hour of Day' AS  __text, 2 AS __value",
         "hide": 0,
         "includeAll": false,

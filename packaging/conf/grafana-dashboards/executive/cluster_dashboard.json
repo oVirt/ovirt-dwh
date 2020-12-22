@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "oVirt DWH",
-      "label": "oVirt DWH",
+      "name": null,
+      "label": null,
       "description": "",
       "type": "datasource",
       "pluginId": "postgres",
@@ -147,7 +147,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "decimals": 0,
       "description": "Number of hosts in the cluster.",
       "format": "none",
@@ -253,7 +253,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "decimals": 0,
       "description": "Number of virtual machines in the cluster.",
       "format": "none",
@@ -358,7 +358,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "decimals": 2,
       "description": "Average uptime percent for the hosts in the specific cluster.",
       "format": "percent",
@@ -464,7 +464,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "decimals": 2,
       "description": "Average percentage of CPU usage for all hosts in the selected cluster.",
       "format": "percent",
@@ -674,7 +674,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "decimals": 2,
       "description": "Uptime percent of high availability virtual machines.",
       "format": "percent",
@@ -772,7 +772,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "Average CPU and memory peaks per host for the specific cluster.",
       "fontSize": "100%",
       "gridPos": {
@@ -893,7 +893,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "CPU and memory usage for the top 5 busiest hosts.",
       "fontSize": "100%",
       "gridPos": {
@@ -1049,7 +1049,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "Average number of CPU Cores for the hosts and virtual machines in the specific cluster.",
       "fill": 1,
       "gridPos": {
@@ -1158,7 +1158,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "Average memory for the hosts and virtual machines in the specific cluster.",
       "fill": 1,
       "gridPos": {
@@ -1264,7 +1264,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays the total uptime and planned downtime percentage for the 5 high availability virtual machines that have the lowest uptime.",
       "fontSize": "100%",
       "gridPos": {
@@ -1385,7 +1385,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays the total uptime and planned and unplanned downtime percentage for the 5 hosts that have the lowest uptime.",
       "fontSize": "100%",
       "gridPos": {
@@ -1539,7 +1539,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_latest_configuration_datacenters",
         "hide": 0,
         "includeAll": false,
@@ -1561,7 +1561,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_latest_configuration_clusters WHERE datacenter_id IN ('$datacenter_id')",
         "hide": 0,
         "includeAll": false,

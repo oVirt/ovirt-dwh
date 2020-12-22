@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "oVirt DWH",
-      "label": "oVirt DWH",
+      "name": null,
+      "label": null,
       "description": "",
       "type": "datasource",
       "pluginId": "postgres",
@@ -396,7 +396,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "decimals": 2,
       "description": "Average percentage of memory usage for all hosts in the selected data center. The thresholds are set at 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
@@ -502,7 +502,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "decimals": 2,
       "description": "Calculates average uptime percent for all hosts. Thresholds are set to 60% and 80%.\nThis report shows the latest configuration for the selected data center.",
       "format": "percent",
@@ -608,7 +608,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "decimals": 2,
       "description": "Calculates used disk size percent average of all storage domains attached to the selected data center. Thresholds are set to 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
@@ -706,7 +706,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "For the top 5 busiest clusters, the max and average CPU and memory usage percent.",
       "fontSize": "100%",
       "gridPos": {
@@ -855,7 +855,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "For the 5 clusters with the most downtime, \nthe uptime,  planned downtime and unplanned downtime percent.",
       "fontSize": "100%",
       "gridPos": {
@@ -995,7 +995,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "Available disk size, used disk size and available disk size percentage for the 5 storage domains with the lowest available disk space.",
       "fontSize": "100%",
       "gridPos": {
@@ -1266,7 +1266,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_latest_configuration_datacenters",
         "hide": 0,
         "includeAll": false,

@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "oVirt DWH",
-      "label": "oVirt DWH",
+      "name": null,
+      "label": null,
       "description": "",
       "type": "datasource",
       "pluginId": "postgres",
@@ -132,7 +132,7 @@
     },
     {
       "cacheTimeout": null,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays the average planned downtime of a selected host within a selected period.",
       "gridPos": {
         "h": 6,
@@ -339,7 +339,7 @@
     {
       "cacheTimeout": null,
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays the average uptime and downtime of a selected host within a selected period.",
       "fontSize": "100%",
       "gridPos": {
@@ -570,7 +570,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_3_latest_configuration_datacenters",
         "hide": 0,
         "includeAll": false,
@@ -592,7 +592,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_3_latest_configuration_clusters WHERE datacenter_id = '$datacenter_id'",
         "hide": 0,
         "includeAll": true,
@@ -614,7 +614,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT host_name AS __text, host_id AS __value FROM v4_3_latest_configuration_hosts WHERE cluster_id IN ($cluster_id)",
         "hide": 0,
         "includeAll": true,

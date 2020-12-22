@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "oVirt DWH",
-      "label": "oVirt DWH",
+      "name": null,
+      "label": null,
       "description": "",
       "type": "datasource",
       "pluginId": "postgres",
@@ -139,7 +139,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "decimals": 2,
       "description": "This report displays the time virtual machines have preformed above CPU threshold.",
       "format": "m",
@@ -244,7 +244,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "decimals": 2,
       "description": "This report displays the time virtual machines have performed above memory threshold.",
       "format": "m",
@@ -349,7 +349,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "decimals": 2,
       "description": "This report displays the time virtual machines have performed below CPU threshold.",
       "format": "m",
@@ -454,7 +454,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "decimals": 2,
       "description": "This report displays the time virtual machines have performed below memory threshold.",
       "format": "m",
@@ -552,7 +552,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays the total time each virtual machine have performed above the CPU or the memory threshold.",
       "fontSize": "100%",
       "gridPos": {
@@ -804,7 +804,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT   CAST ( datacenter_id AS varchar ) AS __value,  CASE          WHEN delete_date IS NULL  \t     \t    THEN datacenter_name \t \tWHEN delete_date IS NOT null  \t      \t    THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  END AS __text  \t\tFROM v4_3_configuration_history_datacenters  \t\tWHERE       \t\t    history_id           \t\t\t    IN               \t\t\t\t(  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_3_configuration_history_datacenters a  \t\t         \t\t\t\t\tGROUP BY a.datacenter_id \t         \t\t\t\t) \t \t\t\tAND datacenter_id  \t         \t\t\t    IN \t\t\t     \t\t\t\t    ( \t\t\t\t\t \t\t\t\t\t\tSELECT DISTINCT datacenter_id \t\t\t\t\t \t\t\t\t\t\tFROM v4_3_configuration_history_clusters \t\t\t\t\t \t\t\t\t\t\tWHERE  \t\t\t\t\t     \t\t\t\t\t\t    cluster_id \t\t\t\t\t         \t\t\t\t\t\t        IN \t\t\t\t\t             \t\t\t\t\t\t            ( \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\tSELECT DISTINCT cluster_id \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\tFROM v4_3_configuration_history_vms  \t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t) \t\t\t\t \t\t\t\t\t) \t \t\t\tAND \t    \t\t\t    CASE  \t        \t\t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t    THEN 1=1 \t\t    \t\t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    THEN v4_3_configuration_history_datacenters.delete_date ISNULL \t                END  \t\t",
         "hide": 0,
         "includeAll": false,
@@ -826,7 +826,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT        CAST ( cluster_id AS varchar ) AS __value,  \tCASE      \t    WHEN delete_date IS NULL  \t     \t\t    THEN cluster_name \t \t\tWHEN delete_date IS NOT null  \t      \t\t    THEN cluster_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \tEND AS __text  \tFROM v4_3_configuration_history_clusters  \tWHERE       \t    history_id           \t\t    IN               \t\t\t    (  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_3_configuration_history_clusters a  \t\t         \t\t\t\t\tGROUP BY a.cluster_id \t         \t\t\t\t) \t \t\tAND cluster_id  \t         \t\t    IN \t\t\t     \t\t\t    ( \t\t\t\t\t \t\t\t\t\tSELECT DISTINCT cluster_id \t\t\t\t\t \t\t\t\t\tFROM v4_3_configuration_history_vms \t\t\t\t \t\t\t\t) \t \t\tAND \t    \t\t    CASE  \t        \t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t    THEN 1=1 \t\t    \t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t    THEN v4_3_configuration_history_clusters.delete_date ISNULL \t    \t\t\tEND     \t\tAND datacenter_id IN ('$datacenter_id')  \t\t",
         "hide": 0,
         "includeAll": false,
@@ -848,7 +848,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT        CAST ( vm_id AS varchar ) AS __value,  \tCASE      \t    WHEN delete_date IS NULL  \t     \t\t    THEN vm_name \t \t\tWHEN delete_date IS NOT null  \t      \t\t    THEN vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \tEND AS __text  \tFROM v4_3_configuration_history_vms  \tWHERE       \t    history_id           \t\t    IN               \t\t\t    (  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_3_configuration_history_vms a  \t\t         \t\t\t\t\tGROUP BY a.vm_id \t         \t\t\t\t) \t \t\tAND \t    \t\t    CASE  \t        \t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t    THEN 1=1 \t\t    \t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t    THEN v4_3_configuration_history_vms.delete_date ISNULL \t    \t\t\tEND     \t\tAND cluster_id IN ('$cluster_id')",
         "hide": 0,
         "includeAll": true,

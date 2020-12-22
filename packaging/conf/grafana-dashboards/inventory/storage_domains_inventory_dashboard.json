@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "oVirt DWH",
-      "label": "oVirt DWH",
+      "name": null,
+      "label": null,
       "description": "",
       "type": "datasource",
       "pluginId": "postgres",
@@ -132,7 +132,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays a inventory list of all storage domains of the selected data center.",
       "fontSize": "100%",
       "gridPos": {
@@ -362,7 +362,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays average available disk size for the selected data center and storage domain over a selected period.",
       "fill": 1,
       "gridPos": {
@@ -496,7 +496,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays average used disk size for the selected data center and storage domain over a selected period.",
       "fill": 1,
       "gridPos": {
@@ -631,7 +631,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays used disk size versus available disk size ( total disk size ) for the selected data center and storage domain over a selected period.",
       "fill": 1,
       "gridPos": {
@@ -765,7 +765,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays total used disk size for the selected data center and storage domain over a selected period.",
       "fill": 1,
       "gridPos": {
@@ -937,7 +937,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT  CAST ( datacenter_id AS varchar ) AS __value, CASE     WHEN delete_date IS NULL  \t    THEN datacenter_name \twhen delete_date is not null  \t     then datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' END AS __text FROM v4_3_configuration_history_datacenters WHERE      history_id          IN              (  \t            SELECT MAX ( a.history_id )  \t\t        FROM v4_3_configuration_history_datacenters a  \t\t        GROUP BY a.datacenter_id \t        ) \tAND datacenter_id  \t    IN \t\t\t( \t\t\t     SELECT DISTINCT datacenter_id \t\t\t\t FROM v4_3_map_history_datacenters_storage_domains \t\t\t) \tAND \t   CASE  \t       WHEN '$show_deleted'='Yes' \t           THEN 1=1 \t\t   WHEN '$show_deleted'='No' \t\t       THEN v4_3_configuration_history_datacenters.delete_date ISNULL \t   END  \t\t",
         "hide": 0,
         "includeAll": false,
@@ -959,7 +959,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT   CAST ( storage_domain_id AS varchar ) AS __value, CASE     WHEN delete_date IS NULL  \t    THEN storage_domain_name \tWHEN delete_date is not null  \t     THEN storage_domain_name || ' (Detached on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' END AS __text FROM      ( \t\tSELECT  \t\t    v4_3_configuration_history_storage_domains.*,  \t\t    v4_3_map_history_datacenters_storage_domains.datacenter_id \t\tFROM \t\t    v4_3_configuration_history_storage_domains             LEFT JOIN              v4_3_map_history_datacenters_storage_domains             USING (storage_domain_id) \t) AS b WHERE      history_id          IN              (  \t            SELECT MAX ( a.history_id )  \t\t        FROM v4_3_configuration_history_storage_domains a  \t\t        GROUP BY a.storage_domain_id \t        ) \tAND datacenter_id IN ('$datacenter_id') \tAND \t   CASE  \t       WHEN '$show_deleted'='Yes' \t           THEN 1=1 \t\t   WHEN '$show_deleted'='No' \t\t       THEN delete_date ISNULL \t   END ",
         "hide": 0,
         "includeAll": true,
@@ -981,7 +981,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT           value AS __text,           enum_key AS __value FROM       ( \t \t\tSELECT        \t\t    enum_translator.*,       \t\t    v4_3_configuration_history_storage_domains.storage_domain_id      \t\tFROM  \t     \t\t    enum_translator     \t\t    LEFT JOIN \t         \t\t    v4_3_configuration_history_storage_domains\t     \t\t    ON  \t         \t\t        (  \t\t\t     \t\t\t\t\tenum_translator.enum_key =  \t\t\t\t \t\t\t\t\tv4_3_configuration_history_storage_domains.storage_domain_type \t\t\t\t\tAND v4_3_configuration_history_storage_domains.history_id \t\t\t\t\t    IN \t\t\t\t\t        (  \t\t\t\t\t\t\t\tSELECT MAX (a.history_id) \t\t\t\t\t\t\t\tFROM v4_3_configuration_history_storage_domains a \t\t\t\t\t\t\t\tGROUP BY a.storage_domain_id \t\t\t\t\t\t\t) \t\t\t\t)  \t) AS b  WHERE language_code = 'en_US'       AND enum_type ='STORAGE_DOMAIN_TYPE' AND storage_domain_id IN ($storage_id)",
         "hide": 0,
         "includeAll": true,

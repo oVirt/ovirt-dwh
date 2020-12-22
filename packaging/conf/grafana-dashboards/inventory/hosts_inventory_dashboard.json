@@ -1,8 +1,8 @@
 {
   "__inputs": [
     {
-      "name": "oVirt DWH",
-      "label": "oVirt DWH",
+      "name": null,
+      "label": null,
       "description": "",
       "type": "datasource",
       "pluginId": "postgres",
@@ -129,7 +129,7 @@
     },
     {
       "columns": [],
-      "datasource": "oVirt DWH",
+      "datasource": null,
       "description": "This report displays a inventory list of all hosts in the selected data center and cluster.",
       "fontSize": "100%",
       "gridPos": {
@@ -421,7 +421,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT  CAST ( datacenter_id AS varchar ) AS __value, CASE     WHEN delete_date IS NULL  \t    THEN datacenter_name \tWHEN delete_date IS NOT NULL  \t     THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' END AS __text FROM v4_3_configuration_history_datacenters WHERE      history_id          IN              (  \t            SELECT MAX ( a.history_id )  \t\t        FROM v4_3_configuration_history_datacenters a  \t\t        GROUP BY a.datacenter_id \t        ) \tAND  \t    datacenter_id  \t        IN \t\t\t    ( \t\t\t\t\tSELECT DISTINCT datacenter_id \t\t\t\t\tFROM v4_3_configuration_history_clusters \t\t\t\t\tWHERE  \t\t\t\t\t    cluster_id \t\t\t\t\t        IN \t\t\t\t\t            ( \t\t\t\t\t\t\t\t\tSELECT DISTINCT cluster_id \t\t\t\t\t\t\t\t\tFROM v4_3_configuration_history_hosts  \t\t\t\t\t\t\t\t) \t\t\t\t) \tAND \t   CASE  \t       WHEN '$show_deleted'='Yes' \t           THEN 1=1 \t\t   WHEN '$show_deleted'='No' \t\t       THEN v4_3_configuration_history_datacenters.delete_date ISNULL \t   END  \t\t",
         "hide": 0,
         "includeAll": false,
@@ -443,7 +443,7 @@
       {
         "allValue": "",
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT  CAST ( cluster_id AS varchar ) AS __value, CASE     WHEN delete_date IS NULL  \t    THEN cluster_name \tWHEN delete_date IS NOT NULL  \t     THEN cluster_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' END AS __text FROM v4_3_configuration_history_clusters WHERE      history_id          IN              (  \t            SELECT MAX ( a.history_id )  \t\t        FROM v4_3_configuration_history_clusters a  \t\t        GROUP BY a.cluster_id \t        ) \tAND  \t    cluster_id  \t        IN \t\t\t    ( \t\t\t\t\tSELECT DISTINCT cluster_id \t\t\t\t\tFROM v4_3_configuration_history_hosts \t\t\t\t) \tAND \t   CASE  \t       WHEN '$show_deleted'='Yes' \t           THEN 1=1 \t\t   WHEN '$show_deleted'='No' \t\t       THEN v4_3_configuration_history_clusters.delete_date ISNULL \t   END    AND datacenter_id IN ('$datacenter_id')  \t\t",
         "hide": 0,
         "includeAll": true,
@@ -465,7 +465,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": "oVirt DWH",
+        "datasource": null,
         "definition": "SELECT DISTINCT   CAST ( host_id AS varchar ) AS __value,  CASE          WHEN delete_date IS NULL  \t     \t    THEN host_name \t \tWHEN delete_date IS NOT null  \t      \t    THEN host_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  END AS __text  \t\tFROM v4_3_configuration_history_hosts  \t\tWHERE       \t\t    history_id           \t\t\t    IN               \t\t\t\t(  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_3_configuration_history_hosts a  \t\t         \t\t\t\t\tGROUP BY a.host_id \t         \t\t\t\t) \t \t\t\tAND cluster_id IN ($cluster_id)  \t\t\tAND \t    \t\t\t    CASE  \t        \t\t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t    THEN 1=1 \t\t    \t\t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    THEN v4_3_configuration_history_hosts.delete_date ISNULL \t                END  \t\t",
         "hide": 0,
         "includeAll": true,
