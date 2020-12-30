@@ -14624,6 +14624,30 @@ public class AggregationToDaily implements TalendJob {
 			return this.max_write_latency_seconds;
 		}
 
+		public Integer read_ops_per_second;
+
+		public Integer getRead_ops_per_second() {
+			return this.read_ops_per_second;
+		}
+
+		public Integer max_read_ops_per_second;
+
+		public Integer getMax_read_ops_per_second() {
+			return this.max_read_ops_per_second;
+		}
+
+		public Integer write_ops_per_second;
+
+		public Integer getWrite_ops_per_second() {
+			return this.write_ops_per_second;
+		}
+
+		public Integer max_write_ops_per_second;
+
+		public Integer getMax_write_ops_per_second() {
+			return this.max_write_ops_per_second;
+		}
+
 		public Double flush_latency_seconds;
 
 		public Double getFlush_latency_seconds() {
@@ -14768,6 +14792,14 @@ public class AggregationToDaily implements TalendJob {
 						this.max_write_latency_seconds = dis.readDouble();
 					}
 
+					this.read_ops_per_second = readInteger(dis);
+
+					this.max_read_ops_per_second = readInteger(dis);
+
+					this.write_ops_per_second = readInteger(dis);
+
+					this.max_write_ops_per_second = readInteger(dis);
+
 					length = dis.readByte();
 					if (length == -1) {
 						this.flush_latency_seconds = null;
@@ -14900,6 +14932,22 @@ public class AggregationToDaily implements TalendJob {
 					dos.writeDouble(this.max_write_latency_seconds);
 				}
 
+				// Integer
+
+				writeInteger(this.read_ops_per_second, dos);
+
+				// Integer
+
+				writeInteger(this.max_read_ops_per_second, dos);
+
+				// Integer
+
+				writeInteger(this.write_ops_per_second, dos);
+
+				// Integer
+
+				writeInteger(this.max_write_ops_per_second, dos);
+
 				// Double
 
 				if (this.flush_latency_seconds == null) {
@@ -14956,6 +15004,14 @@ public class AggregationToDaily implements TalendJob {
 					+ String.valueOf(write_latency_seconds));
 			sb.append(",max_write_latency_seconds="
 					+ String.valueOf(max_write_latency_seconds));
+			sb.append(",read_ops_per_second="
+					+ String.valueOf(read_ops_per_second));
+			sb.append(",max_read_ops_per_second="
+					+ String.valueOf(max_read_ops_per_second));
+			sb.append(",write_ops_per_second="
+					+ String.valueOf(write_ops_per_second));
+			sb.append(",max_write_ops_per_second="
+					+ String.valueOf(max_write_ops_per_second));
 			sb.append(",flush_latency_seconds="
 					+ String.valueOf(flush_latency_seconds));
 			sb.append(",max_flush_latency_seconds="
@@ -15090,6 +15146,30 @@ public class AggregationToDaily implements TalendJob {
 			return this.max_write_latency_seconds;
 		}
 
+		public Integer read_ops_per_second;
+
+		public Integer getRead_ops_per_second() {
+			return this.read_ops_per_second;
+		}
+
+		public Integer max_read_ops_per_second;
+
+		public Integer getMax_read_ops_per_second() {
+			return this.max_read_ops_per_second;
+		}
+
+		public Integer write_ops_per_second;
+
+		public Integer getWrite_ops_per_second() {
+			return this.write_ops_per_second;
+		}
+
+		public Integer max_write_ops_per_second;
+
+		public Integer getMax_write_ops_per_second() {
+			return this.max_write_ops_per_second;
+		}
+
 		public Double flush_latency_seconds;
 
 		public Double getFlush_latency_seconds() {
@@ -15234,6 +15314,14 @@ public class AggregationToDaily implements TalendJob {
 						this.max_write_latency_seconds = dis.readDouble();
 					}
 
+					this.read_ops_per_second = readInteger(dis);
+
+					this.max_read_ops_per_second = readInteger(dis);
+
+					this.write_ops_per_second = readInteger(dis);
+
+					this.max_write_ops_per_second = readInteger(dis);
+
 					length = dis.readByte();
 					if (length == -1) {
 						this.flush_latency_seconds = null;
@@ -15366,6 +15454,22 @@ public class AggregationToDaily implements TalendJob {
 					dos.writeDouble(this.max_write_latency_seconds);
 				}
 
+				// Integer
+
+				writeInteger(this.read_ops_per_second, dos);
+
+				// Integer
+
+				writeInteger(this.max_read_ops_per_second, dos);
+
+				// Integer
+
+				writeInteger(this.write_ops_per_second, dos);
+
+				// Integer
+
+				writeInteger(this.max_write_ops_per_second, dos);
+
 				// Double
 
 				if (this.flush_latency_seconds == null) {
@@ -15422,6 +15526,14 @@ public class AggregationToDaily implements TalendJob {
 					+ String.valueOf(write_latency_seconds));
 			sb.append(",max_write_latency_seconds="
 					+ String.valueOf(max_write_latency_seconds));
+			sb.append(",read_ops_per_second="
+					+ String.valueOf(read_ops_per_second));
+			sb.append(",max_read_ops_per_second="
+					+ String.valueOf(max_read_ops_per_second));
+			sb.append(",write_ops_per_second="
+					+ String.valueOf(write_ops_per_second));
+			sb.append(",max_write_ops_per_second="
+					+ String.valueOf(max_write_ops_per_second));
 			sb.append(",flush_latency_seconds="
 					+ String.valueOf(flush_latency_seconds));
 			sb.append(",max_flush_latency_seconds="
@@ -15532,6 +15644,18 @@ public class AggregationToDaily implements TalendJob {
 			return this.write_latency_seconds;
 		}
 
+		public Integer read_ops_per_second;
+
+		public Integer getRead_ops_per_second() {
+			return this.read_ops_per_second;
+		}
+
+		public Integer write_ops_per_second;
+
+		public Integer getWrite_ops_per_second() {
+			return this.write_ops_per_second;
+		}
+
 		public Double flush_latency_seconds;
 
 		public Double getFlush_latency_seconds() {
@@ -15642,6 +15766,10 @@ public class AggregationToDaily implements TalendJob {
 						this.write_latency_seconds = dis.readDouble();
 					}
 
+					this.read_ops_per_second = readInteger(dis);
+
+					this.write_ops_per_second = readInteger(dis);
+
 					length = dis.readByte();
 					if (length == -1) {
 						this.flush_latency_seconds = null;
@@ -15731,6 +15859,14 @@ public class AggregationToDaily implements TalendJob {
 					dos.writeDouble(this.write_latency_seconds);
 				}
 
+				// Integer
+
+				writeInteger(this.read_ops_per_second, dos);
+
+				// Integer
+
+				writeInteger(this.write_ops_per_second, dos);
+
 				// Double
 
 				if (this.flush_latency_seconds == null) {
@@ -15770,6 +15906,10 @@ public class AggregationToDaily implements TalendJob {
 					+ String.valueOf(write_rate_bytes_per_second));
 			sb.append(",write_latency_seconds="
 					+ String.valueOf(write_latency_seconds));
+			sb.append(",read_ops_per_second="
+					+ String.valueOf(read_ops_per_second));
+			sb.append(",write_ops_per_second="
+					+ String.valueOf(write_ops_per_second));
 			sb.append(",flush_latency_seconds="
 					+ String.valueOf(flush_latency_seconds));
 			sb.append(",vm_disk_configuration_version="
@@ -15878,6 +16018,18 @@ public class AggregationToDaily implements TalendJob {
 			return this.write_latency_seconds;
 		}
 
+		public Integer read_ops_per_second;
+
+		public Integer getRead_ops_per_second() {
+			return this.read_ops_per_second;
+		}
+
+		public Integer write_ops_per_second;
+
+		public Integer getWrite_ops_per_second() {
+			return this.write_ops_per_second;
+		}
+
 		public Double flush_latency_seconds;
 
 		public Double getFlush_latency_seconds() {
@@ -15988,6 +16140,10 @@ public class AggregationToDaily implements TalendJob {
 						this.write_latency_seconds = dis.readDouble();
 					}
 
+					this.read_ops_per_second = readInteger(dis);
+
+					this.write_ops_per_second = readInteger(dis);
+
 					length = dis.readByte();
 					if (length == -1) {
 						this.flush_latency_seconds = null;
@@ -16077,6 +16233,14 @@ public class AggregationToDaily implements TalendJob {
 					dos.writeDouble(this.write_latency_seconds);
 				}
 
+				// Integer
+
+				writeInteger(this.read_ops_per_second, dos);
+
+				// Integer
+
+				writeInteger(this.write_ops_per_second, dos);
+
 				// Double
 
 				if (this.flush_latency_seconds == null) {
@@ -16116,6 +16280,10 @@ public class AggregationToDaily implements TalendJob {
 					+ String.valueOf(write_rate_bytes_per_second));
 			sb.append(",write_latency_seconds="
 					+ String.valueOf(write_latency_seconds));
+			sb.append(",read_ops_per_second="
+					+ String.valueOf(read_ops_per_second));
+			sb.append(",write_ops_per_second="
+					+ String.valueOf(write_ops_per_second));
 			sb.append(",flush_latency_seconds="
 					+ String.valueOf(flush_latency_seconds));
 			sb.append(",vm_disk_configuration_version="
@@ -16431,6 +16599,14 @@ public class AggregationToDaily implements TalendJob {
 					int write_latency_seconds_count = 0;
 
 					Double max_write_latency_seconds_max;
+					Double read_ops_per_second_sum;
+					int read_ops_per_second_count = 0;
+
+					Integer max_read_ops_per_second_max;
+					Double write_ops_per_second_sum;
+					int write_ops_per_second_count = 0;
+
+					Integer max_write_ops_per_second_max;
 					BigDecimal flush_latency_seconds_sum;
 					int flush_latency_seconds_count = 0;
 
@@ -16558,7 +16734,7 @@ public class AggregationToDaily implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_13 = conn_tJDBCInput_13
 						.createStatement();
 
-				String dbquery_tJDBCInput_13 = "SELECT history_datetime,\n		vm_disk_id,\n        image_id,\n		vm_disk_status, \n		minutes_in_status,\n		vm_disk_actual_size_mb,\n		read_rate_bytes_per_second,\n		read_latency_seconds,\n		write_rate_bytes_per_second,\n		write_latency_seconds,\n		flush_latency_seconds,\n		vm_disk_configuration_version \nFROM vm_disk_hourly_history\nWHERE history_datetime >= '"
+				String dbquery_tJDBCInput_13 = "SELECT history_datetime,\n		vm_disk_id,\n        image_id,\n		vm_disk_status, \n		minutes_in_status,\n		vm_disk_actual_size_mb,\n		read_rate_bytes_per_second,\n		read_latency_seconds,\n		write_rate_bytes_per_second,\n		write_latency_seconds,\n		read_ops_per_second,\n		write_ops_per_second,\n		flush_latency_seconds,\n		vm_disk_configuration_version \nFROM vm_disk_hourly_history\nWHERE history_datetime >= '"
 						+ new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSSZ")
 								.format(context.lastDayAggr)
 						+ "'\nAND history_datetime < '"
@@ -16700,23 +16876,45 @@ public class AggregationToDaily implements TalendJob {
 							}
 						}
 						if (colQtyInRs_tJDBCInput_13 < 11) {
-							row19.flush_latency_seconds = null;
+							row19.read_ops_per_second = null;
 						} else {
 
 							if (rs_tJDBCInput_13.getObject(11) != null) {
+								row19.read_ops_per_second = rs_tJDBCInput_13
+										.getInt(11);
+							} else {
+								row19.read_ops_per_second = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_13 < 12) {
+							row19.write_ops_per_second = null;
+						} else {
+
+							if (rs_tJDBCInput_13.getObject(12) != null) {
+								row19.write_ops_per_second = rs_tJDBCInput_13
+										.getInt(12);
+							} else {
+								row19.write_ops_per_second = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_13 < 13) {
+							row19.flush_latency_seconds = null;
+						} else {
+
+							if (rs_tJDBCInput_13.getObject(13) != null) {
 								row19.flush_latency_seconds = rs_tJDBCInput_13
-										.getDouble(11);
+										.getDouble(13);
 							} else {
 								row19.flush_latency_seconds = null;
 							}
 						}
-						if (colQtyInRs_tJDBCInput_13 < 12) {
+						if (colQtyInRs_tJDBCInput_13 < 14) {
 							row19.vm_disk_configuration_version = null;
 						} else {
 
-							if (rs_tJDBCInput_13.getObject(12) != null) {
+							if (rs_tJDBCInput_13.getObject(14) != null) {
 								row19.vm_disk_configuration_version = rs_tJDBCInput_13
-										.getInt(12);
+										.getInt(14);
 							} else {
 								row19.vm_disk_configuration_version = null;
 							}
@@ -16775,6 +16973,8 @@ public class AggregationToDaily implements TalendJob {
 							vm_disk_aggregate_tmp.read_latency_seconds = row19.read_latency_seconds;
 							vm_disk_aggregate_tmp.write_rate_bytes_per_second = row19.write_rate_bytes_per_second;
 							vm_disk_aggregate_tmp.write_latency_seconds = row19.write_latency_seconds;
+							vm_disk_aggregate_tmp.read_ops_per_second = row19.read_ops_per_second;
+							vm_disk_aggregate_tmp.write_ops_per_second = row19.write_ops_per_second;
 							vm_disk_aggregate_tmp.flush_latency_seconds = row19.flush_latency_seconds;
 							vm_disk_aggregate_tmp.vm_disk_configuration_version = row19.vm_disk_configuration_version;
 							vm_disk_aggregate = vm_disk_aggregate_tmp;
@@ -16939,6 +17139,52 @@ public class AggregationToDaily implements TalendJob {
 
 							} // G_OutMain_AggR_546
 
+							if (vm_disk_aggregate.read_ops_per_second != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_7.read_ops_per_second_count++;
+
+								if (operation_result_tAggregateRow_7.read_ops_per_second_sum == null) {
+									operation_result_tAggregateRow_7.read_ops_per_second_sum = (double) 0;
+								}
+
+								if (vm_disk_aggregate.read_ops_per_second != null)
+									operation_result_tAggregateRow_7.read_ops_per_second_sum += vm_disk_aggregate.read_ops_per_second;
+							} // G_OutMain_AggR_546
+
+							if (vm_disk_aggregate.read_ops_per_second != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_7.max_read_ops_per_second_max == null
+										|| vm_disk_aggregate.read_ops_per_second > operation_result_tAggregateRow_7.max_read_ops_per_second_max
+
+								) {
+									operation_result_tAggregateRow_7.max_read_ops_per_second_max = vm_disk_aggregate.read_ops_per_second;
+								}
+
+							} // G_OutMain_AggR_546
+
+							if (vm_disk_aggregate.write_ops_per_second != null) { // G_OutMain_AggR_546
+
+								operation_result_tAggregateRow_7.write_ops_per_second_count++;
+
+								if (operation_result_tAggregateRow_7.write_ops_per_second_sum == null) {
+									operation_result_tAggregateRow_7.write_ops_per_second_sum = (double) 0;
+								}
+
+								if (vm_disk_aggregate.write_ops_per_second != null)
+									operation_result_tAggregateRow_7.write_ops_per_second_sum += vm_disk_aggregate.write_ops_per_second;
+							} // G_OutMain_AggR_546
+
+							if (vm_disk_aggregate.write_ops_per_second != null) { // G_OutMain_AggR_546
+
+								if (operation_result_tAggregateRow_7.max_write_ops_per_second_max == null
+										|| vm_disk_aggregate.write_ops_per_second > operation_result_tAggregateRow_7.max_write_ops_per_second_max
+
+								) {
+									operation_result_tAggregateRow_7.max_write_ops_per_second_max = vm_disk_aggregate.write_ops_per_second;
+								}
+
+							} // G_OutMain_AggR_546
+
 							if (vm_disk_aggregate.flush_latency_seconds != null) { // G_OutMain_AggR_546
 
 								operation_result_tAggregateRow_7.flush_latency_seconds_count++;
@@ -17071,7 +17317,7 @@ public class AggregationToDaily implements TalendJob {
 
 				String insert_tJDBCOutput_13 = "INSERT INTO "
 						+ "vm_disk_daily_history"
-						+ " (history_datetime,vm_disk_id,image_id,vm_disk_status,minutes_in_status,vm_disk_actual_size_mb,read_rate_bytes_per_second,max_read_rate_bytes_per_second,read_latency_seconds,max_read_latency_seconds,write_rate_bytes_per_second,max_write_rate_bytes_per_second,write_latency_seconds,max_write_latency_seconds,flush_latency_seconds,max_flush_latency_seconds,vm_disk_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,vm_disk_id,image_id,vm_disk_status,minutes_in_status,vm_disk_actual_size_mb,read_rate_bytes_per_second,max_read_rate_bytes_per_second,read_latency_seconds,max_read_latency_seconds,write_rate_bytes_per_second,max_write_rate_bytes_per_second,write_latency_seconds,max_write_latency_seconds,read_ops_per_second,max_read_ops_per_second,write_ops_per_second,max_write_ops_per_second,flush_latency_seconds,max_flush_latency_seconds,vm_disk_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_13 = connection_tJDBCOutput_13
 						.prepareStatement(insert_tJDBCOutput_13);
 
@@ -17220,6 +17466,36 @@ public class AggregationToDaily implements TalendJob {
 
 					}
 					row20.max_write_latency_seconds = aggregated_row_tAggregateRow_7.max_write_latency_seconds_max;
+					if (aggregated_row_tAggregateRow_7.read_ops_per_second_count > 0) {
+
+						double row20_read_ops_per_second_temp = (double) aggregated_row_tAggregateRow_7.read_ops_per_second_sum
+								/ (double) aggregated_row_tAggregateRow_7.read_ops_per_second_count;
+
+						row20.read_ops_per_second = (int) row20_read_ops_per_second_temp;
+
+					} else {
+						String count = "0";
+
+						row20.read_ops_per_second = ParserUtils
+								.parseTo_Integer(count);
+
+					}
+					row20.max_read_ops_per_second = aggregated_row_tAggregateRow_7.max_read_ops_per_second_max;
+					if (aggregated_row_tAggregateRow_7.write_ops_per_second_count > 0) {
+
+						double row20_write_ops_per_second_temp = (double) aggregated_row_tAggregateRow_7.write_ops_per_second_sum
+								/ (double) aggregated_row_tAggregateRow_7.write_ops_per_second_count;
+
+						row20.write_ops_per_second = (int) row20_write_ops_per_second_temp;
+
+					} else {
+						String count = "0";
+
+						row20.write_ops_per_second = ParserUtils
+								.parseTo_Integer(count);
+
+					}
+					row20.max_write_ops_per_second = aggregated_row_tAggregateRow_7.max_write_ops_per_second_max;
 					if (aggregated_row_tAggregateRow_7.flush_latency_seconds_count > 0) {
 
 						row20.flush_latency_seconds = aggregated_row_tAggregateRow_7.flush_latency_seconds_sum
@@ -17344,25 +17620,57 @@ public class AggregationToDaily implements TalendJob {
 								row20.max_write_latency_seconds);
 					}
 
-					if (row20.flush_latency_seconds == null) {
-						pstmt_tJDBCOutput_13.setNull(15, java.sql.Types.DOUBLE);
+					if (row20.read_ops_per_second == null) {
+						pstmt_tJDBCOutput_13
+								.setNull(15, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_13.setDouble(15,
+						pstmt_tJDBCOutput_13.setInt(15,
+								row20.read_ops_per_second);
+					}
+
+					if (row20.max_read_ops_per_second == null) {
+						pstmt_tJDBCOutput_13
+								.setNull(16, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_13.setInt(16,
+								row20.max_read_ops_per_second);
+					}
+
+					if (row20.write_ops_per_second == null) {
+						pstmt_tJDBCOutput_13
+								.setNull(17, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_13.setInt(17,
+								row20.write_ops_per_second);
+					}
+
+					if (row20.max_write_ops_per_second == null) {
+						pstmt_tJDBCOutput_13
+								.setNull(18, java.sql.Types.INTEGER);
+					} else {
+						pstmt_tJDBCOutput_13.setInt(18,
+								row20.max_write_ops_per_second);
+					}
+
+					if (row20.flush_latency_seconds == null) {
+						pstmt_tJDBCOutput_13.setNull(19, java.sql.Types.DOUBLE);
+					} else {
+						pstmt_tJDBCOutput_13.setDouble(19,
 								row20.flush_latency_seconds);
 					}
 
 					if (row20.max_flush_latency_seconds == null) {
-						pstmt_tJDBCOutput_13.setNull(16, java.sql.Types.DOUBLE);
+						pstmt_tJDBCOutput_13.setNull(20, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_13.setDouble(16,
+						pstmt_tJDBCOutput_13.setDouble(20,
 								row20.max_flush_latency_seconds);
 					}
 
 					if (row20.vm_disk_configuration_version == null) {
 						pstmt_tJDBCOutput_13
-								.setNull(17, java.sql.Types.INTEGER);
+								.setNull(21, java.sql.Types.INTEGER);
 					} else {
-						pstmt_tJDBCOutput_13.setInt(17,
+						pstmt_tJDBCOutput_13.setInt(21,
 								row20.vm_disk_configuration_version);
 					}
 
@@ -25245,6 +25553,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 718207 characters generated by Talend Open Studio for Data Integration on the
- * May 21, 2018 1:13:13 PM IDT
+ * 728220 characters generated by Talend Open Studio for Data Integration on the
+ * January 7, 2021 2:20:59 PM IST
  ************************************************************************************************/

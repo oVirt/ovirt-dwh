@@ -13,7 +13,7 @@
     <contextParameter comment="Start run time." name="runTime" prompt="runTime?" promptNeeded="true" repositoryContextId="_3OYLIEP_EeC5PvJxFZIIsw" type="id_Date" value="yyyy-MM-dd HH:mm:ss.SSSSSS;2011-07-03 12:46:47.000000"/>
   </context>
   <parameters>
-    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="1312" show="false"/>
+    <elementParameter field="TEXT" name="SCREEN_OFFSET_X" value="1344" show="false"/>
     <elementParameter field="TEXT" name="SCREEN_OFFSET_Y" value="0" show="false"/>
     <elementParameter field="TEXT" name="REPOSITORY_CONNECTION_ID" value="" show="false"/>
     <elementParameter field="TEXT" name="OOZIE_PROPERTY_TYPENAME" value="" show="false"/>
@@ -732,7 +732,7 @@
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="hinterface_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -1409,7 +1409,7 @@
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="vinterface_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -1613,7 +1613,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT vm_disk_id,&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,&#xA;        image_id,&#xA;&#x9;&#x9;vm_disk_status,&#xA;&#x9;&#x9;vm_disk_actual_size_mb,&#xA;&#x9;&#x9;read_rate_bytes_per_second,&#xA;&#x9;&#x9;read_latency_seconds,&#xA;&#x9;&#x9;write_rate_bytes_per_second,&#xA;&#x9;&#x9;write_latency_seconds,&#xA;&#x9;&#x9;flush_latency_seconds&#xA;FROM dwh_vm_disks_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT vm_disk_id,&#xA;&#x9;&#x9;upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,&#xA;        image_id,&#xA;&#x9;&#x9;vm_disk_status,&#xA;&#x9;&#x9;vm_disk_actual_size_mb,&#xA;&#x9;&#x9;read_rate_bytes_per_second,&#xA;&#x9;&#x9;read_latency_seconds,&#xA;&#x9;&#x9;write_rate_bytes_per_second,&#xA;&#x9;&#x9;write_latency_seconds,&#xA;        read_ops_per_second,&#xA;        write_ops_per_second,&#xA;&#x9;&#x9;flush_latency_seconds&#xA;FROM dwh_vm_disks_history_view&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1641,6 +1641,10 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="write_latency_seconds"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="read_ops_per_second"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="write_ops_per_second"/>
+      <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="flush_latency_seconds"/>
       <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
@@ -1658,6 +1662,8 @@
       <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="read_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" originalLength="10" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="write_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" originalLength="10" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
     </metadata>
   </node>
@@ -1683,11 +1689,13 @@
       <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="read_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" originalLength="10" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="write_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" originalLength="10" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -1700,6 +1708,8 @@
         <mapperTableEntries name="read_latency_seconds" expression="row1.read_latency_seconds" type="id_Double" nullable="true"/>
         <mapperTableEntries name="write_rate_bytes_per_second" expression="row1.write_rate_bytes_per_second " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="write_latency_seconds" expression="row1.write_latency_seconds" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="read_ops_per_second" expression="row1.read_ops_per_second " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="write_ops_per_second" expression="row1.write_ops_per_second " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="flush_latency_seconds" expression="row1.flush_latency_seconds" type="id_Double" nullable="true"/>
         <mapperTableEntries name="vm_disk_configuration_version" expression="row3.history_id " type="id_Integer" nullable="true"/>
       </outputTables>
@@ -1713,6 +1723,8 @@
         <mapperTableEntries name="read_latency_seconds" type="id_Double" nullable="true"/>
         <mapperTableEntries name="write_rate_bytes_per_second" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="write_latency_seconds" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="read_ops_per_second" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="write_ops_per_second" type="id_Integer" nullable="true"/>
         <mapperTableEntries name="flush_latency_seconds" type="id_Double" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row3" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
@@ -1831,6 +1843,16 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="read_ops_per_second"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="write_ops_per_second"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="flush_latency_seconds"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1859,6 +1881,8 @@
       <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="read_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" originalLength="10" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="write_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" originalLength="10" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
@@ -1873,6 +1897,8 @@
       <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="read_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" originalLength="10" usefulColumn="true"/>
+      <column comment="" key="false" length="10" name="write_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" originalLength="10" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
@@ -2634,6 +2660,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="image_id"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="read_ops_per_second"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="write_ops_per_second"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row1" show="false"/>
@@ -2710,6 +2742,12 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="seconds_in_status"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="read_ops_per_second"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="write_ops_per_second"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
