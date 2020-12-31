@@ -1,0 +1,2320 @@
+{
+  "__inputs": [
+    {
+      "name": null,
+      "label": null,
+      "description": "",
+      "type": "datasource",
+      "pluginId": "postgres",
+      "pluginName": "PostgreSQL"
+    }
+  ],
+  "__requires": [
+    {
+      "type": "panel",
+      "id": "gauge",
+      "name": "Gauge",
+      "version": ""
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.7.4"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "datasource",
+      "id": "postgres",
+      "name": "PostgreSQL",
+      "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "singlestat",
+      "name": "Singlestat",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "text",
+      "name": "Text",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "The host dashboard displays the configuration details and resources usage metrics of a selected host.",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1590583286094,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 38,
+      "panels": [],
+      "title": "Description",
+      "type": "row"
+    },
+    {
+      "content": "###### The host dashboard displays the configuration details and resources usage metrics of a selected host.",
+      "datasource": null,
+      "gridPos": {
+        "h": 2,
+        "w": 23,
+        "x": 0,
+        "y": 1
+      },
+      "id": 36,
+      "mode": "markdown",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 3
+      },
+      "id": 28,
+      "panels": [],
+      "title": "Configuration Details",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "columns": [],
+      "datasource": null,
+      "description": "The latest configuration details of the host.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 3,
+        "w": 24,
+        "x": 0,
+        "y": 4
+      },
+      "id": 10,
+      "links": [],
+      "pageSize": null,
+      "pluginVersion": "6.2.2",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Host Operating System",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_os",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "FQDN or IP",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "fqdn_or_ip",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Create Date",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "create_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "Update Date",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "update_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "Memory Size",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_memsize",
+          "thresholds": [],
+          "type": "number",
+          "unit": "gbytes"
+        },
+        {
+          "alias": "CPU Cores",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "number_of_cores",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "alias": "Server Manufacturer",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "hardware_manufacturer",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Server Name",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "hardware_product_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Server Serial Number",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "hardware_serial_number",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Host / Hypervisor",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "case",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT DISTINCT\n    host_os, \n    fqdn_or_ip,\n    hardware_manufacturer,\n    hardware_product_name,\n    hardware_serial_number,\n    CASE \n        WHEN host_type = 0\n            THEN 'Host'\n        WHEN host_type = 2\n            THEN 'Hypervisor'\n        ELSE NULL\n    END,\n    create_date, \n    update_date\nFROM v4_4_latest_configuration_hosts\nWHERE \n    host_id IN ('$host_id')\n    AND v4_4_latest_configuration_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_latest_configuration_hosts a\n                GROUP BY a.host_id\n            )",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "decimals": 0,
+      "description": "The status of the host. In the latest configuration.",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 2,
+        "x": 0,
+        "y": 7
+      },
+      "id": 34,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT DISTINCT\n        CASE\n        WHEN host_status = -1\n            THEN 'Unknown Status'\n        WHEN host_status = 1\n            THEN 'Up'\n        WHEN host_status = 2\n            THEN 'Maintenance'\n        WHEN max (host_status) = 3\n            THEN 'Problematic'\n        ELSE NULL\n    END\nFROM \n    v4_4_statistics_hosts_resources_usage_samples \nWHERE\n    host_id IN ('$host_id')\n    AND history_id\n        IN\n            (\n                SELECT MAX (history_id)\n                FROM v4_4_statistics_hosts_resources_usage_samples\n                GROUP BY host_id\n            )\nGROUP BY host_status",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Status",
+      "type": "singlestat",
+      "valueFontSize": "50%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "decimals": 0,
+      "description": "The number of running virtual machines on the host. In the latest configuration.",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 2,
+        "y": 7
+      },
+      "id": 9,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT active_vms\nFROM v4_4_statistics_hosts_resources_usage_samples\nWHERE \n    history_id\n        IN \n            (\n                SELECT MAX (history_id)\n                FROM v4_4_statistics_hosts_resources_usage_samples\n                GROUP BY host_id\n            )\n    AND host_id IN ('$host_id')",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Number of Running VMs",
+      "type": "singlestat",
+      "valueFontSize": "70%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "decimals": 0,
+      "description": "The number of CPU cores of the host. In the latest configuration.",
+      "format": "none",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 5,
+        "y": 7
+      },
+      "id": 24,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT \n    number_of_cores*number_of_sockets\nFROM v4_4_latest_configuration_hosts\nWHERE \n    host_id IN ('$host_id')\n    AND v4_4_latest_configuration_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_latest_configuration_hosts a\n                GROUP BY a.host_id\n            )",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "CPU Cores",
+      "type": "singlestat",
+      "valueFontSize": "70%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "decimals": 2,
+      "description": "The memory size of the host. In the latest configuration.",
+      "format": "decgbytes",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 9,
+        "y": 7
+      },
+      "id": 23,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT \n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS host_memsize\nFROM v4_4_latest_configuration_hosts\nWHERE \n    host_id IN ('$host_id')\n    AND v4_4_latest_configuration_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_latest_configuration_hosts a\n                GROUP BY a.host_id\n            )",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Memory Size",
+      "type": "singlestat",
+      "valueFontSize": "70%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorValue": false,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "decimals": 2,
+      "description": "The total disks size of running virtual machines on the host. In the latest configuration.",
+      "format": "decgbytes",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 5,
+        "x": 13,
+        "y": 7
+      },
+      "id": 32,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT SUM (vm_disk_size_gb)\nFROM\n    (\n        SELECT\n            vm_name,\n            ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) AS vm_cpucores,\n            ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS vm_memsize,\n            SUM (COALESCE ( vm_disk_size_mb, 0.00 )) :: numeric / 1024 AS vm_disk_size_gb,\n            SUM (COALESCE ( vm_disk_actual_size_mb, 0.00 )) :: numeric / 1024 AS vm_disk_actual_size_gb\n        FROM \n            v4_4_latest_configuration_vms\n            LEFT OUTER JOIN \n            v4_4_latest_configuration_vms_devices\n                ON\n                    (\n                        v4_4_latest_configuration_vms_devices.vm_id =\n                        v4_4_latest_configuration_vms.vm_id\n                        AND v4_4_latest_configuration_vms_devices.history_id \n                            IN \n                                ( \n                                    SELECT MAX (history_id) \n                                    FROM v4_4_latest_configuration_vms_devices \n                                    WHERE type = 'disk' \n                                    GROUP BY device_id\n                                )\n                    )\n            LEFT OUTER JOIN \n            v4_4_latest_configuration_vms_disks\n                ON\n                    (\n                        v4_4_latest_configuration_vms_disks.vm_disk_id =\n                        v4_4_latest_configuration_vms_devices.device_id\n                    )\n            LEFT OUTER JOIN \n            v4_4_statistics_vms_disks_resources_usage_samples\n                ON\n                    (\n                        v4_4_statistics_vms_disks_resources_usage_samples.vm_disk_id =\n                        v4_4_latest_configuration_vms_disks.vm_disk_id\n                        AND v4_4_statistics_vms_disks_resources_usage_samples.history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_4_statistics_vms_disks_resources_usage_samples\n                                    GROUP BY vm_disk_id\n                                )\n                    )\n        WHERE \n            -- Here we filter by the virtual machine/s chosen by the user\n            v4_4_latest_configuration_vms.vm_id \n                IN \n                    (\n                        SELECT vm_id\n                        FROM v4_4_statistics_vms_resources_usage_samples\n                        WHERE \n                            currently_running_on_host IN ('$host_id')\n                            AND vm_status = 1\n                            AND history_id\n                                IN\n                                    (\n                                        SELECT MAX (history_id)\n                                        FROM v4_4_statistics_vms_resources_usage_samples\n                                        GROUP BY vm_id\n                                    )   \n                    )\n            -- Here we get the latest vm configurations\n            AND v4_4_latest_configuration_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_latest_configuration_vms a\n                        GROUP BY a.vm_id\n                    )\n        GROUP BY vm_name, cpu_per_socket, number_of_sockets, memory_size_mb\n    ) AS sub_query",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Running VMs Total Disks Size",
+      "type": "singlestat",
+      "valueFontSize": "70%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "decimals": 2,
+      "description": "Running virtual machines total CPU cores vs. host CPU cores. In the latest configuration.",
+      "format": "percentunit",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 6,
+        "x": 18,
+        "y": 7
+      },
+      "id": 25,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.4",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR48 - This query returns the\n-- average number of CPU Cores, Physical Memory and disk usage\n-- for the vms running on the selected host.\n\nSELECT\n    CASE\n        WHEN SUM ( total_hosts_num_of_cpus ) = 0\n            THEN NULL\n        ELSE ( SUM ( cpu_cores_running ) / SUM ( total_hosts_num_of_cpus ) )\n    END AS \"cpu_usage_ratio\"\nFROM \n    (\n        SELECT\n            SUM \n                ( \n                    COALESCE ( v4_4_latest_configuration_hosts.number_of_cores, 0 ) *\n                    COALESCE ( v4_4_latest_configuration_hosts.number_of_sockets, 0 ) \n                ) AS total_hosts_num_of_cpus,\n            cpu_memory_allocation.cpu_cores_running\n        FROM  \n            v4_4_latest_configuration_datacenters\n            INNER JOIN v4_4_latest_configuration_clusters\n                ON \n                    (\n                        v4_4_latest_configuration_datacenters.datacenter_id =\n                        v4_4_latest_configuration_clusters.datacenter_id\n                    )\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_clusters.cluster_id =\n                        v4_4_latest_configuration_hosts.cluster_id\n                        AND host_id IN ('$host_id')\n                    )\n            LEFT OUTER JOIN v4_4_latest_tags_relations\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_latest_tags_relations.entity_id\n                        AND v4_4_latest_tags_relations.entity_type = 3\n                    )\n            LEFT OUTER JOIN v4_4_latest_tags_details\n                ON \n                    (\n                        v4_4_latest_tags_relations.parent_id =\n                        v4_4_latest_tags_details.tag_id\n                    )\n            LEFT OUTER JOIN \n            (\n                SELECT\n                    a.cluster_id,\n                    SUM \n                        (\n                            CASE\n                                WHEN samples.vm_status = 1\n                                    THEN COALESCE ( v4_4_configuration_history_vms.cpu_per_socket, 0 ) * COALESCE ( v4_4_configuration_history_vms.number_of_sockets, 0 )\n                                ELSE 0\n                            END\n                        ) AS cpu_cores_running\n                FROM\n                    v4_4_statistics_vms_resources_usage_samples AS samples\n                    INNER JOIN v4_4_configuration_history_vms\n                        ON \n                            (\n                                v4_4_configuration_history_vms.history_id =\n                                samples.vm_configuration_version\n                                AND currently_running_on_host IN ('$host_id')\n                            )\n                    INNER JOIN v4_4_latest_configuration_vms a\n                        ON \n                            (\n                                a.vm_id =\n                                samples.vm_id\n                            )\n                WHERE\n                    samples.history_id \n                        IN \n                            (\n                                SELECT MAX ( history_id )\n                                FROM v4_4_statistics_vms_resources_usage_samples AS b\n                                GROUP BY vm_id\n                            )\n                GROUP BY a.cluster_id\n            ) AS cpu_memory_allocation\n                ON \n                    (\n                        cpu_memory_allocation.cluster_id =\n                        v4_4_latest_configuration_clusters.cluster_id\n                    )\n        WHERE v4_4_latest_configuration_datacenters.datacenter_id IN ('$datacenter_id')\n        GROUP BY cpu_memory_allocation.cpu_cores_running\n    ) AS dc",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "0.85,1",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Running VMs CPUs Overcommit (BR48) ",
+      "type": "singlestat",
+      "valueFontSize": "70%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "datasource": null,
+      "description": "The uptime percentage of the host, over the selected period.",
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 0,
+        "y": 10
+      },
+      "id": 19,
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "decimals": 2,
+            "mappings": [],
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "auto",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "6.7.4",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR6 - This query returns the average\n-- uptime percent for the selected host\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN statistics.host_status = 1\n                        THEN COALESCE ( statistics.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                statistics.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    (\n            SELECT host_id, host_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_hosts_resources_usage_samples\n    ) AS statistics\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                statistics.host_id\n            )\nWHERE\n    -- Here we filter by the host chosen by the user\n    v4_4_latest_configuration_hosts.host_id IN ('$host_id')\n    -- Show data only when the selected period is up to 24 hours back\n    AND $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the time range chosen by the user\n    AND statistics.history_datetime >= $__timeFrom()\n    AND statistics.history_datetime < $__timeTo()",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR6 - This query returns the average\n-- uptime percent for the selected host\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN statistics.host_status = 1\n                        THEN COALESCE ( statistics.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                statistics.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    (\n            SELECT host_id, host_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_hosts_resources_usage_hourly\n        UNION\n            SELECT host_id, host_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_hosts_resources_usage_daily\n            WHERE\n                history_datetime <\n                    (\n                        SELECT MIN ( history_datetime )\n                        FROM v4_4_statistics_hosts_resources_usage_hourly\n                    )\n    ) AS statistics\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                statistics.host_id\n            )\nWHERE\n    -- Here we filter by the host chosen by the user\n    v4_4_latest_configuration_hosts.host_id IN ('$host_id')\n    -- Show data only when the selected period is more then 24 hours back\n    AND $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the time range chosen by the user\n    AND statistics.history_datetime >= $__timeFrom()\n    AND statistics.history_datetime < $__timeTo()",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Uptime (DR6)",
+      "type": "gauge"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": null,
+      "description": "The CPU usage percentage of the host. In the latest configuration.",
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 5,
+        "y": 10
+      },
+      "id": 16,
+      "links": [],
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "decimals": 2,
+            "mappings": [
+              {
+                "id": 0,
+                "op": "=",
+                "text": "N/A",
+                "type": 1,
+                "value": "null"
+              }
+            ],
+            "nullValueMode": "connected",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "#299c46",
+                  "value": null
+                },
+                {
+                  "color": "rgba(237, 129, 40, 0.89)",
+                  "value": 60
+                },
+                {
+                  "color": "#d44a3a",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "6.7.4",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR12 - This query returns the average\n-- resources that are used ( cpu and memory )\n-- for the selected host\n\nSELECT\n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            (\n                    SELECT host_id, host_status, cpu_usage_percent\n                    FROM v4_4_statistics_hosts_resources_usage_samples\n                    WHERE \n                        history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_4_statistics_hosts_resources_usage_samples\n                                    GROUP BY host_id\n                                )\n            ) AS statistics\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        statistics.host_id\n                    )\n        WHERE\n            -- Here we get only active host\n            statistics.host_status = 1\n            -- Here we filter by the host chosen by the user\n            AND v4_4_latest_configuration_hosts.host_id IN ('$host_id')\n    ) AS average_cpu_percent",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "CPU Usage (DR12)",
+      "type": "gauge"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": null,
+      "description": "The Memory usage percentage of the host. In the latest configuration.",
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 9,
+        "y": 10
+      },
+      "id": 17,
+      "links": [],
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "decimals": 2,
+            "mappings": [
+              {
+                "id": 0,
+                "op": "=",
+                "text": "N/A",
+                "type": 1,
+                "value": "null"
+              }
+            ],
+            "nullValueMode": "connected",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "#299c46",
+                  "value": null
+                },
+                {
+                  "color": "rgba(237, 129, 40, 0.89)",
+                  "value": 60
+                },
+                {
+                  "color": "#d44a3a",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "6.7.4",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- DR12 - This query returns the average\n-- resources that are used ( cpu and memory )\n-- for the selected host\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            (\n                    SELECT host_id, host_status, memory_usage_percent\n                    FROM v4_4_statistics_hosts_resources_usage_samples\n                    WHERE \n                        history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_4_statistics_hosts_resources_usage_samples\n                                    GROUP BY host_id\n                                )\n            ) AS statistics\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        statistics.host_id\n                    )\n        WHERE\n            -- Here we get only active host\n            statistics.host_status = 1\n            -- Here we filter by the host chosen by the user\n            AND v4_4_latest_configuration_hosts.host_id IN ('$host_id')\n    ) AS average_memory_percent",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Memory Usage (DR12)",
+      "type": "gauge"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": null,
+      "description": "Running virtual machines total used disks size vs. Running virtual machines total disks size. In the latest configuration.",
+      "gridPos": {
+        "h": 4,
+        "w": 5,
+        "x": 13,
+        "y": 10
+      },
+      "id": 39,
+      "links": [],
+      "options": {
+        "fieldOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "defaults": {
+            "decimals": 2,
+            "mappings": [
+              {
+                "id": 0,
+                "op": "=",
+                "text": "N/A",
+                "type": 1,
+                "value": "null"
+              }
+            ],
+            "nullValueMode": "connected",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "#299c46",
+                  "value": null
+                },
+                {
+                  "color": "rgba(237, 129, 40, 0.89)",
+                  "value": 0.6
+                },
+                {
+                  "color": "#d44a3a",
+                  "value": 0.8
+                }
+              ]
+            },
+            "unit": "percentunit"
+          },
+          "overrides": [],
+          "values": false
+        },
+        "orientation": "horizontal",
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "6.7.4",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT \n    CASE \n        WHEN SUM (vm_disk_size_gb) = 0\n            THEN NULL\n        WHEN SUM (vm_disk_size_gb) != 0\n            THEN SUM (vm_disk_actual_size_gb) / SUM (vm_disk_size_gb)\n    END \nFROM\n    (\n        SELECT\n            vm_name,\n            ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) AS vm_cpucores,\n            ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS vm_memsize,\n            SUM (COALESCE ( vm_disk_size_mb, 0.00 )) :: numeric / 1024 AS vm_disk_size_gb,\n            SUM (COALESCE ( vm_disk_actual_size_mb, 0.00 )) :: numeric / 1024 AS vm_disk_actual_size_gb\n        FROM \n            v4_4_latest_configuration_vms\n            LEFT OUTER JOIN \n            v4_4_latest_configuration_vms_devices\n                ON\n                    (\n                        v4_4_latest_configuration_vms_devices.vm_id =\n                        v4_4_latest_configuration_vms.vm_id\n                        AND v4_4_latest_configuration_vms_devices.history_id \n                            IN \n                                ( \n                                    SELECT MAX (history_id) \n                                    FROM v4_4_latest_configuration_vms_devices \n                                    WHERE type = 'disk' \n                                    GROUP BY device_id\n                                )\n                    )\n            LEFT OUTER JOIN \n            v4_4_latest_configuration_vms_disks\n                ON\n                    (\n                        v4_4_latest_configuration_vms_disks.vm_disk_id =\n                        v4_4_latest_configuration_vms_devices.device_id\n                    )\n            LEFT OUTER JOIN \n            v4_4_statistics_vms_disks_resources_usage_samples\n                ON\n                    (\n                        v4_4_statistics_vms_disks_resources_usage_samples.vm_disk_id =\n                        v4_4_latest_configuration_vms_disks.vm_disk_id\n                        AND v4_4_statistics_vms_disks_resources_usage_samples.history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_4_statistics_vms_disks_resources_usage_samples\n                                    GROUP BY vm_disk_id\n                                )\n                    )\n        WHERE \n            -- Here we filter by the virtual machine/s chosen by the user\n            v4_4_latest_configuration_vms.vm_id \n                IN \n                    (\n                        SELECT vm_id\n                        FROM v4_4_statistics_vms_resources_usage_samples\n                        WHERE \n                            currently_running_on_host IN ('$host_id')\n                            AND vm_status = 1\n                            AND history_id\n                                IN\n                                    (\n                                        SELECT MAX (history_id)\n                                        FROM v4_4_statistics_vms_resources_usage_samples\n                                        GROUP BY vm_id\n                                    )   \n                    )\n            -- Here we get the latest vm configurations\n            AND v4_4_latest_configuration_vms.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_latest_configuration_vms a\n                        GROUP BY a.vm_id\n                    )\n        GROUP BY vm_name, cpu_per_socket, number_of_sockets, memory_size_mb\n    ) AS sub_query",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Disks Usage",
+      "type": "gauge"
+    },
+    {
+      "cacheTimeout": null,
+      "colorBackground": false,
+      "colorPostfix": false,
+      "colorPrefix": false,
+      "colorValue": true,
+      "colors": [
+        "#299c46",
+        "rgba(237, 129, 40, 0.89)",
+        "#d44a3a"
+      ],
+      "datasource": null,
+      "decimals": 2,
+      "description": "Running virtual machines total memory size vs. host memory size. In the latest configuration.",
+      "format": "percentunit",
+      "gauge": {
+        "maxValue": 100,
+        "minValue": 0,
+        "show": false,
+        "thresholdLabels": false,
+        "thresholdMarkers": true
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 10
+      },
+      "id": 31,
+      "interval": null,
+      "links": [],
+      "mappingType": 1,
+      "mappingTypes": [
+        {
+          "name": "value to text",
+          "value": 1
+        },
+        {
+          "name": "range to text",
+          "value": 2
+        }
+      ],
+      "maxDataPoints": 100,
+      "nullPointMode": "connected",
+      "nullText": null,
+      "pluginVersion": "6.7.4",
+      "postfix": "",
+      "postfixFontSize": "50%",
+      "prefix": "",
+      "prefixFontSize": "50%",
+      "rangeMaps": [
+        {
+          "from": "null",
+          "text": "N/A",
+          "to": "null"
+        }
+      ],
+      "sparkline": {
+        "fillColor": "rgba(31, 118, 189, 0.18)",
+        "full": false,
+        "lineColor": "rgb(31, 120, 193)",
+        "show": false,
+        "ymax": null,
+        "ymin": null
+      },
+      "tableColumn": "",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR48 - This query returns the\n-- average number of CPU Cores, Physical Memory and disk usage\n-- for the vms running on the selected host.\n\nSELECT\n    CASE\n        WHEN SUM ( total_hosts_mem ) = 0\n            THEN NULL\n        ELSE ( SUM ( mem_running ) / SUM ( total_hosts_mem ) )\n    END AS \"memory_usage_ratio\"\nFROM \n    (\n        SELECT\n            ROUND ( CAST ( SUM ( COALESCE ( v4_4_latest_configuration_hosts.memory_size_mb, 0.00 ) ) AS FLOAT ) :: numeric / 1024, 2 ) AS total_hosts_mem,\n            cpu_memory_allocation.mem_running\n        FROM  \n            v4_4_latest_configuration_datacenters\n            INNER JOIN v4_4_latest_configuration_clusters\n                ON \n                    (\n                        v4_4_latest_configuration_datacenters.datacenter_id =\n                        v4_4_latest_configuration_clusters.datacenter_id\n                    )\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_clusters.cluster_id =\n                        v4_4_latest_configuration_hosts.cluster_id\n                        AND host_id IN ('$host_id')\n                    )\n            LEFT OUTER JOIN v4_4_latest_tags_relations\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_latest_tags_relations.entity_id\n                        AND v4_4_latest_tags_relations.entity_type = 3\n                    )\n            LEFT OUTER JOIN v4_4_latest_tags_details\n                ON \n                    (\n                        v4_4_latest_tags_relations.parent_id =\n                        v4_4_latest_tags_details.tag_id\n                    )\n            LEFT OUTER JOIN \n            (\n                SELECT\n                    a.cluster_id,\n                    ROUND ( CAST ( SUM \n                        (\n                            CASE\n                                WHEN samples.vm_status = 1\n                                    THEN COALESCE ( v4_4_configuration_history_vms.memory_size_mb, 0.00 )\n                                ELSE 0.00\n                            END \n                        ) AS FLOAT ) :: numeric / 1024, 2 ) AS mem_running\n                FROM\n                    v4_4_statistics_vms_resources_usage_samples AS samples\n                    INNER JOIN v4_4_configuration_history_vms\n                        ON \n                            (\n                                v4_4_configuration_history_vms.history_id =\n                                samples.vm_configuration_version\n                                AND currently_running_on_host IN ('$host_id')\n                            )\n                    INNER JOIN v4_4_latest_configuration_vms a\n                        ON \n                            (\n                                a.vm_id =\n                                samples.vm_id\n                            )\n                WHERE\n                    samples.history_id \n                        IN \n                            (\n                                SELECT MAX ( history_id )\n                                FROM v4_4_statistics_vms_resources_usage_samples AS b\n                                GROUP BY vm_id\n                            )\n                GROUP BY a.cluster_id\n            ) AS cpu_memory_allocation\n                ON \n                    (\n                        cpu_memory_allocation.cluster_id =\n                        v4_4_latest_configuration_clusters.cluster_id\n                    )\n        WHERE v4_4_latest_configuration_datacenters.datacenter_id IN ('$datacenter_id')\n        GROUP BY cpu_memory_allocation.mem_running\n    ) AS dc",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": "0.85,1",
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Running VMs Memory Overcommit (BR48)",
+      "type": "singlestat",
+      "valueFontSize": "70%",
+      "valueMaps": [
+        {
+          "op": "=",
+          "text": "N/A",
+          "value": "null"
+        }
+      ],
+      "valueName": "current"
+    },
+    {
+      "columns": [],
+      "datasource": null,
+      "description": "The virtual machines running on the host, and the size of their resources. In the latest configuration.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 8,
+      "pageSize": null,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "VM Name",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "CPU Cores",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "vm_cpucores",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "alias": "Memory Size",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_memsize",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "Disks Size",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_disk_size_gb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        },
+        {
+          "alias": "Used Disks Size",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_disk_actual_size_gb",
+          "thresholds": [],
+          "type": "number",
+          "unit": "decgbytes"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT\n    vm_name,\n    ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) AS vm_cpucores,\n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS vm_memsize,\n    SUM (COALESCE ( vm_disk_size_mb, 0.00 )) :: numeric / 1024 AS vm_disk_size_gb,\n    SUM (COALESCE ( vm_disk_actual_size_mb, 0.00 )) :: numeric / 1024 AS vm_disk_actual_size_gb\nFROM \n    v4_4_latest_configuration_vms\n    LEFT OUTER JOIN \n    v4_4_latest_configuration_vms_devices\n        ON\n            (\n                v4_4_latest_configuration_vms_devices.vm_id =\n                v4_4_latest_configuration_vms.vm_id\n                AND v4_4_latest_configuration_vms_devices.history_id \n                    IN \n                        ( \n                            SELECT MAX (history_id) \n                            FROM v4_4_latest_configuration_vms_devices \n                            WHERE type = 'disk' \n                            GROUP BY device_id\n                        )\n            )\n    LEFT OUTER JOIN v4_4_latest_configuration_vms_disks\n        ON\n            (\n                v4_4_latest_configuration_vms_disks.vm_disk_id =\n                v4_4_latest_configuration_vms_devices.device_id\n            )\n    LEFT OUTER JOIN v4_4_statistics_vms_disks_resources_usage_samples\n        ON\n            (\n                v4_4_statistics_vms_disks_resources_usage_samples.vm_disk_id =\n                v4_4_latest_configuration_vms_disks.vm_disk_id\n                AND v4_4_statistics_vms_disks_resources_usage_samples.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_statistics_vms_disks_resources_usage_samples\n                            GROUP BY vm_disk_id\n                        )\n            )\nWHERE \n    -- Here we filter by the virtual machine/s chosen by the user\n    v4_4_latest_configuration_vms.vm_id \n        IN \n            (\n                SELECT vm_id\n                FROM v4_4_statistics_vms_resources_usage_samples\n                WHERE \n                    currently_running_on_host IN ('$host_id')\n                    AND vm_status = 1\n                    AND history_id\n                        IN\n                            (\n                                SELECT MAX (history_id)\n                                FROM v4_4_statistics_vms_resources_usage_samples\n                                GROUP BY vm_id\n                            )   \n            )\n    -- Here we get the latest vm configurations\n    AND v4_4_latest_configuration_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_latest_configuration_vms a\n                GROUP BY a.vm_id\n            )\nGROUP BY vm_name, cpu_per_socket, number_of_sockets, memory_size_mb",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Running VMs Resources",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "cacheTimeout": null,
+      "columns": [],
+      "datasource": null,
+      "description": "The latest host interfaces configuration details.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 24
+      },
+      "id": 4,
+      "links": [],
+      "pageSize": null,
+      "pluginVersion": "6.7.4",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Interface Name",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_interface_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Interface Type",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_interface_type",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Interface Mac Address",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "mac_address",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Logical Network",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "logical_network_name",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "IP ",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "ip_address",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Create Date",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "create_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "Update Date",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "update_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT DISTINCT\n    host_interface_name,\n    CASE\n        WHEN host_interface_type = 0\n            THEN 'rt18139_pv'\n        WHEN host_interface_type = 1\n            THEN 'rt18139'\n        WHEN host_interface_type = 2\n            THEN 'e1000'\n        WHEN host_interface_type = 3\n            THEN 'pv'\n        ELSE NULL\n    END AS host_interface_type,\n    mac_address,\n    logical_network_name,\n    ip_address,\n    create_date,\n    update_date\nFROM v4_4_latest_configuration_hosts_interfaces\nWHERE \n    host_id IN ('$host_id')\n    AND history_id\n        IN\n            (\n                SELECT MAX (history_id)\n                FROM v4_4_latest_configuration_hosts_interfaces\n                GROUP BY host_id, host_interface_name\n            )",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Host Interfaces Inventory",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "id": 30,
+      "panels": [],
+      "title": "Resources Usage over time",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Average CPU usage and peaks of the host, over the selected period.",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 33
+      },
+      "hiddenSeries": false,
+      "id": 22,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR2A - This query returns the host average\n-- memory usage and peaks over time.\n\n-- This query (A) displays recent data from the last hours, \n-- using the samples and hourly tables.\nSELECT DISTINCT\n    $__time(sub_query.time),\n    CPU_Usage AS \"CPU Usage\",\n    CPU_Peak AS \"CPU Peak\"\nFROM \n    (\n        -- Host Max and Average Memory Usage Peaks\n        SELECT\n            history_datetime AS time,\n            SUM ( COALESCE ( cpu_usage_percent, 0 ) * COALESCE ( minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( minutes_in_status, 0 ) ) AS CPU_Usage,\n            SUM ( COALESCE ( max_cpu_usage, 0 ) * COALESCE ( minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( minutes_in_status, 0 ) ) AS CPU_Peak\n        FROM\n            (\n                    SELECT history_datetime, cpu_usage_percent, minutes_in_status, cpu_usage_percent AS max_cpu_usage, host_status, host_id \n                    FROM v4_4_statistics_hosts_resources_usage_samples\n            ) AS statistics\n        WHERE\n            -- Here we filter by active host only\n            statistics.host_status = 1\n            -- Here we filter by the host chosen by the user\n            AND statistics.host_id IN ('$host_id')\n            -- Here we filter by the time range chosen by the user\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n        GROUP BY history_datetime\n    ) AS sub_query\n-- Show data only when the selected period is up to 24 hours back \nWHERE $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\nGROUP BY sub_query.time, CPU_Usage, CPU_Peak\nORDER BY sub_query.time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR2A - This query returns the host average\n-- memory usage and peaks over time.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT DISTINCT\n    $__time(sub_query.time),\n    CPU_Usage AS \"CPU Usage\",\n    CPU_Peak AS \"CPU Peak\"\nFROM \n    (\n        -- Host Max and Average Memory Usage Peaks\n        SELECT\n            history_datetime AS time,\n            SUM ( COALESCE ( cpu_usage_percent, 0 ) * COALESCE ( minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( minutes_in_status, 0 ) ) AS CPU_Usage,\n            SUM ( COALESCE ( max_cpu_usage, 0 ) * COALESCE ( minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( minutes_in_status, 0 ) ) AS CPU_Peak\n        FROM\n            (\n                    SELECT history_datetime, cpu_usage_percent, minutes_in_status, max_cpu_usage, host_status, host_id \n                    FROM v4_4_statistics_hosts_resources_usage_hourly\n                UNION\n                    SELECT history_datetime, cpu_usage_percent, minutes_in_status, max_cpu_usage, host_status, host_id \n                    FROM v4_4_statistics_hosts_resources_usage_daily\n                    WHERE\n                        history_datetime <\n                            (\n                                SELECT MIN ( history_datetime )\n                                FROM v4_4_statistics_hosts_resources_usage_hourly\n                            )\n            ) AS statistics\n        WHERE\n            -- Here we filter by active host only\n            statistics.host_status = 1\n            -- Here we filter by the host chosen by the user\n            AND statistics.host_id IN ('$host_id')\n            -- Here we filter by the time range chosen by the user\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n        GROUP BY history_datetime\n    ) AS sub_query\n-- Show data only when the selected period is more then 24 hours back\nWHERE $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\nGROUP BY sub_query.time, CPU_Usage, CPU_Peak\nORDER BY sub_query.time",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Average CPU Usage and Peaks (over time) (BR2A)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Average memory usage and peaks of the host, over the selected period.",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 39
+      },
+      "hiddenSeries": false,
+      "id": 21,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR2A - This query returns the host average\n-- memory usage and peaks over time.\n\n-- This query (A) displays recent data from the last hours, \n-- using the samples and hourly tables.\nSELECT DISTINCT\n    $__time(sub_query.time),\n    MEM_Usage AS \"Average Memory Usage\",\n    MEM_Peak AS \"Average Memory Peaks\"\nFROM \n    (\n        -- Host Max and Average Memory Usage Peaks\n        SELECT\n            history_datetime AS time,\n            SUM ( COALESCE ( memory_usage_percent, 0 ) * COALESCE ( minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( minutes_in_status, 0 ) ) AS MEM_Usage,\n            SUM ( COALESCE ( max_memory_usage, 0 ) * COALESCE ( minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( minutes_in_status, 0 ) ) AS MEM_Peak\n        FROM\n            (\n                    SELECT history_datetime, memory_usage_percent, minutes_in_status, memory_usage_percent AS max_memory_usage, host_status, host_id \n                    FROM v4_4_statistics_hosts_resources_usage_samples\n            ) AS statistics\n        WHERE\n            -- Here we filter by active host only\n            statistics.host_status = 1\n            -- Here we filter by the host chosen by the user\n            AND statistics.host_id IN ('$host_id')\n            -- Here we filter by the time range chosen by the user\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n        GROUP BY history_datetime\n    ) AS sub_query\n-- Show data only when the selected period is up to 24 hours back \nWHERE $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\nGROUP BY sub_query.time, MEM_Usage, MEM_Peak\nORDER BY sub_query.time",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR2A - This query returns the host average\n-- memory usage and peaks over time.\n\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT DISTINCT\n    $__time(sub_query.time),\n    MEM_Usage AS \"Average Memory Usage\",\n    MEM_Peak AS \"Average Memory Peaks\"\nFROM \n    (\n        -- Host Max and Average Memory Usage Peaks\n        SELECT\n            history_datetime AS time,\n            SUM ( COALESCE ( memory_usage_percent, 0 ) * COALESCE ( minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( minutes_in_status, 0 ) ) AS MEM_Usage,\n            SUM ( COALESCE ( max_memory_usage, 0 ) * COALESCE ( minutes_in_status, 0 ) ) /\n            SUM ( COALESCE ( minutes_in_status, 0 ) ) AS MEM_Peak\n        FROM\n            (\n                    SELECT history_datetime, memory_usage_percent, minutes_in_status, max_memory_usage, host_status, host_id \n                    FROM v4_4_statistics_hosts_resources_usage_hourly\n                UNION\n                    SELECT history_datetime, memory_usage_percent, minutes_in_status, max_memory_usage, host_status, host_id \n                    FROM v4_4_statistics_hosts_resources_usage_daily\n                    WHERE\n                        history_datetime <\n                            (\n                                SELECT MIN ( history_datetime )\n                                FROM v4_4_statistics_hosts_resources_usage_hourly\n                            )\n            ) AS statistics\n        WHERE\n            -- Here we filter by active host only\n            statistics.host_status = 1\n            -- Here we filter by the host chosen by the user\n            AND statistics.host_id IN ('$host_id')\n            -- Here we filter by the time range chosen by the user\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n        GROUP BY history_datetime\n    ) AS sub_query\n-- Show data only when the selected period is more then 24 hours back\nWHERE $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\nGROUP BY sub_query.time, MEM_Usage, MEM_Peak\nORDER BY sub_query.time",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Average Memory Usage and Peaks (over time) (BR2A)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "Average transmit and receive rates of the host interfaces, over the selected period.",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 45
+      },
+      "hiddenSeries": false,
+      "id": 6,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR2A - This query returns the\n-- Ethernet Interface Tx and Rx Rates, over time\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT DISTINCT\n    time,\n    COALESCE ( interface_name, MAX ( interface_name ) over ( partition BY 1 ), '' ) AS interface_name,\n    AVG ( Rx_rate + Tx_rate ) AS \"Avg. Rx and Tx\"\nFROM \n    (\n        SELECT DISTINCT\n            v4_4_configuration_history_hosts_interfaces.host_interface_id,\n            host_interface_name AS interface_name,\n            statistics.history_datetime AS time,\n            AVG ( COALESCE ( receive_rate_percent, 0 ) ) AS Rx_rate,\n            AVG ( COALESCE ( transmit_rate_percent, 0 ) ) AS Tx_rate\n        FROM\n            (\n                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent \n                    FROM v4_4_statistics_hosts_interfaces_resources_usage_samples\n            ) AS statistics\n            INNER JOIN v4_4_configuration_history_hosts_interfaces\n                ON \n                    (\n                        v4_4_configuration_history_hosts_interfaces.host_interface_id =\n                        statistics.host_interface_id\n                    )\n        WHERE\n            -- Here we filter by the host chosen by the user\n            v4_4_configuration_history_hosts_interfaces.host_id IN ('$host_id')\n            -- Here we filter by the time range chosen by the user\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            AND v4_4_configuration_history_hosts_interfaces.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_configuration_history_hosts_interfaces AS a\n                        GROUP BY a.host_interface_id\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_configuration_history_hosts_interfaces AS a\n                        GROUP BY a.host_interface_id\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.host_interface_id\n                IN \n                    (\n                        SELECT host_interface_id\n                        FROM v4_4_latest_configuration_hosts_interfaces\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.host_interface_id \n                IN \n                    (\n                        SELECT c.host_interface_id\n                        FROM\n                            (\n                                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent\n                                    FROM v4_4_statistics_hosts_interfaces_resources_usage_samples\n                            ) AS b\n                            INNER JOIN v4_4_configuration_history_hosts_interfaces c\n                                ON \n                                    ( \n                                        c.host_interface_id = \n                                        b.host_interface_id \n                                    )\n                            INNER JOIN \n                            (\n                                    SELECT history_datetime, host_id, host_status \n                                    FROM v4_4_statistics_hosts_resources_usage_samples\n                            ) AS samples_hourly_daily\n                                ON \n                                    (\n                                        samples_hourly_daily.history_datetime =\n                                        b.history_datetime \n                                        AND samples_hourly_daily.host_id IN ('$host_id')\n                                    )\n                        WHERE\n                            -- Here we filter by active host only\n                            samples_hourly_daily.host_status = 1\n                            AND c.host_id IN ('$host_id')\n                            AND c.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( d.history_id )\n                                        FROM v4_4_configuration_history_hosts_interfaces AS d\n                                        GROUP BY d.host_interface_id\n                                    )\n                        GROUP BY c.host_interface_id\n                        ORDER BY\n                                AVG ( COALESCE ( b.receive_rate_percent, 0 ) ) +\n                                AVG ( COALESCE ( b.transmit_rate_percent, 0 ) ) \n                                DESC\n                    )\n        GROUP BY\n            v4_4_configuration_history_hosts_interfaces.host_interface_id,\n            interface_name,\n            statistics.history_datetime\n    ) AS all_sub_queries\n-- Show data only when the selected period is up to 24 hours back \nWHERE $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\nGROUP BY all_sub_queries.time, interface_name\nORDER BY all_sub_queries.time ASC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR2A - This query returns the\n-- Ethernet Interface Tx and Rx Rates, over time\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT DISTINCT\n    time,\n    COALESCE ( interface_name, MAX ( interface_name ) over ( partition BY 1 ), '' ) AS interface_name,\n    AVG ( Rx_rate + Tx_rate ) AS \"Avg. Rx and Tx\"\nFROM \n    (\n        SELECT DISTINCT\n            v4_4_configuration_history_hosts_interfaces.host_interface_id,\n            host_interface_name AS interface_name,\n            statistics.history_datetime AS time,\n            AVG ( COALESCE ( receive_rate_percent, 0 ) ) AS Rx_rate,\n            AVG ( COALESCE ( transmit_rate_percent, 0 ) ) AS Tx_rate\n        FROM\n            (\n                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent \n                    FROM v4_4_statistics_hosts_interfaces_resources_usage_hourly\n                UNION\n                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent \n                    FROM v4_4_statistics_hosts_interfaces_resources_usage_daily\n                    WHERE\n                        history_datetime <\n                            (\n                                SELECT MIN ( history_datetime )\n                                FROM v4_4_statistics_hosts_interfaces_resources_usage_hourly\n                            )\n            ) AS statistics\n            INNER JOIN v4_4_configuration_history_hosts_interfaces\n                ON \n                    (\n                        v4_4_configuration_history_hosts_interfaces.host_interface_id =\n                        statistics.host_interface_id\n                    )\n        WHERE\n            -- Here we filter by the host chosen by the user\n            v4_4_configuration_history_hosts_interfaces.host_id IN ('$host_id')\n            -- Here we filter by the time range chosen by the user\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            AND v4_4_configuration_history_hosts_interfaces.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_configuration_history_hosts_interfaces AS a\n                        GROUP BY a.host_interface_id\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_configuration_history_hosts_interfaces AS a\n                        GROUP BY a.host_interface_id\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.host_interface_id\n                IN \n                    (\n                        SELECT host_interface_id\n                        FROM v4_4_latest_configuration_hosts_interfaces\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.host_interface_id \n                IN \n                    (\n                        SELECT c.host_interface_id\n                        FROM\n                            (\n                                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent\n                                    FROM v4_4_statistics_hosts_interfaces_resources_usage_hourly\n                                UNION\n                                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent\n                                    FROM v4_4_statistics_hosts_interfaces_resources_usage_daily\n                                    WHERE\n                                        history_datetime <\n                                            (\n                                                SELECT MIN ( history_datetime )\n                                                FROM v4_4_statistics_hosts_interfaces_resources_usage_hourly\n                                            )\n                            ) AS b\n                            INNER JOIN v4_4_configuration_history_hosts_interfaces c\n                                ON \n                                    ( \n                                        c.host_interface_id = \n                                        b.host_interface_id \n                                    )\n                            INNER JOIN \n                            (\n                                    SELECT history_datetime, host_id, host_status \n                                    FROM v4_4_statistics_hosts_resources_usage_hourly\n                                UNION\n                                    SELECT history_datetime, host_id, host_status \n                                    FROM v4_4_statistics_hosts_resources_usage_daily\n                                    WHERE\n                                        history_datetime <\n                                            (\n                                                SELECT MIN ( history_datetime )\n                                                FROM v4_4_statistics_hosts_resources_usage_hourly\n                                            )\n                            ) AS samples_hourly_daily\n                                ON \n                                    (\n                                        samples_hourly_daily.history_datetime =\n                                        b.history_datetime \n                                        AND samples_hourly_daily.host_id IN ('$host_id')\n                                    )\n                        WHERE\n                            -- Here we filter by active host only\n                            samples_hourly_daily.host_status = 1\n                            AND c.host_id IN ('$host_id')\n                            AND c.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( d.history_id )\n                                        FROM v4_4_configuration_history_hosts_interfaces AS d\n                                        GROUP BY d.host_interface_id\n                                    )\n                        GROUP BY c.host_interface_id\n                        ORDER BY\n                                AVG ( COALESCE ( b.receive_rate_percent, 0 ) ) +\n                                AVG ( COALESCE ( b.transmit_rate_percent, 0 ) ) \n                                DESC\n                    )\n        GROUP BY\n            v4_4_configuration_history_hosts_interfaces.host_interface_id,\n            interface_name,\n            statistics.history_datetime\n    ) AS all_sub_queries\n-- Show data only when the selected period is more then 24 hours back\nWHERE $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\nGROUP BY all_sub_queries.time, interface_name\nORDER BY all_sub_queries.time ASC",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Ethernet Interfaces Tx and Rx Rates (over time) (BR2A)",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 1,
+          "format": "percent",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [
+    "Host",
+    "CPU",
+    "Memory",
+    "Disk",
+    "Interface",
+    "Uptime",
+    "OS"
+  ],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": null,
+        "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_4_latest_configuration_datacenters",
+        "hide": 0,
+        "includeAll": false,
+        "index": -1,
+        "label": "Data Canter",
+        "multi": false,
+        "name": "datacenter_id",
+        "options": [],
+        "query": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_4_latest_configuration_datacenters",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": null,
+        "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_4_latest_configuration_clusters WHERE datacenter_id IN ('$datacenter_id')",
+        "hide": 0,
+        "includeAll": false,
+        "index": -1,
+        "label": "Cluster",
+        "multi": false,
+        "name": "cluster_id",
+        "options": [],
+        "query": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_4_latest_configuration_clusters WHERE datacenter_id IN ('$datacenter_id')",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": null,
+        "definition": "SELECT DISTINCT host_name AS __text, host_id AS __value FROM v4_4_latest_configuration_hosts WHERE cluster_id IN ('$cluster_id')",
+        "hide": 0,
+        "includeAll": false,
+        "index": -1,
+        "label": "Host",
+        "multi": false,
+        "name": "host_id",
+        "options": [],
+        "query": "SELECT DISTINCT host_name AS __text, host_id AS __value FROM v4_4_latest_configuration_hosts WHERE cluster_id IN ('$cluster_id')",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30d",
+    "to": "now"
+  },
+  "timepicker": {
+    "hidden": false,
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "",
+  "title": "Host Dashboard",
+  "uid": "HostDashboard",
+  "variables": {
+    "list": []
+  },
+  "version": 1
+}
