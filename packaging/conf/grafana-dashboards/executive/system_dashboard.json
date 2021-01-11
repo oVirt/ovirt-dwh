@@ -239,7 +239,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR1 - This query returns entities count per entity\n\nSELECT \n    (\n        SELECT COUNT ( * )\n        FROM v4_3_latest_configuration_datacenters\n    ) AS datacenter_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_3_latest_configuration_clusters\n    ) AS cluster_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_3_latest_configuration_hosts\n    ) AS host_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_3_latest_configuration_vms\n    ) AS vm_count",
+          "rawSql": "-- DR1 - This query returns entities count per entity\n\nSELECT \n    (\n        SELECT COUNT ( * )\n        FROM v4_4_latest_configuration_datacenters\n    ) AS datacenter_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_4_latest_configuration_clusters\n    ) AS cluster_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_4_latest_configuration_hosts\n    ) AS host_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_4_latest_configuration_vms\n    ) AS vm_count",
           "refId": "A",
           "select": [
             [
@@ -265,7 +265,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR1 - This query returns the total count of storage domains\n\nSELECT\n    COUNT ( DISTINCT v4_3_latest_map_datacenters_storage_domains.storage_domain_id ) AS storage_count\nFROM \n    v4_3_latest_map_datacenters_storage_domains",
+          "rawSql": "-- DR1 - This query returns the total count of storage domains\n\nSELECT\n    COUNT ( DISTINCT v4_4_latest_map_datacenters_storage_domains.storage_domain_id ) AS storage_count\nFROM \n    v4_4_latest_map_datacenters_storage_domains",
           "refId": "B",
           "select": [
             [
@@ -363,7 +363,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR10 - This query returns the average\n-- hosts resources ( cpu and memory ) that are used,\n-- in the latest configuration.\n\nSELECT \n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter only active hosts\n            v4_3_statistics_hosts_resources_usage_samples.host_status = 1  \n    ) AS average_cpu_percent",
+          "rawSql": "-- DR10 - This query returns the average\n-- hosts resources ( cpu and memory ) that are used,\n-- in the latest configuration.\n\nSELECT \n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter only active hosts\n            v4_4_statistics_hosts_resources_usage_samples.host_status = 1  \n    ) AS average_cpu_percent",
           "refId": "A",
           "select": [
             [
@@ -467,7 +467,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR10 - This query returns the average\n-- hosts resources ( cpu and memory ) that are used,\n-- in the latest configuration.\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_3_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_3_latest_configuration_hosts\n                ON \n                    (\n                        v4_3_latest_configuration_hosts.host_id =\n                        v4_3_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter only active hosts\n            v4_3_statistics_hosts_resources_usage_samples.host_status = 1  \n    ) AS average_memory_percent",
+          "rawSql": "-- DR10 - This query returns the average\n-- hosts resources ( cpu and memory ) that are used,\n-- in the latest configuration.\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter only active hosts\n            v4_4_statistics_hosts_resources_usage_samples.host_status = 1  \n    ) AS average_memory_percent",
           "refId": "A",
           "select": [
             [
@@ -573,7 +573,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR4 - This query returns the total hosts uptime percent\n-- in the latest configuration.\n\nSELECT\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_3_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_3_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_3_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_3_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_3_latest_configuration_hosts\n        ON \n            (\n                v4_3_latest_configuration_hosts.host_id =\n                v4_3_statistics_hosts_resources_usage_samples.host_id\n            )",
+          "rawSql": "-- DR4 - This query returns the total hosts uptime percent\n-- in the latest configuration.\n\nSELECT\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )",
           "refId": "A",
           "select": [
             [
