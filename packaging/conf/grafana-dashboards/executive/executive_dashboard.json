@@ -137,8 +137,8 @@
       "fontSize": "100%",
       "gridPos": {
         "h": 7,
-        "w": 22,
-        "x": 1,
+        "w": 24,
+        "x": 0,
         "y": 4
       },
       "id": 18,
@@ -284,7 +284,7 @@
           "unit": "percent"
         },
         {
-          "alias": "Max CPU Usage",
+          "alias": "CPU Peak",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -322,7 +322,7 @@
           "unit": "percent"
         },
         {
-          "alias": "Max Memory Usage",
+          "alias": "Memory Peak",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -360,7 +360,7 @@
           "unit": "percent"
         },
         {
-          "alias": "Max User CPU Usage",
+          "alias": "User CPU Peak",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -398,7 +398,7 @@
           "unit": "percent"
         },
         {
-          "alias": "Max System CPU Usage",
+          "alias": "System CPU Peak",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -491,8 +491,8 @@
       "fill": 1,
       "gridPos": {
         "h": 8,
-        "w": 11,
-        "x": 1,
+        "w": 12,
+        "x": 0,
         "y": 12
       },
       "id": 2,
@@ -627,7 +627,7 @@
       "fill": 1,
       "gridPos": {
         "h": 8,
-        "w": 11,
+        "w": 12,
         "x": 12,
         "y": 12
       },
@@ -775,8 +775,8 @@
       "fill": 1,
       "gridPos": {
         "h": 8,
-        "w": 11,
-        "x": 1,
+        "w": 12,
+        "x": 0,
         "y": 21
       },
       "id": 10,
@@ -911,7 +911,7 @@
       "fill": 1,
       "gridPos": {
         "h": 8,
-        "w": 11,
+        "w": 12,
         "x": 12,
         "y": 21
       },
