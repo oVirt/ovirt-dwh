@@ -307,6 +307,21 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Jun 20 2021 Aviv Litman <alitman@redhat.com> - 4.4.5
+Fixed issues:
+- Fix division by 0 in inventory dashboards
+- Bug 1903977 - Fix Trend Dashboard to show 5 entities
+- Bug 1904047 - Add types of storage and storage domain to enum_translator table
+- Fix division by 0 in executive dashboards
+- Fix title in vms trend dashboard
+- Update the decimals to 'auto' in memory graphs
+- Bug 1912887 - Update variables in hosts/vms uptime dashboards
+- Bug 1887149 - Add VM Disks IOPS Stats to DWH
+- Fix alias in storage domains inventory
+- Bug 1910045 - Update data source in all dashboards
+- Bug 1914825 - Update queries to use v4_4 views in all dashboards
+- Fix UI to see the column names properly in the executive dashboard
+
 * Wed Dec 2 2020 Aviv Litman <alitman@redhat.com> - 4.4.4.2
 Fixed issues:
 - Bug 1866363 - Add variables to choose specific entity
