@@ -307,6 +307,13 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Jun 27 2021 Shirly Radco <sradco@redhat.com> - 4.4.5.1
+Fixed issues:
+- Bug 1898858 - Add Multi-valu to Trend Dashboard Variables
+- Bug 1898858 - Add Multi-valu to Inventory Dashboard Variables
+- Bug 1898858 - Add Multi-valu to Service Level Dashboard Variables
+- Bug 1898858 - Add Multi-valu to Executive Dashboard Variables
+
 * Wed Jun 20 2021 Aviv Litman <alitman@redhat.com> - 4.4.5
 Fixed issues:
 - Fix division by 0 in inventory dashboards
