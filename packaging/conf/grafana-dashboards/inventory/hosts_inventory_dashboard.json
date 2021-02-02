@@ -375,6 +375,140 @@
       "title": "Hosts Inventory (BR1)",
       "transform": "table",
       "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": null,
+      "description": "This report displays a inventory list of hosts configuration details in the selected data center and cluster.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
+      "id": 25,
+      "pageSize": null,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "Host Name",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Server Manufacturer",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Server Name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Server Serial Number",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Host / Hypervisor",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "SELECT DISTINCT \n    CASE \n        WHEN delete_date IS NULL  \t     \t    \n            THEN host_name \t \t\n        WHEN delete_date IS NOT NULL  \t      \t    \n            THEN host_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n    END AS host_name, \n    hardware_manufacturer AS \"Server Manufacturer\",\n    hardware_product_name AS \"Server Name\",\n    hardware_serial_number AS \"Server Serial Number\",\n    CASE \n        WHEN host_type = 0\n            THEN 'Host'\n        WHEN host_type = 2\n            THEN 'Hypervisor'\n        ELSE NULL\n    END AS \"Host / Hypervisor\"\nFROM v4_3_configuration_history_hosts\nWHERE \n    host_id IN ($host_id)\n    AND\n        history_id\n            IN\n                (\n                    SELECT MAX (history_id)\n                    FROM v4_3_configuration_history_hosts\n                    GROUP BY host_id\n                )\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN delete_date isnull\n        END\nORDER BY host_name, hardware_manufacturer, hardware_product_name",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Hosts Configuration Inventory",
+      "transform": "table",
+      "type": "table"
     }
   ],
   "refresh": false,
