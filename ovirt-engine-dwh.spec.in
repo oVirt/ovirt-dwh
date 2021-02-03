@@ -307,6 +307,12 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Feb 3 2021 Aviv Litman <alitman@redhat.com> - 4.4.5.2
+Fixed issues:
+- Bug 1922645 - typo on VMs/Hosts resource usage dashboard panels
+- Bug 1903977 - Fix Hosts/VMs Trend Dashboard to show 5/3 entities
+- Bug 1917848 - Add hardware panel to Hosts Inventory Dashboard
+
 * Wed Jan 27 2021 Shirly Radco <sradco@redhat.com> - 4.4.5.1
 Fixed issues:
 - Bug 1898858 - Add Multi-valu to Trend Dashboard Variables
