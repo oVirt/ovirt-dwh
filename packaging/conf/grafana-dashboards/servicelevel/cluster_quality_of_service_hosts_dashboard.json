@@ -54,7 +54,7 @@
       }
     ]
   },
-  "description": "The cluster quality of service - hosts dashboard contains reports that shows the time and total time each host have preformed above/below the CPU or the memory threshold, using a single stats and a table.",
+  "description": "The cluster quality of service - hosts dashboard contains reports that shows the time and total time each host have performed above/below the CPU or the memory threshold, using a single stats and a table.",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -76,7 +76,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard contains reports that shows the time and total time each host have preformed above/below the CPU or memory threshold.\n\n\n\n",
+      "content": "\n###### This dashboard contains reports that shows the time and total time each host have performed above/below the CPU or memory threshold.\n\n\n\n",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -555,7 +555,7 @@
     {
       "columns": [],
       "datasource": null,
-      "description": "This report displays the total time each host preformed above the CPU or the memory threshold.",
+      "description": "This report displays the total time each host performed above the CPU or the memory threshold.",
       "fontSize": "100%",
       "gridPos": {
         "h": 9,

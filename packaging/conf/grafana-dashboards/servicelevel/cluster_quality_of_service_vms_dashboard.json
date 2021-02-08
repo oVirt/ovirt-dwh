@@ -54,7 +54,7 @@
       }
     ]
   },
-  "description": "The cluster quality of service - virtual machines dashboard contains reports that shows the time and total time each virtual machine have preformed above/below the CPU or the memory threshold, using a single stats and a table.",
+  "description": "The cluster quality of service - virtual machines dashboard contains reports that shows the time and total time each virtual machine have performed above/below the CPU or the memory threshold, using a single stats and a table.",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -74,7 +74,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard contains reports that shows the time and total time each virtual machine have preformed above/below the CPU/memory threshold.\n\n\n",
+      "content": "\n###### This dashboard contains reports that shows the time and total time each virtual machine have performed above/below the CPU/memory threshold.\n\n\n",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -141,7 +141,7 @@
       ],
       "datasource": null,
       "decimals": 2,
-      "description": "This report displays the time virtual machines have preformed above CPU threshold.",
+      "description": "This report displays the time virtual machines have performed above CPU threshold.",
       "format": "m",
       "gauge": {
         "maxValue": 100,
