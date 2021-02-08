@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.2.2"
+      "version": "6.7.4"
     },
     {
       "type": "panel",
@@ -57,6 +57,7 @@
   "links": [],
   "panels": [
     {
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -69,6 +70,7 @@
     },
     {
       "content": "\n###### This dashboard displays resource usage (CPU, memory, network Tx/Rx, disk I/O) for a selected virtual machines within a selected period.\n\n\n\n",
+      "datasource": null,
       "description": "",
       "gridPos": {
         "h": 2,
@@ -79,7 +81,6 @@
       "id": 40,
       "links": [],
       "mode": "markdown",
-      "options": {},
       "targets": [
         {
           "format": "time_series",
@@ -115,6 +116,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -134,12 +136,14 @@
       "datasource": null,
       "description": "This report displays average CPU usage for a selected virtual machines within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 4
       },
+      "hiddenSeries": false,
       "id": 21,
       "legend": {
         "avg": false,
@@ -155,7 +159,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -270,12 +276,14 @@
       "datasource": null,
       "description": "This report displays average CPU usage peaks for a selected virtual machines within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 4
       },
+      "hiddenSeries": false,
       "id": 22,
       "legend": {
         "avg": false,
@@ -291,7 +299,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -400,6 +410,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -420,12 +431,14 @@
       "datasource": null,
       "description": "This report displays average memory usage for a selected virtual machines within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 12
       },
+      "hiddenSeries": false,
       "hideTimeOverride": false,
       "id": 15,
       "legend": {
@@ -441,7 +454,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -557,12 +572,14 @@
       "datasource": null,
       "description": "This report displays average memory usage peaks for a selected virtual machines within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 12
       },
+      "hiddenSeries": false,
       "hideTimeOverride": false,
       "id": 28,
       "legend": {
@@ -578,7 +595,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -687,6 +706,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -706,12 +726,14 @@
       "datasource": null,
       "description": "This report displays for the top 3 most utilized network interfaces the average transmit rate for a selected virtual machine within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 21
       },
+      "hiddenSeries": false,
       "id": 37,
       "legend": {
         "avg": false,
@@ -726,7 +748,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -841,12 +865,14 @@
       "datasource": null,
       "description": "This report displays for the top 3 most utilized network interfaces the average receive rate for a selected virtual machine within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 21
       },
+      "hiddenSeries": false,
       "id": 38,
       "legend": {
         "avg": false,
@@ -861,7 +887,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -970,6 +998,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -989,12 +1018,14 @@
       "datasource": null,
       "description": "This report displays for the top 5 most utilized disks the average read rate for a selected virtual machine within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 19,
       "legend": {
         "avg": false,
@@ -1009,7 +1040,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1124,12 +1157,14 @@
       "datasource": null,
       "description": "This report displays for the top 5 most utilized disks the average write rate for a selected virtual machine within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 31,
       "legend": {
         "avg": false,
@@ -1144,7 +1179,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1250,10 +1287,288 @@
         "align": false,
         "alignLevel": null
       }
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "This report displays for the top 5 most utilized disks the average read operations per second for a selected virtual machine within a selected period.",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 38
+      },
+      "hiddenSeries": false,
+      "id": 43,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR10C - This query returns for the chosen vm,\n-- for the top 5 most utilized disks, the Read_ops and Write_ops\n-- by the hour of day and day of week.\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\n\n-- Read ops\nSELECT\n    NOW () AS time,\n    CASE $period_id\n        WHEN 1 \n            THEN \n                CASE CAST ( num AS INT )\n                    WHEN 1 \n                        THEN 'Sunday'\n                    WHEN 2 \n                        THEN 'Monday'\n                    WHEN 3 \n                        THEN 'Tuesday'\n                    WHEN 4 \n                        THEN 'Wednesday'\n                    WHEN 5 \n                        THEN'Thursday'\n                    WHEN 6 \n                        THEN 'Friday'\n                    WHEN 7 \n                        THEN 'Saturday'\n                END\n        WHEN 2 \n            THEN num\n    END AS num,\n    Read_ops AS \"Read ops\"\nFROM \n    (\n        SELECT DISTINCT\n            num,\n            COALESCE ( disk_name, MAX ( disk_name ) over ( partition BY 1 ), '' ) AS disk_name,\n            AVG ( Read_ops ) AS Read_ops\n        FROM \n            (\n                -- VMs Disk Usage ( I/O ) Rates\n                SELECT\n                    CASE\n                        WHEN delete_date IS NULL\n                            THEN vm_disk_name\n                        ELSE vm_disk_name\n                    ||\n                    '*'\n                    END AS disk_name,\n                    CASE $period_id\n                        WHEN 1\n                            THEN TO_CHAR (history_datetime, 'D')\n                        WHEN 2\n                            THEN TO_CHAR (history_datetime, 'HH24:00')\n                    END AS num,\n                    AVG ( COALESCE ( read_ops_per_second, 0 ) ) AS Read_ops\n                FROM\n                    (\n                        SELECT history_datetime, vm_disk_id, read_ops_per_second\n                        FROM v4_4_statistics_vms_disks_resources_usage_samples\n                    ) AS samples\n                    INNER JOIN v4_4_configuration_history_vms_disks\n                        ON \n                            (\n                                v4_4_configuration_history_vms_disks.vm_disk_id =\n                                samples.vm_disk_id\n                            )\n                WHERE\n                    history_datetime >= $__timeFrom()\n                    AND history_datetime < $__timeTo()\n                    -- Here we get the latest vms disks configuration\n                    AND v4_4_configuration_history_vms_disks.history_id \n                        IN \n                            (\n                                SELECT MAX ( a.history_id )\n                                FROM v4_4_configuration_history_vms_disks AS a\n                                GROUP BY a.vm_disk_id\n                            )\n                    -- Here we get the top 5 utilised disks for the vm chosen by the user\n                    AND v4_4_configuration_history_vms_disks.vm_disk_id \n                        IN \n                            (\n                                SELECT c.vm_disk_id\n                                FROM\n                                    (\n                                        SELECT history_datetime, vm_disk_id, vm_disk_status, read_ops_per_second, write_ops_per_second\n                                        FROM v4_4_statistics_vms_disks_resources_usage_samples\n                                    ) AS b\n                                    INNER JOIN v4_4_configuration_history_vms_disks c\n                                        ON \n                                            (\n                                                c.vm_disk_id = \n                                                b.vm_disk_id\n                                            )\n                                WHERE\n                                    -- Here we filter by active vms disks only\n                                    b.vm_disk_status = 1\n                                    AND c.vm_disk_id \n                                        IN \n                                            (\n                                                SELECT device_id\n                                                FROM \n                                                    v4_4_configuration_history_vms_devices\n                                                    INNER JOIN\n                                                    (\n                                                        SELECT history_datetime, vm_configuration_version, vm_status, vm_id\n                                                        FROM v4_4_statistics_vms_resources_usage_samples\n                                                    ) AS samples_resources_usage\n                                                        ON \n                                                            (\n                                                                samples_resources_usage.vm_configuration_version =\n                                                                v4_4_configuration_history_vms_devices.vm_configuration_version\n                                                            )\n                                                WHERE\n                                                    -- Here we filter by active vms only\n                                                    samples_resources_usage.vm_status = 1\n                                                    -- Here we filter by the vm chosen by the user\n                                                    AND v4_4_configuration_history_vms_devices.vm_id IN ($vm_id)\n                                                    AND create_date < $__timeTo()\n                                                    AND ( delete_date > $__timeFrom() OR delete_date IS NULL )\n                                                    -- Here we get the latest vms devices configuration\n                                                    AND v4_4_configuration_history_vms_devices.history_id \n                                                        IN \n                                                            (\n                                                                SELECT MAX ( a.history_id )\n                                                                FROM v4_4_configuration_history_vms_devices a\n                                                                GROUP BY a.vm_id, a.device_id\n                                                            )\n                                                    -- Here we get or remove deleted VM devices according to what the user chose\n                                                    -- in the \"show_deleted\" parameter\n                                                    AND\n                                                        CASE\n                                                            WHEN '$show_deleted'='Yes'\n                                                                THEN 1=1\n                                                            WHEN '$show_deleted'='No'\n                                                                THEN delete_date isnull\n                                                    END\n                                            )\n                                    AND history_datetime >= $__timeFrom()\n                                    AND history_datetime < $__timeTo()\n                                    -- Here we get the latest vms disks configuration\n                                    AND c.history_id \n                                        IN \n                                            (\n                                                SELECT MAX ( d.history_id )\n                                                FROM  v4_4_configuration_history_vms_disks AS d\n                                                GROUP BY d.vm_disk_id\n                                            )\n                                    -- Here we get or remove deleted VM devices according to what the user chose\n                                    -- in the \"show_deleted\" parameter\n                                    AND\n                                        CASE\n                                            WHEN '$show_deleted'='Yes'\n                                                THEN 1=1\n                                            WHEN '$show_deleted'='No'\n                                                THEN delete_date isnull\n                                        END\n                                GROUP BY c.vm_disk_id\n                                ORDER BY\n                                    AVG ( COALESCE ( b.read_ops_per_second, 0 ) ) +\n                                    AVG ( COALESCE ( b.write_ops_per_second, 0 ) ) \n                                    DESC\n                                LIMIT 5\n                            )\n                    -- Here we get or remove deleted VM devices according to what the user chose\n                    -- in the \"show_deleted\" parameter\n                    AND\n                        CASE\n                            WHEN '$show_deleted'='Yes'\n                                THEN 1=1\n                            WHEN '$show_deleted'='No'\n                                THEN delete_date isnull\n                        END\n                GROUP BY\n                    samples.vm_disk_id, \n                    disk_name,\n                    CASE $period_id\n                        WHEN 1\n                            THEN TO_CHAR ( history_datetime, 'D' )\n                        WHEN 2\n                            THEN TO_CHAR ( history_datetime, 'HH24:00' ) \n                    END\n            ) AS sub_query\n        -- Show data only when the selected period is up to 24 hours back \n        WHERE $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')         \n        GROUP BY num, disk_name\n        ORDER BY\n            num ASC,\n            COALESCE ( disk_name, MAX ( disk_name ) over ( partition BY 1 ), '' )\n    ) AS all_sub_queries",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR10C - This query returns for the chosen vm,\n-- for the top 5 most utilized disks, the Read_ops and Write_ops\n-- by the hour of day and day of week.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\n\n-- Read ops\nSELECT\n    NOW () AS time,\n    CASE $period_id\n        WHEN 1 \n            THEN \n                CASE CAST ( num AS INT )\n                    WHEN 1 \n                        THEN 'Sunday'\n                    WHEN 2 \n                        THEN 'Monday'\n                    WHEN 3 \n                        THEN 'Tuesday'\n                    WHEN 4 \n                        THEN 'Wednesday'\n                    WHEN 5 \n                        THEN'Thursday'\n                    WHEN 6 \n                        THEN 'Friday'\n                    WHEN 7 \n                        THEN 'Saturday'\n                END\n        WHEN 2 \n            THEN num\n    END AS num,\n    Read_ops AS \"Read ops\"\nFROM \n    (\n        SELECT DISTINCT\n            num,\n            COALESCE ( disk_name, MAX ( disk_name ) over ( partition BY 1 ), '' ) AS disk_name,\n            AVG ( Read_ops ) AS Read_ops\n        FROM \n            (\n                -- VMs Disk Usage ( I/O ) Rates\n                SELECT\n                    CASE\n                        WHEN delete_date IS NULL\n                            THEN vm_disk_name\n                        ELSE vm_disk_name\n                    ||\n                    '*'\n                    END AS disk_name,\n                    CASE $period_id\n                        WHEN 1\n                            THEN TO_CHAR (history_datetime, 'D')\n                        WHEN 2\n                            THEN TO_CHAR (history_datetime, 'HH24:00')\n                    END AS num,\n                    AVG ( COALESCE ( read_ops_per_second, 0 ) ) AS Read_ops\n                FROM\n                    (\n                            SELECT history_datetime, vm_disk_id, read_ops_per_second\n                            FROM v4_4_statistics_vms_disks_resources_usage_hourly\n                        UNION\n                            SELECT history_datetime, vm_disk_id, read_ops_per_second\n                            FROM v4_4_statistics_vms_disks_resources_usage_daily\n                            WHERE\n                                history_datetime <\n                                    (\n                                        SELECT MIN ( history_datetime )\n                                        FROM v4_4_statistics_vms_disks_resources_usage_hourly\n                                    )\n                    ) AS hourly_daily\n                    INNER JOIN v4_4_configuration_history_vms_disks\n                        ON \n                            (\n                                v4_4_configuration_history_vms_disks.vm_disk_id =\n                                hourly_daily.vm_disk_id\n                            )\n                WHERE\n                    history_datetime >= $__timeFrom()\n                    AND history_datetime < $__timeTo()\n                    -- Here we get the latest vms disks configuration\n                    AND v4_4_configuration_history_vms_disks.history_id \n                        IN \n                            (\n                                SELECT MAX ( a.history_id )\n                                FROM v4_4_configuration_history_vms_disks AS a\n                                GROUP BY a.vm_disk_id\n                            )\n                    -- Here we get the top 5 utilised disks for the vm chosen by the user\n                    AND v4_4_configuration_history_vms_disks.vm_disk_id \n                        IN \n                            (\n                                SELECT c.vm_disk_id\n                                FROM\n                                    (\n                                            SELECT history_datetime, vm_disk_id, vm_disk_status, read_ops_per_second, write_ops_per_second\n                                            FROM v4_4_statistics_vms_disks_resources_usage_hourly\n                                        UNION\n                                            SELECT history_datetime, vm_disk_id, vm_disk_status, read_ops_per_second, write_ops_per_second\n                                            FROM v4_4_statistics_vms_disks_resources_usage_daily\n                                            WHERE\n                                                history_datetime <\n                                                    (\n                                                        SELECT MIN ( history_datetime )\n                                                        FROM v4_4_statistics_vms_disks_resources_usage_hourly\n                                                    )\n                                    ) AS b\n                                    INNER JOIN v4_4_configuration_history_vms_disks c\n                                        ON \n                                            (\n                                                c.vm_disk_id = \n                                                b.vm_disk_id\n                                            )\n                                WHERE\n                                    -- Here we filter by active vms disks only\n                                    b.vm_disk_status = 1\n                                    AND c.vm_disk_id \n                                        IN \n                                            (\n                                                SELECT device_id\n                                                FROM \n                                                    v4_4_configuration_history_vms_devices\n                                                    INNER JOIN\n                                                    (\n                                                            SELECT history_datetime, vm_configuration_version, vm_status, vm_id\n                                                            FROM v4_4_statistics_vms_resources_usage_hourly\n                                                        UNION\n                                                            SELECT history_datetime, vm_configuration_version, vm_status, vm_id\n                                                            FROM v4_4_statistics_vms_resources_usage_daily\n                                                            WHERE\n                                                                history_datetime <\n                                                                    (\n                                                                        SELECT MIN ( history_datetime )\n                                                                        FROM v4_4_statistics_vms_resources_usage_hourly\n                                                                    )\n                                                    ) AS hourly_daily_resources_usage\n                                                        ON \n                                                            (\n                                                                hourly_daily_resources_usage.vm_configuration_version =\n                                                                v4_4_configuration_history_vms_devices.vm_configuration_version\n                                                            )\n                                                WHERE\n                                                    -- Here we filter by active vms only\n                                                    hourly_daily_resources_usage.vm_status = 1\n                                                    -- Here we filter by the vm chosen by the user\n                                                    AND v4_4_configuration_history_vms_devices.vm_id IN ($vm_id)\n                                                    AND create_date < $__timeTo()\n                                                    AND ( delete_date > $__timeFrom() OR delete_date IS NULL )\n                                                    -- Here we get the latest vms devices configuration\n                                                    AND v4_4_configuration_history_vms_devices.history_id \n                                                        IN \n                                                            (\n                                                                SELECT MAX ( a.history_id )\n                                                                FROM v4_4_configuration_history_vms_devices a\n                                                                GROUP BY a.vm_id, a.device_id\n                                                            )\n                                                    -- Here we get or remove deleted VM devices according to what the user chose\n                                                    -- in the \"show_deleted\" parameter\n                                                    AND\n                                                        CASE\n                                                            WHEN '$show_deleted'='Yes'\n                                                                THEN 1=1\n                                                            WHEN '$show_deleted'='No'\n                                                                THEN delete_date isnull\n                                                    END\n                                            )\n                                    AND history_datetime >= $__timeFrom()\n                                    AND history_datetime < $__timeTo()\n                                    -- Here we get the latest vms disks configuration\n                                    AND c.history_id \n                                        IN \n                                            (\n                                                SELECT MAX ( d.history_id )\n                                                FROM  v4_4_configuration_history_vms_disks AS d\n                                                GROUP BY d.vm_disk_id\n                                            )\n                                    -- Here we get or remove deleted VM devices according to what the user chose\n                                    -- in the \"show_deleted\" parameter\n                                    AND\n                                        CASE\n                                            WHEN '$show_deleted'='Yes'\n                                                THEN 1=1\n                                            WHEN '$show_deleted'='No'\n                                                THEN delete_date isnull\n                                        END\n                                GROUP BY c.vm_disk_id\n                                ORDER BY\n                                    AVG ( COALESCE ( b.read_ops_per_second, 0 ) ) +\n                                    AVG ( COALESCE ( b.write_ops_per_second, 0 ) ) \n                                    DESC\n                                LIMIT 5\n                            )\n                    -- Here we get or remove deleted VM devices according to what the user chose\n                    -- in the \"show_deleted\" parameter\n                    AND\n                        CASE\n                            WHEN '$show_deleted'='Yes'\n                                THEN 1=1\n                            WHEN '$show_deleted'='No'\n                                THEN delete_date isnull\n                        END\n                GROUP BY\n                    hourly_daily.vm_disk_id, \n                    disk_name,\n                    CASE $period_id\n                        WHEN 1\n                            THEN TO_CHAR ( history_datetime, 'D' )\n                        WHEN 2\n                            THEN TO_CHAR ( history_datetime, 'HH24:00' ) \n                    END\n            ) AS sub_query\n        -- Show data only when the selected period is more then 24 hours back\n        WHERE $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')        \n        GROUP BY num, disk_name\n        ORDER BY\n            num ASC,\n            COALESCE ( disk_name, MAX ( disk_name ) over ( partition BY 1 ), '' )\n    ) AS all_sub_queries",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Top 5 Most Utilized Disks - Read I/O operations/sec (over time) (over time) (BR10C)",
+      "tooltip": {
+        "shared": false,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "series",
+        "name": null,
+        "show": true,
+        "values": [
+          "current"
+        ]
+      },
+      "yaxes": [
+        {
+          "decimals": 1,
+          "format": "ops",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": true,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "This report displays for the top 5 most utilized disks the average write operations per second for a selected virtual machine within a selected period.",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 38
+      },
+      "hiddenSeries": false,
+      "id": 44,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": false,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR10C - This query returns for the chosen vm,\n-- for the top 5 most utilized disks, the Read_ops and Write_ops\n-- by the hour of day and day of week.\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\n\n-- Write ops\nSELECT\n    NOW () AS time,\n    CASE $period_id\n        WHEN 1 \n            THEN \n                CASE CAST ( num AS INT )\n                    WHEN 1 \n                        THEN 'Sunday'\n                    WHEN 2 \n                        THEN 'Monday'\n                    WHEN 3 \n                        THEN 'Tuesday'\n                    WHEN 4 \n                        THEN 'Wednesday'\n                    WHEN 5 \n                        THEN'Thursday'\n                    WHEN 6 \n                        THEN 'Friday'\n                    WHEN 7 \n                        THEN 'Saturday'\n                END\n        WHEN 2 \n            THEN num\n    END AS num,\n    Write_ops AS \"Write ops\"\nFROM \n    (\n        SELECT DISTINCT\n            num,\n            COALESCE ( disk_name, MAX ( disk_name ) over ( partition BY 1 ), '' ) AS disk_name,\n            AVG ( Write_ops ) AS Write_ops\n        FROM \n            (\n                -- VMs Disk Usage ( I/O ) Rates\n                SELECT\n                    CASE\n                        WHEN delete_date IS NULL\n                            THEN vm_disk_name\n                        ELSE vm_disk_name\n                    ||\n                    '*'\n                    END AS disk_name,\n                    CASE $period_id\n                        WHEN 1\n                            THEN TO_CHAR (history_datetime, 'D')\n                        WHEN 2\n                            THEN TO_CHAR (history_datetime, 'HH24:00')\n                    END AS num,\n                    AVG ( COALESCE ( write_ops_per_second, 0 ) ) AS Write_ops\n                FROM\n                    (\n                        SELECT history_datetime, vm_disk_id, write_ops_per_second\n                        FROM v4_4_statistics_vms_disks_resources_usage_samples\n                    ) AS samples\n                    INNER JOIN v4_4_configuration_history_vms_disks\n                        ON \n                            (\n                                v4_4_configuration_history_vms_disks.vm_disk_id =\n                                samples.vm_disk_id\n                            )\n                WHERE\n                    history_datetime >= $__timeFrom()\n                    AND history_datetime < $__timeTo()\n                    -- Here we get the latest vms disks configuration\n                    AND v4_4_configuration_history_vms_disks.history_id \n                        IN \n                            (\n                                SELECT MAX ( a.history_id )\n                                FROM v4_4_configuration_history_vms_disks AS a\n                                GROUP BY a.vm_disk_id\n                            )\n                    -- Here we get the top 5 utilised disks for the vm chosen by the user\n                    AND v4_4_configuration_history_vms_disks.vm_disk_id \n                        IN \n                            (\n                                SELECT c.vm_disk_id\n                                FROM\n                                    (\n                                        SELECT history_datetime, vm_disk_id, vm_disk_status, read_ops_per_second, write_ops_per_second \n                                        FROM v4_4_statistics_vms_disks_resources_usage_samples\n                                    ) AS b\n                                    INNER JOIN v4_4_configuration_history_vms_disks c\n                                        ON \n                                            (\n                                                c.vm_disk_id = \n                                                b.vm_disk_id\n                                            )\n                                WHERE\n                                    -- Here we filter by active vms disks only\n                                    b.vm_disk_status = 1\n                                    AND c.vm_disk_id \n                                        IN \n                                            (\n                                                SELECT device_id\n                                                FROM \n                                                    v4_4_configuration_history_vms_devices\n                                                    INNER JOIN\n                                                    (\n                                                        SELECT history_datetime, vm_configuration_version, vm_status, vm_id \n                                                        FROM v4_4_statistics_vms_resources_usage_samples\n                                                    ) AS samples_resources_usage\n                                                        ON \n                                                            (\n                                                                samples_resources_usage.vm_configuration_version =\n                                                                v4_4_configuration_history_vms_devices.vm_configuration_version\n                                                            )\n                                                WHERE\n                                                    -- Here we filter by active vms only\n                                                    samples_resources_usage.vm_status = 1\n                                                    -- Here we filter by the vm chosen by the user\n                                                    AND v4_4_configuration_history_vms_devices.vm_id IN ($vm_id)\n                                                    AND create_date < $__timeTo()\n                                                    AND ( delete_date > $__timeFrom() OR delete_date IS NULL )\n                                                    -- Here we get the latest vms devices configuration\n                                                    AND v4_4_configuration_history_vms_devices.history_id \n                                                        IN \n                                                            (\n                                                                SELECT MAX ( a.history_id )\n                                                                FROM v4_4_configuration_history_vms_devices a\n                                                                GROUP BY a.vm_id, a.device_id\n                                                            )\n                                                    -- Here we get or remove deleted VM devices according to what the user chose\n                                                    -- in the \"show_deleted\" parameter\n                                                    AND\n                                                        CASE\n                                                            WHEN '$show_deleted'='Yes'\n                                                                THEN 1=1\n                                                            WHEN '$show_deleted'='No'\n                                                                THEN delete_date isnull\n                                                    END\n                                            )\n                                    AND history_datetime >= $__timeFrom()\n                                    AND history_datetime < $__timeTo()\n                                    -- Here we get the latest vms disks configuration\n                                    AND c.history_id \n                                        IN \n                                            (\n                                                SELECT MAX ( d.history_id )\n                                                FROM  v4_4_configuration_history_vms_disks AS d\n                                                GROUP BY d.vm_disk_id\n                                            )\n                                    -- Here we get or remove deleted VM devices according to what the user chose\n                                    -- in the \"show_deleted\" parameter\n                                    AND\n                                        CASE\n                                            WHEN '$show_deleted'='Yes'\n                                                THEN 1=1\n                                            WHEN '$show_deleted'='No'\n                                                THEN delete_date isnull\n                                        END\n                                GROUP BY c.vm_disk_id\n                                ORDER BY\n                                    AVG ( COALESCE ( b.read_ops_per_second, 0 ) ) +\n                                    AVG ( COALESCE ( b.write_ops_per_second, 0 ) ) \n                                    DESC\n                                LIMIT 5\n                            )\n                    -- Here we get or remove deleted VM devices according to what the user chose\n                    -- in the \"show_deleted\" parameter\n                    AND\n                        CASE\n                            WHEN '$show_deleted'='Yes'\n                                THEN 1=1\n                            WHEN '$show_deleted'='No'\n                                THEN delete_date isnull\n                        END\n                GROUP BY\n                    samples.vm_disk_id, \n                    disk_name,\n                    CASE $period_id\n                        WHEN 1\n                            THEN TO_CHAR (history_datetime, 'D')\n                        WHEN 2\n                            THEN TO_CHAR (history_datetime, 'HH24:00')\n                    END\n            ) AS sub_query\n        -- Show data only when the selected period is up to 24 hours back \n        WHERE $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')         \n        GROUP BY num, disk_name\n        ORDER BY\n            num ASC,\n            COALESCE ( disk_name, MAX ( disk_name ) over ( partition BY 1 ), '' )\n    ) AS all_sub_queries",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR10C - This query returns for the chosen vm,\n-- for the top 5 most utilized disks, the Read_ops and Write_ops\n-- by the hour of day and day of week.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\n\n-- Write ops\nSELECT\n    NOW () AS time,\n    CASE $period_id\n        WHEN 1 \n            THEN \n                CASE CAST ( num AS INT )\n                    WHEN 1 \n                        THEN 'Sunday'\n                    WHEN 2 \n                        THEN 'Monday'\n                    WHEN 3 \n                        THEN 'Tuesday'\n                    WHEN 4 \n                        THEN 'Wednesday'\n                    WHEN 5 \n                        THEN'Thursday'\n                    WHEN 6 \n                        THEN 'Friday'\n                    WHEN 7 \n                        THEN 'Saturday'\n                END\n        WHEN 2 \n            THEN num\n    END AS num,\n    Write_ops AS \"Write ops\"\nFROM \n    (\n        SELECT DISTINCT\n            num,\n            COALESCE ( disk_name, MAX ( disk_name ) over ( partition BY 1 ), '' ) AS disk_name,\n            AVG ( Write_ops ) AS Write_ops\n        FROM \n            (\n                -- VMs Disk Usage ( I/O ) Rates\n                SELECT\n                    CASE\n                        WHEN delete_date IS NULL\n                            THEN vm_disk_name\n                        ELSE vm_disk_name\n                    ||\n                    '*'\n                    END AS disk_name,\n                    CASE $period_id\n                        WHEN 1\n                            THEN TO_CHAR (history_datetime, 'D')\n                        WHEN 2\n                            THEN TO_CHAR (history_datetime, 'HH24:00')\n                    END AS num,\n                    AVG ( COALESCE ( write_ops_per_second, 0 ) ) AS Write_ops\n                FROM\n                    (\n                            SELECT history_datetime, vm_disk_id, write_ops_per_second\n                            FROM v4_4_statistics_vms_disks_resources_usage_hourly\n                        UNION\n                            SELECT history_datetime, vm_disk_id, write_ops_per_second\n                            FROM v4_4_statistics_vms_disks_resources_usage_daily\n                            WHERE\n                                history_datetime <\n                                    (\n                                        SELECT MIN ( history_datetime )\n                                        FROM v4_4_statistics_vms_disks_resources_usage_hourly\n                                    )\n                    ) AS hourly_daily\n                    INNER JOIN v4_4_configuration_history_vms_disks\n                        ON \n                            (\n                                v4_4_configuration_history_vms_disks.vm_disk_id =\n                                hourly_daily.vm_disk_id\n                            )\n                WHERE\n                    history_datetime >= $__timeFrom()\n                    AND history_datetime < $__timeTo()\n                    -- Here we get the latest vms disks configuration\n                    AND v4_4_configuration_history_vms_disks.history_id \n                        IN \n                            (\n                                SELECT MAX ( a.history_id )\n                                FROM v4_4_configuration_history_vms_disks AS a\n                                GROUP BY a.vm_disk_id\n                            )\n                    -- Here we get the top 5 utilised disks for the vm chosen by the user\n                    AND v4_4_configuration_history_vms_disks.vm_disk_id \n                        IN \n                            (\n                                SELECT c.vm_disk_id\n                                FROM\n                                    (\n                                            SELECT history_datetime, vm_disk_id, vm_disk_status, read_ops_per_second, write_ops_per_second \n                                            FROM v4_4_statistics_vms_disks_resources_usage_hourly\n                                        UNION\n                                            SELECT history_datetime, vm_disk_id, vm_disk_status, read_ops_per_second, write_ops_per_second \n                                            FROM v4_4_statistics_vms_disks_resources_usage_daily\n                                            WHERE\n                                                history_datetime <\n                                                    (\n                                                        SELECT MIN ( history_datetime )\n                                                        FROM v4_4_statistics_vms_disks_resources_usage_hourly\n                                                    )\n                                    ) AS b\n                                    INNER JOIN v4_4_configuration_history_vms_disks c\n                                        ON \n                                            (\n                                                c.vm_disk_id = \n                                                b.vm_disk_id\n                                            )\n                                WHERE\n                                    -- Here we filter by active vms disks only\n                                    b.vm_disk_status = 1\n                                    AND c.vm_disk_id \n                                        IN \n                                            (\n                                                SELECT device_id\n                                                FROM \n                                                    v4_4_configuration_history_vms_devices\n                                                    INNER JOIN\n                                                    (\n                                                            SELECT history_datetime, vm_configuration_version, vm_status, vm_id \n                                                            FROM v4_4_statistics_vms_resources_usage_hourly\n                                                        UNION\n                                                            SELECT history_datetime, vm_configuration_version, vm_status, vm_id\n                                                            FROM v4_4_statistics_vms_resources_usage_daily\n                                                            WHERE\n                                                                history_datetime <\n                                                                    (\n                                                                        SELECT MIN ( history_datetime )\n                                                                        FROM v4_4_statistics_vms_resources_usage_hourly\n                                                                    )\n                                                    ) AS hourly_daily_resources_usage\n                                                        ON \n                                                            (\n                                                                hourly_daily_resources_usage.vm_configuration_version =\n                                                                v4_4_configuration_history_vms_devices.vm_configuration_version\n                                                            )\n                                                WHERE\n                                                    -- Here we filter by active vms only\n                                                    hourly_daily_resources_usage.vm_status = 1\n                                                    -- Here we filter by the vm chosen by the user\n                                                    AND v4_4_configuration_history_vms_devices.vm_id IN ($vm_id)\n                                                    AND create_date < $__timeTo()\n                                                    AND ( delete_date > $__timeFrom() OR delete_date IS NULL )\n                                                    -- Here we get the latest vms devices configuration\n                                                    AND v4_4_configuration_history_vms_devices.history_id \n                                                        IN \n                                                            (\n                                                                SELECT MAX ( a.history_id )\n                                                                FROM v4_4_configuration_history_vms_devices a\n                                                                GROUP BY a.vm_id, a.device_id\n                                                            )\n                                                    -- Here we get or remove deleted VM devices according to what the user chose\n                                                    -- in the \"show_deleted\" parameter\n                                                    AND\n                                                        CASE\n                                                            WHEN '$show_deleted'='Yes'\n                                                                THEN 1=1\n                                                            WHEN '$show_deleted'='No'\n                                                                THEN delete_date isnull\n                                                    END\n                                            )\n                                    AND history_datetime >= $__timeFrom()\n                                    AND history_datetime < $__timeTo()\n                                    -- Here we get the latest vms disks configuration\n                                    AND c.history_id \n                                        IN \n                                            (\n                                                SELECT MAX ( d.history_id )\n                                                FROM  v4_4_configuration_history_vms_disks AS d\n                                                GROUP BY d.vm_disk_id\n                                            )\n                                    -- Here we get or remove deleted VM devices according to what the user chose\n                                    -- in the \"show_deleted\" parameter\n                                    AND\n                                        CASE\n                                            WHEN '$show_deleted'='Yes'\n                                                THEN 1=1\n                                            WHEN '$show_deleted'='No'\n                                                THEN delete_date isnull\n                                        END\n                                GROUP BY c.vm_disk_id\n                                ORDER BY\n                                    AVG ( COALESCE ( b.read_ops_per_second, 0 ) ) +\n                                    AVG ( COALESCE ( b.write_ops_per_second, 0 ) ) \n                                    DESC\n                                LIMIT 5\n                            )\n                    -- Here we get or remove deleted VM devices according to what the user chose\n                    -- in the \"show_deleted\" parameter\n                    AND\n                        CASE\n                            WHEN '$show_deleted'='Yes'\n                                THEN 1=1\n                            WHEN '$show_deleted'='No'\n                                THEN delete_date isnull\n                        END\n                GROUP BY\n                    hourly_daily.vm_disk_id, \n                    disk_name,\n                    CASE $period_id\n                        WHEN 1\n                            THEN TO_CHAR (history_datetime, 'D')\n                        WHEN 2\n                            THEN TO_CHAR (history_datetime, 'HH24:00')\n                    END\n            ) AS sub_query\n        -- Show data only when the selected period is more then 24 hours back\n        WHERE $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')        \n        GROUP BY num, disk_name\n        ORDER BY\n            num ASC,\n            COALESCE ( disk_name, MAX ( disk_name ) over ( partition BY 1 ), '' )\n    ) AS all_sub_queries",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Top 5 Most Utilized Disks - Write I/O operations/sec (over time) (BR10C)",
+      "tooltip": {
+        "shared": false,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "series",
+        "name": null,
+        "show": true,
+        "values": [
+          "current"
+        ]
+      },
+      "yaxes": [
+        {
+          "decimals": 1,
+          "format": "ops",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
   ],
   "refresh": false,
-  "schemaVersion": 18,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "VM",
@@ -1301,6 +1616,7 @@
         "definition": "SELECT DISTINCT   CAST ( datacenter_id AS varchar ) AS __value,  CASE          WHEN delete_date IS NULL  \t     \t    THEN datacenter_name \t \tWHEN delete_date IS NOT null  \t      \t    THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  END AS __text  \t\tFROM v4_4_configuration_history_datacenters  \t\tWHERE       \t\t    history_id           \t\t\t    IN               \t\t\t\t(  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_4_configuration_history_datacenters a  \t\t         \t\t\t\t\tGROUP BY a.datacenter_id \t         \t\t\t\t) \t \t\t\tAND datacenter_id  \t         \t\t\t    IN \t\t\t     \t\t\t\t    ( \t\t\t\t\t \t\t\t\t\t\tSELECT DISTINCT datacenter_id \t\t\t\t\t \t\t\t\t\t\tFROM v4_4_configuration_history_clusters \t\t\t\t\t \t\t\t\t\t\tWHERE  \t\t\t\t\t     \t\t\t\t\t\t    cluster_id \t\t\t\t\t         \t\t\t\t\t\t        IN \t\t\t\t\t             \t\t\t\t\t\t            ( \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\tSELECT DISTINCT cluster_id \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\tFROM v4_4_configuration_history_vms  \t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t) \t\t\t\t\t) \t \t\t\tAND \t    \t\t\t    CASE  \t        \t\t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t    THEN 1=1 \t\t    \t\t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    THEN v4_4_configuration_history_datacenters.delete_date ISNULL \t                END  \t\t",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Data Center",
         "multi": true,
         "name": "datacenter_id",
@@ -1323,6 +1639,7 @@
         "definition": "SELECT DISTINCT        CAST ( cluster_id AS varchar ) AS __value,  \tCASE      \t    WHEN delete_date IS NULL  \t     \t\t    THEN cluster_name \t \t\tWHEN delete_date IS NOT null  \t      \t\t    THEN cluster_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \tEND AS __text  \tFROM v4_4_configuration_history_clusters  \tWHERE       \t    history_id           \t\t    IN               \t\t\t    (  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_4_configuration_history_clusters a  \t\t         \t\t\t\t\tGROUP BY a.cluster_id \t         \t\t\t\t) \t \t\tAND cluster_id  \t\t    IN \t\t\t     \t\t\t    ( \t\t\t\t\t \t\t\t\t\tSELECT DISTINCT cluster_id \t\t\t\t\t \t\t\t\t\tFROM v4_4_configuration_history_vms \t\t\t\t \t\t\t\t) \t\tAND \t    \t\t    CASE  \t        \t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t    THEN 1=1 \t\t    \t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t    THEN v4_4_configuration_history_clusters.delete_date ISNULL \t    \t\t\tEND     \t\tAND datacenter_id IN ($datacenter_id)  \t\t",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Cluster",
         "multi": true,
         "name": "cluster_id",
@@ -1345,6 +1662,7 @@
         "definition": "SELECT DISTINCT        CAST ( vm_id AS varchar ) AS __value,  \tCASE      \t    WHEN delete_date IS NULL  \t     \t\t    THEN vm_name \t \t\tWHEN delete_date IS NOT null  \t      \t\t    THEN vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \tEND AS __text  \tFROM v4_4_configuration_history_vms  \tWHERE       \t    history_id           \t\t    IN               \t\t\t    (  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_4_configuration_history_vms a  \t\t         \t\t\t\t\tGROUP BY a.vm_id \t         \t\t\t\t) \t \t\tAND \t    \t\t    CASE  \t        \t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t    THEN 1=1 \t\t    \t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t    THEN v4_4_configuration_history_vms.delete_date ISNULL \t    \t\t\tEND     \t\tAND cluster_id IN ($cluster_id)  \t\t",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Virtual Machine",
         "multi": true,
         "name": "vm_id",
@@ -1367,6 +1685,7 @@
         "definition": "SELECT 'Day of Week' AS __text, 1 AS __value UNION SELECT  'Hour of Day' AS  __text, 2 AS __value",
         "hide": 0,
         "includeAll": false,
+        "index": -1,
         "label": "Period",
         "multi": false,
         "name": "period_id",
@@ -1417,5 +1736,8 @@
   "timezone": "",
   "title": "Virtual Machines Resource Usage Dashboard",
   "uid": "VMsResourceUsageDashboard",
+  "variables": {
+    "list": []
+  },
   "version": 1
 }
