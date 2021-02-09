@@ -487,7 +487,7 @@
     ]
   },
   "timezone": "",
-  "title": "VMs Inventory Dashboard",
-  "uid": "VMsInventoryDashboard",
+  "title": "Virtual Machines Inventory Dashboard",
+  "uid": "VirtualMachinesInventoryDashboard",
   "version": 1
 }
