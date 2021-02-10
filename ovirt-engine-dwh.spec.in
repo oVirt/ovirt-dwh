@@ -307,6 +307,19 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Tue Feb 16 2021 Aviv Litman <alitman@redhat.com> - 4.4.5.3
+Fixed issues:
+- Bug 1926124 - Add IOPS stats to vms trend dashboard
+- Bug 1926125 - Add IOPS stats to vms resource usage dashboard
+- Bug 1898863 - Add Host Dashboard to executive dashboards
+- Bug 1899529, Bug 1899573 - Add virtual machine Dashboard to executive dashboards
+- Fix VMs inventory dashboard name
+- Fix typo in service level dashboards
+- Fix virtual machine dashbiard to use V4_4
+- Fix the CPU calculation in hosts inventory
+- Bug 1926188 - Fix vms disks usage panels to show the average
+- Fix UI and columns settings to see properly the hosts inventory dashboard
+
 * Wed Feb 3 2021 Aviv Litman <alitman@redhat.com> - 4.4.5.2
 Fixed issues:
 - Bug 1922645 - typo on VMs/Hosts resource usage dashboard panels
