@@ -1896,8 +1896,8 @@
       <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
-      <column comment="" defaultValue="" key="false" length="10" name="read_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" originalLength="10" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="write_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" originalLength="10" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="-1" name="read_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" originalLength="10" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="write_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" originalLength="10" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
@@ -1924,13 +1924,13 @@
       <column comment="" key="false" length="18" name="read_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
-      <column comment="" defaultValue="" key="false" length="10" name="read_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="write_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" defaultValue="" key="false" length="-1" name="read_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="write_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_aggregate">
         <mapperTableEntries name="history_datetime" expression="RoutineHistoryETL.startOfHour(row19.history_datetime)" type="id_Date"/>
@@ -1943,8 +1943,8 @@
         <mapperTableEntries name="read_latency_seconds" expression="row19.read_latency_seconds" type="id_Double" nullable="true"/>
         <mapperTableEntries name="write_rate_bytes_per_second" expression="row19.write_rate_bytes_per_second" type="id_Long" nullable="true"/>
         <mapperTableEntries name="write_latency_seconds" expression="row19.write_latency_seconds" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="read_ops_per_second" expression="row19.read_ops_per_second " type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="write_ops_per_second" expression="row19.write_ops_per_second " type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="read_ops_per_second" expression="row19.read_ops_per_second " type="id_Long" nullable="true"/>
+        <mapperTableEntries name="write_ops_per_second" expression="row19.write_ops_per_second " type="id_Long" nullable="true"/>
         <mapperTableEntries name="flush_latency_seconds" expression="row19.flush_latency_seconds" type="id_Double" nullable="true"/>
         <mapperTableEntries name="vm_disk_configuration_version" expression="row19.vm_disk_configuration_version" type="id_Integer" nullable="true"/>
       </outputTables>
@@ -1959,8 +1959,8 @@
         <mapperTableEntries name="read_latency_seconds" type="id_Double" nullable="true"/>
         <mapperTableEntries name="write_rate_bytes_per_second" type="id_Long" nullable="true"/>
         <mapperTableEntries name="write_latency_seconds" type="id_Double" nullable="true"/>
-        <mapperTableEntries name="read_ops_per_second" type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="write_ops_per_second" type="id_Integer" nullable="true"/>
+        <mapperTableEntries name="read_ops_per_second" type="id_Long" nullable="true"/>
+        <mapperTableEntries name="write_ops_per_second" type="id_Long" nullable="true"/>
         <mapperTableEntries name="flush_latency_seconds" type="id_Double" nullable="true"/>
         <mapperTableEntries name="vm_disk_configuration_version" type="id_Integer" nullable="true"/>
       </inputTables>
@@ -2070,10 +2070,10 @@
       <column comment="" key="false" length="-1" name="max_write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="max_write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="read_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="max_read_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="write_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="max_write_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="read_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="max_read_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="write_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="max_write_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="max_flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -2227,10 +2227,10 @@
       <column comment="" key="false" length="-1" name="max_write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="max_write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="read_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="max_read_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="write_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="max_write_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="read_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="max_read_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="write_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="max_write_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="max_flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
@@ -2250,10 +2250,10 @@
       <column comment="" key="false" length="-1" name="max_write_rate_bytes_per_second" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="max_write_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="read_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="max_read_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="write_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="10" name="max_write_ops_per_second" nullable="true" pattern="" precision="0" sourceType="" type="id_Integer" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="read_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="max_read_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="write_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="max_write_ops_per_second" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="18" name="max_flush_latency_seconds" nullable="true" pattern="" precision="9" sourceType="NUMERIC" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
