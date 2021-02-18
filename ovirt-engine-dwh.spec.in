@@ -307,6 +307,10 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Thu Feb 18 2021 Aviv Litman <alitman@redhat.com> - 4.4.5.4
+Fixed issues:
+- Fix host CPU calculation
+
 * Tue Feb 16 2021 Aviv Litman <alitman@redhat.com> - 4.4.5.3
 Fixed issues:
 - Bug 1926124 - Add IOPS stats to vms trend dashboard
