@@ -149,6 +149,57 @@
       },
       "styles": [
         {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "is_deleted",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cluster_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
           "alias": "Host Name",
           "align": "auto",
           "colorMode": null,
@@ -159,6 +210,9 @@
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Host Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/HostDashboard/host-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-host_id=${__cell_2}",
           "mappingType": 1,
           "pattern": "host_name",
           "thresholds": [],
@@ -234,40 +288,6 @@
           "unit": "short"
         },
         {
-          "alias": "",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "cluster_id",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
-          "alias": "Cluster Delete Date ",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "cluster_delete",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
           "alias": "Create Date",
           "align": "auto",
           "colorMode": null,
@@ -308,7 +328,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "--br1 - This report will display a list of all hosts configuration data by Datacenter and Cluster\n\nSELECT\n    v4_4_configuration_history_hosts.host_name,\n    v4_4_configuration_history_clusters.cluster_name,\n    -- A fully qualified domain name ( fqdn )\n    v4_4_configuration_history_hosts.fqdn_or_ip,\n    v4_4_configuration_history_hosts.vdsm_version,\n    v4_4_configuration_history_hosts.host_os,\n    v4_4_configuration_history_hosts.cluster_id,\n    v4_4_configuration_history_clusters.delete_date AS cluster_delete,\n    CAST ( v4_4_configuration_history_hosts.create_date AS date ) AS create_date,\n    CAST ( v4_4_configuration_history_hosts.delete_date AS date ) AS delete_date\nFROM \n    v4_4_configuration_history_hosts\n    LEFT OUTER JOIN v4_4_configuration_history_clusters\n        ON \n            (\n                v4_4_configuration_history_hosts.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                -- Here we get the cluster latest configuration\n                AND v4_4_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_4_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\nWHERE \n    -- Filter hosts list according to the data center that was chosen by the user\n    v4_4_configuration_history_hosts.cluster_id \n        IN \n            (\n                SELECT a.cluster_id\n                FROM v4_4_configuration_history_clusters a\n                WHERE a.datacenter_id IN ($datacenter_id)\n            )\n    -- Filter list according to the host/s that was chosen by the user\n    AND v4_4_configuration_history_hosts.host_id IN ($host_id)\n    -- Here we get the host latest configuration\n    AND v4_4_configuration_history_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_hosts a\n                GROUP BY a.host_id\n            )\n    -- This will determine where deleted entities will be included in the report,\n    -- according to the user selection for \"show_deleted\" parameter\n    AND\n        CASE\n          WHEN '$show_deleted'='Yes'\n              THEN 1=1\n          WHEN '$show_deleted'='No'\n              THEN v4_4_configuration_history_hosts.delete_date isnull\n        END\nORDER BY\n    v4_4_configuration_history_hosts.cluster_id,\n    v4_4_configuration_history_hosts.delete_date DESC,\n    v4_4_configuration_history_hosts.host_name",
+          "rawSql": "--br1 - This report will display a list of all hosts configuration data by Datacenter and Cluster\n\nSELECT\n    CASE \n        WHEN v4_4_configuration_history_hosts.delete_date IS NULL\n            THEN 'No'\n        WHEN v4_4_configuration_history_hosts.delete_date IS NOT NULL\n            THEN 'Yes'\n    END AS is_deleted,\n    v4_4_configuration_history_hosts.cluster_id,\n    v4_4_configuration_history_hosts.host_id,\n    v4_4_configuration_history_hosts.host_name,\n    v4_4_configuration_history_clusters.cluster_name,\n    -- A fully qualified domain name ( fqdn )\n    v4_4_configuration_history_hosts.fqdn_or_ip,\n    v4_4_configuration_history_hosts.vdsm_version,\n    v4_4_configuration_history_hosts.host_os,\n    CAST ( v4_4_configuration_history_hosts.create_date AS date ) AS create_date,\n    CAST ( v4_4_configuration_history_hosts.delete_date AS date ) AS delete_date\nFROM \n    v4_4_configuration_history_hosts\n    LEFT OUTER JOIN v4_4_configuration_history_clusters\n        ON \n            (\n                v4_4_configuration_history_hosts.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                -- Here we get the cluster latest configuration\n                AND v4_4_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_4_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\nWHERE \n    -- Filter hosts list according to the data center that was chosen by the user\n    v4_4_configuration_history_hosts.cluster_id \n        IN \n            (\n                SELECT a.cluster_id\n                FROM v4_4_configuration_history_clusters a\n                WHERE a.datacenter_id IN ($datacenter_id)\n            )\n    -- Filter list according to the host/s that was chosen by the user\n    AND v4_4_configuration_history_hosts.host_id IN ($host_id)\n    -- Here we get the host latest configuration\n    AND v4_4_configuration_history_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_hosts a\n                GROUP BY a.host_id\n            )\n    -- This will determine where deleted entities will be included in the report,\n    -- according to the user selection for \"show_deleted\" parameter\n    AND\n        CASE\n          WHEN '$show_deleted'='Yes'\n              THEN 1=1\n          WHEN '$show_deleted'='No'\n              THEN v4_4_configuration_history_hosts.delete_date isnull\n        END\nORDER BY\n    v4_4_configuration_history_hosts.cluster_id,\n    v4_4_configuration_history_hosts.delete_date DESC,\n    v4_4_configuration_history_hosts.host_name",
           "refId": "A",
           "select": [
             [
@@ -343,7 +363,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 14
+        "y": 18
       },
       "id": 19,
       "panels": [],
@@ -359,7 +379,7 @@
         "h": 14,
         "w": 24,
         "x": 0,
-        "y": 15
+        "y": 19
       },
       "id": 25,
       "pageSize": null,
@@ -369,6 +389,40 @@
         "desc": false
       },
       "styles": [
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "is_deleted",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
         {
           "alias": "Host Name",
           "align": "auto",
@@ -380,59 +434,11 @@
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Host Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/HostDashboard/host-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-host_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "host_name",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Server Manufacturer",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Server Name",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Server Serial Number",
           "thresholds": [],
           "type": "string",
           "unit": "short"
@@ -487,6 +493,57 @@
           "thresholds": [],
           "type": "number",
           "unit": "decgbytes"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Server Manufacturer",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Server Name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Server Serial Number",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
         }
       ],
       "targets": [
@@ -495,7 +552,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT DISTINCT \n    CASE \n        WHEN delete_date IS NULL  \t     \t    \n            THEN host_name \t \t\n        WHEN delete_date IS NOT NULL  \t      \t    \n            THEN host_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'\n    END AS host_name,\n    cpu_model,\n    number_of_cores AS host_cpu,\n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS host_memsize,\n    hardware_manufacturer AS \"Server Manufacturer\",\n    hardware_product_name AS \"Server Name\",\n    hardware_serial_number AS \"Server Serial Number\"\nFROM v4_4_configuration_history_hosts\nWHERE \n    host_id IN ($host_id)\n    AND\n        history_id\n            IN\n                (\n                    SELECT MAX (history_id)\n                    FROM v4_4_configuration_history_hosts\n                    GROUP BY host_id\n                )\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN delete_date isnull\n        END\nORDER BY host_name, hardware_manufacturer, hardware_product_name",
+          "rawSql": "SELECT DISTINCT \n    CASE \n        WHEN v4_4_configuration_history_hosts.delete_date IS NULL\n            THEN 'No'\n        WHEN v4_4_configuration_history_hosts.delete_date IS NOT NULL\n            THEN 'Yes'\n    END AS is_deleted,\n    v4_4_configuration_history_hosts.host_id,\n    CASE \n        WHEN v4_4_configuration_history_hosts.delete_date IS NULL  \t     \t    \n            THEN host_name \t \t\n        WHEN v4_4_configuration_history_hosts.delete_date IS NOT NULL  \t      \t    \n            THEN host_name || ' (Removed on ' || CAST ( CAST ( v4_4_configuration_history_hosts.delete_date AS date ) AS varchar ) || ')'\n    END AS host_name,\n    cpu_model,\n    number_of_cores AS host_cpu,\n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS host_memsize,\n    hardware_manufacturer AS \"Server Manufacturer\",\n    hardware_product_name AS \"Server Name\",\n    hardware_serial_number AS \"Server Serial Number\"\nFROM \n    v4_4_configuration_history_hosts\n    LEFT OUTER JOIN v4_4_configuration_history_clusters\n        ON \n            (\n                v4_4_configuration_history_hosts.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                -- Here we get the cluster latest configuration\n                AND v4_4_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_4_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\nWHERE \n    -- Filter hosts list according to the data center that was chosen by the user\n    v4_4_configuration_history_hosts.cluster_id \n        IN \n            (\n                SELECT a.cluster_id\n                FROM v4_4_configuration_history_clusters a\n                WHERE a.datacenter_id IN ($datacenter_id)\n            )\n    AND host_id IN ($host_id)\n    AND\n        v4_4_configuration_history_hosts.history_id\n            IN\n                (\n                    SELECT MAX (history_id)\n                    FROM v4_4_configuration_history_hosts\n                    GROUP BY host_id\n                )\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN v4_4_configuration_history_hosts.delete_date isnull\n        END\nORDER BY host_name, hardware_manufacturer, hardware_product_name",
           "refId": "A",
           "select": [
             [
