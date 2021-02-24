@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.2.2"
+      "version": "6.7.4"
     },
     {
       "type": "panel",
@@ -69,6 +69,7 @@
   "links": [],
   "panels": [
     {
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -81,6 +82,7 @@
     },
     {
       "content": "\n###### The data center dashboard displays the latest configurations, resources status and usages percent of the data centers entities.\n\n\n\n",
+      "datasource": null,
       "description": "",
       "gridPos": {
         "h": 2,
@@ -91,7 +93,6 @@
       "id": 16,
       "links": [],
       "mode": "markdown",
-      "options": {},
       "targets": [
         {
           "format": "time_series",
@@ -126,6 +127,7 @@
       "type": "text"
     },
     {
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -138,6 +140,7 @@
     },
     {
       "columns": [],
+      "datasource": null,
       "description": "The number of clusters, hosts, virtual machines, and storage domains in the latest data center configuration.",
       "fontSize": "100%",
       "gridPos": {
@@ -148,7 +151,6 @@
       },
       "id": 4,
       "links": [],
-      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -159,6 +161,7 @@
       "styles": [
         {
           "alias": "Clusters",
+          "align": "auto",
           "colorMode": "row",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -175,6 +178,7 @@
         },
         {
           "alias": "Hosts",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -191,6 +195,7 @@
         },
         {
           "alias": "Virtual Machines",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -207,6 +212,7 @@
         },
         {
           "alias": "Storage Domains ",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -291,6 +297,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
+      "datasource": null,
       "decimals": 2,
       "description": "Average percentage of CPU usage for all hosts in the selected data center. The thresholds are set at 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
@@ -324,7 +331,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -342,7 +348,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "average_cpu_used",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -430,7 +436,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -448,7 +453,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "average_memory_used",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -536,7 +541,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -554,7 +558,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "uptime_mins_percent",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -642,7 +646,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -660,7 +663,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "used_disk_size_gb_percent",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -717,7 +720,6 @@
       },
       "id": 2,
       "links": [],
-      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -727,7 +729,8 @@
       },
       "styles": [
         {
-          "alias": "Cluster Name",
+          "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -737,6 +740,43 @@
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
+          "pattern": "datacenter_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cluster_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Cluster",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Cluster Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/ClusterDashboard/cluster-dashboard?orgId=1&var-datacenter_id=${__cell_0}&var-cluster_id=${__cell_1}",
+          "mappingType": 1,
           "pattern": "cluster_name",
           "thresholds": [],
           "type": "string",
@@ -744,6 +784,7 @@
         },
         {
           "alias": "Avg. CPU Usage",
+          "align": "auto",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -763,6 +804,7 @@
         },
         {
           "alias": "Max CPU Usage",
+          "align": "auto",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -782,6 +824,7 @@
         },
         {
           "alias": "Avg. Memory Usage",
+          "align": "auto",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -801,6 +844,7 @@
         },
         {
           "alias": "Max Meory Usage",
+          "align": "auto",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -825,7 +869,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR21 - This query returns for the top 5 busiest clusters,\n-- the max and average cpu and memory usage percent.\n-- in the latest configuration.\n\nSELECT\n--  v4_4_latest_configuration_clusters.cluster_id,\n    v4_4_latest_configuration_clusters.cluster_name,\n    AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n    MAX ( cpu_usage_percent ) AS cpu_usage_percent_max,\n    AVG ( memory_usage_percent ) AS memory_usage_percent_avg,\n    MAX ( memory_usage_percent ) AS memory_usage_percent_max\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\n    INNER JOIN v4_4_latest_configuration_clusters\n        ON \n            (\n                v4_4_latest_configuration_clusters.cluster_id =\n                v4_4_latest_configuration_hosts.cluster_id\n            )\nWHERE\n    -- Here we get only active hosts\n    v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n    -- Here we filter by the datacenter chosen by the user\n    AND v4_4_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\nGROUP BY\n    v4_4_latest_configuration_clusters.cluster_id,\n    v4_4_latest_configuration_clusters.cluster_name\nORDER BY\n    AVG ( cpu_usage_percent ) +\n    MAX ( cpu_usage_percent ) +\n    AVG ( memory_usage_percent ) +\n    MAX ( memory_usage_percent ) \n    DESC\nLIMIT 5",
+          "rawSql": "-- DR21 - This query returns for the top 5 busiest clusters,\n-- the max and average cpu and memory usage percent.\n-- in the latest configuration.\n\nSELECT\n    v4_4_latest_configuration_clusters.datacenter_id,\n    v4_4_latest_configuration_clusters.cluster_id,\n    v4_4_latest_configuration_clusters.cluster_name,\n    AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n    MAX ( cpu_usage_percent ) AS cpu_usage_percent_max,\n    AVG ( memory_usage_percent ) AS memory_usage_percent_avg,\n    MAX ( memory_usage_percent ) AS memory_usage_percent_max\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\n    INNER JOIN v4_4_latest_configuration_clusters\n        ON \n            (\n                v4_4_latest_configuration_clusters.cluster_id =\n                v4_4_latest_configuration_hosts.cluster_id\n            )\nWHERE\n    -- Here we get only active hosts\n    v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n    -- Here we filter by the datacenter chosen by the user\n    AND v4_4_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\nGROUP BY\n    v4_4_latest_configuration_clusters.datacenter_id,\n    v4_4_latest_configuration_clusters.cluster_id,\n    v4_4_latest_configuration_clusters.cluster_name\nORDER BY\n    AVG ( cpu_usage_percent ) +\n    MAX ( cpu_usage_percent ) +\n    AVG ( memory_usage_percent ) +\n    MAX ( memory_usage_percent ) \n    DESC\nLIMIT 5",
           "refId": "A",
           "select": [
             [
@@ -866,7 +910,6 @@
       },
       "id": 14,
       "links": [],
-      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -877,6 +920,24 @@
       "styles": [
         {
           "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "datacenter_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -893,6 +954,7 @@
         },
         {
           "alias": "Cluster",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -901,6 +963,9 @@
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Cluster Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/ClusterDashboard/cluster-dashboard?orgId=1&var-datacenter_id=${__cell_0}&var-cluster_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "cluster_name",
           "thresholds": [],
@@ -909,6 +974,7 @@
         },
         {
           "alias": "Uptime",
+          "align": "auto",
           "colorMode": "value",
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -928,33 +994,41 @@
         },
         {
           "alias": "Planned Downtime",
-          "colorMode": null,
+          "align": "auto",
+          "colorMode": "value",
           "colors": [
-            "rgba(245, 54, 54, 0.9)",
+            "rgba(50, 172, 45, 0.97)",
             "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
+            "rgba(245, 54, 54, 0.9)"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
           "pattern": "planned_downtime_percent",
-          "thresholds": [],
+          "thresholds": [
+            "50",
+            "80"
+          ],
           "type": "number",
           "unit": "percent"
         },
         {
           "alias": "Unplanned Downtime",
-          "colorMode": null,
+          "align": "auto",
+          "colorMode": "value",
           "colors": [
-            "rgba(245, 54, 54, 0.9)",
+            "rgba(50, 172, 45, 0.97)",
             "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
+            "rgba(245, 54, 54, 0.9)"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
           "pattern": "unplanned_downtime_percent",
-          "thresholds": [],
+          "thresholds": [
+            "50",
+            "80"
+          ],
           "type": "number",
           "unit": "percent"
         }
@@ -965,7 +1039,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR16 - This query returns for the 5 clusters with the most downtime,\n-- the uptime, planned downtime and unplanned downtime percent.\n-- in the latest configuration.\n\nSELECT\n    v4_4_latest_configuration_hosts.cluster_id,\n    v4_4_latest_configuration_clusters.cluster_name,\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN coalesce ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 2\n                        THEN coalesce ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent,\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 3\n                        THEN coalesce ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS unplanned_downtime_percent\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\n    INNER JOIN v4_4_latest_configuration_clusters\n        ON \n            (\n                v4_4_latest_configuration_hosts.cluster_id =\n                v4_4_latest_configuration_clusters.cluster_id\n            )\nWHERE\n    -- Here we filter the datacenter chosen by the user\n    v4_4_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\nGROUP BY\n    v4_4_latest_configuration_hosts.cluster_id,\n    v4_4_latest_configuration_clusters.cluster_name\nORDER BY\n    uptime_percent ASC,\n    unplanned_downtime_percent DESC,\n    planned_downtime_percent DESC\nLIMIT 5",
+          "rawSql": "-- DR16 - This query returns for the 5 clusters with the most downtime,\n-- the uptime, planned downtime and unplanned downtime percent.\n-- in the latest configuration.\n\nSELECT\n    v4_4_latest_configuration_clusters.datacenter_id,\n    v4_4_latest_configuration_hosts.cluster_id,\n    v4_4_latest_configuration_clusters.cluster_name,\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN coalesce ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 2\n                        THEN coalesce ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent,\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 3\n                        THEN coalesce ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS unplanned_downtime_percent\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\n    INNER JOIN v4_4_latest_configuration_clusters\n        ON \n            (\n                v4_4_latest_configuration_hosts.cluster_id =\n                v4_4_latest_configuration_clusters.cluster_id\n            )\nWHERE\n    -- Here we filter the datacenter chosen by the user\n    v4_4_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\nGROUP BY\n    v4_4_latest_configuration_clusters.datacenter_id,\n    v4_4_latest_configuration_hosts.cluster_id,\n    v4_4_latest_configuration_clusters.cluster_name\nORDER BY\n    uptime_percent ASC,\n    unplanned_downtime_percent DESC,\n    planned_downtime_percent DESC\nLIMIT 5",
           "refId": "A",
           "select": [
             [
@@ -1006,7 +1080,6 @@
       },
       "id": 12,
       "links": [],
-      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -1016,7 +1089,8 @@
       },
       "styles": [
         {
-          "alias": "Storage Domain",
+          "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1026,13 +1100,31 @@
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
-          "pattern": "storage_domain_name",
+          "pattern": "is_deleted",
           "thresholds": [],
-          "type": "string",
+          "type": "hidden",
           "unit": "short"
         },
         {
           "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "datacenter_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1048,8 +1140,29 @@
           "unit": "short"
         },
         {
+          "alias": "Storage Domain",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Storage Domains Inventory Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/StorageDomainsInventoryDashboard/storage-domains-inventory-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-datacenter_id=${__cell_1}&var-storage_id=${__cell_2}",
+          "mappingType": 1,
+          "pattern": "storage_domain_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
           "alias": "Available Disk Size",
-          "colorMode": "value",
+          "align": "auto",
+          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -1059,15 +1172,13 @@
           "decimals": 2,
           "mappingType": 1,
           "pattern": "available_disk_size_gb",
-          "thresholds": [
-            "1",
-            "5"
-          ],
+          "thresholds": [],
           "type": "number",
           "unit": "decgbytes"
         },
         {
           "alias": "Used Disk Size",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1084,7 +1195,8 @@
         },
         {
           "alias": "Free Disk Size",
-          "colorMode": null,
+          "align": "auto",
+          "colorMode": "value",
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -1095,7 +1207,8 @@
           "mappingType": 1,
           "pattern": "free_disk_size_gb_percent",
           "thresholds": [
-            ""
+            "40",
+            "70"
           ],
           "type": "number",
           "unit": "percent"
@@ -1107,7 +1220,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR26 - This query returns, for the 5 storage domains\n-- with the lowest available disk space, the available disk size,\n-- used disk size and available disk size percent.\n-- in the latest configuration.\n\nSELECT\n    v4_4_latest_configuration_storage_domains.storage_domain_id,\n    v4_4_latest_configuration_storage_domains.storage_domain_name,\n    available_disk_size_gb,\n    used_disk_size_gb,\n    CASE \n        WHEN SUM ( CAST ( used_disk_size_gb AS float ) + CAST ( available_disk_size_gb AS float ) ) = 0\n            THEN NULL\n        ELSE\n            ( \n                -- Available disk size\n                SUM ( CAST ( available_disk_size_gb AS float ) ) /\n                -- Total disk size ( available and used )\n                SUM \n                    (\n                        CAST ( used_disk_size_gb AS float ) +\n                        CAST ( available_disk_size_gb AS float )\n                    )\n            ) * 100 \n    END AS free_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\n    INNER JOIN v4_4_latest_map_datacenters_storage_domains\n        ON \n            (\n                storage_domain_samples_history.storage_domain_id =\n                v4_4_latest_map_datacenters_storage_domains.storage_domain_id\n            )\n    INNER JOIN v4_4_latest_configuration_storage_domains\n        ON \n            (\n                storage_domain_samples_history.storage_domain_id =\n                v4_4_latest_configuration_storage_domains.storage_domain_id\n            )\nWHERE\n    -- Here we filter the datacenter chosen by the user\n    v4_4_latest_map_datacenters_storage_domains.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    -- Here we get the latest storage domains configuration\n    AND storage_domain_samples_history.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )\nGROUP BY\n    -- Here we calculate per storage domain\n    v4_4_latest_configuration_storage_domains.storage_domain_id,\n    v4_4_latest_configuration_storage_domains.storage_domain_name,\n    available_disk_size_gb,\n    used_disk_size_gb\nORDER BY\n    free_disk_size_gb_percent ASC\nLIMIT 5",
+          "rawSql": "-- DR26 - This query returns, for the 5 storage domains\n-- with the lowest available disk space, the available disk size,\n-- used disk size and available disk size percent.\n-- in the latest configuration.\n\nSELECT\n    'No' AS is_deleted, \n    datacenter_id,\n    v4_4_latest_configuration_storage_domains.storage_domain_id,\n    v4_4_latest_configuration_storage_domains.storage_domain_name,\n    available_disk_size_gb,\n    used_disk_size_gb,\n    CASE \n        WHEN SUM ( CAST ( used_disk_size_gb AS float ) + CAST ( available_disk_size_gb AS float ) ) = 0\n            THEN NULL\n        ELSE\n            ( \n                -- Available disk size\n                SUM ( CAST ( available_disk_size_gb AS float ) ) /\n                -- Total disk size ( available and used )\n                SUM \n                    (\n                        CAST ( used_disk_size_gb AS float ) +\n                        CAST ( available_disk_size_gb AS float )\n                    )\n            ) * 100 \n    END AS free_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\n    INNER JOIN v4_4_latest_map_datacenters_storage_domains\n        ON \n            (\n                storage_domain_samples_history.storage_domain_id =\n                v4_4_latest_map_datacenters_storage_domains.storage_domain_id\n            )\n    INNER JOIN v4_4_latest_configuration_storage_domains\n        ON \n            (\n                storage_domain_samples_history.storage_domain_id =\n                v4_4_latest_configuration_storage_domains.storage_domain_id\n            )\nWHERE\n    -- Here we filter the datacenter chosen by the user\n    v4_4_latest_map_datacenters_storage_domains.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    -- Here we get the latest storage domains configuration\n    AND storage_domain_samples_history.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )\nGROUP BY\n    -- Here we calculate per storage domain\n    datacenter_id,\n    v4_4_latest_configuration_storage_domains.storage_domain_id,\n    v4_4_latest_configuration_storage_domains.storage_domain_name,\n    available_disk_size_gb,\n    used_disk_size_gb\nORDER BY\n    free_disk_size_gb_percent ASC\nLIMIT 5",
           "refId": "B",
           "select": [
             [
@@ -1140,14 +1253,17 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "description": "The hosts average usage peaks per cluster for the selected data center, in the latest configuration.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 12,
         "x": 12,
         "y": 19
       },
+      "hiddenSeries": false,
       "id": 10,
       "legend": {
         "alignAsTable": false,
@@ -1164,7 +1280,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1248,7 +1366,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 18,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "Host",
@@ -1270,6 +1388,7 @@
         "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_4_latest_configuration_datacenters",
         "hide": 0,
         "includeAll": false,
+        "index": -1,
         "label": "Data Center",
         "multi": false,
         "name": "datacenter_id",
@@ -1320,5 +1439,8 @@
   "timezone": "",
   "title": "Data Center Dashboard",
   "uid": "DatacenterDashboard",
+  "variables": {
+    "list": []
+  },
   "version": 1
 }

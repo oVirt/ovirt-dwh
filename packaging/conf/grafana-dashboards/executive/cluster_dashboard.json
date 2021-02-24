@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.2.2"
+      "version": "6.7.4"
     },
     {
       "type": "panel",
@@ -69,6 +69,7 @@
   "links": [],
   "panels": [
     {
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -81,6 +82,7 @@
     },
     {
       "content": "\n###### The cluster dashboard displays the latest configurations, resources status and usage percent of the clusters entities.\n\n\n",
+      "datasource": null,
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -90,7 +92,6 @@
       "id": 32,
       "links": [],
       "mode": "markdown",
-      "options": {},
       "targets": [
         {
           "format": "time_series",
@@ -126,6 +127,7 @@
     },
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -181,7 +183,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -199,7 +200,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "host_count",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -287,7 +288,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -305,7 +305,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "vm_count",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -392,7 +392,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "pluginVersion": "6.2.2",
       "postfix": "",
       "postfixFontSize": "50%",
@@ -411,7 +410,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "uptime_mins_percent",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -498,7 +497,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "pluginVersion": "6.2.2",
       "postfix": "",
       "postfixFontSize": "50%",
@@ -517,7 +515,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "average_cpu_used",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -570,6 +568,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
+      "datasource": null,
       "decimals": 2,
       "description": "Average percentage of memory usage for all hosts in the selected cluster.",
       "format": "percent",
@@ -603,7 +602,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -621,7 +619,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "average_memory_used",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -708,7 +706,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -726,7 +723,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "uptime_mins_percent",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -783,7 +780,6 @@
       },
       "id": 11,
       "links": [],
-      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -794,6 +790,24 @@
       "styles": [
         {
           "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "is_deleted",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -810,6 +824,7 @@
         },
         {
           "alias": "Host Name",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -818,6 +833,9 @@
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Host Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/HostDashboard/host-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-host_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "host_name",
           "thresholds": [],
@@ -826,6 +844,7 @@
         },
         {
           "alias": "Avg. CPU Peak",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -842,6 +861,7 @@
         },
         {
           "alias": "Avg. Memory Peak",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -863,7 +883,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR28 - This query returns the\n-- average cpu and memory peaks per host\n-- for the specific cluster\n\nSELECT\n    host_id,\n    host_name,\n    AVG ( cpu_peak ) AS avg_cpu_peak,\n    AVG ( mem_peak ) AS avg_mem_peak\nFROM \n    (\n        -- Calculation of samples cpu and memory usage peaks\n        SELECT\n            v4_4_latest_configuration_hosts.host_id,\n            v4_4_latest_configuration_hosts.host_name,\n            MAX ( cpu_usage_percent ) AS cpu_peak,\n            MAX ( memory_usage_percent ) AS mem_peak\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter by active hosts only\n            v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY\n            v4_4_latest_configuration_hosts.host_id,\n            v4_4_latest_configuration_hosts.host_name,\n            DATE_TRUNC ( 'hour', v4_4_statistics_hosts_resources_usage_samples.history_datetime )\n    ) AS tbl_samples_peaks\nGROUP BY host_id, host_name",
+          "rawSql": "-- DR28 - This query returns the\n-- average cpu and memory peaks per host\n-- for the specific cluster\n\nSELECT\n    'No' AS is_deleted,\n    host_id,\n    host_name,\n    AVG ( cpu_peak ) AS avg_cpu_peak,\n    AVG ( mem_peak ) AS avg_mem_peak\nFROM \n    (\n        -- Calculation of samples cpu and memory usage peaks\n        SELECT\n            v4_4_latest_configuration_hosts.host_id,\n            v4_4_latest_configuration_hosts.host_name,\n            MAX ( cpu_usage_percent ) AS cpu_peak,\n            MAX ( memory_usage_percent ) AS mem_peak\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter by active hosts only\n            v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY\n            v4_4_latest_configuration_hosts.host_id,\n            v4_4_latest_configuration_hosts.host_name,\n            DATE_TRUNC ( 'hour', v4_4_statistics_hosts_resources_usage_samples.history_datetime )\n    ) AS tbl_samples_peaks\nGROUP BY host_id, host_name",
           "refId": "A",
           "select": [
             [
@@ -904,7 +924,6 @@
       },
       "id": 13,
       "links": [],
-      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -915,6 +934,24 @@
       "styles": [
         {
           "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "is_deleted",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -931,6 +968,7 @@
         },
         {
           "alias": "Host Name",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -939,6 +977,9 @@
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Host Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/HostDashboard/host-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-host_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "host_name",
           "thresholds": [],
@@ -947,6 +988,7 @@
         },
         {
           "alias": "Avg. CPU Usage",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -963,6 +1005,7 @@
         },
         {
           "alias": "Max CPU Usage",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -979,6 +1022,7 @@
         },
         {
           "alias": "Avg. Memory Usage",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -995,6 +1039,7 @@
         },
         {
           "alias": "Max Memory Usage",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1016,7 +1061,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR23 - This query returns the\n-- cpu and memory usage for the\n-- top 5 busiest hosts in the specific cluster\n\nSELECT\n    v4_4_latest_configuration_hosts.host_id,\n    v4_4_latest_configuration_hosts.host_name,\n    AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n    MAX ( cpu_usage_percent ) AS cpu_usage_percent_max,\n    AVG ( memory_usage_percent ) AS memory_usage_percent_avg,\n    MAX ( memory_usage_percent ) AS memory_usage_percent_max\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we get only active hosts\n    v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n    -- Here we filter by the cluster chosen by the user\n    AND v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\nGROUP BY\n    v4_4_latest_configuration_hosts.host_id,\n    v4_4_latest_configuration_hosts.host_name\nORDER BY\n    AVG ( cpu_usage_percent ) +\n    MAX ( cpu_usage_percent ) +\n    AVG ( memory_usage_percent ) +\n    MAX ( memory_usage_percent ) \n    DESC\nLIMIT 5",
+          "rawSql": "-- DR23 - This query returns the\n-- cpu and memory usage for the\n-- top 5 busiest hosts in the specific cluster\n\nSELECT\n    'No' AS is_deleted,\n    v4_4_latest_configuration_hosts.host_id,\n    v4_4_latest_configuration_hosts.host_name,\n    AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n    MAX ( cpu_usage_percent ) AS cpu_usage_percent_max,\n    AVG ( memory_usage_percent ) AS memory_usage_percent_avg,\n    MAX ( memory_usage_percent ) AS memory_usage_percent_max\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we get only active hosts\n    v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n    -- Here we filter by the cluster chosen by the user\n    AND v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\nGROUP BY\n    v4_4_latest_configuration_hosts.host_id,\n    v4_4_latest_configuration_hosts.host_name\nORDER BY\n    AVG ( cpu_usage_percent ) +\n    MAX ( cpu_usage_percent ) +\n    AVG ( memory_usage_percent ) +\n    MAX ( memory_usage_percent ) \n    DESC\nLIMIT 5",
           "refId": "A",
           "select": [
             [
@@ -1052,12 +1097,14 @@
       "datasource": null,
       "description": "Average number of CPU Cores for the hosts and virtual machines in the specific cluster.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 5,
         "w": 12,
         "x": 0,
         "y": 15
       },
+      "hiddenSeries": false,
       "id": 25,
       "legend": {
         "avg": false,
@@ -1072,7 +1119,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1161,12 +1210,14 @@
       "datasource": null,
       "description": "Average memory for the hosts and virtual machines in the specific cluster.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 5,
         "w": 12,
         "x": 12,
         "y": 15
       },
+      "hiddenSeries": false,
       "id": 26,
       "legend": {
         "avg": false,
@@ -1181,7 +1232,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1275,7 +1328,6 @@
       },
       "id": 28,
       "links": [],
-      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -1286,6 +1338,24 @@
       "styles": [
         {
           "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "is_deleted",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1302,6 +1372,7 @@
         },
         {
           "alias": "VM Name",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1310,6 +1381,9 @@
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Virtual Machine Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/VirtualMachineDashboard/virtual-machine-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-vm_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "vm_name",
           "thresholds": [],
@@ -1318,6 +1392,7 @@
         },
         {
           "alias": "Uptime",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1334,6 +1409,7 @@
         },
         {
           "alias": "Planned Downtime",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1355,7 +1431,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR20 - This query returns for 5 high availability vms,\n-- that have the least uptime percent,\n-- the total uptime and planned downtime percent per vm.\n\nSELECT\n    v4_4_latest_configuration_vms.vm_id, \n    v4_4_latest_configuration_vms.vm_name,\n    (\n        -- Calculation of samples vm uptime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_vms_resources_usage_samples.vm_status = 1\n                        THEN COALESCE ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        -- Calculation of samples vm planned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_vms_resources_usage_samples.vm_status IN ( 0, 2 )\n                        THEN COALESCE ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent\nFROM \n    v4_4_statistics_vms_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_vms\n        ON \n            (\n                v4_4_latest_configuration_vms.vm_id =\n                v4_4_statistics_vms_resources_usage_samples.vm_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_4_latest_configuration_vms.cluster_id = CAST ( '$cluster_id' AS UUID )\n    -- Here we get only high availability vms\n    AND v4_4_latest_configuration_vms.high_availability = TRUE\nGROUP BY\n    -- For the calculations to be per vm \n    v4_4_latest_configuration_vms.vm_id,\n    v4_4_latest_configuration_vms.vm_name\nORDER BY uptime_percent ASC\nLIMIT 5",
+          "rawSql": "-- DR20 - This query returns for 5 high availability vms,\n-- that have the least uptime percent,\n-- the total uptime and planned downtime percent per vm.\n\nSELECT\n    'No' AS is_deleted,\n    v4_4_latest_configuration_vms.vm_id, \n    v4_4_latest_configuration_vms.vm_name,\n    (\n        -- Calculation of samples vm uptime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_vms_resources_usage_samples.vm_status = 1\n                        THEN COALESCE ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        -- Calculation of samples vm planned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_vms_resources_usage_samples.vm_status IN ( 0, 2 )\n                        THEN COALESCE ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent\nFROM \n    v4_4_statistics_vms_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_vms\n        ON \n            (\n                v4_4_latest_configuration_vms.vm_id =\n                v4_4_statistics_vms_resources_usage_samples.vm_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_4_latest_configuration_vms.cluster_id = CAST ( '$cluster_id' AS UUID )\n    -- Here we get only high availability vms\n    AND v4_4_latest_configuration_vms.high_availability = TRUE\nGROUP BY\n    -- For the calculations to be per vm \n    v4_4_latest_configuration_vms.vm_id,\n    v4_4_latest_configuration_vms.vm_name\nORDER BY uptime_percent ASC\nLIMIT 5",
           "refId": "A",
           "select": [
             [
@@ -1396,7 +1472,6 @@
       },
       "id": 30,
       "links": [],
-      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -1407,6 +1482,24 @@
       "styles": [
         {
           "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "is_deleted",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1423,6 +1516,7 @@
         },
         {
           "alias": "Host Name",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1431,6 +1525,9 @@
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Host Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/HostDashboard/host-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-host_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "host_name",
           "thresholds": [],
@@ -1439,6 +1536,7 @@
         },
         {
           "alias": "Uptime",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1455,6 +1553,7 @@
         },
         {
           "alias": "Planned Downtime",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1471,6 +1570,7 @@
         },
         {
           "alias": "Unplanned Downtime",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -1492,7 +1592,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR18 - This query returns for 5 hosts,\n-- that have the least uptime percent, \n-- the total uptime, planned and unplanned \n-- downtime percent per host.\n\nSELECT\n    v4_4_latest_configuration_hosts.host_id,\n    v4_4_latest_configuration_hosts.host_name,\n    (\n        -- Calculation of samples host uptime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        -- Calculation of samples host planned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 2\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent,\n    (\n        -- Calculation of samples host unplanned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 3\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS unplanned_downtime_percent\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\nGROUP BY\n    -- For the calculations to be per host\n    v4_4_latest_configuration_hosts.host_id,\n    v4_4_latest_configuration_hosts.host_name\nORDER BY\n    uptime_percent ASC,\n    unplanned_downtime_percent DESC,\n    planned_downtime_percent DESC\nLIMIT 5",
+          "rawSql": "-- DR18 - This query returns for 5 hosts,\n-- that have the least uptime percent, \n-- the total uptime, planned and unplanned \n-- downtime percent per host.\n\nSELECT\n    'No' AS is_deleted,\n    v4_4_latest_configuration_hosts.host_id,\n    v4_4_latest_configuration_hosts.host_name,\n    (\n        -- Calculation of samples host uptime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        -- Calculation of samples host planned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 2\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent,\n    (\n        -- Calculation of samples host unplanned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 3\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS unplanned_downtime_percent\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\nGROUP BY\n    -- For the calculations to be per host\n    v4_4_latest_configuration_hosts.host_id,\n    v4_4_latest_configuration_hosts.host_name\nORDER BY\n    uptime_percent ASC,\n    unplanned_downtime_percent DESC,\n    planned_downtime_percent DESC\nLIMIT 5",
           "refId": "A",
           "select": [
             [
@@ -1522,7 +1622,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 18,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "Host",
@@ -1543,6 +1643,7 @@
         "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_4_latest_configuration_datacenters",
         "hide": 0,
         "includeAll": false,
+        "index": -1,
         "label": "Data Canter",
         "multi": false,
         "name": "datacenter_id",
@@ -1565,6 +1666,7 @@
         "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_4_latest_configuration_clusters WHERE datacenter_id IN ('$datacenter_id')",
         "hide": 0,
         "includeAll": false,
+        "index": -1,
         "label": "Cluster",
         "multi": false,
         "name": "cluster_id",
@@ -1615,5 +1717,8 @@
   "timezone": "",
   "title": "Cluster Dashboard",
   "uid": "ClusterDashboard",
+  "variables": {
+    "list": []
+  },
   "version": 1
 }

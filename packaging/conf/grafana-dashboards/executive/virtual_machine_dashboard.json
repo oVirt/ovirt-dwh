@@ -145,8 +145,42 @@
       },
       "styles": [
         {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "is_deleted",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
           "alias": "Data Center",
-          "align": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -163,7 +197,7 @@
         },
         {
           "alias": "Cluster",
-          "align": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -189,6 +223,9 @@
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Host Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/HostDashboard/host-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-host_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "host_name",
           "thresholds": [],
@@ -220,7 +257,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT DISTINCT\n    CASE\n        WHEN v4_4_configuration_history_datacenters.delete_date IS NULL\n            THEN datacenter_name\n        WHEN v4_4_configuration_history_datacenters.delete_date IS NOT NULL\n            THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( v4_4_configuration_history_datacenters.delete_date AS date ) AS varchar ) || ')' \n    END AS datacenter_name,\n    CASE\n        WHEN v4_4_configuration_history_clusters.delete_date IS NULL\n            THEN cluster_name\n        WHEN v4_4_configuration_history_clusters.delete_date IS NOT NULL\n            THEN cluster_name || ' (Removed on ' || CAST ( CAST ( v4_4_configuration_history_clusters.delete_date AS date ) AS varchar ) || ')'\n    END AS cluster_name,\n    host_name,\n    vm_description\nFROM\n    v4_4_configuration_history_vms\n    INNER JOIN\n    v4_4_configuration_history_clusters\n        ON\n            (\n                v4_4_configuration_history_vms.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                AND v4_4_configuration_history_vms.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_configuration_history_vms\n                            WHERE vm_id = ('$vm_id')\n                        )\n                AND v4_4_configuration_history_clusters.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_configuration_history_clusters\n                            GROUP BY cluster_id\n                        )\n            )\n      INNER JOIN \n      v4_4_configuration_history_datacenters\n          ON\n              (\n                  v4_4_configuration_history_clusters.datacenter_id =\n                  v4_4_configuration_history_datacenters.datacenter_id\n                  AND v4_4_configuration_history_datacenters.history_id\n                      IN\n                          (\n                              SELECT MAX (history_id)\n                              FROM v4_4_configuration_history_datacenters\n                              GROUP BY datacenter_id\n                          )\n              )\n      LEFT OUTER JOIN\n      v4_4_statistics_vms_resources_usage_samples\n          ON\n              (\n                  v4_4_configuration_history_vms.vm_id =\n                  v4_4_statistics_vms_resources_usage_samples.vm_id\n                  AND v4_4_statistics_vms_resources_usage_samples.history_id\n                      IN\n                          (\n                              SELECT MAX (history_id)\n                              FROM v4_4_statistics_vms_resources_usage_samples\n                              WHERE vm_id = ('$vm_id')\n                          )\n              )\n      LEFT OUTER JOIN\n      v4_4_configuration_history_hosts\n          ON\n              (\n                  v4_4_statistics_vms_resources_usage_samples.currently_running_on_host =\n                  v4_4_configuration_history_hosts.host_id\n                  AND v4_4_configuration_history_hosts.history_id\n                      IN\n                          (\n                              SELECT MAX (history_id)\n                              FROM v4_4_configuration_history_hosts\n                              GROUP BY host_id\n                          )\n              )",
+          "rawSql": "SELECT DISTINCT\n    'No' AS is_deleted,\n    host_id,\n    CASE\n        WHEN v4_4_configuration_history_datacenters.delete_date IS NULL\n            THEN datacenter_name\n        WHEN v4_4_configuration_history_datacenters.delete_date IS NOT NULL\n            THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( v4_4_configuration_history_datacenters.delete_date AS date ) AS varchar ) || ')' \n    END AS datacenter_name,\n    CASE\n        WHEN v4_4_configuration_history_clusters.delete_date IS NULL\n            THEN cluster_name\n        WHEN v4_4_configuration_history_clusters.delete_date IS NOT NULL\n            THEN cluster_name || ' (Removed on ' || CAST ( CAST ( v4_4_configuration_history_clusters.delete_date AS date ) AS varchar ) || ')'\n    END AS cluster_name,\n    host_name,\n    vm_description\nFROM\n    v4_4_configuration_history_vms\n    INNER JOIN\n    v4_4_configuration_history_clusters\n        ON\n            (\n                v4_4_configuration_history_vms.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                AND v4_4_configuration_history_vms.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_configuration_history_vms\n                            WHERE vm_id = ('$vm_id')\n                        )\n                AND v4_4_configuration_history_clusters.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_configuration_history_clusters\n                            GROUP BY cluster_id\n                        )\n            )\n      INNER JOIN \n      v4_4_configuration_history_datacenters\n          ON\n              (\n                  v4_4_configuration_history_clusters.datacenter_id =\n                  v4_4_configuration_history_datacenters.datacenter_id\n                  AND v4_4_configuration_history_datacenters.history_id\n                      IN\n                          (\n                              SELECT MAX (history_id)\n                              FROM v4_4_configuration_history_datacenters\n                              GROUP BY datacenter_id\n                          )\n              )\n      LEFT OUTER JOIN\n      v4_4_statistics_vms_resources_usage_samples\n          ON\n              (\n                  v4_4_configuration_history_vms.vm_id =\n                  v4_4_statistics_vms_resources_usage_samples.vm_id\n                  AND v4_4_statistics_vms_resources_usage_samples.history_id\n                      IN\n                          (\n                              SELECT MAX (history_id)\n                              FROM v4_4_statistics_vms_resources_usage_samples\n                              WHERE vm_id = ('$vm_id')\n                          )\n              )\n      LEFT OUTER JOIN\n      v4_4_configuration_history_hosts\n          ON\n              (\n                  v4_4_statistics_vms_resources_usage_samples.currently_running_on_host =\n                  v4_4_configuration_history_hosts.host_id\n                  AND v4_4_configuration_history_hosts.history_id\n                      IN\n                          (\n                              SELECT MAX (history_id)\n                              FROM v4_4_configuration_history_hosts\n                              GROUP BY host_id\n                          )\n              )",
           "refId": "A",
           "select": [
             [

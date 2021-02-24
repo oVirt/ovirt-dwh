@@ -1549,6 +1549,40 @@
       },
       "styles": [
         {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "is_deleted",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
           "alias": "VM Name",
           "align": "auto",
           "colorMode": null,
@@ -1559,6 +1593,9 @@
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Virtual Machine Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/VirtualMachineDashboard/virtual-machine-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-vm_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "vm_name",
           "thresholds": [],
@@ -1640,7 +1677,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n    vm_name,\n    ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) AS vm_cpucores,\n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS vm_memsize,\n    SUM (COALESCE ( vm_disk_size_mb, 0.00 )) :: numeric / 1024 AS vm_disk_size_gb,\n    SUM (COALESCE ( vm_disk_actual_size_mb, 0.00 )) :: numeric / 1024 AS vm_disk_actual_size_gb\nFROM \n    v4_4_latest_configuration_vms\n    LEFT OUTER JOIN \n    v4_4_latest_configuration_vms_devices\n        ON\n            (\n                v4_4_latest_configuration_vms_devices.vm_id =\n                v4_4_latest_configuration_vms.vm_id\n                AND v4_4_latest_configuration_vms_devices.history_id \n                    IN \n                        ( \n                            SELECT MAX (history_id) \n                            FROM v4_4_latest_configuration_vms_devices \n                            WHERE type = 'disk' \n                            GROUP BY device_id\n                        )\n            )\n    LEFT OUTER JOIN v4_4_latest_configuration_vms_disks\n        ON\n            (\n                v4_4_latest_configuration_vms_disks.vm_disk_id =\n                v4_4_latest_configuration_vms_devices.device_id\n            )\n    LEFT OUTER JOIN v4_4_statistics_vms_disks_resources_usage_samples\n        ON\n            (\n                v4_4_statistics_vms_disks_resources_usage_samples.vm_disk_id =\n                v4_4_latest_configuration_vms_disks.vm_disk_id\n                AND v4_4_statistics_vms_disks_resources_usage_samples.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_statistics_vms_disks_resources_usage_samples\n                            GROUP BY vm_disk_id\n                        )\n            )\nWHERE \n    -- Here we filter by the virtual machine/s chosen by the user\n    v4_4_latest_configuration_vms.vm_id \n        IN \n            (\n                SELECT vm_id\n                FROM v4_4_statistics_vms_resources_usage_samples\n                WHERE \n                    currently_running_on_host = ('$host_id')\n                    AND vm_status = 1\n                    AND history_id\n                        IN\n                            (\n                                SELECT MAX (history_id)\n                                FROM v4_4_statistics_vms_resources_usage_samples\n                                GROUP BY vm_id\n                            )   \n            )\n    -- Here we get the latest vm configurations\n    AND v4_4_latest_configuration_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_latest_configuration_vms a\n                GROUP BY a.vm_id\n            )\nGROUP BY \n    vm_name, \n    cpu_per_socket, \n    number_of_sockets, \n    memory_size_mb",
+          "rawSql": "SELECT\n    'No' AS is_deleted,\n    v4_4_latest_configuration_vms.vm_id,\n    vm_name,\n    ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) AS vm_cpucores,\n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS vm_memsize,\n    SUM (COALESCE ( vm_disk_size_mb, 0.00 )) :: numeric / 1024 AS vm_disk_size_gb,\n    SUM (COALESCE ( vm_disk_actual_size_mb, 0.00 )) :: numeric / 1024 AS vm_disk_actual_size_gb\nFROM \n    v4_4_latest_configuration_vms\n    LEFT OUTER JOIN \n    v4_4_latest_configuration_vms_devices\n        ON\n            (\n                v4_4_latest_configuration_vms_devices.vm_id =\n                v4_4_latest_configuration_vms.vm_id\n                AND v4_4_latest_configuration_vms_devices.history_id \n                    IN \n                        ( \n                            SELECT MAX (history_id) \n                            FROM v4_4_latest_configuration_vms_devices \n                            WHERE type = 'disk' \n                            GROUP BY device_id\n                        )\n            )\n    LEFT OUTER JOIN v4_4_latest_configuration_vms_disks\n        ON\n            (\n                v4_4_latest_configuration_vms_disks.vm_disk_id =\n                v4_4_latest_configuration_vms_devices.device_id\n            )\n    LEFT OUTER JOIN v4_4_statistics_vms_disks_resources_usage_samples\n        ON\n            (\n                v4_4_statistics_vms_disks_resources_usage_samples.vm_disk_id =\n                v4_4_latest_configuration_vms_disks.vm_disk_id\n                AND v4_4_statistics_vms_disks_resources_usage_samples.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_statistics_vms_disks_resources_usage_samples\n                            GROUP BY vm_disk_id\n                        )\n            )\nWHERE \n    -- Here we filter by the virtual machine/s chosen by the user\n    v4_4_latest_configuration_vms.vm_id \n        IN \n            (\n                SELECT vm_id\n                FROM v4_4_statistics_vms_resources_usage_samples\n                WHERE \n                    currently_running_on_host = ('$host_id')\n                    AND vm_status = 1\n                    AND history_id\n                        IN\n                            (\n                                SELECT MAX (history_id)\n                                FROM v4_4_statistics_vms_resources_usage_samples\n                                GROUP BY vm_id\n                            )   \n            )\n    -- Here we get the latest vm configurations\n    AND v4_4_latest_configuration_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_latest_configuration_vms a\n                GROUP BY a.vm_id\n            )\nGROUP BY \n    v4_4_latest_configuration_vms.vm_id,\n    vm_name, \n    cpu_per_socket, \n    number_of_sockets, \n    memory_size_mb",
           "refId": "B",
           "select": [
             [
