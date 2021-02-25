@@ -795,7 +795,7 @@
       "thresholds": "",
       "timeFrom": null,
       "timeShift": null,
-      "title": "Total Disks Size",
+      "title": "Total Disk Size",
       "type": "singlestat",
       "valueFontSize": "70%",
       "valueMaps": [
@@ -1260,7 +1260,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Disks Usage",
+      "title": "Disk Usage",
       "type": "gauge"
     },
     {
@@ -1381,7 +1381,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Disks Inventory",
+      "title": "Disk Inventory",
       "transform": "table",
       "type": "table"
     },
@@ -1554,7 +1554,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Interfaces Inventory",
+      "title": "Interface Inventory",
       "transform": "table",
       "type": "table"
     },
@@ -1567,7 +1567,7 @@
         "y": 26
       },
       "id": 23,
-      "title": "Resources Usage over time",
+      "title": "Resource Usage Over Time",
       "type": "row"
     },
     {
@@ -1669,7 +1669,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Average CPU Usage and Peaks (over time) (BR10A) ",
+      "title": "Average and Peak CPU Usage (over time) (BR10A) ",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1806,7 +1806,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Average Memory Usage and Peaks (over time) (BR10A)",
+      "title": "Average and Peak Memory Usage (over time) (BR10A)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1944,7 +1944,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Disks Read and Write Rates (over time) (BR10A)",
+      "title": "Disk Read and Write Rates (over time) (BR10A)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -2082,7 +2082,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Disks I/O operations/sec (over time) (BR10A)",
+      "title": "Disk I/O operations/sec (over time) (BR10A)",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -2220,7 +2220,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Network Interfaces Tx and Rx Rates (over time) (BR10A) ",
+      "title": "Network Interface Tx and Rx Rates (over time) (BR10A) ",
       "tooltip": {
         "shared": true,
         "sort": 0,
