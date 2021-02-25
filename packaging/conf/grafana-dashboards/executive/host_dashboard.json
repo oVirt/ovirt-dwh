@@ -176,74 +176,6 @@
           "unit": "short"
         },
         {
-          "alias": "Create Date",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "create_date",
-          "thresholds": [],
-          "type": "date",
-          "unit": "short"
-        },
-        {
-          "alias": "Update Date",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "update_date",
-          "thresholds": [],
-          "type": "date",
-          "unit": "short"
-        },
-        {
-          "alias": "Memory Size",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "host_memsize",
-          "thresholds": [],
-          "type": "number",
-          "unit": "gbytes"
-        },
-        {
-          "alias": "CPU Cores",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 0,
-          "mappingType": 1,
-          "pattern": "number_of_cores",
-          "thresholds": [],
-          "type": "number",
-          "unit": "none"
-        },
-        {
           "alias": "Server Manufacturer",
           "align": "auto",
           "colorMode": null,
@@ -310,6 +242,57 @@
           "thresholds": [],
           "type": "number",
           "unit": "short"
+        },
+        {
+          "alias": "Create Date",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "create_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "Update Date",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "update_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "Delete Date",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "delete_date",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
         }
       ],
       "targets": [
@@ -318,7 +301,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT DISTINCT\n    host_os, \n    fqdn_or_ip,\n    hardware_manufacturer,\n    hardware_product_name,\n    hardware_serial_number,\n    CASE \n        WHEN host_type = 0\n            THEN 'Host'\n        WHEN host_type = 2\n            THEN 'Hypervisor'\n        ELSE NULL\n    END,\n    create_date, \n    update_date\nFROM v4_4_latest_configuration_hosts\nWHERE \n    host_id IN ('$host_id')\n    AND v4_4_latest_configuration_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_latest_configuration_hosts a\n                GROUP BY a.host_id\n            )",
+          "rawSql": "SELECT DISTINCT\n    host_os, \n    fqdn_or_ip,\n    hardware_manufacturer,\n    hardware_product_name,\n    hardware_serial_number,\n    CASE \n        WHEN host_type = 0\n            THEN 'Host'\n        WHEN host_type = 2\n            THEN 'Hypervisor'\n        ELSE NULL\n    END,\n    create_date, \n    CASE \n        WHEN delete_date IS NULL\n            THEN update_date\n        ELSE NULL\n  END AS update_date,\n  CASE\n      WHEN delete_date IS NOT NULL\n          THEN delete_date\n      ELSE NULL\n  END AS delete_date\nFROM v4_4_configuration_history_hosts\nWHERE \n    host_id IN ('$host_id')\n    AND v4_4_configuration_history_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_hosts a\n                GROUP BY a.host_id\n            )",
           "refId": "A",
           "select": [
             [
@@ -630,7 +613,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n    number_of_cores\nFROM v4_4_latest_configuration_hosts\nWHERE \n    host_id IN ('$host_id')\n    AND v4_4_latest_configuration_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_latest_configuration_hosts a\n                GROUP BY a.host_id\n            )",
+          "rawSql": "SELECT \n    number_of_cores\nFROM v4_4_configuration_history_hosts\nWHERE \n    host_id IN ('$host_id')\n    AND v4_4_configuration_history_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_hosts a\n                GROUP BY a.host_id\n            )",
           "refId": "A",
           "select": [
             [
@@ -736,7 +719,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS host_memsize\nFROM v4_4_latest_configuration_hosts\nWHERE \n    host_id IN ('$host_id')\n    AND v4_4_latest_configuration_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_latest_configuration_hosts a\n                GROUP BY a.host_id\n            )",
+          "rawSql": "SELECT \n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS host_memsize\nFROM v4_4_configuration_history_hosts\nWHERE \n    host_id IN ('$host_id')\n    AND v4_4_configuration_history_hosts.history_id \n        IN     \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_hosts a\n                GROUP BY a.host_id\n            )",
           "refId": "A",
           "select": [
             [
@@ -1035,7 +1018,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR6 - This query returns the average\n-- uptime percent for the selected host\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN statistics.host_status = 1\n                        THEN COALESCE ( statistics.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                statistics.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    (\n            SELECT host_id, host_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_hosts_resources_usage_samples\n    ) AS statistics\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                statistics.host_id\n            )\nWHERE\n    -- Here we filter by the host chosen by the user\n    v4_4_latest_configuration_hosts.host_id IN ('$host_id')\n    -- Show data only when the selected period is up to 24 hours back\n    AND $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the time range chosen by the user\n    AND statistics.history_datetime >= $__timeFrom()\n    AND statistics.history_datetime < $__timeTo()",
+          "rawSql": "-- DR6 - This query returns the average\n-- uptime percent for the selected host\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN statistics.host_status = 1\n                        THEN COALESCE ( statistics.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                statistics.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    (\n            SELECT host_id, host_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_hosts_resources_usage_samples\n    ) AS statistics\n    INNER JOIN v4_4_configuration_history_hosts\n        ON \n            (\n                v4_4_configuration_history_hosts.host_id =\n                statistics.host_id\n            )\nWHERE\n    -- Here we filter by the host chosen by the user\n    v4_4_configuration_history_hosts.host_id IN ('$host_id')\n    -- Show data only when the selected period is up to 24 hours back\n    AND $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the time range chosen by the user\n    AND statistics.history_datetime >= $__timeFrom()\n    AND statistics.history_datetime < $__timeTo()",
           "refId": "A",
           "select": [
             [
@@ -1061,7 +1044,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR6 - This query returns the average\n-- uptime percent for the selected host\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN statistics.host_status = 1\n                        THEN COALESCE ( statistics.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                statistics.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    (\n            SELECT host_id, host_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_hosts_resources_usage_hourly\n        UNION\n            SELECT host_id, host_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_hosts_resources_usage_daily\n            WHERE\n                history_datetime <\n                    (\n                        SELECT MIN ( history_datetime )\n                        FROM v4_4_statistics_hosts_resources_usage_hourly\n                    )\n    ) AS statistics\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                statistics.host_id\n            )\nWHERE\n    -- Here we filter by the host chosen by the user\n    v4_4_latest_configuration_hosts.host_id IN ('$host_id')\n    -- Show data only when the selected period is more then 24 hours back\n    AND $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the time range chosen by the user\n    AND statistics.history_datetime >= $__timeFrom()\n    AND statistics.history_datetime < $__timeTo()",
+          "rawSql": "-- DR6 - This query returns the average\n-- uptime percent for the selected host\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN statistics.host_status = 1\n                        THEN COALESCE ( statistics.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                statistics.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    (\n            SELECT host_id, host_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_hosts_resources_usage_hourly\n        UNION\n            SELECT host_id, host_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_hosts_resources_usage_daily\n            WHERE\n                history_datetime <\n                    (\n                        SELECT MIN ( history_datetime )\n                        FROM v4_4_statistics_hosts_resources_usage_hourly\n                    )\n    ) AS statistics\n    INNER JOIN v4_4_configuration_history_hosts\n        ON \n            (\n                v4_4_configuration_history_hosts.host_id =\n                statistics.host_id\n            )\nWHERE\n    -- Here we filter by the host chosen by the user\n    v4_4_configuration_history_hosts.host_id IN ('$host_id')\n    -- Show data only when the selected period is more then 24 hours back\n    AND $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the time range chosen by the user\n    AND statistics.history_datetime >= $__timeFrom()\n    AND statistics.history_datetime < $__timeTo()",
           "refId": "B",
           "select": [
             [
@@ -1753,7 +1736,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT DISTINCT\n    host_interface_name,\n    CASE\n        WHEN host_interface_type = 0\n            THEN 'rt18139_pv'\n        WHEN host_interface_type = 1\n            THEN 'rt18139'\n        WHEN host_interface_type = 2\n            THEN 'e1000'\n        WHEN host_interface_type = 3\n            THEN 'pv'\n        ELSE NULL\n    END AS host_interface_type,\n    mac_address,\n    logical_network_name,\n    ip_address,\n    create_date,\n    update_date\nFROM v4_4_latest_configuration_hosts_interfaces\nWHERE \n    host_id IN ('$host_id')\n    AND history_id\n        IN\n            (\n                SELECT MAX (history_id)\n                FROM v4_4_latest_configuration_hosts_interfaces\n                GROUP BY host_id, host_interface_name\n            )",
+          "rawSql": "SELECT DISTINCT\n    CASE          \n        WHEN delete_date IS NULL  \t     \t    \n            THEN host_interface_name \t \t\n        WHEN delete_date IS NOT null  \t      \t    \n            THEN host_interface_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \n    END AS host_interface_name,\n    CASE\n        WHEN host_interface_type = 0\n            THEN 'rt18139_pv'\n        WHEN host_interface_type = 1\n            THEN 'rt18139'\n        WHEN host_interface_type = 2\n            THEN 'e1000'\n        WHEN host_interface_type = 3\n            THEN 'pv'\n        ELSE NULL\n    END AS host_interface_type,\n    mac_address,\n    logical_network_name,\n    ip_address,\n    create_date,\n    update_date\nFROM v4_4_configuration_history_hosts_interfaces\nWHERE \n    host_id IN ('$host_id')\n    AND history_id\n        IN\n            (\n                SELECT MAX (history_id)\n                FROM v4_4_configuration_history_hosts_interfaces\n                GROUP BY host_id, host_interface_name\n            )",
           "refId": "A",
           "select": [
             [
@@ -2115,7 +2098,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR2A - This query returns the\n-- Ethernet Interface Tx and Rx Rates, over time\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT DISTINCT\n    time,\n    COALESCE ( interface_name, MAX ( interface_name ) over ( partition BY 1 ), '' ) AS interface_name,\n    AVG ( Rx_rate + Tx_rate ) AS \"Avg. Rx and Tx\"\nFROM \n    (\n        SELECT DISTINCT\n            v4_4_configuration_history_hosts_interfaces.host_interface_id,\n            host_interface_name AS interface_name,\n            statistics.history_datetime AS time,\n            AVG ( COALESCE ( receive_rate_percent, 0 ) ) AS Rx_rate,\n            AVG ( COALESCE ( transmit_rate_percent, 0 ) ) AS Tx_rate\n        FROM\n            (\n                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent \n                    FROM v4_4_statistics_hosts_interfaces_resources_usage_samples\n            ) AS statistics\n            INNER JOIN v4_4_configuration_history_hosts_interfaces\n                ON \n                    (\n                        v4_4_configuration_history_hosts_interfaces.host_interface_id =\n                        statistics.host_interface_id\n                    )\n        WHERE\n            -- Here we filter by the host chosen by the user\n            v4_4_configuration_history_hosts_interfaces.host_id IN ('$host_id')\n            -- Here we filter by the time range chosen by the user\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            AND v4_4_configuration_history_hosts_interfaces.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_configuration_history_hosts_interfaces AS a\n                        GROUP BY a.host_interface_id\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_configuration_history_hosts_interfaces AS a\n                        GROUP BY a.host_interface_id\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.host_interface_id\n                IN \n                    (\n                        SELECT host_interface_id\n                        FROM v4_4_latest_configuration_hosts_interfaces\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.host_interface_id \n                IN \n                    (\n                        SELECT c.host_interface_id\n                        FROM\n                            (\n                                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent\n                                    FROM v4_4_statistics_hosts_interfaces_resources_usage_samples\n                            ) AS b\n                            INNER JOIN v4_4_configuration_history_hosts_interfaces c\n                                ON \n                                    ( \n                                        c.host_interface_id = \n                                        b.host_interface_id \n                                    )\n                            INNER JOIN \n                            (\n                                    SELECT history_datetime, host_id, host_status \n                                    FROM v4_4_statistics_hosts_resources_usage_samples\n                            ) AS samples_hourly_daily\n                                ON \n                                    (\n                                        samples_hourly_daily.history_datetime =\n                                        b.history_datetime \n                                        AND samples_hourly_daily.host_id IN ('$host_id')\n                                    )\n                        WHERE\n                            -- Here we filter by active host only\n                            samples_hourly_daily.host_status = 1\n                            AND c.host_id IN ('$host_id')\n                            AND c.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( d.history_id )\n                                        FROM v4_4_configuration_history_hosts_interfaces AS d\n                                        GROUP BY d.host_interface_id\n                                    )\n                        GROUP BY c.host_interface_id\n                        ORDER BY\n                                AVG ( COALESCE ( b.receive_rate_percent, 0 ) ) +\n                                AVG ( COALESCE ( b.transmit_rate_percent, 0 ) ) \n                                DESC\n                    )\n        GROUP BY\n            v4_4_configuration_history_hosts_interfaces.host_interface_id,\n            interface_name,\n            statistics.history_datetime\n    ) AS all_sub_queries\n-- Show data only when the selected period is up to 24 hours back \nWHERE $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\nGROUP BY all_sub_queries.time, interface_name\nORDER BY all_sub_queries.time ASC",
+          "rawSql": "-- BR2A - This query returns the\n-- Ethernet Interface Tx and Rx Rates, over time\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT DISTINCT\n    time,\n    COALESCE ( interface_name, MAX ( interface_name ) over ( partition BY 1 ), '' ) AS interface_name,\n    AVG ( Rx_rate + Tx_rate ) AS \"Avg. Rx and Tx\"\nFROM \n    (\n        SELECT DISTINCT\n            v4_4_configuration_history_hosts_interfaces.host_interface_id,\n            host_interface_name AS interface_name,\n            statistics.history_datetime AS time,\n            AVG ( COALESCE ( receive_rate_percent, 0 ) ) AS Rx_rate,\n            AVG ( COALESCE ( transmit_rate_percent, 0 ) ) AS Tx_rate\n        FROM\n            (\n                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent \n                    FROM v4_4_statistics_hosts_interfaces_resources_usage_samples\n            ) AS statistics\n            INNER JOIN v4_4_configuration_history_hosts_interfaces\n                ON \n                    (\n                        v4_4_configuration_history_hosts_interfaces.host_interface_id =\n                        statistics.host_interface_id\n                    )\n        WHERE\n            -- Here we filter by the host chosen by the user\n            v4_4_configuration_history_hosts_interfaces.host_id IN ('$host_id')\n            -- Here we filter by the time range chosen by the user\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            AND v4_4_configuration_history_hosts_interfaces.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_configuration_history_hosts_interfaces AS a\n                        GROUP BY a.host_interface_id\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.host_interface_id\n                IN \n                    (\n                        SELECT host_interface_id\n                        FROM v4_4_latest_configuration_hosts_interfaces\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.host_interface_id \n                IN \n                    (\n                        SELECT c.host_interface_id\n                        FROM\n                            (\n                                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent\n                                    FROM v4_4_statistics_hosts_interfaces_resources_usage_samples\n                            ) AS b\n                            INNER JOIN v4_4_configuration_history_hosts_interfaces c\n                                ON \n                                    ( \n                                        c.host_interface_id = \n                                        b.host_interface_id \n                                    )\n                            INNER JOIN \n                            (\n                                    SELECT history_datetime, host_id, host_status \n                                    FROM v4_4_statistics_hosts_resources_usage_samples\n                            ) AS samples_hourly_daily\n                                ON \n                                    (\n                                        samples_hourly_daily.history_datetime =\n                                        b.history_datetime \n                                        AND samples_hourly_daily.host_id IN ('$host_id')\n                                    )\n                        WHERE\n                            -- Here we filter by active host only\n                            samples_hourly_daily.host_status = 1\n                            AND c.host_id IN ('$host_id')\n                            AND c.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( d.history_id )\n                                        FROM v4_4_configuration_history_hosts_interfaces AS d\n                                        GROUP BY d.host_interface_id\n                                    )\n                        GROUP BY c.host_interface_id\n                        ORDER BY\n                                AVG ( COALESCE ( b.receive_rate_percent, 0 ) ) +\n                                AVG ( COALESCE ( b.transmit_rate_percent, 0 ) ) \n                                DESC\n                    )\n        GROUP BY\n            v4_4_configuration_history_hosts_interfaces.host_interface_id,\n            interface_name,\n            statistics.history_datetime\n    ) AS all_sub_queries\n-- Show data only when the selected period is up to 24 hours back \nWHERE $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\nGROUP BY all_sub_queries.time, interface_name\nORDER BY all_sub_queries.time ASC",
           "refId": "A",
           "select": [
             [
@@ -2141,7 +2124,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR2A - This query returns the\n-- Ethernet Interface Tx and Rx Rates, over time\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT DISTINCT\n    time,\n    COALESCE ( interface_name, MAX ( interface_name ) over ( partition BY 1 ), '' ) AS interface_name,\n    AVG ( Rx_rate + Tx_rate ) AS \"Avg. Rx and Tx\"\nFROM \n    (\n        SELECT DISTINCT\n            v4_4_configuration_history_hosts_interfaces.host_interface_id,\n            host_interface_name AS interface_name,\n            statistics.history_datetime AS time,\n            AVG ( COALESCE ( receive_rate_percent, 0 ) ) AS Rx_rate,\n            AVG ( COALESCE ( transmit_rate_percent, 0 ) ) AS Tx_rate\n        FROM\n            (\n                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent \n                    FROM v4_4_statistics_hosts_interfaces_resources_usage_hourly\n                UNION\n                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent \n                    FROM v4_4_statistics_hosts_interfaces_resources_usage_daily\n                    WHERE\n                        history_datetime <\n                            (\n                                SELECT MIN ( history_datetime )\n                                FROM v4_4_statistics_hosts_interfaces_resources_usage_hourly\n                            )\n            ) AS statistics\n            INNER JOIN v4_4_configuration_history_hosts_interfaces\n                ON \n                    (\n                        v4_4_configuration_history_hosts_interfaces.host_interface_id =\n                        statistics.host_interface_id\n                    )\n        WHERE\n            -- Here we filter by the host chosen by the user\n            v4_4_configuration_history_hosts_interfaces.host_id IN ('$host_id')\n            -- Here we filter by the time range chosen by the user\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            AND v4_4_configuration_history_hosts_interfaces.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_configuration_history_hosts_interfaces AS a\n                        GROUP BY a.host_interface_id\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_configuration_history_hosts_interfaces AS a\n                        GROUP BY a.host_interface_id\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.host_interface_id\n                IN \n                    (\n                        SELECT host_interface_id\n                        FROM v4_4_latest_configuration_hosts_interfaces\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.host_interface_id \n                IN \n                    (\n                        SELECT c.host_interface_id\n                        FROM\n                            (\n                                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent\n                                    FROM v4_4_statistics_hosts_interfaces_resources_usage_hourly\n                                UNION\n                                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent\n                                    FROM v4_4_statistics_hosts_interfaces_resources_usage_daily\n                                    WHERE\n                                        history_datetime <\n                                            (\n                                                SELECT MIN ( history_datetime )\n                                                FROM v4_4_statistics_hosts_interfaces_resources_usage_hourly\n                                            )\n                            ) AS b\n                            INNER JOIN v4_4_configuration_history_hosts_interfaces c\n                                ON \n                                    ( \n                                        c.host_interface_id = \n                                        b.host_interface_id \n                                    )\n                            INNER JOIN \n                            (\n                                    SELECT history_datetime, host_id, host_status \n                                    FROM v4_4_statistics_hosts_resources_usage_hourly\n                                UNION\n                                    SELECT history_datetime, host_id, host_status \n                                    FROM v4_4_statistics_hosts_resources_usage_daily\n                                    WHERE\n                                        history_datetime <\n                                            (\n                                                SELECT MIN ( history_datetime )\n                                                FROM v4_4_statistics_hosts_resources_usage_hourly\n                                            )\n                            ) AS samples_hourly_daily\n                                ON \n                                    (\n                                        samples_hourly_daily.history_datetime =\n                                        b.history_datetime \n                                        AND samples_hourly_daily.host_id IN ('$host_id')\n                                    )\n                        WHERE\n                            -- Here we filter by active host only\n                            samples_hourly_daily.host_status = 1\n                            AND c.host_id IN ('$host_id')\n                            AND c.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( d.history_id )\n                                        FROM v4_4_configuration_history_hosts_interfaces AS d\n                                        GROUP BY d.host_interface_id\n                                    )\n                        GROUP BY c.host_interface_id\n                        ORDER BY\n                                AVG ( COALESCE ( b.receive_rate_percent, 0 ) ) +\n                                AVG ( COALESCE ( b.transmit_rate_percent, 0 ) ) \n                                DESC\n                    )\n        GROUP BY\n            v4_4_configuration_history_hosts_interfaces.host_interface_id,\n            interface_name,\n            statistics.history_datetime\n    ) AS all_sub_queries\n-- Show data only when the selected period is more then 24 hours back\nWHERE $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\nGROUP BY all_sub_queries.time, interface_name\nORDER BY all_sub_queries.time ASC",
+          "rawSql": "-- BR2A - This query returns the\n-- Ethernet Interface Tx and Rx Rates, over time\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT DISTINCT\n    time,\n    COALESCE ( interface_name, MAX ( interface_name ) over ( partition BY 1 ), '' ) AS interface_name,\n    AVG ( Rx_rate + Tx_rate ) AS \"Avg. Rx and Tx\"\nFROM \n    (\n        SELECT DISTINCT\n            v4_4_configuration_history_hosts_interfaces.host_interface_id,\n            host_interface_name AS interface_name,\n            statistics.history_datetime AS time,\n            AVG ( COALESCE ( receive_rate_percent, 0 ) ) AS Rx_rate,\n            AVG ( COALESCE ( transmit_rate_percent, 0 ) ) AS Tx_rate\n        FROM\n            (\n                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent \n                    FROM v4_4_statistics_hosts_interfaces_resources_usage_hourly\n                UNION\n                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent \n                    FROM v4_4_statistics_hosts_interfaces_resources_usage_daily\n                    WHERE\n                        history_datetime <\n                            (\n                                SELECT MIN ( history_datetime )\n                                FROM v4_4_statistics_hosts_interfaces_resources_usage_hourly\n                            )\n            ) AS statistics\n            INNER JOIN v4_4_configuration_history_hosts_interfaces\n                ON \n                    (\n                        v4_4_configuration_history_hosts_interfaces.host_interface_id =\n                        statistics.host_interface_id\n                    )\n        WHERE\n            -- Here we filter by the host chosen by the user\n            v4_4_configuration_history_hosts_interfaces.host_id IN ('$host_id')\n            -- Here we filter by the time range chosen by the user\n            AND history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            AND v4_4_configuration_history_hosts_interfaces.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_configuration_history_hosts_interfaces AS a\n                        GROUP BY a.host_interface_id\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.host_interface_id\n                IN \n                    (\n                        SELECT host_interface_id\n                        FROM v4_4_latest_configuration_hosts_interfaces\n                    )\n            AND v4_4_configuration_history_hosts_interfaces.host_interface_id \n                IN \n                    (\n                        SELECT c.host_interface_id\n                        FROM\n                            (\n                                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent\n                                    FROM v4_4_statistics_hosts_interfaces_resources_usage_hourly\n                                UNION\n                                    SELECT history_datetime, host_interface_id, receive_rate_percent, transmit_rate_percent\n                                    FROM v4_4_statistics_hosts_interfaces_resources_usage_daily\n                                    WHERE\n                                        history_datetime <\n                                            (\n                                                SELECT MIN ( history_datetime )\n                                                FROM v4_4_statistics_hosts_interfaces_resources_usage_hourly\n                                            )\n                            ) AS b\n                            INNER JOIN v4_4_configuration_history_hosts_interfaces c\n                                ON \n                                    ( \n                                        c.host_interface_id = \n                                        b.host_interface_id \n                                    )\n                            INNER JOIN \n                            (\n                                    SELECT history_datetime, host_id, host_status \n                                    FROM v4_4_statistics_hosts_resources_usage_hourly\n                                UNION\n                                    SELECT history_datetime, host_id, host_status \n                                    FROM v4_4_statistics_hosts_resources_usage_daily\n                                    WHERE\n                                        history_datetime <\n                                            (\n                                                SELECT MIN ( history_datetime )\n                                                FROM v4_4_statistics_hosts_resources_usage_hourly\n                                            )\n                            ) AS samples_hourly_daily\n                                ON \n                                    (\n                                        samples_hourly_daily.history_datetime =\n                                        b.history_datetime \n                                        AND samples_hourly_daily.host_id IN ('$host_id')\n                                    )\n                        WHERE\n                            -- Here we filter by active host only\n                            samples_hourly_daily.host_status = 1\n                            AND c.host_id IN ('$host_id')\n                            AND c.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( d.history_id )\n                                        FROM v4_4_configuration_history_hosts_interfaces AS d\n                                        GROUP BY d.host_interface_id\n                                    )\n                        GROUP BY c.host_interface_id\n                        ORDER BY\n                                AVG ( COALESCE ( b.receive_rate_percent, 0 ) ) +\n                                AVG ( COALESCE ( b.transmit_rate_percent, 0 ) ) \n                                DESC\n                    )\n        GROUP BY\n            v4_4_configuration_history_hosts_interfaces.host_interface_id,\n            interface_name,\n            statistics.history_datetime\n    ) AS all_sub_queries\n-- Show data only when the selected period is more then 24 hours back\nWHERE $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\nGROUP BY all_sub_queries.time, interface_name\nORDER BY all_sub_queries.time ASC",
           "refId": "B",
           "select": [
             [
@@ -2222,9 +2205,38 @@
     "list": [
       {
         "allValue": null,
+        "current": {
+          "selected": false,
+          "tags": [],
+          "text": "No",
+          "value": "No"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Show Deleted Entities?",
+        "multi": false,
+        "name": "show_deleted",
+        "options": [
+          {
+            "selected": true,
+            "text": "No",
+            "value": "No"
+          },
+          {
+            "selected": false,
+            "text": "Yes",
+            "value": "Yes"
+          }
+        ],
+        "query": "No,Yes",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "allValue": null,
         "current": {},
         "datasource": null,
-        "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_4_latest_configuration_datacenters",
+        "definition": "SELECT DISTINCT  \n    CAST ( datacenter_id AS varchar ) AS __value, \n    CASE     \n        WHEN delete_date IS NULL  \t    \n            THEN datacenter_name \t\n        WHEN delete_date IS NOT NULL  \t     \n            THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' \n    END AS __text \nFROM v4_4_configuration_history_datacenters \nWHERE      \n    history_id          \n        IN              \n            (  \t            \n                SELECT MAX ( a.history_id )  \t\t        \n                FROM v4_4_configuration_history_datacenters a  \t\t        \n                GROUP BY a.datacenter_id \t        \n            ) \t\n    AND  \t    \n        datacenter_id  \t        \n            IN \n\t        ( \t\t\n\t            SELECT DISTINCT datacenter_id \t\t\t\t\t\n                    FROM v4_4_configuration_history_clusters \t\t\t\t\t\n                    WHERE  \t\t\t\t\t    \n                        cluster_id \t\t\t\t\t        \n                            IN \t\t\t\t\t            \n                                ( \t\t\t\t\t\t\t\t\t\n                                    SELECT DISTINCT cluster_id \t\t\t\t\t\t\t\t\t\n                                    FROM v4_4_configuration_history_hosts  \t\t\t\t\t\t\t\t\n                                ) \t\t\t\t\n                ) \t\n    AND\n        CASE  \t       \n            WHEN '$show_deleted'='Yes'\n \t         THEN 1=1\n            WHEN '$show_deleted'='No' \t\t       \n                THEN v4_4_configuration_history_datacenters.delete_date ISNULL \t   \n        END  \t\t",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -2232,7 +2244,7 @@
         "multi": false,
         "name": "datacenter_id",
         "options": [],
-        "query": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_4_latest_configuration_datacenters",
+        "query": "SELECT DISTINCT  \n    CAST ( datacenter_id AS varchar ) AS __value, \n    CASE     \n        WHEN delete_date IS NULL  \t    \n            THEN datacenter_name \t\n        WHEN delete_date IS NOT NULL  \t     \n            THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' \n    END AS __text \nFROM v4_4_configuration_history_datacenters \nWHERE      \n    history_id          \n        IN              \n            (  \t            \n                SELECT MAX ( a.history_id )  \t\t        \n                FROM v4_4_configuration_history_datacenters a  \t\t        \n                GROUP BY a.datacenter_id \t        \n            ) \t\n    AND  \t    \n        datacenter_id  \t        \n            IN \n\t        ( \t\t\n\t            SELECT DISTINCT datacenter_id \t\t\t\t\t\n                    FROM v4_4_configuration_history_clusters \t\t\t\t\t\n                    WHERE  \t\t\t\t\t    \n                        cluster_id \t\t\t\t\t        \n                            IN \t\t\t\t\t            \n                                ( \t\t\t\t\t\t\t\t\t\n                                    SELECT DISTINCT cluster_id \t\t\t\t\t\t\t\t\t\n                                    FROM v4_4_configuration_history_hosts  \t\t\t\t\t\t\t\t\n                                ) \t\t\t\t\n                ) \t\n    AND\n        CASE  \t       \n            WHEN '$show_deleted'='Yes'\n \t         THEN 1=1\n            WHEN '$show_deleted'='No' \t\t       \n                THEN v4_4_configuration_history_datacenters.delete_date ISNULL \t   \n        END  \t\t",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -2247,7 +2259,7 @@
         "allValue": null,
         "current": {},
         "datasource": null,
-        "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_4_latest_configuration_clusters WHERE datacenter_id IN ('$datacenter_id')",
+        "definition": "SELECT DISTINCT\n    CAST ( cluster_id AS varchar ) AS __value, \n    CASE\n        WHEN delete_date IS NULL\n            THEN cluster_name\n        WHEN delete_date IS NOT NULL\n            THEN cluster_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' \n    END AS __text\nFROM v4_4_configuration_history_clusters\nWHERE\n    history_id\n        IN\n            (\n                SELECT MAX ( a.history_id )        \n                FROM v4_4_configuration_history_clusters a\t\t        \n                GROUP BY a.cluster_id\n            )\n    AND\n        cluster_id\n            IN \t\t\t    \n                ( \t\t\t\t\t\n                    SELECT DISTINCT cluster_id \t\t\t\t\t\n                    FROM v4_4_configuration_history_hosts \t\t\t\t\n               ) \t\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'          \n                THEN 1=1   \n            WHEN '$show_deleted'='No'\t       \n                THEN v4_4_configuration_history_clusters.delete_date ISNULL \t  \n        END\n    AND datacenter_id IN ('$datacenter_id') ",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -2255,7 +2267,7 @@
         "multi": false,
         "name": "cluster_id",
         "options": [],
-        "query": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_4_latest_configuration_clusters WHERE datacenter_id IN ('$datacenter_id')",
+        "query": "SELECT DISTINCT\n    CAST ( cluster_id AS varchar ) AS __value, \n    CASE\n        WHEN delete_date IS NULL\n            THEN cluster_name\n        WHEN delete_date IS NOT NULL\n            THEN cluster_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' \n    END AS __text\nFROM v4_4_configuration_history_clusters\nWHERE\n    history_id\n        IN\n            (\n                SELECT MAX ( a.history_id )        \n                FROM v4_4_configuration_history_clusters a\t\t        \n                GROUP BY a.cluster_id\n            )\n    AND\n        cluster_id\n            IN \t\t\t    \n                ( \t\t\t\t\t\n                    SELECT DISTINCT cluster_id \t\t\t\t\t\n                    FROM v4_4_configuration_history_hosts \t\t\t\t\n               ) \t\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'          \n                THEN 1=1   \n            WHEN '$show_deleted'='No'\t       \n                THEN v4_4_configuration_history_clusters.delete_date ISNULL \t  \n        END\n    AND datacenter_id IN ('$datacenter_id') ",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -2270,7 +2282,7 @@
         "allValue": null,
         "current": {},
         "datasource": null,
-        "definition": "SELECT DISTINCT host_name AS __text, host_id AS __value FROM v4_4_latest_configuration_hosts WHERE cluster_id IN ('$cluster_id')",
+        "definition": "SELECT DISTINCT   \n    CAST ( host_id AS varchar ) AS __value,  \n    CASE          \n        WHEN delete_date IS NULL  \t     \t    \n            THEN host_name \t \t\n        WHEN delete_date IS NOT null  \t      \t    \n            THEN host_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \n    END AS __text  \t\t\nFROM v4_4_configuration_history_hosts  \t\t\nWHERE       \t\t    \n    history_id           \t\t\t    \n        IN               \t\t\t\t\n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_hosts a  \t\t         \t\t\t\t\t\n                GROUP BY a.host_id \t         \t\t\t\t\n            ) \t \t\t\t\n    AND cluster_id IN ('$cluster_id')  \t\t\t\n    AND \t    \t\t\t    \n        CASE  \t        \t\t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t   \n                THEN 1=1 \t\t    \t\t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    \n                THEN v4_4_configuration_history_hosts.delete_date ISNULL \t                \n        END ",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -2278,7 +2290,7 @@
         "multi": false,
         "name": "host_id",
         "options": [],
-        "query": "SELECT DISTINCT host_name AS __text, host_id AS __value FROM v4_4_latest_configuration_hosts WHERE cluster_id IN ('$cluster_id')",
+        "query": "SELECT DISTINCT   \n    CAST ( host_id AS varchar ) AS __value,  \n    CASE          \n        WHEN delete_date IS NULL  \t     \t    \n            THEN host_name \t \t\n        WHEN delete_date IS NOT null  \t      \t    \n            THEN host_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \n    END AS __text  \t\t\nFROM v4_4_configuration_history_hosts  \t\t\nWHERE       \t\t    \n    history_id           \t\t\t    \n        IN               \t\t\t\t\n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_hosts a  \t\t         \t\t\t\t\t\n                GROUP BY a.host_id \t         \t\t\t\t\n            ) \t \t\t\t\n    AND cluster_id IN ('$cluster_id')  \t\t\t\n    AND \t    \t\t\t    \n        CASE  \t        \t\t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t   \n                THEN 1=1 \t\t    \t\t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    \n                THEN v4_4_configuration_history_hosts.delete_date ISNULL \t                \n        END ",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,

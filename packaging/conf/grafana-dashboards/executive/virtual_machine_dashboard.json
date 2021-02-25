@@ -137,6 +137,23 @@
       },
       "styles": [
         {
+          "alias": "VM Description",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_description",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
           "alias": "OS Version",
           "align": "auto",
           "colorMode": null,
@@ -149,6 +166,40 @@
           "decimals": 2,
           "mappingType": 1,
           "pattern": "os_version",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "IP",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "vm_ip",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Desktop / Server",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "case",
           "thresholds": [],
           "type": "string",
           "unit": "short"
@@ -188,7 +239,7 @@
           "unit": "short"
         },
         {
-          "alias": "VM Description",
+          "alias": "Delete Date",
           "align": "auto",
           "colorMode": null,
           "colors": [
@@ -199,43 +250,9 @@
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
-          "pattern": "vm_description",
+          "pattern": "delete_date",
           "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "alias": "IP",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "vm_ip",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "alias": "Desktop / Server",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "case",
-          "thresholds": [],
-          "type": "string",
+          "type": "date",
           "unit": "short"
         }
       ],
@@ -245,7 +262,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR9 - This query will return\n-- the latest VM configurations.\n\nSELECT DISTINCT\n    vm_description,\n    a.value AS os_version,\n    vm_ip,\n    CASE\n        WHEN vm_type = 0\n            THEN 'Desktop'\n        WHEN vm_type = 1\n            THEN 'Server'\n        ELSE NULL\n    END,\n    CAST ( v4_4_latest_configuration_vms.create_date AS date ) AS create_date,\n    CAST ( v4_4_latest_configuration_vms.update_date AS date ) AS update_date\nFROM \n    v4_4_latest_configuration_vms\n    LEFT OUTER JOIN \n        (\n           SELECT enum_type, enum_key, value\n           FROM enum_translator\n           WHERE language_code = 'en_US' AND enum_type = 'OS_TYPE'\n        )AS a\n        ON \n            (\n                v4_4_latest_configuration_vms.operating_system =\n                a.enum_key AND a.enum_type = 'OS_TYPE'\n            )\n      INNER JOIN\n      v4_4_statistics_vms_resources_usage_samples\n          ON\n              (\n                  v4_4_statistics_vms_resources_usage_samples.vm_id =\n                  v4_4_latest_configuration_vms.vm_id\n                  AND v4_4_statistics_vms_resources_usage_samples.history_id\n                      IN\n                          (\n                              SELECT MAX (history_id)\n                              FROM v4_4_statistics_vms_resources_usage_samples\n                              GROUP BY vm_id\n                          )\n              )\nWHERE \n    -- Here we filter by the virtual machine/s chosen by the user\n    v4_4_latest_configuration_vms.vm_id IN ('$vm_id')\n    AND v4_4_latest_configuration_vms.history_id\n        IN\n            (\n                SELECT MAX (history_id)\n                FROM v4_4_latest_configuration_vms\n                GROUP BY vm_id\n            )",
+          "rawSql": "-- BR9 - This query will return\n-- the latest VM configurations.\n\nSELECT DISTINCT\n    vm_description,\n    a.value AS os_version,\n    vm_ip,\n    CASE\n        WHEN vm_type = 0\n            THEN 'Desktop'\n        WHEN vm_type = 1\n            THEN 'Server'\n        ELSE NULL\n    END,\n    CAST ( v4_4_configuration_history_vms.create_date AS date ) AS create_date,\n    CASE \n        WHEN delete_date IS NULL\n            THEN update_date\n        ELSE NULL\n    END AS update_date,\n    CASE\n        WHEN delete_date IS NOT NULL\n            THEN delete_date\n        ELSE NULL\n    END AS delete_date\nFROM \n    v4_4_configuration_history_vms\n    LEFT OUTER JOIN \n        (\n           SELECT enum_type, enum_key, value\n           FROM enum_translator\n           WHERE language_code = 'en_US' AND enum_type = 'OS_TYPE'\n        )AS a\n        ON \n            (\n                v4_4_configuration_history_vms.operating_system =\n                a.enum_key AND a.enum_type = 'OS_TYPE'\n            )\n      LEFT OUTER JOIN\n      v4_4_statistics_vms_resources_usage_samples\n          ON\n              (\n                  v4_4_statistics_vms_resources_usage_samples.vm_id =\n                  v4_4_configuration_history_vms.vm_id\n                  AND v4_4_statistics_vms_resources_usage_samples.history_id\n                      IN\n                          (\n                              SELECT MAX (history_id)\n                              FROM v4_4_statistics_vms_resources_usage_samples\n                              GROUP BY vm_id\n                          )\n              )\nWHERE \n    -- Here we filter by the virtual machine/s chosen by the user\n    v4_4_configuration_history_vms.vm_id IN ('$vm_id')\n    AND v4_4_configuration_history_vms.history_id\n        IN\n            (\n                SELECT MAX (history_id)\n                FROM v4_4_configuration_history_vms\n                GROUP BY vm_id\n            )",
           "refId": "A",
           "select": [
             [
@@ -450,7 +467,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n    CASE \n        WHEN high_availability = 'false'\n            THEN 'False'\n        WHEN high_availability = 'true'\n            THEN 'True'\n        ELSE NULL\n    END \nFROM \n    v4_4_latest_configuration_vms\nWHERE \n    -- Here we filter by the virtual machine chosen by the user\n    v4_4_latest_configuration_vms.vm_id IN ('$vm_id')\n    -- Here we get the latest vm configurations\n    AND v4_4_latest_configuration_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_latest_configuration_vms a\n                GROUP BY a.vm_id\n            )\nGROUP BY vm_id, high_availability",
+          "rawSql": "SELECT\n    CASE \n        WHEN high_availability = 'false'\n            THEN 'False'\n        WHEN high_availability = 'true'\n            THEN 'True'\n        ELSE NULL\n    END \nFROM \n    v4_4_configuration_history_vms\nWHERE \n    -- Here we filter by the virtual machine chosen by the user\n    v4_4_configuration_history_vms.vm_id IN ('$vm_id')\n    -- Here we get the latest vm configurations\n    AND v4_4_configuration_history_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_vms a\n                GROUP BY a.vm_id\n            )\nGROUP BY vm_id, high_availability",
           "refId": "A",
           "select": [
             [
@@ -557,7 +574,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n    ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) AS vm_cpucores\nFROM \n    v4_4_latest_configuration_vms\nWHERE \n    -- Here we filter by the virtual machine chosen by the user\n    v4_4_latest_configuration_vms.vm_id IN ('$vm_id')\n    -- Here we get the latest vm configurations\n    AND v4_4_latest_configuration_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_latest_configuration_vms a\n                GROUP BY a.vm_id\n            )\nGROUP BY vm_id, cpu_per_socket, number_of_sockets",
+          "rawSql": "SELECT\n    ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) AS vm_cpucores\nFROM \n    v4_4_configuration_history_vms\nWHERE \n    -- Here we filter by the virtual machine chosen by the user\n    v4_4_configuration_history_vms.vm_id IN ('$vm_id')\n    -- Here we get the latest vm configurations\n    AND v4_4_configuration_history_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_vms a\n                GROUP BY a.vm_id\n            )\nGROUP BY vm_id, cpu_per_socket, number_of_sockets",
           "refId": "A",
           "select": [
             [
@@ -664,7 +681,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS vm_memsize\nFROM \n    v4_4_latest_configuration_vms\nWHERE \n    -- Here we filter by the virtual machine chosen by the user\n    v4_4_latest_configuration_vms.vm_id IN ('$vm_id')\n    -- Here we get the latest vm configurations\n    AND v4_4_latest_configuration_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_latest_configuration_vms a\n                GROUP BY a.vm_id\n            )\nGROUP BY vm_id, memory_size_mb",
+          "rawSql": "SELECT\n    ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) AS vm_memsize\nFROM \n    v4_4_configuration_history_vms\nWHERE \n    -- Here we filter by the virtual machine chosen by the user\n    v4_4_configuration_history_vms.vm_id IN ('$vm_id')\n    -- Here we get the latest vm configurations\n    AND v4_4_configuration_history_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_vms a\n                GROUP BY a.vm_id\n            )\nGROUP BY vm_id, memory_size_mb",
           "refId": "A",
           "select": [
             [
@@ -770,7 +787,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT\n    SUM (CAST ( COALESCE ( vm_disk_size_mb, 0.00 ) AS float ) :: numeric / 1024) AS vm_disk_size_mb\nFROM\n    v4_4_latest_configuration_vms\n    INNER JOIN v4_4_latest_configuration_vms_devices\n        ON\n            (\n                v4_4_latest_configuration_vms_devices.vm_id =\n                v4_4_latest_configuration_vms.vm_id\n                AND v4_4_latest_configuration_vms_devices.history_id \n                    IN \n                        ( \n                            SELECT MAX (history_id) \n                            FROM v4_4_latest_configuration_vms_devices \n                            WHERE type = 'disk' \n                            GROUP BY device_id\n                        )\n            )\n    INNER JOIN v4_4_latest_configuration_vms_disks\n        ON\n            (\n                v4_4_latest_configuration_vms_disks.vm_disk_id =\n                v4_4_latest_configuration_vms_devices.device_id\n            )\n    INNER JOIN v4_4_statistics_vms_disks_resources_usage_samples\n        ON\n            (\n                v4_4_statistics_vms_disks_resources_usage_samples.vm_disk_id =\n                v4_4_latest_configuration_vms_disks.vm_disk_id\n                AND v4_4_statistics_vms_disks_resources_usage_samples.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_statistics_vms_disks_resources_usage_samples\n                            GROUP BY vm_disk_id\n                        )\n            )\nWHERE v4_4_latest_configuration_vms.vm_id IN ('$vm_id')",
+          "rawSql": "SELECT SUM (vm_disk_size_mb)\nFROM\n    (\n        SELECT DISTINCT\n            vm_disk_name,\n            (CAST ( COALESCE ( vm_disk_size_mb, 0.00 ) AS float ) :: numeric / 1024) AS vm_disk_size_mb\n        FROM\n            v4_4_configuration_history_vms\n            INNER JOIN v4_4_configuration_history_vms_devices\n                ON\n                    (\n                        v4_4_configuration_history_vms_devices.vm_id =\n                        v4_4_configuration_history_vms.vm_id\n                        AND v4_4_configuration_history_vms_devices.history_id \n                            IN \n                                ( \n                                    SELECT MAX (history_id) \n                                    FROM v4_4_configuration_history_vms_devices \n                                    WHERE type = 'disk' \n                                    GROUP BY device_id\n                                )\n                    )\n            INNER JOIN v4_4_configuration_history_vms_disks\n                ON\n                    (\n                        v4_4_configuration_history_vms_disks.vm_disk_id =\n                        v4_4_configuration_history_vms_devices.device_id\n                    )\n            LEFT OUTER JOIN v4_4_statistics_vms_disks_resources_usage_samples\n                ON\n                    (\n                        v4_4_statistics_vms_disks_resources_usage_samples.vm_disk_id =\n                        v4_4_configuration_history_vms_disks.vm_disk_id\n                        AND v4_4_statistics_vms_disks_resources_usage_samples.history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_4_statistics_vms_disks_resources_usage_samples\n                                    GROUP BY vm_disk_id\n                                )\n                    )\n        WHERE \n            v4_4_configuration_history_vms.vm_id IN ('$vm_id')\n            AND v4_4_configuration_history_vms_disks.history_id \n                IN\n                    (\n                        SELECT MAX (history_id)\n                        FROM v4_4_configuration_history_vms_disks\n                        GROUP BY vm_disk_id\n                    )\n    ) AS sub_queries",
           "refId": "A",
           "select": [
             [
@@ -960,7 +977,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR6 - This query returns the average\n-- uptime percent for the selected vm\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN statistics.vm_status = 1\n                        THEN COALESCE ( statistics.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                statistics.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    (\n            SELECT vm_id, vm_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_vms_resources_usage_samples\n    ) AS statistics\n    INNER JOIN v4_4_latest_configuration_vms\n        ON \n            (\n                v4_4_latest_configuration_vms.vm_id =\n                statistics.vm_id\n            )\nWHERE\n    -- Here we filter by the vm chosen by the user\n    v4_4_latest_configuration_vms.vm_id IN ('$vm_id')\n    -- Show data only when the selected period is up to 24 hours back\n    AND $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the time range chosen by the user\n    AND statistics.history_datetime >= $__timeFrom()\n    AND statistics.history_datetime < $__timeTo()",
+          "rawSql": "-- DR6 - This query returns the average\n-- uptime percent for the selected vm\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN statistics.vm_status = 1\n                        THEN COALESCE ( statistics.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                statistics.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    (\n            SELECT vm_id, vm_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_vms_resources_usage_samples\n    ) AS statistics\n    INNER JOIN v4_4_configuration_history_vms\n        ON \n            (\n                v4_4_configuration_history_vms.vm_id =\n                statistics.vm_id\n            )\nWHERE\n    -- Here we filter by the vm chosen by the user\n    v4_4_configuration_history_vms.vm_id IN ('$vm_id')\n    -- Show data only when the selected period is up to 24 hours back\n    AND $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the time range chosen by the user\n    AND statistics.history_datetime >= $__timeFrom()\n    AND statistics.history_datetime < $__timeTo()",
           "refId": "B",
           "select": [
             [
@@ -986,7 +1003,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR6 - This query returns the average\n-- uptime percent for the selected vm\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN statistics.vm_status = 1\n                        THEN COALESCE ( statistics.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                statistics.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    (\n            SELECT vm_id, vm_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_vms_resources_usage_hourly\n        UNION\n            SELECT vm_id, vm_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_vms_resources_usage_daily\n            WHERE\n                history_datetime <\n                    (\n                        SELECT MIN ( history_datetime )\n                        FROM v4_4_statistics_vms_resources_usage_hourly\n                    )\n    ) AS statistics\n    INNER JOIN v4_4_latest_configuration_vms\n        ON \n            (\n                v4_4_latest_configuration_vms.vm_id =\n                statistics.vm_id\n            )\nWHERE\n    -- Here we filter by the vm chosen by the user\n    v4_4_latest_configuration_vms.vm_id IN ('$vm_id')\n    -- Show data only when the selected period is more then 24 hours back\n    AND $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the time range chosen by the user\n    AND statistics.history_datetime >= $__timeFrom()\n    AND statistics.history_datetime < $__timeTo()",
+          "rawSql": "-- DR6 - This query returns the average\n-- uptime percent for the selected vm\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN statistics.vm_status = 1\n                        THEN COALESCE ( statistics.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                statistics.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    (\n            SELECT vm_id, vm_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_vms_resources_usage_hourly\n        UNION\n            SELECT vm_id, vm_status, minutes_in_status, history_datetime\n            FROM v4_4_statistics_vms_resources_usage_daily\n            WHERE\n                history_datetime <\n                    (\n                        SELECT MIN ( history_datetime )\n                        FROM v4_4_statistics_vms_resources_usage_hourly\n                    )\n    ) AS statistics\n    INNER JOIN v4_4_configuration_history_vms\n        ON \n            (\n                v4_4_configuration_history_vms.vm_id =\n                statistics.vm_id\n            )\nWHERE\n    -- Here we filter by the vm chosen by the user\n    v4_4_configuration_history_vms.vm_id IN ('$vm_id')\n    -- Show data only when the selected period is more then 24 hours back\n    AND $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\n    -- Here we filter by the time range chosen by the user\n    AND statistics.history_datetime >= $__timeFrom()\n    AND statistics.history_datetime < $__timeTo()",
           "refId": "A",
           "select": [
             [
@@ -1236,7 +1253,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT \n    CASE \n        WHEN SUM (COALESCE ( vm_disk_size_mb, 0.00 )) = 0\n            THEN NULL\n        ELSE SUM (COALESCE ( vm_disk_actual_size_mb, 0.00 )) / SUM (COALESCE ( vm_disk_size_mb, 0.00 ))\n    END\nFROM\n    v4_4_latest_configuration_vms\n    INNER JOIN v4_4_configuration_history_vms_devices\n        ON\n            (\n                v4_4_configuration_history_vms_devices.vm_id =\n                v4_4_latest_configuration_vms.vm_id\n                AND v4_4_configuration_history_vms_devices.history_id \n                    IN \n                        ( \n                            SELECT MAX (history_id) \n                            FROM v4_4_configuration_history_vms_devices \n                            WHERE type = 'disk' \n                            GROUP BY device_id\n                        )\n            )\n    INNER JOIN v4_4_latest_configuration_vms_disks\n        ON\n            (\n                v4_4_latest_configuration_vms_disks.vm_disk_id =\n                v4_4_configuration_history_vms_devices.device_id\n            )\n    INNER JOIN v4_4_statistics_vms_disks_resources_usage_samples\n        ON\n            (\n                v4_4_statistics_vms_disks_resources_usage_samples.vm_disk_id =\n                v4_4_latest_configuration_vms_disks.vm_disk_id\n                AND v4_4_statistics_vms_disks_resources_usage_samples.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_statistics_vms_disks_resources_usage_samples\n                            GROUP BY vm_disk_id\n                        )\n            )\nWHERE v4_4_latest_configuration_vms.vm_id IN ('$vm_id')",
+          "rawSql": "SELECT \n    CASE \n        WHEN SUM (COALESCE ( vm_disk_size_mb, 0.00 )) = 0\n            THEN NULL\n        ELSE SUM (COALESCE ( vm_disk_actual_size_mb, 0.00 )) / SUM (COALESCE ( vm_disk_size_mb, 0.00 ))\n    END\nFROM\n    v4_4_configuration_history_vms\n    INNER JOIN v4_4_configuration_history_vms_devices\n        ON\n            (\n                v4_4_configuration_history_vms_devices.vm_id =\n                v4_4_configuration_history_vms.vm_id\n                AND v4_4_configuration_history_vms_devices.history_id \n                    IN \n                        ( \n                            SELECT MAX (history_id) \n                            FROM v4_4_configuration_history_vms_devices \n                            WHERE type = 'disk' \n                            GROUP BY device_id\n                        )\n            )\n    INNER JOIN v4_4_configuration_history_vms_disks\n        ON\n            (\n                v4_4_configuration_history_vms_disks.vm_disk_id =\n                v4_4_configuration_history_vms_devices.device_id\n            )\n    LEFT OUTER JOIN v4_4_statistics_vms_disks_resources_usage_samples\n        ON\n            (\n                v4_4_statistics_vms_disks_resources_usage_samples.vm_disk_id =\n                v4_4_configuration_history_vms_disks.vm_disk_id\n                AND v4_4_statistics_vms_disks_resources_usage_samples.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_statistics_vms_disks_resources_usage_samples\n                            GROUP BY vm_disk_id\n                        )\n            )\nWHERE v4_4_configuration_history_vms.vm_id IN ('$vm_id')",
           "refId": "A",
           "select": [
             [
@@ -1357,7 +1374,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT DISTINCT\n    vm_disk_name,\n    (CAST ( COALESCE ( vm_disk_size_mb, 0.00 ) AS float ) :: numeric / 1024) AS vm_disk_size_mb,\n    (CAST ( COALESCE ( vm_disk_actual_size_mb, 0.00 ) AS float ) :: numeric / 1024) AS vm_disk_actual_size_mb\nFROM\n    v4_4_latest_configuration_vms\n    INNER JOIN v4_4_latest_configuration_vms_devices\n        ON\n            (\n                v4_4_latest_configuration_vms_devices.vm_id =\n                v4_4_latest_configuration_vms.vm_id\n                AND v4_4_latest_configuration_vms_devices.history_id \n                    IN \n                        ( \n                            SELECT MAX (history_id) \n                            FROM v4_4_latest_configuration_vms_devices \n                            WHERE type = 'disk' \n                            GROUP BY device_id\n                        )\n            )\n    INNER JOIN v4_4_latest_configuration_vms_disks\n        ON\n            (\n                v4_4_latest_configuration_vms_disks.vm_disk_id =\n                v4_4_latest_configuration_vms_devices.device_id\n            )\n    INNER JOIN v4_4_statistics_vms_disks_resources_usage_samples\n        ON\n            (\n                v4_4_statistics_vms_disks_resources_usage_samples.vm_disk_id =\n                v4_4_latest_configuration_vms_disks.vm_disk_id\n                AND v4_4_statistics_vms_disks_resources_usage_samples.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_statistics_vms_disks_resources_usage_samples\n                            GROUP BY vm_disk_id\n                        )\n            )\nWHERE v4_4_latest_configuration_vms.vm_id IN ('$vm_id')",
+          "rawSql": "SELECT DISTINCT\n    CASE          \n        WHEN v4_4_configuration_history_vms_disks.delete_date IS NULL  \t     \t    \n            THEN vm_disk_name \t \t\n        WHEN v4_4_configuration_history_vms_disks.delete_date IS NOT null  \t      \t    \n            THEN vm_disk_name || ' (Removed on ' || CAST ( CAST ( v4_4_configuration_history_vms_disks.delete_date AS date ) AS varchar ) || ')'  \n    END AS vm_disk_name,\n    (CAST ( COALESCE ( vm_disk_size_mb, 0.00 ) AS float ) :: numeric / 1024) AS vm_disk_size_mb,\n    (CAST ( COALESCE ( vm_disk_actual_size_mb, 0.00 ) AS float ) :: numeric / 1024) AS vm_disk_actual_size_mb\nFROM\n    v4_4_configuration_history_vms\n    INNER JOIN v4_4_configuration_history_vms_devices\n        ON\n            (\n                v4_4_configuration_history_vms_devices.vm_id =\n                v4_4_configuration_history_vms.vm_id\n                AND v4_4_configuration_history_vms_devices.history_id \n                    IN \n                        ( \n                            SELECT MAX (history_id) \n                            FROM v4_4_configuration_history_vms_devices \n                            WHERE type = 'disk' \n                            GROUP BY device_id\n                        )\n            )\n    INNER JOIN v4_4_configuration_history_vms_disks\n        ON\n            (\n                v4_4_configuration_history_vms_disks.vm_disk_id =\n                v4_4_configuration_history_vms_devices.device_id\n            )\n    LEFT OUTER JOIN v4_4_statistics_vms_disks_resources_usage_samples\n        ON\n            (\n                v4_4_statistics_vms_disks_resources_usage_samples.vm_disk_id =\n                v4_4_configuration_history_vms_disks.vm_disk_id\n                AND v4_4_statistics_vms_disks_resources_usage_samples.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_statistics_vms_disks_resources_usage_samples\n                            GROUP BY vm_disk_id\n                        )\n            )\nWHERE \n    v4_4_configuration_history_vms.vm_id IN ('$vm_id')\n    AND v4_4_configuration_history_vms_disks.history_id \n        IN\n            (\n                SELECT MAX (history_id)\n                FROM v4_4_configuration_history_vms_disks\n                GROUP BY vm_disk_id\n            )",
           "refId": "A",
           "select": [
             [
@@ -1530,7 +1547,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT DISTINCT\n    vm_interface_name,\n    CASE\n        WHEN vm_interface_type = 0\n            THEN 'rt18139_pv'\n        WHEN vm_interface_type = 1\n            THEN 'rt18139'\n        WHEN vm_interface_type = 2\n            THEN 'e1000'\n        WHEN vm_interface_type = 3\n            THEN 'pv'\n        ELSE NULL\n    END AS vm_interface_type,\n    mac_address,\n    logical_network_name,\n    v4_4_latest_configuration_vms_interfaces.create_date,\n    v4_4_latest_configuration_vms_interfaces.update_date\nFROM \n    v4_4_latest_configuration_vms_interfaces\n    INNER JOIN\n    v4_4_configuration_history_vms_devices\n        ON\n            (\n                v4_4_latest_configuration_vms_interfaces.vm_interface_id =\n                v4_4_configuration_history_vms_devices.device_id\n                AND v4_4_latest_configuration_vms_interfaces.vm_configuration_version =\n                v4_4_configuration_history_vms_devices.vm_configuration_version\n                AND type = 'interface'\n                AND v4_4_latest_configuration_vms_interfaces.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_latest_configuration_vms_interfaces\n                            GROUP BY vm_interface_id\n                        )\n            )\nWHERE \n    vm_id IN ('$vm_id')",
+          "rawSql": "SELECT DISTINCT\n    CASE          \n        WHEN v4_4_configuration_history_vms_interfaces.delete_date IS NULL  \t     \t    \n            THEN vm_interface_name \t \t\n        WHEN v4_4_configuration_history_vms_interfaces.delete_date IS NOT null  \t      \t    \n            THEN vm_interface_name || ' (Removed on ' || CAST ( CAST ( v4_4_configuration_history_vms_interfaces.delete_date AS date ) AS varchar ) || ')'  \n    END AS vm_interface_name,\n    CASE\n        WHEN vm_interface_type = 0\n            THEN 'rt18139_pv'\n        WHEN vm_interface_type = 1\n            THEN 'rt18139'\n        WHEN vm_interface_type = 2\n            THEN 'e1000'\n        WHEN vm_interface_type = 3\n            THEN 'pv'\n        ELSE NULL\n    END AS vm_interface_type,\n    mac_address,\n    logical_network_name,\n    v4_4_configuration_history_vms_interfaces.create_date,\n    v4_4_configuration_history_vms_interfaces.update_date\nFROM \n    v4_4_configuration_history_vms_interfaces\n    INNER JOIN\n    v4_4_configuration_history_vms_devices\n        ON\n            (\n                v4_4_configuration_history_vms_interfaces.vm_interface_id =\n                v4_4_configuration_history_vms_devices.device_id\n                AND v4_4_configuration_history_vms_interfaces.vm_configuration_version =\n                v4_4_configuration_history_vms_devices.vm_configuration_version\n                AND type = 'interface'\n                AND v4_4_configuration_history_vms_interfaces.history_id\n                    IN\n                        (\n                            SELECT MAX (history_id)\n                            FROM v4_4_configuration_history_vms_interfaces\n                            GROUP BY vm_interface_id\n                        )\n            )\nWHERE \n    vm_id IN ('$vm_id')",
           "refId": "A",
           "select": [
             [
@@ -2274,9 +2291,38 @@
     "list": [
       {
         "allValue": null,
+        "current": {
+          "selected": false,
+          "tags": [],
+          "text": "No",
+          "value": "No"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Show Deleted Entities?",
+        "multi": false,
+        "name": "show_deleted",
+        "options": [
+          {
+            "selected": true,
+            "text": "No",
+            "value": "No"
+          },
+          {
+            "selected": false,
+            "text": "Yes",
+            "value": "Yes"
+          }
+        ],
+        "query": "No,Yes",
+        "skipUrlSync": false,
+        "type": "custom"
+      },
+      {
+        "allValue": null,
         "current": {},
         "datasource": null,
-        "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_4_latest_configuration_datacenters",
+        "definition": "SELECT DISTINCT  \n    CAST ( datacenter_id AS varchar ) AS __value, \n    CASE     \n        WHEN delete_date IS NULL  \t    \n            THEN datacenter_name \t\n        WHEN delete_date IS NOT NULL  \t     \n            THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' \n    END AS __text \nFROM v4_4_configuration_history_datacenters \nWHERE      \n    history_id          \n        IN              \n            (  \t            \n                SELECT MAX ( a.history_id )  \t\t        \n                FROM v4_4_configuration_history_datacenters a  \t\t        \n                GROUP BY a.datacenter_id \t        \n            ) \t\n    AND  \t    \n        datacenter_id  \t        \n            IN \n\t        ( \t\t\n\t            SELECT DISTINCT datacenter_id \t\t\t\t\t\n                    FROM v4_4_configuration_history_clusters \t\t\t\t\t\n                    WHERE  \t\t\t\t\t    \n                        cluster_id \t\t\t\t\t        \n                            IN \t\t\t\t\t            \n                                ( \t\t\t\t\t\t\t\t\t\n                                    SELECT DISTINCT cluster_id \t\t\t\t\t\t\t\t\t\n                                    FROM v4_4_configuration_history_vms  \t\t\t\t\t\t\t\t\n                                ) \t\t\t\t\n                ) \t\n    AND\n        CASE  \t       \n            WHEN '$show_deleted'='Yes'\n \t         THEN 1=1\n            WHEN '$show_deleted'='No' \t\t       \n                THEN v4_4_configuration_history_datacenters.delete_date ISNULL \t   \n        END",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -2284,7 +2330,7 @@
         "multi": false,
         "name": "datacenter_id",
         "options": [],
-        "query": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_4_latest_configuration_datacenters",
+        "query": "SELECT DISTINCT  \n    CAST ( datacenter_id AS varchar ) AS __value, \n    CASE     \n        WHEN delete_date IS NULL  \t    \n            THEN datacenter_name \t\n        WHEN delete_date IS NOT NULL  \t     \n            THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' \n    END AS __text \nFROM v4_4_configuration_history_datacenters \nWHERE      \n    history_id          \n        IN              \n            (  \t            \n                SELECT MAX ( a.history_id )  \t\t        \n                FROM v4_4_configuration_history_datacenters a  \t\t        \n                GROUP BY a.datacenter_id \t        \n            ) \t\n    AND  \t    \n        datacenter_id  \t        \n            IN \n\t        ( \t\t\n\t            SELECT DISTINCT datacenter_id \t\t\t\t\t\n                    FROM v4_4_configuration_history_clusters \t\t\t\t\t\n                    WHERE  \t\t\t\t\t    \n                        cluster_id \t\t\t\t\t        \n                            IN \t\t\t\t\t            \n                                ( \t\t\t\t\t\t\t\t\t\n                                    SELECT DISTINCT cluster_id \t\t\t\t\t\t\t\t\t\n                                    FROM v4_4_configuration_history_vms  \t\t\t\t\t\t\t\t\n                                ) \t\t\t\t\n                ) \t\n    AND\n        CASE  \t       \n            WHEN '$show_deleted'='Yes'\n \t         THEN 1=1\n            WHEN '$show_deleted'='No' \t\t       \n                THEN v4_4_configuration_history_datacenters.delete_date ISNULL \t   \n        END",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -2299,7 +2345,7 @@
         "allValue": null,
         "current": {},
         "datasource": null,
-        "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_4_latest_configuration_clusters WHERE datacenter_id IN ('$datacenter_id')",
+        "definition": "SELECT DISTINCT\n    CAST ( cluster_id AS varchar ) AS __value, \n    CASE\n        WHEN delete_date IS NULL\n            THEN cluster_name\n        WHEN delete_date IS NOT NULL\n            THEN cluster_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' \n    END AS __text\nFROM v4_4_configuration_history_clusters\nWHERE\n    history_id\n        IN\n            (\n                SELECT MAX ( a.history_id )        \n                FROM v4_4_configuration_history_clusters a\t\t        \n                GROUP BY a.cluster_id\n            )\n    AND\n        cluster_id\n            IN \t\t\t    \n                ( \t\t\t\t\t\n                    SELECT DISTINCT cluster_id \t\t\t\t\t\n                    FROM v4_4_configuration_history_vms \t\t\t\t\n               ) \t\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'          \n                THEN 1=1   \n            WHEN '$show_deleted'='No'\t       \n                THEN v4_4_configuration_history_clusters.delete_date ISNULL \t  \n        END\n    AND datacenter_id IN ('$datacenter_id')",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -2307,7 +2353,7 @@
         "multi": false,
         "name": "cluster_id",
         "options": [],
-        "query": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_4_latest_configuration_clusters WHERE datacenter_id IN ('$datacenter_id')",
+        "query": "SELECT DISTINCT\n    CAST ( cluster_id AS varchar ) AS __value, \n    CASE\n        WHEN delete_date IS NULL\n            THEN cluster_name\n        WHEN delete_date IS NOT NULL\n            THEN cluster_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' \n    END AS __text\nFROM v4_4_configuration_history_clusters\nWHERE\n    history_id\n        IN\n            (\n                SELECT MAX ( a.history_id )        \n                FROM v4_4_configuration_history_clusters a\t\t        \n                GROUP BY a.cluster_id\n            )\n    AND\n        cluster_id\n            IN \t\t\t    \n                ( \t\t\t\t\t\n                    SELECT DISTINCT cluster_id \t\t\t\t\t\n                    FROM v4_4_configuration_history_vms \t\t\t\t\n               ) \t\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'          \n                THEN 1=1   \n            WHEN '$show_deleted'='No'\t       \n                THEN v4_4_configuration_history_clusters.delete_date ISNULL \t  \n        END\n    AND datacenter_id IN ('$datacenter_id')",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -2322,7 +2368,7 @@
         "allValue": null,
         "current": {},
         "datasource": null,
-        "definition": "SELECT DISTINCT vm_name AS __text, vm_id AS __value FROM v4_4_latest_configuration_vms WHERE cluster_id IN ('$cluster_id')",
+        "definition": "SELECT DISTINCT   \n    CAST ( vm_id AS varchar ) AS __value,  \n    CASE          \n        WHEN delete_date IS NULL  \t     \t    \n            THEN vm_name \t \t\n        WHEN delete_date IS NOT null  \t      \t    \n            THEN vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \n    END AS __text  \t\t\nFROM v4_4_configuration_history_vms  \t\t\nWHERE       \t\t    \n    history_id           \t\t\t    \n        IN               \t\t\t\t\n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_vms a  \t\t         \t\t\t\t\t\n                GROUP BY a.vm_id \t         \t\t\t\t\n            ) \t \t\t\t\n    AND cluster_id IN ('$cluster_id')  \t\t\t\n    AND \t    \t\t\t    \n        CASE  \t        \t\t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t   \n                THEN 1=1 \t\t    \t\t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    \n                THEN v4_4_configuration_history_vms.delete_date ISNULL \t                \n        END",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -2330,7 +2376,7 @@
         "multi": false,
         "name": "vm_id",
         "options": [],
-        "query": "SELECT DISTINCT vm_name AS __text, vm_id AS __value FROM v4_4_latest_configuration_vms WHERE cluster_id IN ('$cluster_id')",
+        "query": "SELECT DISTINCT   \n    CAST ( vm_id AS varchar ) AS __value,  \n    CASE          \n        WHEN delete_date IS NULL  \t     \t    \n            THEN vm_name \t \t\n        WHEN delete_date IS NOT null  \t      \t    \n            THEN vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \n    END AS __text  \t\t\nFROM v4_4_configuration_history_vms  \t\t\nWHERE       \t\t    \n    history_id           \t\t\t    \n        IN               \t\t\t\t\n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_vms a  \t\t         \t\t\t\t\t\n                GROUP BY a.vm_id \t         \t\t\t\t\n            ) \t \t\t\t\n    AND cluster_id IN ('$cluster_id')  \t\t\t\n    AND \t    \t\t\t    \n        CASE  \t        \t\t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t   \n                THEN 1=1 \t\t    \t\t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    \n                THEN v4_4_configuration_history_vms.delete_date ISNULL \t                \n        END",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
