@@ -135,10 +135,10 @@
     {
       "columns": [],
       "datasource": null,
-      "description": "This table details user Spice activity - time spent and resources used in the session in a selected data center and cluster within a selected period.",
+      "description": "This table details user Spice activity - time spent, and average resource use in the sessions for each virtual machine within a selected period.",
       "fontSize": "100%",
       "gridPos": {
-        "h": 7,
+        "h": 12,
         "w": 24,
         "x": 0,
         "y": 4
@@ -149,7 +149,7 @@
       "scroll": true,
       "showHeader": true,
       "sort": {
-        "col": 4,
+        "col": 7,
         "desc": true
       },
       "styles": [
@@ -222,40 +222,6 @@
           "unit": "short"
         },
         {
-          "alias": "Session Date",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "history_datetime",
-          "thresholds": [],
-          "type": "date",
-          "unit": "short"
-        },
-        {
-          "alias": "User Name",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "user_name",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
           "alias": "VM Name",
           "align": "auto",
           "colorMode": null,
@@ -271,6 +237,26 @@
           "linkUrl": "/ovirt-engine-grafana/d/VirtualMachineDashboard/virtual-machine-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-vm_id=${__cell_2}",
           "mappingType": 1,
           "pattern": "vm_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Current Status",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": false,
+          "linkTooltip": "",
+          "linkUrl": "",
+          "mappingType": 1,
+          "pattern": "vm_status",
           "thresholds": [],
           "type": "string",
           "unit": "short"
@@ -451,23 +437,6 @@
           ],
           "type": "number",
           "unit": "percent"
-        },
-        {
-          "alias": "VM Delete Date",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "delete_date",
-          "thresholds": [],
-          "type": "date",
-          "unit": "short"
         }
       ],
       "targets": [
@@ -476,7 +445,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR45 - This query returns for each VM in the specific data center , the\n-- hourly or daily statistics: session time, CPU and memory usage statistics.\n\nSELECT DISTINCT\n    CASE\n        WHEN v4_4_configuration_history_vms.delete_date IS NULL\n            THEN 'No'\n        WHEN v4_4_configuration_history_vms.delete_date IS NOT NULL\n            THEN 'Yes'\n    END AS is_deleted,\n    v4_4_configuration_history_clusters.cluster_id,\n    v4_4_configuration_history_vms.vm_id,\n    v4_4_configuration_history_clusters.cluster_name,\n    history_datetime,\n    username AS user_name,\n    v4_4_configuration_history_vms.vm_name,\n -- hourly_daily.vm_id,\n    session_time_in_minutes,\n    cpu_usage_percent,\n    max_cpu_usage,\n    memory_usage_percent,\n    max_memory_usage,\n    user_cpu_usage_percent,\n    max_user_cpu_usage_percent,\n    system_cpu_usage_percent,\n    max_system_cpu_usage_percent,\n    v4_4_configuration_history_vms.delete_date\nFROM\n    (\n            SELECT history_datetime, vm_id, user_id, session_time_in_minutes, cpu_usage_percent, max_cpu_usage, memory_usage_percent, max_memory_usage, user_cpu_usage_percent, max_user_cpu_usage_percent, system_cpu_usage_percent, max_system_cpu_usage_percent\n            FROM v4_4_statistics_vms_users_usage_hourly\n        UNION\n            SELECT history_datetime, vm_id, user_id, session_time_in_minutes, cpu_usage_percent, max_cpu_usage, memory_usage_percent, max_memory_usage, user_cpu_usage_percent, max_user_cpu_usage_percent, system_cpu_usage_percent, max_system_cpu_usage_percent \n            FROM v4_4_statistics_vms_users_usage_daily\n            WHERE\n                history_datetime <\n                    (\n                        SELECT MIN ( history_datetime )\n                        FROM v4_4_statistics_vms_users_usage_hourly\n                    )\n    ) AS hourly_daily\n    LEFT OUTER JOIN v4_4_configuration_history_vms\n        ON \n            (\n                hourly_daily.vm_id =\n                v4_4_configuration_history_vms.vm_id\n            )\n    LEFT OUTER JOIN v4_4_configuration_history_clusters\n        ON \n            (\n                v4_4_configuration_history_vms.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                -- Here we get the latest cluster configurations\n                AND v4_4_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_4_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\n    LEFT OUTER JOIN v4_4_users_details_history\n        ON \n            (\n                hourly_daily.user_id =\n                v4_4_users_details_history.user_id\n            )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_4_configuration_history_vms.cluster_id \n        IN \n            (\n                SELECT cluster_id\n                FROM v4_4_configuration_history_clusters\n                WHERE datacenter_id IN ($datacenter_id)\n            )\n    -- Here we filter by the cluster chosen by the user\n    AND v4_4_configuration_history_vms.cluster_id IN ($cluster_id)\n    -- Here we get the latest vm configurations\n    AND v4_4_configuration_history_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_vms a\n                GROUP BY a.vm_id\n            )\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\n    -- This will determine if deleted entities will be included in the report,\n    -- according to the user selection for \"show_deleted\" parameter\n    AND \n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN v4_4_configuration_history_vms.delete_date isnull\n        END\nORDER BY\n    v4_4_configuration_history_clusters.cluster_name,\n    history_datetime,\n    username,\n    session_time_in_minutes DESC",
+          "rawSql": "-- BR45 - This query returns for each VM in the specific data center , the\n-- hourly or daily statistics: session time, CPU and memory usage statistics.\n\nSELECT DISTINCT\n    CASE\n        WHEN v4_4_configuration_history_vms.delete_date IS NULL\n            THEN 'No'\n        WHEN v4_4_configuration_history_vms.delete_date IS NOT NULL\n            THEN 'Yes'\n    END AS is_deleted,\n    v4_4_configuration_history_clusters.cluster_id,\n    v4_4_configuration_history_vms.vm_id,\n    v4_4_configuration_history_clusters.cluster_name,\n    CASE \n        WHEN v4_4_configuration_history_vms.delete_date IS NULL  \t     \t    \n            THEN vm_name \t \t\n        WHEN v4_4_configuration_history_vms.delete_date IS NOT NULL  \t      \t    \n            THEN vm_name || ' (Removed on ' || CAST ( CAST ( v4_4_configuration_history_vms.delete_date AS date ) AS varchar ) || ')'\n    END AS vm_name,\n    (\n        SELECT\n            CASE\n                WHEN vm_status = -1\n                    THEN 'Unknown Status'\n                WHEN vm_status = 0\n                    THEN 'Down'\n                WHEN vm_status = 1\n                    THEN 'Up'\n                WHEN vm_status = 2\n                    THEN 'Paused'\n                WHEN vm_status = 3\n                    THEN 'Problematic'\n                ELSE NULL\n            END AS vm_status\n        FROM v4_4_statistics_vms_resources_usage_samples\n        WHERE history_id \n            IN\n                (\n                    SELECT MAX (history_id)\n                    FROM v4_4_statistics_vms_resources_usage_samples\n                    WHERE vm_id = v4_4_configuration_history_vms.vm_id\n                )\n        \n    ),\n    SUM ( session_time_in_minutes ) AS session_time_in_minutes,\n    AVG ( cpu_usage_percent ) AS cpu_usage_percent,\n    AVG ( max_cpu_usage ) AS max_cpu_usage,\n    AVG ( memory_usage_percent ) AS memory_usage_percent,\n    AVG ( max_memory_usage ) AS max_memory_usage,\n    AVG ( user_cpu_usage_percent ) AS user_cpu_usage_percent,\n    AVG ( max_user_cpu_usage_percent ) AS max_user_cpu_usage_percent,\n    AVG ( system_cpu_usage_percent ) AS system_cpu_usage_percent,\n    AVG ( max_system_cpu_usage_percent ) AS max_system_cpu_usage_percent\nFROM\n    (\n            SELECT history_datetime, user_id, vm_id, session_time_in_minutes, cpu_usage_percent, max_cpu_usage, memory_usage_percent, max_memory_usage, user_cpu_usage_percent, max_user_cpu_usage_percent, system_cpu_usage_percent, max_system_cpu_usage_percent\n            FROM v4_4_statistics_vms_users_usage_hourly\n        UNION\n            SELECT history_datetime, user_id, vm_id, session_time_in_minutes, cpu_usage_percent, max_cpu_usage, memory_usage_percent, max_memory_usage, user_cpu_usage_percent, max_user_cpu_usage_percent, system_cpu_usage_percent, max_system_cpu_usage_percent \n            FROM v4_4_statistics_vms_users_usage_daily\n            WHERE\n                history_datetime <\n                    (\n                        SELECT MIN ( history_datetime )\n                        FROM v4_4_statistics_vms_users_usage_hourly\n                    )\n    ) AS hourly_daily\n    LEFT OUTER JOIN v4_4_configuration_history_vms\n        ON \n            (\n                hourly_daily.vm_id =\n                v4_4_configuration_history_vms.vm_id\n            )\n    LEFT OUTER JOIN v4_4_configuration_history_clusters\n        ON \n            (\n                v4_4_configuration_history_vms.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                -- Here we get the latest cluster configurations\n                AND v4_4_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_4_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\n    LEFT OUTER JOIN v4_4_users_details_history\n        ON \n            (\n                hourly_daily.user_id =\n                v4_4_users_details_history.user_id\n            )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_4_configuration_history_vms.cluster_id \n        IN \n            (\n                SELECT cluster_id\n                FROM v4_4_configuration_history_clusters\n                WHERE datacenter_id IN ($datacenter_id)\n            )\n    -- Here we filter by the cluster chosen by the user\n    AND v4_4_configuration_history_vms.cluster_id IN ($cluster_id)\n    -- Here we get the latest vm configurations\n    AND v4_4_configuration_history_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_vms a\n                GROUP BY a.vm_id\n            )\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\n    -- This will determine if deleted entities will be included in the report,\n    -- according to the user selection for \"show_deleted\" parameter\n    AND \n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN v4_4_configuration_history_vms.delete_date isnull\n        END\nGROUP BY\n    v4_4_configuration_history_clusters.cluster_id,\n    v4_4_configuration_history_vms.vm_id,\n    v4_4_configuration_history_clusters.cluster_name,\n    CASE \n        WHEN v4_4_configuration_history_vms.delete_date IS NULL  \t     \t    \n            THEN vm_name \t \t\n        WHEN v4_4_configuration_history_vms.delete_date IS NOT NULL  \t      \t    \n            THEN vm_name || ' (Removed on ' || CAST ( CAST ( v4_4_configuration_history_vms.delete_date AS date ) AS varchar ) || ')'\n    END,\n    CASE\n        WHEN v4_4_configuration_history_vms.delete_date IS NULL\n            THEN 'No'\n        WHEN v4_4_configuration_history_vms.delete_date IS NOT NULL\n            THEN 'Yes'\n    END\nORDER BY\n    v4_4_configuration_history_clusters.cluster_name,\n    vm_name,\n    session_time_in_minutes DESC",
           "refId": "A",
           "select": [
             [
@@ -511,7 +480,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 11
+        "y": 16
       },
       "id": 16,
       "panels": [],
@@ -532,7 +501,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 12
+        "y": 17
       },
       "hiddenSeries": false,
       "id": 2,
@@ -672,7 +641,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 12
+        "y": 17
       },
       "hiddenSeries": false,
       "id": 14,
@@ -804,7 +773,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 20
+        "y": 25
       },
       "id": 6,
       "panels": [],
@@ -825,7 +794,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 21
+        "y": 26
       },
       "hiddenSeries": false,
       "id": 10,
@@ -966,7 +935,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 21
+        "y": 26
       },
       "hiddenSeries": false,
       "id": 12,
