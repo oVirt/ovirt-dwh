@@ -307,6 +307,12 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Mar 3 2021 Aviv Litman <alitman@redhat.com> - 4.4.5.5
+Fixed issues:
+- Fixing titles in Host and VM Dashboard
+- Add deleted entities to host/vm dashboard
+- Fix typo in hosts inventory dashboard
+
 * Thu Feb 18 2021 Aviv Litman <alitman@redhat.com> - 4.4.5.4
 Fixed issues:
 - Fix host CPU calculation
