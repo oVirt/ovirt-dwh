@@ -1387,7 +1387,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Top 5 Most Utilized Disks - Read I/O operations/sec (over time) (over time) (BR10C)",
+      "title": "Top 5 Most Utilized Disks - Read I/O operations/sec (BR10C)",
       "tooltip": {
         "shared": false,
         "sort": 0,
@@ -1526,7 +1526,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Top 5 Most Utilized Disks - Write I/O operations/sec (over time) (BR10C)",
+      "title": "Top 5 Most Utilized Disks - Write I/O operations/sec (BR10C)",
       "tooltip": {
         "shared": false,
         "sort": 0,
