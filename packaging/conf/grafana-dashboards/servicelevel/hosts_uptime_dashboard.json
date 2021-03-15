@@ -20,7 +20,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.2.2"
+      "version": "6.7.4"
     },
     {
       "type": "datasource",
@@ -63,6 +63,7 @@
   "links": [],
   "panels": [
     {
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -75,6 +76,7 @@
     },
     {
       "content": "\n###### This dashboard displays data about the hosts uptime and downtime.\n\n\n\n",
+      "datasource": null,
       "description": "",
       "gridPos": {
         "h": 2,
@@ -85,7 +87,6 @@
       "id": 6,
       "links": [],
       "mode": "markdown",
-      "options": {},
       "targets": [
         {
           "format": "time_series",
@@ -120,6 +121,7 @@
       "type": "text"
     },
     {
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -148,14 +150,32 @@
             "mean"
           ],
           "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
             "decimals": 2,
+            "mappings": [],
             "max": 100,
             "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "index": 0,
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "index": 1,
+                  "value": 80
+                }
+              ]
+            },
             "title": "Planned Downtime",
             "unit": "percentunit"
           },
-          "mappings": [],
-          "override": {},
+          "overrides": [],
           "thresholds": [
             {
               "color": "green",
@@ -174,7 +194,7 @@
         "showThresholdLabels": true,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "6.2.2",
+      "pluginVersion": "6.7.4",
       "targets": [
         {
           "format": "table",
@@ -235,6 +255,7 @@
       "type": "gauge"
     },
     {
+      "datasource": null,
       "description": "This report displays the average unplanned downtime of a selected host within a selected period.",
       "gridPos": {
         "h": 6,
@@ -250,14 +271,32 @@
             "mean"
           ],
           "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
             "decimals": 2,
+            "mappings": [],
             "max": 100,
             "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "index": 0,
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "index": 1,
+                  "value": 80
+                }
+              ]
+            },
             "title": "Unplanned Downtime",
             "unit": "percentunit"
           },
-          "mappings": [],
-          "override": {},
+          "overrides": [],
           "thresholds": [
             {
               "color": "green",
@@ -276,7 +315,7 @@
         "showThresholdLabels": true,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "6.2.2",
+      "pluginVersion": "6.7.4",
       "targets": [
         {
           "format": "table",
@@ -350,7 +389,6 @@
       },
       "id": 4,
       "links": [],
-      "options": {},
       "pageSize": null,
       "pluginVersion": "6.2.2",
       "scroll": true,
@@ -361,7 +399,8 @@
       },
       "styles": [
         {
-          "alias": "Host Name",
+          "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -371,13 +410,51 @@
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
           "mappingType": 1,
+          "pattern": "is_deleted",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "host_id",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "Host Name",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Host Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/HostDashboard/host-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-host_id=${__cell_1}",
+          "mappingType": 1,
           "pattern": "host_name",
           "thresholds": [],
           "type": "string",
           "unit": "short"
         },
         {
-          "alias": "Planned  Downtime",
+          "alias": "Planned Downtime",
+          "align": "auto",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -396,7 +473,8 @@
           "unit": "percentunit"
         },
         {
-          "alias": "Unplanned  Downtime",
+          "alias": "Unplanned Downtime",
+          "align": "auto",
           "colorMode": "value",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -416,6 +494,7 @@
         },
         {
           "alias": "Planned Downtime (time)",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -432,6 +511,7 @@
         },
         {
           "alias": "Unplanned Downtime (time)",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -447,7 +527,25 @@
           "unit": "m"
         },
         {
+          "alias": "Uptime (time)",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "uptime_in_min",
+          "thresholds": [],
+          "type": "number",
+          "unit": "m"
+        },
+        {
           "alias": "Create Date",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -464,6 +562,7 @@
         },
         {
           "alias": "Update Date",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -477,22 +576,6 @@
           "thresholds": [],
           "type": "date",
           "unit": "short"
-        },
-        {
-          "alias": "Uptime (time)",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "uptime_in_min",
-          "thresholds": [],
-          "type": "number",
-          "unit": "m"
         }
       ],
       "targets": [
@@ -501,7 +584,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR8 - This query will return the weighted average uptime\n-- and downtime data of each host in a requested data center, \n-- and cluster for a requested period.\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT\n    host_name,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 2\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( samples.minutes_in_status ) AS planned_downtime,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 3\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( samples.minutes_in_status ) AS unplanned_downtime,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 2\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS planned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 3\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS unplanned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 1\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS uptime_in_min,\n--  SUM ( samples.minutes_in_status ) AS total_time,\n    create_date,\n    update_date\nFROM\n    (\n        SELECT history_datetime, host_id, host_status, minutes_in_status\n        FROM v4_4_statistics_hosts_resources_usage_samples\n    ) AS samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                samples.host_id\n            )\nWHERE\n    -- Show data only when the selected period is up to 24 hours back \n    $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\n    AND samples.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\nGROUP BY host_name, create_date, update_date",
+          "rawSql": "-- BR8 - This query will return the weighted average uptime\n-- and downtime data of each host in a requested data center, \n-- and cluster for a requested period.\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT\n    'No' AS is_deleted,\n    v4_4_latest_configuration_hosts.host_id,\n    host_name,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 2\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( samples.minutes_in_status ) AS planned_downtime,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 3\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( samples.minutes_in_status ) AS unplanned_downtime,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 2\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS planned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 3\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS unplanned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN samples.host_status = 1\n                    THEN COALESCE ( samples.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS uptime_in_min,\n--  SUM ( samples.minutes_in_status ) AS total_time,\n    create_date,\n    update_date\nFROM\n    (\n        SELECT history_datetime, host_id, host_status, minutes_in_status\n        FROM v4_4_statistics_hosts_resources_usage_samples\n    ) AS samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                samples.host_id\n            )\nWHERE\n    -- Show data only when the selected period is up to 24 hours back \n    $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\n    AND samples.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\nGROUP BY \n    v4_4_latest_configuration_hosts.host_id,\n    host_name, \n    create_date, \n    update_date",
           "refId": "A",
           "select": [
             [
@@ -527,7 +610,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR8 - This query will return the weighted average uptime\n-- and downtime data of each host in a requested data center, \n-- and cluster for a requested period.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT\n    host_name,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 2\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS planned_downtime,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS unplanned_downtime,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 2\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS planned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS unplanned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 1\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS uptime_in_min,\n--  SUM ( hourly_daily.minutes_in_status ) AS total_time,\n    create_date,\n    update_date\nFROM\n    (\n            SELECT history_datetime, host_id, host_status, minutes_in_status\n            FROM v4_4_statistics_hosts_resources_usage_hourly\n        UNION\n            SELECT history_datetime, host_id, host_status, minutes_in_status \n            FROM v4_4_statistics_hosts_resources_usage_daily\n            WHERE\n                history_datetime <\n                    (\n                        SELECT MIN ( history_datetime )\n                        FROM v4_4_statistics_hosts_resources_usage_hourly\n                    )\n    ) AS hourly_daily\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                hourly_daily.host_id\n            )\nWHERE\n    -- Show data only when the selected period is more then 24 hours back\n    $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\n    AND hourly_daily.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\nGROUP BY host_name, create_date, update_date",
+          "rawSql": "-- BR8 - This query will return the weighted average uptime\n-- and downtime data of each host in a requested data center, \n-- and cluster for a requested period.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT\n    'No' AS is_deleted,\n    v4_4_latest_configuration_hosts.host_id,\n    host_name,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 2\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS planned_downtime,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) / SUM ( hourly_daily.minutes_in_status ) AS unplanned_downtime,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 2\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS planned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 3\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS unplanned_downtime_in_time,\n    SUM \n        (\n            CASE\n                WHEN hourly_daily.host_status = 1\n                    THEN COALESCE ( hourly_daily.minutes_in_status, 0 )\n                ELSE 0\n            END\n        ) AS uptime_in_min,\n--  SUM ( hourly_daily.minutes_in_status ) AS total_time,\n    create_date,\n    update_date\nFROM\n    (\n            SELECT history_datetime, host_id, host_status, minutes_in_status\n            FROM v4_4_statistics_hosts_resources_usage_hourly\n        UNION\n            SELECT history_datetime, host_id, host_status, minutes_in_status \n            FROM v4_4_statistics_hosts_resources_usage_daily\n            WHERE\n                history_datetime <\n                    (\n                        SELECT MIN ( history_datetime )\n                        FROM v4_4_statistics_hosts_resources_usage_hourly\n                    )\n    ) AS hourly_daily\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                hourly_daily.host_id\n            )\nWHERE\n    -- Show data only when the selected period is more then 24 hours back\n    $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\n    AND hourly_daily.host_id IN ($host_id)\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\nGROUP BY\n    v4_4_latest_configuration_hosts.host_id,\n    host_name, \n    create_date, \n    update_date",
           "refId": "B",
           "select": [
             [
@@ -556,7 +639,7 @@
       "type": "table"
     }
   ],
-  "schemaVersion": 18,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "Host",
@@ -574,6 +657,7 @@
         "definition": "SELECT DISTINCT datacenter_name AS __text , datacenter_id AS __value FROM v4_4_latest_configuration_datacenters",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Data Center",
         "multi": true,
         "name": "datacenter_id",
@@ -596,6 +680,7 @@
         "definition": "SELECT DISTINCT cluster_name AS __text, cluster_id AS __value FROM v4_4_latest_configuration_clusters WHERE datacenter_id IN ($datacenter_id)",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Cluster",
         "multi": true,
         "name": "cluster_id",
@@ -618,6 +703,7 @@
         "definition": "SELECT DISTINCT host_name AS __text, host_id AS __value FROM v4_4_latest_configuration_hosts WHERE cluster_id IN ($cluster_id)",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Host",
         "multi": true,
         "name": "host_id",
@@ -668,5 +754,8 @@
   "timezone": "",
   "title": "Hosts Uptime Dashboard",
   "uid": "HostsUptimeDashboard",
+  "variables": {
+    "list": []
+  },
   "version": 1
 }

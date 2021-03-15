@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.2.2"
+      "version": "6.7.4"
     },
     {
       "type": "datasource",
@@ -64,6 +64,7 @@
   "panels": [
     {
       "collapsed": false,
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -77,6 +78,7 @@
     },
     {
       "content": "\n###### This dashboard contains reports that shows the time and total time each host have performed above/below the CPU or memory threshold.\n\n\n\n",
+      "datasource": null,
       "description": "",
       "gridPos": {
         "h": 2,
@@ -87,7 +89,6 @@
       "id": 13,
       "links": [],
       "mode": "markdown",
-      "options": {},
       "targets": [
         {
           "format": "time_series",
@@ -122,6 +123,7 @@
       "type": "text"
     },
     {
+      "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -175,7 +177,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "Time Above CPU Threshold",
@@ -193,7 +194,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "case",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -280,7 +281,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "Time Above Memory Threshold",
@@ -298,7 +298,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "case",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -385,7 +385,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "Time Below CPU Threshold",
@@ -403,7 +402,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "case",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -490,7 +489,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "Time Below Memory Threshold",
@@ -508,7 +506,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "case",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -565,7 +563,6 @@
       },
       "id": 6,
       "links": [],
-      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -576,6 +573,24 @@
       "styles": [
         {
           "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "is_delete",
+          "thresholds": [],
+          "type": "hidden",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -592,6 +607,7 @@
         },
         {
           "alias": "",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -608,6 +624,7 @@
         },
         {
           "alias": "Host Name",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -616,6 +633,9 @@
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
           "decimals": 2,
+          "link": true,
+          "linkTooltip": "Link to Host Dashboard",
+          "linkUrl": "/ovirt-engine-grafana/d/HostDashboard/host-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-host_id=${__cell_2}",
           "mappingType": 1,
           "pattern": "host_name",
           "thresholds": [],
@@ -623,23 +643,8 @@
           "unit": "short"
         },
         {
-          "alias": "",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "is_delete",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
           "alias": "Host Delete Date",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -656,6 +661,7 @@
         },
         {
           "alias": "Time Above CPU Threshold",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -672,6 +678,7 @@
         },
         {
           "alias": "Time Above Memory Threshold",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -688,6 +695,7 @@
         },
         {
           "alias": "Overall Host Time",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -709,7 +717,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR6 - This query returns for each host in the specific datacenter,\n-- the  \"time_above_cpu_threshold\", the \"time_above_mem_threshold\"\n-- and the \"overall_host_time\".\n-- The user determines the threshold for CPU and Memory.\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT *\nFROM \n    (\n        SELECT\n            cluster_id,\n            host_id,\n            host_name,\n            is_delete,\n            host_delete_only_date,\n            SUM \n                (\n                    CASE\n                        WHEN cpu_usage_percent >= '$cpu_threshold'\n                            THEN minutes_in_status\n                        ELSE 0\n                    END\n                ) AS time_above_cpu_threshold,\n            SUM \n                (\n                    CASE\n                        WHEN memory_usage_percent >= '$mem_threshold'\n                            THEN minutes_in_status\n                        ELSE 0\n                    END\n                ) AS time_above_mem_threshold,\n            SUM ( COALESCE ( minutes_in_status, 0 ) ) AS overall_host_time\n        FROM \n            (\n                SELECT DISTINCT\n                    v4_4_configuration_history_hosts.cluster_id,\n                    v4_4_configuration_history_hosts.host_id,\n                    v4_4_configuration_history_hosts.host_name,\n                    (\n                        CASE\n                            WHEN v4_4_configuration_history_hosts.delete_date IS NULL\n                                THEN FALSE\n                            ELSE TRUE\n                        END\n                    ) AS is_delete,\n                    CAST ( v4_4_configuration_history_hosts.delete_date AS date ) AS host_delete_only_date,\n                    stats_hosts.history_datetime,\n                    cpu_usage_percent,\n                    memory_usage_percent,\n                    minutes_in_status\n                FROM\n                    (\n                        SELECT history_datetime, host_id, cpu_usage_percent, memory_usage_percent, minutes_in_status, host_status\n                        FROM v4_4_statistics_hosts_resources_usage_samples\n                    ) AS stats_hosts\n                    INNER JOIN v4_4_configuration_history_hosts\n                        ON \n                            (\n                                stats_hosts.host_id =\n                                v4_4_configuration_history_hosts.host_id\n                            )\n                WHERE\n                    -- Here we filter only host in active status\n                    stats_hosts.host_status = 1\n                    -- Here we filter by the datacenter chosen by the users\n                    AND v4_4_configuration_history_hosts.cluster_id \n                        IN \n                            (\n                                SELECT cluster_id\n                                FROM v4_4_configuration_history_clusters\n                                WHERE datacenter_id IN ($datacenter_id)\n                            )\n                    -- Here we filter by the host/s chosen by the user\n                    AND v4_4_configuration_history_hosts.host_id IN ($host_id)\n                    -- Here we get the latest host configurations\n                    AND v4_4_configuration_history_hosts.history_id \n                        IN \n                            (\n                                SELECT MAX ( a.history_id )\n                                FROM v4_4_configuration_history_hosts a\n                                GROUP BY a.host_id\n                            )\n                    AND stats_hosts.history_datetime >= $__timeFrom()\n                    AND stats_hosts.history_datetime < $__timeTo()\n                    -- This will determine if deleted entities will be included in the report,\n                    -- according to the user selection for \"show_deleted\" parameter\n                    AND\n                        CASE\n                            WHEN '$show_deleted'='Yes'\n                                THEN 1=1\n                            WHEN '$show_deleted'='No'\n                                THEN delete_date isnull\n                        END\n            ) AS sub_query\n        GROUP BY \n            cluster_id,\n            host_id,\n            host_name,\n            is_delete,\n            host_delete_only_date\n    ) AS all_sub_queries\n-- Show data only when the selected period is up to 24 hours back \nWHERE $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\nORDER BY\n    cluster_id,\n    (\n        CASE\n            WHEN time_above_mem_threshold = 0 AND time_above_cpu_threshold = 0\n                THEN 1 -- Memory and cpu are below the threshold\n            ELSE 0 -- Memory and / or cpu are above threshold\n        END\n    ) ASC,\n    all_sub_queries.is_delete ASC,\n    -- This will order the hosts based on the time the memory and cpu\n    -- where above the threshold out of the overall host time.\n    ( CAST ( all_sub_queries.time_above_cpu_threshold AS float ) / CAST ( all_sub_queries.overall_host_time AS float ) ) * 100 +\n    ( CAST ( all_sub_queries.time_above_mem_threshold AS float ) / CAST ( all_sub_queries.overall_host_time AS float ) ) * 100 DESC",
+          "rawSql": "-- BR6 - This query returns for each host in the specific datacenter,\n-- the  \"time_above_cpu_threshold\", the \"time_above_mem_threshold\"\n-- and the \"overall_host_time\".\n-- The user determines the threshold for CPU and Memory.\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\nSELECT *\nFROM \n    (\n        SELECT\n            is_delete,\n            cluster_id,\n            host_id,\n            host_name,\n            host_delete_only_date,\n            SUM \n                (\n                    CASE\n                        WHEN cpu_usage_percent >= '$cpu_threshold'\n                            THEN minutes_in_status\n                        ELSE 0\n                    END\n                ) AS time_above_cpu_threshold,\n            SUM \n                (\n                    CASE\n                        WHEN memory_usage_percent >= '$mem_threshold'\n                            THEN minutes_in_status\n                        ELSE 0\n                    END\n                ) AS time_above_mem_threshold,\n            SUM ( COALESCE ( minutes_in_status, 0 ) ) AS overall_host_time\n        FROM \n            (\n                SELECT DISTINCT\n                    v4_4_configuration_history_hosts.cluster_id,\n                    v4_4_configuration_history_hosts.host_id,\n                    v4_4_configuration_history_hosts.host_name,\n                    (\n                        CASE\n                            WHEN v4_4_configuration_history_hosts.delete_date IS NULL\n                                THEN 'No'\n                            WHEN v4_4_configuration_history_hosts.delete_date IS NOT NULL\n                                THEN 'Yes'\n                        END\n                    ) AS is_delete,\n                    CAST ( v4_4_configuration_history_hosts.delete_date AS date ) AS host_delete_only_date,\n                    stats_hosts.history_datetime,\n                    cpu_usage_percent,\n                    memory_usage_percent,\n                    minutes_in_status\n                FROM\n                    (\n                        SELECT history_datetime, host_id, cpu_usage_percent, memory_usage_percent, minutes_in_status, host_status\n                        FROM v4_4_statistics_hosts_resources_usage_samples\n                    ) AS stats_hosts\n                    INNER JOIN v4_4_configuration_history_hosts\n                        ON \n                            (\n                                stats_hosts.host_id =\n                                v4_4_configuration_history_hosts.host_id\n                            )\n                WHERE\n                    -- Here we filter only host in active status\n                    stats_hosts.host_status = 1\n                    -- Here we filter by the datacenter chosen by the users\n                    AND v4_4_configuration_history_hosts.cluster_id \n                        IN \n                            (\n                                SELECT cluster_id\n                                FROM v4_4_configuration_history_clusters\n                                WHERE datacenter_id IN ($datacenter_id)\n                            )\n                    -- Here we filter by the host/s chosen by the user\n                    AND v4_4_configuration_history_hosts.host_id IN ($host_id)\n                    -- Here we get the latest host configurations\n                    AND v4_4_configuration_history_hosts.history_id \n                        IN \n                            (\n                                SELECT MAX ( a.history_id )\n                                FROM v4_4_configuration_history_hosts a\n                                GROUP BY a.host_id\n                            )\n                    AND stats_hosts.history_datetime >= $__timeFrom()\n                    AND stats_hosts.history_datetime < $__timeTo()\n                    -- This will determine if deleted entities will be included in the report,\n                    -- according to the user selection for \"show_deleted\" parameter\n                    AND\n                        CASE\n                            WHEN '$show_deleted'='Yes'\n                                THEN 1=1\n                            WHEN '$show_deleted'='No'\n                                THEN delete_date isnull\n                        END\n            ) AS sub_query\n        GROUP BY \n            cluster_id,\n            host_id,\n            host_name,\n            is_delete,\n            host_delete_only_date\n    ) AS all_sub_queries\n-- Show data only when the selected period is up to 24 hours back \nWHERE $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\nORDER BY\n    cluster_id,\n    (\n        CASE\n            WHEN time_above_mem_threshold = 0 AND time_above_cpu_threshold = 0\n                THEN 1 -- Memory and cpu are below the threshold\n            ELSE 0 -- Memory and / or cpu are above threshold\n        END\n    ) ASC,\n    all_sub_queries.is_delete ASC,\n    -- This will order the hosts based on the time the memory and cpu\n    -- where above the threshold out of the overall host time.\n    ( CAST ( all_sub_queries.time_above_cpu_threshold AS float ) / CAST ( all_sub_queries.overall_host_time AS float ) ) * 100 +\n    ( CAST ( all_sub_queries.time_above_mem_threshold AS float ) / CAST ( all_sub_queries.overall_host_time AS float ) ) * 100 DESC",
           "refId": "A",
           "select": [
             [
@@ -735,7 +743,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- BR6 - This query returns for each host in the specific datacenter,\n-- the  \"time_above_cpu_threshold\", the \"time_above_mem_threshold\"\n-- and the \"overall_host_time\".\n-- The user determines the threshold for CPU and Memory.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT *\nFROM \n    (\n        SELECT\n            cluster_id,\n            host_id,\n            host_name,\n            is_delete,\n            host_delete_only_date,\n            SUM \n                (\n                    CASE\n                        WHEN cpu_usage_percent >= '$cpu_threshold'\n                            THEN minutes_in_status\n                        ELSE 0\n                    END\n                ) AS time_above_cpu_threshold,\n            SUM \n                (\n                    CASE\n                        WHEN memory_usage_percent >= '$mem_threshold'\n                            THEN minutes_in_status\n                        ELSE 0\n                    END\n                ) AS time_above_mem_threshold,\n            SUM ( COALESCE ( minutes_in_status, 0 ) ) AS overall_host_time\n        FROM \n            (\n                SELECT DISTINCT\n                    v4_4_configuration_history_hosts.cluster_id,\n                    v4_4_configuration_history_hosts.host_id,\n                    v4_4_configuration_history_hosts.host_name,\n                    (\n                        CASE\n                            WHEN v4_4_configuration_history_hosts.delete_date IS NULL\n                                THEN FALSE\n                            ELSE TRUE\n                        END\n                    ) AS is_delete,\n                    CAST ( v4_4_configuration_history_hosts.delete_date AS date ) AS host_delete_only_date,\n                    stats_hosts.history_datetime,\n                    cpu_usage_percent,\n                    memory_usage_percent,\n                    minutes_in_status\n                FROM\n                    (\n                            SELECT history_datetime, host_id, cpu_usage_percent, memory_usage_percent, minutes_in_status, host_status\n                            FROM v4_4_statistics_hosts_resources_usage_hourly\n                        UNION\n                            SELECT history_datetime, host_id, cpu_usage_percent, memory_usage_percent, minutes_in_status, host_status \n                            FROM v4_4_statistics_hosts_resources_usage_daily\n                            WHERE\n                                history_datetime <\n                                    (\n                                        SELECT MIN ( history_datetime )\n                                        FROM v4_4_statistics_hosts_resources_usage_hourly\n                                    )\n                    ) AS stats_hosts\n                    INNER JOIN v4_4_configuration_history_hosts\n                        ON \n                            (\n                                stats_hosts.host_id =\n                                v4_4_configuration_history_hosts.host_id\n                            )\n                WHERE\n                    -- Here we filter only host in active status\n                    stats_hosts.host_status = 1\n                    -- Here we filter by the datacenter chosen by the users\n                    AND v4_4_configuration_history_hosts.cluster_id \n                        IN \n                            (\n                                SELECT cluster_id\n                                FROM v4_4_configuration_history_clusters\n                                WHERE datacenter_id IN ($datacenter_id)\n                            )\n                    -- Here we filter by the host/s chosen by the user\n                    AND v4_4_configuration_history_hosts.host_id IN ($host_id)\n                    -- Here we get the latest host configurations\n                    AND v4_4_configuration_history_hosts.history_id \n                        IN \n                            (\n                                SELECT MAX ( a.history_id )\n                                FROM v4_4_configuration_history_hosts a\n                                GROUP BY a.host_id\n                            )\n                    AND stats_hosts.history_datetime >= $__timeFrom()\n                    AND stats_hosts.history_datetime < $__timeTo()\n                    -- This will determine if deleted entities will be included in the report,\n                    -- according to the user selection for \"show_deleted\" parameter\n                    AND\n                        CASE\n                            WHEN '$show_deleted'='Yes'\n                                THEN 1=1\n                            WHEN '$show_deleted'='No'\n                                THEN delete_date isnull\n                        END\n            ) AS sub_query\n        GROUP BY \n            cluster_id,\n            host_id,\n            host_name,\n            is_delete,\n            host_delete_only_date\n    ) AS all_sub_queries\n-- Show data only when the selected period is more then 24 hours back\nWHERE $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\nORDER BY\n    cluster_id,\n    (\n        CASE\n            WHEN time_above_mem_threshold = 0 AND time_above_cpu_threshold = 0\n                THEN 1 -- Memory and cpu are below the threshold\n            ELSE 0 -- Memory and / or cpu are above threshold\n        END\n    ) ASC,\n    all_sub_queries.is_delete ASC,\n    -- This will order the hosts based on the time the memory and cpu\n    -- where above the threshold out of the overall host time.\n    ( CAST ( all_sub_queries.time_above_cpu_threshold AS float ) / CAST ( all_sub_queries.overall_host_time AS float ) ) * 100 +\n    ( CAST ( all_sub_queries.time_above_mem_threshold AS float ) / CAST ( all_sub_queries.overall_host_time AS float ) ) * 100 DESC",
+          "rawSql": "-- BR6 - This query returns for each host in the specific datacenter,\n-- the  \"time_above_cpu_threshold\", the \"time_above_mem_threshold\"\n-- and the \"overall_host_time\".\n-- The user determines the threshold for CPU and Memory.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT *\nFROM \n    (\n        SELECT\n            is_delete,\n            cluster_id,\n            host_id,\n            host_name,\n            host_delete_only_date,\n            SUM \n                (\n                    CASE\n                        WHEN cpu_usage_percent >= '$cpu_threshold'\n                            THEN minutes_in_status\n                        ELSE 0\n                    END\n                ) AS time_above_cpu_threshold,\n            SUM \n                (\n                    CASE\n                        WHEN memory_usage_percent >= '$mem_threshold'\n                            THEN minutes_in_status\n                        ELSE 0\n                    END\n                ) AS time_above_mem_threshold,\n            SUM ( COALESCE ( minutes_in_status, 0 ) ) AS overall_host_time\n        FROM \n            (\n                SELECT DISTINCT\n                    v4_4_configuration_history_hosts.cluster_id,\n                    v4_4_configuration_history_hosts.host_id,\n                    v4_4_configuration_history_hosts.host_name,\n                    (\n                        CASE\n                            WHEN v4_4_configuration_history_hosts.delete_date IS NULL\n                                THEN 'No'\n                            WHEN v4_4_configuration_history_hosts.delete_date IS NOT NULL\n                                THEN 'Yes'\n                        END\n                    ) AS is_delete,\n                    CAST ( v4_4_configuration_history_hosts.delete_date AS date ) AS host_delete_only_date,\n                    stats_hosts.history_datetime,\n                    cpu_usage_percent,\n                    memory_usage_percent,\n                    minutes_in_status\n                FROM\n                    (\n                            SELECT history_datetime, host_id, cpu_usage_percent, memory_usage_percent, minutes_in_status, host_status\n                            FROM v4_4_statistics_hosts_resources_usage_hourly\n                        UNION\n                            SELECT history_datetime, host_id, cpu_usage_percent, memory_usage_percent, minutes_in_status, host_status \n                            FROM v4_4_statistics_hosts_resources_usage_daily\n                            WHERE\n                                history_datetime <\n                                    (\n                                        SELECT MIN ( history_datetime )\n                                        FROM v4_4_statistics_hosts_resources_usage_hourly\n                                    )\n                    ) AS stats_hosts\n                    INNER JOIN v4_4_configuration_history_hosts\n                        ON \n                            (\n                                stats_hosts.host_id =\n                                v4_4_configuration_history_hosts.host_id\n                            )\n                WHERE\n                    -- Here we filter only host in active status\n                    stats_hosts.host_status = 1\n                    -- Here we filter by the datacenter chosen by the users\n                    AND v4_4_configuration_history_hosts.cluster_id \n                        IN \n                            (\n                                SELECT cluster_id\n                                FROM v4_4_configuration_history_clusters\n                                WHERE datacenter_id IN ($datacenter_id)\n                            )\n                    -- Here we filter by the host/s chosen by the user\n                    AND v4_4_configuration_history_hosts.host_id IN ($host_id)\n                    -- Here we get the latest host configurations\n                    AND v4_4_configuration_history_hosts.history_id \n                        IN \n                            (\n                                SELECT MAX ( a.history_id )\n                                FROM v4_4_configuration_history_hosts a\n                                GROUP BY a.host_id\n                            )\n                    AND stats_hosts.history_datetime >= $__timeFrom()\n                    AND stats_hosts.history_datetime < $__timeTo()\n                    -- This will determine if deleted entities will be included in the report,\n                    -- according to the user selection for \"show_deleted\" parameter\n                    AND\n                        CASE\n                            WHEN '$show_deleted'='Yes'\n                                THEN 1=1\n                            WHEN '$show_deleted'='No'\n                                THEN delete_date isnull\n                        END\n            ) AS sub_query\n        GROUP BY \n            cluster_id,\n            host_id,\n            host_name,\n            is_delete,\n            host_delete_only_date\n    ) AS all_sub_queries\n-- Show data only when the selected period is more then 24 hours back\nWHERE $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\nORDER BY\n    cluster_id,\n    (\n        CASE\n            WHEN time_above_mem_threshold = 0 AND time_above_cpu_threshold = 0\n                THEN 1 -- Memory and cpu are below the threshold\n            ELSE 0 -- Memory and / or cpu are above threshold\n        END\n    ) ASC,\n    all_sub_queries.is_delete ASC,\n    -- This will order the hosts based on the time the memory and cpu\n    -- where above the threshold out of the overall host time.\n    ( CAST ( all_sub_queries.time_above_cpu_threshold AS float ) / CAST ( all_sub_queries.overall_host_time AS float ) ) * 100 +\n    ( CAST ( all_sub_queries.time_above_mem_threshold AS float ) / CAST ( all_sub_queries.overall_host_time AS float ) ) * 100 DESC",
           "refId": "B",
           "select": [
             [
@@ -765,7 +773,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 18,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "Host",
@@ -810,6 +818,7 @@
         "definition": "SELECT DISTINCT   CAST ( datacenter_id AS varchar ) AS __value,  CASE          WHEN delete_date IS NULL  \t     \t    THEN datacenter_name \t \tWHEN delete_date IS NOT null  \t      \t    THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  END AS __text  \t\tFROM v4_4_configuration_history_datacenters  \t\tWHERE       \t\t    history_id           \t\t\t    IN               \t\t\t\t(  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_4_configuration_history_datacenters a  \t\t         \t\t\t\t\tGROUP BY a.datacenter_id \t         \t\t\t\t) \t \t\t\tAND datacenter_id  \t         \t\t\t    IN \t\t\t     \t\t\t\t    ( \t\t\t\t\t \t\t\t\t\t\tSELECT DISTINCT datacenter_id \t\t\t\t\t \t\t\t\t\t\tFROM v4_4_configuration_history_clusters \t\t\t\t\t \t\t\t\t\t\tWHERE  \t\t\t\t\t     \t\t\t\t\t\t    cluster_id \t\t\t\t\t         \t\t\t\t\t\t        IN \t\t\t\t\t             \t\t\t\t\t\t            ( \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\tSELECT DISTINCT cluster_id \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\tFROM v4_4_configuration_history_hosts  \t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t) \t\t\t\t \t\t\t\t\t) \t \t\t\tAND \t    \t\t\t    CASE  \t        \t\t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t    THEN 1=1 \t\t    \t\t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    THEN v4_4_configuration_history_datacenters.delete_date ISNULL \t                END  \t\t",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Data Center",
         "multi": true,
         "name": "datacenter_id",
@@ -832,6 +841,7 @@
         "definition": "SELECT DISTINCT        CAST ( cluster_id AS varchar ) AS __value,  \tCASE      \t    WHEN delete_date IS NULL  \t     \t\t    THEN cluster_name \t \t\tWHEN delete_date IS NOT null  \t      \t\t    THEN cluster_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \tEND AS __text  \tFROM v4_4_configuration_history_clusters  \tWHERE       \t    history_id           \t\t    IN               \t\t\t    (  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_4_configuration_history_clusters a  \t\t         \t\t\t\t\tGROUP BY a.cluster_id \t         \t\t\t\t) \t \t\tAND cluster_id  \t         \t\t    IN \t\t\t     \t\t\t    ( \t\t\t\t\t \t\t\t\t\tSELECT DISTINCT cluster_id \t\t\t\t\t \t\t\t\t\tFROM v4_4_configuration_history_hosts \t\t\t\t \t\t\t\t) \t \t\tAND \t    \t\t    CASE  \t        \t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t    THEN 1=1 \t\t    \t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t    THEN v4_4_configuration_history_clusters.delete_date ISNULL \t    \t\t\tEND     \t\tAND datacenter_id IN ($datacenter_id)  \t\t",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Cluster",
         "multi": true,
         "name": "cluster_id",
@@ -854,6 +864,7 @@
         "definition": "SELECT DISTINCT   CAST ( host_id AS varchar ) AS __value,  CASE          WHEN delete_date IS NULL  \t     \t    THEN host_name \t \tWHEN delete_date IS NOT null  \t      \t    THEN host_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  END AS __text  \t\tFROM v4_4_configuration_history_hosts  \t\tWHERE       \t\t    history_id           \t\t\t    IN               \t\t\t\t(  \t             \t\t\t\t\tSELECT MAX ( a.history_id )  \t\t         \t\t\t\t\tFROM v4_4_configuration_history_hosts a  \t\t         \t\t\t\t\tGROUP BY a.host_id \t         \t\t\t\t) \t \t\t\tAND cluster_id IN ($cluster_id)  \t\t\tAND \t    \t\t\t    CASE  \t        \t\t\t\t    WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t    THEN 1=1 \t\t    \t\t\t\t\tWHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    THEN v4_4_configuration_history_hosts.delete_date ISNULL \t                END  \t\t",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Host",
         "multi": true,
         "name": "host_id",
@@ -1150,5 +1161,8 @@
   "timezone": "",
   "title": "Cluster Quality of Service - Hosts Dashboard",
   "uid": "ClusterQualityofServiceHosts",
+  "variables": {
+    "list": []
+  },
   "version": 1
 }
