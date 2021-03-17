@@ -83,7 +83,7 @@
         "x": 0,
         "y": 0
       },
-      "id": 32,
+      "id": 39,
       "panels": [],
       "title": "Description",
       "type": "row"
@@ -113,7 +113,7 @@
         "x": 0,
         "y": 3
       },
-      "id": 25,
+      "id": 32,
       "title": "Configuration Details",
       "type": "row"
     },
@@ -494,7 +494,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "SELECT DISTINCT\n    CASE\n        WHEN vm_status = -1\n            THEN 'Unknown Status'\n        WHEN vm_status = 0\n            THEN 'Down'\n        WHEN vm_status = 1\n            THEN 'Up'\n        WHEN vm_status = 2\n            THEN 'Paused'\n        WHEN max (vm_status) = 3\n            THEN 'Problematic'\n        ELSE NULL\n    END\nFROM \n    v4_4_statistics_vms_resources_usage_samples \nWHERE\n    vm_id = ('$vm_id')\n    AND history_id\n        IN\n            (\n                SELECT MAX (history_id)\n                FROM v4_4_statistics_vms_resources_usage_samples\n                GROUP BY vm_id\n            )\nGROUP BY vm_status",
+          "rawSql": "SELECT DISTINCT\n    CASE\n        WHEN vm_status = -1\n            THEN 'Unknown Status'\n        WHEN vm_status = 0\n            THEN 'Down'\n        WHEN vm_status = 1\n            THEN 'Up'\n        WHEN vm_status = 2\n            THEN 'Paused'\n        WHEN vm_status = 3\n            THEN 'Problematic'\n        ELSE NULL\n    END\nFROM \n    v4_4_statistics_vms_resources_usage_samples \nWHERE\n    vm_id = ('$vm_id')\n    AND history_id\n        IN\n            (\n                SELECT MAX (history_id)\n                FROM v4_4_statistics_vms_resources_usage_samples\n                GROUP BY vm_id\n            )\nGROUP BY vm_status",
           "refId": "A",
           "select": [
             [
@@ -1593,6 +1593,286 @@
         "x": 0,
         "y": 27
       },
+      "id": 25,
+      "panels": [],
+      "title": "Session Activity",
+      "type": "row"
+    },
+    {
+      "columns": [],
+      "datasource": null,
+      "description": "This table details user Spice activity - time spent and resources used in the session in a selected data center and cluster within a selected period.",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 12,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "id": 37,
+      "links": [],
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "Session Date",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "history_datetime",
+          "thresholds": [],
+          "type": "date",
+          "unit": "short"
+        },
+        {
+          "alias": "User Name",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "user_name",
+          "thresholds": [],
+          "type": "string",
+          "unit": "short"
+        },
+        {
+          "alias": "Session Length",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "session_time_in_minutes",
+          "thresholds": [],
+          "type": "number",
+          "unit": "m"
+        },
+        {
+          "alias": "CPU Usage",
+          "align": "auto",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "cpu_usage_percent",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "CPU Peak",
+          "align": "auto",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "max_cpu_usage",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Memory Usage",
+          "align": "auto",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "memory_usage_percent",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "Memory Peak",
+          "align": "auto",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "max_memory_usage",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "User CPU Usage",
+          "align": "auto",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "user_cpu_usage_percent",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "User CPU Peak",
+          "align": "auto",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "max_user_cpu_usage_percent",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "System CPU Usage",
+          "align": "auto",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "system_cpu_usage_percent",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        },
+        {
+          "alias": "System CPU Peak",
+          "align": "auto",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "max_system_cpu_usage_percent",
+          "thresholds": [
+            "80",
+            "90"
+          ],
+          "type": "number",
+          "unit": "percent"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR45 - This query returns for each VM in the specific data center , the\n-- hourly or daily statistics: session time, CPU and memory usage statistics.\n\nSELECT DISTINCT\n    history_datetime,\n    username AS user_name,\n    session_time_in_minutes,\n    cpu_usage_percent,\n    max_cpu_usage,\n    memory_usage_percent,\n    max_memory_usage,\n    user_cpu_usage_percent,\n    max_user_cpu_usage_percent,\n    system_cpu_usage_percent,\n    max_system_cpu_usage_percent\nFROM\n    (\n            SELECT history_datetime, vm_id, user_id, session_time_in_minutes, cpu_usage_percent, max_cpu_usage, memory_usage_percent, max_memory_usage, user_cpu_usage_percent, max_user_cpu_usage_percent, system_cpu_usage_percent, max_system_cpu_usage_percent\n            FROM v4_4_statistics_vms_users_usage_hourly\n        UNION\n            SELECT history_datetime, vm_id, user_id, session_time_in_minutes, cpu_usage_percent, max_cpu_usage, memory_usage_percent, max_memory_usage, user_cpu_usage_percent, max_user_cpu_usage_percent, system_cpu_usage_percent, max_system_cpu_usage_percent \n            FROM v4_4_statistics_vms_users_usage_daily\n            WHERE\n                history_datetime <\n                    (\n                        SELECT MIN ( history_datetime )\n                        FROM v4_4_statistics_vms_users_usage_hourly\n                    )\n    ) AS hourly_daily\n    LEFT OUTER JOIN v4_4_configuration_history_vms\n        ON \n            (\n                hourly_daily.vm_id =\n                v4_4_configuration_history_vms.vm_id\n            )\n    LEFT OUTER JOIN v4_4_configuration_history_clusters\n        ON \n            (\n                v4_4_configuration_history_vms.cluster_id =\n                v4_4_configuration_history_clusters.cluster_id\n                -- Here we get the latest cluster configurations\n                AND v4_4_configuration_history_clusters.history_id \n                    IN \n                        (\n                            SELECT MAX ( a.history_id )\n                            FROM v4_4_configuration_history_clusters a\n                            GROUP BY a.cluster_id\n                        )\n            )\n    LEFT OUTER JOIN v4_4_users_details_history\n        ON \n            (\n                hourly_daily.user_id =\n                v4_4_users_details_history.user_id\n            )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_4_configuration_history_vms.cluster_id \n        IN \n            (\n                SELECT cluster_id\n                FROM v4_4_configuration_history_clusters\n            )\n    -- Here we filter by the cluster chosen by the user\n    AND v4_4_configuration_history_vms.vm_id IN ('$vm_id')\n    -- Here we get the latest vm configurations\n    AND v4_4_configuration_history_vms.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM v4_4_configuration_history_vms a\n                GROUP BY a.vm_id\n            )\n    AND history_datetime >= $__timeFrom()\n    AND history_datetime < $__timeTo()\n    -- This will determine if deleted entities will be included in the report,\n    -- according to the user selection for \"show_deleted\" parameter\n    AND \n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN v4_4_configuration_history_vms.delete_date isnull\n        END\nORDER BY\n    history_datetime,\n    username,\n    session_time_in_minutes DESC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": " ",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 40
+      },
       "id": 23,
       "title": "Resource Usage Over Time",
       "type": "row"
@@ -1610,7 +1890,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 28
+        "y": 41
       },
       "hiddenSeries": false,
       "id": 14,
@@ -1747,7 +2027,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 34
+        "y": 47
       },
       "hiddenSeries": false,
       "id": 20,
@@ -1884,7 +2164,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 40
+        "y": 53
       },
       "hiddenSeries": false,
       "id": 19,
@@ -2022,7 +2302,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 46
+        "y": 59
       },
       "hiddenSeries": false,
       "id": 33,
@@ -2160,7 +2440,7 @@
         "h": 6,
         "w": 24,
         "x": 0,
-        "y": 52
+        "y": 65
       },
       "hiddenSeries": false,
       "id": 21,
