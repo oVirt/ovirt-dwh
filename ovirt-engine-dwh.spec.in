@@ -307,6 +307,18 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Apr 7 2021 Aviv Litman <alitman@redhat.com> - 4.4.6.1
+Fixed issues:
+- Update User Spice Session Activity to show per vm
+- Bug 1917874 - Add Resource size to Hosts/Virtual Machine Uptime panels
+- Add user session activity panel to vm dashboard
+- Bug 1861685 - Add filters to inventory dashboards
+- Fix the variables indentation in inventory dashboards
+- Fix the variables indentation in trend dashboards
+- Fix the variables indentation in service level dashboards
+- Fix the variables indentation in executive dashboards
+- Fix Storage Domain Total Size (over time) (BR21)
+
 * Wed Mar 17 2021 Aviv Litman <alitman@redhat.com> - 4.4.6
 Fixed issues:
 - Fix typo in Trend dashboard
