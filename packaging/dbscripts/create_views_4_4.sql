@@ -386,6 +386,8 @@ SELECT
       transmit_rate_percent as transmit_rate_percent,
       received_total_byte as received_total_byte,
       transmitted_total_byte as transmitted_total_byte,
+      received_dropped_total_packets as received_dropped_total_packets,
+      transmitted_dropped_total_packets as transmitted_dropped_total_packets,
       host_interface_configuration_version as host_interface_configuration_version
 FROM host_interface_samples_history;
 
@@ -401,6 +403,8 @@ SELECT
       max_transmit_rate_percent as max_transmit_rate_percent,
       received_total_byte as received_total_byte,
       transmitted_total_byte as transmitted_total_byte,
+      received_dropped_total_packets as received_dropped_total_packets,
+      transmitted_dropped_total_packets as transmitted_dropped_total_packets,
       host_interface_configuration_version as host_interface_configuration_version
 FROM host_interface_hourly_history;
 
@@ -417,6 +421,8 @@ SELECT
       max_transmit_rate_percent as max_transmit_rate_percent,
       received_total_byte as received_total_byte,
       transmitted_total_byte as transmitted_total_byte,
+      received_dropped_total_packets as received_dropped_total_packets,
+      transmitted_dropped_total_packets as transmitted_dropped_total_packets,
       host_interface_configuration_version as host_interface_configuration_version
 FROM host_interface_daily_history;
 
@@ -481,7 +487,9 @@ SELECT
     nic_stats.receive_rate_percent as receive_rate_percent,
     nic_stats.transmit_rate_percent as transmit_rate_percent,
     nic_stats.received_total_byte as received_total_byte,
-    nic_stats.transmitted_total_byte as transmitted_total_byte
+    nic_stats.transmitted_total_byte as transmitted_total_byte,
+    nic_stats.received_dropped_total_packets as received_dropped_total_packets,
+    nic_stats.transmitted_dropped_total_packets as transmitted_dropped_total_packets
 FROM v4_4_configuration_history_hosts AS conf
     LEFT OUTER JOIN v4_4_statistics_hosts_resources_usage_samples AS stats
         ON (conf.history_id = stats.host_configuration_version)
@@ -566,7 +574,9 @@ SELECT
     nic_stats.transmit_rate_percent as transmit_rate_percent,
     nic_stats.max_transmit_rate_percent as max_transmit_rate_percent,
     nic_stats.received_total_byte as received_total_byte,
-    nic_stats.transmitted_total_byte as transmitted_total_byte
+    nic_stats.transmitted_total_byte as transmitted_total_byte,
+    nic_stats.received_dropped_total_packets as received_dropped_total_packets,
+    nic_stats.transmitted_dropped_total_packets as transmitted_dropped_total_packets
 FROM v4_4_configuration_history_hosts AS conf
     LEFT OUTER JOIN v4_4_statistics_hosts_resources_usage_hourly AS stats
         ON (conf.history_id = stats.host_configuration_version)
@@ -651,7 +661,9 @@ SELECT
     nic_stats.transmit_rate_percent as transmit_rate_percent,
     nic_stats.max_transmit_rate_percent as max_transmit_rate_percent,
     nic_stats.received_total_byte as received_total_byte,
-    nic_stats.transmitted_total_byte as transmitted_total_byte
+    nic_stats.transmitted_total_byte as transmitted_total_byte,
+    nic_stats.received_dropped_total_packets as received_dropped_total_packets,
+    nic_stats.transmitted_dropped_total_packets as transmitted_dropped_total_packets
 FROM v4_4_configuration_history_hosts AS conf
     LEFT OUTER JOIN v4_4_statistics_hosts_resources_usage_daily AS stats
         ON (conf.history_id = stats.host_configuration_version)
@@ -906,6 +918,8 @@ SELECT
       transmit_rate_percent as transmit_rate_percent,
       received_total_byte as received_total_byte,
       transmitted_total_byte as transmitted_total_byte,
+      received_dropped_total_packets as received_dropped_total_packets,
+      transmitted_dropped_total_packets as transmitted_dropped_total_packets,
       vm_interface_configuration_version as vm_interface_configuration_version
 FROM vm_interface_samples_history;
 
@@ -922,6 +936,8 @@ SELECT
       max_transmit_rate_percent as max_transmit_rate_percent,
       received_total_byte as received_total_byte,
       transmitted_total_byte as transmitted_total_byte,
+      received_dropped_total_packets as received_dropped_total_packets,
+      transmitted_dropped_total_packets as transmitted_dropped_total_packets,
       vm_interface_configuration_version as vm_interface_configuration_version
 FROM vm_interface_hourly_history;
 
@@ -938,6 +954,8 @@ SELECT
       max_transmit_rate_percent as max_transmit_rate_percent,
       received_total_byte as received_total_byte,
       transmitted_total_byte as transmitted_total_byte,
+      received_dropped_total_packets as received_dropped_total_packets,
+      transmitted_dropped_total_packets as transmitted_dropped_total_packets,
       vm_interface_configuration_version as vm_interface_configuration_version
 FROM vm_interface_daily_history;
 
@@ -1161,6 +1179,8 @@ CREATE OR REPLACE VIEW v4_4_fully_joined_statistics_vms_resources_usage_samples
     nic_stats.transmit_rate_percent as transmit_rate_percent,
     nic_stats.received_total_byte as received_total_byte,
     nic_stats.transmitted_total_byte as transmitted_total_byte,
+    nic_stats.received_dropped_total_packets as received_dropped_total_packets,
+    nic_stats.transmitted_dropped_total_packets as transmitted_dropped_total_packets,
     disk_conf.vm_disk_id as vm_disk_id,
     disk_conf.vm_disk_name as vm_disk_name,
     disk_conf.vm_disk_description as vm_disk_description,
@@ -1274,6 +1294,8 @@ CREATE OR REPLACE VIEW v4_4_fully_joined_statistics_vms_resources_usage_hourly
     nic_stats.max_transmit_rate_percent as max_transmit_rate_percent,
     nic_stats.received_total_byte as received_total_byte,
     nic_stats.transmitted_total_byte as transmitted_total_byte,
+    nic_stats.received_dropped_total_packets as received_dropped_total_packets,
+    nic_stats.transmitted_dropped_total_packets as transmitted_dropped_total_packets,
     disk_conf.vm_disk_id as vm_disk_id,
     disk_conf.vm_disk_name as vm_disk_name,
     disk_conf.vm_disk_description as vm_disk_description,
@@ -1395,6 +1417,8 @@ CREATE OR REPLACE VIEW v4_4_fully_joined_statistics_vms_resources_usage_daily
     nic_stats.max_transmit_rate_percent as max_transmit_rate_percent,
     nic_stats.received_total_byte as received_total_byte,
     nic_stats.transmitted_total_byte as transmitted_total_byte,
+    nic_stats.received_dropped_total_packets as received_dropped_total_packets,
+    nic_stats.transmitted_dropped_total_packets as transmitted_dropped_total_packets,
     disk_conf.vm_disk_id as vm_disk_id,
     disk_conf.vm_disk_name as vm_disk_name,
     disk_conf.vm_disk_description as vm_disk_description,

@@ -675,7 +675,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_interface_id, &#xD;&#xA;  upper(cast(host_interface_id as char(36))) as host_interface_join_id,&#xD;&#xA;  receive_rate_percent, &#xD;&#xA;  transmit_rate_percent,&#xA;  received_total_byte,&#xA;  transmitted_total_byte&#xD;&#xA;FROM dwh_host_interface_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_interface_id, &#xD;&#xA;  upper(cast(host_interface_id as char(36))) as host_interface_join_id,&#xD;&#xA;  receive_rate_percent, &#xD;&#xA;  transmit_rate_percent,&#xA;  received_total_byte,&#xA;  transmitted_total_byte,&#xA;  received_dropped_total_packets,&#xA;  transmitted_dropped_total_packets&#xD;&#xA;FROM dwh_host_interface_history_view&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -697,6 +697,10 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="transmitted_total_byte"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="received_dropped_total_packets"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="transmitted_dropped_total_packets"/>
+      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
@@ -709,6 +713,8 @@
       <column comment="" key="false" length="18" name="transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="received_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmitted_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="-256" posY="384">
@@ -730,9 +736,11 @@
       <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="received_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmitted_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="hinterface_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -742,6 +750,8 @@
         <mapperTableEntries name="host_interface_configuration_version" expression="row45.history_id " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="received_total_byte" expression="row11.received_total_byte " type="id_Long" nullable="true"/>
         <mapperTableEntries name="transmitted_total_byte" expression="row11.transmitted_total_byte " type="id_Long" nullable="true"/>
+        <mapperTableEntries name="received_dropped_total_packets" expression="row11.received_dropped_total_packets " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="transmitted_dropped_total_packets" expression="row11.transmitted_dropped_total_packets " type="id_Double" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row11" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="host_interface_id" type="id_Object" nullable="true"/>
@@ -750,6 +760,8 @@
         <mapperTableEntries name="transmit_rate_percent" type="id_Double" nullable="true"/>
         <mapperTableEntries name="received_total_byte" type="id_Long" nullable="true"/>
         <mapperTableEntries name="transmitted_total_byte" type="id_Long" nullable="true"/>
+        <mapperTableEntries name="received_dropped_total_packets" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="transmitted_dropped_total_packets" type="id_Double" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row45" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
         <mapperTableEntries name="history_id" expression="" type="id_Integer" nullable="true"/>
@@ -852,6 +864,16 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="received_dropped_total_packets"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="transmitted_dropped_total_packets"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true" show="false"/>
@@ -867,6 +889,8 @@
       <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="received_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmitted_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="host_interface_samples_history" name="REJECT">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -876,6 +900,8 @@
       <column comment="" key="false" length="4" name="host_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="received_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmitted_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -1352,7 +1378,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_interface_id, &#xD;&#xA;  upper(cast(vm_interface_id as char(36))) as vm_interface_join_id,&#xD;&#xA;  receive_rate_percent, &#xD;&#xA;  transmit_rate_percent,&#xA;  received_total_byte,&#xA;  transmitted_total_byte&#xD;&#xA;FROM dwh_vm_interface_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  vm_interface_id, &#xD;&#xA;  upper(cast(vm_interface_id as char(36))) as vm_interface_join_id,&#xD;&#xA;  receive_rate_percent, &#xD;&#xA;  transmit_rate_percent,&#xA;  received_total_byte,&#xA;  transmitted_total_byte,&#xA;  received_dropped_total_packets,&#xA;  transmitted_dropped_total_packets&#xD;&#xA;FROM dwh_vm_interface_history_view&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -1374,6 +1400,10 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="transmitted_total_byte"/>
       <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="received_dropped_total_packets"/>
+      <elementValue elementRef="TRIM" value="false"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="transmitted_dropped_total_packets"/>
+      <elementValue elementRef="TRIM" value="false"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_MAPPING" value="false"/>
     <elementParameter field="CLOSED_LIST" name="MAPPING" value="mysql_id" show="false"/>
@@ -1386,6 +1416,8 @@
       <column comment="" key="false" length="18" name="transmit_rate_percent" nullable="true" pattern="" precision="4" sourceType="INT2" type="id_Double" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="received_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmitted_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
     </metadata>
   </node>
   <node componentName="tMap" componentVersion="2.1" offsetLabelX="0" offsetLabelY="0" posX="544" posY="384">
@@ -1407,9 +1439,11 @@
       <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="received_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmitted_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="vinterface_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -1419,6 +1453,8 @@
         <mapperTableEntries name="vm_interface_configuration_version" expression="row50.history_id " type="id_Integer" nullable="true"/>
         <mapperTableEntries name="received_total_byte" expression="row13.received_total_byte " type="id_Long" nullable="true"/>
         <mapperTableEntries name="transmitted_total_byte" expression="row13.transmitted_total_byte " type="id_Long" nullable="true"/>
+        <mapperTableEntries name="received_dropped_total_packets" expression="row13.received_dropped_total_packets " type="id_Double" nullable="true"/>
+        <mapperTableEntries name="transmitted_dropped_total_packets" expression="row13.transmitted_dropped_total_packets " type="id_Double" nullable="true"/>
       </outputTables>
       <inputTables sizeState="INTERMEDIATE" name="row13" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE">
         <mapperTableEntries name="vm_interface_id" type="id_Object" nullable="true"/>
@@ -1427,6 +1463,8 @@
         <mapperTableEntries name="transmit_rate_percent" type="id_Double" nullable="true"/>
         <mapperTableEntries name="received_total_byte" type="id_Long" nullable="true"/>
         <mapperTableEntries name="transmitted_total_byte" type="id_Long" nullable="true"/>
+        <mapperTableEntries name="received_dropped_total_packets" type="id_Double" nullable="true"/>
+        <mapperTableEntries name="transmitted_dropped_total_packets" type="id_Double" nullable="true"/>
       </inputTables>
       <inputTables sizeState="INTERMEDIATE" name="row50" activateCondensedTool="true" matchingMode="UNIQUE_MATCH" lookupMode="LOAD_ONCE" innerJoin="true">
         <mapperTableEntries name="history_id" expression="" type="id_Integer" nullable="true"/>
@@ -1529,6 +1567,16 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="received_dropped_total_packets"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="transmitted_dropped_total_packets"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
     </elementParameter>
     <elementParameter field="CHECK" name="ENABLE_DEBUG_MODE" value="false"/>
     <elementParameter field="CHECK" name="USE_BATCH_SIZE" value="true" show="false"/>
@@ -1544,6 +1592,8 @@
       <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="received_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmitted_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
     </metadata>
     <metadata connector="REJECT" label="vm_interface_samples_history" name="REJECT">
       <column comment="" key="false" length="8" name="history_datetime" nullable="false" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
@@ -1553,6 +1603,8 @@
       <column comment="" key="false" length="4" name="vm_interface_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="received_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="transmitted_total_byte" nullable="true" pattern="" precision="-1" sourceType="" type="id_Long" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="received_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
+      <column comment="" key="false" length="18" name="transmitted_dropped_total_packets" nullable="true" pattern="" precision="4" sourceType="" type="id_Double" originalLength="18" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorCode" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
       <column defaultValue="" key="false" length="255" name="errorMessage" nullable="true" precision="0" sourceType="" type="id_String" usefulColumn="true"/>
     </metadata>
@@ -1695,7 +1747,7 @@
       <column comment="" key="false" length="10" name="vm_disk_configuration_version" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="vm_disk_history">
         <mapperTableEntries name="history_datetime" expression="context.runTime" type="id_Date"/>
@@ -2234,6 +2286,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="transmitted_total_byte"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="received_dropped_total_packets"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="transmitted_dropped_total_packets"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row11" show="false"/>
@@ -2292,6 +2350,15 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="received_total_byte"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="receive_dropped_total_packets"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="transmitted_dropped_total_packets"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="received_dropped_total_packets"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -2543,6 +2610,12 @@
       <elementValue elementRef="TRACE_COLUMN" value="received_total_byte"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="received_dropped_total_packets"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="transmitted_dropped_total_packets"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
     <elementParameter field="CHECK" name="MONITOR_CONNECTION" value="false"/>
     <elementParameter field="TEXT" name="UNIQUE_NAME" value="row13" show="false"/>
@@ -2601,6 +2674,15 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="received_total_byte"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="receive_dropped_total_packets"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="transmitted_dropped_total_packets"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="received_dropped_total_packets"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
