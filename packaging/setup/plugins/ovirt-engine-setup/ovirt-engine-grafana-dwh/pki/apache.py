@@ -25,6 +25,7 @@ from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup import remote_engine
 from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup.engine_common import constants as oengcommcons
+from ovirt_engine_setup.dwh import constants as odwhcons
 from ovirt_engine_setup.grafana_dwh import constants as ogdwhcons
 
 
@@ -55,12 +56,11 @@ class Plugin(plugin.PluginBase):
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
         before=(
-            oengcommcons.Stages.DIALOG_TITLES_E_PKI,
+            osetupcons.Stages.DIALOG_TITLES_S_NETWORK,
         ),
         after=(
             ogdwhcons.Stages.CORE_ENABLE,
             oenginecons.Stages.CORE_ENABLE,
-            oengcommcons.Stages.DIALOG_TITLES_S_PKI,
         ),
         condition=lambda self: (
             self.environment[
@@ -72,7 +72,7 @@ class Plugin(plugin.PluginBase):
             ]
         ),
     )
-    def _customization(self):
+    def _customization_needed(self):
         engine_apache_pki_found = (
             os.path.exists(
                 oengcommcons.FileLocations.OVIRT_ENGINE_PKI_APACHE_KEY
@@ -85,50 +85,73 @@ class Plugin(plugin.PluginBase):
 
         if not engine_apache_pki_found:
             self._enabled = True
-            self._enrolldata = remote_engine.EnrollCert(
-                remote_engine=self.environment[
-                    osetupcons.CoreEnv.REMOTE_ENGINE
-                ],
-                engine_fqdn=self.environment[
-                    oenginecons.ConfigEnv.ENGINE_FQDN
-                ],
-                base_name=ogdwhcons.Const.PKI_GRAFANA_APACHE_CERT_NAME,
-                base_touser=_('Apache'),
-                key_file=(
-                    ogdwhcons.FileLocations.
-                    OVIRT_ENGINE_PKI_GRAFANA_APACHE_KEY
-                ),
-                cert_file=(
-                    ogdwhcons.FileLocations.
-                    OVIRT_ENGINE_PKI_GRAFANA_APACHE_CERT
-                ),
-                csr_fname_envkey=(
-                    ogdwhcons.ConfigEnv.PKI_APACHE_CSR_FILENAME
-                ),
-                engine_ca_cert_file=(
-                    oenginecons.FileLocations.
-                    OVIRT_ENGINE_PKI_ENGINE_CA_CERT
-                ),
-                engine_pki_requests_dir=os.path.join(
-                    oenginecons.FileLocations.OVIRT_ENGINE_PKIDIR,
-                    'requests',
-                ),
-                engine_pki_certs_dir=(
-                    oenginecons.FileLocations.
-                    OVIRT_ENGINE_PKICERTSDIR
-                ),
-                key_size=self.environment[ogdwhcons.ConfigEnv.KEY_SIZE],
-                url=(
-                    "https://ovirt.org/"
-                    "develop/release-management/features/grafana/grafana.html"
-                ),
-            )
-            self._enrolldata.enroll_cert()
+            # odwhcons.ConfigEnv.REMOTE_ENGINE_CONFIGURED is saved in
+            # postinstall, and was originally used only for DWH itself.
+            # If dwh was already configured, but grafana was not, and now
+            # the user wants to configure grafana, we need to configure
+            # remote_engine again, because we do not save any relevant
+            # data for it (e.g. engine fqdh and root password). So clear
+            # this here so that the remote_engine plugin will configure
+            # it.
+            self.environment[
+                odwhcons.ConfigEnv.REMOTE_ENGINE_CONFIGURED
+            ] = False
 
-            self._need_ca_cert = not os.path.exists(
+    @plugin.event(
+        stage=plugin.Stages.STAGE_CUSTOMIZATION,
+        before=(
+            oengcommcons.Stages.DIALOG_TITLES_E_PKI,
+        ),
+        after=(
+            oengcommcons.Stages.DIALOG_TITLES_S_PKI,
+        ),
+        condition=lambda self: self._enabled,
+    )
+    def _customization(self):
+        self._enrolldata = remote_engine.EnrollCert(
+            remote_engine=self.environment[
+                osetupcons.CoreEnv.REMOTE_ENGINE
+            ],
+            engine_fqdn=self.environment[
+                oenginecons.ConfigEnv.ENGINE_FQDN
+            ],
+            base_name=ogdwhcons.Const.PKI_GRAFANA_APACHE_CERT_NAME,
+            base_touser=_('Apache'),
+            key_file=(
                 ogdwhcons.FileLocations.
-                OVIRT_ENGINE_PKI_GRAFANA_APACHE_CA_CERT
-            )
+                OVIRT_ENGINE_PKI_GRAFANA_APACHE_KEY
+            ),
+            cert_file=(
+                ogdwhcons.FileLocations.
+                OVIRT_ENGINE_PKI_GRAFANA_APACHE_CERT
+            ),
+            csr_fname_envkey=(
+                ogdwhcons.ConfigEnv.PKI_APACHE_CSR_FILENAME
+            ),
+            engine_ca_cert_file=(
+                oenginecons.FileLocations.
+                OVIRT_ENGINE_PKI_ENGINE_CA_CERT
+            ),
+            engine_pki_requests_dir=os.path.join(
+                oenginecons.FileLocations.OVIRT_ENGINE_PKIDIR,
+                'requests',
+            ),
+            engine_pki_certs_dir=(
+                oenginecons.FileLocations.
+                OVIRT_ENGINE_PKICERTSDIR
+            ),
+            key_size=self.environment[ogdwhcons.ConfigEnv.KEY_SIZE],
+            url=(
+                "https://ovirt.org/"
+                "develop/release-management/features/grafana/grafana.html"
+            ),
+        )
+        self._enrolldata.enroll_cert()
+
+        self._need_ca_cert = not os.path.exists(
+            ogdwhcons.FileLocations.
+            OVIRT_ENGINE_PKI_GRAFANA_APACHE_CA_CERT
+        )
 
         tries_left = 30
         while (
