@@ -50,6 +50,14 @@ class Plugin(plugin.PluginBase):
             ogdwhcons.ConfigEnv.GRAFANA_DB_CREATED_BY_US,
             None
         )
+        self.environment.setdefault(
+            ogdwhcons.ConfigEnv.GRAFANA_USER,
+            ogdwhcons.Defaults.GRAFANA_DEFAULT_USER
+        )
+        self.environment.setdefault(
+            ogdwhcons.ConfigEnv.GRAFANA_GROUP,
+            ogdwhcons.Defaults.GRAFANA_DEFAULT_GROUP
+        )
 
     @plugin.event(
         stage=plugin.Stages.STAGE_SETUP,

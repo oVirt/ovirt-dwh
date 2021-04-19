@@ -31,19 +31,6 @@ class Plugin(plugin.PluginBase):
         super(Plugin, self).__init__(context=context)
 
     @plugin.event(
-        stage=plugin.Stages.STAGE_INIT,
-    )
-    def _init(self):
-        self.environment.setdefault(
-            ogdwhcons.ConfigEnv.GRAFANA_USER,
-            ogdwhcons.Defaults.GRAFANA_DEFAULT_USER
-        )
-        self.environment.setdefault(
-            ogdwhcons.ConfigEnv.GRAFANA_GROUP,
-            ogdwhcons.Defaults.GRAFANA_DEFAULT_GROUP
-        )
-
-    @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
         name=ogdwhcons.Stages.CORE_ENABLE,
         before=(
