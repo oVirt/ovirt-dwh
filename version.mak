@@ -6,7 +6,7 @@
 # increment after releasing/branching
 VERSION_MAJOR=4
 VERSION_MINOR=4
-VERSION_PATCH_LEVEL=6.2
+VERSION_PATCH_LEVEL=7
 VERSION=$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH_LEVEL)
 
 # Milestone is manually specified,
@@ -24,7 +24,7 @@ VERSION=$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH_LEVEL)
 # - master
 # - <none>
 #
-MILESTONE=
+MILESTONE=master
 
 # RPM release is manually specified,
 # For pre-release:
@@ -36,4 +36,4 @@ MILESTONE=
 # while N is incremented each re-release
 # Use only for spec file changes
 #
-RPM_RELEASE=1
+RPM_RELEASE=0.0.$(MILESTONE).$(shell date -u +%Y%m%d%H%M%S)
