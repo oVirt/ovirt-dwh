@@ -307,6 +307,12 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Tue Apr 20 2021 Aviv Litman <alitman@redhat.com> - 4.4.6.2
+Fixed issues:
+- Bug 1919984 - packaging: setup: Fix grafana pki conf after dwh
+- Bug 1870055 - packaging: setup: Move initialization of user/group to common
+- Delete unnecessary rows in create tables
+
 * Wed Apr 7 2021 Aviv Litman <alitman@redhat.com> - 4.4.6.1
 Fixed issues:
 - Update User Spice Session Activity to show per vm
