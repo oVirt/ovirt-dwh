@@ -48,7 +48,7 @@
       }
     ]
   },
-  "description": "The virtual machines trend dashboard displaying resources usage measurements over time - Disk I/O rates, CPU, memory, and network Tx/Rx",
+  "description": "The virtual machines trend dashboard displaying resources measurements over time - Disk I/O rates, CPU, memory, and network Tx/Rx",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -57,7 +57,6 @@
   "links": [],
   "panels": [
     {
-      "collapsed": false,
       "datasource": "$datasource",
       "gridPos": {
         "h": 1,
@@ -65,13 +64,12 @@
         "x": 0,
         "y": 0
       },
-      "id": 25,
-      "panels": [],
+      "id": 28,
       "title": "Description",
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays resource usage (CPU, memory, network Tx/Rx, disk I/O) for a selected virtual machine over a selected period.\n\n\n\n",
+      "content": "\n###### This dashboard displays resource measurements (CPU, memory, network Tx/Rx, disk I/O) for a selected virtual machine over a selected period.\n\n\n\n",
       "datasource": "$datasource",
       "description": "",
       "gridPos": {
@@ -125,9 +123,302 @@
         "x": 0,
         "y": 3
       },
+      "id": 25,
+      "panels": [],
+      "title": "Inventory",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "description": "This report displays the memory size for the virtual machines in the selected cluster, and over a selected period.",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 4
+      },
+      "hiddenSeries": false,
+      "id": 30,
+      "legend": {
+        "alignAsTable": false,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- This report returns the cpu cores and memory size over time\n-- for the virtual machines in the selected cluster.\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\n\n-- Memory size\nSELECT DISTINCT\n    $__time(history_datetime),\n    SUM ( ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) ) AS \"Total Memory Size\"\nFROM\n    v4_4_configuration_history_vms\n    INNER JOIN\n    v4_4_statistics_vms_resources_usage_samples\n        ON\n            (\n                v4_4_configuration_history_vms.history_id =\n                v4_4_statistics_vms_resources_usage_samples.vm_configuration_version\n            )\nWHERE \n    -- Show data only when the selected period is up to 24 hours back\n    $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\n    AND v4_4_configuration_history_vms.vm_id IN ($vm_id)\n    AND history_datetime >= $__timeFrom() \n    AND history_datetime < $__timeTo()\n    AND    \n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN delete_date isnull\n        END\nGROUP BY history_datetime\nORDER BY history_datetime",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- This report returns the cpu cores and memory size over time\n-- for the virtual machines in the selected cluster.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\n\n-- Memory size\nSELECT DISTINCT\n    $__time(history_datetime),\n    SUM ( ROUND ( CAST ( COALESCE ( memory_size_mb, 0.00 ) AS float ) :: numeric / 1024, 1 ) ) AS \"Total Memory Size\"\nFROM\n    v4_4_configuration_history_vms\n    INNER JOIN\n    (\n            SELECT history_datetime, vm_configuration_version\n            FROM v4_4_statistics_vms_resources_usage_hourly\n        UNION\n            SELECT history_datetime, vm_configuration_version\n            FROM v4_4_statistics_vms_resources_usage_daily\n            WHERE\n                history_datetime <\n                    (\n                        SELECT MIN ( history_datetime )\n                        FROM v4_4_statistics_vms_resources_usage_hourly\n                    )\n    ) AS hourly_daily\n        ON\n            (\n                v4_4_configuration_history_vms.history_id =\n                hourly_daily.vm_configuration_version\n            )\nWHERE \n    -- Show data only when the selected period is more then 24 hours back\n    $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\n    AND v4_4_configuration_history_vms.vm_id IN ($vm_id)\n    AND history_datetime >= $__timeFrom() \n    AND history_datetime < $__timeTo()\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN delete_date isnull\n        END\nGROUP BY history_datetime\nORDER BY history_datetime",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Virtual Machines Memory Size (over time)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 1,
+          "format": "decgbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "description": "This report displays the CPU cores for the virtual machines in the selected cluster, and over a selected period.",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 4
+      },
+      "hiddenSeries": false,
+      "id": 32,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- This report returns the cpu cores and memory size over time\n-- for the virtual machines in the selected cluster.\n\n-- This query (A) displays recent data from the last hours, \n-- and for each minute, using the samples table.\n\n-- CPU cores\nSELECT DISTINCT\n    $__time(history_datetime),\n    SUM ( ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) ) AS \"Total CPU Cores\"\nFROM\n    v4_4_configuration_history_vms\n    INNER JOIN\n    v4_4_statistics_vms_resources_usage_samples\n        ON\n            (\n                v4_4_configuration_history_vms.history_id =\n                v4_4_statistics_vms_resources_usage_samples.vm_configuration_version\n            )\nWHERE \n    -- Show data only when the selected period is up to 24 hours back\n    $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\n    AND v4_4_configuration_history_vms.vm_id IN ($vm_id)\n    AND history_datetime >= $__timeFrom() \n    AND history_datetime < $__timeTo()\n    AND    \n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN delete_date isnull\n        END\nGROUP BY history_datetime\nORDER BY history_datetime",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- This report returns the cpu cores and memory size over time\n-- for the virtual machines in the selected cluster.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\n\n-- CPU cores\nSELECT DISTINCT\n    $__time(history_datetime),\n    SUM ( ROUND ( COALESCE ( cpu_per_socket, 0 ) * COALESCE ( number_of_sockets, 0 ), 0 ) ) AS \"Total CPU Cores\"\nFROM\n    v4_4_configuration_history_vms\n    INNER JOIN\n    (\n            SELECT history_datetime, vm_configuration_version\n            FROM v4_4_statistics_vms_resources_usage_hourly\n        UNION\n            SELECT history_datetime, vm_configuration_version\n            FROM v4_4_statistics_vms_resources_usage_daily\n            WHERE\n                history_datetime <\n                    (\n                        SELECT MIN ( history_datetime )\n                        FROM v4_4_statistics_vms_resources_usage_hourly\n                    )\n    ) AS hourly_daily\n        ON\n            (\n                v4_4_configuration_history_vms.history_id =\n                hourly_daily.vm_configuration_version\n            )\nWHERE \n    -- Show data only when the selected period is more then 24 hours back\n    $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\n    AND v4_4_configuration_history_vms.vm_id IN ($vm_id)\n    AND history_datetime >= $__timeFrom() \n    AND history_datetime < $__timeTo()\n    AND\n        CASE\n            WHEN '$show_deleted'='Yes'\n                THEN 1=1\n            WHEN '$show_deleted'='No'\n                THEN delete_date isnull\n        END\nGROUP BY history_datetime\nORDER BY history_datetime",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Virtual Machines CPU Cores (over time)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 0,
+          "format": "none",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": "$datasource",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 12
+      },
       "id": 23,
       "panels": [],
-      "title": "Reports",
+      "title": "Utilization",
       "type": "row"
     },
     {
@@ -143,7 +434,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 4
+        "y": 13
       },
       "hiddenSeries": false,
       "id": 19,
@@ -280,7 +571,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 4
+        "y": 13
       },
       "hiddenSeries": false,
       "id": 15,
@@ -417,7 +708,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 12
+        "y": 21
       },
       "hiddenSeries": false,
       "id": 17,
@@ -556,7 +847,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 12
+        "y": 21
       },
       "hiddenSeries": false,
       "id": 26,
@@ -695,7 +986,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 20
+        "y": 29
       },
       "hiddenSeries": false,
       "id": 18,
