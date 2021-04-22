@@ -63,7 +63,7 @@
   "links": [],
   "panels": [
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -76,7 +76,7 @@
     },
     {
       "content": "\n###### This dashboard contains reports that shows the time and total time each virtual machine have performed above/below the CPU/memory threshold.\n\n\n",
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -121,7 +121,7 @@
       "type": "text"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -141,7 +141,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "This report displays the time virtual machines have performed above CPU threshold.",
       "format": "m",
@@ -245,7 +245,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "This report displays the time virtual machines have performed above memory threshold.",
       "format": "m",
@@ -349,7 +349,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "This report displays the time virtual machines have performed below CPU threshold.",
       "format": "m",
@@ -453,7 +453,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "This report displays the time virtual machines have performed below memory threshold.",
       "format": "m",
@@ -550,7 +550,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays the total time each virtual machine have performed above the CPU or the memory threshold.",
       "fontSize": "100%",
       "gridPos": {
@@ -633,7 +633,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "Link to Virtual Machine Dashboard",
-          "linkUrl": "/ovirt-engine-grafana/d/VirtualMachineDashboard/virtual-machine-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-vm_id=${__cell_2}",
+          "linkUrl": "/ovirt-engine-grafana/d/VirtualMachineDashboard/virtual-machine-dashboard?orgId=1&var-datasource=$datasource&var-show_deleted=${__cell_0}&var-vm_id=${__cell_2}",
           "mappingType": 1,
           "pattern": "vm_name",
           "thresholds": [],
@@ -782,6 +782,24 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "postgres",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {
           "tags": [],
@@ -812,7 +830,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT   \n    CAST ( datacenter_id AS varchar ) AS __value,   \n    CASE          \n        WHEN delete_date IS NULL  \t     \t    \n            THEN datacenter_name \t \t\n        WHEN delete_date IS NOT null  \t      \t    \n            THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \n    END AS __text  \t\t\nFROM v4_4_configuration_history_datacenters  \t\t\nWHERE       \t\t    \n    history_id           \t\t\t    \n        IN               \t\t\t\t\n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_datacenters a  \t\t         \t\t\t\t\t\n                GROUP BY a.datacenter_id \t         \t\t\t\t\n            ) \t \t\t\t\n    AND datacenter_id  \t         \t\t\t    \n        IN \t\t\t     \t\t\t\t    \n            ( \t\t\t\t\t \t\t\t\t\t\t\n                SELECT DISTINCT datacenter_id \t\t\t\t\t \t\t\t\t\t\t\n                FROM v4_4_configuration_history_clusters \t\t\t\t\t \t\t\t\t\t\t\n                WHERE  \t\t\t\t\t     \t\t\t\t\t\t    \n                    cluster_id \t\t\t\t\t         \t\t\t\t\t\t        \n                        IN \t\t\t\t\t             \t\t\t\t\t\t            \n                            ( \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\n                                SELECT DISTINCT cluster_id \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\n                                FROM v4_4_configuration_history_vms  \t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\n                            ) \t\t\t\t \t\t\t\t\t\n            ) \t \t\t\t\n    AND \t    \t\t\t    \n        CASE  \t        \t\t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t    \n                THEN 1=1 \t\t    \t\t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    \n                THEN v4_4_configuration_history_datacenters.delete_date ISNULL \t                \n    END",
         "hide": 0,
         "includeAll": true,
@@ -835,7 +853,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT        \n    CAST ( cluster_id AS varchar ) AS __value,  \t\n    CASE      \t    \n        WHEN delete_date IS NULL  \t     \t\t    \n            THEN cluster_name \t \t\t\n        WHEN delete_date IS NOT null  \t      \t\t    \n            THEN cluster_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \t\n    END AS __text  \t\nFROM v4_4_configuration_history_clusters  \t\nWHERE       \t    \n    history_id           \t\t    \n        IN               \t\t\t    \n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_clusters a  \t\t         \t\t\t\t\t\n                GROUP BY a.cluster_id \t         \t\t\t\t\n            ) \t \t\t\n    AND cluster_id  \t         \t\t    \n        IN \t\t\t     \t\t\t    \n            ( \t\t\t\t\t \t\t\t\t\t\n                SELECT DISTINCT cluster_id \t\t\t\t\t \t\t\t\t\t\n                FROM v4_4_configuration_history_vms \t\t\t\t \t\t\t\t\n            ) \t \t\t\n    AND \t    \t\t    \n        CASE  \t        \t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t    \n                THEN 1=1 \t\t    \t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t    \n                THEN v4_4_configuration_history_clusters.delete_date ISNULL \t    \t\t\t\n        END     \t\t\n    AND datacenter_id IN ($datacenter_id)",
         "hide": 0,
         "includeAll": true,
@@ -858,7 +876,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT        \n    CAST ( vm_id AS varchar ) AS __value,  \t\n    CASE      \t    \n        WHEN delete_date IS NULL  \t     \t\t    \n            THEN vm_name \t \t\t\n        WHEN delete_date IS NOT null  \t      \t\t    \n            THEN vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \t\n    END AS __text  \t\nFROM v4_4_configuration_history_vms  \t\nWHERE       \t    \n    history_id           \t\t    \n        IN               \t\t\t    \n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_vms a  \t\t         \t\t\t\t\t\n                GROUP BY a.vm_id \t         \t\t\t\t\n            ) \t \t\t\n    AND \t    \t\t    \n        CASE  \t        \t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t    \n                THEN 1=1 \t\t    \t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t    \n                THEN v4_4_configuration_history_vms.delete_date ISNULL \t    \t\t\t\n        END     \t\t\n    AND cluster_id IN ($cluster_id)",
         "hide": 0,
         "includeAll": true,

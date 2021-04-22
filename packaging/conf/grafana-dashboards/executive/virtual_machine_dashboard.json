@@ -76,7 +76,7 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -90,7 +90,7 @@
     },
     {
       "content": "###### The virtual machine dashboard displays the configuration details and resource usage metrics of a selected virtual machine.",
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 2,
         "w": 23,
@@ -106,7 +106,7 @@
       "type": "text"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -120,7 +120,7 @@
     {
       "cacheTimeout": null,
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The data center, cluster, host that the virtual machine is currently running on, and description. In the latest configuration.\n",
       "fontSize": "100%",
       "gridPos": {
@@ -225,7 +225,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "Link to Host Dashboard",
-          "linkUrl": "/ovirt-engine-grafana/d/HostDashboard/host-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-host_id=${__cell_1}",
+          "linkUrl": "/ovirt-engine-grafana/d/HostDashboard/host-dashboard?orgId=1&var-datasource=$datasource&var-show_deleted=${__cell_0}&var-host_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "host_name",
           "thresholds": [],
@@ -287,7 +287,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The latest configuration details of the virtual machine.",
       "fontSize": "100%",
       "gridPos": {
@@ -433,7 +433,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 0,
       "description": "The status of the virtual machine. In the latest configuration.",
       "format": "none",
@@ -540,7 +540,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 0,
       "description": "High Availability (true or false). In the latest configuration.",
       "format": "none",
@@ -647,7 +647,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 0,
       "description": "The number of CPU cores of the virtual machine. In the latest configuration.",
       "format": "none",
@@ -754,7 +754,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "The memory size of the virtual machine. In the latest configuration.",
       "format": "decgbytes",
@@ -861,7 +861,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "The total disks size of the virtual machine. In the latest configuration.",
       "format": "decgbytes",
@@ -959,7 +959,7 @@
       "valueName": "current"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The uptime percentage of the virtual machine, over the selected period.",
       "gridPos": {
         "h": 4,
@@ -1058,7 +1058,7 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The CPU usage percentage of the virtual machine. In the latest configuration.",
       "gridPos": {
         "h": 4,
@@ -1139,7 +1139,7 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The Memory usage percentage of the virtual machine. In the latest configuration.",
       "gridPos": {
         "h": 4,
@@ -1220,7 +1220,7 @@
     },
     {
       "cacheTimeout": null,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The Disks usage percentage of the virtual machine. In the latest configuration.",
       "gridPos": {
         "h": 4,
@@ -1309,7 +1309,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The disks name, size, and used size of the virtual machine. In the latest configuration.",
       "fontSize": "100%",
       "gridPos": {
@@ -1414,7 +1414,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The latest virtual machine interfaces configuration details.",
       "fontSize": "100%",
       "gridPos": {
@@ -1586,7 +1586,7 @@
       "type": "table"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1600,7 +1600,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This table details user Spice activity - time spent and resources used in the session in a selected data center and cluster within a selected period.",
       "fontSize": "100%",
       "gridPos": {
@@ -1866,7 +1866,7 @@
       "type": "table"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1882,7 +1882,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "Average CPU usage and peaks of the virtual machine, over the selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -2019,7 +2019,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "Average memory usage and peaks of the virtual machine, over the selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -2156,7 +2156,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "Average read and write rates of the virtual machine disks, over the selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -2294,7 +2294,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "Average read and write operations per second of the virtual machine disks, over the selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -2432,7 +2432,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "Average transmit and receive rates of the virtual machine interfaces, over the selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -2580,6 +2580,24 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "postgres",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {
           "selected": false,
@@ -2611,7 +2629,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT   \n    CAST ( vm_id AS varchar ) AS __value,  \n    CASE          \n        WHEN delete_date IS NULL  \t     \t    \n            THEN vm_name \t \t\n        WHEN delete_date IS NOT null  \t      \t    \n            THEN vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \n    END AS __text  \t\t\nFROM v4_4_configuration_history_vms  \t\t\nWHERE       \t\t    \n    history_id           \t\t\t    \n        IN               \t\t\t\t\n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_vms a  \t\t         \t\t\t\t\t\n                GROUP BY a.vm_id \t         \t\t\t\t\n            ) \t \t\t\t\t\t\n    AND \t    \t\t\t    \n        CASE  \t        \t\t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t   \n                THEN 1=1 \t\t    \t\t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    \n                THEN v4_4_configuration_history_vms.delete_date ISNULL \t                \n        END",
         "hide": 0,
         "includeAll": false,

@@ -63,7 +63,7 @@
   "links": [],
   "panels": [
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -76,7 +76,7 @@
     },
     {
       "content": "\n###### This dashboard include inventory list and disk usage for the selected storage domain.\n\n###### **Note:** Available Disk Size range must contain numeric values or Null.\n\n\n",
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -121,7 +121,7 @@
       "type": "text"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -134,7 +134,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays a inventory list of all storage domains of the selected data center.",
       "fontSize": "100%",
       "gridPos": {
@@ -372,7 +372,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays average available disk size for the selected data center and storage domain over a selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -512,7 +512,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays average used disk size for the selected data center and storage domain over a selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -653,7 +653,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays used disk size versus available disk size ( total disk size ) for the selected data center and storage domain over a selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -793,7 +793,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays total used disk size for the selected data center and storage domain over a selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -940,6 +940,24 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "postgres",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {
           "selected": true,
@@ -971,7 +989,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT  \n    CAST ( datacenter_id AS varchar ) AS __value, \n    CASE     \n        WHEN delete_date IS NULL\n            THEN datacenter_name \t\n        WHEN delete_date is not null  \t     \n            THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' \n    END AS __text \nFROM v4_4_configuration_history_datacenters \nWHERE\n    history_id\n        IN              \n            (  \t            \n                SELECT MAX ( a.history_id )  \t\t        \n                FROM v4_4_configuration_history_datacenters a  \t\t        \n                GROUP BY a.datacenter_id \t        \n            ) \t\n    AND datacenter_id\n      \tIN \t\t\t\n            ( \t\t\t     \n                SELECT DISTINCT datacenter_id \t\t\t\t \n                FROM v4_4_map_history_datacenters_storage_domains \t\t\t\n            ) \t\n    AND \t   \n        CASE  \t       \n            WHEN '$show_deleted'='Yes' \t           \n                THEN 1=1 \t\t   \n            WHEN '$show_deleted'='No' \t\t       \n                THEN v4_4_configuration_history_datacenters.delete_date ISNULL \t   \n        END",
         "hide": 0,
         "includeAll": true,
@@ -994,7 +1012,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT   \n    CAST ( storage_domain_id AS varchar ) AS __value, \n    CASE     \n        WHEN delete_date IS NULL  \t    \n            THEN storage_domain_name \t\n        WHEN delete_date is not null  \t     \n            THEN storage_domain_name || ' (Detached on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')' \n    END AS __text \nFROM      \n    ( \t\t\n        SELECT  \t\t    \n            v4_4_configuration_history_storage_domains.*,  \t\t    \n            v4_4_map_history_datacenters_storage_domains.datacenter_id \t\t\n        FROM \t\t    \n            v4_4_configuration_history_storage_domains             \n            LEFT JOIN              \n            v4_4_map_history_datacenters_storage_domains             \n                USING (storage_domain_id) \t\n    ) AS b \nWHERE      \n    history_id          \n        IN              \n            (  \t            \n                SELECT MAX ( a.history_id )  \t\t        \n                FROM v4_4_configuration_history_storage_domains a  \t\t        \n                GROUP BY a.storage_domain_id \t        \n            ) \t\n    AND datacenter_id IN ($datacenter_id) \t\n    AND \t   \n        CASE  \t       \n            WHEN '$show_deleted'='Yes' \t           \n                THEN 1=1 \t\t   \n            WHEN '$show_deleted'='No' \t\t       \n                THEN delete_date ISNULL \t   \n        END",
         "hide": 0,
         "includeAll": true,
@@ -1017,7 +1035,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT           \n    value AS __text,           \n    enum_key AS __value \nFROM       \n    ( \t \t\t\n        SELECT        \t\t    \n            enum_translator.*,       \t\t    \n            v4_4_configuration_history_storage_domains.storage_domain_id      \t\t\n        FROM  \t     \t\t    \n            enum_translator     \t\t    \n            LEFT JOIN \t         \t\t    \n            v4_4_configuration_history_storage_domains\t     \t\t    \n                ON  \t         \t\t        \n                    (  \t\t\t     \t\t\t\t\t\n                        enum_translator.enum_key =  \t\t\t\t \t\t\t\t\t\n                        v4_4_configuration_history_storage_domains.storage_domain_type \t\t\t\t\t\n                        AND v4_4_configuration_history_storage_domains.history_id \t\t\t\t\t    \n                            IN \t\t\t\t\t        \n                                (  \t\t\t\t\t\t\t\t\n                                    SELECT MAX (a.history_id) \t\t\t\t\t\t\t\t\n                                    FROM v4_4_configuration_history_storage_domains a \t\t\t\t\t\t\t\t\n                                    GROUP BY a.storage_domain_id \t\t\t\t\t\t\t\n                                ) \t\t\t\t\n                    )  \t\n    ) AS b  \nWHERE \n    language_code = 'en_US'       \n    AND enum_type ='STORAGE_DOMAIN_TYPE' \n    AND storage_domain_id IN ($storage_id)",
         "hide": 0,
         "includeAll": true,
@@ -1040,7 +1058,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT                \n    value AS __text,                \n    enum_key AS __value  \nFROM            \n    ( \t \t\t         \n        SELECT             \n            enum_translator.*,             \n            v4_4_configuration_history_storage_domains.storage_domain_id,             \n            v4_4_configuration_history_storage_domains.storage_domain_type         \n        FROM   \t    \n            enum_translator     \t\t                 \n            LEFT JOIN \t         \t\t                 \n            v4_4_configuration_history_storage_domains\t     \t\t                     \n               ON   \t            \n                   (   \t\t        \n                       enum_translator.enum_key =  \t\t\t\t \t\t\t\t\t                        \n                       v4_4_configuration_history_storage_domains.storage_type  \t\t        \n                       AND  v4_4_configuration_history_storage_domains.history_id \t\t\t\t\t                                     \n                           IN \t\t\t\t\t                                             \n                               (  \t\t\t\t        \n                                   SELECT MAX (a.history_id) \t\t\t\t\t\t                          \t        \n                                   FROM v4_4_configuration_history_storage_domains a  \t\t\t\t        \n                                   GROUP BY a.storage_domain_id  \t\t\t\t    \n                               ) \t\t\t\t                     \n                   )  \t     \n    ) AS b   \nWHERE      \n    language_code = 'en_US'            \n    AND enum_type ='STORAGE_TYPE'        \n    AND storage_domain_type IN ($domain_type)",
         "hide": 0,
         "includeAll": true,

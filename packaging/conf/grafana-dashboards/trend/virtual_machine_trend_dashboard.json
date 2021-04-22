@@ -58,7 +58,7 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -72,7 +72,7 @@
     },
     {
       "content": "\n###### This dashboard displays resource usage (CPU, memory, network Tx/Rx, disk I/O) for a selected virtual machine over a selected period.\n\n\n\n",
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -118,7 +118,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -135,7 +135,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays average CPU usage and peaks for a selected virtual machine over a selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -272,7 +272,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays average memory usage and peaks for a selected virtual machine over a selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -409,7 +409,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays average disk read and write rates for a selected virtual machine over a selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -548,7 +548,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays average disk read and write operations per second for a selected virtual machine over a selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -687,7 +687,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays for the top 3 most utilized network interfaces the average transmit and receive rates for a selected virtual machine over a selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -834,6 +834,24 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "postgres",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {
           "selected": true,
@@ -865,7 +883,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT   \n    CAST ( datacenter_id AS varchar ) AS __value,  \n    CASE          \n        WHEN delete_date IS NULL  \t     \t    \n            THEN datacenter_name \t \t\n        WHEN delete_date IS NOT null  \t      \t    \n            THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \n    END AS __text  \t\t\nFROM v4_4_configuration_history_datacenters  \t\t\nWHERE       \t\t    \n    history_id           \t\t\t    \n        IN               \t\t\t\t\n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_datacenters a  \t\t         \t\t\t\t\t\n                GROUP BY a.datacenter_id \t         \t\t\t\t\n            ) \t \t\t\t\n    AND datacenter_id  \t         \t\t\t    \n        IN \t\t\t     \t\t\t\t    \n            ( \t\t\t\t\t \t\t\t\t\t\t\n                SELECT DISTINCT datacenter_id \t\t\t\t\t \t\t\t\t\t\t\n                FROM v4_4_configuration_history_clusters \t\t\t\t\t \t\t\t\t\t\t\n                WHERE  \t\t\t\t\t     \t\t\t\t\t\t    \n                    cluster_id \t\t\t\t\t         \t\t\t\t\t\t        \n                        IN \t\t\t\t\t             \t\t\t\t\t\t            \n                            ( \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\n                                SELECT DISTINCT cluster_id \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\n                                FROM v4_4_configuration_history_vms  \t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\n                            ) \t\t\t\t\t\n            ) \t \t\t\t\n    AND \t    \t\t\t    \n        CASE  \t        \t\t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t    \n                THEN 1=1 \t\t    \t\t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    \n                THEN v4_4_configuration_history_datacenters.delete_date ISNULL \t                \n        END",
         "hide": 0,
         "includeAll": true,
@@ -888,7 +906,7 @@
       {
         "allValue": "",
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT        \n    CAST ( cluster_id AS varchar ) AS __value,  \t\n    CASE      \t    \n        WHEN delete_date IS NULL  \t     \t\t    \n            THEN cluster_name \t \t\t\n        WHEN delete_date IS NOT null  \t      \t\t    \n            THEN cluster_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \t\n    END AS __text  \t\nFROM v4_4_configuration_history_clusters  \t\nWHERE       \t    \n    history_id           \t\t    \n        IN               \t\t\t    \n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_clusters a  \t\t         \t\t\t\t\t\n                GROUP BY a.cluster_id \t         \t\t\t\t\n            ) \t \t\t\n    AND cluster_id  \t\t    \n        IN \t\t\t     \t\t\t    \n            ( \t\t\t\t\t \t\t\t\t\t\n                SELECT DISTINCT cluster_id \t\t\t\t\t \t\t\t\t\t\n                FROM v4_4_configuration_history_vms \t\t\t\t \t\t\t\t\n            ) \t\t\n    AND \t    \t\t    \n        CASE  \t        \t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t    \n                THEN 1=1 \t\t    \t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t    \n                THEN v4_4_configuration_history_clusters.delete_date ISNULL \t    \t\t\t\n        END     \t\t\n    AND datacenter_id IN ($datacenter_id)",
         "hide": 0,
         "includeAll": true,
@@ -911,7 +929,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT        \n    CAST ( vm_id AS varchar ) AS __value,  \t\n    CASE      \t    \n        WHEN delete_date IS NULL  \t     \t\t    \n            THEN vm_name \t \t\t\n        WHEN delete_date IS NOT null  \t      \t\t    \n            THEN vm_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \t\n    END AS __text  \t\nFROM v4_4_configuration_history_vms  \t\nWHERE       \t    \n    history_id           \t\t    \n        IN               \t\t\t    \n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_vms a  \t\t         \t\t\t\t\t\n                GROUP BY a.vm_id \t         \t\t\t\t\n            ) \t \t\t\n    AND \t    \t\t    \n        CASE  \t        \t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t    \n                THEN 1=1 \t\t    \t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t    \n                THEN v4_4_configuration_history_vms.delete_date ISNULL \t    \t\t\t\n        END     \t\t\n    AND cluster_id IN ($cluster_id)",
         "hide": 0,
         "includeAll": true,

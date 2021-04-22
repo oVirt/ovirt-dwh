@@ -76,7 +76,7 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -90,7 +90,7 @@
     },
     {
       "content": "###### The host dashboard displays the configuration details and resources usage metrics of a selected host.",
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 2,
         "w": 23,
@@ -107,7 +107,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -122,7 +122,7 @@
     {
       "cacheTimeout": null,
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The data center and cluster of the host. In the latest configuration.\n",
       "fontSize": "100%",
       "gridPos": {
@@ -287,7 +287,7 @@
     {
       "cacheTimeout": null,
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The latest configuration details of the host.",
       "fontSize": "100%",
       "gridPos": {
@@ -420,7 +420,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 0,
       "description": "The status of the host. In the latest configuration.",
       "format": "none",
@@ -526,7 +526,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 0,
       "description": "The number of running virtual machines on the host. In the latest configuration.",
       "format": "none",
@@ -633,7 +633,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 0,
       "description": "The number of CPU cores of the host. In the latest configuration.",
       "format": "none",
@@ -739,7 +739,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "The memory size of the host. In the latest configuration.",
       "format": "decgbytes",
@@ -845,7 +845,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "The total disks size of running virtual machines on the host. In the latest configuration.",
       "format": "decgbytes",
@@ -954,7 +954,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Running virtual machines total CPU cores vs. host CPU cores. In the latest configuration.",
       "format": "percentunit",
@@ -1054,7 +1054,7 @@
       "valueName": "current"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The uptime percentage of the host, over the selected period.",
       "gridPos": {
         "h": 4,
@@ -1153,7 +1153,7 @@
     },
     {
       "cacheTimeout": null,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The CPU usage percentage of the host. In the latest configuration.",
       "gridPos": {
         "h": 4,
@@ -1242,7 +1242,7 @@
     },
     {
       "cacheTimeout": null,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The Memory usage percentage of the host. In the latest configuration.",
       "gridPos": {
         "h": 4,
@@ -1331,7 +1331,7 @@
     },
     {
       "cacheTimeout": null,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "Running virtual machines total used disks size vs. Running virtual machines total disks size. In the latest configuration.",
       "gridPos": {
         "h": 4,
@@ -1430,7 +1430,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Running virtual machines total memory size vs. host memory size. In the latest configuration.",
       "format": "percentunit",
@@ -1531,7 +1531,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The virtual machines running on the host, and the size of their resources. In the latest configuration.",
       "fontSize": "100%",
       "gridPos": {
@@ -1595,7 +1595,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "Link to Virtual Machine Dashboard",
-          "linkUrl": "/ovirt-engine-grafana/d/VirtualMachineDashboard/virtual-machine-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-vm_id=${__cell_1}",
+          "linkUrl": "/ovirt-engine-grafana/d/VirtualMachineDashboard/virtual-machine-dashboard?orgId=1&var-datasource=$datasource&var-show_deleted=${__cell_0}&var-vm_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "vm_name",
           "thresholds": [],
@@ -1708,7 +1708,7 @@
     {
       "cacheTimeout": null,
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The latest host interfaces configuration details.",
       "fontSize": "100%",
       "gridPos": {
@@ -1883,7 +1883,7 @@
     },
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -1900,7 +1900,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "Average CPU usage and peaks of the host, over the selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -2036,7 +2036,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "Average memory usage and peaks of the host, over the selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -2171,7 +2171,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "Average transmit and receive rates of the host interfaces, over the selected period.",
       "fill": 1,
       "fillGradient": 0,
@@ -2321,6 +2321,24 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "postgres",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {
           "selected": true,
@@ -2351,7 +2369,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT   \n    CAST ( host_id AS varchar ) AS __value,  \n    CASE          \n        WHEN delete_date IS NULL  \t     \t    \n            THEN host_name \t \t\n        WHEN delete_date IS NOT null  \t      \t    \n            THEN host_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \n    END AS __text  \t\t\nFROM v4_4_configuration_history_hosts  \t\t\nWHERE       \t\t    \n    history_id           \t\t\t    \n        IN               \t\t\t\t\n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_hosts a  \t\t         \t\t\t\t\t\n                GROUP BY a.host_id \t         \t\t\t\t\n            )\t\t\n    AND \t    \t\t\t    \n        CASE  \t        \t\t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t   \n                THEN 1=1 \t\t    \t\t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    \n                THEN v4_4_configuration_history_hosts.delete_date ISNULL \t                \n        END ",
         "hide": 0,
         "includeAll": false,

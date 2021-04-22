@@ -63,7 +63,7 @@
   "links": [],
   "panels": [
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -76,7 +76,7 @@
     },
     {
       "content": "\n###### This dashboard displays data about the virtual machines uptime and downtime.\n\n\n\n\n",
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -120,7 +120,7 @@
       "type": "text"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -133,7 +133,7 @@
     },
     {
       "cacheTimeout": null,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays the average planned downtime of a selected virtual machine within a selected period.",
       "gridPos": {
         "h": 6,
@@ -254,7 +254,7 @@
       "type": "gauge"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays the average unplanned downtime of a selected virtual machine within a selected period.",
       "gridPos": {
         "h": 6,
@@ -377,7 +377,7 @@
     {
       "cacheTimeout": null,
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays the average uptime and downtime of a selected virtual machine within a selected period.",
       "fontSize": "100%",
       "gridPos": {
@@ -444,7 +444,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "Link to Virtual Machine Dashboard",
-          "linkUrl": "/ovirt-engine-grafana/d/VirtualMachineDashboard/virtual-machine-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-vm_id=${__cell_1}",
+          "linkUrl": "/ovirt-engine-grafana/d/VirtualMachineDashboard/virtual-machine-dashboard?orgId=1&var-datasource=$datasource&var-show_deleted=${__cell_0}&var-vm_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "vm_name",
           "thresholds": [],
@@ -686,9 +686,27 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "postgres",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT\n    datacenter_name AS __text,\n    datacenter_id AS __value\nFROM v4_4_latest_configuration_datacenters",
         "hide": 0,
         "includeAll": true,
@@ -711,7 +729,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT\n    cluster_name AS __text,\n    cluster_id AS __value\nFROM v4_4_latest_configuration_clusters\nWHERE datacenter_id IN ($datacenter_id)",
         "hide": 0,
         "includeAll": true,
@@ -734,7 +752,7 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT\n    vm_name AS __text,\n    vm_id AS __value\nFROM v4_4_latest_configuration_vms\nWHERE cluster_id IN ($cluster_id)",
         "hide": 0,
         "includeAll": true,

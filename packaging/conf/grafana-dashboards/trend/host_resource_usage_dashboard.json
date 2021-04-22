@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.2.2"
+      "version": "6.7.4"
     },
     {
       "type": "panel",
@@ -57,6 +57,7 @@
   "links": [],
   "panels": [
     {
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -69,6 +70,7 @@
     },
     {
       "content": "\n###### This dashboard displays resource usage (number of virtual machines, CPU, memory, network Tx/Rx) for a selected host within a selected period.\n\n\n\n",
+      "datasource": "$datasource",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -79,7 +81,6 @@
       "id": 36,
       "links": [],
       "mode": "markdown",
-      "options": {},
       "targets": [
         {
           "format": "time_series",
@@ -115,6 +116,7 @@
     },
     {
       "collapsed": false,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -131,15 +133,17 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays average number of virtual machines for a selected host within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 4
       },
+      "hiddenSeries": false,
       "id": 23,
       "legend": {
         "avg": false,
@@ -154,7 +158,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -266,15 +272,17 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays average number of virtual machines peaks for a selected host within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 4
       },
+      "hiddenSeries": false,
       "id": 34,
       "legend": {
         "avg": false,
@@ -289,7 +297,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -398,6 +408,7 @@
     },
     {
       "collapsed": false,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -414,15 +425,17 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays average CPU usage for a selected host within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 0,
         "y": 13
       },
+      "hiddenSeries": false,
       "id": 21,
       "legend": {
         "avg": false,
@@ -438,7 +451,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -550,15 +565,17 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays average CPU usage peaks for a selected host within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 12,
         "x": 12,
         "y": 13
       },
+      "hiddenSeries": false,
       "id": 22,
       "legend": {
         "avg": false,
@@ -574,7 +591,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -683,6 +702,7 @@
     },
     {
       "collapsed": false,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -700,15 +720,17 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays average memory usage for a selected host within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 21
       },
+      "hiddenSeries": false,
       "hideTimeOverride": false,
       "id": 15,
       "legend": {
@@ -724,7 +746,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -837,15 +861,17 @@
       "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays average memory usage peaks for a selected host within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 21
       },
+      "hiddenSeries": false,
       "hideTimeOverride": false,
       "id": 28,
       "legend": {
@@ -861,7 +887,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -970,6 +998,7 @@
     },
     {
       "collapsed": false,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -986,15 +1015,17 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays for the top 3 most utilized network interfaces the average network interface transmit rate for a selected host within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 0,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 19,
       "legend": {
         "avg": false,
@@ -1009,7 +1040,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1122,15 +1155,17 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays for the top 3 most utilized network interfaces the average network interface receive rate for a selected host within a selected period.",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 31,
       "legend": {
         "avg": false,
@@ -1145,7 +1180,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1255,7 +1292,7 @@
     }
   ],
   "refresh": false,
-  "schemaVersion": 18,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "Host",
@@ -1266,6 +1303,24 @@
   ],
   "templating": {
     "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "postgres",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
       {
         "allValue": null,
         "current": {
@@ -1298,10 +1353,11 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT   \n    CAST ( datacenter_id AS varchar ) AS __value,  \n    CASE          \n        WHEN delete_date IS NULL  \t     \t    \n            THEN datacenter_name \t \t\n        WHEN delete_date IS NOT null  \t      \t    \n            THEN datacenter_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \n    END AS __text  \t\t\nFROM v4_4_configuration_history_datacenters  \t\t\nWHERE       \t\t    \n    history_id           \t\t\t    \n        IN               \t\t\t\t\n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_datacenters a  \t\t         \t\t\t\t\t\n                GROUP BY a.datacenter_id \t         \t\t\t\t\n            ) \t \t\t\t\n    AND datacenter_id  \t         \t\t\t    \n        IN \t\t\t     \t\t\t\t    \n            ( \t\t\t\t\t \t\t\t\t\t\t\n                SELECT DISTINCT datacenter_id \t\t\t\t\t \t\t\t\t\t\t\n                FROM v4_4_configuration_history_clusters \t\t\t\t\t \t\t\t\t\t\t\n                WHERE  \t\t\t\t\t     \t\t\t\t\t\t    \n                    cluster_id \t\t\t\t\t         \t\t\t\t\t\t        \n                        IN \t\t\t\t\t             \t\t\t\t\t\t            \n                            ( \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\n                                SELECT DISTINCT cluster_id \t\t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\t\n                                FROM v4_4_configuration_history_hosts  \t\t\t\t\t\t\t\t \t\t\t\t\t\t\t\t\t\n                            ) \t\t\t\t\t\n            ) \t\t\t\n    AND \t    \t\t\t    \n        CASE  \t        \t\t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t    \n                THEN 1=1 \t\t    \t\t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    \n                THEN v4_4_configuration_history_datacenters.delete_date ISNULL \t                \n        END",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Data Center",
         "multi": true,
         "name": "datacenter_id",
@@ -1320,10 +1376,11 @@
       {
         "allValue": "",
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT        \n    CAST ( cluster_id AS varchar ) AS __value,  \t\n    CASE      \t    \n        WHEN delete_date IS NULL  \t     \t\t    \n            THEN cluster_name \t \t\t\n        WHEN delete_date IS NOT null  \t      \t\t    \n            THEN cluster_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \t\n    END AS __text  \t\nFROM v4_4_configuration_history_clusters  \t\nWHERE       \t    \n    history_id           \t\t    \n        IN               \t\t\t    \n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_clusters a  \t\t         \t\t\t\t\t\n                GROUP BY a.cluster_id \t         \t\t\t\t\n            ) \t \t\t\n    AND cluster_id  \t\t    \n        IN \t\t\t     \t\t\t     \n            ( \t\t\t\t\t \t\t\t        \n                SELECT DISTINCT cluster_id \t\t\t\t\t \t\t\t\t\t\n                FROM v4_4_configuration_history_hosts \t\t\t\t \t\t\t\t\n            ) \t\t\n    AND \t    \t\t    \n        CASE  \t        \t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t    \n                THEN 1=1 \t\t    \t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t    \n                THEN v4_4_configuration_history_clusters.delete_date ISNULL \t    \t\t\t\n        END     \t\t\n    AND datacenter_id IN ($datacenter_id)",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Cluster",
         "multi": true,
         "name": "cluster_id",
@@ -1342,10 +1399,11 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT   \n    CAST ( host_id AS varchar ) AS __value,  \n    CASE          \n        WHEN delete_date IS NULL  \t     \t    \n            THEN host_name \t \t\n        WHEN delete_date IS NOT null  \t      \t    \n            THEN host_name || ' (Removed on ' || CAST ( CAST ( delete_date AS date ) AS varchar ) || ')'  \n    END AS __text  \t\t\nFROM v4_4_configuration_history_hosts  \t\t\nWHERE       \t\t    \n    history_id           \t\t\t    \n        IN               \t\t\t\t\n            (  \t             \t\t\t\t\t\n                SELECT MAX ( a.history_id )  \t\t         \t\t\t\t\t\n                FROM v4_4_configuration_history_hosts a  \t\t         \t\t\t\t\t\n                GROUP BY a.host_id \t         \t\t\t\t\n            ) \t \t\t\t\n    AND cluster_id IN ($cluster_id)  \t\t\t\n    AND \t    \t\t\t    \n        CASE  \t        \t\t\t\t    \n            WHEN '$show_deleted'='Yes' \t            \t\t\t\t\t    \n                THEN 1=1 \t\t    \t\t\t\t\t\n            WHEN '$show_deleted'='No' \t\t        \t\t\t\t\t    \n                THEN v4_4_configuration_history_hosts.delete_date ISNULL \t                \n        END",
         "hide": 0,
         "includeAll": true,
+        "index": -1,
         "label": "Host",
         "multi": true,
         "name": "host_id",
@@ -1364,10 +1422,11 @@
       {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "    SELECT\n        'Day of Week' AS __text, \n        1 AS __value\nUNION\n    SELECT\n        'Hour of Day' AS  __text,\n        2 AS __value",
         "hide": 0,
         "includeAll": false,
+        "index": -1,
         "label": "Period",
         "multi": false,
         "name": "period_id",
@@ -1418,5 +1477,8 @@
   "timezone": "",
   "title": "Hosts Resource Usage Dashboard",
   "uid": "HostsResourceUsage",
+  "variables": {
+    "list": []
+  },
   "version": 1
 }

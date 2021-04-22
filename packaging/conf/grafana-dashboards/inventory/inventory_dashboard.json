@@ -58,7 +58,7 @@
   "panels": [
     {
       "collapsed": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -72,7 +72,7 @@
     },
     {
       "content": "\n###### This dashboard displays inventory reports with details for each data center.\n\n\n",
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -116,7 +116,7 @@
       "type": "text"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -129,7 +129,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays for each data center the number of hosts and configured vms",
       "fontSize": "100%",
       "gridPos": {
@@ -201,7 +201,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "Link to Data Center Dashboard",
-          "linkUrl": "/ovirt-engine-grafana/d/DatacenterDashboard/data-center-dashboard?orgId=1&var-datacenter_id=${__cell_0}",
+          "linkUrl": "/ovirt-engine-grafana/d/DatacenterDashboard/data-center-dashboard?orgId=1&var-datasource=$datasource&var-datacenter_id=${__cell_0}",
           "mappingType": 1,
           "pattern": "datacenter_name",
           "thresholds": [],
@@ -313,7 +313,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays CPU usage and overcommit for each data center. ",
       "fontSize": "100%",
       "gridPos": {
@@ -385,7 +385,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "Link to Data Center Dashboard",
-          "linkUrl": "/ovirt-engine-grafana/d/DatacenterDashboard/data-center-dashboard?orgId=1&var-datacenter_id=${__cell_0}",
+          "linkUrl": "/ovirt-engine-grafana/d/DatacenterDashboard/data-center-dashboard?orgId=1&var-datasource=$datasource&var-datacenter_id=${__cell_0}",
           "mappingType": 1,
           "pattern": "datacenter_name",
           "thresholds": [],
@@ -538,7 +538,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays memory usage and overcommit for each data center. ",
       "fontSize": "100%",
       "gridPos": {
@@ -610,7 +610,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "Link to Data Center Dashboard",
-          "linkUrl": "/ovirt-engine-grafana/d/DatacenterDashboard/data-center-dashboard?orgId=1&var-datacenter_id=${__cell_0}",
+          "linkUrl": "/ovirt-engine-grafana/d/DatacenterDashboard/data-center-dashboard?orgId=1&var-datasource=$datasource&var-datacenter_id=${__cell_0}",
           "mappingType": 1,
           "pattern": "datacenter_name",
           "thresholds": [],
@@ -762,7 +762,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "This report displays disk usage and overcommit for each data center. ",
       "fontSize": "100%",
       "gridPos": {
@@ -834,7 +834,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "Link to Data Center Dashboard",
-          "linkUrl": "/ovirt-engine-grafana/d/DatacenterDashboard/data-center-dashboard?orgId=1&var-datacenter_id=${__cell_0}",
+          "linkUrl": "/ovirt-engine-grafana/d/DatacenterDashboard/data-center-dashboard?orgId=1&var-datasource=$datasource&var-datacenter_id=${__cell_0}",
           "mappingType": 1,
           "pattern": "datacenter_name",
           "thresholds": [],
@@ -1032,9 +1032,27 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "postgres",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT\n    datacenter_name AS __text, \n    datacenter_id AS __value \nFROM v4_4_latest_configuration_datacenters",
         "hide": 0,
         "includeAll": true,

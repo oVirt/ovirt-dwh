@@ -14,7 +14,7 @@
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.2.2"
+      "version": "6.7.4"
     },
     {
       "type": "datasource",
@@ -59,9 +59,11 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
+  "iteration": 1619084216234,
   "links": [],
   "panels": [
     {
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -74,6 +76,7 @@
     },
     {
       "content": "\n###### The system dashboard displays the latest configurations, system entities resources status and usage percent.\n\n\n\n",
+      "datasource": "$datasource",
       "gridPos": {
         "h": 2,
         "w": 24,
@@ -83,7 +86,6 @@
       "id": 12,
       "links": [],
       "mode": "markdown",
-      "options": {},
       "targets": [
         {
           "format": "time_series",
@@ -119,6 +121,7 @@
     },
     {
       "collapsed": false,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -132,6 +135,7 @@
     },
     {
       "columns": [],
+      "datasource": "$datasource",
       "description": "System entities counts list. The number of data centers, clusters, hosts, virtual machines, and storage domains. ",
       "fontSize": "100%",
       "gridPos": {
@@ -142,7 +146,6 @@
       },
       "id": 4,
       "links": [],
-      "options": {},
       "pageSize": null,
       "scroll": true,
       "showHeader": true,
@@ -153,6 +156,7 @@
       "styles": [
         {
           "alias": "Data Centers",
+          "align": "auto",
           "colorMode": "row",
           "colors": [
             "rgba(50, 172, 45, 0.97)",
@@ -170,6 +174,7 @@
         },
         {
           "alias": "Clusters",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -186,6 +191,7 @@
         },
         {
           "alias": "Hosts",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -202,6 +208,7 @@
         },
         {
           "alias": "Virtual Machines",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -218,6 +225,7 @@
         },
         {
           "alias": "Storage Domains",
+          "align": "auto",
           "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
@@ -303,7 +311,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Average percentage of CPU usage for all hosts in the system. The thresholds are 60% and 80%. This report shows the latest configuration.",
       "format": "percent",
@@ -337,7 +345,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "pluginVersion": "6.2.2",
       "postfix": "",
       "postfixFontSize": "50%",
@@ -356,7 +363,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "average_cpu_used",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -409,6 +416,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Average percentage of memory usage for all hosts in the system. The thresholds are 60% and 80%. This report shows the latest configuration.",
       "format": "percent",
@@ -442,7 +450,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "postfix": "",
       "postfixFontSize": "50%",
       "prefix": "",
@@ -460,7 +467,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "average_memory_used",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -513,7 +520,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Calculates average uptime percent for all hosts in the system. Thresholds are 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
@@ -547,7 +554,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "pluginVersion": "6.2.2",
       "postfix": "",
       "postfixFontSize": "50%",
@@ -566,7 +572,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "uptime_mins_percent",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -619,7 +625,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Calculates used disk size percent average for all storage domains in the system from their latest configuration. Thresholds are 60% and 80%.",
       "format": "percent",
@@ -653,7 +659,6 @@
       "maxDataPoints": 100,
       "nullPointMode": "connected",
       "nullText": null,
-      "options": {},
       "pluginVersion": "6.2.2",
       "postfix": "",
       "postfixFontSize": "50%",
@@ -672,7 +677,7 @@
         "lineColor": "rgb(31, 120, 193)",
         "show": false
       },
-      "tableColumn": "used_disk_size_gb_percent",
+      "tableColumn": "",
       "targets": [
         {
           "format": "table",
@@ -717,7 +722,7 @@
       "valueName": "avg"
     }
   ],
-  "schemaVersion": 18,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [
     "Host",
@@ -728,7 +733,26 @@
     "Uptime"
   ],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "postgres",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -763,5 +787,8 @@
   "timezone": "",
   "title": "System Dashboard",
   "uid": "SystemDashboard",
+  "variables": {
+    "list": []
+  },
   "version": 1
 }

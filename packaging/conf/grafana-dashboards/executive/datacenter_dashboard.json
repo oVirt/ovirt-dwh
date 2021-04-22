@@ -69,7 +69,7 @@
   "links": [],
   "panels": [
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -82,7 +82,7 @@
     },
     {
       "content": "\n###### The data center dashboard displays the latest configurations, resources status and usages percent of the data centers entities.\n\n\n\n",
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "",
       "gridPos": {
         "h": 2,
@@ -127,7 +127,7 @@
       "type": "text"
     },
     {
-      "datasource": null,
+      "datasource": "$datasource",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -140,7 +140,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The number of clusters, hosts, virtual machines, and storage domains in the latest data center configuration.",
       "fontSize": "100%",
       "gridPos": {
@@ -297,7 +297,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Average percentage of CPU usage for all hosts in the selected data center. The thresholds are set at 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
@@ -402,7 +402,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Average percentage of memory usage for all hosts in the selected data center. The thresholds are set at 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
@@ -507,7 +507,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#299c46"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Calculates average uptime percent for all hosts. Thresholds are set to 60% and 80%.\nThis report shows the latest configuration for the selected data center.",
       "format": "percent",
@@ -612,7 +612,7 @@
         "rgba(237, 129, 40, 0.89)",
         "#d44a3a"
       ],
-      "datasource": null,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Calculates used disk size percent average of all storage domains attached to the selected data center. Thresholds are set to 60% and 80%.\nThis report shows the latest configuration.",
       "format": "percent",
@@ -709,7 +709,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "For the top 5 busiest clusters, the max and average CPU and memory usage percent.",
       "fontSize": "100%",
       "gridPos": {
@@ -775,7 +775,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "Link to Cluster Dashboard",
-          "linkUrl": "/ovirt-engine-grafana/d/ClusterDashboard/cluster-dashboard?orgId=1&var-datacenter_id=${__cell_0}&var-cluster_id=${__cell_1}",
+          "linkUrl": "/ovirt-engine-grafana/d/ClusterDashboard/cluster-dashboard?orgId=1&var-datasource=$datasource&var-datacenter_id=${__cell_0}&var-cluster_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "cluster_name",
           "thresholds": [],
@@ -899,7 +899,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "For the 5 clusters with the most downtime, \nthe uptime,  planned downtime and unplanned downtime percent.",
       "fontSize": "100%",
       "gridPos": {
@@ -965,7 +965,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "Link to Cluster Dashboard",
-          "linkUrl": "/ovirt-engine-grafana/d/ClusterDashboard/cluster-dashboard?orgId=1&var-datacenter_id=${__cell_0}&var-cluster_id=${__cell_1}",
+          "linkUrl": "/ovirt-engine-grafana/d/ClusterDashboard/cluster-dashboard?orgId=1&var-datasource=$datasource&var-datacenter_id=${__cell_0}&var-cluster_id=${__cell_1}",
           "mappingType": 1,
           "pattern": "cluster_name",
           "thresholds": [],
@@ -1069,7 +1069,7 @@
     },
     {
       "columns": [],
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "Available disk size, used disk size and available disk size percentage for the 5 storage domains with the lowest available disk space.",
       "fontSize": "100%",
       "gridPos": {
@@ -1152,7 +1152,7 @@
           "decimals": 2,
           "link": true,
           "linkTooltip": "Link to Storage Domains Inventory Dashboard",
-          "linkUrl": "/ovirt-engine-grafana/d/StorageDomainsInventoryDashboard/storage-domains-inventory-dashboard?orgId=1&var-show_deleted=${__cell_0}&var-datacenter_id=${__cell_1}&var-storage_id=${__cell_2}",
+          "linkUrl": "/ovirt-engine-grafana/d/StorageDomainsInventoryDashboard/storage-domains-inventory-dashboard?orgId=1&var-datasource=$datasource&var-show_deleted=${__cell_0}&var-datacenter_id=${__cell_1}&var-storage_id=${__cell_2}",
           "mappingType": 1,
           "pattern": "storage_domain_name",
           "thresholds": [],
@@ -1253,7 +1253,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": null,
+      "datasource": "$datasource",
       "description": "The hosts average usage peaks per cluster for the selected data center, in the latest configuration.",
       "fill": 1,
       "fillGradient": 0,
@@ -1382,9 +1382,27 @@
   "templating": {
     "list": [
       {
+        "current": {
+          "selected": false,
+          "text": "default",
+          "value": "default"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Data Source",
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "postgres",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
         "allValue": null,
         "current": {},
-        "datasource": null,
+        "datasource": "$datasource",
         "definition": "SELECT DISTINCT \n    datacenter_name AS __text, \n    datacenter_id AS __value \nFROM v4_4_latest_configuration_datacenters",
         "hide": 0,
         "includeAll": false,
