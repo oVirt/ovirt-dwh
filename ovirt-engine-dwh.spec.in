@@ -307,6 +307,10 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Mon Apr 26 2021 Aviv Litman <alitman@redhat.com> - 4.4.6.3
+Fixed issues:
+- Bug 1929211 - Change IOPS data from Int to bigint
+
 * Tue Apr 20 2021 Aviv Litman <alitman@redhat.com> - 4.4.6.2
 Fixed issues:
 - Bug 1919984 - packaging: setup: Fix grafana pki conf after dwh
