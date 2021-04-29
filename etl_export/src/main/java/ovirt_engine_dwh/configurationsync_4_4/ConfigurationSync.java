@@ -8473,6 +8473,12 @@ public class ConfigurationSync implements TalendJob {
 			return this.cpu_name;
 		}
 
+		public Boolean count_threads_as_cores;
+
+		public Boolean getCount_threads_as_cores() {
+			return this.count_threads_as_cores;
+		}
+
 		public String compatibility_version;
 
 		public String getCompatibility_version() {
@@ -8602,6 +8608,13 @@ public class ConfigurationSync implements TalendJob {
 
 					this.cpu_name = readString(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.count_threads_as_cores = null;
+					} else {
+						this.count_threads_as_cores = dis.readBoolean();
+					}
+
 					this.compatibility_version = readString(dis);
 
 					this.datacenter_configuration_version = readInteger(dis);
@@ -8647,6 +8660,15 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.cpu_name, dos);
 
+				// Boolean
+
+				if (this.count_threads_as_cores == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeBoolean(this.count_threads_as_cores);
+				}
+
 				// String
 
 				writeString(this.compatibility_version, dos);
@@ -8683,6 +8705,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",cluster_description=" + cluster_description);
 			sb.append(",datacenter_id=" + String.valueOf(datacenter_id));
 			sb.append(",cpu_name=" + cpu_name);
+			sb.append(",count_threads_as_cores="
+					+ String.valueOf(count_threads_as_cores));
 			sb.append(",compatibility_version=" + compatibility_version);
 			sb.append(",datacenter_configuration_version="
 					+ String.valueOf(datacenter_configuration_version));
@@ -8769,6 +8793,12 @@ public class ConfigurationSync implements TalendJob {
 			return this.cpu_name;
 		}
 
+		public Boolean count_threads_as_cores;
+
+		public Boolean getCount_threads_as_cores() {
+			return this.count_threads_as_cores;
+		}
+
 		public String compatibility_version;
 
 		public String getCompatibility_version() {
@@ -8866,6 +8896,13 @@ public class ConfigurationSync implements TalendJob {
 
 					this.cpu_name = readString(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.count_threads_as_cores = null;
+					} else {
+						this.count_threads_as_cores = dis.readBoolean();
+					}
+
 					this.compatibility_version = readString(dis);
 
 					this.create_date = readDate(dis);
@@ -8911,6 +8948,15 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.cpu_name, dos);
 
+				// Boolean
+
+				if (this.count_threads_as_cores == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeBoolean(this.count_threads_as_cores);
+				}
+
 				// String
 
 				writeString(this.compatibility_version, dos);
@@ -8940,6 +8986,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",datacenter_id=" + String.valueOf(datacenter_id));
 			sb.append(",datacenter_join_id=" + datacenter_join_id);
 			sb.append(",cpu_name=" + cpu_name);
+			sb.append(",count_threads_as_cores="
+					+ String.valueOf(count_threads_as_cores));
 			sb.append(",compatibility_version=" + compatibility_version);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
@@ -9023,6 +9071,12 @@ public class ConfigurationSync implements TalendJob {
 			return this.cpu_name;
 		}
 
+		public Boolean count_threads_as_cores;
+
+		public Boolean getCount_threads_as_cores() {
+			return this.count_threads_as_cores;
+		}
+
 		public String compatibility_version;
 
 		public String getCompatibility_version() {
@@ -9120,6 +9174,13 @@ public class ConfigurationSync implements TalendJob {
 
 					this.cpu_name = readString(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.count_threads_as_cores = null;
+					} else {
+						this.count_threads_as_cores = dis.readBoolean();
+					}
+
 					this.compatibility_version = readString(dis);
 
 					this.create_date = readDate(dis);
@@ -9165,6 +9226,15 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.cpu_name, dos);
 
+				// Boolean
+
+				if (this.count_threads_as_cores == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeBoolean(this.count_threads_as_cores);
+				}
+
 				// String
 
 				writeString(this.compatibility_version, dos);
@@ -9194,6 +9264,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",datacenter_id=" + String.valueOf(datacenter_id));
 			sb.append(",datacenter_join_id=" + datacenter_join_id);
 			sb.append(",cpu_name=" + cpu_name);
+			sb.append(",count_threads_as_cores="
+					+ String.valueOf(count_threads_as_cores));
 			sb.append(",compatibility_version=" + compatibility_version);
 			sb.append(",create_date=" + String.valueOf(create_date));
 			sb.append(",update_date=" + String.valueOf(update_date));
@@ -9294,7 +9366,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_1 = "INSERT INTO "
 						+ "cluster_configuration"
-						+ " (cluster_id,cluster_name,cluster_description,datacenter_id,cpu_name,compatibility_version,datacenter_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?)";
+						+ " (cluster_id,cluster_name,cluster_description,datacenter_id,cpu_name,count_threads_as_cores,compatibility_version,datacenter_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_1 = connection_tJDBCOutput_1
 						.prepareStatement(insert_tJDBCOutput_1);
 
@@ -9358,7 +9430,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_1 = conn_tJDBCInput_1
 						.createStatement();
 
-				String dbquery_tJDBCInput_1 = "SELECT \n  cluster_id, \n  cluster_name, \n  cluster_description, \n  datacenter_id, \n  upper(cast(datacenter_id as char(36))) as datacenter_join_id,\n  cpu_name, \n  compatibility_version, \n  create_date, \n  update_date\nFROM dwh_cluster_configuration_history_view";
+				String dbquery_tJDBCInput_1 = "SELECT \n  cluster_id, \n  cluster_name, \n  cluster_description, \n  datacenter_id, \n  upper(cast(datacenter_id as char(36))) as datacenter_join_id,\n  cpu_name,\n  count_threads_as_cores,\n  compatibility_version, \n  create_date, \n  update_date\nFROM dwh_cluster_configuration_history_view";
 
 				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
 
@@ -9426,27 +9498,25 @@ public class ConfigurationSync implements TalendJob {
 									rs_tJDBCInput_1, 6, false);
 						}
 						if (colQtyInRs_tJDBCInput_1 < 7) {
+							row1.count_threads_as_cores = null;
+						} else {
+
+							if (rs_tJDBCInput_1.getObject(7) != null) {
+								row1.count_threads_as_cores = rs_tJDBCInput_1
+										.getBoolean(7);
+							} else {
+								row1.count_threads_as_cores = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_1 < 8) {
 							row1.compatibility_version = null;
 						} else {
 
 							row1.compatibility_version = routines.system.JDBCUtil
-									.getString(rs_tJDBCInput_1, 7, false);
-						}
-						if (colQtyInRs_tJDBCInput_1 < 8) {
-							row1.create_date = null;
-						} else {
-
-							java.util.Date date_tJDBCInput_1 = null;
-							try {
-								date_tJDBCInput_1 = rs_tJDBCInput_1
-										.getTimestamp(8);
-							} catch (java.lang.Exception e) {
-								date_tJDBCInput_1 = rs_tJDBCInput_1.getDate(8);
-							}
-							row1.create_date = date_tJDBCInput_1;
+									.getString(rs_tJDBCInput_1, 8, false);
 						}
 						if (colQtyInRs_tJDBCInput_1 < 9) {
-							row1.update_date = null;
+							row1.create_date = null;
 						} else {
 
 							java.util.Date date_tJDBCInput_1 = null;
@@ -9455,6 +9525,19 @@ public class ConfigurationSync implements TalendJob {
 										.getTimestamp(9);
 							} catch (java.lang.Exception e) {
 								date_tJDBCInput_1 = rs_tJDBCInput_1.getDate(9);
+							}
+							row1.create_date = date_tJDBCInput_1;
+						}
+						if (colQtyInRs_tJDBCInput_1 < 10) {
+							row1.update_date = null;
+						} else {
+
+							java.util.Date date_tJDBCInput_1 = null;
+							try {
+								date_tJDBCInput_1 = rs_tJDBCInput_1
+										.getTimestamp(10);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_1 = rs_tJDBCInput_1.getDate(10);
 							}
 							row1.update_date = date_tJDBCInput_1;
 						}
@@ -9569,6 +9652,7 @@ public class ConfigurationSync implements TalendJob {
 								cluster_configuration_tmp.datacenter_id = row1.datacenter_id;
 								cluster_configuration_tmp.cpu_name = StringHandling
 										.TRIM(row1.cpu_name);
+								cluster_configuration_tmp.count_threads_as_cores = row1.count_threads_as_cores;
 								cluster_configuration_tmp.compatibility_version = StringHandling
 										.TRIM(row1.compatibility_version);
 								cluster_configuration_tmp.datacenter_configuration_version = row35.history_id;
@@ -9641,58 +9725,68 @@ public class ConfigurationSync implements TalendJob {
 											cluster_configuration.cpu_name);
 								}
 
-								if (cluster_configuration.compatibility_version == null) {
+								if (cluster_configuration.count_threads_as_cores == null) {
 									pstmt_tJDBCOutput_1.setNull(6,
+											java.sql.Types.BOOLEAN);
+								} else {
+									pstmt_tJDBCOutput_1
+											.setBoolean(
+													6,
+													cluster_configuration.count_threads_as_cores);
+								}
+
+								if (cluster_configuration.compatibility_version == null) {
+									pstmt_tJDBCOutput_1.setNull(7,
 											java.sql.Types.VARCHAR);
 								} else {
 									pstmt_tJDBCOutput_1
 											.setString(
-													6,
+													7,
 													cluster_configuration.compatibility_version);
 								}
 
 								if (cluster_configuration.datacenter_configuration_version == null) {
-									pstmt_tJDBCOutput_1.setNull(7,
+									pstmt_tJDBCOutput_1.setNull(8,
 											java.sql.Types.INTEGER);
 								} else {
 									pstmt_tJDBCOutput_1
-											.setInt(7,
+											.setInt(8,
 													cluster_configuration.datacenter_configuration_version);
 								}
 
 								if (cluster_configuration.create_date != null) {
 									pstmt_tJDBCOutput_1
 											.setTimestamp(
-													8,
-													new java.sql.Timestamp(
-															cluster_configuration.create_date
-																	.getTime()));
-								} else {
-									pstmt_tJDBCOutput_1.setNull(8,
-											java.sql.Types.DATE);
-								}
-
-								if (cluster_configuration.update_date != null) {
-									pstmt_tJDBCOutput_1
-											.setTimestamp(
 													9,
 													new java.sql.Timestamp(
-															cluster_configuration.update_date
+															cluster_configuration.create_date
 																	.getTime()));
 								} else {
 									pstmt_tJDBCOutput_1.setNull(9,
 											java.sql.Types.DATE);
 								}
 
-								if (cluster_configuration.delete_date != null) {
+								if (cluster_configuration.update_date != null) {
 									pstmt_tJDBCOutput_1
 											.setTimestamp(
 													10,
 													new java.sql.Timestamp(
-															cluster_configuration.delete_date
+															cluster_configuration.update_date
 																	.getTime()));
 								} else {
 									pstmt_tJDBCOutput_1.setNull(10,
+											java.sql.Types.DATE);
+								}
+
+								if (cluster_configuration.delete_date != null) {
+									pstmt_tJDBCOutput_1
+											.setTimestamp(
+													11,
+													new java.sql.Timestamp(
+															cluster_configuration.delete_date
+																	.getTime()));
+								} else {
+									pstmt_tJDBCOutput_1.setNull(11,
 											java.sql.Types.DATE);
 								}
 
@@ -9903,6 +9997,12 @@ public class ConfigurationSync implements TalendJob {
 			return this.cpu_name;
 		}
 
+		public Boolean count_threads_as_cores;
+
+		public Boolean getCount_threads_as_cores() {
+			return this.count_threads_as_cores;
+		}
+
 		public String compatibility_version;
 
 		public String getCompatibility_version() {
@@ -10032,6 +10132,13 @@ public class ConfigurationSync implements TalendJob {
 
 					this.cpu_name = readString(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.count_threads_as_cores = null;
+					} else {
+						this.count_threads_as_cores = dis.readBoolean();
+					}
+
 					this.compatibility_version = readString(dis);
 
 					this.datacenter_configuration_version = readInteger(dis);
@@ -10077,6 +10184,15 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.cpu_name, dos);
 
+				// Boolean
+
+				if (this.count_threads_as_cores == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeBoolean(this.count_threads_as_cores);
+				}
+
 				// String
 
 				writeString(this.compatibility_version, dos);
@@ -10113,6 +10229,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",cluster_description=" + cluster_description);
 			sb.append(",datacenter_id=" + String.valueOf(datacenter_id));
 			sb.append(",cpu_name=" + cpu_name);
+			sb.append(",count_threads_as_cores="
+					+ String.valueOf(count_threads_as_cores));
 			sb.append(",compatibility_version=" + compatibility_version);
 			sb.append(",datacenter_configuration_version="
 					+ String.valueOf(datacenter_configuration_version));
@@ -10205,6 +10323,12 @@ public class ConfigurationSync implements TalendJob {
 			return this.cpu_name;
 		}
 
+		public Boolean count_threads_as_cores;
+
+		public Boolean getCount_threads_as_cores() {
+			return this.count_threads_as_cores;
+		}
+
 		public String compatibility_version;
 
 		public String getCompatibility_version() {
@@ -10332,6 +10456,13 @@ public class ConfigurationSync implements TalendJob {
 
 					this.cpu_name = readString(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.count_threads_as_cores = null;
+					} else {
+						this.count_threads_as_cores = dis.readBoolean();
+					}
+
 					this.compatibility_version = readString(dis);
 
 					this.datacenter_configuration_version = readInteger(dis);
@@ -10383,6 +10514,15 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.cpu_name, dos);
 
+				// Boolean
+
+				if (this.count_threads_as_cores == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeBoolean(this.count_threads_as_cores);
+				}
+
 				// String
 
 				writeString(this.compatibility_version, dos);
@@ -10417,6 +10557,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",cluster_description=" + cluster_description);
 			sb.append(",datacenter_id=" + String.valueOf(datacenter_id));
 			sb.append(",cpu_name=" + cpu_name);
+			sb.append(",count_threads_as_cores="
+					+ String.valueOf(count_threads_as_cores));
 			sb.append(",compatibility_version=" + compatibility_version);
 			sb.append(",datacenter_configuration_version="
 					+ String.valueOf(datacenter_configuration_version));
@@ -10508,6 +10650,12 @@ public class ConfigurationSync implements TalendJob {
 			return this.cpu_name;
 		}
 
+		public Boolean count_threads_as_cores;
+
+		public Boolean getCount_threads_as_cores() {
+			return this.count_threads_as_cores;
+		}
+
 		public String compatibility_version;
 
 		public String getCompatibility_version() {
@@ -10635,6 +10783,13 @@ public class ConfigurationSync implements TalendJob {
 
 					this.cpu_name = readString(dis);
 
+					length = dis.readByte();
+					if (length == -1) {
+						this.count_threads_as_cores = null;
+					} else {
+						this.count_threads_as_cores = dis.readBoolean();
+					}
+
 					this.compatibility_version = readString(dis);
 
 					this.datacenter_configuration_version = readInteger(dis);
@@ -10686,6 +10841,15 @@ public class ConfigurationSync implements TalendJob {
 
 				writeString(this.cpu_name, dos);
 
+				// Boolean
+
+				if (this.count_threads_as_cores == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeBoolean(this.count_threads_as_cores);
+				}
+
 				// String
 
 				writeString(this.compatibility_version, dos);
@@ -10720,6 +10884,8 @@ public class ConfigurationSync implements TalendJob {
 			sb.append(",cluster_description=" + cluster_description);
 			sb.append(",datacenter_id=" + String.valueOf(datacenter_id));
 			sb.append(",cpu_name=" + cpu_name);
+			sb.append(",count_threads_as_cores="
+					+ String.valueOf(count_threads_as_cores));
 			sb.append(",compatibility_version=" + compatibility_version);
 			sb.append(",datacenter_configuration_version="
 					+ String.valueOf(datacenter_configuration_version));
@@ -10822,7 +10988,7 @@ public class ConfigurationSync implements TalendJob {
 
 				String insert_tJDBCOutput_15 = "INSERT INTO "
 						+ "cluster_configuration"
-						+ " (cluster_id,cluster_name,cluster_description,datacenter_id,cpu_name,compatibility_version,datacenter_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?)";
+						+ " (cluster_id,cluster_name,cluster_description,datacenter_id,cpu_name,count_threads_as_cores,compatibility_version,datacenter_configuration_version,create_date,update_date,delete_date) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_15 = connection_tJDBCOutput_15
 						.prepareStatement(insert_tJDBCOutput_15);
 
@@ -10886,7 +11052,7 @@ public class ConfigurationSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_18 = conn_tJDBCInput_18
 						.createStatement();
 
-				String dbquery_tJDBCInput_18 = "SELECT history_id, \n  		cluster_id, \n  		upper(cast(cluster_id as char(36))) as cluster_join_id,\n  		cluster_name, \n  		cluster_description, \n  		datacenter_id, \n  		cpu_name, \n  		compatibility_version, \n  		datacenter_configuration_version, \n  		create_date, \n  		update_date\nFROM v4_4_latest_configuration_clusters";
+				String dbquery_tJDBCInput_18 = "SELECT history_id, \n  		cluster_id, \n  		upper(cast(cluster_id as char(36))) as cluster_join_id,\n  		cluster_name, \n  		cluster_description, \n  		datacenter_id, \n  		cpu_name,\n        count_threads_as_cores,\n  		compatibility_version, \n  		datacenter_configuration_version, \n  		create_date, \n  		update_date\nFROM v4_4_latest_configuration_clusters";
 
 				globalMap.put("tJDBCInput_18_QUERY", dbquery_tJDBCInput_18);
 
@@ -10965,39 +11131,36 @@ public class ConfigurationSync implements TalendJob {
 									.getString(rs_tJDBCInput_18, 7, false);
 						}
 						if (colQtyInRs_tJDBCInput_18 < 8) {
+							row17.count_threads_as_cores = null;
+						} else {
+
+							if (rs_tJDBCInput_18.getObject(8) != null) {
+								row17.count_threads_as_cores = rs_tJDBCInput_18
+										.getBoolean(8);
+							} else {
+								row17.count_threads_as_cores = null;
+							}
+						}
+						if (colQtyInRs_tJDBCInput_18 < 9) {
 							row17.compatibility_version = null;
 						} else {
 
 							row17.compatibility_version = routines.system.JDBCUtil
-									.getString(rs_tJDBCInput_18, 8, false);
+									.getString(rs_tJDBCInput_18, 9, false);
 						}
-						if (colQtyInRs_tJDBCInput_18 < 9) {
+						if (colQtyInRs_tJDBCInput_18 < 10) {
 							row17.datacenter_configuration_version = null;
 						} else {
 
-							if (rs_tJDBCInput_18.getObject(9) != null) {
+							if (rs_tJDBCInput_18.getObject(10) != null) {
 								row17.datacenter_configuration_version = rs_tJDBCInput_18
-										.getInt(9);
+										.getInt(10);
 							} else {
 								row17.datacenter_configuration_version = null;
 							}
 						}
-						if (colQtyInRs_tJDBCInput_18 < 10) {
-							row17.create_date = null;
-						} else {
-
-							java.util.Date date_tJDBCInput_18 = null;
-							try {
-								date_tJDBCInput_18 = rs_tJDBCInput_18
-										.getTimestamp(10);
-							} catch (java.lang.Exception e) {
-								date_tJDBCInput_18 = rs_tJDBCInput_18
-										.getDate(10);
-							}
-							row17.create_date = date_tJDBCInput_18;
-						}
 						if (colQtyInRs_tJDBCInput_18 < 11) {
-							row17.update_date = null;
+							row17.create_date = null;
 						} else {
 
 							java.util.Date date_tJDBCInput_18 = null;
@@ -11007,6 +11170,20 @@ public class ConfigurationSync implements TalendJob {
 							} catch (java.lang.Exception e) {
 								date_tJDBCInput_18 = rs_tJDBCInput_18
 										.getDate(11);
+							}
+							row17.create_date = date_tJDBCInput_18;
+						}
+						if (colQtyInRs_tJDBCInput_18 < 12) {
+							row17.update_date = null;
+						} else {
+
+							java.util.Date date_tJDBCInput_18 = null;
+							try {
+								date_tJDBCInput_18 = rs_tJDBCInput_18
+										.getTimestamp(12);
+							} catch (java.lang.Exception e) {
+								date_tJDBCInput_18 = rs_tJDBCInput_18
+										.getDate(12);
 							}
 							row17.update_date = date_tJDBCInput_18;
 						}
@@ -11114,6 +11291,7 @@ public class ConfigurationSync implements TalendJob {
 								delete_cluster_tmp.cluster_description = row17.cluster_description;
 								delete_cluster_tmp.datacenter_id = row17.datacenter_id;
 								delete_cluster_tmp.cpu_name = row17.cpu_name;
+								delete_cluster_tmp.count_threads_as_cores = row17.count_threads_as_cores;
 								delete_cluster_tmp.compatibility_version = row17.compatibility_version;
 								delete_cluster_tmp.datacenter_configuration_version = row17.datacenter_configuration_version;
 								delete_cluster_tmp.create_date = row17.create_date;
@@ -11182,53 +11360,61 @@ public class ConfigurationSync implements TalendJob {
 										delete_cluster.cpu_name);
 							}
 
-							if (delete_cluster.compatibility_version == null) {
+							if (delete_cluster.count_threads_as_cores == null) {
 								pstmt_tJDBCOutput_15.setNull(6,
+										java.sql.Types.BOOLEAN);
+							} else {
+								pstmt_tJDBCOutput_15.setBoolean(6,
+										delete_cluster.count_threads_as_cores);
+							}
+
+							if (delete_cluster.compatibility_version == null) {
+								pstmt_tJDBCOutput_15.setNull(7,
 										java.sql.Types.VARCHAR);
 							} else {
-								pstmt_tJDBCOutput_15.setString(6,
+								pstmt_tJDBCOutput_15.setString(7,
 										delete_cluster.compatibility_version);
 							}
 
 							if (delete_cluster.datacenter_configuration_version == null) {
-								pstmt_tJDBCOutput_15.setNull(7,
+								pstmt_tJDBCOutput_15.setNull(8,
 										java.sql.Types.INTEGER);
 							} else {
 								pstmt_tJDBCOutput_15
-										.setInt(7,
+										.setInt(8,
 												delete_cluster.datacenter_configuration_version);
 							}
 
 							if (delete_cluster.create_date != null) {
 								pstmt_tJDBCOutput_15.setTimestamp(
-										8,
-										new java.sql.Timestamp(
-												delete_cluster.create_date
-														.getTime()));
-							} else {
-								pstmt_tJDBCOutput_15.setNull(8,
-										java.sql.Types.DATE);
-							}
-
-							if (delete_cluster.update_date != null) {
-								pstmt_tJDBCOutput_15.setTimestamp(
 										9,
 										new java.sql.Timestamp(
-												delete_cluster.update_date
+												delete_cluster.create_date
 														.getTime()));
 							} else {
 								pstmt_tJDBCOutput_15.setNull(9,
 										java.sql.Types.DATE);
 							}
 
-							if (delete_cluster.delete_date != null) {
+							if (delete_cluster.update_date != null) {
 								pstmt_tJDBCOutput_15.setTimestamp(
 										10,
+										new java.sql.Timestamp(
+												delete_cluster.update_date
+														.getTime()));
+							} else {
+								pstmt_tJDBCOutput_15.setNull(10,
+										java.sql.Types.DATE);
+							}
+
+							if (delete_cluster.delete_date != null) {
+								pstmt_tJDBCOutput_15.setTimestamp(
+										11,
 										new java.sql.Timestamp(
 												delete_cluster.delete_date
 														.getTime()));
 							} else {
-								pstmt_tJDBCOutput_15.setNull(10,
+								pstmt_tJDBCOutput_15.setNull(11,
 										java.sql.Types.DATE);
 							}
 
@@ -60095,6 +60281,6 @@ public class ConfigurationSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 1574213 characters generated by Talend Open Studio for Data Integration on
- * the February 11, 2018 1:56:24 PM IST
+ * 1580029 characters generated by Talend Open Studio for Data Integration on
+ * the May 13, 2021 2:07:45 PM IDT
  ************************************************************************************************/
