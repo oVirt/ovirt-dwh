@@ -25,8 +25,11 @@ from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup import remote_engine
 from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup.engine_common import constants as oengcommcons
+from ovirt_engine_setup.engine_common import pki_utils
 from ovirt_engine_setup.dwh import constants as odwhcons
 from ovirt_engine_setup.grafana_dwh import constants as ogdwhcons
+
+from ovirt_setup_lib import dialog
 
 
 def _(m):
@@ -83,7 +86,84 @@ class Plugin(plugin.PluginBase):
             )
         )
 
-        if not engine_apache_pki_found:
+        renew = False
+        if engine_apache_pki_found and pki_utils.ok_to_renew_cert(
+            self.logger,
+            pki_utils.x509_load_cert(
+                oengcommcons.FileLocations.OVIRT_ENGINE_PKI_APACHE_CERT,
+            ),
+            # Normally we'd verify against the CA cert, but we do not keep
+            # it in OVIRT_ENGINE_PKI_ENGINE_CA_CERT. So pass the copy we have
+            # in OVIRT_ENGINE_PKI_APACHE_CA_CERT . This means that if a user
+            # replaced both (which is quite likely), we'd end up not verifying
+            # against the engine's CA.
+            # TODO: Is this a problem? If so, handle somehow.
+            # In practice, it simply means that we might prompt asking whether
+            # to renew, even if the user replaced the cert, if it expires.
+            # Perhaps that's ok.
+            pki_utils.x509_load_cert(
+                oengcommcons.FileLocations.OVIRT_ENGINE_PKI_APACHE_CA_CERT
+            ),
+            'apache',
+            True
+        ):
+            renew = dialog.queryBoolean(
+                dialog=self.dialog,
+                name='OVESETUP_RENEW_GRAFANA_PKI',
+                note=_(
+                    'The certificate used for HTTPS access to grafana '
+                    'should be renewed, '
+                    'because it expires soon, or includes an invalid '
+                    'expiry date, or was created with validity '
+                    'period longer than 398 days, or does not include the '
+                    'subjectAltName extension, which can cause it to be '
+                    'rejected by recent browsers.\n'
+                    'See {url} for more details.\n'
+                    'Please note, that renewing the certificate will be done '
+                    'using the internal CA. If you replaced the certificate '
+                    'with an external CA, you should reply No here and renew '
+                    'the certificate using the external CA.\n'
+                    'Renew the certificate? '
+                    '(@VALUES@) [@DEFAULT@]: '
+                ).format(
+                    url=self.environment.get(
+                        oenginecons.ConfigEnv.PKI_RENEWAL_DOC_URL,
+                        'https://ovirt.org/'
+                    ),
+                ),
+                prompt=True,
+                default=None,
+            )
+            if not renew:
+                skip_renewal = dialog.queryBoolean(
+                    dialog=self.dialog,
+                    name='OVESETUP_SKIP_RENEW_PKI_CONFIRM',
+                    note=_(
+                        'Are you really sure that you want to skip the '
+                        'PKI renewal process?\n'
+                        'Please notice that recent openssl and gnutls '
+                        'upgrades can lead hosts refusing this CA cert '
+                        'making them unusable.\n'
+                        'If you choose "Yes", setup will continue and you '
+                        'will be asked again the next '
+                        'time you run this Setup. Otherwise, this process '
+                        'will abort and you will be expected to plan a '
+                        'proper upgrade according to {url}.\n'
+                        'Skip PKI renewal process? '
+                        '(@VALUES@) [@DEFAULT@]: '
+                    ).format(
+                        url=self.environment.get(
+                            oenginecons.ConfigEnv.PKI_RENEWAL_DOC_URL,
+                            'https://ovirt.org/'
+                        ),
+                    ),
+                    prompt=True,
+                    default=False,
+                )
+                if not skip_renewal:
+                    raise RuntimeError('Aborted by user')
+
+        if not engine_apache_pki_found or renew:
             self._enabled = True
             # odwhcons.ConfigEnv.REMOTE_ENGINE_CONFIGURED is saved in
             # postinstall, and was originally used only for DWH itself.

@@ -162,7 +162,7 @@ Requires:       postgresql-contrib >= 12.0
 %package grafana-integration-setup
 Summary:	%{product_name} Grafana integration setup
 Group:		Virtualization/Management
-Requires:	ovirt-engine-setup-plugin-ovirt-engine-common >= 4.4.0
+Requires:	ovirt-engine-setup-plugin-ovirt-engine-common >= 4.4.7
 Requires:	%{name}-setup = %{version}-%{release}
 Requires:	grafana >= 6.7
 Requires:	grafana-postgres >= 6.7
