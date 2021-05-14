@@ -12,7 +12,9 @@ public class Termination {
     public static Termination getInstance() {
         if (instance == null) {
             synchronized(Termination.class) {
-                instance = new Termination();
+                if (instance == null) {
+                    instance = new Termination();
+                }
             }
         }
         return instance;
