@@ -307,6 +307,14 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed May 26 2021 Aviv Litman <alitman@redhat.com> - 4.4.7
+- Update documentation in Trend dashboard
+- Add IOPS stats to fully_joined views
+- Bug 1952424 - Add Data Source variable to all dashboards
+- Bug 1849685 - packaging: grafana: Renew separate apache pki if needed
+- Bug 1948418 - Add memory, and CPU sizes to Hosts/VMs Trend dashboard
+- Bug 1896359 - Add count_threads_as_cores to DWH
+
 * Mon Apr 26 2021 Aviv Litman <alitman@redhat.com> - 4.4.6.3
 Fixed issues:
 - Bug 1929211 - Change IOPS data from Int to bigint
