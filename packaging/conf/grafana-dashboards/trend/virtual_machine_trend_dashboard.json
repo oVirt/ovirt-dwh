@@ -48,7 +48,7 @@
       }
     ]
   },
-  "description": "The virtual machines trend dashboard displaying resources measurements over time - Disk I/O rates, CPU, memory, and network Tx/Rx",
+  "description": "The virtual machines trend dashboard displaying resources measurements over time - Disk I/O rates, CPU, memory, and ethernet interface Tx/Rx",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -69,7 +69,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays resource measurements (CPU, memory, network Tx/Rx, disk I/O) for a selected virtual machine over a selected period.\n\n\n\n",
+      "content": "\n###### This dashboard displays resource measurements (CPU, memory, ethernet interface Tx/Rx, disk I/O) for a selected virtual machine over a selected period.\n\n\n\n",
       "datasource": "$datasource",
       "description": "",
       "gridPos": {
@@ -979,7 +979,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "$datasource",
-      "description": "This report displays for the top 3 most utilized network interfaces the average transmit and receive rates for a selected virtual machine over a selected period.",
+      "description": "This report displays for the top 3 most utilized ethernet interfaces the average transmit and receive rates for a selected virtual machine over a selected period.",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1072,7 +1072,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Top 3 Most Utilized Network Interfaces Tx and Rx Rates (over time) (BR10A)",
+      "title": "Top 3 Most Utilized Ethernet Interface Tx and Rx Rates (over time) (BR10A)",
       "tooltip": {
         "shared": true,
         "sort": 0,

@@ -48,7 +48,7 @@
       }
     ]
   },
-  "description": "The hosts resource usage dashboard displaying resources usage measurements - number of virtual machines, CPU, memory, and network Tx/Rx",
+  "description": "The hosts resource usage dashboard displaying resources usage measurements - number of virtual machines, CPU, memory, and ethernet interface Tx/Rx",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -69,7 +69,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays resource usage (number of virtual machines, CPU, memory, network Tx/Rx) for a selected host within a selected period.\n\n\n\n",
+      "content": "\n###### This dashboard displays resource usage (number of virtual machines, CPU, memory, ethernet interface Tx/Rx) for a selected host within a selected period.\n\n\n\n",
       "datasource": "$datasource",
       "description": "",
       "gridPos": {
@@ -1016,7 +1016,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "$datasource",
-      "description": "This report displays for the top 3 most utilized network interfaces the average network interface transmit rate for a selected host within a selected period.",
+      "description": "This report displays for the top 3 most utilized ethernet interfaces the average ethernet interface transmit rate for a selected host within a selected period.",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1110,7 +1110,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Top 3 Most Utilized Network Interface - Transmit Rate (BR2C)",
+      "title": "Top 3 Most Utilized Ethernet Interfaces - Transmit Rate (BR2C)",
       "tooltip": {
         "shared": false,
         "sort": 0,
@@ -1156,7 +1156,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": "$datasource",
-      "description": "This report displays for the top 3 most utilized network interfaces the average network interface receive rate for a selected host within a selected period.",
+      "description": "This report displays for the top 3 most utilized ethernet interfaces the average ethernet interface receive rate for a selected host within a selected period.",
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1249,7 +1249,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Top 3 Most Utilized Network Interface - Receive Rate (BR2C)",
+      "title": "Top 3 Most Utilized Ethernet Interfaces - Receive Rate (BR2C)",
       "tooltip": {
         "shared": false,
         "sort": 0,

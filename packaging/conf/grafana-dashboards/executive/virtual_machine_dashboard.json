@@ -1581,7 +1581,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Interface Inventory",
+      "title": "Ethernet Interface Inventory",
       "transform": "table",
       "type": "table"
     },
@@ -2527,7 +2527,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Network Interface Tx and Rx Rates (over time) (BR10A) ",
+      "title": "Ethernet Interface Tx and Rx Rates (over time) (BR10A) ",
       "tooltip": {
         "shared": true,
         "sort": 0,

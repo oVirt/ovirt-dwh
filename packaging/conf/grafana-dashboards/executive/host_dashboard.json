@@ -1877,7 +1877,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Host Interface Inventory",
+      "title": "Ethernet Interface Inventory",
       "transform": "table",
       "type": "table"
     },

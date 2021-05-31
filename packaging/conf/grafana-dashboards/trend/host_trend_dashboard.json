@@ -48,7 +48,7 @@
       }
     ]
   },
-  "description": "The hosts trend dashboard displaying resources measurements over time - number of virtual machines, CPU, memory, and network Tx/Rx",
+  "description": "The hosts trend dashboard displaying resources measurements over time - number of virtual machines, CPU, memory, and ethernet interface Tx/Rx",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -70,7 +70,7 @@
       "type": "row"
     },
     {
-      "content": "\n###### This dashboard displays resource measurements (number of virtual machines, CPU, memory, and network Tx/Rx) for a selected host over a selected period.\n",
+      "content": "\n###### This dashboard displays resource measurements (number of virtual machines, CPU, memory, and ethernet interface Tx/Rx) for a selected host over a selected period.\n",
       "datasource": "$datasource",
       "gridPos": {
         "h": 2,
@@ -933,7 +933,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Top 5 Busiest Ethernet Interfaces Tx and Rx Rates (over time) (BR2A)",
+      "title": "Top 5 Busiest Ethernet Interface Tx and Rx Rates (over time) (BR2A)",
       "tooltip": {
         "shared": true,
         "sort": 0,
