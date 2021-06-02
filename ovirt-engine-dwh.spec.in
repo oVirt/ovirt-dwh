@@ -307,6 +307,12 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Jun 2 2021 Aviv Litman <alitman@redhat.com> - 4.4.7.1
+- Bug 1877478 - Add network metrics to dwh
+- Bug 1961598 -Fix race in Termination.java
+- Fix indentation in uptime dashboard
+- Bug 1966574 - Update the required Grafana to 7.3
+
 * Wed May 26 2021 Aviv Litman <alitman@redhat.com> - 4.4.7
 - Update documentation in Trend dashboard
 - Add IOPS stats to fully_joined views
