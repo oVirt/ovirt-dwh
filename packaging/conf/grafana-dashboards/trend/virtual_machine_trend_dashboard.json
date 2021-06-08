@@ -48,7 +48,7 @@
       }
     ]
   },
-  "description": "The virtual machines trend dashboard displaying resources measurements over time - Disk I/O rates, CPU, memory, and ethernet interface Tx/Rx",
+  "description": "The virtual machines trend dashboard displaying resources measurements over time - Disk I/O rates, CPU, memory, and ethernet interface Tx/Rx.",
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
@@ -1094,6 +1094,145 @@
           "logBase": 1,
           "max": null,
           "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "description": "Average transmitted and received total dropped packets of the virtual machine interfaces, over the selected period.",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 29
+      },
+      "hiddenSeries": false,
+      "id": 34,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR10A - This query returns the VM Ethernet Interface \n-- average Tx and Rx total dropped packets, over time.\n\n-- This query (A) displays recent data from the last hours, \n-- using the samples and hourly tables.\nSELECT DISTINCT\n    $__time(all_sub_queries.time),\n    CONCAT\n\t  (\n\t      COALESCE ( interface_name, MAX ( interface_name ) over ( partition BY 1 ), '' ) || ' (', \n\t      COALESCE ( vm_name, MAX ( vm_name ) over ( partition BY 1 ), '' ) || ')'\n\t  ) AS disk_and_vm_name,\n    AVG ( Rx_drop ) AS \"Rx. Drop\",\n    AVG ( Tx_drop ) AS \"Tx. Drop\"\nFROM \n    (\n        SELECT v4_4_configuration_history_vms_interfaces.vm_interface_id,\n            CASE\n                WHEN v4_4_configuration_history_vms_interfaces.delete_date IS NULL\n                    THEN v4_4_configuration_history_vms_interfaces.vm_interface_name\n                ELSE v4_4_configuration_history_vms_interfaces.vm_interface_name\n            ||\n            '*'\n            END AS interface_name,\n            CASE\n                WHEN MAX (v4_4_configuration_history_vms.delete_date) IS NULL\n                    THEN MAX (vm_name)\n                ELSE MAX (vm_name)\n            ||\n            '*'\n            END AS vm_name,\n            history_datetime AS time,\n            AVG ( COALESCE ( received_dropped_total_packets, 0 ) ) AS Rx_drop,\n            AVG ( COALESCE ( transmitted_dropped_total_packets, 0 ) ) AS Tx_drop\n        FROM \n            (    \n                SELECT history_datetime, vm_interface_id, received_dropped_total_packets, transmitted_dropped_total_packets\n                FROM v4_4_statistics_vms_interfaces_resources_usage_samples\n            ) AS statistics\n            INNER JOIN \n            v4_4_configuration_history_vms_interfaces\n                ON \n                    (\n                        v4_4_configuration_history_vms_interfaces.vm_interface_id =\n                        statistics.vm_interface_id\n                    )\n\t\t        INNER JOIN v4_4_configuration_history_vms_devices\n\t\t            ON\n\t\t                (\n\t\t\t\t\t              v4_4_configuration_history_vms_devices.device_id =\n\t\t\t\t\t\t            statistics.vm_interface_id\n\t\t\t\t\t\t            AND v4_4_configuration_history_vms_devices.type = 'interface'\n\t\t\t\t\t          )\n\t\t        INNER JOIN \n\t\t        v4_4_configuration_history_vms\n\t\t            ON\n\t\t                (\n\t\t\t\t\t              v4_4_configuration_history_vms.vm_id = \n\t\t\t\t\t\t            v4_4_configuration_history_vms_devices.vm_id\n\t\t\t\t\t          )\n        WHERE \n            -- Here we filter by the time range chosen by the user\n            history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- Here we get the latest vm interfaces configuration\n            AND v4_4_configuration_history_vms_interfaces.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_configuration_history_vms_interfaces AS a\n                        GROUP BY a.vm_interface_id\n                    )\n            AND v4_4_configuration_history_vms_interfaces.vm_interface_id \n                IN \n                    (\n                        SELECT c.vm_interface_id\n                        FROM     \n                            (\n                                SELECT history_datetime, vm_interface_id, received_dropped_total_packets, transmitted_dropped_total_packets\n                                FROM v4_4_statistics_vms_interfaces_resources_usage_samples\n                            ) AS b\n                            INNER JOIN \n                            v4_4_configuration_history_vms_interfaces AS c\n                                ON \n                                    (\n                                        c.vm_interface_id = \n                                        b.vm_interface_id\n                                    )\n                            INNER JOIN \n                            (\n                                SELECT history_datetime, vm_configuration_version, vm_status\n                                FROM v4_4_statistics_vms_resources_usage_samples\n                            ) AS d\n                                ON \n                                    (\n                                        d.vm_configuration_version =\n                                        c.vm_configuration_version\n                                        AND d.history_datetime =\n                                        b.history_datetime\n                                    )\n                        WHERE\n                            -- Here we filter by active vm only\n                            d.vm_status = 1\n                            -- Here we filter by the vm chosen by the user\n                            AND c.vm_interface_id \n                                IN \n                                    (\n                                        SELECT device_id\n                                        FROM v4_4_configuration_history_vms_devices\n                                        WHERE \n                                            vm_id IN ($vm_id)\n                                            AND create_date < $__timeTo()\n                                            AND ( delete_date > $__timeFrom() OR delete_date IS NULL )\n                                            -- Here we get the latest vm devices configuration\n                                            AND history_id \n                                                IN \n                                                    (\n                                                        SELECT MAX ( a.history_id )\n                                                        FROM v4_4_configuration_history_vms_devices AS a\n                                                        GROUP BY \n                                                            a.vm_id,\n                                                            a.device_id\n                                                    )\n                                    )\n                            AND c.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( d.history_id )\n                                        FROM v4_4_configuration_history_vms_interfaces AS d\n                                        GROUP BY d.vm_interface_id\n                                    )\n                        GROUP BY c.vm_interface_id\n                        ORDER BY\n                            AVG ( COALESCE ( b.received_dropped_total_packets, 0 ) ) +\n                            AVG ( COALESCE ( b.transmitted_dropped_total_packets, 0 ) ) \n                            DESC\n                            LIMIT 3\n                    )\n        GROUP BY\n            v4_4_configuration_history_vms_interfaces.vm_interface_id,\n            interface_name,\n            vm_name,\n            history_datetime\n    ) AS all_sub_queries\n-- Show data only when the selected period is up to 24 hours back \nWHERE $__timeFrom() >= (NOW() - INTERVAL '1443 MINUTES')\nGROUP BY \n    all_sub_queries.time, \n    interface_name,\n    vm_name\nORDER BY all_sub_queries.time ASC",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        },
+        {
+          "format": "time_series",
+          "group": [],
+          "hide": false,
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "-- BR10A - This query returns the VM Ethernet Interface \n-- average Tx and Rx total dropped packets, over time.\n\n-- This query (B) displays historical and recent data \n-- excluding the last few hours, by using the hourly and daily tables.\nSELECT DISTINCT\n    $__time(all_sub_queries.time),\n    CONCAT\n\t  (\n\t      COALESCE ( interface_name, MAX ( interface_name ) over ( partition BY 1 ), '' ) || ' (', \n\t      COALESCE ( vm_name, MAX ( vm_name ) over ( partition BY 1 ), '' ) || ')'\n\t  ) AS disk_and_vm_name,\n    AVG ( Rx_drop ) AS \"Rx. Drop\",\n    AVG ( Tx_drop ) AS \"Tx. Drop\"\nFROM \n    (\n        SELECT v4_4_configuration_history_vms_interfaces.vm_interface_id,\n            CASE\n                WHEN v4_4_configuration_history_vms_interfaces.delete_date IS NULL\n                    THEN v4_4_configuration_history_vms_interfaces.vm_interface_name\n                ELSE v4_4_configuration_history_vms_interfaces.vm_interface_name\n            ||\n            '*'\n            END AS interface_name,\n            CASE\n                WHEN MAX (v4_4_configuration_history_vms.delete_date) IS NULL\n                    THEN MAX (vm_name)\n                ELSE MAX (vm_name)\n            ||\n            '*'\n            END AS vm_name,\n            history_datetime AS time,\n            AVG ( COALESCE ( received_dropped_total_packets, 0 ) ) AS Rx_drop,\n            AVG ( COALESCE ( transmitted_dropped_total_packets, 0 ) ) AS Tx_drop\n        FROM \n            (\n                    SELECT history_datetime, vm_interface_id, received_dropped_total_packets, transmitted_dropped_total_packets \n                    FROM v4_4_statistics_vms_interfaces_resources_usage_hourly\n                UNION\n                    SELECT history_datetime, vm_interface_id, received_dropped_total_packets, transmitted_dropped_total_packets \n                    FROM v4_4_statistics_vms_interfaces_resources_usage_daily\n                    WHERE\n                        history_datetime <\n                            (\n                                SELECT MIN ( history_datetime )\n                                FROM v4_4_statistics_vms_interfaces_resources_usage_hourly\n                            )\n            ) AS statistics\n            INNER JOIN \n            v4_4_configuration_history_vms_interfaces\n                ON \n                    (\n                        v4_4_configuration_history_vms_interfaces.vm_interface_id =\n                        statistics.vm_interface_id\n                    )\n\t\t        INNER JOIN \n\t\t        v4_4_configuration_history_vms_devices\n\t\t            ON\n\t\t                (\n\t\t\t\t\t              v4_4_configuration_history_vms_devices.device_id =\n\t\t\t\t\t\t            statistics.vm_interface_id\n\t\t\t\t\t\t            AND v4_4_configuration_history_vms_devices.type = 'interface'\n\t\t\t\t\t          )\n\t\t        INNER JOIN \n\t\t        v4_4_configuration_history_vms\n\t\t            ON\n\t\t                (\n\t\t\t\t\t              v4_4_configuration_history_vms.vm_id = \n\t\t\t\t\t\t            v4_4_configuration_history_vms_devices.vm_id\n\t\t\t\t\t\t        )\n        WHERE \n            -- Here we filter by the time range chosen by the user\n            history_datetime >= $__timeFrom()\n            AND history_datetime < $__timeTo()\n            -- Here we get the latest vm interfaces configuration\n            AND v4_4_configuration_history_vms_interfaces.history_id \n                IN \n                    (\n                        SELECT MAX ( a.history_id )\n                        FROM v4_4_configuration_history_vms_interfaces AS a\n                        GROUP BY a.vm_interface_id\n                    )\n            AND v4_4_configuration_history_vms_interfaces.vm_interface_id \n                IN \n                    (\n                        SELECT c.vm_interface_id\n                        FROM     \n                            (\n                                    SELECT history_datetime, vm_interface_id, received_dropped_total_packets, transmitted_dropped_total_packets\n                                    FROM v4_4_statistics_vms_interfaces_resources_usage_hourly\n                                UNION\n                                    SELECT history_datetime, vm_interface_id, received_dropped_total_packets, transmitted_dropped_total_packets\n                                    FROM v4_4_statistics_vms_interfaces_resources_usage_daily\n                                    WHERE\n                                        history_datetime <\n                                            (\n                                                SELECT MIN ( history_datetime )\n                                                FROM v4_4_statistics_vms_interfaces_resources_usage_hourly\n                                            )\n                            ) AS b\n                            INNER JOIN \n                            v4_4_configuration_history_vms_interfaces AS c\n                                ON \n                                    (\n                                        c.vm_interface_id = \n                                        b.vm_interface_id\n                                    )\n                            INNER JOIN \n                            (\n                                    SELECT history_datetime, vm_configuration_version, vm_status \n                                    FROM v4_4_statistics_vms_resources_usage_hourly \n                                UNION\n                                    SELECT history_datetime, vm_configuration_version, vm_status\n                                    FROM v4_4_statistics_vms_resources_usage_daily\n                                    WHERE\n                                        history_datetime <\n                                            (\n                                                SELECT MIN ( history_datetime )\n                                                FROM v4_4_statistics_vms_resources_usage_hourly\n                                            )\n                            ) AS d\n                                ON \n                                    (\n                                        d.vm_configuration_version =\n                                        c.vm_configuration_version\n                                        AND d.history_datetime =\n                                        b.history_datetime\n                                    )\n                        WHERE\n                            -- Here we filter by active vm only\n                            d.vm_status = 1\n                            -- Here we filter by the vm chosen by the user\n                            AND c.vm_interface_id \n                                IN \n                                    (\n                                        SELECT device_id\n                                        FROM v4_4_configuration_history_vms_devices\n                                        WHERE \n                                            vm_id IN ($vm_id)\n                                            AND create_date < $__timeTo()\n                                            AND ( delete_date > $__timeFrom() OR delete_date IS NULL )\n                                            -- Here we get the latest vm devices configuration\n                                            AND history_id \n                                                IN \n                                                    (\n                                                        SELECT MAX ( a.history_id )\n                                                        FROM v4_4_configuration_history_vms_devices AS a\n                                                        GROUP BY \n                                                            a.vm_id,\n                                                            a.device_id\n                                                    )\n                                    )\n                            AND c.history_id \n                                IN \n                                    (\n                                        SELECT MAX ( d.history_id )\n                                        FROM v4_4_configuration_history_vms_interfaces AS d\n                                        GROUP BY d.vm_interface_id\n                                    )\n                        GROUP BY c.vm_interface_id\n                        ORDER BY\n                            AVG ( COALESCE ( b.received_dropped_total_packets, 0 ) ) +\n                            AVG ( COALESCE ( b.transmitted_dropped_total_packets, 0 ) ) \n                            DESC\n                            LIMIT 3\n                    )\n        GROUP BY\n            v4_4_configuration_history_vms_interfaces.vm_interface_id,\n            interface_name,\n            vm_name,\n            history_datetime\n    ) AS all_sub_queries\n-- Show data only when the selected period is more then 24 hours back\nWHERE $__timeFrom() < (NOW() - INTERVAL '1443 MINUTES')\nGROUP BY \n    all_sub_queries.time, \n    interface_name,\n    vm_name\nORDER BY all_sub_queries.time ASC",
+          "refId": "B",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "timeColumn": "time",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Top 3 Ethernet Interface Tx and Rx Dropped Packets (over time) (BR10A) ",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 1,
+          "format": "none",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
           "show": true
         },
         {
