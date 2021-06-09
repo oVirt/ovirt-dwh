@@ -221,7 +221,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="cluster_configuration">
         <mapperTableEntries name="cluster_id" expression="row1.cluster_id" type="id_Object"/>
@@ -785,7 +785,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_id, &#xD;&#xA;  host_unique_id, &#xD;&#xA;  host_name, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  host_type, &#xD;&#xA;  fqdn_or_ip, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  swap_size_mb, &#xD;&#xA;  cpu_model,&#xD;&#xA;  number_of_cores, &#xA;  number_of_sockets,&#xA;  cpu_speed_mh,&#xD;&#xA;  host_os, &#xD;&#xA;  kernel_version, &#xD;&#xA;  kvm_version, &#xD;&#xA;  vdsm_version, &#xD;&#xA;  vdsm_port,&#xA;  threads_per_core,&#xA;  hardware_manufacturer,&#xA;  hardware_product_name,&#xA;  hardware_version,&#xA;  hardware_serial_number, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_host_configuration_history_view&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT &#xD;&#xA;  host_id, &#xD;&#xA;  host_unique_id, &#xD;&#xA;  host_name, &#xD;&#xA;  cluster_id,&#xD;&#xA;  upper(cast(cluster_id as char(36))) as cluster_join_id,  &#xD;&#xA;  host_type, &#xD;&#xA;  fqdn_or_ip, &#xD;&#xA;  memory_size_mb, &#xD;&#xA;  swap_size_mb, &#xD;&#xA;  cpu_model,&#xD;&#xA;  number_of_cores, &#xA;  number_of_sockets,&#xA;  cpu_speed_mh,&#xD;&#xA;  host_os, &#xD;&#xA;  kernel_version, &#xD;&#xA;  kvm_version, &#xD;&#xA;  vdsm_version, &#xD;&#xA;  vdsm_port,&#xA;  number_of_threads,&#xA;  hardware_manufacturer,&#xA;  hardware_product_name,&#xA;  hardware_version,&#xA;  hardware_serial_number, &#xD;&#xA;  create_date, &#xD;&#xA;  update_date&#xD;&#xA;FROM dwh_host_configuration_history_view&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -831,7 +831,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vdsm_port"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="threads_per_core"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="number_of_threads"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="hardware_manufacturer"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -869,7 +869,7 @@
       <column comment="" key="false" length="4000" name="kvm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="40" name="vdsm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vdsm_port" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="threads_per_core" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="number_of_threads" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_manufacturer" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_product_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_version" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -912,13 +912,14 @@
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="threads_per_core" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="number_of_threads" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_manufacturer" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_product_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_version" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_serial_number" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var" minimized="true"/>
       <outputTables sizeState="INTERMEDIATE" name="host_configuration">
         <mapperTableEntries name="host_id" expression="row7.host_id" type="id_Object"/>
@@ -942,7 +943,8 @@
         <mapperTableEntries name="create_date" expression="row7.create_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="row7.update_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="delete_date" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="threads_per_core" expression="row7.threads_per_core " type="id_Short" nullable="true"/>
+        <mapperTableEntries name="threads_per_core" expression="row7.number_of_threads " type="id_Short" nullable="true"/>
+        <mapperTableEntries name="number_of_threads" expression="row7.number_of_threads " type="id_Short" nullable="true"/>
         <mapperTableEntries name="hardware_manufacturer" expression="StringHandling.TRIM(row7.hardware_manufacturer) " type="id_String" nullable="true"/>
         <mapperTableEntries name="hardware_product_name" expression="StringHandling.TRIM(row7.hardware_product_name) " type="id_String" nullable="true"/>
         <mapperTableEntries name="hardware_version" expression="StringHandling.TRIM(row7.hardware_version) " type="id_String" nullable="true"/>
@@ -967,7 +969,7 @@
         <mapperTableEntries name="kvm_version" type="id_String" nullable="true"/>
         <mapperTableEntries name="vdsm_version" type="id_String" nullable="true"/>
         <mapperTableEntries name="vdsm_port" type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="threads_per_core" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="number_of_threads" type="id_Short" nullable="true"/>
         <mapperTableEntries name="hardware_manufacturer" type="id_String" nullable="true"/>
         <mapperTableEntries name="hardware_product_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="hardware_version" type="id_String" nullable="true"/>
@@ -1113,6 +1115,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="number_of_threads"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="hardware_manufacturer"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -1163,6 +1170,7 @@
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="threads_per_core" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="number_of_threads" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_manufacturer" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_product_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_version" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -1191,6 +1199,7 @@
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="threads_per_core" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="number_of_threads" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_manufacturer" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_product_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_version" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -2930,7 +2939,7 @@
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties shellMaximized="true"/>
+      <uiProperties/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_cluster" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="cluster_id" expression="row17.cluster_id" type="id_Object"/>
@@ -3314,7 +3323,7 @@
     <elementParameter field="TECHNICAL" name="QUERYSTORE:REPOSITORY_QUERYSTORE_TYPE" value="" show="false"/>
     <elementParameter field="TECHNICAL" name="QUERYSTORE:QUERYSTORE_TYPE" value="BUILT_IN"/>
     <elementParameter field="GUESS_SCHEMA" name="GUESS_SCHEMA" value="&quot;&quot;"/>
-    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;host_id, &#xD;&#xA;&#x9;&#x9;upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;&#x9;&#x9;host_unique_id, &#xD;&#xA;&#x9;&#x9;host_name, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;host_type, &#xD;&#xA;&#x9;&#x9;fqdn_or_ip, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;swap_size_mb,&#xD;&#xA;&#x9;&#x9;cpu_model, &#xD;&#xA;&#x9;&#x9;number_of_cores, &#xA;        number_of_sockets,&#xA;        cpu_speed_mh,&#xD;&#xA;&#x9;&#x9;host_os,&#xD;&#xA;&#x9;&#x9;kernel_version, &#xD;&#xA;&#x9;&#x9;kvm_version, &#xD;&#xA;&#x9;&#x9;vdsm_version, &#xD;&#xA;&#x9;&#x9;vdsm_port, &#xA;        threads_per_core,&#xA;        hardware_manufacturer,&#xA;        hardware_product_name,&#xA;        hardware_version,&#xA;        hardware_serial_number,&#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v4_4_latest_configuration_hosts&quot;"/>
+    <elementParameter field="MEMO_SQL" name="QUERY" value="&quot;SELECT history_id, &#xD;&#xA;&#x9;&#x9;host_id, &#xD;&#xA;&#x9;&#x9;upper(cast(host_id as char(36))) as host_join_id,&#xD;&#xA;&#x9;&#x9;host_unique_id, &#xD;&#xA;&#x9;&#x9;host_name, &#xD;&#xA;&#x9;&#x9;cluster_id, &#xD;&#xA;&#x9;&#x9;host_type, &#xD;&#xA;&#x9;&#x9;fqdn_or_ip, &#xD;&#xA;&#x9;&#x9;memory_size_mb, &#xD;&#xA;&#x9;&#x9;swap_size_mb,&#xD;&#xA;&#x9;&#x9;cpu_model, &#xD;&#xA;&#x9;&#x9;number_of_cores, &#xA;        number_of_sockets,&#xA;        cpu_speed_mh,&#xD;&#xA;&#x9;&#x9;host_os,&#xD;&#xA;&#x9;&#x9;kernel_version, &#xD;&#xA;&#x9;&#x9;kvm_version, &#xD;&#xA;&#x9;&#x9;vdsm_version, &#xD;&#xA;&#x9;&#x9;vdsm_port, &#xA;        number_of_threads,&#xA;        hardware_manufacturer,&#xA;        hardware_product_name,&#xA;        hardware_version,&#xA;        hardware_serial_number,&#xD;&#xA;&#x9;&#x9;cluster_configuration_version, &#xD;&#xA;&#x9;&#x9;create_date, &#xD;&#xA;&#x9;&#x9;update_date&#xD;&#xA;FROM v4_4_latest_configuration_hosts&quot;"/>
     <elementParameter field="LABEL" name="NOTE" value="This option only applies when deploying and running in the Talend Runtime" show="false"/>
     <elementParameter field="CHECK" name="SPECIFY_DATASOURCE_ALIAS" value="false" show="false"/>
     <elementParameter field="TEXT" name="DATASOURCE_ALIAS" value="&quot;&quot;" show="false"/>
@@ -3362,7 +3371,7 @@
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="vdsm_port"/>
       <elementValue elementRef="TRIM" value="false"/>
-      <elementValue elementRef="SCHEMA_COLUMN" value="threads_per_core"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="number_of_threads"/>
       <elementValue elementRef="TRIM" value="false"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="hardware_manufacturer"/>
       <elementValue elementRef="TRIM" value="false"/>
@@ -3403,7 +3412,7 @@
       <column comment="" key="false" length="255" name="kvm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="0" name="vdsm_version" nullable="true" pattern="" precision="0" sourceType="VARCHAR" type="id_String" usefulColumn="true"/>
       <column comment="" key="false" length="4" name="vdsm_port" nullable="true" pattern="" precision="0" sourceType="INT4" type="id_Integer" usefulColumn="true"/>
-      <column comment="" key="false" length="-1" name="threads_per_core" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="number_of_threads" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_manufacturer" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_product_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_version" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -3482,13 +3491,14 @@
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="threads_per_core" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="number_of_threads" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_manufacturer" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_product_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_version" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_serial_number" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
     </metadata>
     <nodeData xsi:type="MapperData">
-      <uiProperties/>
+      <uiProperties shellMaximized="true"/>
       <varTables sizeState="INTERMEDIATE" name="Var"/>
       <outputTables sizeState="INTERMEDIATE" name="delete_hosts" activateCondensedTool="true" rejectInnerJoin="true">
         <mapperTableEntries name="host_id" expression="row21.host_id" type="id_Object"/>
@@ -3512,7 +3522,8 @@
         <mapperTableEntries name="create_date" expression="row21.create_date" type="id_Date" nullable="true"/>
         <mapperTableEntries name="update_date" expression="context.runTime" type="id_Date" nullable="true"/>
         <mapperTableEntries name="delete_date" expression="context.runTime" type="id_Date" nullable="true"/>
-        <mapperTableEntries name="threads_per_core" expression="row21.threads_per_core " type="id_Short" nullable="true"/>
+        <mapperTableEntries name="threads_per_core" expression="row21.number_of_threads " type="id_Short" nullable="true"/>
+        <mapperTableEntries name="number_of_threads" expression="row21.number_of_threads " type="id_Short" nullable="true"/>
         <mapperTableEntries name="hardware_manufacturer" expression="row21.hardware_manufacturer " type="id_String" nullable="true"/>
         <mapperTableEntries name="hardware_product_name" expression="row21.hardware_product_name " type="id_String" nullable="true"/>
         <mapperTableEntries name="hardware_version" expression="row21.hardware_version " type="id_String" nullable="true"/>
@@ -3538,7 +3549,7 @@
         <mapperTableEntries name="kvm_version" type="id_String" nullable="true"/>
         <mapperTableEntries name="vdsm_version" type="id_String" nullable="true"/>
         <mapperTableEntries name="vdsm_port" type="id_Integer" nullable="true"/>
-        <mapperTableEntries name="threads_per_core" type="id_Short" nullable="true"/>
+        <mapperTableEntries name="number_of_threads" type="id_Short" nullable="true"/>
         <mapperTableEntries name="hardware_manufacturer" type="id_String" nullable="true"/>
         <mapperTableEntries name="hardware_product_name" type="id_String" nullable="true"/>
         <mapperTableEntries name="hardware_version" type="id_String" nullable="true"/>
@@ -3684,6 +3695,11 @@
       <elementValue elementRef="DELETE_KEY" value="false"/>
       <elementValue elementRef="UPDATABLE" value="true"/>
       <elementValue elementRef="INSERTABLE" value="true"/>
+      <elementValue elementRef="SCHEMA_COLUMN" value="number_of_threads"/>
+      <elementValue elementRef="UPDATE_KEY" value="false"/>
+      <elementValue elementRef="DELETE_KEY" value="false"/>
+      <elementValue elementRef="UPDATABLE" value="true"/>
+      <elementValue elementRef="INSERTABLE" value="true"/>
       <elementValue elementRef="SCHEMA_COLUMN" value="hardware_manufacturer"/>
       <elementValue elementRef="UPDATE_KEY" value="false"/>
       <elementValue elementRef="DELETE_KEY" value="false"/>
@@ -3733,6 +3749,7 @@
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="threads_per_core" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="number_of_threads" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_manufacturer" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_product_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_version" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -3761,6 +3778,7 @@
       <column comment="" key="false" length="8" name="update_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="8" name="delete_date" nullable="true" pattern="&quot;yyyy-MM-dd HH:mm:ss.SSSSSS&quot;" precision="6" sourceType="TIMESTAMP" type="id_Date" usefulColumn="true"/>
       <column comment="" key="false" length="-1" name="threads_per_core" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
+      <column comment="" key="false" length="-1" name="number_of_threads" nullable="true" pattern="" precision="-1" sourceType="" type="id_Short" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_manufacturer" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_product_name" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
       <column comment="" key="false" length="255" name="hardware_version" nullable="true" pattern="" precision="-1" sourceType="" type="id_String" originalLength="255" usefulColumn="true"/>
@@ -8182,7 +8200,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="number_of_sockets"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="threads_per_core"/>
+      <elementValue elementRef="TRACE_COLUMN" value="number_of_threads"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="hardware_manufacturer"/>
@@ -8285,6 +8303,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="hardware_product_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="number_of_threads"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>
@@ -9022,7 +9043,7 @@
       <elementValue elementRef="TRACE_COLUMN" value="number_of_sockets"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
-      <elementValue elementRef="TRACE_COLUMN" value="threads_per_core"/>
+      <elementValue elementRef="TRACE_COLUMN" value="number_of_threads"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="hardware_manufacturer"/>
@@ -9134,6 +9155,9 @@
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
       <elementValue elementRef="TRACE_COLUMN" value="hardware_product_name"/>
+      <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
+      <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
+      <elementValue elementRef="TRACE_COLUMN" value="number_of_threads"/>
       <elementValue elementRef="TRACE_COLUMN_CHECKED" value="true"/>
       <elementValue elementRef="TRACE_COLUMN_CONDITION" value=""/>
     </elementParameter>

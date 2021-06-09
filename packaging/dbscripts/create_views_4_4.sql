@@ -191,7 +191,9 @@ SELECT
       ELSE vdsm_version
       END as vdsm_version,
       vdsm_port as vdsm_port,
-      threads_per_core as threads_per_core,
+      /* threads_per_core is number_of_threads */
+      number_of_threads as threads_per_core,
+      number_of_threads as number_of_threads,
       hardware_manufacturer as hardware_manufacturer,
       hardware_product_name as hardware_product_name,
       hardware_version as hardware_version,
@@ -228,7 +230,9 @@ SELECT
       ELSE vdsm_version
       END as vdsm_version,
       vdsm_port as vdsm_port,
-      threads_per_core as threads_per_core,
+      /* threads_per_core is number_of_threads */
+      number_of_threads as threads_per_core,
+      number_of_threads as number_of_threads,
       hardware_manufacturer as hardware_manufacturer,
       hardware_product_name as hardware_product_name,
       hardware_version as hardware_version,
@@ -446,7 +450,9 @@ SELECT
     conf.kvm_version as kvm_version,
     conf.vdsm_version as vdsm_version,
     conf.vdsm_port as vdsm_port,
+    /* threads_per_core is number_of_threads */
     conf.threads_per_core as threads_per_core,
+    conf.number_of_threads as number_of_threads,
     conf.hardware_manufacturer as hardware_manufacturer,
     conf.hardware_product_name as hardware_product_name,
     conf.hardware_version as hardware_version,
@@ -520,7 +526,9 @@ SELECT
     conf.kvm_version as kvm_version,
     conf.vdsm_version as vdsm_version,
     conf.vdsm_port as vdsm_port,
+    /* threads_per_core is number_of_threads */
     conf.threads_per_core as threads_per_core,
+    conf.number_of_threads as number_of_threads,
     conf.hardware_manufacturer as hardware_manufacturer,
     conf.hardware_product_name as hardware_product_name,
     conf.hardware_version as hardware_version,
@@ -607,7 +615,9 @@ SELECT
     conf.kvm_version as kvm_version,
     conf.vdsm_version as vdsm_version,
     conf.vdsm_port as vdsm_port,
+    /* threads_per_core is number of threads */
     conf.threads_per_core as threads_per_core,
+    conf.number_of_threads as number_of_threads,
     conf.hardware_manufacturer as hardware_manufacturer,
     conf.hardware_product_name as hardware_product_name,
     conf.hardware_version as hardware_version,
