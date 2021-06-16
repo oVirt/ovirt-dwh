@@ -307,6 +307,12 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Jun 23 2021 Aviv Litman <alitman@redhat.com> - 4.4.7.2
+- Fix titles in interface panels
+- Bug 1937714 - Add rx and tx drop to Grafana
+- Bug 1896359 - Add number_of_threads
+- Bug 1962641 - Add "Count threads as cores" to Grafana dashboards
+
 * Wed Jun 2 2021 Aviv Litman <alitman@redhat.com> - 4.4.7.1
 - Bug 1877478 - Add network metrics to dwh
 - Bug 1961598 -Fix race in Termination.java
