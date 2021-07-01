@@ -307,6 +307,9 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Thu Jul 1 2021 Aviv Litman <alitman@redhat.com> - 4.4.7.3
+- Bug 1976768 - Fixing year in the calendar table
+
 * Wed Jun 23 2021 Aviv Litman <alitman@redhat.com> - 4.4.7.2
 - Fix titles in interface panels
 - Bug 1937714 - Add rx and tx drop to Grafana
