@@ -307,6 +307,10 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Mon Aug 2 2021 Aviv Litman <alitman@redhat.com> - 4.4.8
+- packaging: dbscripts: Improve logging
+- Bug 1980315 packaging: setup: Usually default to configure grafana
+
 * Thu Jul 1 2021 Aviv Litman <alitman@redhat.com> - 4.4.7.3
 - Bug 1976768 - Fixing year in the calendar table
 
