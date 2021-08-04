@@ -56,9 +56,7 @@ class Plugin(plugin.PluginBase):
             ogdwhcons.CoreEnv.ENABLE
         ] and not self.environment[
             oenginecons.CoreEnv.ENABLE
-        ] and not self.environment.get(
-            odwhcons.ConfigEnv.REMOTE_ENGINE_CONFIGURED
-        ),
+        ],
     )
     def _remote_engine_customization(self):
         osetuphostname.Hostname(
@@ -68,13 +66,16 @@ class Plugin(plugin.PluginBase):
             whichhost=_('the engine'),
             supply_default=False,
         )
-        self.environment[
-            osetupcons.CoreEnv.REMOTE_ENGINE
-        ].configure(
-            fqdn=self.environment[
-                oenginecons.ConfigEnv.ENGINE_FQDN
-            ],
-        )
+        if not self.environment.get(
+            odwhcons.ConfigEnv.REMOTE_ENGINE_CONFIGURED
+        ):
+            self.environment[
+                osetupcons.CoreEnv.REMOTE_ENGINE
+            ].configure(
+                fqdn=self.environment[
+                    oenginecons.ConfigEnv.ENGINE_FQDN
+                ],
+            )
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
