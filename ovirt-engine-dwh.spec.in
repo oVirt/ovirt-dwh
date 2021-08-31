@@ -307,6 +307,9 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Thu Sep 2 2021 Aviv Litman <alitman@redhat.com> - 4.4.9
+- Bug 1992690 - Customize 'oVirt Inventory Dashboard'
+
 * Mon Aug 2 2021 Aviv Litman <alitman@redhat.com> - 4.4.8
 - packaging: dbscripts: Improve logging
 - Bug 1980315 packaging: setup: Usually default to configure grafana
