@@ -12432,9 +12432,9 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_disk_actual_size_mb;
 		}
 
-		public Integer read_rate_bytes_per_second;
+		public Long read_rate_bytes_per_second;
 
-		public Integer getRead_rate_bytes_per_second() {
+		public Long getRead_rate_bytes_per_second() {
 			return this.read_rate_bytes_per_second;
 		}
 
@@ -12444,9 +12444,9 @@ public class StatisticsSync implements TalendJob {
 			return this.read_latency_seconds;
 		}
 
-		public Integer write_rate_bytes_per_second;
+		public Long write_rate_bytes_per_second;
 
-		public Integer getWrite_rate_bytes_per_second() {
+		public Long getWrite_rate_bytes_per_second() {
 			return this.write_rate_bytes_per_second;
 		}
 
@@ -12550,7 +12550,12 @@ public class StatisticsSync implements TalendJob {
 
 					this.vm_disk_actual_size_mb = dis.readInt();
 
-					this.read_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.read_rate_bytes_per_second = null;
+					} else {
+						this.read_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -12559,7 +12564,12 @@ public class StatisticsSync implements TalendJob {
 						this.read_latency_seconds = dis.readDouble();
 					}
 
-					this.write_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.write_rate_bytes_per_second = null;
+					} else {
+						this.write_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -12635,9 +12645,14 @@ public class StatisticsSync implements TalendJob {
 
 				dos.writeInt(this.vm_disk_actual_size_mb);
 
-				// Integer
+				// Long
 
-				writeInteger(this.read_rate_bytes_per_second, dos);
+				if (this.read_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.read_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -12648,9 +12663,14 @@ public class StatisticsSync implements TalendJob {
 					dos.writeDouble(this.read_latency_seconds);
 				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.write_rate_bytes_per_second, dos);
+				if (this.write_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.write_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -12800,9 +12820,9 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_disk_actual_size_mb;
 		}
 
-		public Integer read_rate_bytes_per_second;
+		public Long read_rate_bytes_per_second;
 
-		public Integer getRead_rate_bytes_per_second() {
+		public Long getRead_rate_bytes_per_second() {
 			return this.read_rate_bytes_per_second;
 		}
 
@@ -12812,9 +12832,9 @@ public class StatisticsSync implements TalendJob {
 			return this.read_latency_seconds;
 		}
 
-		public Integer write_rate_bytes_per_second;
+		public Long write_rate_bytes_per_second;
 
-		public Integer getWrite_rate_bytes_per_second() {
+		public Long getWrite_rate_bytes_per_second() {
 			return this.write_rate_bytes_per_second;
 		}
 
@@ -12922,7 +12942,12 @@ public class StatisticsSync implements TalendJob {
 
 					this.vm_disk_actual_size_mb = readInteger(dis);
 
-					this.read_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.read_rate_bytes_per_second = null;
+					} else {
+						this.read_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -12931,7 +12956,12 @@ public class StatisticsSync implements TalendJob {
 						this.read_latency_seconds = dis.readDouble();
 					}
 
-					this.write_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.write_rate_bytes_per_second = null;
+					} else {
+						this.write_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -13001,9 +13031,14 @@ public class StatisticsSync implements TalendJob {
 
 				writeInteger(this.vm_disk_actual_size_mb, dos);
 
-				// Integer
+				// Long
 
-				writeInteger(this.read_rate_bytes_per_second, dos);
+				if (this.read_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.read_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -13014,9 +13049,14 @@ public class StatisticsSync implements TalendJob {
 					dos.writeDouble(this.read_latency_seconds);
 				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.write_rate_bytes_per_second, dos);
+				if (this.write_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.write_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -13159,9 +13199,9 @@ public class StatisticsSync implements TalendJob {
 			return this.vm_disk_actual_size_mb;
 		}
 
-		public Integer read_rate_bytes_per_second;
+		public Long read_rate_bytes_per_second;
 
-		public Integer getRead_rate_bytes_per_second() {
+		public Long getRead_rate_bytes_per_second() {
 			return this.read_rate_bytes_per_second;
 		}
 
@@ -13171,9 +13211,9 @@ public class StatisticsSync implements TalendJob {
 			return this.read_latency_seconds;
 		}
 
-		public Integer write_rate_bytes_per_second;
+		public Long write_rate_bytes_per_second;
 
-		public Integer getWrite_rate_bytes_per_second() {
+		public Long getWrite_rate_bytes_per_second() {
 			return this.write_rate_bytes_per_second;
 		}
 
@@ -13281,7 +13321,12 @@ public class StatisticsSync implements TalendJob {
 
 					this.vm_disk_actual_size_mb = readInteger(dis);
 
-					this.read_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.read_rate_bytes_per_second = null;
+					} else {
+						this.read_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -13290,7 +13335,12 @@ public class StatisticsSync implements TalendJob {
 						this.read_latency_seconds = dis.readDouble();
 					}
 
-					this.write_rate_bytes_per_second = readInteger(dis);
+					length = dis.readByte();
+					if (length == -1) {
+						this.write_rate_bytes_per_second = null;
+					} else {
+						this.write_rate_bytes_per_second = dis.readLong();
+					}
 
 					length = dis.readByte();
 					if (length == -1) {
@@ -13360,9 +13410,14 @@ public class StatisticsSync implements TalendJob {
 
 				writeInteger(this.vm_disk_actual_size_mb, dos);
 
-				// Integer
+				// Long
 
-				writeInteger(this.read_rate_bytes_per_second, dos);
+				if (this.read_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.read_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -13373,9 +13428,14 @@ public class StatisticsSync implements TalendJob {
 					dos.writeDouble(this.read_latency_seconds);
 				}
 
-				// Integer
+				// Long
 
-				writeInteger(this.write_rate_bytes_per_second, dos);
+				if (this.write_rate_bytes_per_second == null) {
+					dos.writeByte(-1);
+				} else {
+					dos.writeByte(0);
+					dos.writeLong(this.write_rate_bytes_per_second);
+				}
 
 				// Double
 
@@ -13678,7 +13738,7 @@ public class StatisticsSync implements TalendJob {
 
 							if (rs_tJDBCInput_18.getObject(6) != null) {
 								row1.read_rate_bytes_per_second = rs_tJDBCInput_18
-										.getInt(6);
+										.getLong(6);
 							} else {
 								row1.read_rate_bytes_per_second = null;
 							}
@@ -13700,7 +13760,7 @@ public class StatisticsSync implements TalendJob {
 
 							if (rs_tJDBCInput_18.getObject(8) != null) {
 								row1.write_rate_bytes_per_second = rs_tJDBCInput_18
-										.getInt(8);
+										.getLong(8);
 							} else {
 								row1.write_rate_bytes_per_second = null;
 							}
@@ -13928,7 +13988,8 @@ public class StatisticsSync implements TalendJob {
 										java.sql.Types.INTEGER);
 							} else {
 								pstmt_tJDBCOutput_7
-										.setInt(7,
+										.setLong(
+												7,
 												vm_disk_history.read_rate_bytes_per_second);
 							}
 
@@ -13945,7 +14006,8 @@ public class StatisticsSync implements TalendJob {
 										java.sql.Types.INTEGER);
 							} else {
 								pstmt_tJDBCOutput_7
-										.setInt(9,
+										.setLong(
+												9,
 												vm_disk_history.write_rate_bytes_per_second);
 							}
 
@@ -16925,6 +16987,6 @@ public class StatisticsSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 463100 characters generated by Talend Open Studio for Data Integration on the
- * May 20, 2021 3:10:22 PM IDT
+ * 465186 characters generated by Talend Open Studio for Data Integration on the
+ * September 30, 2021 10:34:16 AM IDT
  ************************************************************************************************/
