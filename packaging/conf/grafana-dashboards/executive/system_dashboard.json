@@ -247,7 +247,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR1 - This query returns entities count per entity\n\nSELECT \n    (\n        SELECT COUNT ( * )\n        FROM v4_4_latest_configuration_datacenters\n    ) AS datacenter_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_4_latest_configuration_clusters\n    ) AS cluster_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_4_latest_configuration_hosts\n    ) AS host_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_4_latest_configuration_vms\n    ) AS vm_count",
+          "rawSql": "-- EX01-1 - This query returns entities count per entity\n\nSELECT \n    (\n        SELECT COUNT ( * )\n        FROM v4_4_latest_configuration_datacenters\n    ) AS datacenter_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_4_latest_configuration_clusters\n    ) AS cluster_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_4_latest_configuration_hosts\n    ) AS host_count,\n    (\n        SELECT COUNT ( * )\n        FROM v4_4_latest_configuration_vms\n    ) AS vm_count",
           "refId": "A",
           "select": [
             [
@@ -273,7 +273,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR1 - This query returns the total count of storage domains\n\nSELECT\n    COUNT ( DISTINCT v4_4_latest_map_datacenters_storage_domains.storage_domain_id ) AS storage_count\nFROM \n    v4_4_latest_map_datacenters_storage_domains",
+          "rawSql": "-- EX01-1 - This query returns the total count of storage domains\n\nSELECT\n    COUNT ( DISTINCT v4_4_latest_map_datacenters_storage_domains.storage_domain_id ) AS storage_count\nFROM \n    v4_4_latest_map_datacenters_storage_domains",
           "refId": "B",
           "select": [
             [
@@ -297,7 +297,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "System Entities (DR1) ",
+      "title": "System Entities (EX01-1) ",
       "transform": "table",
       "transparent": true,
       "type": "table"
@@ -370,7 +370,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR10 - This query returns the average\n-- hosts resources ( cpu and memory ) that are used,\n-- in the latest configuration.\n\nSELECT \n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter only active hosts\n            v4_4_statistics_hosts_resources_usage_samples.host_status = 1  \n    ) AS average_cpu_percent",
+          "rawSql": "-- EX01-2 - This query returns the average\n-- hosts resources ( cpu and memory ) that are used,\n-- in the latest configuration.\n\nSELECT \n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter only active hosts\n            v4_4_statistics_hosts_resources_usage_samples.host_status = 1  \n    ) AS average_cpu_percent",
           "refId": "A",
           "select": [
             [
@@ -395,7 +395,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "System Host CPU Usage (DR10)",
+      "title": "System Host CPU Usage (EX01-2)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -474,7 +474,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR10 - This query returns the average\n-- hosts resources ( cpu and memory ) that are used,\n-- in the latest configuration.\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter only active hosts\n            v4_4_statistics_hosts_resources_usage_samples.host_status = 1  \n    ) AS average_memory_percent",
+          "rawSql": "-- EX01-3 - This query returns the average\n-- hosts resources ( cpu and memory ) that are used,\n-- in the latest configuration.\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter only active hosts\n            v4_4_statistics_hosts_resources_usage_samples.host_status = 1  \n    ) AS average_memory_percent",
           "refId": "A",
           "select": [
             [
@@ -499,7 +499,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "System Host Memory Usage (DR10)",
+      "title": "System Host Memory Usage (EX01-3)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -579,7 +579,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR4 - This query returns the total hosts uptime percent\n-- in the latest configuration.\n\nSELECT\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )",
+          "rawSql": "-- EX01-4 - This query returns the total hosts uptime percent\n-- in the latest configuration.\n\nSELECT\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )",
           "refId": "A",
           "select": [
             [
@@ -604,7 +604,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "System Host Uptime (DR4)",
+      "title": "System Host Uptime (EX01-4)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -684,7 +684,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- DR7 - This query returns the used disk size percent\n-- out of the total storage domains disks space.\n-- in the latest configuration.\n\nSELECT\n    CASE\n        WHEN \n            SUM \n                (\n                    cast ( used_disk_size_gb AS float ) +\n                    cast ( available_disk_size_gb AS float )\n                ) != 0\n            THEN \n                ( \n                    SUM ( cast ( used_disk_size_gb AS float ) ) \n                    /\n                    SUM \n                        (\n                            cast ( used_disk_size_gb AS float ) +\n                            cast ( available_disk_size_gb AS float )\n                        )\n                ) * 100\n        ELSE NULL\n    END AS used_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\nWHERE\n    -- Here we get the latest storage domains configuration\n    history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )",
+          "rawSql": "-- EX01-5 - This query returns the used disk size percent\n-- out of the total storage domains disks space.\n-- in the latest configuration.\n\nSELECT\n    CASE\n        WHEN \n            SUM \n                (\n                    cast ( used_disk_size_gb AS float ) +\n                    cast ( available_disk_size_gb AS float )\n                ) != 0\n            THEN \n                ( \n                    SUM ( cast ( used_disk_size_gb AS float ) ) \n                    /\n                    SUM \n                        (\n                            cast ( used_disk_size_gb AS float ) +\n                            cast ( available_disk_size_gb AS float )\n                        )\n                ) * 100\n        ELSE NULL\n    END AS used_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\nWHERE\n    -- Here we get the latest storage domains configuration\n    history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )",
           "refId": "A",
           "select": [
             [
@@ -709,7 +709,7 @@
       "thresholds": "60,80",
       "timeFrom": null,
       "timeShift": null,
-      "title": "System Storage Space Usage (DR7)",
+      "title": "System Storage Space Usage (EX01-5)",
       "type": "singlestat",
       "valueFontSize": "80%",
       "valueMaps": [
@@ -785,7 +785,7 @@
     ]
   },
   "timezone": "",
-  "title": "System Dashboard",
+  "title": "01 System Dashboard",
   "uid": "SystemDashboard",
   "variables": {
     "list": []
