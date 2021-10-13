@@ -186,7 +186,7 @@
       </parameters>
     </implicitContextSettings>
     <ItemsRelations xmi:id="_sYc0UP9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYc0Uf9REeW4JdIhqVNLcg" id="_6g7rUNI5EeCOk4qSIFFDtw" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYc0Uf9REeW4JdIhqVNLcg" id="_6g7rUNI5EeCOk4qSIFFDtw" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYc0Uv9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYc0U_9REeW4JdIhqVNLcg" id="_O-QEENI6EeCOk4qSIFFDtw" version="Latest" type="job"/>
       <relatedItems xmi:id="_sYc0VP9REeW4JdIhqVNLcg" id="_Q9_uQNI6EeCOk4qSIFFDtw" version="Latest" type="job"/>
@@ -203,7 +203,7 @@
       <relatedItems xmi:id="_sYc0X_9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYc0YP9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYc0Yf9REeW4JdIhqVNLcg" id="_SHJWcLt3EeCeWLgt9FiAVg" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYc0Yf9REeW4JdIhqVNLcg" id="_SHJWcLt3EeCeWLgt9FiAVg" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYc0Yv9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYc0Y_9REeW4JdIhqVNLcg" id="_6g7rUNI5EeCOk4qSIFFDtw" version="Latest" type="job"/>
       <relatedItems xmi:id="_sYc0ZP9REeW4JdIhqVNLcg" id="_32iGcDEOEeSx2o9mrBi0rQ" version="Latest" type="job"/>
@@ -219,7 +219,7 @@
       <relatedItems xmi:id="_sYc0bv9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYc0b_9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYc0cP9REeW4JdIhqVNLcg" id="_qO28gIw3EeSzuKH3DjcJcQ" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYc0cP9REeW4JdIhqVNLcg" id="_qO28gIw3EeSzuKH3DjcJcQ" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYc0cf9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYc0cv9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
       <relatedItems xmi:id="_sYc0c_9REeW4JdIhqVNLcg" id="Relational" version="Latest" type="routine"/>
@@ -267,7 +267,7 @@
       <relatedItems xmi:id="_sYdbbP9REeW4JdIhqVNLcg" id="_S6YS4EJlEeCWRqOtaF5m-w" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYdbbf9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYdbbv9REeW4JdIhqVNLcg" id="_pOJo4NPOEeClgedRboJzdw" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYdbbv9REeW4JdIhqVNLcg" id="_pOJo4NPOEeClgedRboJzdw" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYdbb_9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYdbcP9REeW4JdIhqVNLcg" id="_njhZkEmWEeCOy4qlRA0GWA" version="Latest" type="job"/>
       <relatedItems xmi:id="_sYdbcf9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
@@ -281,7 +281,7 @@
       <relatedItems xmi:id="_sYdbef9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYdbev9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYdbe_9REeW4JdIhqVNLcg" id="_s0iQoFShEeCW44CWrpjEnA" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYdbe_9REeW4JdIhqVNLcg" id="_s0iQoFShEeCW44CWrpjEnA" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYdbfP9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYdbff9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
       <relatedItems xmi:id="_sYdbfv9REeW4JdIhqVNLcg" id="Relational" version="Latest" type="routine"/>
@@ -305,7 +305,7 @@
       <relatedItems xmi:id="_sYdbj_9REeW4JdIhqVNLcg" id="TalendDataGenerator" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYdbkP9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYdbkf9REeW4JdIhqVNLcg" id="_nU-ucKilEeCjo5NG37_jcg" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYdbkf9REeW4JdIhqVNLcg" id="_nU-ucKilEeCjo5NG37_jcg" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYdbkv9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYdbk_9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
       <relatedItems xmi:id="_sYdblP9REeW4JdIhqVNLcg" id="Relational" version="Latest" type="routine"/>
@@ -318,7 +318,7 @@
       <relatedItems xmi:id="_sYdbm_9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYdbnP9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYdbnf9REeW4JdIhqVNLcg" id="_lp7qcNI9EeCOk4qSIFFDtw" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYdbnf9REeW4JdIhqVNLcg" id="_lp7qcNI9EeCOk4qSIFFDtw" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYdbnv9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
       <relatedItems xmi:id="_sYdbn_9REeW4JdIhqVNLcg" id="Relational" version="Latest" type="routine"/>
       <relatedItems xmi:id="_sYdboP9REeW4JdIhqVNLcg" id="StringHandling" version="Latest" type="routine"/>
@@ -357,7 +357,7 @@
       <relatedItems xmi:id="_sYeCff9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYeCfv9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYeCf_9REeW4JdIhqVNLcg" id="_O-QEENI6EeCOk4qSIFFDtw" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYeCf_9REeW4JdIhqVNLcg" id="_O-QEENI6EeCOk4qSIFFDtw" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYeCgP9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYeCgf9REeW4JdIhqVNLcg" id="_s0iQoFShEeCW44CWrpjEnA" version="Latest" type="job"/>
       <relatedItems xmi:id="_sYeCgv9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
@@ -384,7 +384,7 @@
       <relatedItems xmi:id="_sYeClv9REeW4JdIhqVNLcg" id="_S6YS4EJlEeCWRqOtaF5m-w" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYeCl_9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYeCmP9REeW4JdIhqVNLcg" id="_njhZkEmWEeCOy4qlRA0GWA" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYeCmP9REeW4JdIhqVNLcg" id="_njhZkEmWEeCOy4qlRA0GWA" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYeCmf9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYeCmv9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
       <relatedItems xmi:id="_sYeCm_9REeW4JdIhqVNLcg" id="Relational" version="Latest" type="routine"/>
@@ -397,7 +397,7 @@
       <relatedItems xmi:id="_sYeCov9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYeCo_9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYeCpP9REeW4JdIhqVNLcg" id="_sTgZAEP_EeC5PvJxFZIIsw" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYeCpP9REeW4JdIhqVNLcg" id="_sTgZAEP_EeC5PvJxFZIIsw" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYeCpf9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYeCpv9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
       <relatedItems xmi:id="_sYeCp_9REeW4JdIhqVNLcg" id="Relational" version="Latest" type="routine"/>
@@ -410,7 +410,7 @@
       <relatedItems xmi:id="_sYeCrv9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYeCr_9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYeCsP9REeW4JdIhqVNLcg" id="_iPgL4Eo-EeCOy4qlRA0GWA" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYeCsP9REeW4JdIhqVNLcg" id="_iPgL4Eo-EeCOy4qlRA0GWA" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYeCsf9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYeCsv9REeW4JdIhqVNLcg" id="_nU-ucKilEeCjo5NG37_jcg" version="Latest" type="job"/>
       <relatedItems xmi:id="_sYeCs_9REeW4JdIhqVNLcg" id="_oWT9MFRyEeCEMvYqeevraA" version="Latest" type="job"/>
@@ -462,7 +462,7 @@
       <relatedItems xmi:id="_sYepm_9REeW4JdIhqVNLcg" id="_S6YS4EJlEeCWRqOtaF5m-w" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYepnP9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYepnf9REeW4JdIhqVNLcg" id="_FvEy8LzqEeCaj-T1n0SCFw" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYepnf9REeW4JdIhqVNLcg" id="_FvEy8LzqEeCaj-T1n0SCFw" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYepnv9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYepn_9REeW4JdIhqVNLcg" id="_iPgL4Eo-EeCOy4qlRA0GWA" version="Latest" type="job"/>
       <relatedItems xmi:id="_sYepoP9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
@@ -476,7 +476,7 @@
       <relatedItems xmi:id="_sYepqP9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYepqf9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYepqv9REeW4JdIhqVNLcg" id="_6qsvkEi2EeCv8PaoeAjHHg" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYepqv9REeW4JdIhqVNLcg" id="_6qsvkEi2EeCv8PaoeAjHHg" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYepq_9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYeprP9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
       <relatedItems xmi:id="_sYeprf9REeW4JdIhqVNLcg" id="Relational" version="Latest" type="routine"/>
@@ -489,7 +489,7 @@
       <relatedItems xmi:id="_sYeptP9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYeptf9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYeptv9REeW4JdIhqVNLcg" id="_oWT9MFRyEeCEMvYqeevraA" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYeptv9REeW4JdIhqVNLcg" id="_oWT9MFRyEeCEMvYqeevraA" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYept_9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYepuP9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
       <relatedItems xmi:id="_sYepuf9REeW4JdIhqVNLcg" id="Relational" version="Latest" type="routine"/>
@@ -502,7 +502,7 @@
       <relatedItems xmi:id="_sYepwP9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYepwf9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYepwv9REeW4JdIhqVNLcg" id="_wS9RAB-CEeOn18i66-1ZcQ" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYepwv9REeW4JdIhqVNLcg" id="_wS9RAB-CEeOn18i66-1ZcQ" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYepw_9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYepxP9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
       <relatedItems xmi:id="_sYepxf9REeW4JdIhqVNLcg" id="Relational" version="Latest" type="routine"/>
@@ -528,7 +528,7 @@
       <relatedItems xmi:id="_sYep2P9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYfQkP9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYfQkf9REeW4JdIhqVNLcg" id="_iWyvwMvcEeC0NqH3keq0gg" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYfQkf9REeW4JdIhqVNLcg" id="_iWyvwMvcEeC0NqH3keq0gg" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYfQkv9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYfQk_9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
       <relatedItems xmi:id="_sYfQlP9REeW4JdIhqVNLcg" id="Relational" version="Latest" type="routine"/>
@@ -553,7 +553,7 @@
       <relatedItems xmi:id="_sYfQpv9REeW4JdIhqVNLcg" id="TalendDataGenerator" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYfQp_9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYfQqP9REeW4JdIhqVNLcg" id="_32iGcDEOEeSx2o9mrBi0rQ" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYfQqP9REeW4JdIhqVNLcg" id="_32iGcDEOEeSx2o9mrBi0rQ" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYfQqf9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYfQqv9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
       <relatedItems xmi:id="_sYfQq_9REeW4JdIhqVNLcg" id="Relational" version="Latest" type="routine"/>
@@ -609,7 +609,7 @@
       <relatedItems xmi:id="_sYfQ2v9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYfQ2_9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYfQ3P9REeW4JdIhqVNLcg" id="_etBDANI6EeCOk4qSIFFDtw" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYfQ3P9REeW4JdIhqVNLcg" id="_etBDANI6EeCOk4qSIFFDtw" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYfQ3f9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYfQ3v9REeW4JdIhqVNLcg" id="_6qsvkEi2EeCv8PaoeAjHHg" version="Latest" type="job"/>
       <relatedItems xmi:id="_sYfQ3_9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
@@ -648,7 +648,7 @@
       <relatedItems xmi:id="_sYf3uv9REeW4JdIhqVNLcg" id="_S6YS4EJlEeCWRqOtaF5m-w" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYf3u_9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYf3vP9REeW4JdIhqVNLcg" id="_Q9_uQNI6EeCOk4qSIFFDtw" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYf3vP9REeW4JdIhqVNLcg" id="_Q9_uQNI6EeCOk4qSIFFDtw" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYf3vf9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYf3vv9REeW4JdIhqVNLcg" id="_6qsvkEi2EeCv8PaoeAjHHg" version="Latest" type="job"/>
       <relatedItems xmi:id="_sYf3v_9REeW4JdIhqVNLcg" id="DataOperation" version="Latest" type="routine"/>
@@ -662,7 +662,7 @@
       <relatedItems xmi:id="_sYf3x_9REeW4JdIhqVNLcg" id="TalendDate" version="Latest" type="routine"/>
     </ItemsRelations>
     <ItemsRelations xmi:id="_sYf3yP9REeW4JdIhqVNLcg">
-      <baseItem xmi:id="_sYf3yf9REeW4JdIhqVNLcg" id="_fqTxsNI6EeCOk4qSIFFDtw" version="4.4" type="job"/>
+      <baseItem xmi:id="_sYf3yf9REeW4JdIhqVNLcg" id="_fqTxsNI6EeCOk4qSIFFDtw" version="4.5" type="job"/>
       <relatedItems xmi:id="_sYf3yv9REeW4JdIhqVNLcg" id="_3OYLIEP_EeC5PvJxFZIIsw" version="Latest" type="context"/>
       <relatedItems xmi:id="_sYf3y_9REeW4JdIhqVNLcg" id="_s0iQoFShEeCW44CWrpjEnA" version="Latest" type="job"/>
       <relatedItems xmi:id="_sYf3zP9REeW4JdIhqVNLcg" id="_njhZkEmWEeCOy4qlRA0GWA" version="Latest" type="job"/>
@@ -895,18 +895,18 @@
     <migrationTask xmi:id="_-pcok4KiEeOCvqLI1GCu1w" id="org.talend.repository.model.migration.ChangeDefaultEncodingMigrationTask" breaks="5.2.3" version="5.2.4" status="ok"/>
     <migrationTask xmi:id="_-pcolIKiEeOCvqLI1GCu1w" id="org.talend.repository.model.migration.AddDBConnectionVersionMigrationTask" breaks="5.4.0" version="5.4.1" status="noimpact"/>
     <migrationTask xmi:id="_-pcolYKiEeOCvqLI1GCu1w" id="org.talend.repository.model.migration.AddLoginTypeForSalesforceMigrationTask" breaks="5.4.0" version="5.4.1" status="noimpact"/>
-    <migrationTask xmi:id="_PyX9MZsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.ChangePostgresDbVersionForProjectSetting" breaks="5.4.1" version="5.4.4" status="noimpact"/>
-    <migrationTask xmi:id="_PyX9MpsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.EncryptPasswordInProjectSettingsMigrationTask" breaks="5.4.1" version="5.4.4" status="ok"/>
+    <migrationTask xmi:id="_PyX9MZsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.ChangePostgresDbVersionForProjectSetting" breaks="5.4.1" version="5.4.5" status="noimpact"/>
+    <migrationTask xmi:id="_PyX9MpsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.EncryptPasswordInProjectSettingsMigrationTask" breaks="5.4.1" version="5.4.5" status="ok"/>
     <migrationTask xmi:id="_PyX9M5sKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.UnifyPasswordEncryption4ProjectSettingsMigrationTask" breaks="5.6.0" version="5.6.0" status="ok"/>
-    <migrationTask xmi:id="_RW5D8ZsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.EncryptPasswordInComponentsMigrationTask" breaks="5.4.1" version="5.4.4" status="ok"/>
+    <migrationTask xmi:id="_RW5D8ZsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.EncryptPasswordInComponentsMigrationTask" breaks="5.4.1" version="5.4.5" status="ok"/>
     <migrationTask xmi:id="_RW5D8psKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.SetTrim4tFileOutputXML" breaks="5.2.3" version="5.2.4" status="ok"/>
-    <migrationTask xmi:id="_RW5D85sKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.ChangeDefaultValueFortCassandraOutputDefineCFStructure" breaks="5.4.1" version="5.4.4" status="ok"/>
+    <migrationTask xmi:id="_RW5D85sKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.ChangeDefaultValueFortCassandraOutputDefineCFStructure" breaks="5.4.1" version="5.4.5" status="ok"/>
     <migrationTask xmi:id="_RW5rAJsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.AddHashKeyFromInputConnector4tHashOutput" breaks="5.2.3" version="5.2.4" status="ok"/>
     <migrationTask xmi:id="_RW5rAZsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.SetContextDumpHidePasswordToFalse" breaks="5.2.3" version="5.2.4" status="ok"/>
-    <migrationTask xmi:id="_RW5rApsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.UpdateJobSettingsForPostgresMigrationTask" breaks="5.4.1" version="5.4.4" status="noimpact"/>
-    <migrationTask xmi:id="_RW5rA5sKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.ChangeRecordMatchingCustomFunctionValueTask" breaks="5.4.1" version="5.4.4" status="ok"/>
+    <migrationTask xmi:id="_RW5rApsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.UpdateJobSettingsForPostgresMigrationTask" breaks="5.4.1" version="5.4.5" status="noimpact"/>
+    <migrationTask xmi:id="_RW5rA5sKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.ChangeRecordMatchingCustomFunctionValueTask" breaks="5.4.1" version="5.4.5" status="ok"/>
     <migrationTask xmi:id="_RW5rBJsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.EncryptPasswordInJobSettingsMigrationTask" breaks="5.4.1" version="5.5.0" status="ok"/>
-    <migrationTask xmi:id="_RW5rBZsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.UpdateDbVersionForVerticaMigrationTask" breaks="5.4.1" version="5.4.4" status="noimpact"/>
+    <migrationTask xmi:id="_RW5rBZsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.UpdateDbVersionForVerticaMigrationTask" breaks="5.4.1" version="5.4.5" status="noimpact"/>
     <migrationTask xmi:id="_RW5rBpsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.ChangeTMatchGroupGIDTypeTask" breaks="5.6.0" version="5.6.0" status="ok"/>
     <migrationTask xmi:id="_RW5rB5sKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.ChangeUseBatchSizetoFalse4AS400" breaks="5.3.0" version="5.3.3" status="ok"/>
     <migrationTask xmi:id="_RW5rCJsKEeSl7MbVMEhwKQ" id="org.talend.repository.model.migration.CorrectTeradataTPTExecInserterOperatorToLoad" breaks="5.5.1" version="5.6.0" status="ok"/>

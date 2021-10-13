@@ -26,10 +26,11 @@ dbfunc_common_hook_views_refresh() {
 	dbfunc_psql_die_v --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_4_1.sql" > /dev/null
 	dbfunc_output "Creating views API 4.2..."
 	dbfunc_psql_die_v --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_4_2.sql" > /dev/null
-	dbfunc_output "Creating views API 4.2..."
-	dbfunc_psql_die_v --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_4_3.sql" > /dev/null
 	dbfunc_output "Creating views API 4.3..."
-	dbfunc_psql_die_v --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_4_4.sql" > /dev/null
+	dbfunc_psql_die_v --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_4_3.sql" > /dev/null
 	dbfunc_output "Creating views API 4.4..."
+	dbfunc_psql_die_v --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_4_4.sql" > /dev/null
+	dbfunc_output "Creating views API 4.5..."
+	dbfunc_psql_die_v --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_views_4_5.sql" > /dev/null
 	dbfunc_psql_die_v --file="${DBFUNC_COMMON_DBSCRIPTS_DIR}/create_reports_views.sql" > /dev/null
 }

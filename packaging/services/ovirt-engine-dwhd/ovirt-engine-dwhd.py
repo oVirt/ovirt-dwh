@@ -203,7 +203,7 @@ class Daemon(service.Daemon):
                 ),
                 self._getClasspath(),
             ),
-            'ovirt_engine_dwh.historyetl_4_4.HistoryETL',
+            'ovirt_engine_dwh.historyetl_4_5.HistoryETL',
             '--context=Default',
         ])
 
