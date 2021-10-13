@@ -307,6 +307,10 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Oct 13 2021 Aviv Litman <alitman@redhat.com> - 4.4.9.1
+- Bug 2007550 - Change type of disk write/read rate from integer to long
+- Bug 1999563 - Add a unique number to each panel in Grafana
+
 * Thu Sep 2 2021 Aviv Litman <alitman@redhat.com> - 4.4.9
 - Bug 1992690 - Customize 'oVirt Inventory Dashboard'
 
