@@ -4843,15 +4843,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.host_interface_configuration_version;
 		}
 
-		public Long received_total_byte;
+		public Double received_total_byte;
 
-		public Long getReceived_total_byte() {
+		public Double getReceived_total_byte() {
 			return this.received_total_byte;
 		}
 
-		public Long transmitted_total_byte;
+		public Double transmitted_total_byte;
 
-		public Long getTransmitted_total_byte() {
+		public Double getTransmitted_total_byte() {
 			return this.transmitted_total_byte;
 		}
 
@@ -4958,14 +4958,14 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.received_total_byte = null;
 					} else {
-						this.received_total_byte = dis.readLong();
+						this.received_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmitted_total_byte = null;
 					} else {
-						this.transmitted_total_byte = dis.readLong();
+						this.transmitted_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -5046,22 +5046,22 @@ public class AggregationToDaily implements TalendJob {
 
 				writeInteger(this.host_interface_configuration_version, dos);
 
-				// Long
+				// Double
 
 				if (this.received_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.received_total_byte);
+					dos.writeDouble(this.received_total_byte);
 				}
 
-				// Long
+				// Double
 
 				if (this.transmitted_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.transmitted_total_byte);
+					dos.writeDouble(this.transmitted_total_byte);
 				}
 
 				// Double
@@ -5199,15 +5199,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.host_interface_configuration_version;
 		}
 
-		public Long received_total_byte;
+		public Double received_total_byte;
 
-		public Long getReceived_total_byte() {
+		public Double getReceived_total_byte() {
 			return this.received_total_byte;
 		}
 
-		public Long transmitted_total_byte;
+		public Double transmitted_total_byte;
 
-		public Long getTransmitted_total_byte() {
+		public Double getTransmitted_total_byte() {
 			return this.transmitted_total_byte;
 		}
 
@@ -5314,14 +5314,14 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.received_total_byte = null;
 					} else {
-						this.received_total_byte = dis.readLong();
+						this.received_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmitted_total_byte = null;
 					} else {
-						this.transmitted_total_byte = dis.readLong();
+						this.transmitted_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -5402,22 +5402,22 @@ public class AggregationToDaily implements TalendJob {
 
 				writeInteger(this.host_interface_configuration_version, dos);
 
-				// Long
+				// Double
 
 				if (this.received_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.received_total_byte);
+					dos.writeDouble(this.received_total_byte);
 				}
 
-				// Long
+				// Double
 
 				if (this.transmitted_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.transmitted_total_byte);
+					dos.writeDouble(this.transmitted_total_byte);
 				}
 
 				// Double
@@ -5544,15 +5544,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.host_interface_configuration_version;
 		}
 
-		public Long received_total_byte;
+		public Double received_total_byte;
 
-		public Long getReceived_total_byte() {
+		public Double getReceived_total_byte() {
 			return this.received_total_byte;
 		}
 
-		public Long transmitted_total_byte;
+		public Double transmitted_total_byte;
 
-		public Long getTransmitted_total_byte() {
+		public Double getTransmitted_total_byte() {
 			return this.transmitted_total_byte;
 		}
 
@@ -5645,14 +5645,14 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.received_total_byte = null;
 					} else {
-						this.received_total_byte = dis.readLong();
+						this.received_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmitted_total_byte = null;
 					} else {
-						this.transmitted_total_byte = dis.readLong();
+						this.transmitted_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -5715,22 +5715,22 @@ public class AggregationToDaily implements TalendJob {
 
 				writeInteger(this.host_interface_configuration_version, dos);
 
-				// Long
+				// Double
 
 				if (this.received_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.received_total_byte);
+					dos.writeDouble(this.received_total_byte);
 				}
 
-				// Long
+				// Double
 
 				if (this.transmitted_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.transmitted_total_byte);
+					dos.writeDouble(this.transmitted_total_byte);
 				}
 
 				// Double
@@ -5858,15 +5858,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.host_interface_configuration_version;
 		}
 
-		public Long received_total_byte;
+		public Double received_total_byte;
 
-		public Long getReceived_total_byte() {
+		public Double getReceived_total_byte() {
 			return this.received_total_byte;
 		}
 
-		public Long transmitted_total_byte;
+		public Double transmitted_total_byte;
 
-		public Long getTransmitted_total_byte() {
+		public Double getTransmitted_total_byte() {
 			return this.transmitted_total_byte;
 		}
 
@@ -5961,14 +5961,14 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.received_total_byte = null;
 					} else {
-						this.received_total_byte = dis.readLong();
+						this.received_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmitted_total_byte = null;
 					} else {
-						this.transmitted_total_byte = dis.readLong();
+						this.transmitted_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -6035,22 +6035,22 @@ public class AggregationToDaily implements TalendJob {
 
 				writeInteger(this.host_interface_configuration_version, dos);
 
-				// Long
+				// Double
 
 				if (this.received_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.received_total_byte);
+					dos.writeDouble(this.received_total_byte);
 				}
 
-				// Long
+				// Double
 
 				if (this.transmitted_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.transmitted_total_byte);
+					dos.writeDouble(this.transmitted_total_byte);
 				}
 
 				// Double
@@ -6398,8 +6398,8 @@ public class AggregationToDaily implements TalendJob {
 
 					Double max_transmit_rate_percent_max;
 					Integer host_interface_configuration_version_last;
-					Long received_total_byte_last;
-					Long transmitted_total_byte_last;
+					Double received_total_byte_last;
+					Double transmitted_total_byte_last;
 					Double received_dropped_total_packets_last;
 					Double transmitted_dropped_total_packets_last;
 
@@ -6612,7 +6612,7 @@ public class AggregationToDaily implements TalendJob {
 
 							if (rs_tJDBCInput_3.getObject(7) != null) {
 								row3.received_total_byte = rs_tJDBCInput_3
-										.getLong(7);
+										.getDouble(7);
 							} else {
 								row3.received_total_byte = null;
 							}
@@ -6623,7 +6623,7 @@ public class AggregationToDaily implements TalendJob {
 
 							if (rs_tJDBCInput_3.getObject(8) != null) {
 								row3.transmitted_total_byte = rs_tJDBCInput_3
-										.getLong(8);
+										.getDouble(8);
 							} else {
 								row3.transmitted_total_byte = null;
 							}
@@ -7081,16 +7081,16 @@ public class AggregationToDaily implements TalendJob {
 					}
 
 					if (row8.received_total_byte == null) {
-						pstmt_tJDBCOutput_3.setNull(8, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_3.setNull(8, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_3
-								.setLong(8, row8.received_total_byte);
+						pstmt_tJDBCOutput_3.setDouble(8,
+								row8.received_total_byte);
 					}
 
 					if (row8.transmitted_total_byte == null) {
-						pstmt_tJDBCOutput_3.setNull(9, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_3.setNull(9, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_3.setLong(9,
+						pstmt_tJDBCOutput_3.setDouble(9,
 								row8.transmitted_total_byte);
 					}
 
@@ -10739,15 +10739,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_interface_configuration_version;
 		}
 
-		public Long received_total_byte;
+		public Double received_total_byte;
 
-		public Long getReceived_total_byte() {
+		public Double getReceived_total_byte() {
 			return this.received_total_byte;
 		}
 
-		public Long transmitted_total_byte;
+		public Double transmitted_total_byte;
 
-		public Long getTransmitted_total_byte() {
+		public Double getTransmitted_total_byte() {
 			return this.transmitted_total_byte;
 		}
 
@@ -10854,14 +10854,14 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.received_total_byte = null;
 					} else {
-						this.received_total_byte = dis.readLong();
+						this.received_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmitted_total_byte = null;
 					} else {
-						this.transmitted_total_byte = dis.readLong();
+						this.transmitted_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -10942,22 +10942,22 @@ public class AggregationToDaily implements TalendJob {
 
 				writeInteger(this.vm_interface_configuration_version, dos);
 
-				// Long
+				// Double
 
 				if (this.received_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.received_total_byte);
+					dos.writeDouble(this.received_total_byte);
 				}
 
-				// Long
+				// Double
 
 				if (this.transmitted_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.transmitted_total_byte);
+					dos.writeDouble(this.transmitted_total_byte);
 				}
 
 				// Double
@@ -11095,15 +11095,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_interface_configuration_version;
 		}
 
-		public Long received_total_byte;
+		public Double received_total_byte;
 
-		public Long getReceived_total_byte() {
+		public Double getReceived_total_byte() {
 			return this.received_total_byte;
 		}
 
-		public Long transmitted_total_byte;
+		public Double transmitted_total_byte;
 
-		public Long getTransmitted_total_byte() {
+		public Double getTransmitted_total_byte() {
 			return this.transmitted_total_byte;
 		}
 
@@ -11210,14 +11210,14 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.received_total_byte = null;
 					} else {
-						this.received_total_byte = dis.readLong();
+						this.received_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmitted_total_byte = null;
 					} else {
-						this.transmitted_total_byte = dis.readLong();
+						this.transmitted_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -11298,22 +11298,22 @@ public class AggregationToDaily implements TalendJob {
 
 				writeInteger(this.vm_interface_configuration_version, dos);
 
-				// Long
+				// Double
 
 				if (this.received_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.received_total_byte);
+					dos.writeDouble(this.received_total_byte);
 				}
 
-				// Long
+				// Double
 
 				if (this.transmitted_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.transmitted_total_byte);
+					dos.writeDouble(this.transmitted_total_byte);
 				}
 
 				// Double
@@ -11439,15 +11439,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_interface_configuration_version;
 		}
 
-		public Long received_total_byte;
+		public Double received_total_byte;
 
-		public Long getReceived_total_byte() {
+		public Double getReceived_total_byte() {
 			return this.received_total_byte;
 		}
 
-		public Long transmitted_total_byte;
+		public Double transmitted_total_byte;
 
-		public Long getTransmitted_total_byte() {
+		public Double getTransmitted_total_byte() {
 			return this.transmitted_total_byte;
 		}
 
@@ -11540,14 +11540,14 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.received_total_byte = null;
 					} else {
-						this.received_total_byte = dis.readLong();
+						this.received_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmitted_total_byte = null;
 					} else {
-						this.transmitted_total_byte = dis.readLong();
+						this.transmitted_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -11610,22 +11610,22 @@ public class AggregationToDaily implements TalendJob {
 
 				writeInteger(this.vm_interface_configuration_version, dos);
 
-				// Long
+				// Double
 
 				if (this.received_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.received_total_byte);
+					dos.writeDouble(this.received_total_byte);
 				}
 
-				// Long
+				// Double
 
 				if (this.transmitted_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.transmitted_total_byte);
+					dos.writeDouble(this.transmitted_total_byte);
 				}
 
 				// Double
@@ -11753,15 +11753,15 @@ public class AggregationToDaily implements TalendJob {
 			return this.vm_interface_configuration_version;
 		}
 
-		public Long received_total_byte;
+		public Double received_total_byte;
 
-		public Long getReceived_total_byte() {
+		public Double getReceived_total_byte() {
 			return this.received_total_byte;
 		}
 
-		public Long transmitted_total_byte;
+		public Double transmitted_total_byte;
 
-		public Long getTransmitted_total_byte() {
+		public Double getTransmitted_total_byte() {
 			return this.transmitted_total_byte;
 		}
 
@@ -11856,14 +11856,14 @@ public class AggregationToDaily implements TalendJob {
 					if (length == -1) {
 						this.received_total_byte = null;
 					} else {
-						this.received_total_byte = dis.readLong();
+						this.received_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
 						this.transmitted_total_byte = null;
 					} else {
-						this.transmitted_total_byte = dis.readLong();
+						this.transmitted_total_byte = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -11930,22 +11930,22 @@ public class AggregationToDaily implements TalendJob {
 
 				writeInteger(this.vm_interface_configuration_version, dos);
 
-				// Long
+				// Double
 
 				if (this.received_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.received_total_byte);
+					dos.writeDouble(this.received_total_byte);
 				}
 
-				// Long
+				// Double
 
 				if (this.transmitted_total_byte == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.transmitted_total_byte);
+					dos.writeDouble(this.transmitted_total_byte);
 				}
 
 				// Double
@@ -12293,8 +12293,8 @@ public class AggregationToDaily implements TalendJob {
 
 					Double max_transmit_rate_percent_max;
 					Integer vm_interface_configuration_version_last;
-					Long received_total_byte_last;
-					Long transmitted_total_byte_last;
+					Double received_total_byte_last;
+					Double transmitted_total_byte_last;
 					Double received_dropped_total_packets_last;
 					Double transmitted_dropped_total_packets_last;
 
@@ -12507,7 +12507,7 @@ public class AggregationToDaily implements TalendJob {
 
 							if (rs_tJDBCInput_5.getObject(7) != null) {
 								row5.received_total_byte = rs_tJDBCInput_5
-										.getLong(7);
+										.getDouble(7);
 							} else {
 								row5.received_total_byte = null;
 							}
@@ -12518,7 +12518,7 @@ public class AggregationToDaily implements TalendJob {
 
 							if (rs_tJDBCInput_5.getObject(8) != null) {
 								row5.transmitted_total_byte = rs_tJDBCInput_5
-										.getLong(8);
+										.getDouble(8);
 							} else {
 								row5.transmitted_total_byte = null;
 							}
@@ -12975,16 +12975,16 @@ public class AggregationToDaily implements TalendJob {
 					}
 
 					if (row10.received_total_byte == null) {
-						pstmt_tJDBCOutput_5.setNull(8, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_5.setNull(8, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_5.setLong(8,
+						pstmt_tJDBCOutput_5.setDouble(8,
 								row10.received_total_byte);
 					}
 
 					if (row10.transmitted_total_byte == null) {
-						pstmt_tJDBCOutput_5.setNull(9, java.sql.Types.INTEGER);
+						pstmt_tJDBCOutput_5.setNull(9, java.sql.Types.DOUBLE);
 					} else {
-						pstmt_tJDBCOutput_5.setLong(9,
+						pstmt_tJDBCOutput_5.setDouble(9,
 								row10.transmitted_total_byte);
 					}
 
@@ -26185,6 +26185,6 @@ public class AggregationToDaily implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 750370 characters generated by Talend Open Studio for Data Integration on the
- * May 20, 2021 3:10:24 PM IDT
+ * 750550 characters generated by Talend Open Studio for Data Integration on the
+ * December 12, 2021 4:18:37 PM IST
  ************************************************************************************************/
