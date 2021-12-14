@@ -12,11 +12,13 @@
 
 from otopi import util
 
+from . import default_privileges
 from . import dwh_connection
 
 
 @util.export
 def createPlugins(context):
+    default_privileges.Plugin(context=context)
     dwh_connection.Plugin(context=context)
 
 

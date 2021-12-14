@@ -146,7 +146,7 @@ Requires(postun):	systemd
 %package setup
 Summary:	%{product_name} setup
 Group:		Virtualization/Management
-Requires:	ovirt-engine-setup-plugin-ovirt-engine-common >= 4.4.0
+Requires:	ovirt-engine-setup-plugin-ovirt-engine-common >= 4.5.0
 Requires:	%{name}-grafana-integration-setup = %{version}-%{release}
 BuildRequires:	python3
 BuildRequires:	python3-devel
@@ -162,7 +162,7 @@ Requires:       postgresql-contrib >= 12.0
 %package grafana-integration-setup
 Summary:	%{product_name} Grafana integration setup
 Group:		Virtualization/Management
-Requires:	ovirt-engine-setup-plugin-ovirt-engine-common >= 4.4.7
+Requires:	ovirt-engine-setup-plugin-ovirt-engine-common >= 4.5.0
 Requires:	%{name}-setup = %{version}-%{release}
 Requires:	grafana >= 7.3
 Requires:	grafana-postgres >= 7.3
