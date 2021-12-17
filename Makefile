@@ -152,7 +152,7 @@ install: \
 dist:	ovirt-engine-dwh.spec
 	git ls-files | tar --files-from /proc/self/fd/0 -czf "$(TARBALL)" ovirt-engine-dwh.spec
 	@echo
-	@echo For distro specific packaging refer to http://www.ovirt.org/Build_Binary_Package
+	@echo For distro specific packaging refer to https://www.ovirt.org/develop/dev-process/build-binary-package.html
 	@echo
 
 # copy SOURCEDIR to TARGETDIR
