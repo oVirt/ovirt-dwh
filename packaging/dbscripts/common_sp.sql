@@ -36,41 +36,56 @@ end;$procedure$
 LANGUAGE plpgsql;
 
 -- Changes a column data type (if value conversion is supported)
-Create or replace FUNCTION fn_db_change_column_type(v_table varchar(128), v_column varchar(128),
-                                                    v_type varchar(128), v_new_type varchar(128))
-returns void
-AS $procedure$
-declare
-v_sql text;
+CREATE OR REPLACE FUNCTION fn_db_change_column_type (
+    v_table VARCHAR(128),
+    v_column VARCHAR(128),
+    v_type VARCHAR(128),
+    v_new_type VARCHAR(128)
+    )
+RETURNS void AS $PROCEDURE$
+DECLARE v_sql TEXT;
 
-begin
-	if (exists (select 1 from information_schema.columns where table_name ilike v_table and column_name ilike v_column and (udt_name ilike v_type or data_type ilike v_type))) then
-	    begin
-		v_sql := 'ALTER TABLE ' || v_table || ' ALTER COLUMN ' || v_column || ' TYPE ' || v_new_type;
-		EXECUTE v_sql;
-            end;
-	end if;
-END; $procedure$
+BEGIN
+    v_sql := 'ALTER TABLE ' || v_table || ' ALTER COLUMN ' || v_column || ' TYPE ' || v_new_type;
+    EXECUTE v_sql;
+
+END;$PROCEDURE$
+LANGUAGE plpgsql;
+
+-- Changes a column to allow/disallow NULL values
+CREATE OR REPLACE FUNCTION fn_db_change_column_null (
+    v_table VARCHAR(128),
+    v_column VARCHAR(128),
+    v_allow_null BOOLEAN
+    )
+RETURNS void AS $PROCEDURE$
+DECLARE v_sql TEXT;
+
+BEGIN
+    IF (v_allow_null) THEN
+        v_sql := 'ALTER TABLE ' || v_table || ' ALTER COLUMN ' || v_column || ' DROP NOT NULL';
+    ELSE
+        v_sql := 'ALTER TABLE ' || v_table || ' ALTER COLUMN ' || v_column || ' SET NOT NULL';
+    END IF;
+    EXECUTE v_sql;
+
+END;$PROCEDURE$
 LANGUAGE plpgsql;
 
 -- rename a column for a given table
-Create or replace FUNCTION fn_db_rename_column(v_table varchar(128), v_column varchar(128), v_new_name varchar(128))
-returns void
-AS $procedure$
-declare
-v_sql text;
+CREATE OR REPLACE FUNCTION fn_db_rename_column (
+    v_table VARCHAR(128),
+    v_column VARCHAR(128),
+    v_new_name VARCHAR(128)
+    )
+RETURNS void AS $PROCEDURE$
+DECLARE v_sql TEXT;
 
-begin
-	if (exists (select 1 from information_schema.columns where table_name ilike v_table and column_name ilike v_column)) then
-	    begin
-		v_sql := 'ALTER TABLE ' || v_table || ' RENAME COLUMN ' || v_column || ' TO ' || v_new_name;
-		EXECUTE v_sql;
-            end;
-	end if;
-END; $procedure$
+BEGIN
+    v_sql := 'ALTER TABLE ' || v_table || ' RENAME COLUMN ' || v_column || ' TO ' || v_new_name;
+    EXECUTE v_sql;
+END;$PROCEDURE$
 LANGUAGE plpgsql;
-
-
 
 -- Adds a value to vdc_options (if not exists)
 create or replace FUNCTION fn_db_add_config_value(v_option_name varchar(100), v_option_value varchar(4000),

@@ -23,6 +23,3 @@ SELECT fn_db_change_column_type('vm_disk_samples_history', 'history_id', 'intege
 SELECT fn_db_change_column_type('vm_disks_usage_daily_history', 'history_id', 'integer', 'bigint');
 SELECT fn_db_change_column_type('vm_disks_usage_hourly_history', 'history_id', 'integer', 'bigint');
 SELECT fn_db_change_column_type('vm_disks_usage_samples_history', 'history_id', 'integer', 'bigint');
-SELECT fn_db_change_column_type('vm_integererface_daily_history', 'history_id', 'integer', 'bigint');
-SELECT fn_db_change_column_type('vm_integererface_hourly_history', 'history_id', 'integer', 'bigint');
-SELECT fn_db_change_column_type('vm_integererface_samples_history', 'history_id', 'integer', 'bigint');
