@@ -195,6 +195,7 @@ class Stages(object):
         'osetup.dwh.engine.db.connection.available'
     DB_SCHEMA = 'osetup.dwh.db.schema'
     DB_PROVISIONING_CUSTOMIZATION = 'osetup.dwh.db.provisioning.customization'
+    DB_PROVISIONING_PROVISION = 'osetup.dwh.db.provisioning.provision'
     STOP_DWHD = 'osetup.dwh.stop.dwhd'
 
 
