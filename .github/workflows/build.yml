@@ -61,10 +61,8 @@ jobs:
           dnf-utils \
           git \
           gzip \
-          java-11-openjdk-devel \
-          maven \
+          make \
           rpm-build \
-          sed \
           tar
 
     - name: Checkout sources
