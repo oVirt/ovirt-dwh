@@ -157,6 +157,7 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_MISC,
+        name=odwhcons.Stages.DB_PROVISIONING_PROVISION,
         before=(
             odwhcons.Stages.DB_CREDENTIALS_AVAILABLE,
             odwhcons.Stages.DB_SCHEMA,

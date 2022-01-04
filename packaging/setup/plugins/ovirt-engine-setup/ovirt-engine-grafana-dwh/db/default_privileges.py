@@ -39,10 +39,11 @@ class Plugin(plugin.PluginBase):
         ),
         after=(
             odwhcons.Stages.DB_CREDENTIALS_AVAILABLE,
+            ogdwhcons.Stages.DB_PROVISIONING_CREATE_USER,
         ),
         condition=lambda self: self.environment[ogdwhcons.CoreEnv.ENABLE],
     )
-    def _customization(self):
+    def _misc_set_default_privileges(self):
         database.OvirtUtils(
             plugin=self,
             dbenvkeys=odwhcons.Const.DWH_DB_ENV_KEYS,
