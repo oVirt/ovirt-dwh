@@ -121,11 +121,13 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_MISC,
+        name=ogdwhcons.Stages.DB_PROVISIONING_CREATE_USER,
         after=(
-            odwhcons.Stages.DB_SCHEMA,
+            odwhcons.Stages.DB_PROVISIONING_PROVISION,
         ),
         before=(
             odwhcons.Stages.DB_CONNECTION_AVAILABLE,
+            odwhcons.Stages.DB_SCHEMA,
             # TODO: This is not enough. We restart PG here, so have to do that
             # before starting the connection, or it will be broken. But also
             # other plugins maintain connections, to engine db and cinderlib

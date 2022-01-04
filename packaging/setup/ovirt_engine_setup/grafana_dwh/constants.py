@@ -229,6 +229,7 @@ class Stages(object):
     DB_GRAFANA_CONNECTION_CUSTOMIZATION = \
         'osetup.grafana.db.connection.customization'
     DB_CONNECTION_SETUP = 'osetup.grafana.db.connection.setup'
+    DB_PROVISIONING_CREATE_USER = 'osetup.grafana.db.provisioning.create_user'
     PKI_MISC = 'osetup.grafana.pki.misc'
 
 
