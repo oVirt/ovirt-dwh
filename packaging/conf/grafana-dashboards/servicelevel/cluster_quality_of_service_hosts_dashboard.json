@@ -61,6 +61,20 @@
   "id": null,
   "iteration": 1591283019191,
   "links": [],
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Administration Portal: Hosts",
+      "tooltip": "The portal does not display deleted hosts",
+      "type": "link",
+      "url": "https://${EngineFQDN}/ovirt-engine/webadmin/#hosts"
+    }
+  ],
   "panels": [
     {
       "collapsed": false,
@@ -1143,6 +1157,30 @@
         "query": "0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100",
         "skipUrlSync": false,
         "type": "custom"
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "SELECT var_value\nFROM history_configuration\nWHERE var_name = 'EngineFQDN'",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "EngineFQDN",
+        "options": [],
+        "query": "SELECT var_value\nFROM history_configuration\nWHERE var_name = 'EngineFQDN'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },

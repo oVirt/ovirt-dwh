@@ -61,6 +61,20 @@
   "id": null,
   "iteration": 1590323227455,
   "links": [],
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Administration Portal: Storage Domains",
+      "tooltip": "The portal does not display deleted storage domains",
+      "type": "link",
+      "url": "https://${EngineFQDN}/ovirt-engine/webadmin/#storage"
+    }
+  ],
   "panels": [
     {
       "datasource": "$datasource",
@@ -1097,6 +1111,30 @@
         "query": "Null",
         "skipUrlSync": false,
         "type": "textbox"
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "SELECT var_value\nFROM history_configuration\nWHERE var_name = 'EngineFQDN'",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "EngineFQDN",
+        "options": [],
+        "query": "SELECT var_value\nFROM history_configuration\nWHERE var_name = 'EngineFQDN'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },

@@ -61,6 +61,20 @@
   "id": null,
   "iteration": 1591263547794,
   "links": [],
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Administration Portal: Virtual Machines",
+      "tooltip": "The portal does not display deleted virtual machines",
+      "type": "link",
+      "url": "https://${EngineFQDN}/ovirt-engine/webadmin/#vms"
+    }
+  ],
   "panels": [
     {
       "datasource": "$datasource",
@@ -1141,6 +1155,30 @@
         "query": "0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100",
         "skipUrlSync": false,
         "type": "custom"
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "SELECT var_value\nFROM history_configuration\nWHERE var_name = 'EngineFQDN'",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "EngineFQDN",
+        "options": [],
+        "query": "SELECT var_value\nFROM history_configuration\nWHERE var_name = 'EngineFQDN'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },
