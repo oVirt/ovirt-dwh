@@ -14,11 +14,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 package ovirt_engine_dwh.minimalversioncheck_4_5;
 
 import routines.Numeric;
 import routines.DataOperation;
 import routines.TalendDataGenerator;
+import routines.TalendStringUtil;
 import routines.TalendString;
 import routines.RoutineHistoryETL;
 import routines.StringHandling;
@@ -40,16 +42,31 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.util.Comparator;
+ 
+
+
+
+
 
 @SuppressWarnings("unused")
+
 /**
  * Job: MinimalVersionCheck Purpose: <br>
  * Description:  <br>
  * @author ydary@redhat.com
- * @version 6.1.1.20151214_1327
+ * @version 8.0.1.20211109_1610
  * @status 
  */
 public class MinimalVersionCheck implements TalendJob {
+
+protected static void logIgnoredError(String message, Throwable cause) {
+       System.err.println(message);
+       if (cause != null) {
+               cause.printStackTrace();
+       }
+
+}
+
 
 	public final Object obj = new Object();
 
@@ -63,3153 +80,5206 @@ public class MinimalVersionCheck implements TalendJob {
 	public void setValueObject(Object valueObject) {
 		this.valueObject = valueObject;
 	}
+	
+	private final static String defaultCharset = java.nio.charset.Charset.defaultCharset().name();
 
-	private final static String defaultCharset = java.nio.charset.Charset
-			.defaultCharset().name();
-
+	
 	private final static String utf8Charset = "UTF-8";
-
+	//contains type for every context property
+	public class PropertiesWithType extends java.util.Properties {
+		private static final long serialVersionUID = 1L;
+		private java.util.Map<String,String> propertyTypes = new java.util.HashMap<>();
+		
+		public PropertiesWithType(java.util.Properties properties){
+			super(properties);
+		}
+		public PropertiesWithType(){
+			super();
+		}
+		
+		public void setContextType(String key, String type) {
+			propertyTypes.put(key,type);
+		}
+	
+		public String getContextType(String key) {
+			return propertyTypes.get(key);
+		}
+	}
+	
 	// create and load default properties
 	private java.util.Properties defaultProps = new java.util.Properties();
-
 	// create application properties with default
-	public class ContextProperties extends java.util.Properties {
+	public class ContextProperties extends PropertiesWithType {
 
 		private static final long serialVersionUID = 1L;
 
-		public ContextProperties(java.util.Properties properties) {
+		public ContextProperties(java.util.Properties properties){
 			super(properties);
 		}
-
-		public ContextProperties() {
+		public ContextProperties(){
 			super();
 		}
 
-		public void synchronizeContext() {
-
-			if (ovirtEngineHistoryMinimalETL != null) {
-
-				this.setProperty("ovirtEngineHistoryMinimalETL",
-						ovirtEngineHistoryMinimalETL.toString());
-
+		public void synchronizeContext(){
+			
+			if(ovirtEngineHistoryMinimalETL != null){
+				
+					this.setProperty("ovirtEngineHistoryMinimalETL", ovirtEngineHistoryMinimalETL.toString());
+				
 			}
-
-			if (ovirtMinimalETL != null) {
-
-				this.setProperty("ovirtMinimalETL", ovirtMinimalETL.toString());
-
+			
+			if(ovirtMinimalETL != null){
+				
+					this.setProperty("ovirtMinimalETL", ovirtMinimalETL.toString());
+				
 			}
-
-			if (etlVersion != null) {
-
-				this.setProperty("etlVersion", etlVersion.toString());
-
+			
+			if(etlVersion != null){
+				
+					this.setProperty("etlVersion", etlVersion.toString());
+				
 			}
-
-			if (ovirtEngineDbDriverClass != null) {
-
-				this.setProperty("ovirtEngineDbDriverClass",
-						ovirtEngineDbDriverClass.toString());
-
+			
+			if(ovirtEngineDbDriverClass != null){
+				
+					this.setProperty("ovirtEngineDbDriverClass", ovirtEngineDbDriverClass.toString());
+				
 			}
-
-			if (ovirtEngineHistoryDbDriverClass != null) {
-
-				this.setProperty("ovirtEngineHistoryDbDriverClass",
-						ovirtEngineHistoryDbDriverClass.toString());
-
+			
+			if(ovirtEngineHistoryDbDriverClass != null){
+				
+					this.setProperty("ovirtEngineHistoryDbDriverClass", ovirtEngineHistoryDbDriverClass.toString());
+				
 			}
-
-			if (ovirtEngineHistoryDbJdbcConnection != null) {
-
-				this.setProperty("ovirtEngineHistoryDbJdbcConnection",
-						ovirtEngineHistoryDbJdbcConnection.toString());
-
+			
+			if(ovirtEngineHistoryDbJdbcConnection != null){
+				
+					this.setProperty("ovirtEngineHistoryDbJdbcConnection", ovirtEngineHistoryDbJdbcConnection.toString());
+				
 			}
-
-			if (ovirtEngineHistoryDbPassword != null) {
-
-				this.setProperty("ovirtEngineHistoryDbPassword",
-						ovirtEngineHistoryDbPassword.toString());
-
+			
+			if(ovirtEngineHistoryDbPassword != null){
+				
+					this.setProperty("ovirtEngineHistoryDbPassword", ovirtEngineHistoryDbPassword.toString());
+				
 			}
-
-			if (ovirtEngineHistoryDbUser != null) {
-
-				this.setProperty("ovirtEngineHistoryDbUser",
-						ovirtEngineHistoryDbUser.toString());
-
+			
+			if(ovirtEngineHistoryDbUser != null){
+				
+					this.setProperty("ovirtEngineHistoryDbUser", ovirtEngineHistoryDbUser.toString());
+				
 			}
-
-			if (ovirtEngineDbJdbcConnection != null) {
-
-				this.setProperty("ovirtEngineDbJdbcConnection",
-						ovirtEngineDbJdbcConnection.toString());
-
+			
+			if(ovirtEngineDbJdbcConnection != null){
+				
+					this.setProperty("ovirtEngineDbJdbcConnection", ovirtEngineDbJdbcConnection.toString());
+				
 			}
-
-			if (ovirtEngineDbPassword != null) {
-
-				this.setProperty("ovirtEngineDbPassword",
-						ovirtEngineDbPassword.toString());
-
+			
+			if(ovirtEngineDbPassword != null){
+				
+					this.setProperty("ovirtEngineDbPassword", ovirtEngineDbPassword.toString());
+				
 			}
-
-			if (ovirtEngineDbUser != null) {
-
-				this.setProperty("ovirtEngineDbUser",
-						ovirtEngineDbUser.toString());
-
+			
+			if(ovirtEngineDbUser != null){
+				
+					this.setProperty("ovirtEngineDbUser", ovirtEngineDbUser.toString());
+				
 			}
-
+			
+		}
+		
+		//if the stored or passed value is "<TALEND_NULL>" string, it mean null
+		public String getStringValue(String key) {
+			String origin_value = this.getProperty(key);
+			if(NULL_VALUE_EXPRESSION_IN_COMMAND_STRING_FOR_CHILD_JOB_ONLY.equals(origin_value)) {
+				return null;
+			}
+			return origin_value;
 		}
 
-		public String ovirtEngineHistoryMinimalETL;
-
-		public String getOvirtEngineHistoryMinimalETL() {
-			return this.ovirtEngineHistoryMinimalETL;
-		}
-
-		public String ovirtMinimalETL;
-
-		public String getOvirtMinimalETL() {
-			return this.ovirtMinimalETL;
-		}
-
-		public String etlVersion;
-
-		public String getEtlVersion() {
-			return this.etlVersion;
-		}
-
-		public String ovirtEngineDbDriverClass;
-
-		public String getOvirtEngineDbDriverClass() {
-			return this.ovirtEngineDbDriverClass;
-		}
-
-		public String ovirtEngineHistoryDbDriverClass;
-
-		public String getOvirtEngineHistoryDbDriverClass() {
-			return this.ovirtEngineHistoryDbDriverClass;
-		}
-
-		public String ovirtEngineHistoryDbJdbcConnection;
-
-		public String getOvirtEngineHistoryDbJdbcConnection() {
-			return this.ovirtEngineHistoryDbJdbcConnection;
-		}
-
-		public java.lang.String ovirtEngineHistoryDbPassword;
-
-		public java.lang.String getOvirtEngineHistoryDbPassword() {
-			return this.ovirtEngineHistoryDbPassword;
-		}
-
-		public String ovirtEngineHistoryDbUser;
-
-		public String getOvirtEngineHistoryDbUser() {
-			return this.ovirtEngineHistoryDbUser;
-		}
-
-		public String ovirtEngineDbJdbcConnection;
-
-		public String getOvirtEngineDbJdbcConnection() {
-			return this.ovirtEngineDbJdbcConnection;
-		}
-
-		public java.lang.String ovirtEngineDbPassword;
-
-		public java.lang.String getOvirtEngineDbPassword() {
-			return this.ovirtEngineDbPassword;
-		}
-
-		public String ovirtEngineDbUser;
-
-		public String getOvirtEngineDbUser() {
-			return this.ovirtEngineDbUser;
-		}
+public String ovirtEngineHistoryMinimalETL;
+public String getOvirtEngineHistoryMinimalETL(){
+	return this.ovirtEngineHistoryMinimalETL;
+}
+public String ovirtMinimalETL;
+public String getOvirtMinimalETL(){
+	return this.ovirtMinimalETL;
+}
+public String etlVersion;
+public String getEtlVersion(){
+	return this.etlVersion;
+}
+public String ovirtEngineDbDriverClass;
+public String getOvirtEngineDbDriverClass(){
+	return this.ovirtEngineDbDriverClass;
+}
+public String ovirtEngineHistoryDbDriverClass;
+public String getOvirtEngineHistoryDbDriverClass(){
+	return this.ovirtEngineHistoryDbDriverClass;
+}
+public String ovirtEngineHistoryDbJdbcConnection;
+public String getOvirtEngineHistoryDbJdbcConnection(){
+	return this.ovirtEngineHistoryDbJdbcConnection;
+}
+public java.lang.String ovirtEngineHistoryDbPassword;
+public java.lang.String getOvirtEngineHistoryDbPassword(){
+	return this.ovirtEngineHistoryDbPassword;
+}
+public String ovirtEngineHistoryDbUser;
+public String getOvirtEngineHistoryDbUser(){
+	return this.ovirtEngineHistoryDbUser;
+}
+public String ovirtEngineDbJdbcConnection;
+public String getOvirtEngineDbJdbcConnection(){
+	return this.ovirtEngineDbJdbcConnection;
+}
+public java.lang.String ovirtEngineDbPassword;
+public java.lang.String getOvirtEngineDbPassword(){
+	return this.ovirtEngineDbPassword;
+}
+public String ovirtEngineDbUser;
+public String getOvirtEngineDbUser(){
+	return this.ovirtEngineDbUser;
+}
 	}
-
-	private ContextProperties context = new ContextProperties();
-
+	protected ContextProperties context = new ContextProperties(); // will be instanciated by MS.
 	public ContextProperties getContext() {
 		return this.context;
 	}
-
 	private final String jobVersion = "4.5";
 	private final String jobName = "MinimalVersionCheck";
 	private final String projectName = "OVIRT_ENGINE_DWH";
 	public Integer errorCode = null;
 	private String currentComponent = "";
+	
+		private final java.util.Map<String, Object> globalMap = new java.util.HashMap<String, Object>();
+        private final static java.util.Map<String, Object> junitGlobalMap = new java.util.HashMap<String, Object>();
+	
+		private final java.util.Map<String, Long> start_Hash = new java.util.HashMap<String, Long>();
+		private final java.util.Map<String, Long> end_Hash = new java.util.HashMap<String, Long>();
+		private final java.util.Map<String, Boolean> ok_Hash = new java.util.HashMap<String, Boolean>();
+		public  final java.util.List<String[]> globalBuffer = new java.util.ArrayList<String[]>();
+	
 
-	private final java.util.Map<String, Object> globalMap = new java.util.HashMap<String, Object>();
-	private final static java.util.Map<String, Object> junitGlobalMap = new java.util.HashMap<String, Object>();
-
-	private final java.util.Map<String, Long> start_Hash = new java.util.HashMap<String, Long>();
-	private final java.util.Map<String, Long> end_Hash = new java.util.HashMap<String, Long>();
-	private final java.util.Map<String, Boolean> ok_Hash = new java.util.HashMap<String, Boolean>();
-	public final java.util.List<String[]> globalBuffer = new java.util.ArrayList<String[]>();
+private RunStat runStat = new RunStat();
 
 	// OSGi DataSource
 	private final static String KEY_DB_DATASOURCES = "KEY_DB_DATASOURCES";
+	
+	private final static String KEY_DB_DATASOURCES_RAW = "KEY_DB_DATASOURCES_RAW";
 
-	public void setDataSources(
-			java.util.Map<String, javax.sql.DataSource> dataSources) {
+	public void setDataSources(java.util.Map<String, javax.sql.DataSource> dataSources) {
 		java.util.Map<String, routines.system.TalendDataSource> talendDataSources = new java.util.HashMap<String, routines.system.TalendDataSource>();
-		for (java.util.Map.Entry<String, javax.sql.DataSource> dataSourceEntry : dataSources
-				.entrySet()) {
-			talendDataSources.put(
-					dataSourceEntry.getKey(),
-					new routines.system.TalendDataSource(dataSourceEntry
-							.getValue()));
+		for (java.util.Map.Entry<String, javax.sql.DataSource> dataSourceEntry : dataSources.entrySet()) {
+			talendDataSources.put(dataSourceEntry.getKey(), new routines.system.TalendDataSource(dataSourceEntry.getValue()));
 		}
 		globalMap.put(KEY_DB_DATASOURCES, talendDataSources);
+		globalMap.put(KEY_DB_DATASOURCES_RAW, new java.util.HashMap<String, javax.sql.DataSource>(dataSources));
+	}
+	
+	public void setDataSourceReferences(List serviceReferences) throws Exception{
+		
+		java.util.Map<String, routines.system.TalendDataSource> talendDataSources = new java.util.HashMap<String, routines.system.TalendDataSource>();
+		java.util.Map<String, javax.sql.DataSource> dataSources = new java.util.HashMap<String, javax.sql.DataSource>();
+		
+		for (java.util.Map.Entry<String, javax.sql.DataSource> entry : BundleUtils.getServices(serviceReferences,  javax.sql.DataSource.class).entrySet()) {
+                    dataSources.put(entry.getKey(), entry.getValue());
+                    talendDataSources.put(entry.getKey(), new routines.system.TalendDataSource(entry.getValue()));
+		}
+
+		globalMap.put(KEY_DB_DATASOURCES, talendDataSources);
+		globalMap.put(KEY_DB_DATASOURCES_RAW, new java.util.HashMap<String, javax.sql.DataSource>(dataSources));
 	}
 
 	LogCatcherUtils talendLogs_LOGS = new LogCatcherUtils();
 
-	private final java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
-	private final java.io.PrintStream errorMessagePS = new java.io.PrintStream(
-			new java.io.BufferedOutputStream(baos));
+private final java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+private final java.io.PrintStream errorMessagePS = new java.io.PrintStream(new java.io.BufferedOutputStream(baos));
 
-	public String getExceptionStackTrace() {
-		if ("failure".equals(this.getStatus())) {
-			errorMessagePS.flush();
-			return baos.toString();
-		}
-		return null;
+public String getExceptionStackTrace() {
+	if ("failure".equals(this.getStatus())) {
+		errorMessagePS.flush();
+		return baos.toString();
+	}
+	return null;
+}
+
+private Exception exception;
+
+public Exception getException() {
+	if ("failure".equals(this.getStatus())) {
+		return this.exception;
+	}
+	return null;
+}
+
+private class TalendException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+
+	private java.util.Map<String, Object> globalMap = null;
+	private Exception e = null;
+	private String currentComponent = null;
+	private String virtualComponentName = null;
+	
+	public void setVirtualComponentName (String virtualComponentName){
+		this.virtualComponentName = virtualComponentName;
 	}
 
-	private Exception exception;
+	private TalendException(Exception e, String errorComponent, final java.util.Map<String, Object> globalMap) {
+		this.currentComponent= errorComponent;
+		this.globalMap = globalMap;
+		this.e = e;
+	}
 
 	public Exception getException() {
-		if ("failure".equals(this.getStatus())) {
-			return this.exception;
-		}
-		return null;
+		return this.e;
 	}
 
-	private class TalendException extends Exception {
+	public String getCurrentComponent() {
+		return this.currentComponent;
+	}
 
-		private static final long serialVersionUID = 1L;
+	
+    public String getExceptionCauseMessage(Exception e){
+        Throwable cause = e;
+        String message = null;
+        int i = 10;
+        while (null != cause && 0 < i--) {
+            message = cause.getMessage();
+            if (null == message) {
+                cause = cause.getCause();
+            } else {
+                break;          
+            }
+        }
+        if (null == message) {
+            message = e.getClass().getName();
+        }   
+        return message;
+    }
 
-		private java.util.Map<String, Object> globalMap = null;
-		private Exception e = null;
-		private String currentComponent = null;
-		private String virtualComponentName = null;
-
-		public void setVirtualComponentName(String virtualComponentName) {
-			this.virtualComponentName = virtualComponentName;
+	@Override
+	public void printStackTrace() {
+		if (!(e instanceof TalendException || e instanceof TDieException)) {
+			if(virtualComponentName!=null && currentComponent.indexOf(virtualComponentName+"_")==0){
+				globalMap.put(virtualComponentName+"_ERROR_MESSAGE",getExceptionCauseMessage(e));
+			}
+			globalMap.put(currentComponent+"_ERROR_MESSAGE",getExceptionCauseMessage(e));
+			System.err.println("Exception in component " + currentComponent + " (" + jobName + ")");
 		}
-
-		private TalendException(Exception e, String errorComponent,
-				final java.util.Map<String, Object> globalMap) {
-			this.currentComponent = errorComponent;
-			this.globalMap = globalMap;
-			this.e = e;
+		if (!(e instanceof TDieException)) {
+			if(e instanceof TalendException){
+				e.printStackTrace();
+			} else {
+				e.printStackTrace();
+				e.printStackTrace(errorMessagePS);
+				MinimalVersionCheck.this.exception = e;
+			}
 		}
-
-		public Exception getException() {
-			return this.e;
-		}
-
-		public String getCurrentComponent() {
-			return this.currentComponent;
-		}
-
-		public String getExceptionCauseMessage(Exception e) {
-			Throwable cause = e;
-			String message = null;
-			int i = 10;
-			while (null != cause && 0 < i--) {
-				message = cause.getMessage();
-				if (null == message) {
-					cause = cause.getCause();
-				} else {
+		if (!(e instanceof TalendException)) {
+		try {
+			for (java.lang.reflect.Method m : this.getClass().getEnclosingClass().getMethods()) {
+				if (m.getName().compareTo(currentComponent + "_error") == 0) {
+					m.invoke(MinimalVersionCheck.this, new Object[] { e , currentComponent, globalMap});
 					break;
 				}
 			}
-			if (null == message) {
-				message = e.getClass().getName();
-			}
-			return message;
-		}
 
-		@Override
-		public void printStackTrace() {
-			if (!(e instanceof TalendException || e instanceof TDieException)) {
-				if (virtualComponentName != null
-						&& currentComponent.indexOf(virtualComponentName + "_") == 0) {
-					globalMap.put(virtualComponentName + "_ERROR_MESSAGE",
-							getExceptionCauseMessage(e));
-				}
-				globalMap.put(currentComponent + "_ERROR_MESSAGE",
-						getExceptionCauseMessage(e));
-				System.err
-						.println("Exception in component " + currentComponent);
+			if(!(e instanceof TDieException)){
+				talendLogs_LOGS.addMessage("Java Exception", currentComponent, 6, e.getClass().getName() + ":" + e.getMessage(), 1);
+				talendLogs_LOGSProcess(globalMap);
 			}
-			if (!(e instanceof TDieException)) {
-				if (e instanceof TalendException) {
-					e.printStackTrace();
-				} else {
-					e.printStackTrace();
-					e.printStackTrace(errorMessagePS);
-					MinimalVersionCheck.this.exception = e;
-				}
+			} catch (TalendException e) {
+				// do nothing
+			
+		} catch (Exception e) {
+			this.e.printStackTrace();
+		}
+		}
+	}
+}
+
+			public void tJDBCConnection_1_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					tJDBCConnection_1_onSubJobError(exception, errorComponent, globalMap);
 			}
-			if (!(e instanceof TalendException)) {
-				try {
-					for (java.lang.reflect.Method m : this.getClass()
-							.getEnclosingClass().getMethods()) {
-						if (m.getName().compareTo(currentComponent + "_error") == 0) {
-							m.invoke(MinimalVersionCheck.this, new Object[] {
-									e, currentComponent, globalMap });
-							break;
+			
+			public void tJDBCConnection_2_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					tJDBCConnection_2_onSubJobError(exception, errorComponent, globalMap);
+			}
+			
+			public void tJDBCInput_1_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					tJDBCInput_1_onSubJobError(exception, errorComponent, globalMap);
+			}
+			
+			public void tContextLoad_1_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					tJDBCInput_1_onSubJobError(exception, errorComponent, globalMap);
+			}
+			
+			public void tJDBCInput_2_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					tJDBCInput_2_onSubJobError(exception, errorComponent, globalMap);
+			}
+			
+			public void tContextLoad_2_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					tJDBCInput_2_onSubJobError(exception, errorComponent, globalMap);
+			}
+			
+			public void tDie_2_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					tDie_2_onSubJobError(exception, errorComponent, globalMap);
+			}
+			
+			public void tDie_1_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					tDie_1_onSubJobError(exception, errorComponent, globalMap);
+			}
+			
+			public void talendLogs_LOGS_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+							talendLogs_CONSOLE_error(exception, errorComponent, globalMap);
+						
 						}
-					}
-
-					if (!(e instanceof TDieException)) {
-						talendLogs_LOGS.addMessage("Java Exception",
-								currentComponent, 6, e.getClass().getName()
-										+ ":" + e.getMessage(), 1);
-						talendLogs_LOGSProcess(globalMap);
-					}
-				} catch (TalendException e) {
-					// do nothing
-
-				} catch (Exception e) {
-					this.e.printStackTrace();
-				}
+					
+			public void talendLogs_CONSOLE_error(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
+				
+				end_Hash.put(errorComponent, System.currentTimeMillis());
+				
+				status = "failure";
+				
+					talendLogs_LOGS_onSubJobError(exception, errorComponent, globalMap);
 			}
-		}
-	}
+			
+			public void tJDBCConnection_1_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 
-	public void tJDBCConnection_1_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
+resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
 
-		end_Hash.put(errorComponent, System.currentTimeMillis());
+			}
+			public void tJDBCConnection_2_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 
-		status = "failure";
+resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
 
-		tJDBCConnection_1_onSubJobError(exception, errorComponent, globalMap);
-	}
+			}
+			public void tJDBCInput_1_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 
-	public void tJDBCConnection_2_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
+resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
 
-		end_Hash.put(errorComponent, System.currentTimeMillis());
+			}
+			public void tJDBCInput_2_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 
-		status = "failure";
+resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
 
-		tJDBCConnection_2_onSubJobError(exception, errorComponent, globalMap);
-	}
+			}
+			public void tDie_2_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 
-	public void tJDBCInput_1_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
+resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
 
-		end_Hash.put(errorComponent, System.currentTimeMillis());
+			}
+			public void tDie_1_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 
-		status = "failure";
+resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
 
-		tJDBCInput_1_onSubJobError(exception, errorComponent, globalMap);
-	}
+			}
+			public void talendLogs_LOGS_onSubJobError(Exception exception, String errorComponent, final java.util.Map<String, Object> globalMap) throws TalendException {
 
-	public void tContextLoad_1_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
+resumeUtil.addLog("SYSTEM_LOG", "NODE:"+ errorComponent, "", Thread.currentThread().getId()+ "", "FATAL", "", exception.getMessage(), ResumeUtil.getExceptionStackTrace(exception),"");
 
-		end_Hash.put(errorComponent, System.currentTimeMillis());
+			}
+	
 
-		status = "failure";
 
-		tJDBCInput_1_onSubJobError(exception, errorComponent, globalMap);
-	}
 
-	public void tJDBCInput_2_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
 
-		end_Hash.put(errorComponent, System.currentTimeMillis());
 
-		status = "failure";
+public void tJDBCConnection_1Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+	globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", 0);
 
-		tJDBCInput_2_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tContextLoad_2_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		status = "failure";
-
-		tJDBCInput_2_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tDie_2_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		status = "failure";
-
-		tDie_2_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tDie_1_error(Exception exception, String errorComponent,
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		status = "failure";
-
-		tDie_1_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void talendLogs_LOGS_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		talendLogs_CONSOLE_error(exception, errorComponent, globalMap);
-
-	}
-
-	public void talendLogs_CONSOLE_error(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		end_Hash.put(errorComponent, System.currentTimeMillis());
-
-		status = "failure";
-
-		talendLogs_LOGS_onSubJobError(exception, errorComponent, globalMap);
-	}
-
-	public void tJDBCConnection_1_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tJDBCConnection_2_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tJDBCInput_1_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tJDBCInput_2_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tDie_2_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tDie_1_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void talendLogs_LOGS_onSubJobError(Exception exception,
-			String errorComponent, final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-
-		resumeUtil.addLog("SYSTEM_LOG", "NODE:" + errorComponent, "", Thread
-				.currentThread().getId() + "", "FATAL", "",
-				exception.getMessage(),
-				ResumeUtil.getExceptionStackTrace(exception), "");
-
-	}
-
-	public void tJDBCConnection_1Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", 0);
-
-		final boolean execStat = this.execStat;
-
+ final boolean execStat = this.execStat;
+	
 		String iterateId = "";
+	
+	
+	String currentComponent = "";
+	java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
+	try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception().getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { //start the resume
 				globalResumeTicket = true;
 
-				/**
-				 * [tJDBCConnection_1 begin ] start
-				 */
 
-				ok_Hash.put("tJDBCConnection_1", false);
-				start_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
 
-				currentComponent = "tJDBCConnection_1";
+		
 
-				int tos_count_tJDBCConnection_1 = 0;
 
-				String url_tJDBCConnection_1 = context.ovirtEngineDbJdbcConnection;
+	
+	/**
+	 * [tJDBCConnection_1 begin ] start
+	 */
 
-				String dbUser_tJDBCConnection_1 = context.ovirtEngineDbUser;
+	
 
-				final String decryptedPassword_tJDBCConnection_1 = context.ovirtEngineDbPassword;
-				String dbPwd_tJDBCConnection_1 = decryptedPassword_tJDBCConnection_1;
+	
+		
+		ok_Hash.put("tJDBCConnection_1", false);
+		start_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
+		
+	
+	currentComponent="tJDBCConnection_1";
 
-				java.sql.Connection conn_tJDBCConnection_1 = null;
+	
+		int tos_count_tJDBCConnection_1 = 0;
+		
 
-				String sharedConnectionName_tJDBCConnection_1 = "engine";
-				conn_tJDBCConnection_1 = SharedDBConnection.getDBConnection(
-						context.ovirtEngineDbDriverClass,
-						url_tJDBCConnection_1, dbUser_tJDBCConnection_1,
-						dbPwd_tJDBCConnection_1,
-						sharedConnectionName_tJDBCConnection_1);
-				if (null != conn_tJDBCConnection_1) {
+boolean doesNodeBelongToRequest_tJDBCConnection_1 = 0 == 0;
+@SuppressWarnings("unchecked")
+java.util.Map<String, Object> restRequest_tJDBCConnection_1 = (java.util.Map<String, Object>)globalMap.get("restRequest");
+String currentTRestRequestOperation_tJDBCConnection_1 = (String)(restRequest_tJDBCConnection_1 != null ? restRequest_tJDBCConnection_1.get("OPERATION") : null);
 
-					conn_tJDBCConnection_1.setAutoCommit(false);
+org.talend.components.api.component.ComponentDefinition def_tJDBCConnection_1 =
+        new org.talend.components.jdbc.tjdbcconnection.TJDBCConnectionDefinition();
+
+org.talend.components.api.component.runtime.Writer writer_tJDBCConnection_1 = null;
+org.talend.components.api.component.runtime.Reader reader_tJDBCConnection_1 = null;
+
+
+org.talend.components.jdbc.tjdbcconnection.TJDBCConnectionProperties props_tJDBCConnection_1 =
+        (org.talend.components.jdbc.tjdbcconnection.TJDBCConnectionProperties) def_tJDBCConnection_1.createRuntimeProperties();
+ 		                    props_tJDBCConnection_1.setValue("shareConnection",
+ 		                    true);
+ 		                    
+ 		                    props_tJDBCConnection_1.setValue("sharedConnectionName",
+ 		                    "engine");
+ 		                    
+ 		                    props_tJDBCConnection_1.setValue("useAutoCommit",
+ 		                    true);
+ 		                    
+ 		                    props_tJDBCConnection_1.setValue("autocommit",
+ 		                    false);
+ 		                    
+ 		                    props_tJDBCConnection_1.connection.setValue("jdbcUrl",
+ 		                    context.ovirtEngineDbJdbcConnection);
+ 		                    
+ 		                    props_tJDBCConnection_1.connection.setValue("driverClass",
+ 		                    context.ovirtEngineDbDriverClass);
+ 		                    
+ 		                    java.util.List<Object> tJDBCConnection_1_connection_driverTable_drivers = new java.util.ArrayList<Object>();
+ 		                    
+ 		                                tJDBCConnection_1_connection_driverTable_drivers.add("mvn:postgresql/postgresql/8.4-703.jdbc4/jar");
+ 		                                
+ 		                    ((org.talend.daikon.properties.Properties)props_tJDBCConnection_1.connection.driverTable).setValue("drivers",tJDBCConnection_1_connection_driverTable_drivers);
+ 		                    
+ 		                    props_tJDBCConnection_1.connection.userPassword.setValue("useAuth",
+ 		                    false);
+ 		                    
+ 		                    props_tJDBCConnection_1.connection.userPassword.setValue("userId",
+ 		                    context.ovirtEngineDbUser);
+ 		                    
+ 		                    props_tJDBCConnection_1.connection.userPassword.setValue("password",
+ 		                    context.ovirtEngineDbPassword);
+ 		                    
+globalMap.put("tJDBCConnection_1_COMPONENT_RUNTIME_PROPERTIES", props_tJDBCConnection_1);
+globalMap.putIfAbsent("TALEND_PRODUCT_VERSION", "8.0");
+globalMap.put("TALEND_COMPONENTS_VERSION", "0.37.0");
+java.net.URL mappings_url_tJDBCConnection_1= this.getClass().getResource("/xmlMappings");
+globalMap.put("tJDBCConnection_1_MAPPINGS_URL", mappings_url_tJDBCConnection_1);
+
+org.talend.components.api.container.RuntimeContainer container_tJDBCConnection_1 = new org.talend.components.api.container.RuntimeContainer() {
+    public Object getComponentData(String componentId, String key) {
+        return globalMap.get(componentId + "_" + key);
+    }
+
+    public void setComponentData(String componentId, String key, Object data) {
+        globalMap.put(componentId + "_" + key, data);
+    }
+
+    public String getCurrentComponentId() {
+        return "tJDBCConnection_1";
+    }
+
+    public Object getGlobalData(String key) {
+    	return globalMap.get(key);
+    }
+};
+
+int nb_line_tJDBCConnection_1 = 0;
+
+org.talend.components.api.component.ConnectorTopology topology_tJDBCConnection_1 = null;
+topology_tJDBCConnection_1 = org.talend.components.api.component.ConnectorTopology.NONE;
+
+org.talend.daikon.runtime.RuntimeInfo runtime_info_tJDBCConnection_1 = def_tJDBCConnection_1.getRuntimeInfo(
+    org.talend.components.api.component.runtime.ExecutionEngine.DI, props_tJDBCConnection_1, topology_tJDBCConnection_1);
+java.util.Set<org.talend.components.api.component.ConnectorTopology> supported_connector_topologies_tJDBCConnection_1 = def_tJDBCConnection_1.getSupportedConnectorTopologies();
+
+org.talend.components.api.component.runtime.RuntimableRuntime componentRuntime_tJDBCConnection_1 = (org.talend.components.api.component.runtime.RuntimableRuntime)(Class.forName(runtime_info_tJDBCConnection_1.getRuntimeClassName()).newInstance());
+org.talend.daikon.properties.ValidationResult initVr_tJDBCConnection_1 = componentRuntime_tJDBCConnection_1.initialize(container_tJDBCConnection_1, props_tJDBCConnection_1);
+
+if (initVr_tJDBCConnection_1.getStatus() == org.talend.daikon.properties.ValidationResult.Result.ERROR ) {
+    throw new RuntimeException(initVr_tJDBCConnection_1.getMessage());
+}
+
+if(componentRuntime_tJDBCConnection_1 instanceof org.talend.components.api.component.runtime.ComponentDriverInitialization) {
+	org.talend.components.api.component.runtime.ComponentDriverInitialization compDriverInitialization_tJDBCConnection_1 = (org.talend.components.api.component.runtime.ComponentDriverInitialization)componentRuntime_tJDBCConnection_1;
+	compDriverInitialization_tJDBCConnection_1.runAtDriver(container_tJDBCConnection_1);
+}
+
+org.talend.components.api.component.runtime.SourceOrSink sourceOrSink_tJDBCConnection_1 = null;
+if(componentRuntime_tJDBCConnection_1 instanceof org.talend.components.api.component.runtime.SourceOrSink) {
+	sourceOrSink_tJDBCConnection_1 = (org.talend.components.api.component.runtime.SourceOrSink)componentRuntime_tJDBCConnection_1;
+	if (doesNodeBelongToRequest_tJDBCConnection_1) {
+        org.talend.daikon.properties.ValidationResult vr_tJDBCConnection_1 = sourceOrSink_tJDBCConnection_1.validate(container_tJDBCConnection_1);
+        if (vr_tJDBCConnection_1.getStatus() == org.talend.daikon.properties.ValidationResult.Result.ERROR ) {
+            throw new RuntimeException(vr_tJDBCConnection_1.getMessage());
+        }
+	}
+}
+
+ 
+
+
+
+/**
+ * [tJDBCConnection_1 begin ] stop
+ */
+	
+	/**
+	 * [tJDBCConnection_1 main ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCConnection_1";
+
+	
+
+
+ 
+
+
+	tos_count_tJDBCConnection_1++;
+
+/**
+ * [tJDBCConnection_1 main ] stop
+ */
+	
+	/**
+	 * [tJDBCConnection_1 process_data_begin ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCConnection_1";
+
+	
+
+
+ 
+
+
+
+/**
+ * [tJDBCConnection_1 process_data_begin ] stop
+ */
+	
+	/**
+	 * [tJDBCConnection_1 process_data_end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCConnection_1";
+
+	
+
+
+ 
+
+
+
+/**
+ * [tJDBCConnection_1 process_data_end ] stop
+ */
+	
+	/**
+	 * [tJDBCConnection_1 end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCConnection_1";
+
+	
+// end of generic
+
+ 
+
+ok_Hash.put("tJDBCConnection_1", true);
+end_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
+
+				if(execStat){   
+   	 				runStat.updateStatOnConnection("OnComponentOk1", 0, "ok");
 				}
-
-				globalMap.put("conn_tJDBCConnection_1", conn_tJDBCConnection_1);
-				globalMap.put("url_tJDBCConnection_1", url_tJDBCConnection_1);
-				// globalMap.put("user_tJDBCConnection_1",
-				// dbUser_tJDBCConnection_1);
-				// globalMap.put("pass_tJDBCConnection_1",
-				// dbPwd_tJDBCConnection_1);
-
-				/**
-				 * [tJDBCConnection_1 begin ] stop
-				 */
-
-				/**
-				 * [tJDBCConnection_1 main ] start
-				 */
-
-				currentComponent = "tJDBCConnection_1";
-
-				tos_count_tJDBCConnection_1++;
-
-				/**
-				 * [tJDBCConnection_1 main ] stop
-				 */
-
-				/**
-				 * [tJDBCConnection_1 end ] start
-				 */
-
-				currentComponent = "tJDBCConnection_1";
-
-				ok_Hash.put("tJDBCConnection_1", true);
-				end_Hash.put("tJDBCConnection_1", System.currentTimeMillis());
-
 				tJDBCConnection_2Process(globalMap);
 
-				/**
-				 * [tJDBCConnection_1 end ] stop
-				 */
-			}// end the resume
 
-		} catch (java.lang.Exception e) {
 
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
+/**
+ * [tJDBCConnection_1 end ] stop
+ */
+				}//end the resume
 
-			throw te;
-		} catch (java.lang.Error error) {
+				
 
-			throw error;
-		} finally {
 
-			try {
 
-				/**
-				 * [tJDBCConnection_1 finally ] start
-				 */
+	
+			}catch(java.lang.Exception e){	
+				
+				TalendException te = new TalendException(e, currentComponent, globalMap);
+				
+				throw te;
+			}catch(java.lang.Error error){	
+				
+					runStat.stopThreadStat();
+				
+				throw error;
+			}finally{
+				
+				try{
+					
+	
+	/**
+	 * [tJDBCConnection_1 finally ] start
+	 */
 
-				currentComponent = "tJDBCConnection_1";
+	
 
-				/**
-				 * [tJDBCConnection_1 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
+	
+	
+	currentComponent="tJDBCConnection_1";
+
+	
+// finally of generic
+
+ 
+
+
+
+/**
+ * [tJDBCConnection_1 finally ] stop
+ */
+				}catch(java.lang.Exception e){	
+					//ignore
+				}catch(java.lang.Error error){
+					//ignore
+				}
+				resourceMap = null;
 			}
-			resourceMap = null;
-		}
+		
 
 		globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", 1);
 	}
+	
 
-	public void tJDBCConnection_2Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCConnection_2_SUBPROCESS_STATE", 0);
+public void tJDBCConnection_2Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+	globalMap.put("tJDBCConnection_2_SUBPROCESS_STATE", 0);
 
-		final boolean execStat = this.execStat;
-
+ final boolean execStat = this.execStat;
+	
 		String iterateId = "";
+	
+	
+	String currentComponent = "";
+	java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
+	try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception().getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { //start the resume
 				globalResumeTicket = true;
 
-				/**
-				 * [tJDBCConnection_2 begin ] start
-				 */
 
-				ok_Hash.put("tJDBCConnection_2", false);
-				start_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
 
-				currentComponent = "tJDBCConnection_2";
+		
 
-				int tos_count_tJDBCConnection_2 = 0;
 
-				String url_tJDBCConnection_2 = context.ovirtEngineHistoryDbJdbcConnection;
+	
+	/**
+	 * [tJDBCConnection_2 begin ] start
+	 */
 
-				String dbUser_tJDBCConnection_2 = context.ovirtEngineHistoryDbUser;
+	
 
-				final String decryptedPassword_tJDBCConnection_2 = context.ovirtEngineHistoryDbPassword;
-				String dbPwd_tJDBCConnection_2 = decryptedPassword_tJDBCConnection_2;
+	
+		
+		ok_Hash.put("tJDBCConnection_2", false);
+		start_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
+		
+	
+	currentComponent="tJDBCConnection_2";
 
-				java.sql.Connection conn_tJDBCConnection_2 = null;
+	
+		int tos_count_tJDBCConnection_2 = 0;
+		
 
-				String sharedConnectionName_tJDBCConnection_2 = "sample_ovirt_engine_history";
-				conn_tJDBCConnection_2 = SharedDBConnection.getDBConnection(
-						context.ovirtEngineHistoryDbDriverClass,
-						url_tJDBCConnection_2, dbUser_tJDBCConnection_2,
-						dbPwd_tJDBCConnection_2,
-						sharedConnectionName_tJDBCConnection_2);
-				if (null != conn_tJDBCConnection_2) {
+boolean doesNodeBelongToRequest_tJDBCConnection_2 = 0 == 0;
+@SuppressWarnings("unchecked")
+java.util.Map<String, Object> restRequest_tJDBCConnection_2 = (java.util.Map<String, Object>)globalMap.get("restRequest");
+String currentTRestRequestOperation_tJDBCConnection_2 = (String)(restRequest_tJDBCConnection_2 != null ? restRequest_tJDBCConnection_2.get("OPERATION") : null);
 
-					conn_tJDBCConnection_2.setAutoCommit(false);
+org.talend.components.api.component.ComponentDefinition def_tJDBCConnection_2 =
+        new org.talend.components.jdbc.tjdbcconnection.TJDBCConnectionDefinition();
+
+org.talend.components.api.component.runtime.Writer writer_tJDBCConnection_2 = null;
+org.talend.components.api.component.runtime.Reader reader_tJDBCConnection_2 = null;
+
+
+org.talend.components.jdbc.tjdbcconnection.TJDBCConnectionProperties props_tJDBCConnection_2 =
+        (org.talend.components.jdbc.tjdbcconnection.TJDBCConnectionProperties) def_tJDBCConnection_2.createRuntimeProperties();
+ 		                    props_tJDBCConnection_2.setValue("shareConnection",
+ 		                    true);
+ 		                    
+ 		                    props_tJDBCConnection_2.setValue("sharedConnectionName",
+ 		                    "sample_ovirt_engine_history");
+ 		                    
+ 		                    props_tJDBCConnection_2.setValue("useAutoCommit",
+ 		                    true);
+ 		                    
+ 		                    props_tJDBCConnection_2.setValue("autocommit",
+ 		                    false);
+ 		                    
+ 		                    props_tJDBCConnection_2.connection.setValue("jdbcUrl",
+ 		                    context.ovirtEngineHistoryDbJdbcConnection);
+ 		                    
+ 		                    props_tJDBCConnection_2.connection.setValue("driverClass",
+ 		                    context.ovirtEngineHistoryDbDriverClass);
+ 		                    
+ 		                    java.util.List<Object> tJDBCConnection_2_connection_driverTable_drivers = new java.util.ArrayList<Object>();
+ 		                    
+ 		                                tJDBCConnection_2_connection_driverTable_drivers.add("mvn:postgresql/postgresql/8.4-703.jdbc4/jar");
+ 		                                
+ 		                    ((org.talend.daikon.properties.Properties)props_tJDBCConnection_2.connection.driverTable).setValue("drivers",tJDBCConnection_2_connection_driverTable_drivers);
+ 		                    
+ 		                    props_tJDBCConnection_2.connection.userPassword.setValue("useAuth",
+ 		                    false);
+ 		                    
+ 		                    props_tJDBCConnection_2.connection.userPassword.setValue("userId",
+ 		                    context.ovirtEngineHistoryDbUser);
+ 		                    
+ 		                    props_tJDBCConnection_2.connection.userPassword.setValue("password",
+ 		                    context.ovirtEngineHistoryDbPassword);
+ 		                    
+globalMap.put("tJDBCConnection_2_COMPONENT_RUNTIME_PROPERTIES", props_tJDBCConnection_2);
+globalMap.putIfAbsent("TALEND_PRODUCT_VERSION", "8.0");
+globalMap.put("TALEND_COMPONENTS_VERSION", "0.37.0");
+java.net.URL mappings_url_tJDBCConnection_2= this.getClass().getResource("/xmlMappings");
+globalMap.put("tJDBCConnection_2_MAPPINGS_URL", mappings_url_tJDBCConnection_2);
+
+org.talend.components.api.container.RuntimeContainer container_tJDBCConnection_2 = new org.talend.components.api.container.RuntimeContainer() {
+    public Object getComponentData(String componentId, String key) {
+        return globalMap.get(componentId + "_" + key);
+    }
+
+    public void setComponentData(String componentId, String key, Object data) {
+        globalMap.put(componentId + "_" + key, data);
+    }
+
+    public String getCurrentComponentId() {
+        return "tJDBCConnection_2";
+    }
+
+    public Object getGlobalData(String key) {
+    	return globalMap.get(key);
+    }
+};
+
+int nb_line_tJDBCConnection_2 = 0;
+
+org.talend.components.api.component.ConnectorTopology topology_tJDBCConnection_2 = null;
+topology_tJDBCConnection_2 = org.talend.components.api.component.ConnectorTopology.NONE;
+
+org.talend.daikon.runtime.RuntimeInfo runtime_info_tJDBCConnection_2 = def_tJDBCConnection_2.getRuntimeInfo(
+    org.talend.components.api.component.runtime.ExecutionEngine.DI, props_tJDBCConnection_2, topology_tJDBCConnection_2);
+java.util.Set<org.talend.components.api.component.ConnectorTopology> supported_connector_topologies_tJDBCConnection_2 = def_tJDBCConnection_2.getSupportedConnectorTopologies();
+
+org.talend.components.api.component.runtime.RuntimableRuntime componentRuntime_tJDBCConnection_2 = (org.talend.components.api.component.runtime.RuntimableRuntime)(Class.forName(runtime_info_tJDBCConnection_2.getRuntimeClassName()).newInstance());
+org.talend.daikon.properties.ValidationResult initVr_tJDBCConnection_2 = componentRuntime_tJDBCConnection_2.initialize(container_tJDBCConnection_2, props_tJDBCConnection_2);
+
+if (initVr_tJDBCConnection_2.getStatus() == org.talend.daikon.properties.ValidationResult.Result.ERROR ) {
+    throw new RuntimeException(initVr_tJDBCConnection_2.getMessage());
+}
+
+if(componentRuntime_tJDBCConnection_2 instanceof org.talend.components.api.component.runtime.ComponentDriverInitialization) {
+	org.talend.components.api.component.runtime.ComponentDriverInitialization compDriverInitialization_tJDBCConnection_2 = (org.talend.components.api.component.runtime.ComponentDriverInitialization)componentRuntime_tJDBCConnection_2;
+	compDriverInitialization_tJDBCConnection_2.runAtDriver(container_tJDBCConnection_2);
+}
+
+org.talend.components.api.component.runtime.SourceOrSink sourceOrSink_tJDBCConnection_2 = null;
+if(componentRuntime_tJDBCConnection_2 instanceof org.talend.components.api.component.runtime.SourceOrSink) {
+	sourceOrSink_tJDBCConnection_2 = (org.talend.components.api.component.runtime.SourceOrSink)componentRuntime_tJDBCConnection_2;
+	if (doesNodeBelongToRequest_tJDBCConnection_2) {
+        org.talend.daikon.properties.ValidationResult vr_tJDBCConnection_2 = sourceOrSink_tJDBCConnection_2.validate(container_tJDBCConnection_2);
+        if (vr_tJDBCConnection_2.getStatus() == org.talend.daikon.properties.ValidationResult.Result.ERROR ) {
+            throw new RuntimeException(vr_tJDBCConnection_2.getMessage());
+        }
+	}
+}
+
+ 
+
+
+
+/**
+ * [tJDBCConnection_2 begin ] stop
+ */
+	
+	/**
+	 * [tJDBCConnection_2 main ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCConnection_2";
+
+	
+
+
+ 
+
+
+	tos_count_tJDBCConnection_2++;
+
+/**
+ * [tJDBCConnection_2 main ] stop
+ */
+	
+	/**
+	 * [tJDBCConnection_2 process_data_begin ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCConnection_2";
+
+	
+
+
+ 
+
+
+
+/**
+ * [tJDBCConnection_2 process_data_begin ] stop
+ */
+	
+	/**
+	 * [tJDBCConnection_2 process_data_end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCConnection_2";
+
+	
+
+
+ 
+
+
+
+/**
+ * [tJDBCConnection_2 process_data_end ] stop
+ */
+	
+	/**
+	 * [tJDBCConnection_2 end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCConnection_2";
+
+	
+// end of generic
+
+ 
+
+ok_Hash.put("tJDBCConnection_2", true);
+end_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
+
+				if(execStat){   
+   	 				runStat.updateStatOnConnection("OnComponentOk2", 0, "ok");
 				}
-
-				globalMap.put("conn_tJDBCConnection_2", conn_tJDBCConnection_2);
-				globalMap.put("url_tJDBCConnection_2", url_tJDBCConnection_2);
-				// globalMap.put("user_tJDBCConnection_2",
-				// dbUser_tJDBCConnection_2);
-				// globalMap.put("pass_tJDBCConnection_2",
-				// dbPwd_tJDBCConnection_2);
-
-				/**
-				 * [tJDBCConnection_2 begin ] stop
-				 */
-
-				/**
-				 * [tJDBCConnection_2 main ] start
-				 */
-
-				currentComponent = "tJDBCConnection_2";
-
-				tos_count_tJDBCConnection_2++;
-
-				/**
-				 * [tJDBCConnection_2 main ] stop
-				 */
-
-				/**
-				 * [tJDBCConnection_2 end ] start
-				 */
-
-				currentComponent = "tJDBCConnection_2";
-
-				ok_Hash.put("tJDBCConnection_2", true);
-				end_Hash.put("tJDBCConnection_2", System.currentTimeMillis());
-
 				tJDBCInput_1Process(globalMap);
 
-				/**
-				 * [tJDBCConnection_2 end ] stop
-				 */
-			}// end the resume
 
-		} catch (java.lang.Exception e) {
 
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
+/**
+ * [tJDBCConnection_2 end ] stop
+ */
+				}//end the resume
 
-			throw te;
-		} catch (java.lang.Error error) {
+				
 
-			throw error;
-		} finally {
 
-			try {
 
-				/**
-				 * [tJDBCConnection_2 finally ] start
-				 */
+	
+			}catch(java.lang.Exception e){	
+				
+				TalendException te = new TalendException(e, currentComponent, globalMap);
+				
+				throw te;
+			}catch(java.lang.Error error){	
+				
+					runStat.stopThreadStat();
+				
+				throw error;
+			}finally{
+				
+				try{
+					
+	
+	/**
+	 * [tJDBCConnection_2 finally ] start
+	 */
 
-				currentComponent = "tJDBCConnection_2";
+	
 
-				/**
-				 * [tJDBCConnection_2 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
+	
+	
+	currentComponent="tJDBCConnection_2";
+
+	
+// finally of generic
+
+ 
+
+
+
+/**
+ * [tJDBCConnection_2 finally ] stop
+ */
+				}catch(java.lang.Exception e){	
+					//ignore
+				}catch(java.lang.Error error){
+					//ignore
+				}
+				resourceMap = null;
 			}
-			resourceMap = null;
-		}
+		
 
 		globalMap.put("tJDBCConnection_2_SUBPROCESS_STATE", 1);
 	}
+	
 
-	public static class row1Struct implements
-			routines.system.IPersistableRow<row1Struct> {
-		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[0];
-		static byte[] commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[0];
 
-		public String key;
+public static class row1Struct implements routines.system.IPersistableRow<row1Struct> {
+    final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[0];
+    static byte[] commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[0];
 
-		public String getKey() {
-			return this.key;
-		}
+	
+			    public String key;
 
-		public String value;
-
-		public String getValue() {
-			return this.value;
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length) {
-					if (length < 1024
-							&& commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length == 0) {
-						commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[1024];
-					} else {
-						commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[2 * length];
-					}
+				public String getKey () {
+					return this.key;
 				}
-				dis.readFully(
-						commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck,
-						0, length);
-				strReturn = new String(
-						commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck,
-						0, length, utf8Charset);
-			}
-			return strReturn;
-		}
+				
+			    public String value;
 
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck) {
-
-				try {
-
-					int length = 0;
-
-					this.key = readString(dis);
-
-					this.value = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
+				public String getValue () {
+					return this.value;
 				}
+				
 
+
+
+	private String readString(ObjectInputStream dis) throws IOException{
+		String strReturn = null;
+		int length = 0;
+        length = dis.readInt();
+		if (length == -1) {
+			strReturn = null;
+		} else {
+			if(length > commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length) {
+				if(length < 1024 && commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length == 0) {
+   					commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[1024];
+				} else {
+   					commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[2 * length];
+   				}
 			}
-
+			dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck, 0, length);
+			strReturn = new String(commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck, 0, length, utf8Charset);
 		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// String
-
-				writeString(this.key, dos);
-
-				// String
-
-				writeString(this.value, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
+		return strReturn;
+	}
+	
+	private String readString(org.jboss.marshalling.Unmarshaller unmarshaller) throws IOException{
+		String strReturn = null;
+		int length = 0;
+        length = unmarshaller.readInt();
+		if (length == -1) {
+			strReturn = null;
+		} else {
+			if(length > commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length) {
+				if(length < 1024 && commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length == 0) {
+   					commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[1024];
+				} else {
+   					commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[2 * length];
+   				}
 			}
-
+			unmarshaller.readFully(commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck, 0, length);
+			strReturn = new String(commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck, 0, length, utf8Charset);
 		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("key=" + key);
-			sb.append(",value=" + value);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(row1Struct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(),
-						object2.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
+		return strReturn;
 	}
 
-	public void tJDBCInput_1Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", 0);
+    private void writeString(String str, ObjectOutputStream dos) throws IOException{
+		if(str == null) {
+            dos.writeInt(-1);
+		} else {
+            byte[] byteArray = str.getBytes(utf8Charset);
+	    	dos.writeInt(byteArray.length);
+			dos.write(byteArray);
+    	}
+    }
+    
+    private void writeString(String str, org.jboss.marshalling.Marshaller marshaller) throws IOException{
+		if(str == null) {
+			marshaller.writeInt(-1);
+		} else {
+            byte[] byteArray = str.getBytes(utf8Charset);
+            marshaller.writeInt(byteArray.length);
+            marshaller.write(byteArray);
+    	}
+    }
 
-		final boolean execStat = this.execStat;
+    public void readData(ObjectInputStream dis) {
 
+		synchronized(commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck) {
+
+        	try {
+
+        		int length = 0;
+		
+					this.key = readString(dis);
+					
+					this.value = readString(dis);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+
+		
+
+        }
+
+		
+
+      }
+
+
+    }
+    
+    public void readData(org.jboss.marshalling.Unmarshaller dis) {
+
+		synchronized(commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck) {
+
+        	try {
+
+        		int length = 0;
+		
+					this.key = readString(dis);
+					
+					this.value = readString(dis);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+
+		
+
+        }
+
+		
+
+      }
+
+
+    }
+
+    public void writeData(ObjectOutputStream dos) {
+        try {
+
+		
+					// String
+				
+						writeString(this.key,dos);
+					
+					// String
+				
+						writeString(this.value,dos);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+        }
+
+
+    }
+    
+    public void writeData(org.jboss.marshalling.Marshaller dos) {
+        try {
+
+		
+					// String
+				
+						writeString(this.key,dos);
+					
+					// String
+				
+						writeString(this.value,dos);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+        }
+
+
+    }
+
+
+    public String toString() {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(super.toString());
+		sb.append("[");
+		sb.append("key="+key);
+		sb.append(",value="+value);
+	    sb.append("]");
+
+	    return sb.toString();
+    }
+
+    /**
+     * Compare keys
+     */
+    public int compareTo(row1Struct other) {
+
+		int returnValue = -1;
+		
+	    return returnValue;
+    }
+
+
+    private int checkNullsAndCompare(Object object1, Object object2) {
+        int returnValue = 0;
+		if (object1 instanceof Comparable && object2 instanceof Comparable) {
+            returnValue = ((Comparable) object1).compareTo(object2);
+        } else if (object1 != null && object2 != null) {
+            returnValue = compareStrings(object1.toString(), object2.toString());
+        } else if (object1 == null && object2 != null) {
+            returnValue = 1;
+        } else if (object1 != null && object2 == null) {
+            returnValue = -1;
+        } else {
+            returnValue = 0;
+        }
+
+        return returnValue;
+    }
+
+    private int compareStrings(String string1, String string2) {
+        return string1.compareTo(string2);
+    }
+
+
+}
+public void tJDBCInput_1Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+	globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", 0);
+
+ final boolean execStat = this.execStat;
+	
 		String iterateId = "";
+	
+	
+	String currentComponent = "";
+	java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
+	try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception().getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { //start the resume
 				globalResumeTicket = true;
 
-				row1Struct row1 = new row1Struct();
 
-				/**
-				 * [tContextLoad_1 begin ] start
-				 */
 
-				ok_Hash.put("tContextLoad_1", false);
-				start_Hash.put("tContextLoad_1", System.currentTimeMillis());
+		row1Struct row1 = new row1Struct();
 
-				currentComponent = "tContextLoad_1";
 
-				int tos_count_tContextLoad_1 = 0;
 
-				java.util.List<String> assignList_tContextLoad_1 = new java.util.ArrayList<String>();
-				java.util.List<String> newPropertyList_tContextLoad_1 = new java.util.ArrayList<String>();
-				java.util.List<String> noAssignList_tContextLoad_1 = new java.util.ArrayList<String>();
-				int nb_line_tContextLoad_1 = 0;
 
-				/**
-				 * [tContextLoad_1 begin ] stop
-				 */
+	
+	/**
+	 * [tContextLoad_1 begin ] start
+	 */
 
-				/**
-				 * [tJDBCInput_1 begin ] start
-				 */
+	
 
-				ok_Hash.put("tJDBCInput_1", false);
-				start_Hash.put("tJDBCInput_1", System.currentTimeMillis());
+	
+		
+		ok_Hash.put("tContextLoad_1", false);
+		start_Hash.put("tContextLoad_1", System.currentTimeMillis());
+		
+	
+	currentComponent="tContextLoad_1";
 
-				currentComponent = "tJDBCInput_1";
-
-				int tos_count_tJDBCInput_1 = 0;
-
-				int nb_line_tJDBCInput_1 = 0;
-				java.sql.Connection conn_tJDBCInput_1 = null;
-				conn_tJDBCInput_1 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_1");
-
-				java.sql.Statement stmt_tJDBCInput_1 = conn_tJDBCInput_1
-						.createStatement();
-
-				String dbquery_tJDBCInput_1 = "select distinct 'ovirtMinimalETL', option_value\n from vdc_options\n where option_name = 'MinimalETLVersion'";
-
-				globalMap.put("tJDBCInput_1_QUERY", dbquery_tJDBCInput_1);
-
-				java.sql.ResultSet rs_tJDBCInput_1 = null;
-				try {
-					rs_tJDBCInput_1 = stmt_tJDBCInput_1
-							.executeQuery(dbquery_tJDBCInput_1);
-					java.sql.ResultSetMetaData rsmd_tJDBCInput_1 = rs_tJDBCInput_1
-							.getMetaData();
-					int colQtyInRs_tJDBCInput_1 = rsmd_tJDBCInput_1
-							.getColumnCount();
-
-					String tmpContent_tJDBCInput_1 = null;
-
-					while (rs_tJDBCInput_1.next()) {
-						nb_line_tJDBCInput_1++;
-
-						if (colQtyInRs_tJDBCInput_1 < 1) {
-							row1.key = null;
-						} else {
-
-							row1.key = routines.system.JDBCUtil.getString(
-									rs_tJDBCInput_1, 1, false);
-						}
-						if (colQtyInRs_tJDBCInput_1 < 2) {
-							row1.value = null;
-						} else {
-
-							row1.value = routines.system.JDBCUtil.getString(
-									rs_tJDBCInput_1, 2, false);
-						}
-
-						/**
-						 * [tJDBCInput_1 begin ] stop
-						 */
-
-						/**
-						 * [tJDBCInput_1 main ] start
-						 */
-
-						currentComponent = "tJDBCInput_1";
-
-						tos_count_tJDBCInput_1++;
-
-						/**
-						 * [tJDBCInput_1 main ] stop
-						 */
-
-						/**
-						 * [tContextLoad_1 main ] start
-						 */
-
-						currentComponent = "tContextLoad_1";
-
-						// ////////////////////////
-						String tmp_key_tContextLoad_1 = null;
-						String key_tContextLoad_1 = null;
-						if (row1.key != null) {
-							tmp_key_tContextLoad_1 = row1.key.trim();
-							if ((tmp_key_tContextLoad_1.startsWith("#") || tmp_key_tContextLoad_1
-									.startsWith("!"))) {
-								tmp_key_tContextLoad_1 = null;
-							} else {
-								row1.key = tmp_key_tContextLoad_1;
-							}
-						}
-						if (row1.key != null) {
-							key_tContextLoad_1 = row1.key;
-						}
-						String value_tContextLoad_1 = null;
-						if (row1.value != null) {
-							value_tContextLoad_1 = row1.value;
-						}
-
-						if (tmp_key_tContextLoad_1 != null) {
-							try {
-								if (key_tContextLoad_1 != null
-										&& "ovirtEngineHistoryMinimalETL"
-												.equals(key_tContextLoad_1)) {
-									context.ovirtEngineHistoryMinimalETL = value_tContextLoad_1;
-								}
-
-								if (key_tContextLoad_1 != null
-										&& "ovirtMinimalETL"
-												.equals(key_tContextLoad_1)) {
-									context.ovirtMinimalETL = value_tContextLoad_1;
-								}
-
-								if (key_tContextLoad_1 != null
-										&& "etlVersion"
-												.equals(key_tContextLoad_1)) {
-									context.etlVersion = value_tContextLoad_1;
-								}
-
-								if (key_tContextLoad_1 != null
-										&& "ovirtEngineDbDriverClass"
-												.equals(key_tContextLoad_1)) {
-									context.ovirtEngineDbDriverClass = value_tContextLoad_1;
-								}
-
-								if (key_tContextLoad_1 != null
-										&& "ovirtEngineHistoryDbDriverClass"
-												.equals(key_tContextLoad_1)) {
-									context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_1;
-								}
-
-								if (key_tContextLoad_1 != null
-										&& "ovirtEngineHistoryDbJdbcConnection"
-												.equals(key_tContextLoad_1)) {
-									context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_1;
-								}
-
-								if (key_tContextLoad_1 != null
-										&& "ovirtEngineHistoryDbPassword"
-												.equals(key_tContextLoad_1)) {
-									context.ovirtEngineHistoryDbPassword = value_tContextLoad_1;
-								}
-
-								if (key_tContextLoad_1 != null
-										&& "ovirtEngineHistoryDbUser"
-												.equals(key_tContextLoad_1)) {
-									context.ovirtEngineHistoryDbUser = value_tContextLoad_1;
-								}
-
-								if (key_tContextLoad_1 != null
-										&& "ovirtEngineDbJdbcConnection"
-												.equals(key_tContextLoad_1)) {
-									context.ovirtEngineDbJdbcConnection = value_tContextLoad_1;
-								}
-
-								if (key_tContextLoad_1 != null
-										&& "ovirtEngineDbPassword"
-												.equals(key_tContextLoad_1)) {
-									context.ovirtEngineDbPassword = value_tContextLoad_1;
-								}
-
-								if (key_tContextLoad_1 != null
-										&& "ovirtEngineDbUser"
-												.equals(key_tContextLoad_1)) {
-									context.ovirtEngineDbUser = value_tContextLoad_1;
-								}
-
-								if (context.getProperty(key_tContextLoad_1) != null) {
-									assignList_tContextLoad_1
-											.add(key_tContextLoad_1);
-								} else {
-									newPropertyList_tContextLoad_1
-											.add(key_tContextLoad_1);
-								}
-								if (value_tContextLoad_1 == null) {
-									context.setProperty(key_tContextLoad_1, "");
-								} else {
-									context.setProperty(key_tContextLoad_1,
-											value_tContextLoad_1);
-								}
-							} catch (java.lang.Exception e) {
-								System.err
-										.println("Setting a value for the key \""
-												+ key_tContextLoad_1
-												+ "\" has failed. Error message: "
-												+ e.getMessage());
-							}
-							nb_line_tContextLoad_1++;
-						}
-						// ////////////////////////
-
-						tos_count_tContextLoad_1++;
-
-						/**
-						 * [tContextLoad_1 main ] stop
-						 */
-
-						/**
-						 * [tJDBCInput_1 end ] start
-						 */
-
-						currentComponent = "tJDBCInput_1";
-
+	
+					if(execStat) {
+						runStat.updateStatOnConnection(resourceMap,iterateId,0,0,"row1");
 					}
-				} finally {
-					if (rs_tJDBCInput_1 != null) {
-						rs_tJDBCInput_1.close();
-					}
-					stmt_tJDBCInput_1.close();
+				
+		int tos_count_tContextLoad_1 = 0;
+		
+	java.util.List<String> assignList_tContextLoad_1 = new java.util.ArrayList<String>();
+	java.util.List<String> newPropertyList_tContextLoad_1 = new java.util.ArrayList<String>();
+	java.util.List<String> noAssignList_tContextLoad_1 = new java.util.ArrayList<String>();
+	int nb_line_tContextLoad_1 = 0;
 
-				}
-				globalMap.put("tJDBCInput_1_NB_LINE", nb_line_tJDBCInput_1);
+ 
 
-				ok_Hash.put("tJDBCInput_1", true);
-				end_Hash.put("tJDBCInput_1", System.currentTimeMillis());
 
-				if (context.ovirtMinimalETL.substring(
-						0,
-						context.ovirtMinimalETL.indexOf(".",
-								context.ovirtMinimalETL.indexOf(".") + 1))
-						.equals(context.etlVersion.substring(0,
-								context.etlVersion.indexOf(".",
-										context.etlVersion.indexOf(".") + 1)))
-						&& Integer.parseInt(context.ovirtMinimalETL
-								.substring(context.ovirtMinimalETL
-										.indexOf(".", context.ovirtMinimalETL
-												.indexOf(".") + 1) + 1)) <= Float
-								.parseFloat(context.etlVersion.substring(context.etlVersion.indexOf(
-										".",
-										context.etlVersion.indexOf(".") + 1) + 1))) {
 
-					tJDBCInput_2Process(globalMap);
-				}
+/**
+ * [tContextLoad_1 begin ] stop
+ */
 
-				if (!context.ovirtMinimalETL.substring(
-						0,
-						context.ovirtMinimalETL.indexOf(".",
-								context.ovirtMinimalETL.indexOf(".") + 1))
-						.equals(context.etlVersion.substring(0,
-								context.etlVersion.indexOf(".",
-										context.etlVersion.indexOf(".") + 1)))
-						|| (context.ovirtMinimalETL
-								.substring(
-										0,
-										context.ovirtMinimalETL.indexOf(".",
-												context.ovirtMinimalETL
-														.indexOf(".") + 1))
-								.equals(context.etlVersion.substring(
-										0,
-										context.etlVersion
-												.indexOf(
-														".",
-														context.etlVersion
-																.indexOf(".") + 1))) && Integer
-								.parseInt(context.ovirtMinimalETL.substring(context.ovirtMinimalETL
-										.indexOf(".", context.ovirtMinimalETL
-												.indexOf(".") + 1) + 1)) > Float
-								.parseFloat(context.etlVersion.substring(context.etlVersion.indexOf(
-										".",
-										context.etlVersion.indexOf(".") + 1) + 1)))) {
 
-					tDie_1Process(globalMap);
-				}
 
-				/**
-				 * [tJDBCInput_1 end ] stop
-				 */
+	
+	/**
+	 * [tJDBCInput_1 begin ] start
+	 */
 
-				/**
-				 * [tContextLoad_1 end ] start
-				 */
+	
 
-				currentComponent = "tContextLoad_1";
+	
+		
+		ok_Hash.put("tJDBCInput_1", false);
+		start_Hash.put("tJDBCInput_1", System.currentTimeMillis());
+		
+	
+	currentComponent="tJDBCInput_1";
 
-				java.util.Enumeration<?> enu_tContextLoad_1 = context
-						.propertyNames();
-				while (enu_tContextLoad_1.hasMoreElements()) {
-					String key_tContextLoad_1 = (String) enu_tContextLoad_1
-							.nextElement();
-					if (!assignList_tContextLoad_1.contains(key_tContextLoad_1)
-							&& !newPropertyList_tContextLoad_1
-									.contains(key_tContextLoad_1)) {
-						noAssignList_tContextLoad_1.add(key_tContextLoad_1);
-					}
-				}
+	
+		int tos_count_tJDBCInput_1 = 0;
+		
 
-				String newPropertyStr_tContextLoad_1 = newPropertyList_tContextLoad_1
-						.toString();
-				String newProperty_tContextLoad_1 = newPropertyStr_tContextLoad_1
-						.substring(1,
-								newPropertyStr_tContextLoad_1.length() - 1);
+boolean doesNodeBelongToRequest_tJDBCInput_1 = 0 == 0;
+@SuppressWarnings("unchecked")
+java.util.Map<String, Object> restRequest_tJDBCInput_1 = (java.util.Map<String, Object>)globalMap.get("restRequest");
+String currentTRestRequestOperation_tJDBCInput_1 = (String)(restRequest_tJDBCInput_1 != null ? restRequest_tJDBCInput_1.get("OPERATION") : null);
 
-				String noAssignStr_tContextLoad_1 = noAssignList_tContextLoad_1
-						.toString();
-				String noAssign_tContextLoad_1 = noAssignStr_tContextLoad_1
-						.substring(1, noAssignStr_tContextLoad_1.length() - 1);
+org.talend.components.api.component.ComponentDefinition def_tJDBCInput_1 =
+        new org.talend.components.jdbc.tjdbcinput.TJDBCInputDefinition();
 
-				globalMap.put("tContextLoad_1_KEY_NOT_INCONTEXT",
-						newProperty_tContextLoad_1);
-				globalMap.put("tContextLoad_1_KEY_NOT_LOADED",
-						noAssign_tContextLoad_1);
+org.talend.components.api.component.runtime.Writer writer_tJDBCInput_1 = null;
+org.talend.components.api.component.runtime.Reader reader_tJDBCInput_1 = null;
 
-				globalMap.put("tContextLoad_1_NB_LINE", nb_line_tContextLoad_1);
 
-				List<String> parametersToEncrypt_tContextLoad_1 = new java.util.ArrayList<String>();
+org.talend.components.jdbc.tjdbcinput.TJDBCInputProperties props_tJDBCInput_1 =
+        (org.talend.components.jdbc.tjdbcinput.TJDBCInputProperties) def_tJDBCInput_1.createRuntimeProperties();
+ 		                    props_tJDBCInput_1.setValue("sql",
+ 		                    "select distinct 'ovirtMinimalETL', option_value\n from vdc_options\n where option_name = 'MinimalETLVersion'");
+ 		                    
+ 		                    props_tJDBCInput_1.setValue("useCursor",
+ 		                    false);
+ 		                    
+ 		                    props_tJDBCInput_1.setValue("trimStringOrCharColumns",
+ 		                    false);
+ 		                    
+ 		                    props_tJDBCInput_1.setValue("enableDBMapping",
+ 		                    false);
+ 		                    
+ 		                    props_tJDBCInput_1.setValue("enableSpecialTableName",
+ 		                    true);
+ 		                    
+ 		                    props_tJDBCInput_1.setValue("usePreparedStatement",
+ 		                    false);
+ 		                    
+ 		                    props_tJDBCInput_1.referencedComponent.setValue("referenceType",
+ 		                        org.talend.components.api.properties.ComponentReferenceProperties.ReferenceType.COMPONENT_INSTANCE);
+ 		                    
+ 		                    props_tJDBCInput_1.referencedComponent.setValue("componentInstanceId",
+ 		                    "tJDBCConnection_1");
+ 		                    
+ 		                    props_tJDBCInput_1.referencedComponent.setValue("referenceDefinitionName",
+ 		                    "tJDBCConnection");
+ 		                    
+ 		                    props_tJDBCInput_1.connection.userPassword.setValue("useAuth",
+ 		                    false);
+ 		                    
+ 		                    class SchemaSettingTool_tJDBCInput_1_1_fisrt {
+ 		                    		
+ 		                    		String getSchemaValue() {
+ 		                    				
+ 		                    						StringBuilder s = new StringBuilder();
+                    						
+     		                    						a("{\"type\":\"record\",",s);
+     		                    						
+     		                    						a("\"name\":\"tJDBCInput_1\",\"fields\":[{",s);
+     		                    						
+     		                    						a("\"name\":\"key\",\"type\":[\"string\",\"null\"],\"di.table.comment\":\"\",\"talend.field.dbType\":\"\",\"talend.field.dbColumnName\":\"key\",\"di.column.talendType\":\"id_String\",\"di.column.isNullable\":\"true\",\"talend.field.pattern\":\"\",\"di.column.relationshipType\":\"\",\"di.column.originalLength\":\"0\",\"di.table.label\":\"key\",\"di.column.relatedEntity\":\"\"},{",s);
+     		                    						
+     		                    						a("\"name\":\"value\",\"type\":[\"string\",\"null\"],\"di.table.comment\":\"\",\"talend.field.dbType\":\"\",\"talend.field.dbColumnName\":\"value\",\"di.column.talendType\":\"id_String\",\"di.column.isNullable\":\"true\",\"talend.field.pattern\":\"\",\"di.column.relationshipType\":\"\",\"di.column.originalLength\":\"0\",\"di.table.label\":\"value\",\"di.column.relatedEntity\":\"\"}],\"di.table.name\":\"tJDBCInput_1\",\"di.table.label\":\"tJDBCInput_1\"}",s);
+     		                    						
+     		                    				return s.toString();
+     		                    		
+ 		                    		}
+ 		                    		
+ 		                    		void a(String part, StringBuilder strB) {
+ 		                    				strB.append(part);
+ 		                    		}
+ 		                    		
+ 		                    }
+ 		                    
+ 		                    SchemaSettingTool_tJDBCInput_1_1_fisrt sst_tJDBCInput_1_1_fisrt = new SchemaSettingTool_tJDBCInput_1_1_fisrt();
+ 		                    
+ 		                    props_tJDBCInput_1.main.setValue("schema",
+ 		                        new org.apache.avro.Schema.Parser().parse(sst_tJDBCInput_1_1_fisrt.getSchemaValue()));
+ 		                    
+ 		                    props_tJDBCInput_1.tableSelection.setValue("tablename",
+ 		                    "");
+ 		                    
+ 		                    java.util.List<Object> tJDBCInput_1_trimTable_trim = new java.util.ArrayList<Object>();
+ 		                    
+ 		                                tJDBCInput_1_trimTable_trim.add(false);
+ 		                                
+ 		                                tJDBCInput_1_trimTable_trim.add(false);
+ 		                                
+ 		                    ((org.talend.daikon.properties.Properties)props_tJDBCInput_1.trimTable).setValue("trim",tJDBCInput_1_trimTable_trim);
+ 		                    
+ 		                    java.util.List<Object> tJDBCInput_1_trimTable_columnName = new java.util.ArrayList<Object>();
+ 		                    
+ 		                            tJDBCInput_1_trimTable_columnName.add("key");
+ 		                            
+ 		                            tJDBCInput_1_trimTable_columnName.add("value");
+ 		                            
+ 		                    ((org.talend.daikon.properties.Properties)props_tJDBCInput_1.trimTable).setValue("columnName",tJDBCInput_1_trimTable_columnName);
+ 		                    
+    if (org.talend.components.api.properties.ComponentReferenceProperties.ReferenceType.COMPONENT_INSTANCE == props_tJDBCInput_1.referencedComponent.referenceType.getValue()) {
+        final String referencedComponentInstanceId_tJDBCInput_1 = props_tJDBCInput_1.referencedComponent.componentInstanceId.getStringValue();
+        if (referencedComponentInstanceId_tJDBCInput_1 != null) {
+            org.talend.daikon.properties.Properties referencedComponentProperties_tJDBCInput_1 = (org.talend.daikon.properties.Properties) globalMap.get(
+                referencedComponentInstanceId_tJDBCInput_1 + "_COMPONENT_RUNTIME_PROPERTIES");
+            props_tJDBCInput_1.referencedComponent.setReference(referencedComponentProperties_tJDBCInput_1);
+        }
+    }
+globalMap.put("tJDBCInput_1_COMPONENT_RUNTIME_PROPERTIES", props_tJDBCInput_1);
+globalMap.putIfAbsent("TALEND_PRODUCT_VERSION", "8.0");
+globalMap.put("TALEND_COMPONENTS_VERSION", "0.37.0");
+java.net.URL mappings_url_tJDBCInput_1= this.getClass().getResource("/xmlMappings");
+globalMap.put("tJDBCInput_1_MAPPINGS_URL", mappings_url_tJDBCInput_1);
 
-				parametersToEncrypt_tContextLoad_1
-						.add("ovirtEngineHistoryDbPassword");
+org.talend.components.api.container.RuntimeContainer container_tJDBCInput_1 = new org.talend.components.api.container.RuntimeContainer() {
+    public Object getComponentData(String componentId, String key) {
+        return globalMap.get(componentId + "_" + key);
+    }
 
-				parametersToEncrypt_tContextLoad_1.add("ovirtEngineDbPassword");
+    public void setComponentData(String componentId, String key, Object data) {
+        globalMap.put(componentId + "_" + key, data);
+    }
 
-				resumeUtil.addLog("NODE", "NODE:tContextLoad_1", "", Thread
-						.currentThread().getId() + "", "", "", "", "",
-						resumeUtil.convertToJsonText(context,
-								parametersToEncrypt_tContextLoad_1));
+    public String getCurrentComponentId() {
+        return "tJDBCInput_1";
+    }
 
-				ok_Hash.put("tContextLoad_1", true);
-				end_Hash.put("tContextLoad_1", System.currentTimeMillis());
+    public Object getGlobalData(String key) {
+    	return globalMap.get(key);
+    }
+};
 
-				/**
-				 * [tContextLoad_1 end ] stop
-				 */
+int nb_line_tJDBCInput_1 = 0;
 
-			}// end the resume
+org.talend.components.api.component.ConnectorTopology topology_tJDBCInput_1 = null;
+topology_tJDBCInput_1 = org.talend.components.api.component.ConnectorTopology.OUTGOING;
 
-		} catch (java.lang.Exception e) {
+org.talend.daikon.runtime.RuntimeInfo runtime_info_tJDBCInput_1 = def_tJDBCInput_1.getRuntimeInfo(
+    org.talend.components.api.component.runtime.ExecutionEngine.DI, props_tJDBCInput_1, topology_tJDBCInput_1);
+java.util.Set<org.talend.components.api.component.ConnectorTopology> supported_connector_topologies_tJDBCInput_1 = def_tJDBCInput_1.getSupportedConnectorTopologies();
 
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
+org.talend.components.api.component.runtime.RuntimableRuntime componentRuntime_tJDBCInput_1 = (org.talend.components.api.component.runtime.RuntimableRuntime)(Class.forName(runtime_info_tJDBCInput_1.getRuntimeClassName()).newInstance());
+org.talend.daikon.properties.ValidationResult initVr_tJDBCInput_1 = componentRuntime_tJDBCInput_1.initialize(container_tJDBCInput_1, props_tJDBCInput_1);
 
-			throw te;
-		} catch (java.lang.Error error) {
+if (initVr_tJDBCInput_1.getStatus() == org.talend.daikon.properties.ValidationResult.Result.ERROR ) {
+    throw new RuntimeException(initVr_tJDBCInput_1.getMessage());
+}
 
-			throw error;
-		} finally {
+if(componentRuntime_tJDBCInput_1 instanceof org.talend.components.api.component.runtime.ComponentDriverInitialization) {
+	org.talend.components.api.component.runtime.ComponentDriverInitialization compDriverInitialization_tJDBCInput_1 = (org.talend.components.api.component.runtime.ComponentDriverInitialization)componentRuntime_tJDBCInput_1;
+	compDriverInitialization_tJDBCInput_1.runAtDriver(container_tJDBCInput_1);
+}
+
+org.talend.components.api.component.runtime.SourceOrSink sourceOrSink_tJDBCInput_1 = null;
+if(componentRuntime_tJDBCInput_1 instanceof org.talend.components.api.component.runtime.SourceOrSink) {
+	sourceOrSink_tJDBCInput_1 = (org.talend.components.api.component.runtime.SourceOrSink)componentRuntime_tJDBCInput_1;
+	if (doesNodeBelongToRequest_tJDBCInput_1) {
+        org.talend.daikon.properties.ValidationResult vr_tJDBCInput_1 = sourceOrSink_tJDBCInput_1.validate(container_tJDBCInput_1);
+        if (vr_tJDBCInput_1.getStatus() == org.talend.daikon.properties.ValidationResult.Result.ERROR ) {
+            throw new RuntimeException(vr_tJDBCInput_1.getMessage());
+        }
+	}
+}
+
+    if (sourceOrSink_tJDBCInput_1 instanceof org.talend.components.api.component.runtime.Source) {
+        org.talend.components.api.component.runtime.Source source_tJDBCInput_1 =
+                (org.talend.components.api.component.runtime.Source)sourceOrSink_tJDBCInput_1;
+        reader_tJDBCInput_1 = source_tJDBCInput_1.createReader(container_tJDBCInput_1);
+	    reader_tJDBCInput_1 = new org.talend.codegen.flowvariables.runtime.FlowVariablesReader(reader_tJDBCInput_1, container_tJDBCInput_1);
+
+            boolean multi_output_is_allowed_tJDBCInput_1 = false;
+            org.talend.components.api.component.Connector c_tJDBCInput_1 = null;
+            for (org.talend.components.api.component.Connector currentConnector : props_tJDBCInput_1.getAvailableConnectors(null, true)) {
+                if (currentConnector.getName().equals("MAIN")) {
+                    c_tJDBCInput_1 = currentConnector;
+                }
+
+                if (currentConnector.getName().equals("REJECT")) {//it's better to move the code to javajet
+                    multi_output_is_allowed_tJDBCInput_1 = true;
+                }
+            }
+            org.apache.avro.Schema schema_tJDBCInput_1 = props_tJDBCInput_1.getSchema(c_tJDBCInput_1, true);
+
+        org.talend.codegen.enforcer.OutgoingSchemaEnforcer outgoingEnforcer_tJDBCInput_1 = org.talend.codegen.enforcer.EnforcerCreator.createOutgoingEnforcer(schema_tJDBCInput_1, false);
+
+        // Create a reusable factory that converts the output of the reader to an IndexedRecord.
+        org.talend.daikon.avro.converter.IndexedRecordConverter<Object, ? extends org.apache.avro.generic.IndexedRecord> factory_tJDBCInput_1 = null;
+
+        // Iterate through the incoming data.
+        boolean available_tJDBCInput_1 = reader_tJDBCInput_1.start();
+
+        resourceMap.put("reader_tJDBCInput_1", reader_tJDBCInput_1);
+
+        for (; available_tJDBCInput_1; available_tJDBCInput_1 = reader_tJDBCInput_1.advance()) {
+			nb_line_tJDBCInput_1++;
+
+			
+			if (multi_output_is_allowed_tJDBCInput_1) {
+				
+					row1 = null;
+				
+
+				
+			}
+			
 
 			try {
+				Object data_tJDBCInput_1 = reader_tJDBCInput_1.getCurrent();
+				
 
-				/**
-				 * [tJDBCInput_1 finally ] start
-				 */
+					if(multi_output_is_allowed_tJDBCInput_1) {
+						row1 = new row1Struct();
+					}
 
-				currentComponent = "tJDBCInput_1";
+					
+        // Construct the factory once when the first data arrives.
+        if (factory_tJDBCInput_1 == null) {
+            factory_tJDBCInput_1 = (org.talend.daikon.avro.converter.IndexedRecordConverter<Object, ? extends org.apache.avro.generic.IndexedRecord>)
+                    new org.talend.daikon.avro.AvroRegistry()
+                            .createIndexedRecordConverter(data_tJDBCInput_1.getClass());
+        }
 
-				/**
-				 * [tJDBCInput_1 finally ] stop
-				 */
+        // Enforce the outgoing schema on the input.
+        outgoingEnforcer_tJDBCInput_1.setWrapped(factory_tJDBCInput_1.convertToAvro(data_tJDBCInput_1));
+                Object columnValue_0_tJDBCInput_1 = outgoingEnforcer_tJDBCInput_1.get(0);
+                        row1.key = (String) (columnValue_0_tJDBCInput_1);
+                Object columnValue_1_tJDBCInput_1 = outgoingEnforcer_tJDBCInput_1.get(1);
+                        row1.value = (String) (columnValue_1_tJDBCInput_1);
+			} catch (org.talend.components.api.exception.DataRejectException e_tJDBCInput_1) {
+				java.util.Map<String,Object> info_tJDBCInput_1 = e_tJDBCInput_1.getRejectInfo();
+				
+					//TODO use a method instead of getting method by the special key "error/errorMessage"
+					Object errorMessage_tJDBCInput_1 = null;
+					if(info_tJDBCInput_1.containsKey("error")){
+						errorMessage_tJDBCInput_1 = info_tJDBCInput_1.get("error");
+					}else if(info_tJDBCInput_1.containsKey("errorMessage")){
+						errorMessage_tJDBCInput_1 = info_tJDBCInput_1.get("errorMessage");
+					}else{
+						errorMessage_tJDBCInput_1 = "Rejected but error message missing";
+					}
+					errorMessage_tJDBCInput_1 = "Row "+ nb_line_tJDBCInput_1 + ": "+errorMessage_tJDBCInput_1;
+					System.err.println(errorMessage_tJDBCInput_1);
+				
+					// If the record is reject, the main line record should put NULL
+					row1 = null;
+				
+			} // end of catch
 
-				/**
-				 * [tContextLoad_1 finally ] start
-				 */
+                java.lang.Iterable<?> outgoingMainRecordsList_tJDBCInput_1 = new java.util.ArrayList<Object>();
+                java.util.Iterator outgoingMainRecordsIt_tJDBCInput_1 = null;
 
-				currentComponent = "tContextLoad_1";
 
-				/**
-				 * [tContextLoad_1 finally ] stop
-				 */
+ 
 
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
+
+
+/**
+ * [tJDBCInput_1 begin ] stop
+ */
+	
+	/**
+	 * [tJDBCInput_1 main ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCInput_1";
+
+	
+
+
+ 
+
+
+	tos_count_tJDBCInput_1++;
+
+/**
+ * [tJDBCInput_1 main ] stop
+ */
+	
+	/**
+	 * [tJDBCInput_1 process_data_begin ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCInput_1";
+
+	
+
+
+ 
+
+
+
+/**
+ * [tJDBCInput_1 process_data_begin ] stop
+ */
+
+	
+	/**
+	 * [tContextLoad_1 main ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tContextLoad_1";
+
+	
+					if(execStat){
+						runStat.updateStatOnConnection(iterateId,1,1
+						
+							,"row1"
+						
+						);
+					}
+					
+        //////////////////////////
+        String tmp_key_tContextLoad_1 = null;
+                    String key_tContextLoad_1 = null;
+                      if (row1.key != null){
+                          tmp_key_tContextLoad_1 = row1.key.trim();
+                        if ((tmp_key_tContextLoad_1.startsWith("#") || tmp_key_tContextLoad_1.startsWith("!") )){
+                          tmp_key_tContextLoad_1 = null;
+                        } else {
+                          row1.key = tmp_key_tContextLoad_1;
+                        }
+                      }
+                        if(row1.key != null) {
+                    key_tContextLoad_1 =
+                        row1.key;
+                        }
+                    String value_tContextLoad_1 = null;
+                        if(row1.value != null) {
+                    value_tContextLoad_1 =
+                        row1.value;
+                        }
+				
+				String currentValue_tContextLoad_1 = value_tContextLoad_1;
+										
+						if ((key_tContextLoad_1 != null) && ("ovirtEngineHistoryDbPassword".equals(key_tContextLoad_1)) ) currentValue_tContextLoad_1 = currentValue_tContextLoad_1.replaceAll(".", "*");						
+						if ((key_tContextLoad_1 != null) && ("ovirtEngineDbPassword".equals(key_tContextLoad_1)) ) currentValue_tContextLoad_1 = currentValue_tContextLoad_1.replaceAll(".", "*");
+
+  if (tmp_key_tContextLoad_1 != null){
+  try{
+        if(key_tContextLoad_1!=null && "ovirtEngineHistoryMinimalETL".equals(key_tContextLoad_1))
+        {
+           context.ovirtEngineHistoryMinimalETL=value_tContextLoad_1;
+        }
+
+        if(key_tContextLoad_1!=null && "ovirtMinimalETL".equals(key_tContextLoad_1))
+        {
+           context.ovirtMinimalETL=value_tContextLoad_1;
+        }
+
+        if(key_tContextLoad_1!=null && "etlVersion".equals(key_tContextLoad_1))
+        {
+           context.etlVersion=value_tContextLoad_1;
+        }
+
+        if(key_tContextLoad_1!=null && "ovirtEngineDbDriverClass".equals(key_tContextLoad_1))
+        {
+           context.ovirtEngineDbDriverClass=value_tContextLoad_1;
+        }
+
+        if(key_tContextLoad_1!=null && "ovirtEngineHistoryDbDriverClass".equals(key_tContextLoad_1))
+        {
+           context.ovirtEngineHistoryDbDriverClass=value_tContextLoad_1;
+        }
+
+        if(key_tContextLoad_1!=null && "ovirtEngineHistoryDbJdbcConnection".equals(key_tContextLoad_1))
+        {
+           context.ovirtEngineHistoryDbJdbcConnection=value_tContextLoad_1;
+        }
+
+        if(key_tContextLoad_1!=null && "ovirtEngineHistoryDbPassword".equals(key_tContextLoad_1))
+        {
+           context.ovirtEngineHistoryDbPassword=value_tContextLoad_1;
+        }
+
+        if(key_tContextLoad_1!=null && "ovirtEngineHistoryDbUser".equals(key_tContextLoad_1))
+        {
+           context.ovirtEngineHistoryDbUser=value_tContextLoad_1;
+        }
+
+        if(key_tContextLoad_1!=null && "ovirtEngineDbJdbcConnection".equals(key_tContextLoad_1))
+        {
+           context.ovirtEngineDbJdbcConnection=value_tContextLoad_1;
+        }
+
+        if(key_tContextLoad_1!=null && "ovirtEngineDbPassword".equals(key_tContextLoad_1))
+        {
+           context.ovirtEngineDbPassword=value_tContextLoad_1;
+        }
+
+        if(key_tContextLoad_1!=null && "ovirtEngineDbUser".equals(key_tContextLoad_1))
+        {
+           context.ovirtEngineDbUser=value_tContextLoad_1;
+        }
+
+
+        if (context.getProperty(key_tContextLoad_1)!=null)
+        {
+            assignList_tContextLoad_1.add(key_tContextLoad_1);
+        }else  {
+            newPropertyList_tContextLoad_1.add(key_tContextLoad_1);
+        }
+        if(value_tContextLoad_1 == null){
+            context.setProperty(key_tContextLoad_1, "");
+        }else{
+            context.setProperty(key_tContextLoad_1,value_tContextLoad_1);
+        }
+    }catch(java.lang.Exception e){
+globalMap.put("tContextLoad_1_ERROR_MESSAGE",e.getMessage());
+        System.err.println("Setting a value for the key \"" + key_tContextLoad_1 + "\" has failed. Error message: " + e.getMessage());
+    }
+        nb_line_tContextLoad_1++;
+    }
+        //////////////////////////
+
+ 
+
+
+	tos_count_tContextLoad_1++;
+
+/**
+ * [tContextLoad_1 main ] stop
+ */
+	
+	/**
+	 * [tContextLoad_1 process_data_begin ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tContextLoad_1";
+
+	
+
+ 
+
+
+
+/**
+ * [tContextLoad_1 process_data_begin ] stop
+ */
+	
+	/**
+	 * [tContextLoad_1 process_data_end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tContextLoad_1";
+
+	
+
+ 
+
+
+
+/**
+ * [tContextLoad_1 process_data_end ] stop
+ */
+
+
+
+	
+	/**
+	 * [tJDBCInput_1 process_data_end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCInput_1";
+
+	
+
+
+ 
+
+
+
+/**
+ * [tJDBCInput_1 process_data_end ] stop
+ */
+	
+	/**
+	 * [tJDBCInput_1 end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCInput_1";
+
+	
+// end of generic
+
+
+resourceMap.put("finish_tJDBCInput_1", Boolean.TRUE);
+
+    } // while  
+    } // end of "if (sourceOrSink_tJDBCInput_1 instanceof ...Source)"
+    java.util.Map<String, Object> resultMap_tJDBCInput_1 = null;
+    if (reader_tJDBCInput_1 != null) {
+        reader_tJDBCInput_1.close();
+        resultMap_tJDBCInput_1 = reader_tJDBCInput_1.getReturnValues();
+    }
+if(resultMap_tJDBCInput_1!=null) {
+	for(java.util.Map.Entry<String,Object> entry_tJDBCInput_1 : resultMap_tJDBCInput_1.entrySet()) {
+		switch(entry_tJDBCInput_1.getKey()) {
+		case org.talend.components.api.component.ComponentDefinition.RETURN_ERROR_MESSAGE :
+			container_tJDBCInput_1.setComponentData("tJDBCInput_1", "ERROR_MESSAGE", entry_tJDBCInput_1.getValue());
+			break;
+		case org.talend.components.api.component.ComponentDefinition.RETURN_TOTAL_RECORD_COUNT :
+			container_tJDBCInput_1.setComponentData("tJDBCInput_1", "NB_LINE", entry_tJDBCInput_1.getValue());
+			break;
+		case org.talend.components.api.component.ComponentDefinition.RETURN_SUCCESS_RECORD_COUNT :
+			container_tJDBCInput_1.setComponentData("tJDBCInput_1", "NB_SUCCESS", entry_tJDBCInput_1.getValue());
+			break;
+		case org.talend.components.api.component.ComponentDefinition.RETURN_REJECT_RECORD_COUNT :
+			container_tJDBCInput_1.setComponentData("tJDBCInput_1", "NB_REJECT", entry_tJDBCInput_1.getValue());
+			break;
+		default :
+            StringBuilder studio_key_tJDBCInput_1 = new StringBuilder();
+            for (int i_tJDBCInput_1 = 0; i_tJDBCInput_1 < entry_tJDBCInput_1.getKey().length(); i_tJDBCInput_1++) {
+                char ch_tJDBCInput_1 = entry_tJDBCInput_1.getKey().charAt(i_tJDBCInput_1);
+                if(Character.isUpperCase(ch_tJDBCInput_1) && i_tJDBCInput_1> 0) {
+                	studio_key_tJDBCInput_1.append('_');
+                }
+                studio_key_tJDBCInput_1.append(ch_tJDBCInput_1);
+            }
+			container_tJDBCInput_1.setComponentData("tJDBCInput_1", studio_key_tJDBCInput_1.toString().toUpperCase(java.util.Locale.ENGLISH), entry_tJDBCInput_1.getValue());
+			break;
 		}
+	}
+}
+
+ 
+
+ok_Hash.put("tJDBCInput_1", true);
+end_Hash.put("tJDBCInput_1", System.currentTimeMillis());
+
+   			if (context.ovirtMinimalETL.substring(0, context.ovirtMinimalETL.indexOf(".", context.ovirtMinimalETL.indexOf(".")+1)).equals(context.etlVersion.substring(0, context.etlVersion.indexOf(".", context.etlVersion.indexOf(".")+1))) 
+&&
+Integer.parseInt(context.ovirtMinimalETL.substring(context.ovirtMinimalETL.indexOf(".", context.ovirtMinimalETL.indexOf(".")+1)+1))
+<=
+Float.parseFloat(context.etlVersion.substring(context.etlVersion.indexOf(".", context.etlVersion.indexOf(".")+1)+1))) {
+   				
+					if(execStat){
+   	 					runStat.updateStatOnConnection("If1", 0, "true");
+					}
+				tJDBCInput_2Process(globalMap);
+			}
+
+			   
+   				else{
+					if(execStat){   
+   	 					runStat.updateStatOnConnection("If1", 0, "false");
+					}   	 
+   				}
+   			if (!context.ovirtMinimalETL.substring(0, context.ovirtMinimalETL.indexOf(".", context.ovirtMinimalETL.indexOf(".")+1)).equals(context.etlVersion.substring(0, context.etlVersion.indexOf(".", context.etlVersion.indexOf(".")+1))) 
+||
+(
+context.ovirtMinimalETL.substring(0, context.ovirtMinimalETL.indexOf(".", context.ovirtMinimalETL.indexOf(".")+1)).equals(context.etlVersion.substring(0, context.etlVersion.indexOf(".", context.etlVersion.indexOf(".")+1))) 
+&&
+Integer.parseInt(context.ovirtMinimalETL.substring(context.ovirtMinimalETL.indexOf(".", context.ovirtMinimalETL.indexOf(".")+1)+1))
+> 
+Float.parseFloat(context.etlVersion.substring(context.etlVersion.indexOf(".", context.etlVersion.indexOf(".")+1)+1))
+)) {
+   				
+					if(execStat){
+   	 					runStat.updateStatOnConnection("If2", 0, "true");
+					}
+				tDie_1Process(globalMap);
+			}
+
+			   
+   				else{
+					if(execStat){   
+   	 					runStat.updateStatOnConnection("If2", 0, "false");
+					}   	 
+   				}
+
+
+
+/**
+ * [tJDBCInput_1 end ] stop
+ */
+
+	
+	/**
+	 * [tContextLoad_1 end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tContextLoad_1";
+
+	
+	
+	java.util.Enumeration<?> enu_tContextLoad_1 = context.propertyNames();
+    while(enu_tContextLoad_1.hasMoreElements())
+    {           
+    	String key_tContextLoad_1 = (String)enu_tContextLoad_1.nextElement();
+        if(!assignList_tContextLoad_1.contains(key_tContextLoad_1) && !newPropertyList_tContextLoad_1.contains(key_tContextLoad_1))
+        {
+            noAssignList_tContextLoad_1.add(key_tContextLoad_1);
+        }          
+    } 
+
+    String newPropertyStr_tContextLoad_1 = newPropertyList_tContextLoad_1.toString();
+    String newProperty_tContextLoad_1 = newPropertyStr_tContextLoad_1.substring(1, newPropertyStr_tContextLoad_1.length() - 1);
+    
+    String noAssignStr_tContextLoad_1 = noAssignList_tContextLoad_1.toString();
+    String noAssign_tContextLoad_1 = noAssignStr_tContextLoad_1.substring(1, noAssignStr_tContextLoad_1.length() - 1);
+    
+    globalMap.put("tContextLoad_1_KEY_NOT_INCONTEXT", newProperty_tContextLoad_1);
+    globalMap.put("tContextLoad_1_KEY_NOT_LOADED", noAssign_tContextLoad_1);
+
+    globalMap.put("tContextLoad_1_NB_LINE",nb_line_tContextLoad_1);
+
+	List<String> parametersToEncrypt_tContextLoad_1 = new java.util.ArrayList<String>();
+	
+		parametersToEncrypt_tContextLoad_1.add("ovirtEngineHistoryDbPassword");
+		
+		parametersToEncrypt_tContextLoad_1.add("ovirtEngineDbPassword");
+		
+	
+	resumeUtil.addLog("NODE", "NODE:tContextLoad_1", "", Thread.currentThread().getId() + "", "","","","",resumeUtil.convertToJsonText(context,parametersToEncrypt_tContextLoad_1));    
+    
+				if(execStat){
+			  		runStat.updateStat(resourceMap,iterateId,2,0,"row1");
+			  	}
+			  	
+ 
+
+ok_Hash.put("tContextLoad_1", true);
+end_Hash.put("tContextLoad_1", System.currentTimeMillis());
+
+
+
+
+/**
+ * [tContextLoad_1 end ] stop
+ */
+
+
+
+				}//end the resume
+
+				
+
+
+
+	
+			}catch(java.lang.Exception e){	
+				
+				TalendException te = new TalendException(e, currentComponent, globalMap);
+				
+				throw te;
+			}catch(java.lang.Error error){	
+				
+					runStat.stopThreadStat();
+				
+				throw error;
+			}finally{
+				
+				try{
+					
+	
+	/**
+	 * [tJDBCInput_1 finally ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCInput_1";
+
+	
+// finally of generic
+
+
+if(resourceMap.get("finish_tJDBCInput_1")==null){
+    if(resourceMap.get("reader_tJDBCInput_1")!=null){
+		try {
+			((org.talend.components.api.component.runtime.Reader)resourceMap.get("reader_tJDBCInput_1")).close();
+		} catch (java.io.IOException e_tJDBCInput_1) {
+			String errorMessage_tJDBCInput_1 = "failed to release the resource in tJDBCInput_1 :" + e_tJDBCInput_1.getMessage();
+			System.err.println(errorMessage_tJDBCInput_1);
+		}
+	}
+}
+ 
+
+
+
+/**
+ * [tJDBCInput_1 finally ] stop
+ */
+
+	
+	/**
+	 * [tContextLoad_1 finally ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tContextLoad_1";
+
+	
+
+ 
+
+
+
+/**
+ * [tContextLoad_1 finally ] stop
+ */
+
+
+
+				}catch(java.lang.Exception e){	
+					//ignore
+				}catch(java.lang.Error error){
+					//ignore
+				}
+				resourceMap = null;
+			}
+		
 
 		globalMap.put("tJDBCInput_1_SUBPROCESS_STATE", 1);
 	}
+	
 
-	public static class row2Struct implements
-			routines.system.IPersistableRow<row2Struct> {
-		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[0];
-		static byte[] commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[0];
 
-		public String key;
+public static class row2Struct implements routines.system.IPersistableRow<row2Struct> {
+    final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[0];
+    static byte[] commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[0];
 
-		public String getKey() {
-			return this.key;
-		}
+	
+			    public String key;
 
-		public String value;
-
-		public String getValue() {
-			return this.value;
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length) {
-					if (length < 1024
-							&& commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length == 0) {
-						commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[1024];
-					} else {
-						commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[2 * length];
-					}
+				public String getKey () {
+					return this.key;
 				}
-				dis.readFully(
-						commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck,
-						0, length);
-				strReturn = new String(
-						commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck,
-						0, length, utf8Charset);
-			}
-			return strReturn;
-		}
+				
+			    public String value;
 
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck) {
-
-				try {
-
-					int length = 0;
-
-					this.key = readString(dis);
-
-					this.value = readString(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
+				public String getValue () {
+					return this.value;
 				}
+				
 
+
+
+	private String readString(ObjectInputStream dis) throws IOException{
+		String strReturn = null;
+		int length = 0;
+        length = dis.readInt();
+		if (length == -1) {
+			strReturn = null;
+		} else {
+			if(length > commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length) {
+				if(length < 1024 && commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length == 0) {
+   					commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[1024];
+				} else {
+   					commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[2 * length];
+   				}
 			}
-
+			dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck, 0, length);
+			strReturn = new String(commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck, 0, length, utf8Charset);
 		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// String
-
-				writeString(this.key, dos);
-
-				// String
-
-				writeString(this.value, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
+		return strReturn;
+	}
+	
+	private String readString(org.jboss.marshalling.Unmarshaller unmarshaller) throws IOException{
+		String strReturn = null;
+		int length = 0;
+        length = unmarshaller.readInt();
+		if (length == -1) {
+			strReturn = null;
+		} else {
+			if(length > commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length) {
+				if(length < 1024 && commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length == 0) {
+   					commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[1024];
+				} else {
+   					commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[2 * length];
+   				}
 			}
-
+			unmarshaller.readFully(commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck, 0, length);
+			strReturn = new String(commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck, 0, length, utf8Charset);
 		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("key=" + key);
-			sb.append(",value=" + value);
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(row2Struct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(),
-						object2.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
+		return strReturn;
 	}
 
-	public void tJDBCInput_2Process(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", 0);
+    private void writeString(String str, ObjectOutputStream dos) throws IOException{
+		if(str == null) {
+            dos.writeInt(-1);
+		} else {
+            byte[] byteArray = str.getBytes(utf8Charset);
+	    	dos.writeInt(byteArray.length);
+			dos.write(byteArray);
+    	}
+    }
+    
+    private void writeString(String str, org.jboss.marshalling.Marshaller marshaller) throws IOException{
+		if(str == null) {
+			marshaller.writeInt(-1);
+		} else {
+            byte[] byteArray = str.getBytes(utf8Charset);
+            marshaller.writeInt(byteArray.length);
+            marshaller.write(byteArray);
+    	}
+    }
 
-		final boolean execStat = this.execStat;
+    public void readData(ObjectInputStream dis) {
 
+		synchronized(commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck) {
+
+        	try {
+
+        		int length = 0;
+		
+					this.key = readString(dis);
+					
+					this.value = readString(dis);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+
+		
+
+        }
+
+		
+
+      }
+
+
+    }
+    
+    public void readData(org.jboss.marshalling.Unmarshaller dis) {
+
+		synchronized(commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck) {
+
+        	try {
+
+        		int length = 0;
+		
+					this.key = readString(dis);
+					
+					this.value = readString(dis);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+
+		
+
+        }
+
+		
+
+      }
+
+
+    }
+
+    public void writeData(ObjectOutputStream dos) {
+        try {
+
+		
+					// String
+				
+						writeString(this.key,dos);
+					
+					// String
+				
+						writeString(this.value,dos);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+        }
+
+
+    }
+    
+    public void writeData(org.jboss.marshalling.Marshaller dos) {
+        try {
+
+		
+					// String
+				
+						writeString(this.key,dos);
+					
+					// String
+				
+						writeString(this.value,dos);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+        }
+
+
+    }
+
+
+    public String toString() {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(super.toString());
+		sb.append("[");
+		sb.append("key="+key);
+		sb.append(",value="+value);
+	    sb.append("]");
+
+	    return sb.toString();
+    }
+
+    /**
+     * Compare keys
+     */
+    public int compareTo(row2Struct other) {
+
+		int returnValue = -1;
+		
+	    return returnValue;
+    }
+
+
+    private int checkNullsAndCompare(Object object1, Object object2) {
+        int returnValue = 0;
+		if (object1 instanceof Comparable && object2 instanceof Comparable) {
+            returnValue = ((Comparable) object1).compareTo(object2);
+        } else if (object1 != null && object2 != null) {
+            returnValue = compareStrings(object1.toString(), object2.toString());
+        } else if (object1 == null && object2 != null) {
+            returnValue = 1;
+        } else if (object1 != null && object2 == null) {
+            returnValue = -1;
+        } else {
+            returnValue = 0;
+        }
+
+        return returnValue;
+    }
+
+    private int compareStrings(String string1, String string2) {
+        return string1.compareTo(string2);
+    }
+
+
+}
+public void tJDBCInput_2Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+	globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", 0);
+
+ final boolean execStat = this.execStat;
+	
 		String iterateId = "";
+	
+	
+	String currentComponent = "";
+	java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
+	try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception().getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { //start the resume
 				globalResumeTicket = true;
 
-				row2Struct row2 = new row2Struct();
 
-				/**
-				 * [tContextLoad_2 begin ] start
-				 */
 
-				ok_Hash.put("tContextLoad_2", false);
-				start_Hash.put("tContextLoad_2", System.currentTimeMillis());
+		row2Struct row2 = new row2Struct();
 
-				currentComponent = "tContextLoad_2";
 
-				int tos_count_tContextLoad_2 = 0;
 
-				java.util.List<String> assignList_tContextLoad_2 = new java.util.ArrayList<String>();
-				java.util.List<String> newPropertyList_tContextLoad_2 = new java.util.ArrayList<String>();
-				java.util.List<String> noAssignList_tContextLoad_2 = new java.util.ArrayList<String>();
-				int nb_line_tContextLoad_2 = 0;
 
-				/**
-				 * [tContextLoad_2 begin ] stop
-				 */
+	
+	/**
+	 * [tContextLoad_2 begin ] start
+	 */
 
-				/**
-				 * [tJDBCInput_2 begin ] start
-				 */
+	
 
-				ok_Hash.put("tJDBCInput_2", false);
-				start_Hash.put("tJDBCInput_2", System.currentTimeMillis());
+	
+		
+		ok_Hash.put("tContextLoad_2", false);
+		start_Hash.put("tContextLoad_2", System.currentTimeMillis());
+		
+	
+	currentComponent="tContextLoad_2";
 
-				currentComponent = "tJDBCInput_2";
-
-				int tos_count_tJDBCInput_2 = 0;
-
-				int nb_line_tJDBCInput_2 = 0;
-				java.sql.Connection conn_tJDBCInput_2 = null;
-				conn_tJDBCInput_2 = (java.sql.Connection) globalMap
-						.get("conn_tJDBCConnection_2");
-
-				java.sql.Statement stmt_tJDBCInput_2 = conn_tJDBCInput_2
-						.createStatement();
-
-				String dbquery_tJDBCInput_2 = "select distinct 'ovirtEngineHistoryMinimalETL', var_value\n from history_configuration\n where var_name = 'MinimalETLVersion'";
-
-				globalMap.put("tJDBCInput_2_QUERY", dbquery_tJDBCInput_2);
-
-				java.sql.ResultSet rs_tJDBCInput_2 = null;
-				try {
-					rs_tJDBCInput_2 = stmt_tJDBCInput_2
-							.executeQuery(dbquery_tJDBCInput_2);
-					java.sql.ResultSetMetaData rsmd_tJDBCInput_2 = rs_tJDBCInput_2
-							.getMetaData();
-					int colQtyInRs_tJDBCInput_2 = rsmd_tJDBCInput_2
-							.getColumnCount();
-
-					String tmpContent_tJDBCInput_2 = null;
-
-					while (rs_tJDBCInput_2.next()) {
-						nb_line_tJDBCInput_2++;
-
-						if (colQtyInRs_tJDBCInput_2 < 1) {
-							row2.key = null;
-						} else {
-
-							row2.key = routines.system.JDBCUtil.getString(
-									rs_tJDBCInput_2, 1, false);
-						}
-						if (colQtyInRs_tJDBCInput_2 < 2) {
-							row2.value = null;
-						} else {
-
-							row2.value = routines.system.JDBCUtil.getString(
-									rs_tJDBCInput_2, 2, false);
-						}
-
-						/**
-						 * [tJDBCInput_2 begin ] stop
-						 */
-
-						/**
-						 * [tJDBCInput_2 main ] start
-						 */
-
-						currentComponent = "tJDBCInput_2";
-
-						tos_count_tJDBCInput_2++;
-
-						/**
-						 * [tJDBCInput_2 main ] stop
-						 */
-
-						/**
-						 * [tContextLoad_2 main ] start
-						 */
-
-						currentComponent = "tContextLoad_2";
-
-						// ////////////////////////
-						String tmp_key_tContextLoad_2 = null;
-						String key_tContextLoad_2 = null;
-						if (row2.key != null) {
-							tmp_key_tContextLoad_2 = row2.key.trim();
-							if ((tmp_key_tContextLoad_2.startsWith("#") || tmp_key_tContextLoad_2
-									.startsWith("!"))) {
-								tmp_key_tContextLoad_2 = null;
-							} else {
-								row2.key = tmp_key_tContextLoad_2;
-							}
-						}
-						if (row2.key != null) {
-							key_tContextLoad_2 = row2.key;
-						}
-						String value_tContextLoad_2 = null;
-						if (row2.value != null) {
-							value_tContextLoad_2 = row2.value;
-						}
-
-						if (tmp_key_tContextLoad_2 != null) {
-							try {
-								if (key_tContextLoad_2 != null
-										&& "ovirtEngineHistoryMinimalETL"
-												.equals(key_tContextLoad_2)) {
-									context.ovirtEngineHistoryMinimalETL = value_tContextLoad_2;
-								}
-
-								if (key_tContextLoad_2 != null
-										&& "ovirtMinimalETL"
-												.equals(key_tContextLoad_2)) {
-									context.ovirtMinimalETL = value_tContextLoad_2;
-								}
-
-								if (key_tContextLoad_2 != null
-										&& "etlVersion"
-												.equals(key_tContextLoad_2)) {
-									context.etlVersion = value_tContextLoad_2;
-								}
-
-								if (key_tContextLoad_2 != null
-										&& "ovirtEngineDbDriverClass"
-												.equals(key_tContextLoad_2)) {
-									context.ovirtEngineDbDriverClass = value_tContextLoad_2;
-								}
-
-								if (key_tContextLoad_2 != null
-										&& "ovirtEngineHistoryDbDriverClass"
-												.equals(key_tContextLoad_2)) {
-									context.ovirtEngineHistoryDbDriverClass = value_tContextLoad_2;
-								}
-
-								if (key_tContextLoad_2 != null
-										&& "ovirtEngineHistoryDbJdbcConnection"
-												.equals(key_tContextLoad_2)) {
-									context.ovirtEngineHistoryDbJdbcConnection = value_tContextLoad_2;
-								}
-
-								if (key_tContextLoad_2 != null
-										&& "ovirtEngineHistoryDbPassword"
-												.equals(key_tContextLoad_2)) {
-									context.ovirtEngineHistoryDbPassword = value_tContextLoad_2;
-								}
-
-								if (key_tContextLoad_2 != null
-										&& "ovirtEngineHistoryDbUser"
-												.equals(key_tContextLoad_2)) {
-									context.ovirtEngineHistoryDbUser = value_tContextLoad_2;
-								}
-
-								if (key_tContextLoad_2 != null
-										&& "ovirtEngineDbJdbcConnection"
-												.equals(key_tContextLoad_2)) {
-									context.ovirtEngineDbJdbcConnection = value_tContextLoad_2;
-								}
-
-								if (key_tContextLoad_2 != null
-										&& "ovirtEngineDbPassword"
-												.equals(key_tContextLoad_2)) {
-									context.ovirtEngineDbPassword = value_tContextLoad_2;
-								}
-
-								if (key_tContextLoad_2 != null
-										&& "ovirtEngineDbUser"
-												.equals(key_tContextLoad_2)) {
-									context.ovirtEngineDbUser = value_tContextLoad_2;
-								}
-
-								if (context.getProperty(key_tContextLoad_2) != null) {
-									assignList_tContextLoad_2
-											.add(key_tContextLoad_2);
-								} else {
-									newPropertyList_tContextLoad_2
-											.add(key_tContextLoad_2);
-								}
-								if (value_tContextLoad_2 == null) {
-									context.setProperty(key_tContextLoad_2, "");
-								} else {
-									context.setProperty(key_tContextLoad_2,
-											value_tContextLoad_2);
-								}
-							} catch (java.lang.Exception e) {
-								System.err
-										.println("Setting a value for the key \""
-												+ key_tContextLoad_2
-												+ "\" has failed. Error message: "
-												+ e.getMessage());
-							}
-							nb_line_tContextLoad_2++;
-						}
-						// ////////////////////////
-
-						tos_count_tContextLoad_2++;
-
-						/**
-						 * [tContextLoad_2 main ] stop
-						 */
-
-						/**
-						 * [tJDBCInput_2 end ] start
-						 */
-
-						currentComponent = "tJDBCInput_2";
-
+	
+					if(execStat) {
+						runStat.updateStatOnConnection(resourceMap,iterateId,0,0,"row2");
 					}
-				} finally {
-					if (rs_tJDBCInput_2 != null) {
-						rs_tJDBCInput_2.close();
-					}
-					stmt_tJDBCInput_2.close();
+				
+		int tos_count_tContextLoad_2 = 0;
+		
+	java.util.List<String> assignList_tContextLoad_2 = new java.util.ArrayList<String>();
+	java.util.List<String> newPropertyList_tContextLoad_2 = new java.util.ArrayList<String>();
+	java.util.List<String> noAssignList_tContextLoad_2 = new java.util.ArrayList<String>();
+	int nb_line_tContextLoad_2 = 0;
 
-				}
-				globalMap.put("tJDBCInput_2_NB_LINE", nb_line_tJDBCInput_2);
+ 
 
-				ok_Hash.put("tJDBCInput_2", true);
-				end_Hash.put("tJDBCInput_2", System.currentTimeMillis());
 
-				if (!context.ovirtEngineHistoryMinimalETL.substring(
-						0,
-						context.ovirtEngineHistoryMinimalETL.indexOf(".",
-								context.ovirtEngineHistoryMinimalETL
-										.indexOf(".") + 1)).equals(
-						context.etlVersion.substring(0, context.etlVersion
-								.indexOf(".",
-										context.etlVersion.indexOf(".") + 1)))
-						|| (context.ovirtEngineHistoryMinimalETL
-								.substring(
-										0,
-										context.ovirtEngineHistoryMinimalETL
-												.indexOf(
-														".",
-														context.ovirtEngineHistoryMinimalETL
-																.indexOf(".") + 1))
-								.equals(context.etlVersion.substring(
-										0,
-										context.etlVersion
-												.indexOf(
-														".",
-														context.etlVersion
-																.indexOf(".") + 1))) && Integer
-								.parseInt(context.ovirtEngineHistoryMinimalETL
-										.substring(context.ovirtEngineHistoryMinimalETL
-												.indexOf(
-														".",
-														context.ovirtEngineHistoryMinimalETL
-																.indexOf(".") + 1) + 1)) > Float
-								.parseFloat(context.etlVersion.substring(context.etlVersion.indexOf(
-										".",
-										context.etlVersion.indexOf(".") + 1) + 1)))) {
 
-					tDie_2Process(globalMap);
-				}
+/**
+ * [tContextLoad_2 begin ] stop
+ */
 
-				/**
-				 * [tJDBCInput_2 end ] stop
-				 */
 
-				/**
-				 * [tContextLoad_2 end ] start
-				 */
 
-				currentComponent = "tContextLoad_2";
+	
+	/**
+	 * [tJDBCInput_2 begin ] start
+	 */
 
-				java.util.Enumeration<?> enu_tContextLoad_2 = context
-						.propertyNames();
-				while (enu_tContextLoad_2.hasMoreElements()) {
-					String key_tContextLoad_2 = (String) enu_tContextLoad_2
-							.nextElement();
-					if (!assignList_tContextLoad_2.contains(key_tContextLoad_2)
-							&& !newPropertyList_tContextLoad_2
-									.contains(key_tContextLoad_2)) {
-						noAssignList_tContextLoad_2.add(key_tContextLoad_2);
-					}
-				}
+	
 
-				String newPropertyStr_tContextLoad_2 = newPropertyList_tContextLoad_2
-						.toString();
-				String newProperty_tContextLoad_2 = newPropertyStr_tContextLoad_2
-						.substring(1,
-								newPropertyStr_tContextLoad_2.length() - 1);
+	
+		
+		ok_Hash.put("tJDBCInput_2", false);
+		start_Hash.put("tJDBCInput_2", System.currentTimeMillis());
+		
+	
+	currentComponent="tJDBCInput_2";
 
-				String noAssignStr_tContextLoad_2 = noAssignList_tContextLoad_2
-						.toString();
-				String noAssign_tContextLoad_2 = noAssignStr_tContextLoad_2
-						.substring(1, noAssignStr_tContextLoad_2.length() - 1);
+	
+		int tos_count_tJDBCInput_2 = 0;
+		
 
-				globalMap.put("tContextLoad_2_KEY_NOT_INCONTEXT",
-						newProperty_tContextLoad_2);
-				globalMap.put("tContextLoad_2_KEY_NOT_LOADED",
-						noAssign_tContextLoad_2);
+boolean doesNodeBelongToRequest_tJDBCInput_2 = 0 == 0;
+@SuppressWarnings("unchecked")
+java.util.Map<String, Object> restRequest_tJDBCInput_2 = (java.util.Map<String, Object>)globalMap.get("restRequest");
+String currentTRestRequestOperation_tJDBCInput_2 = (String)(restRequest_tJDBCInput_2 != null ? restRequest_tJDBCInput_2.get("OPERATION") : null);
 
-				globalMap.put("tContextLoad_2_NB_LINE", nb_line_tContextLoad_2);
+org.talend.components.api.component.ComponentDefinition def_tJDBCInput_2 =
+        new org.talend.components.jdbc.tjdbcinput.TJDBCInputDefinition();
 
-				List<String> parametersToEncrypt_tContextLoad_2 = new java.util.ArrayList<String>();
+org.talend.components.api.component.runtime.Writer writer_tJDBCInput_2 = null;
+org.talend.components.api.component.runtime.Reader reader_tJDBCInput_2 = null;
 
-				parametersToEncrypt_tContextLoad_2
-						.add("ovirtEngineHistoryDbPassword");
 
-				parametersToEncrypt_tContextLoad_2.add("ovirtEngineDbPassword");
+org.talend.components.jdbc.tjdbcinput.TJDBCInputProperties props_tJDBCInput_2 =
+        (org.talend.components.jdbc.tjdbcinput.TJDBCInputProperties) def_tJDBCInput_2.createRuntimeProperties();
+ 		                    props_tJDBCInput_2.setValue("sql",
+ 		                    "select distinct 'ovirtEngineHistoryMinimalETL', var_value\n from history_configuration\n where var_name = 'MinimalETLVers"
++"ion'");
+ 		                    
+ 		                    props_tJDBCInput_2.setValue("useCursor",
+ 		                    false);
+ 		                    
+ 		                    props_tJDBCInput_2.setValue("trimStringOrCharColumns",
+ 		                    false);
+ 		                    
+ 		                    props_tJDBCInput_2.setValue("enableDBMapping",
+ 		                    false);
+ 		                    
+ 		                    props_tJDBCInput_2.setValue("enableSpecialTableName",
+ 		                    true);
+ 		                    
+ 		                    props_tJDBCInput_2.setValue("usePreparedStatement",
+ 		                    false);
+ 		                    
+ 		                    props_tJDBCInput_2.referencedComponent.setValue("referenceType",
+ 		                        org.talend.components.api.properties.ComponentReferenceProperties.ReferenceType.COMPONENT_INSTANCE);
+ 		                    
+ 		                    props_tJDBCInput_2.referencedComponent.setValue("componentInstanceId",
+ 		                    "tJDBCConnection_2");
+ 		                    
+ 		                    props_tJDBCInput_2.referencedComponent.setValue("referenceDefinitionName",
+ 		                    "tJDBCConnection");
+ 		                    
+ 		                    props_tJDBCInput_2.connection.userPassword.setValue("useAuth",
+ 		                    false);
+ 		                    
+ 		                    class SchemaSettingTool_tJDBCInput_2_1_fisrt {
+ 		                    		
+ 		                    		String getSchemaValue() {
+ 		                    				
+ 		                    						StringBuilder s = new StringBuilder();
+                    						
+     		                    						a("{\"type\":\"record\",",s);
+     		                    						
+     		                    						a("\"name\":\"tJDBCInput_2\",\"fields\":[{",s);
+     		                    						
+     		                    						a("\"name\":\"key\",\"type\":[\"string\",\"null\"],\"di.table.comment\":\"\",\"talend.field.dbType\":\"\",\"talend.field.dbColumnName\":\"key\",\"di.column.talendType\":\"id_String\",\"di.column.isNullable\":\"true\",\"talend.field.pattern\":\"\",\"di.column.relationshipType\":\"\",\"di.column.originalLength\":\"0\",\"di.table.label\":\"key\",\"di.column.relatedEntity\":\"\"},{",s);
+     		                    						
+     		                    						a("\"name\":\"value\",\"type\":[\"string\",\"null\"],\"di.table.comment\":\"\",\"talend.field.dbType\":\"\",\"talend.field.dbColumnName\":\"value\",\"di.column.talendType\":\"id_String\",\"di.column.isNullable\":\"true\",\"talend.field.pattern\":\"\",\"di.column.relationshipType\":\"\",\"di.column.originalLength\":\"0\",\"di.table.label\":\"value\",\"di.column.relatedEntity\":\"\"}],\"di.table.name\":\"tJDBCInput_2\",\"di.table.label\":\"tJDBCInput_2\"}",s);
+     		                    						
+     		                    				return s.toString();
+     		                    		
+ 		                    		}
+ 		                    		
+ 		                    		void a(String part, StringBuilder strB) {
+ 		                    				strB.append(part);
+ 		                    		}
+ 		                    		
+ 		                    }
+ 		                    
+ 		                    SchemaSettingTool_tJDBCInput_2_1_fisrt sst_tJDBCInput_2_1_fisrt = new SchemaSettingTool_tJDBCInput_2_1_fisrt();
+ 		                    
+ 		                    props_tJDBCInput_2.main.setValue("schema",
+ 		                        new org.apache.avro.Schema.Parser().parse(sst_tJDBCInput_2_1_fisrt.getSchemaValue()));
+ 		                    
+ 		                    props_tJDBCInput_2.tableSelection.setValue("tablename",
+ 		                    "");
+ 		                    
+ 		                    java.util.List<Object> tJDBCInput_2_trimTable_trim = new java.util.ArrayList<Object>();
+ 		                    
+ 		                                tJDBCInput_2_trimTable_trim.add(false);
+ 		                                
+ 		                                tJDBCInput_2_trimTable_trim.add(false);
+ 		                                
+ 		                    ((org.talend.daikon.properties.Properties)props_tJDBCInput_2.trimTable).setValue("trim",tJDBCInput_2_trimTable_trim);
+ 		                    
+ 		                    java.util.List<Object> tJDBCInput_2_trimTable_columnName = new java.util.ArrayList<Object>();
+ 		                    
+ 		                            tJDBCInput_2_trimTable_columnName.add("key");
+ 		                            
+ 		                            tJDBCInput_2_trimTable_columnName.add("value");
+ 		                            
+ 		                    ((org.talend.daikon.properties.Properties)props_tJDBCInput_2.trimTable).setValue("columnName",tJDBCInput_2_trimTable_columnName);
+ 		                    
+    if (org.talend.components.api.properties.ComponentReferenceProperties.ReferenceType.COMPONENT_INSTANCE == props_tJDBCInput_2.referencedComponent.referenceType.getValue()) {
+        final String referencedComponentInstanceId_tJDBCInput_2 = props_tJDBCInput_2.referencedComponent.componentInstanceId.getStringValue();
+        if (referencedComponentInstanceId_tJDBCInput_2 != null) {
+            org.talend.daikon.properties.Properties referencedComponentProperties_tJDBCInput_2 = (org.talend.daikon.properties.Properties) globalMap.get(
+                referencedComponentInstanceId_tJDBCInput_2 + "_COMPONENT_RUNTIME_PROPERTIES");
+            props_tJDBCInput_2.referencedComponent.setReference(referencedComponentProperties_tJDBCInput_2);
+        }
+    }
+globalMap.put("tJDBCInput_2_COMPONENT_RUNTIME_PROPERTIES", props_tJDBCInput_2);
+globalMap.putIfAbsent("TALEND_PRODUCT_VERSION", "8.0");
+globalMap.put("TALEND_COMPONENTS_VERSION", "0.37.0");
+java.net.URL mappings_url_tJDBCInput_2= this.getClass().getResource("/xmlMappings");
+globalMap.put("tJDBCInput_2_MAPPINGS_URL", mappings_url_tJDBCInput_2);
 
-				resumeUtil.addLog("NODE", "NODE:tContextLoad_2", "", Thread
-						.currentThread().getId() + "", "", "", "", "",
-						resumeUtil.convertToJsonText(context,
-								parametersToEncrypt_tContextLoad_2));
+org.talend.components.api.container.RuntimeContainer container_tJDBCInput_2 = new org.talend.components.api.container.RuntimeContainer() {
+    public Object getComponentData(String componentId, String key) {
+        return globalMap.get(componentId + "_" + key);
+    }
 
-				ok_Hash.put("tContextLoad_2", true);
-				end_Hash.put("tContextLoad_2", System.currentTimeMillis());
+    public void setComponentData(String componentId, String key, Object data) {
+        globalMap.put(componentId + "_" + key, data);
+    }
 
-				/**
-				 * [tContextLoad_2 end ] stop
-				 */
+    public String getCurrentComponentId() {
+        return "tJDBCInput_2";
+    }
 
-			}// end the resume
+    public Object getGlobalData(String key) {
+    	return globalMap.get(key);
+    }
+};
 
-		} catch (java.lang.Exception e) {
+int nb_line_tJDBCInput_2 = 0;
 
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
+org.talend.components.api.component.ConnectorTopology topology_tJDBCInput_2 = null;
+topology_tJDBCInput_2 = org.talend.components.api.component.ConnectorTopology.OUTGOING;
 
-			throw te;
-		} catch (java.lang.Error error) {
+org.talend.daikon.runtime.RuntimeInfo runtime_info_tJDBCInput_2 = def_tJDBCInput_2.getRuntimeInfo(
+    org.talend.components.api.component.runtime.ExecutionEngine.DI, props_tJDBCInput_2, topology_tJDBCInput_2);
+java.util.Set<org.talend.components.api.component.ConnectorTopology> supported_connector_topologies_tJDBCInput_2 = def_tJDBCInput_2.getSupportedConnectorTopologies();
 
-			throw error;
-		} finally {
+org.talend.components.api.component.runtime.RuntimableRuntime componentRuntime_tJDBCInput_2 = (org.talend.components.api.component.runtime.RuntimableRuntime)(Class.forName(runtime_info_tJDBCInput_2.getRuntimeClassName()).newInstance());
+org.talend.daikon.properties.ValidationResult initVr_tJDBCInput_2 = componentRuntime_tJDBCInput_2.initialize(container_tJDBCInput_2, props_tJDBCInput_2);
+
+if (initVr_tJDBCInput_2.getStatus() == org.talend.daikon.properties.ValidationResult.Result.ERROR ) {
+    throw new RuntimeException(initVr_tJDBCInput_2.getMessage());
+}
+
+if(componentRuntime_tJDBCInput_2 instanceof org.talend.components.api.component.runtime.ComponentDriverInitialization) {
+	org.talend.components.api.component.runtime.ComponentDriverInitialization compDriverInitialization_tJDBCInput_2 = (org.talend.components.api.component.runtime.ComponentDriverInitialization)componentRuntime_tJDBCInput_2;
+	compDriverInitialization_tJDBCInput_2.runAtDriver(container_tJDBCInput_2);
+}
+
+org.talend.components.api.component.runtime.SourceOrSink sourceOrSink_tJDBCInput_2 = null;
+if(componentRuntime_tJDBCInput_2 instanceof org.talend.components.api.component.runtime.SourceOrSink) {
+	sourceOrSink_tJDBCInput_2 = (org.talend.components.api.component.runtime.SourceOrSink)componentRuntime_tJDBCInput_2;
+	if (doesNodeBelongToRequest_tJDBCInput_2) {
+        org.talend.daikon.properties.ValidationResult vr_tJDBCInput_2 = sourceOrSink_tJDBCInput_2.validate(container_tJDBCInput_2);
+        if (vr_tJDBCInput_2.getStatus() == org.talend.daikon.properties.ValidationResult.Result.ERROR ) {
+            throw new RuntimeException(vr_tJDBCInput_2.getMessage());
+        }
+	}
+}
+
+    if (sourceOrSink_tJDBCInput_2 instanceof org.talend.components.api.component.runtime.Source) {
+        org.talend.components.api.component.runtime.Source source_tJDBCInput_2 =
+                (org.talend.components.api.component.runtime.Source)sourceOrSink_tJDBCInput_2;
+        reader_tJDBCInput_2 = source_tJDBCInput_2.createReader(container_tJDBCInput_2);
+	    reader_tJDBCInput_2 = new org.talend.codegen.flowvariables.runtime.FlowVariablesReader(reader_tJDBCInput_2, container_tJDBCInput_2);
+
+            boolean multi_output_is_allowed_tJDBCInput_2 = false;
+            org.talend.components.api.component.Connector c_tJDBCInput_2 = null;
+            for (org.talend.components.api.component.Connector currentConnector : props_tJDBCInput_2.getAvailableConnectors(null, true)) {
+                if (currentConnector.getName().equals("MAIN")) {
+                    c_tJDBCInput_2 = currentConnector;
+                }
+
+                if (currentConnector.getName().equals("REJECT")) {//it's better to move the code to javajet
+                    multi_output_is_allowed_tJDBCInput_2 = true;
+                }
+            }
+            org.apache.avro.Schema schema_tJDBCInput_2 = props_tJDBCInput_2.getSchema(c_tJDBCInput_2, true);
+
+        org.talend.codegen.enforcer.OutgoingSchemaEnforcer outgoingEnforcer_tJDBCInput_2 = org.talend.codegen.enforcer.EnforcerCreator.createOutgoingEnforcer(schema_tJDBCInput_2, false);
+
+        // Create a reusable factory that converts the output of the reader to an IndexedRecord.
+        org.talend.daikon.avro.converter.IndexedRecordConverter<Object, ? extends org.apache.avro.generic.IndexedRecord> factory_tJDBCInput_2 = null;
+
+        // Iterate through the incoming data.
+        boolean available_tJDBCInput_2 = reader_tJDBCInput_2.start();
+
+        resourceMap.put("reader_tJDBCInput_2", reader_tJDBCInput_2);
+
+        for (; available_tJDBCInput_2; available_tJDBCInput_2 = reader_tJDBCInput_2.advance()) {
+			nb_line_tJDBCInput_2++;
+
+			
+			if (multi_output_is_allowed_tJDBCInput_2) {
+				
+					row2 = null;
+				
+
+				
+			}
+			
 
 			try {
+				Object data_tJDBCInput_2 = reader_tJDBCInput_2.getCurrent();
+				
 
-				/**
-				 * [tJDBCInput_2 finally ] start
-				 */
+					if(multi_output_is_allowed_tJDBCInput_2) {
+						row2 = new row2Struct();
+					}
 
-				currentComponent = "tJDBCInput_2";
+					
+        // Construct the factory once when the first data arrives.
+        if (factory_tJDBCInput_2 == null) {
+            factory_tJDBCInput_2 = (org.talend.daikon.avro.converter.IndexedRecordConverter<Object, ? extends org.apache.avro.generic.IndexedRecord>)
+                    new org.talend.daikon.avro.AvroRegistry()
+                            .createIndexedRecordConverter(data_tJDBCInput_2.getClass());
+        }
 
-				/**
-				 * [tJDBCInput_2 finally ] stop
-				 */
+        // Enforce the outgoing schema on the input.
+        outgoingEnforcer_tJDBCInput_2.setWrapped(factory_tJDBCInput_2.convertToAvro(data_tJDBCInput_2));
+                Object columnValue_0_tJDBCInput_2 = outgoingEnforcer_tJDBCInput_2.get(0);
+                        row2.key = (String) (columnValue_0_tJDBCInput_2);
+                Object columnValue_1_tJDBCInput_2 = outgoingEnforcer_tJDBCInput_2.get(1);
+                        row2.value = (String) (columnValue_1_tJDBCInput_2);
+			} catch (org.talend.components.api.exception.DataRejectException e_tJDBCInput_2) {
+				java.util.Map<String,Object> info_tJDBCInput_2 = e_tJDBCInput_2.getRejectInfo();
+				
+					//TODO use a method instead of getting method by the special key "error/errorMessage"
+					Object errorMessage_tJDBCInput_2 = null;
+					if(info_tJDBCInput_2.containsKey("error")){
+						errorMessage_tJDBCInput_2 = info_tJDBCInput_2.get("error");
+					}else if(info_tJDBCInput_2.containsKey("errorMessage")){
+						errorMessage_tJDBCInput_2 = info_tJDBCInput_2.get("errorMessage");
+					}else{
+						errorMessage_tJDBCInput_2 = "Rejected but error message missing";
+					}
+					errorMessage_tJDBCInput_2 = "Row "+ nb_line_tJDBCInput_2 + ": "+errorMessage_tJDBCInput_2;
+					System.err.println(errorMessage_tJDBCInput_2);
+				
+					// If the record is reject, the main line record should put NULL
+					row2 = null;
+				
+			} // end of catch
 
-				/**
-				 * [tContextLoad_2 finally ] start
-				 */
+                java.lang.Iterable<?> outgoingMainRecordsList_tJDBCInput_2 = new java.util.ArrayList<Object>();
+                java.util.Iterator outgoingMainRecordsIt_tJDBCInput_2 = null;
 
-				currentComponent = "tContextLoad_2";
 
-				/**
-				 * [tContextLoad_2 finally ] stop
-				 */
+ 
 
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
-			}
-			resourceMap = null;
+
+
+/**
+ * [tJDBCInput_2 begin ] stop
+ */
+	
+	/**
+	 * [tJDBCInput_2 main ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCInput_2";
+
+	
+
+
+ 
+
+
+	tos_count_tJDBCInput_2++;
+
+/**
+ * [tJDBCInput_2 main ] stop
+ */
+	
+	/**
+	 * [tJDBCInput_2 process_data_begin ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCInput_2";
+
+	
+
+
+ 
+
+
+
+/**
+ * [tJDBCInput_2 process_data_begin ] stop
+ */
+
+	
+	/**
+	 * [tContextLoad_2 main ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tContextLoad_2";
+
+	
+					if(execStat){
+						runStat.updateStatOnConnection(iterateId,1,1
+						
+							,"row2"
+						
+						);
+					}
+					
+        //////////////////////////
+        String tmp_key_tContextLoad_2 = null;
+                    String key_tContextLoad_2 = null;
+                      if (row2.key != null){
+                          tmp_key_tContextLoad_2 = row2.key.trim();
+                        if ((tmp_key_tContextLoad_2.startsWith("#") || tmp_key_tContextLoad_2.startsWith("!") )){
+                          tmp_key_tContextLoad_2 = null;
+                        } else {
+                          row2.key = tmp_key_tContextLoad_2;
+                        }
+                      }
+                        if(row2.key != null) {
+                    key_tContextLoad_2 =
+                        row2.key;
+                        }
+                    String value_tContextLoad_2 = null;
+                        if(row2.value != null) {
+                    value_tContextLoad_2 =
+                        row2.value;
+                        }
+				
+				String currentValue_tContextLoad_2 = value_tContextLoad_2;
+										
+						if ((key_tContextLoad_2 != null) && ("ovirtEngineHistoryDbPassword".equals(key_tContextLoad_2)) ) currentValue_tContextLoad_2 = currentValue_tContextLoad_2.replaceAll(".", "*");						
+						if ((key_tContextLoad_2 != null) && ("ovirtEngineDbPassword".equals(key_tContextLoad_2)) ) currentValue_tContextLoad_2 = currentValue_tContextLoad_2.replaceAll(".", "*");
+
+  if (tmp_key_tContextLoad_2 != null){
+  try{
+        if(key_tContextLoad_2!=null && "ovirtEngineHistoryMinimalETL".equals(key_tContextLoad_2))
+        {
+           context.ovirtEngineHistoryMinimalETL=value_tContextLoad_2;
+        }
+
+        if(key_tContextLoad_2!=null && "ovirtMinimalETL".equals(key_tContextLoad_2))
+        {
+           context.ovirtMinimalETL=value_tContextLoad_2;
+        }
+
+        if(key_tContextLoad_2!=null && "etlVersion".equals(key_tContextLoad_2))
+        {
+           context.etlVersion=value_tContextLoad_2;
+        }
+
+        if(key_tContextLoad_2!=null && "ovirtEngineDbDriverClass".equals(key_tContextLoad_2))
+        {
+           context.ovirtEngineDbDriverClass=value_tContextLoad_2;
+        }
+
+        if(key_tContextLoad_2!=null && "ovirtEngineHistoryDbDriverClass".equals(key_tContextLoad_2))
+        {
+           context.ovirtEngineHistoryDbDriverClass=value_tContextLoad_2;
+        }
+
+        if(key_tContextLoad_2!=null && "ovirtEngineHistoryDbJdbcConnection".equals(key_tContextLoad_2))
+        {
+           context.ovirtEngineHistoryDbJdbcConnection=value_tContextLoad_2;
+        }
+
+        if(key_tContextLoad_2!=null && "ovirtEngineHistoryDbPassword".equals(key_tContextLoad_2))
+        {
+           context.ovirtEngineHistoryDbPassword=value_tContextLoad_2;
+        }
+
+        if(key_tContextLoad_2!=null && "ovirtEngineHistoryDbUser".equals(key_tContextLoad_2))
+        {
+           context.ovirtEngineHistoryDbUser=value_tContextLoad_2;
+        }
+
+        if(key_tContextLoad_2!=null && "ovirtEngineDbJdbcConnection".equals(key_tContextLoad_2))
+        {
+           context.ovirtEngineDbJdbcConnection=value_tContextLoad_2;
+        }
+
+        if(key_tContextLoad_2!=null && "ovirtEngineDbPassword".equals(key_tContextLoad_2))
+        {
+           context.ovirtEngineDbPassword=value_tContextLoad_2;
+        }
+
+        if(key_tContextLoad_2!=null && "ovirtEngineDbUser".equals(key_tContextLoad_2))
+        {
+           context.ovirtEngineDbUser=value_tContextLoad_2;
+        }
+
+
+        if (context.getProperty(key_tContextLoad_2)!=null)
+        {
+            assignList_tContextLoad_2.add(key_tContextLoad_2);
+        }else  {
+            newPropertyList_tContextLoad_2.add(key_tContextLoad_2);
+        }
+        if(value_tContextLoad_2 == null){
+            context.setProperty(key_tContextLoad_2, "");
+        }else{
+            context.setProperty(key_tContextLoad_2,value_tContextLoad_2);
+        }
+    }catch(java.lang.Exception e){
+globalMap.put("tContextLoad_2_ERROR_MESSAGE",e.getMessage());
+        System.err.println("Setting a value for the key \"" + key_tContextLoad_2 + "\" has failed. Error message: " + e.getMessage());
+    }
+        nb_line_tContextLoad_2++;
+    }
+        //////////////////////////
+
+ 
+
+
+	tos_count_tContextLoad_2++;
+
+/**
+ * [tContextLoad_2 main ] stop
+ */
+	
+	/**
+	 * [tContextLoad_2 process_data_begin ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tContextLoad_2";
+
+	
+
+ 
+
+
+
+/**
+ * [tContextLoad_2 process_data_begin ] stop
+ */
+	
+	/**
+	 * [tContextLoad_2 process_data_end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tContextLoad_2";
+
+	
+
+ 
+
+
+
+/**
+ * [tContextLoad_2 process_data_end ] stop
+ */
+
+
+
+	
+	/**
+	 * [tJDBCInput_2 process_data_end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCInput_2";
+
+	
+
+
+ 
+
+
+
+/**
+ * [tJDBCInput_2 process_data_end ] stop
+ */
+	
+	/**
+	 * [tJDBCInput_2 end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCInput_2";
+
+	
+// end of generic
+
+
+resourceMap.put("finish_tJDBCInput_2", Boolean.TRUE);
+
+    } // while  
+    } // end of "if (sourceOrSink_tJDBCInput_2 instanceof ...Source)"
+    java.util.Map<String, Object> resultMap_tJDBCInput_2 = null;
+    if (reader_tJDBCInput_2 != null) {
+        reader_tJDBCInput_2.close();
+        resultMap_tJDBCInput_2 = reader_tJDBCInput_2.getReturnValues();
+    }
+if(resultMap_tJDBCInput_2!=null) {
+	for(java.util.Map.Entry<String,Object> entry_tJDBCInput_2 : resultMap_tJDBCInput_2.entrySet()) {
+		switch(entry_tJDBCInput_2.getKey()) {
+		case org.talend.components.api.component.ComponentDefinition.RETURN_ERROR_MESSAGE :
+			container_tJDBCInput_2.setComponentData("tJDBCInput_2", "ERROR_MESSAGE", entry_tJDBCInput_2.getValue());
+			break;
+		case org.talend.components.api.component.ComponentDefinition.RETURN_TOTAL_RECORD_COUNT :
+			container_tJDBCInput_2.setComponentData("tJDBCInput_2", "NB_LINE", entry_tJDBCInput_2.getValue());
+			break;
+		case org.talend.components.api.component.ComponentDefinition.RETURN_SUCCESS_RECORD_COUNT :
+			container_tJDBCInput_2.setComponentData("tJDBCInput_2", "NB_SUCCESS", entry_tJDBCInput_2.getValue());
+			break;
+		case org.talend.components.api.component.ComponentDefinition.RETURN_REJECT_RECORD_COUNT :
+			container_tJDBCInput_2.setComponentData("tJDBCInput_2", "NB_REJECT", entry_tJDBCInput_2.getValue());
+			break;
+		default :
+            StringBuilder studio_key_tJDBCInput_2 = new StringBuilder();
+            for (int i_tJDBCInput_2 = 0; i_tJDBCInput_2 < entry_tJDBCInput_2.getKey().length(); i_tJDBCInput_2++) {
+                char ch_tJDBCInput_2 = entry_tJDBCInput_2.getKey().charAt(i_tJDBCInput_2);
+                if(Character.isUpperCase(ch_tJDBCInput_2) && i_tJDBCInput_2> 0) {
+                	studio_key_tJDBCInput_2.append('_');
+                }
+                studio_key_tJDBCInput_2.append(ch_tJDBCInput_2);
+            }
+			container_tJDBCInput_2.setComponentData("tJDBCInput_2", studio_key_tJDBCInput_2.toString().toUpperCase(java.util.Locale.ENGLISH), entry_tJDBCInput_2.getValue());
+			break;
 		}
+	}
+}
+
+ 
+
+ok_Hash.put("tJDBCInput_2", true);
+end_Hash.put("tJDBCInput_2", System.currentTimeMillis());
+
+   			if (!context.ovirtEngineHistoryMinimalETL.substring(0, context.ovirtEngineHistoryMinimalETL.indexOf(".", context.ovirtEngineHistoryMinimalETL.indexOf(".")+1)).equals(context.etlVersion.substring(0, context.etlVersion.indexOf(".", context.etlVersion.indexOf(".")+1))) 
+||
+(
+context.ovirtEngineHistoryMinimalETL.substring(0, context.ovirtEngineHistoryMinimalETL.indexOf(".", context.ovirtEngineHistoryMinimalETL.indexOf(".")+1)).equals(context.etlVersion.substring(0, context.etlVersion.indexOf(".", context.etlVersion.indexOf(".")+1)))
+&&
+Integer.parseInt(context.ovirtEngineHistoryMinimalETL.substring(context.ovirtEngineHistoryMinimalETL.indexOf(".", context.ovirtEngineHistoryMinimalETL.indexOf(".")+1)+1))
+> 
+Float.parseFloat(context.etlVersion.substring(context.etlVersion.indexOf(".", context.etlVersion.indexOf(".")+1)+1))
+)) {
+   				
+					if(execStat){
+   	 					runStat.updateStatOnConnection("If3", 0, "true");
+					}
+				tDie_2Process(globalMap);
+			}
+
+			   
+   				else{
+					if(execStat){   
+   	 					runStat.updateStatOnConnection("If3", 0, "false");
+					}   	 
+   				}
+
+
+
+/**
+ * [tJDBCInput_2 end ] stop
+ */
+
+	
+	/**
+	 * [tContextLoad_2 end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tContextLoad_2";
+
+	
+	
+	java.util.Enumeration<?> enu_tContextLoad_2 = context.propertyNames();
+    while(enu_tContextLoad_2.hasMoreElements())
+    {           
+    	String key_tContextLoad_2 = (String)enu_tContextLoad_2.nextElement();
+        if(!assignList_tContextLoad_2.contains(key_tContextLoad_2) && !newPropertyList_tContextLoad_2.contains(key_tContextLoad_2))
+        {
+            noAssignList_tContextLoad_2.add(key_tContextLoad_2);
+        }          
+    } 
+
+    String newPropertyStr_tContextLoad_2 = newPropertyList_tContextLoad_2.toString();
+    String newProperty_tContextLoad_2 = newPropertyStr_tContextLoad_2.substring(1, newPropertyStr_tContextLoad_2.length() - 1);
+    
+    String noAssignStr_tContextLoad_2 = noAssignList_tContextLoad_2.toString();
+    String noAssign_tContextLoad_2 = noAssignStr_tContextLoad_2.substring(1, noAssignStr_tContextLoad_2.length() - 1);
+    
+    globalMap.put("tContextLoad_2_KEY_NOT_INCONTEXT", newProperty_tContextLoad_2);
+    globalMap.put("tContextLoad_2_KEY_NOT_LOADED", noAssign_tContextLoad_2);
+
+    globalMap.put("tContextLoad_2_NB_LINE",nb_line_tContextLoad_2);
+
+	List<String> parametersToEncrypt_tContextLoad_2 = new java.util.ArrayList<String>();
+	
+		parametersToEncrypt_tContextLoad_2.add("ovirtEngineHistoryDbPassword");
+		
+		parametersToEncrypt_tContextLoad_2.add("ovirtEngineDbPassword");
+		
+	
+	resumeUtil.addLog("NODE", "NODE:tContextLoad_2", "", Thread.currentThread().getId() + "", "","","","",resumeUtil.convertToJsonText(context,parametersToEncrypt_tContextLoad_2));    
+    
+				if(execStat){
+			  		runStat.updateStat(resourceMap,iterateId,2,0,"row2");
+			  	}
+			  	
+ 
+
+ok_Hash.put("tContextLoad_2", true);
+end_Hash.put("tContextLoad_2", System.currentTimeMillis());
+
+
+
+
+/**
+ * [tContextLoad_2 end ] stop
+ */
+
+
+
+				}//end the resume
+
+				
+
+
+
+	
+			}catch(java.lang.Exception e){	
+				
+				TalendException te = new TalendException(e, currentComponent, globalMap);
+				
+				throw te;
+			}catch(java.lang.Error error){	
+				
+					runStat.stopThreadStat();
+				
+				throw error;
+			}finally{
+				
+				try{
+					
+	
+	/**
+	 * [tJDBCInput_2 finally ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tJDBCInput_2";
+
+	
+// finally of generic
+
+
+if(resourceMap.get("finish_tJDBCInput_2")==null){
+    if(resourceMap.get("reader_tJDBCInput_2")!=null){
+		try {
+			((org.talend.components.api.component.runtime.Reader)resourceMap.get("reader_tJDBCInput_2")).close();
+		} catch (java.io.IOException e_tJDBCInput_2) {
+			String errorMessage_tJDBCInput_2 = "failed to release the resource in tJDBCInput_2 :" + e_tJDBCInput_2.getMessage();
+			System.err.println(errorMessage_tJDBCInput_2);
+		}
+	}
+}
+ 
+
+
+
+/**
+ * [tJDBCInput_2 finally ] stop
+ */
+
+	
+	/**
+	 * [tContextLoad_2 finally ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tContextLoad_2";
+
+	
+
+ 
+
+
+
+/**
+ * [tContextLoad_2 finally ] stop
+ */
+
+
+
+				}catch(java.lang.Exception e){	
+					//ignore
+				}catch(java.lang.Error error){
+					//ignore
+				}
+				resourceMap = null;
+			}
+		
 
 		globalMap.put("tJDBCInput_2_SUBPROCESS_STATE", 1);
 	}
+	
 
-	public void tDie_2Process(final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tDie_2_SUBPROCESS_STATE", 0);
+public void tDie_2Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+	globalMap.put("tDie_2_SUBPROCESS_STATE", 0);
 
-		final boolean execStat = this.execStat;
-
+ final boolean execStat = this.execStat;
+	
 		String iterateId = "";
+	
+	
+	String currentComponent = "";
+	java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
+	try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception().getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { //start the resume
 				globalResumeTicket = true;
 
-				/**
-				 * [tDie_2 begin ] start
-				 */
 
-				ok_Hash.put("tDie_2", false);
-				start_Hash.put("tDie_2", System.currentTimeMillis());
 
-				currentComponent = "tDie_2";
 
-				int tos_count_tDie_2 = 0;
 
-				/**
-				 * [tDie_2 begin ] stop
-				 */
+	
+	/**
+	 * [tDie_2 begin ] start
+	 */
 
-				/**
-				 * [tDie_2 main ] start
-				 */
+	
 
-				currentComponent = "tDie_2";
+	
+		
+		ok_Hash.put("tDie_2", false);
+		start_Hash.put("tDie_2", System.currentTimeMillis());
+		
+	
+	currentComponent="tDie_2";
 
-				talendLogs_LOGS
-						.addMessage(
-								"tDie",
-								"tDie_2",
-								5,
-								TalendDate.getDate("YYYY-MM-DD hh:mm:ss")
-										+ "|You have upgraded the ovirt-engine-dwh package and now require an upgrade of the oVirt Engine History database. Please run engine-setup to upgrade the version. Service will now exit.",
-								4);
+	
+		int tos_count_tDie_2 = 0;
+		
+
+ 
+
+
+
+/**
+ * [tDie_2 begin ] stop
+ */
+	
+	/**
+	 * [tDie_2 main ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDie_2";
+
+	
+
+	try {
+				talendLogs_LOGS.addMessage("tDie", "tDie_2", 5, TalendDate.getDate("YYYY-MM-DD hh:mm:ss") + "|You have upgraded the ovirt-engine-dwh package and now require an upgrade of the oVirt Engine History database. Please run engine-setup to upgrade the version. Service will now exit.", 4);
 				talendLogs_LOGSProcess(globalMap);
+				
+	globalMap.put("tDie_2_DIE_PRIORITY", 5);
+	System.err.println(TalendDate.getDate("YYYY-MM-DD hh:mm:ss") + "|You have upgraded the ovirt-engine-dwh package and now require an upgrade of the oVirt Engine History database. Please run engine-setup to upgrade the version. Service will now exit.");
+	
+	globalMap.put("tDie_2_DIE_MESSAGE", TalendDate.getDate("YYYY-MM-DD hh:mm:ss") + "|You have upgraded the ovirt-engine-dwh package and now require an upgrade of the oVirt Engine History database. Please run engine-setup to upgrade the version. Service will now exit.");
+	globalMap.put("tDie_2_DIE_MESSAGES", TalendDate.getDate("YYYY-MM-DD hh:mm:ss") + "|You have upgraded the ovirt-engine-dwh package and now require an upgrade of the oVirt Engine History database. Please run engine-setup to upgrade the version. Service will now exit.");
+	
+	} catch (Exception | Error e_tDie_2) {
+	    globalMap.put("tDie_2_ERROR_MESSAGE",e_tDie_2.getMessage());
+		logIgnoredError(String.format("tDie_2 - tDie failed to log message due to internal error: %s", e_tDie_2), e_tDie_2);
+	}
+	
+	currentComponent = "tDie_2";
+	status = "failure";
+        errorCode = new Integer(4);
+        globalMap.put("tDie_2_DIE_CODE", errorCode);        
+    
+	if(true){	
+	    throw new TDieException();
+	}
 
-				globalMap.put("tDie_2_DIE_PRIORITY", 5);
-				System.err
-						.println(TalendDate.getDate("YYYY-MM-DD hh:mm:ss")
-								+ "|You have upgraded the ovirt-engine-dwh package and now require an upgrade of the oVirt Engine History database. Please run engine-setup to upgrade the version. Service will now exit.");
+ 
 
-				globalMap
-						.put("tDie_2_DIE_MESSAGE",
-								TalendDate.getDate("YYYY-MM-DD hh:mm:ss")
-										+ "|You have upgraded the ovirt-engine-dwh package and now require an upgrade of the oVirt Engine History database. Please run engine-setup to upgrade the version. Service will now exit.");
-				globalMap
-						.put("tDie_2_DIE_MESSAGES",
-								TalendDate.getDate("YYYY-MM-DD hh:mm:ss")
-										+ "|You have upgraded the ovirt-engine-dwh package and now require an upgrade of the oVirt Engine History database. Please run engine-setup to upgrade the version. Service will now exit.");
-				currentComponent = "tDie_2";
-				status = "failure";
-				errorCode = new Integer(4);
-				globalMap.put("tDie_2_DIE_CODE", errorCode);
 
-				if (true) {
-					throw new TDieException();
+	tos_count_tDie_2++;
+
+/**
+ * [tDie_2 main ] stop
+ */
+	
+	/**
+	 * [tDie_2 process_data_begin ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDie_2";
+
+	
+
+ 
+
+
+
+/**
+ * [tDie_2 process_data_begin ] stop
+ */
+	
+	/**
+	 * [tDie_2 process_data_end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDie_2";
+
+	
+
+ 
+
+
+
+/**
+ * [tDie_2 process_data_end ] stop
+ */
+	
+	/**
+	 * [tDie_2 end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDie_2";
+
+	
+
+ 
+
+ok_Hash.put("tDie_2", true);
+end_Hash.put("tDie_2", System.currentTimeMillis());
+
+
+
+
+/**
+ * [tDie_2 end ] stop
+ */
+				}//end the resume
+
+				
+
+
+
+	
+			}catch(java.lang.Exception e){	
+				
+				TalendException te = new TalendException(e, currentComponent, globalMap);
+				
+				throw te;
+			}catch(java.lang.Error error){	
+				
+					runStat.stopThreadStat();
+				
+				throw error;
+			}finally{
+				
+				try{
+					
+	
+	/**
+	 * [tDie_2 finally ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDie_2";
+
+	
+
+ 
+
+
+
+/**
+ * [tDie_2 finally ] stop
+ */
+				}catch(java.lang.Exception e){	
+					//ignore
+				}catch(java.lang.Error error){
+					//ignore
 				}
-
-				tos_count_tDie_2++;
-
-				/**
-				 * [tDie_2 main ] stop
-				 */
-
-				/**
-				 * [tDie_2 end ] start
-				 */
-
-				currentComponent = "tDie_2";
-
-				ok_Hash.put("tDie_2", true);
-				end_Hash.put("tDie_2", System.currentTimeMillis());
-
-				/**
-				 * [tDie_2 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tDie_2 finally ] start
-				 */
-
-				currentComponent = "tDie_2";
-
-				/**
-				 * [tDie_2 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
+				resourceMap = null;
 			}
-			resourceMap = null;
-		}
+		
 
 		globalMap.put("tDie_2_SUBPROCESS_STATE", 1);
 	}
+	
 
-	public void tDie_1Process(final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("tDie_1_SUBPROCESS_STATE", 0);
+public void tDie_1Process(final java.util.Map<String, Object> globalMap) throws TalendException {
+	globalMap.put("tDie_1_SUBPROCESS_STATE", 0);
 
-		final boolean execStat = this.execStat;
-
+ final boolean execStat = this.execStat;
+	
 		String iterateId = "";
+	
+	
+	String currentComponent = "";
+	java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
+	try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception().getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { //start the resume
 				globalResumeTicket = true;
 
-				/**
-				 * [tDie_1 begin ] start
-				 */
 
-				ok_Hash.put("tDie_1", false);
-				start_Hash.put("tDie_1", System.currentTimeMillis());
 
-				currentComponent = "tDie_1";
 
-				int tos_count_tDie_1 = 0;
 
-				/**
-				 * [tDie_1 begin ] stop
-				 */
+	
+	/**
+	 * [tDie_1 begin ] start
+	 */
 
-				/**
-				 * [tDie_1 main ] start
-				 */
+	
 
-				currentComponent = "tDie_1";
+	
+		
+		ok_Hash.put("tDie_1", false);
+		start_Hash.put("tDie_1", System.currentTimeMillis());
+		
+	
+	currentComponent="tDie_1";
 
-				talendLogs_LOGS
-						.addMessage(
-								"tDie",
-								"tDie_1",
-								5,
-								TalendDate.getDate("YYYY-MM-DD hh:mm:ss")
-										+ "|You have upgraded your oVirt Engine and now require an upgrade of the ovirt-engine-dwh package. Please run engine-setup to upgrade the version. Service will now exit.",
-								4);
+	
+		int tos_count_tDie_1 = 0;
+		
+
+ 
+
+
+
+/**
+ * [tDie_1 begin ] stop
+ */
+	
+	/**
+	 * [tDie_1 main ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDie_1";
+
+	
+
+	try {
+				talendLogs_LOGS.addMessage("tDie", "tDie_1", 5, TalendDate.getDate("YYYY-MM-DD hh:mm:ss") + "|You have upgraded your oVirt Engine and now require an upgrade of the ovirt-engine-dwh package. Please run engine-setup to upgrade the version. Service will now exit.", 4);
 				talendLogs_LOGSProcess(globalMap);
+				
+	globalMap.put("tDie_1_DIE_PRIORITY", 5);
+	System.err.println(TalendDate.getDate("YYYY-MM-DD hh:mm:ss") + "|You have upgraded your oVirt Engine and now require an upgrade of the ovirt-engine-dwh package. Please run engine-setup to upgrade the version. Service will now exit.");
+	
+	globalMap.put("tDie_1_DIE_MESSAGE", TalendDate.getDate("YYYY-MM-DD hh:mm:ss") + "|You have upgraded your oVirt Engine and now require an upgrade of the ovirt-engine-dwh package. Please run engine-setup to upgrade the version. Service will now exit.");
+	globalMap.put("tDie_1_DIE_MESSAGES", TalendDate.getDate("YYYY-MM-DD hh:mm:ss") + "|You have upgraded your oVirt Engine and now require an upgrade of the ovirt-engine-dwh package. Please run engine-setup to upgrade the version. Service will now exit.");
+	
+	} catch (Exception | Error e_tDie_1) {
+	    globalMap.put("tDie_1_ERROR_MESSAGE",e_tDie_1.getMessage());
+		logIgnoredError(String.format("tDie_1 - tDie failed to log message due to internal error: %s", e_tDie_1), e_tDie_1);
+	}
+	
+	currentComponent = "tDie_1";
+	status = "failure";
+        errorCode = new Integer(4);
+        globalMap.put("tDie_1_DIE_CODE", errorCode);        
+    
+	if(true){	
+	    throw new TDieException();
+	}
 
-				globalMap.put("tDie_1_DIE_PRIORITY", 5);
-				System.err
-						.println(TalendDate.getDate("YYYY-MM-DD hh:mm:ss")
-								+ "|You have upgraded your oVirt Engine and now require an upgrade of the ovirt-engine-dwh package. Please run engine-setup to upgrade the version. Service will now exit.");
+ 
 
-				globalMap
-						.put("tDie_1_DIE_MESSAGE",
-								TalendDate.getDate("YYYY-MM-DD hh:mm:ss")
-										+ "|You have upgraded your oVirt Engine and now require an upgrade of the ovirt-engine-dwh package. Please run engine-setup to upgrade the version. Service will now exit.");
-				globalMap
-						.put("tDie_1_DIE_MESSAGES",
-								TalendDate.getDate("YYYY-MM-DD hh:mm:ss")
-										+ "|You have upgraded your oVirt Engine and now require an upgrade of the ovirt-engine-dwh package. Please run engine-setup to upgrade the version. Service will now exit.");
-				currentComponent = "tDie_1";
-				status = "failure";
-				errorCode = new Integer(4);
-				globalMap.put("tDie_1_DIE_CODE", errorCode);
 
-				if (true) {
-					throw new TDieException();
+	tos_count_tDie_1++;
+
+/**
+ * [tDie_1 main ] stop
+ */
+	
+	/**
+	 * [tDie_1 process_data_begin ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDie_1";
+
+	
+
+ 
+
+
+
+/**
+ * [tDie_1 process_data_begin ] stop
+ */
+	
+	/**
+	 * [tDie_1 process_data_end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDie_1";
+
+	
+
+ 
+
+
+
+/**
+ * [tDie_1 process_data_end ] stop
+ */
+	
+	/**
+	 * [tDie_1 end ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDie_1";
+
+	
+
+ 
+
+ok_Hash.put("tDie_1", true);
+end_Hash.put("tDie_1", System.currentTimeMillis());
+
+
+
+
+/**
+ * [tDie_1 end ] stop
+ */
+				}//end the resume
+
+				
+
+
+
+	
+			}catch(java.lang.Exception e){	
+				
+				TalendException te = new TalendException(e, currentComponent, globalMap);
+				
+				throw te;
+			}catch(java.lang.Error error){	
+				
+					runStat.stopThreadStat();
+				
+				throw error;
+			}finally{
+				
+				try{
+					
+	
+	/**
+	 * [tDie_1 finally ] start
+	 */
+
+	
+
+	
+	
+	currentComponent="tDie_1";
+
+	
+
+ 
+
+
+
+/**
+ * [tDie_1 finally ] stop
+ */
+				}catch(java.lang.Exception e){	
+					//ignore
+				}catch(java.lang.Error error){
+					//ignore
 				}
-
-				tos_count_tDie_1++;
-
-				/**
-				 * [tDie_1 main ] stop
-				 */
-
-				/**
-				 * [tDie_1 end ] start
-				 */
-
-				currentComponent = "tDie_1";
-
-				ok_Hash.put("tDie_1", true);
-				end_Hash.put("tDie_1", System.currentTimeMillis());
-
-				/**
-				 * [tDie_1 end ] stop
-				 */
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [tDie_1 finally ] start
-				 */
-
-				currentComponent = "tDie_1";
-
-				/**
-				 * [tDie_1 finally ] stop
-				 */
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
+				resourceMap = null;
 			}
-			resourceMap = null;
-		}
+		
 
 		globalMap.put("tDie_1_SUBPROCESS_STATE", 1);
 	}
+	
 
-	public static class row_talendLogs_LOGSStruct implements
-			routines.system.IPersistableRow<row_talendLogs_LOGSStruct> {
-		final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[0];
-		static byte[] commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[0];
 
-		public java.util.Date moment;
+public static class row_talendLogs_LOGSStruct implements routines.system.IPersistableRow<row_talendLogs_LOGSStruct> {
+    final static byte[] commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[0];
+    static byte[] commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[0];
 
-		public java.util.Date getMoment() {
-			return this.moment;
-		}
+	
+			    public java.util.Date moment;
 
-		public String pid;
-
-		public String getPid() {
-			return this.pid;
-		}
-
-		public String root_pid;
-
-		public String getRoot_pid() {
-			return this.root_pid;
-		}
-
-		public String father_pid;
-
-		public String getFather_pid() {
-			return this.father_pid;
-		}
-
-		public String project;
-
-		public String getProject() {
-			return this.project;
-		}
-
-		public String job;
-
-		public String getJob() {
-			return this.job;
-		}
-
-		public String context;
-
-		public String getContext() {
-			return this.context;
-		}
-
-		public Integer priority;
-
-		public Integer getPriority() {
-			return this.priority;
-		}
-
-		public String type;
-
-		public String getType() {
-			return this.type;
-		}
-
-		public String origin;
-
-		public String getOrigin() {
-			return this.origin;
-		}
-
-		public String message;
-
-		public String getMessage() {
-			return this.message;
-		}
-
-		public Integer code;
-
-		public Integer getCode() {
-			return this.code;
-		}
-
-		private java.util.Date readDate(ObjectInputStream dis)
-				throws IOException {
-			java.util.Date dateReturn = null;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				dateReturn = null;
-			} else {
-				dateReturn = new Date(dis.readLong());
-			}
-			return dateReturn;
-		}
-
-		private void writeDate(java.util.Date date1, ObjectOutputStream dos)
-				throws IOException {
-			if (date1 == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeLong(date1.getTime());
-			}
-		}
-
-		private String readString(ObjectInputStream dis) throws IOException {
-			String strReturn = null;
-			int length = 0;
-			length = dis.readInt();
-			if (length == -1) {
-				strReturn = null;
-			} else {
-				if (length > commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length) {
-					if (length < 1024
-							&& commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length == 0) {
-						commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[1024];
-					} else {
-						commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[2 * length];
-					}
+				public java.util.Date getMoment () {
+					return this.moment;
 				}
-				dis.readFully(
-						commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck,
-						0, length);
-				strReturn = new String(
-						commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck,
-						0, length, utf8Charset);
-			}
-			return strReturn;
-		}
+				
+			    public String pid;
 
-		private void writeString(String str, ObjectOutputStream dos)
-				throws IOException {
-			if (str == null) {
-				dos.writeInt(-1);
-			} else {
-				byte[] byteArray = str.getBytes(utf8Charset);
-				dos.writeInt(byteArray.length);
-				dos.write(byteArray);
-			}
-		}
-
-		private Integer readInteger(ObjectInputStream dis) throws IOException {
-			Integer intReturn;
-			int length = 0;
-			length = dis.readByte();
-			if (length == -1) {
-				intReturn = null;
-			} else {
-				intReturn = dis.readInt();
-			}
-			return intReturn;
-		}
-
-		private void writeInteger(Integer intNum, ObjectOutputStream dos)
-				throws IOException {
-			if (intNum == null) {
-				dos.writeByte(-1);
-			} else {
-				dos.writeByte(0);
-				dos.writeInt(intNum);
-			}
-		}
-
-		public void readData(ObjectInputStream dis) {
-
-			synchronized (commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck) {
-
-				try {
-
-					int length = 0;
-
-					this.moment = readDate(dis);
-
-					this.pid = readString(dis);
-
-					this.root_pid = readString(dis);
-
-					this.father_pid = readString(dis);
-
-					this.project = readString(dis);
-
-					this.job = readString(dis);
-
-					this.context = readString(dis);
-
-					this.priority = readInteger(dis);
-
-					this.type = readString(dis);
-
-					this.origin = readString(dis);
-
-					this.message = readString(dis);
-
-					this.code = readInteger(dis);
-
-				} catch (IOException e) {
-					throw new RuntimeException(e);
-
+				public String getPid () {
+					return this.pid;
 				}
+				
+			    public String root_pid;
 
-			}
+				public String getRoot_pid () {
+					return this.root_pid;
+				}
+				
+			    public String father_pid;
 
+				public String getFather_pid () {
+					return this.father_pid;
+				}
+				
+			    public String project;
+
+				public String getProject () {
+					return this.project;
+				}
+				
+			    public String job;
+
+				public String getJob () {
+					return this.job;
+				}
+				
+			    public String context;
+
+				public String getContext () {
+					return this.context;
+				}
+				
+			    public Integer priority;
+
+				public Integer getPriority () {
+					return this.priority;
+				}
+				
+			    public String type;
+
+				public String getType () {
+					return this.type;
+				}
+				
+			    public String origin;
+
+				public String getOrigin () {
+					return this.origin;
+				}
+				
+			    public String message;
+
+				public String getMessage () {
+					return this.message;
+				}
+				
+			    public Integer code;
+
+				public Integer getCode () {
+					return this.code;
+				}
+				
+
+
+
+	private java.util.Date readDate(ObjectInputStream dis) throws IOException{
+		java.util.Date dateReturn = null;
+        int length = 0;
+        length = dis.readByte();
+		if (length == -1) {
+			dateReturn = null;
+		} else {
+	    	dateReturn = new Date(dis.readLong());
 		}
-
-		public void writeData(ObjectOutputStream dos) {
-			try {
-
-				// java.util.Date
-
-				writeDate(this.moment, dos);
-
-				// String
-
-				writeString(this.pid, dos);
-
-				// String
-
-				writeString(this.root_pid, dos);
-
-				// String
-
-				writeString(this.father_pid, dos);
-
-				// String
-
-				writeString(this.project, dos);
-
-				// String
-
-				writeString(this.job, dos);
-
-				// String
-
-				writeString(this.context, dos);
-
-				// Integer
-
-				writeInteger(this.priority, dos);
-
-				// String
-
-				writeString(this.type, dos);
-
-				// String
-
-				writeString(this.origin, dos);
-
-				// String
-
-				writeString(this.message, dos);
-
-				// Integer
-
-				writeInteger(this.code, dos);
-
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-
+		return dateReturn;
+	}
+	
+	private java.util.Date readDate(org.jboss.marshalling.Unmarshaller unmarshaller) throws IOException{
+		java.util.Date dateReturn = null;
+        int length = 0;
+        length = unmarshaller.readByte();
+		if (length == -1) {
+			dateReturn = null;
+		} else {
+	    	dateReturn = new Date(unmarshaller.readLong());
 		}
-
-		public String toString() {
-
-			StringBuilder sb = new StringBuilder();
-			sb.append(super.toString());
-			sb.append("[");
-			sb.append("moment=" + String.valueOf(moment));
-			sb.append(",pid=" + pid);
-			sb.append(",root_pid=" + root_pid);
-			sb.append(",father_pid=" + father_pid);
-			sb.append(",project=" + project);
-			sb.append(",job=" + job);
-			sb.append(",context=" + context);
-			sb.append(",priority=" + String.valueOf(priority));
-			sb.append(",type=" + type);
-			sb.append(",origin=" + origin);
-			sb.append(",message=" + message);
-			sb.append(",code=" + String.valueOf(code));
-			sb.append("]");
-
-			return sb.toString();
-		}
-
-		/**
-		 * Compare keys
-		 */
-		public int compareTo(row_talendLogs_LOGSStruct other) {
-
-			int returnValue = -1;
-
-			return returnValue;
-		}
-
-		private int checkNullsAndCompare(Object object1, Object object2) {
-			int returnValue = 0;
-			if (object1 instanceof Comparable && object2 instanceof Comparable) {
-				returnValue = ((Comparable) object1).compareTo(object2);
-			} else if (object1 != null && object2 != null) {
-				returnValue = compareStrings(object1.toString(),
-						object2.toString());
-			} else if (object1 == null && object2 != null) {
-				returnValue = 1;
-			} else if (object1 != null && object2 == null) {
-				returnValue = -1;
-			} else {
-				returnValue = 0;
-			}
-
-			return returnValue;
-		}
-
-		private int compareStrings(String string1, String string2) {
-			return string1.compareTo(string2);
-		}
-
+		return dateReturn;
 	}
 
-	public void talendLogs_LOGSProcess(
-			final java.util.Map<String, Object> globalMap)
-			throws TalendException {
-		globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 0);
+    private void writeDate(java.util.Date date1, ObjectOutputStream dos) throws IOException{
+		if(date1 == null) {
+            dos.writeByte(-1);
+		} else {
+			dos.writeByte(0);
+	    	dos.writeLong(date1.getTime());
+    	}
+    }
+    
+    private void writeDate(java.util.Date date1, org.jboss.marshalling.Marshaller marshaller) throws IOException{
+		if(date1 == null) {
+			marshaller.writeByte(-1);
+		} else {
+			marshaller.writeByte(0);
+			marshaller.writeLong(date1.getTime());
+    	}
+    }
 
-		final boolean execStat = this.execStat;
+	private String readString(ObjectInputStream dis) throws IOException{
+		String strReturn = null;
+		int length = 0;
+        length = dis.readInt();
+		if (length == -1) {
+			strReturn = null;
+		} else {
+			if(length > commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length) {
+				if(length < 1024 && commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length == 0) {
+   					commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[1024];
+				} else {
+   					commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[2 * length];
+   				}
+			}
+			dis.readFully(commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck, 0, length);
+			strReturn = new String(commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck, 0, length, utf8Charset);
+		}
+		return strReturn;
+	}
+	
+	private String readString(org.jboss.marshalling.Unmarshaller unmarshaller) throws IOException{
+		String strReturn = null;
+		int length = 0;
+        length = unmarshaller.readInt();
+		if (length == -1) {
+			strReturn = null;
+		} else {
+			if(length > commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length) {
+				if(length < 1024 && commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck.length == 0) {
+   					commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[1024];
+				} else {
+   					commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck = new byte[2 * length];
+   				}
+			}
+			unmarshaller.readFully(commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck, 0, length);
+			strReturn = new String(commonByteArray_OVIRT_ENGINE_DWH_MinimalVersionCheck, 0, length, utf8Charset);
+		}
+		return strReturn;
+	}
+
+    private void writeString(String str, ObjectOutputStream dos) throws IOException{
+		if(str == null) {
+            dos.writeInt(-1);
+		} else {
+            byte[] byteArray = str.getBytes(utf8Charset);
+	    	dos.writeInt(byteArray.length);
+			dos.write(byteArray);
+    	}
+    }
+    
+    private void writeString(String str, org.jboss.marshalling.Marshaller marshaller) throws IOException{
+		if(str == null) {
+			marshaller.writeInt(-1);
+		} else {
+            byte[] byteArray = str.getBytes(utf8Charset);
+            marshaller.writeInt(byteArray.length);
+            marshaller.write(byteArray);
+    	}
+    }
+	private Integer readInteger(ObjectInputStream dis) throws IOException{
+		Integer intReturn;
+        int length = 0;
+        length = dis.readByte();
+		if (length == -1) {
+			intReturn = null;
+		} else {
+	    	intReturn = dis.readInt();
+		}
+		return intReturn;
+	}
+	
+	private Integer readInteger(org.jboss.marshalling.Unmarshaller dis) throws IOException{
+		Integer intReturn;
+        int length = 0;
+        length = dis.readByte();
+		if (length == -1) {
+			intReturn = null;
+		} else {
+	    	intReturn = dis.readInt();
+		}
+		return intReturn;
+	}
+
+	private void writeInteger(Integer intNum, ObjectOutputStream dos) throws IOException{
+		if(intNum == null) {
+            dos.writeByte(-1);
+		} else {
+			dos.writeByte(0);
+	    	dos.writeInt(intNum);
+    	}
+	}
+	
+	private void writeInteger(Integer intNum, org.jboss.marshalling.Marshaller marshaller) throws IOException{
+		if(intNum == null) {
+			marshaller.writeByte(-1);
+		} else {
+			marshaller.writeByte(0);
+			marshaller.writeInt(intNum);
+    	}
+	}
+
+    public void readData(ObjectInputStream dis) {
+
+		synchronized(commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck) {
+
+        	try {
+
+        		int length = 0;
+		
+					this.moment = readDate(dis);
+					
+					this.pid = readString(dis);
+					
+					this.root_pid = readString(dis);
+					
+					this.father_pid = readString(dis);
+					
+					this.project = readString(dis);
+					
+					this.job = readString(dis);
+					
+					this.context = readString(dis);
+					
+						this.priority = readInteger(dis);
+					
+					this.type = readString(dis);
+					
+					this.origin = readString(dis);
+					
+					this.message = readString(dis);
+					
+						this.code = readInteger(dis);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+
+		
+
+        }
+
+		
+
+      }
+
+
+    }
+    
+    public void readData(org.jboss.marshalling.Unmarshaller dis) {
+
+		synchronized(commonByteArrayLock_OVIRT_ENGINE_DWH_MinimalVersionCheck) {
+
+        	try {
+
+        		int length = 0;
+		
+					this.moment = readDate(dis);
+					
+					this.pid = readString(dis);
+					
+					this.root_pid = readString(dis);
+					
+					this.father_pid = readString(dis);
+					
+					this.project = readString(dis);
+					
+					this.job = readString(dis);
+					
+					this.context = readString(dis);
+					
+						this.priority = readInteger(dis);
+					
+					this.type = readString(dis);
+					
+					this.origin = readString(dis);
+					
+					this.message = readString(dis);
+					
+						this.code = readInteger(dis);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+
+		
+
+        }
+
+		
+
+      }
+
+
+    }
+
+    public void writeData(ObjectOutputStream dos) {
+        try {
+
+		
+					// java.util.Date
+				
+						writeDate(this.moment,dos);
+					
+					// String
+				
+						writeString(this.pid,dos);
+					
+					// String
+				
+						writeString(this.root_pid,dos);
+					
+					// String
+				
+						writeString(this.father_pid,dos);
+					
+					// String
+				
+						writeString(this.project,dos);
+					
+					// String
+				
+						writeString(this.job,dos);
+					
+					// String
+				
+						writeString(this.context,dos);
+					
+					// Integer
+				
+						writeInteger(this.priority,dos);
+					
+					// String
+				
+						writeString(this.type,dos);
+					
+					// String
+				
+						writeString(this.origin,dos);
+					
+					// String
+				
+						writeString(this.message,dos);
+					
+					// Integer
+				
+						writeInteger(this.code,dos);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+        }
+
+
+    }
+    
+    public void writeData(org.jboss.marshalling.Marshaller dos) {
+        try {
+
+		
+					// java.util.Date
+				
+						writeDate(this.moment,dos);
+					
+					// String
+				
+						writeString(this.pid,dos);
+					
+					// String
+				
+						writeString(this.root_pid,dos);
+					
+					// String
+				
+						writeString(this.father_pid,dos);
+					
+					// String
+				
+						writeString(this.project,dos);
+					
+					// String
+				
+						writeString(this.job,dos);
+					
+					// String
+				
+						writeString(this.context,dos);
+					
+					// Integer
+				
+						writeInteger(this.priority,dos);
+					
+					// String
+				
+						writeString(this.type,dos);
+					
+					// String
+				
+						writeString(this.origin,dos);
+					
+					// String
+				
+						writeString(this.message,dos);
+					
+					// Integer
+				
+						writeInteger(this.code,dos);
+					
+        	} catch (IOException e) {
+	            throw new RuntimeException(e);
+        }
+
+
+    }
+
+
+    public String toString() {
+
+		StringBuilder sb = new StringBuilder();
+		sb.append(super.toString());
+		sb.append("[");
+		sb.append("moment="+String.valueOf(moment));
+		sb.append(",pid="+pid);
+		sb.append(",root_pid="+root_pid);
+		sb.append(",father_pid="+father_pid);
+		sb.append(",project="+project);
+		sb.append(",job="+job);
+		sb.append(",context="+context);
+		sb.append(",priority="+String.valueOf(priority));
+		sb.append(",type="+type);
+		sb.append(",origin="+origin);
+		sb.append(",message="+message);
+		sb.append(",code="+String.valueOf(code));
+	    sb.append("]");
+
+	    return sb.toString();
+    }
+
+    /**
+     * Compare keys
+     */
+    public int compareTo(row_talendLogs_LOGSStruct other) {
+
+		int returnValue = -1;
+		
+	    return returnValue;
+    }
+
+
+    private int checkNullsAndCompare(Object object1, Object object2) {
+        int returnValue = 0;
+		if (object1 instanceof Comparable && object2 instanceof Comparable) {
+            returnValue = ((Comparable) object1).compareTo(object2);
+        } else if (object1 != null && object2 != null) {
+            returnValue = compareStrings(object1.toString(), object2.toString());
+        } else if (object1 == null && object2 != null) {
+            returnValue = 1;
+        } else if (object1 != null && object2 == null) {
+            returnValue = -1;
+        } else {
+            returnValue = 0;
+        }
+
+        return returnValue;
+    }
+
+    private int compareStrings(String string1, String string2) {
+        return string1.compareTo(string2);
+    }
+
+
+}
+public void talendLogs_LOGSProcess(final java.util.Map<String, Object> globalMap) throws TalendException {
+	globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 0);
+
+ final boolean execStat = this.execStat;
 		String currentVirtualComponent = null;
-
+	
 		String iterateId = "";
+	
+	
+	String currentComponent = "";
+	java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
 
-		String currentComponent = "";
-		java.util.Map<String, Object> resourceMap = new java.util.HashMap<String, Object>();
-
-		try {
-
-			String currentMethodName = new java.lang.Exception()
-					.getStackTrace()[0].getMethodName();
-			boolean resumeIt = currentMethodName.equals(resumeEntryMethodName);
-			if (resumeEntryMethodName == null || resumeIt || globalResumeTicket) {// start
-																					// the
-																					// resume
+	try {
+			// TDI-39566 avoid throwing an useless Exception
+			boolean resumeIt = true;
+			if (globalResumeTicket == false && resumeEntryMethodName != null) {
+				String currentMethodName = new java.lang.Exception().getStackTrace()[0].getMethodName();
+				resumeIt = resumeEntryMethodName.equals(currentMethodName);
+			}
+			if (resumeIt || globalResumeTicket) { //start the resume
 				globalResumeTicket = true;
 
-				row_talendLogs_LOGSStruct row_talendLogs_LOGS = new row_talendLogs_LOGSStruct();
 
-				/**
-				 * [talendLogs_CONSOLE begin ] start
-				 */
 
-				ok_Hash.put("talendLogs_CONSOLE", false);
-				start_Hash
-						.put("talendLogs_CONSOLE", System.currentTimeMillis());
+		row_talendLogs_LOGSStruct row_talendLogs_LOGS = new row_talendLogs_LOGSStruct();
 
-				currentVirtualComponent = "talendLogs_CONSOLE";
 
-				currentComponent = "talendLogs_CONSOLE";
 
-				int tos_count_talendLogs_CONSOLE = 0;
 
-				// /////////////////////
+	
+	/**
+	 * [talendLogs_CONSOLE begin ] start
+	 */
 
-				final String OUTPUT_FIELD_SEPARATOR_talendLogs_CONSOLE = "|";
-				java.io.PrintStream consoleOut_talendLogs_CONSOLE = null;
+	
 
-				StringBuilder strBuffer_talendLogs_CONSOLE = null;
-				int nb_line_talendLogs_CONSOLE = 0;
-				// /////////////////////
+	
+		
+		ok_Hash.put("talendLogs_CONSOLE", false);
+		start_Hash.put("talendLogs_CONSOLE", System.currentTimeMillis());
+		
+	
+		currentVirtualComponent = "talendLogs_CONSOLE";
+	
+	currentComponent="talendLogs_CONSOLE";
 
-				/**
-				 * [talendLogs_CONSOLE begin ] stop
-				 */
-
-				/**
-				 * [talendLogs_LOGS begin ] start
-				 */
-
-				ok_Hash.put("talendLogs_LOGS", false);
-				start_Hash.put("talendLogs_LOGS", System.currentTimeMillis());
-
-				currentVirtualComponent = "talendLogs_LOGS";
-
-				currentComponent = "talendLogs_LOGS";
-
-				int tos_count_talendLogs_LOGS = 0;
-
-				for (LogCatcherUtils.LogCatcherMessage lcm : talendLogs_LOGS
-						.getMessages()) {
-					row_talendLogs_LOGS.type = lcm.getType();
-					row_talendLogs_LOGS.origin = (lcm.getOrigin() == null
-							|| lcm.getOrigin().length() < 1 ? null : lcm
-							.getOrigin());
-					row_talendLogs_LOGS.priority = lcm.getPriority();
-					row_talendLogs_LOGS.message = lcm.getMessage();
-					row_talendLogs_LOGS.code = lcm.getCode();
-
-					row_talendLogs_LOGS.moment = java.util.Calendar
-							.getInstance().getTime();
-
-					row_talendLogs_LOGS.pid = pid;
-					row_talendLogs_LOGS.root_pid = rootPid;
-					row_talendLogs_LOGS.father_pid = fatherPid;
-
-					row_talendLogs_LOGS.project = projectName;
-					row_talendLogs_LOGS.job = jobName;
-					row_talendLogs_LOGS.context = contextStr;
-
-					/**
-					 * [talendLogs_LOGS begin ] stop
-					 */
-
-					/**
-					 * [talendLogs_LOGS main ] start
-					 */
-
-					currentVirtualComponent = "talendLogs_LOGS";
-
-					currentComponent = "talendLogs_LOGS";
-
-					tos_count_talendLogs_LOGS++;
-
-					/**
-					 * [talendLogs_LOGS main ] stop
-					 */
-
-					/**
-					 * [talendLogs_CONSOLE main ] start
-					 */
-
-					currentVirtualComponent = "talendLogs_CONSOLE";
-
-					currentComponent = "talendLogs_CONSOLE";
-
-					// /////////////////////
-
-					strBuffer_talendLogs_CONSOLE = new StringBuilder();
-
-					if (row_talendLogs_LOGS.moment != null) { //
-
-						strBuffer_talendLogs_CONSOLE.append(FormatterUtils
-								.format_Date(row_talendLogs_LOGS.moment,
-										"yyyy-MM-dd HH:mm:ss"));
-
-					} //
-
-					strBuffer_talendLogs_CONSOLE.append("|");
-
-					if (row_talendLogs_LOGS.pid != null) { //
-
-						strBuffer_talendLogs_CONSOLE.append(String
-								.valueOf(row_talendLogs_LOGS.pid));
-
-					} //
-
-					strBuffer_talendLogs_CONSOLE.append("|");
-
-					if (row_talendLogs_LOGS.root_pid != null) { //
-
-						strBuffer_talendLogs_CONSOLE.append(String
-								.valueOf(row_talendLogs_LOGS.root_pid));
-
-					} //
-
-					strBuffer_talendLogs_CONSOLE.append("|");
-
-					if (row_talendLogs_LOGS.father_pid != null) { //
-
-						strBuffer_talendLogs_CONSOLE.append(String
-								.valueOf(row_talendLogs_LOGS.father_pid));
-
-					} //
-
-					strBuffer_talendLogs_CONSOLE.append("|");
-
-					if (row_talendLogs_LOGS.project != null) { //
-
-						strBuffer_talendLogs_CONSOLE.append(String
-								.valueOf(row_talendLogs_LOGS.project));
-
-					} //
-
-					strBuffer_talendLogs_CONSOLE.append("|");
-
-					if (row_talendLogs_LOGS.job != null) { //
-
-						strBuffer_talendLogs_CONSOLE.append(String
-								.valueOf(row_talendLogs_LOGS.job));
-
-					} //
-
-					strBuffer_talendLogs_CONSOLE.append("|");
-
-					if (row_talendLogs_LOGS.context != null) { //
-
-						strBuffer_talendLogs_CONSOLE.append(String
-								.valueOf(row_talendLogs_LOGS.context));
-
-					} //
-
-					strBuffer_talendLogs_CONSOLE.append("|");
-
-					if (row_talendLogs_LOGS.priority != null) { //
-
-						strBuffer_talendLogs_CONSOLE.append(String
-								.valueOf(row_talendLogs_LOGS.priority));
-
-					} //
-
-					strBuffer_talendLogs_CONSOLE.append("|");
-
-					if (row_talendLogs_LOGS.type != null) { //
-
-						strBuffer_talendLogs_CONSOLE.append(String
-								.valueOf(row_talendLogs_LOGS.type));
-
-					} //
-
-					strBuffer_talendLogs_CONSOLE.append("|");
-
-					if (row_talendLogs_LOGS.origin != null) { //
-
-						strBuffer_talendLogs_CONSOLE.append(String
-								.valueOf(row_talendLogs_LOGS.origin));
-
-					} //
-
-					strBuffer_talendLogs_CONSOLE.append("|");
-
-					if (row_talendLogs_LOGS.message != null) { //
-
-						strBuffer_talendLogs_CONSOLE.append(String
-								.valueOf(row_talendLogs_LOGS.message));
-
-					} //
-
-					strBuffer_talendLogs_CONSOLE.append("|");
-
-					if (row_talendLogs_LOGS.code != null) { //
-
-						strBuffer_talendLogs_CONSOLE.append(String
-								.valueOf(row_talendLogs_LOGS.code));
-
-					} //
-
-					if (globalMap.get("tLogRow_CONSOLE") != null) {
-						consoleOut_talendLogs_CONSOLE = (java.io.PrintStream) globalMap
-								.get("tLogRow_CONSOLE");
-					} else {
-						consoleOut_talendLogs_CONSOLE = new java.io.PrintStream(
-								new java.io.BufferedOutputStream(System.out));
-						globalMap.put("tLogRow_CONSOLE",
-								consoleOut_talendLogs_CONSOLE);
+	
+					if(execStat) {
+						runStat.updateStatOnConnection(resourceMap,iterateId,0,0,"Main");
 					}
-					consoleOut_talendLogs_CONSOLE
-							.println(strBuffer_talendLogs_CONSOLE.toString());
-					consoleOut_talendLogs_CONSOLE.flush();
-					nb_line_talendLogs_CONSOLE++;
-					// ////
+				
+		int tos_count_talendLogs_CONSOLE = 0;
+		
 
-					// ////
+	///////////////////////
+	
+		final String OUTPUT_FIELD_SEPARATOR_talendLogs_CONSOLE = "|";
+		java.io.PrintStream consoleOut_talendLogs_CONSOLE = null;	
 
-					// /////////////////////
+ 		StringBuilder strBuffer_talendLogs_CONSOLE = null;
+		int nb_line_talendLogs_CONSOLE = 0;
+///////////////////////    			
 
-					tos_count_talendLogs_CONSOLE++;
 
-					/**
-					 * [talendLogs_CONSOLE main ] stop
-					 */
 
-					/**
-					 * [talendLogs_LOGS end ] start
-					 */
+ 
 
-					currentVirtualComponent = "talendLogs_LOGS";
 
-					currentComponent = "talendLogs_LOGS";
 
+/**
+ * [talendLogs_CONSOLE begin ] stop
+ */
+
+
+
+	
+	/**
+	 * [talendLogs_LOGS begin ] start
+	 */
+
+	
+
+	
+		
+		ok_Hash.put("talendLogs_LOGS", false);
+		start_Hash.put("talendLogs_LOGS", System.currentTimeMillis());
+		
+	
+		currentVirtualComponent = "talendLogs_LOGS";
+	
+	currentComponent="talendLogs_LOGS";
+
+	
+		int tos_count_talendLogs_LOGS = 0;
+		
+
+try {
+	for (LogCatcherUtils.LogCatcherMessage lcm : talendLogs_LOGS.getMessages()) {
+		row_talendLogs_LOGS.type = lcm.getType();
+		row_talendLogs_LOGS.origin = (lcm.getOrigin()==null || lcm.getOrigin().length()<1 ? null : lcm.getOrigin());
+		row_talendLogs_LOGS.priority = lcm.getPriority();
+		row_talendLogs_LOGS.message = lcm.getMessage();
+		row_talendLogs_LOGS.code = lcm.getCode();
+		
+		row_talendLogs_LOGS.moment = java.util.Calendar.getInstance().getTime();
+	
+    	row_talendLogs_LOGS.pid = pid;
+		row_talendLogs_LOGS.root_pid = rootPid;
+		row_talendLogs_LOGS.father_pid = fatherPid;
+	
+    	row_talendLogs_LOGS.project = projectName;
+    	row_talendLogs_LOGS.job = jobName;
+    	row_talendLogs_LOGS.context = contextStr;
+    		
+ 
+
+
+
+/**
+ * [talendLogs_LOGS begin ] stop
+ */
+	
+	/**
+	 * [talendLogs_LOGS main ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "talendLogs_LOGS";
+	
+	currentComponent="talendLogs_LOGS";
+
+	
+
+ 
+
+
+	tos_count_talendLogs_LOGS++;
+
+/**
+ * [talendLogs_LOGS main ] stop
+ */
+	
+	/**
+	 * [talendLogs_LOGS process_data_begin ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "talendLogs_LOGS";
+	
+	currentComponent="talendLogs_LOGS";
+
+	
+
+ 
+
+
+
+/**
+ * [talendLogs_LOGS process_data_begin ] stop
+ */
+
+	
+	/**
+	 * [talendLogs_CONSOLE main ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "talendLogs_CONSOLE";
+	
+	currentComponent="talendLogs_CONSOLE";
+
+	
+					if(execStat){
+						runStat.updateStatOnConnection(iterateId,1,1
+						
+							,"Main"
+						
+						);
+					}
+					
+///////////////////////		
+						
+
+
+
+				strBuffer_talendLogs_CONSOLE = new StringBuilder();
+
+
+
+
+   				
+	    		if(row_talendLogs_LOGS.moment != null) { //              
+                    							
+       
+				strBuffer_talendLogs_CONSOLE.append(
+								FormatterUtils.format_Date(row_talendLogs_LOGS.moment, "yyyy-MM-dd HH:mm:ss")				
+				);
+
+
+							
+	    		} //  			
+
+    			strBuffer_talendLogs_CONSOLE.append("|");
+    			
+
+
+   				
+	    		if(row_talendLogs_LOGS.pid != null) { //              
+                    							
+       
+				strBuffer_talendLogs_CONSOLE.append(
+				                String.valueOf(row_talendLogs_LOGS.pid)							
+				);
+
+
+							
+	    		} //  			
+
+    			strBuffer_talendLogs_CONSOLE.append("|");
+    			
+
+
+   				
+	    		if(row_talendLogs_LOGS.root_pid != null) { //              
+                    							
+       
+				strBuffer_talendLogs_CONSOLE.append(
+				                String.valueOf(row_talendLogs_LOGS.root_pid)							
+				);
+
+
+							
+	    		} //  			
+
+    			strBuffer_talendLogs_CONSOLE.append("|");
+    			
+
+
+   				
+	    		if(row_talendLogs_LOGS.father_pid != null) { //              
+                    							
+       
+				strBuffer_talendLogs_CONSOLE.append(
+				                String.valueOf(row_talendLogs_LOGS.father_pid)							
+				);
+
+
+							
+	    		} //  			
+
+    			strBuffer_talendLogs_CONSOLE.append("|");
+    			
+
+
+   				
+	    		if(row_talendLogs_LOGS.project != null) { //              
+                    							
+       
+				strBuffer_talendLogs_CONSOLE.append(
+				                String.valueOf(row_talendLogs_LOGS.project)							
+				);
+
+
+							
+	    		} //  			
+
+    			strBuffer_talendLogs_CONSOLE.append("|");
+    			
+
+
+   				
+	    		if(row_talendLogs_LOGS.job != null) { //              
+                    							
+       
+				strBuffer_talendLogs_CONSOLE.append(
+				                String.valueOf(row_talendLogs_LOGS.job)							
+				);
+
+
+							
+	    		} //  			
+
+    			strBuffer_talendLogs_CONSOLE.append("|");
+    			
+
+
+   				
+	    		if(row_talendLogs_LOGS.context != null) { //              
+                    							
+       
+				strBuffer_talendLogs_CONSOLE.append(
+				                String.valueOf(row_talendLogs_LOGS.context)							
+				);
+
+
+							
+	    		} //  			
+
+    			strBuffer_talendLogs_CONSOLE.append("|");
+    			
+
+
+   				
+	    		if(row_talendLogs_LOGS.priority != null) { //              
+                    							
+       
+				strBuffer_talendLogs_CONSOLE.append(
+				                String.valueOf(row_talendLogs_LOGS.priority)							
+				);
+
+
+							
+	    		} //  			
+
+    			strBuffer_talendLogs_CONSOLE.append("|");
+    			
+
+
+   				
+	    		if(row_talendLogs_LOGS.type != null) { //              
+                    							
+       
+				strBuffer_talendLogs_CONSOLE.append(
+				                String.valueOf(row_talendLogs_LOGS.type)							
+				);
+
+
+							
+	    		} //  			
+
+    			strBuffer_talendLogs_CONSOLE.append("|");
+    			
+
+
+   				
+	    		if(row_talendLogs_LOGS.origin != null) { //              
+                    							
+       
+				strBuffer_talendLogs_CONSOLE.append(
+				                String.valueOf(row_talendLogs_LOGS.origin)							
+				);
+
+
+							
+	    		} //  			
+
+    			strBuffer_talendLogs_CONSOLE.append("|");
+    			
+
+
+   				
+	    		if(row_talendLogs_LOGS.message != null) { //              
+                    							
+       
+				strBuffer_talendLogs_CONSOLE.append(
+				                String.valueOf(row_talendLogs_LOGS.message)							
+				);
+
+
+							
+	    		} //  			
+
+    			strBuffer_talendLogs_CONSOLE.append("|");
+    			
+
+
+   				
+	    		if(row_talendLogs_LOGS.code != null) { //              
+                    							
+       
+				strBuffer_talendLogs_CONSOLE.append(
+				                String.valueOf(row_talendLogs_LOGS.code)							
+				);
+
+
+							
+	    		} //  			
+ 
+
+                    if (globalMap.get("tLogRow_CONSOLE")!=null)
+                    {
+                    	consoleOut_talendLogs_CONSOLE = (java.io.PrintStream) globalMap.get("tLogRow_CONSOLE");
+                    }
+                    else
+                    {
+                    	consoleOut_talendLogs_CONSOLE = new java.io.PrintStream(new java.io.BufferedOutputStream(System.out));
+                    	globalMap.put("tLogRow_CONSOLE",consoleOut_talendLogs_CONSOLE);
+                    }
+                    consoleOut_talendLogs_CONSOLE.println(strBuffer_talendLogs_CONSOLE.toString());
+                    consoleOut_talendLogs_CONSOLE.flush();
+                    nb_line_talendLogs_CONSOLE++;
+//////
+
+//////                    
+                    
+///////////////////////    			
+
+ 
+
+
+	tos_count_talendLogs_CONSOLE++;
+
+/**
+ * [talendLogs_CONSOLE main ] stop
+ */
+	
+	/**
+	 * [talendLogs_CONSOLE process_data_begin ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "talendLogs_CONSOLE";
+	
+	currentComponent="talendLogs_CONSOLE";
+
+	
+
+ 
+
+
+
+/**
+ * [talendLogs_CONSOLE process_data_begin ] stop
+ */
+	
+	/**
+	 * [talendLogs_CONSOLE process_data_end ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "talendLogs_CONSOLE";
+	
+	currentComponent="talendLogs_CONSOLE";
+
+	
+
+ 
+
+
+
+/**
+ * [talendLogs_CONSOLE process_data_end ] stop
+ */
+
+
+
+	
+	/**
+	 * [talendLogs_LOGS process_data_end ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "talendLogs_LOGS";
+	
+	currentComponent="talendLogs_LOGS";
+
+	
+
+ 
+
+
+
+/**
+ * [talendLogs_LOGS process_data_end ] stop
+ */
+	
+	/**
+	 * [talendLogs_LOGS end ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "talendLogs_LOGS";
+	
+	currentComponent="talendLogs_LOGS";
+
+	
+	}
+} catch (Exception e_talendLogs_LOGS) {
+globalMap.put("talendLogs_LOGS_ERROR_MESSAGE",e_talendLogs_LOGS.getMessage());
+	logIgnoredError(String.format("talendLogs_LOGS - tLogCatcher failed to process log message(s) due to internal error: %s", e_talendLogs_LOGS), e_talendLogs_LOGS);
+}
+
+ 
+
+ok_Hash.put("talendLogs_LOGS", true);
+end_Hash.put("talendLogs_LOGS", System.currentTimeMillis());
+
+
+
+
+/**
+ * [talendLogs_LOGS end ] stop
+ */
+
+	
+	/**
+	 * [talendLogs_CONSOLE end ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "talendLogs_CONSOLE";
+	
+	currentComponent="talendLogs_CONSOLE";
+
+	
+
+
+//////
+//////
+globalMap.put("talendLogs_CONSOLE_NB_LINE",nb_line_talendLogs_CONSOLE);
+
+///////////////////////    			
+
+				if(execStat){
+			  		runStat.updateStat(resourceMap,iterateId,2,0,"Main");
+			  	}
+			  	
+ 
+
+ok_Hash.put("talendLogs_CONSOLE", true);
+end_Hash.put("talendLogs_CONSOLE", System.currentTimeMillis());
+
+
+
+
+/**
+ * [talendLogs_CONSOLE end ] stop
+ */
+
+
+
+				}//end the resume
+
+				
+
+
+
+	
+			}catch(java.lang.Exception e){	
+				
+				TalendException te = new TalendException(e, currentComponent, globalMap);
+				
+					te.setVirtualComponentName(currentVirtualComponent);
+				
+				throw te;
+			}catch(java.lang.Error error){	
+				
+					runStat.stopThreadStat();
+				
+				throw error;
+			}finally{
+				
+				try{
+					
+	
+	/**
+	 * [talendLogs_LOGS finally ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "talendLogs_LOGS";
+	
+	currentComponent="talendLogs_LOGS";
+
+	
+
+ 
+
+
+
+/**
+ * [talendLogs_LOGS finally ] stop
+ */
+
+	
+	/**
+	 * [talendLogs_CONSOLE finally ] start
+	 */
+
+	
+
+	
+	
+		currentVirtualComponent = "talendLogs_CONSOLE";
+	
+	currentComponent="talendLogs_CONSOLE";
+
+	
+
+ 
+
+
+
+/**
+ * [talendLogs_CONSOLE finally ] stop
+ */
+
+
+
+				}catch(java.lang.Exception e){	
+					//ignore
+				}catch(java.lang.Error error){
+					//ignore
 				}
-
-				ok_Hash.put("talendLogs_LOGS", true);
-				end_Hash.put("talendLogs_LOGS", System.currentTimeMillis());
-
-				/**
-				 * [talendLogs_LOGS end ] stop
-				 */
-
-				/**
-				 * [talendLogs_CONSOLE end ] start
-				 */
-
-				currentVirtualComponent = "talendLogs_CONSOLE";
-
-				currentComponent = "talendLogs_CONSOLE";
-
-				// ////
-				// ////
-				globalMap.put("talendLogs_CONSOLE_NB_LINE",
-						nb_line_talendLogs_CONSOLE);
-
-				// /////////////////////
-
-				ok_Hash.put("talendLogs_CONSOLE", true);
-				end_Hash.put("talendLogs_CONSOLE", System.currentTimeMillis());
-
-				/**
-				 * [talendLogs_CONSOLE end ] stop
-				 */
-
-			}// end the resume
-
-		} catch (java.lang.Exception e) {
-
-			TalendException te = new TalendException(e, currentComponent,
-					globalMap);
-
-			te.setVirtualComponentName(currentVirtualComponent);
-
-			throw te;
-		} catch (java.lang.Error error) {
-
-			throw error;
-		} finally {
-
-			try {
-
-				/**
-				 * [talendLogs_LOGS finally ] start
-				 */
-
-				currentVirtualComponent = "talendLogs_LOGS";
-
-				currentComponent = "talendLogs_LOGS";
-
-				/**
-				 * [talendLogs_LOGS finally ] stop
-				 */
-
-				/**
-				 * [talendLogs_CONSOLE finally ] start
-				 */
-
-				currentVirtualComponent = "talendLogs_CONSOLE";
-
-				currentComponent = "talendLogs_CONSOLE";
-
-				/**
-				 * [talendLogs_CONSOLE finally ] stop
-				 */
-
-			} catch (java.lang.Exception e) {
-				// ignore
-			} catch (java.lang.Error error) {
-				// ignore
+				resourceMap = null;
 			}
-			resourceMap = null;
-		}
+		
 
 		globalMap.put("talendLogs_LOGS_SUBPROCESS_STATE", 1);
 	}
+	
+    public String resuming_logs_dir_path = null;
+    public String resuming_checkpoint_path = null;
+    public String parent_part_launcher = null;
+    private String resumeEntryMethodName = null;
+    private boolean globalResumeTicket = false;
 
-	public String resuming_logs_dir_path = null;
-	public String resuming_checkpoint_path = null;
-	public String parent_part_launcher = null;
-	private String resumeEntryMethodName = null;
-	private boolean globalResumeTicket = false;
+    public boolean watch = false;
+    // portStats is null, it means don't execute the statistics
+    public Integer portStats = null;
+    public int portTraces = 4334;
+    public String clientHost;
+    public String defaultClientHost = "localhost";
+    public String contextStr = "Default";
+    public boolean isDefaultContext = true;
+    public String pid = "0";
+    public String rootPid = null;
+    public String fatherPid = null;
+    public String fatherNode = null;
+    public long startTime = 0;
+    public boolean isChildJob = false;
+    public String log4jLevel = "";
+    
+    private boolean enableLogStash;
 
-	public boolean watch = false;
-	// portStats is null, it means don't execute the statistics
-	public Integer portStats = null;
-	public int portTraces = 4334;
-	public String clientHost;
-	public String defaultClientHost = "localhost";
-	public String contextStr = "Default";
-	public boolean isDefaultContext = true;
-	public String pid = "0";
-	public String rootPid = null;
-	public String fatherPid = null;
-	public String fatherNode = null;
-	public long startTime = 0;
-	public boolean isChildJob = false;
-	public String log4jLevel = "";
+    private boolean execStat = true;
 
-	private boolean execStat = true;
+    private ThreadLocal<java.util.Map<String, String>> threadLocal = new ThreadLocal<java.util.Map<String, String>>() {
+        protected java.util.Map<String, String> initialValue() {
+            java.util.Map<String,String> threadRunResultMap = new java.util.HashMap<String, String>();
+            threadRunResultMap.put("errorCode", null);
+            threadRunResultMap.put("status", "");
+            return threadRunResultMap;
+        };
+    };
 
-	private ThreadLocal<java.util.Map<String, String>> threadLocal = new ThreadLocal<java.util.Map<String, String>>() {
-		protected java.util.Map<String, String> initialValue() {
-			java.util.Map<String, String> threadRunResultMap = new java.util.HashMap<String, String>();
-			threadRunResultMap.put("errorCode", null);
-			threadRunResultMap.put("status", "");
-			return threadRunResultMap;
-		};
-	};
 
-	private java.util.Properties context_param = new java.util.Properties();
-	public java.util.Map<String, Object> parentContextMap = new java.util.HashMap<String, Object>();
+    protected PropertiesWithType context_param = new PropertiesWithType();
+    public java.util.Map<String, Object> parentContextMap = new java.util.HashMap<String, Object>();
 
-	public String status = "";
+    public String status= "";
+    
+    private final org.talend.components.common.runtime.SharedConnectionsPool connectionPool = new org.talend.components.common.runtime.SharedConnectionsPool() {
+    	public java.sql.Connection getDBConnection(String dbDriver, String url, String userName, String password, String dbConnectionName)
+            throws ClassNotFoundException, java.sql.SQLException {
+            return SharedDBConnection.getDBConnection(dbDriver, url, userName, password, dbConnectionName);
+        }
 
-	public static void main(String[] args) {
-		final MinimalVersionCheck MinimalVersionCheckClass = new MinimalVersionCheck();
+    	public java.sql.Connection getDBConnection(String dbDriver, String url, String dbConnectionName)
+            throws ClassNotFoundException, java.sql.SQLException {
+            return SharedDBConnection.getDBConnection(dbDriver, url, dbConnectionName);
+        }
+    };
+    
+    private static final String GLOBAL_CONNECTION_POOL_KEY = "GLOBAL_CONNECTION_POOL";
+    
+    {
+    	globalMap.put(GLOBAL_CONNECTION_POOL_KEY, connectionPool);
+    }
 
-		int exitCode = MinimalVersionCheckClass.runJobInTOS(args);
+    public static void main(String[] args){
+        final MinimalVersionCheck MinimalVersionCheckClass = new MinimalVersionCheck();
 
-		System.exit(exitCode);
-	}
+        int exitCode = MinimalVersionCheckClass.runJobInTOS(args);
 
-	public String[][] runJob(String[] args) {
+        System.exit(exitCode);
+    }
 
-		int exitCode = runJobInTOS(args);
-		String[][] bufferValue = new String[][] { { Integer.toString(exitCode) } };
 
-		return bufferValue;
-	}
+    public String[][] runJob(String[] args) {
 
-	public boolean hastBufferOutputComponent() {
+        int exitCode = runJobInTOS(args);
+        String[][] bufferValue = new String[][] { { Integer.toString(exitCode) } };
+
+        return bufferValue;
+    }
+
+    public boolean hastBufferOutputComponent() {
 		boolean hastBufferOutput = false;
+    	
+        return hastBufferOutput;
+    }
 
-		return hastBufferOutput;
-	}
+    public int runJobInTOS(String[] args) {
+	   	// reset status
+	   	status = "";
+	   	
+        String lastStr = "";
+        for (String arg : args) {
+            if (arg.equalsIgnoreCase("--context_param")) {
+                lastStr = arg;
+            } else if (lastStr.equals("")) {
+                evalParam(arg);
+            } else {
+                evalParam(lastStr + " " + arg);
+                lastStr = "";
+            }
+        }
+        enableLogStash = "true".equalsIgnoreCase(System.getProperty("audit.enabled"));
 
-	public int runJobInTOS(String[] args) {
-		// reset status
-		status = "";
+    	
+    	
 
-		String lastStr = "";
-		for (String arg : args) {
-			if (arg.equalsIgnoreCase("--context_param")) {
-				lastStr = arg;
-			} else if (lastStr.equals("")) {
-				evalParam(arg);
-			} else {
-				evalParam(lastStr + " " + arg);
-				lastStr = "";
-			}
-		}
+        if(clientHost == null) {
+            clientHost = defaultClientHost;
+        }
 
-		if (clientHost == null) {
-			clientHost = defaultClientHost;
-		}
+        if(pid == null || "0".equals(pid)) {
+            pid = TalendString.getAsciiRandomString(6);
+        }
 
-		if (pid == null || "0".equals(pid)) {
-			pid = TalendString.getAsciiRandomString(6);
-		}
+        if (rootPid==null) {
+            rootPid = pid;
+        }
+        if (fatherPid==null) {
+            fatherPid = pid;
+        }else{
+            isChildJob = true;
+        }
 
-		if (rootPid == null) {
-			rootPid = pid;
-		}
-		if (fatherPid == null) {
-			fatherPid = pid;
-		} else {
-			isChildJob = true;
-		}
+        if (portStats != null) {
+            // portStats = -1; //for testing
+            if (portStats < 0 || portStats > 65535) {
+                // issue:10869, the portStats is invalid, so this client socket can't open
+                System.err.println("The statistics socket port " + portStats + " is invalid.");
+                execStat = false;
+            }
+        } else {
+            execStat = false;
+        }
+        boolean inOSGi = routines.system.BundleUtils.inOSGi();
 
-		try {
-			// call job/subjob with an existing context, like:
-			// --context=production. if without this parameter, there will use
-			// the default context instead.
-			java.io.InputStream inContext = MinimalVersionCheck.class
-					.getClassLoader().getResourceAsStream(
-							"ovirt_engine_dwh/minimalversioncheck_4_5/contexts/"
-									+ contextStr + ".properties");
-			if (isDefaultContext && inContext == null) {
+        if (inOSGi) {
+            java.util.Dictionary<String, Object> jobProperties = routines.system.BundleUtils.getJobProperties(jobName);
 
-			} else {
-				if (inContext != null) {
-					// defaultProps is in order to keep the original context
-					// value
-					defaultProps.load(inContext);
-					inContext.close();
-					context = new ContextProperties(defaultProps);
-				} else {
-					// print info and job continue to run, for case:
-					// context_param is not empty.
-					System.err.println("Could not find the context "
-							+ contextStr);
+            if (jobProperties != null && jobProperties.get("context") != null) {
+                contextStr = (String)jobProperties.get("context");
+            }
+        }
+
+        try {
+            //call job/subjob with an existing context, like: --context=production. if without this parameter, there will use the default context instead.
+            java.io.InputStream inContext = MinimalVersionCheck.class.getClassLoader().getResourceAsStream("ovirt_engine_dwh/minimalversioncheck_4_5/contexts/" + contextStr + ".properties");
+            if (inContext == null) {
+                inContext = MinimalVersionCheck.class.getClassLoader().getResourceAsStream("config/contexts/" + contextStr + ".properties");
+            }
+            if (inContext != null) {
+                try {
+                    //defaultProps is in order to keep the original context value
+                    if(context != null && context.isEmpty()) {
+	                defaultProps.load(inContext);
+	                context = new ContextProperties(defaultProps);
+                    }
+                } finally {
+                    inContext.close();
+                }
+            } else if (!isDefaultContext) {
+                //print info and job continue to run, for case: context_param is not empty.
+                System.err.println("Could not find the context " + contextStr);
+            }
+
+            if(!context_param.isEmpty()) {
+                context.putAll(context_param);
+				//set types for params from parentJobs
+				for (Object key: context_param.keySet()){
+					String context_key = key.toString();
+					String context_type = context_param.getContextType(context_key);
+					context.setContextType(context_key, context_type);
+
 				}
-			}
+            }
+            class ContextProcessing {
+                private void processContext_0() {
+                        context.setContextType("ovirtEngineHistoryMinimalETL", "id_String");
+                        if(context.getStringValue("ovirtEngineHistoryMinimalETL") == null) {
+                            context.ovirtEngineHistoryMinimalETL = null;
+                        } else {
+                            context.ovirtEngineHistoryMinimalETL=(String) context.getProperty("ovirtEngineHistoryMinimalETL");
+                        }
+                        context.setContextType("ovirtMinimalETL", "id_String");
+                        if(context.getStringValue("ovirtMinimalETL") == null) {
+                            context.ovirtMinimalETL = null;
+                        } else {
+                            context.ovirtMinimalETL=(String) context.getProperty("ovirtMinimalETL");
+                        }
+                        context.setContextType("etlVersion", "id_String");
+                        if(context.getStringValue("etlVersion") == null) {
+                            context.etlVersion = null;
+                        } else {
+                            context.etlVersion=(String) context.getProperty("etlVersion");
+                        }
+                        context.setContextType("ovirtEngineDbDriverClass", "id_String");
+                        if(context.getStringValue("ovirtEngineDbDriverClass") == null) {
+                            context.ovirtEngineDbDriverClass = null;
+                        } else {
+                            context.ovirtEngineDbDriverClass=(String) context.getProperty("ovirtEngineDbDriverClass");
+                        }
+                        context.setContextType("ovirtEngineHistoryDbDriverClass", "id_String");
+                        if(context.getStringValue("ovirtEngineHistoryDbDriverClass") == null) {
+                            context.ovirtEngineHistoryDbDriverClass = null;
+                        } else {
+                            context.ovirtEngineHistoryDbDriverClass=(String) context.getProperty("ovirtEngineHistoryDbDriverClass");
+                        }
+                        context.setContextType("ovirtEngineHistoryDbJdbcConnection", "id_String");
+                        if(context.getStringValue("ovirtEngineHistoryDbJdbcConnection") == null) {
+                            context.ovirtEngineHistoryDbJdbcConnection = null;
+                        } else {
+                            context.ovirtEngineHistoryDbJdbcConnection=(String) context.getProperty("ovirtEngineHistoryDbJdbcConnection");
+                        }
+                        context.setContextType("ovirtEngineHistoryDbPassword", "id_Password");
+                        if(context.getStringValue("ovirtEngineHistoryDbPassword") == null) {
+                            context.ovirtEngineHistoryDbPassword = null;
+                        } else {
+                            String pwd_ovirtEngineHistoryDbPassword_value = context.getProperty("ovirtEngineHistoryDbPassword");
+                            context.ovirtEngineHistoryDbPassword = null;
+                            if(pwd_ovirtEngineHistoryDbPassword_value!=null) {
+                                if(context_param.containsKey("ovirtEngineHistoryDbPassword")) {//no need to decrypt if it come from program argument or parent job runtime
+                                    context.ovirtEngineHistoryDbPassword = pwd_ovirtEngineHistoryDbPassword_value;
+                                } else if (!pwd_ovirtEngineHistoryDbPassword_value.isEmpty()) {
+                                    try {
+                                        context.ovirtEngineHistoryDbPassword = routines.system.PasswordEncryptUtil.decryptPassword(pwd_ovirtEngineHistoryDbPassword_value);
+                                        context.put("ovirtEngineHistoryDbPassword",context.ovirtEngineHistoryDbPassword);
+                                    } catch (java.lang.RuntimeException e) {
+                                        //do nothing
+                                    }
+                                }
+                            }
+                        }
+                        context.setContextType("ovirtEngineHistoryDbUser", "id_String");
+                        if(context.getStringValue("ovirtEngineHistoryDbUser") == null) {
+                            context.ovirtEngineHistoryDbUser = null;
+                        } else {
+                            context.ovirtEngineHistoryDbUser=(String) context.getProperty("ovirtEngineHistoryDbUser");
+                        }
+                        context.setContextType("ovirtEngineDbJdbcConnection", "id_String");
+                        if(context.getStringValue("ovirtEngineDbJdbcConnection") == null) {
+                            context.ovirtEngineDbJdbcConnection = null;
+                        } else {
+                            context.ovirtEngineDbJdbcConnection=(String) context.getProperty("ovirtEngineDbJdbcConnection");
+                        }
+                        context.setContextType("ovirtEngineDbPassword", "id_Password");
+                        if(context.getStringValue("ovirtEngineDbPassword") == null) {
+                            context.ovirtEngineDbPassword = null;
+                        } else {
+                            String pwd_ovirtEngineDbPassword_value = context.getProperty("ovirtEngineDbPassword");
+                            context.ovirtEngineDbPassword = null;
+                            if(pwd_ovirtEngineDbPassword_value!=null) {
+                                if(context_param.containsKey("ovirtEngineDbPassword")) {//no need to decrypt if it come from program argument or parent job runtime
+                                    context.ovirtEngineDbPassword = pwd_ovirtEngineDbPassword_value;
+                                } else if (!pwd_ovirtEngineDbPassword_value.isEmpty()) {
+                                    try {
+                                        context.ovirtEngineDbPassword = routines.system.PasswordEncryptUtil.decryptPassword(pwd_ovirtEngineDbPassword_value);
+                                        context.put("ovirtEngineDbPassword",context.ovirtEngineDbPassword);
+                                    } catch (java.lang.RuntimeException e) {
+                                        //do nothing
+                                    }
+                                }
+                            }
+                        }
+                        context.setContextType("ovirtEngineDbUser", "id_String");
+                        if(context.getStringValue("ovirtEngineDbUser") == null) {
+                            context.ovirtEngineDbUser = null;
+                        } else {
+                            context.ovirtEngineDbUser=(String) context.getProperty("ovirtEngineDbUser");
+                        }
+                } 
+                public void processAllContext() {
+                        processContext_0();
+                }
+            }
 
-			if (!context_param.isEmpty()) {
-				context.putAll(context_param);
-			}
-			context.ovirtEngineHistoryMinimalETL = (String) context
-					.getProperty("ovirtEngineHistoryMinimalETL");
-			context.ovirtMinimalETL = (String) context
-					.getProperty("ovirtMinimalETL");
-			context.etlVersion = (String) context.getProperty("etlVersion");
-			context.ovirtEngineDbDriverClass = (String) context
-					.getProperty("ovirtEngineDbDriverClass");
-			context.ovirtEngineHistoryDbDriverClass = (String) context
-					.getProperty("ovirtEngineHistoryDbDriverClass");
-			context.ovirtEngineHistoryDbJdbcConnection = (String) context
-					.getProperty("ovirtEngineHistoryDbJdbcConnection");
-			String pwd_ovirtEngineHistoryDbPassword_value = context
-					.getProperty("ovirtEngineHistoryDbPassword");
-			context.ovirtEngineHistoryDbPassword = null;
-			if (pwd_ovirtEngineHistoryDbPassword_value != null) {
-				if (context_param.containsKey("ovirtEngineHistoryDbPassword")) {// no
-																				// need
-																				// to
-																				// decrypt
-																				// if
-																				// it
-																				// come
-																				// from
-																				// program
-																				// argument
-																				// or
-																				// parent
-																				// job
-																				// runtime
-					context.ovirtEngineHistoryDbPassword = pwd_ovirtEngineHistoryDbPassword_value;
-				} else if (!pwd_ovirtEngineHistoryDbPassword_value.isEmpty()) {
-					try {
-						context.ovirtEngineHistoryDbPassword = routines.system.PasswordEncryptUtil
-								.decryptPassword(pwd_ovirtEngineHistoryDbPassword_value);
-						context.put("ovirtEngineHistoryDbPassword",
-								context.ovirtEngineHistoryDbPassword);
-					} catch (java.lang.RuntimeException e) {
-						// do nothing
-					}
-				}
-			}
-			context.ovirtEngineHistoryDbUser = (String) context
-					.getProperty("ovirtEngineHistoryDbUser");
-			context.ovirtEngineDbJdbcConnection = (String) context
-					.getProperty("ovirtEngineDbJdbcConnection");
-			String pwd_ovirtEngineDbPassword_value = context
-					.getProperty("ovirtEngineDbPassword");
-			context.ovirtEngineDbPassword = null;
-			if (pwd_ovirtEngineDbPassword_value != null) {
-				if (context_param.containsKey("ovirtEngineDbPassword")) {// no
-																			// need
-																			// to
-																			// decrypt
-																			// if
-																			// it
-																			// come
-																			// from
-																			// program
-																			// argument
-																			// or
-																			// parent
-																			// job
-																			// runtime
-					context.ovirtEngineDbPassword = pwd_ovirtEngineDbPassword_value;
-				} else if (!pwd_ovirtEngineDbPassword_value.isEmpty()) {
-					try {
-						context.ovirtEngineDbPassword = routines.system.PasswordEncryptUtil
-								.decryptPassword(pwd_ovirtEngineDbPassword_value);
-						context.put("ovirtEngineDbPassword",
-								context.ovirtEngineDbPassword);
-					} catch (java.lang.RuntimeException e) {
-						// do nothing
-					}
-				}
-			}
-			context.ovirtEngineDbUser = (String) context
-					.getProperty("ovirtEngineDbUser");
-		} catch (java.io.IOException ie) {
-			System.err.println("Could not load context " + contextStr);
-			ie.printStackTrace();
-		}
+            new ContextProcessing().processAllContext();
+        } catch (java.io.IOException ie) {
+            System.err.println("Could not load context "+contextStr);
+            ie.printStackTrace();
+        }
 
-		// get context value from parent directly
-		if (parentContextMap != null && !parentContextMap.isEmpty()) {
-			if (parentContextMap.containsKey("ovirtEngineHistoryMinimalETL")) {
-				context.ovirtEngineHistoryMinimalETL = (String) parentContextMap
-						.get("ovirtEngineHistoryMinimalETL");
-			}
-			if (parentContextMap.containsKey("ovirtMinimalETL")) {
-				context.ovirtMinimalETL = (String) parentContextMap
-						.get("ovirtMinimalETL");
-			}
-			if (parentContextMap.containsKey("etlVersion")) {
-				context.etlVersion = (String) parentContextMap
-						.get("etlVersion");
-			}
-			if (parentContextMap.containsKey("ovirtEngineDbDriverClass")) {
-				context.ovirtEngineDbDriverClass = (String) parentContextMap
-						.get("ovirtEngineDbDriverClass");
-			}
-			if (parentContextMap.containsKey("ovirtEngineHistoryDbDriverClass")) {
-				context.ovirtEngineHistoryDbDriverClass = (String) parentContextMap
-						.get("ovirtEngineHistoryDbDriverClass");
-			}
-			if (parentContextMap
-					.containsKey("ovirtEngineHistoryDbJdbcConnection")) {
-				context.ovirtEngineHistoryDbJdbcConnection = (String) parentContextMap
-						.get("ovirtEngineHistoryDbJdbcConnection");
-			}
-			if (parentContextMap.containsKey("ovirtEngineHistoryDbPassword")) {
-				context.ovirtEngineHistoryDbPassword = (java.lang.String) parentContextMap
-						.get("ovirtEngineHistoryDbPassword");
-			}
-			if (parentContextMap.containsKey("ovirtEngineHistoryDbUser")) {
-				context.ovirtEngineHistoryDbUser = (String) parentContextMap
-						.get("ovirtEngineHistoryDbUser");
-			}
-			if (parentContextMap.containsKey("ovirtEngineDbJdbcConnection")) {
-				context.ovirtEngineDbJdbcConnection = (String) parentContextMap
-						.get("ovirtEngineDbJdbcConnection");
-			}
-			if (parentContextMap.containsKey("ovirtEngineDbPassword")) {
-				context.ovirtEngineDbPassword = (java.lang.String) parentContextMap
-						.get("ovirtEngineDbPassword");
-			}
-			if (parentContextMap.containsKey("ovirtEngineDbUser")) {
-				context.ovirtEngineDbUser = (String) parentContextMap
-						.get("ovirtEngineDbUser");
-			}
-		}
+        // get context value from parent directly
+        if (parentContextMap != null && !parentContextMap.isEmpty()) {if (parentContextMap.containsKey("ovirtEngineHistoryMinimalETL")) {
+                context.ovirtEngineHistoryMinimalETL = (String) parentContextMap.get("ovirtEngineHistoryMinimalETL");
+            }if (parentContextMap.containsKey("ovirtMinimalETL")) {
+                context.ovirtMinimalETL = (String) parentContextMap.get("ovirtMinimalETL");
+            }if (parentContextMap.containsKey("etlVersion")) {
+                context.etlVersion = (String) parentContextMap.get("etlVersion");
+            }if (parentContextMap.containsKey("ovirtEngineDbDriverClass")) {
+                context.ovirtEngineDbDriverClass = (String) parentContextMap.get("ovirtEngineDbDriverClass");
+            }if (parentContextMap.containsKey("ovirtEngineHistoryDbDriverClass")) {
+                context.ovirtEngineHistoryDbDriverClass = (String) parentContextMap.get("ovirtEngineHistoryDbDriverClass");
+            }if (parentContextMap.containsKey("ovirtEngineHistoryDbJdbcConnection")) {
+                context.ovirtEngineHistoryDbJdbcConnection = (String) parentContextMap.get("ovirtEngineHistoryDbJdbcConnection");
+            }if (parentContextMap.containsKey("ovirtEngineHistoryDbPassword")) {
+                context.ovirtEngineHistoryDbPassword = (java.lang.String) parentContextMap.get("ovirtEngineHistoryDbPassword");
+            }if (parentContextMap.containsKey("ovirtEngineHistoryDbUser")) {
+                context.ovirtEngineHistoryDbUser = (String) parentContextMap.get("ovirtEngineHistoryDbUser");
+            }if (parentContextMap.containsKey("ovirtEngineDbJdbcConnection")) {
+                context.ovirtEngineDbJdbcConnection = (String) parentContextMap.get("ovirtEngineDbJdbcConnection");
+            }if (parentContextMap.containsKey("ovirtEngineDbPassword")) {
+                context.ovirtEngineDbPassword = (java.lang.String) parentContextMap.get("ovirtEngineDbPassword");
+            }if (parentContextMap.containsKey("ovirtEngineDbUser")) {
+                context.ovirtEngineDbUser = (String) parentContextMap.get("ovirtEngineDbUser");
+            }
+        }
 
-		// Resume: init the resumeUtil
-		resumeEntryMethodName = ResumeUtil
-				.getResumeEntryMethodName(resuming_checkpoint_path);
-		resumeUtil = new ResumeUtil(resuming_logs_dir_path, isChildJob, rootPid);
-		resumeUtil.initCommonInfo(pid, rootPid, fatherPid, projectName,
-				jobName, contextStr, jobVersion);
+        //Resume: init the resumeUtil
+        resumeEntryMethodName = ResumeUtil.getResumeEntryMethodName(resuming_checkpoint_path);
+        resumeUtil = new ResumeUtil(resuming_logs_dir_path, isChildJob, rootPid);
+        resumeUtil.initCommonInfo(pid, rootPid, fatherPid, projectName, jobName, contextStr, jobVersion);
 
 		List<String> parametersToEncrypt = new java.util.ArrayList<String>();
-		parametersToEncrypt.add("ovirtEngineHistoryDbPassword");
-		parametersToEncrypt.add("ovirtEngineDbPassword");
-		// Resume: jobStart
-		resumeUtil.addLog("JOB_STARTED", "JOB:" + jobName,
-				parent_part_launcher, Thread.currentThread().getId() + "", "",
-				"", "", "",
-				resumeUtil.convertToJsonText(context, parametersToEncrypt));
+			parametersToEncrypt.add("ovirtEngineHistoryDbPassword");
+			parametersToEncrypt.add("ovirtEngineDbPassword");
+        //Resume: jobStart
+        resumeUtil.addLog("JOB_STARTED", "JOB:" + jobName, parent_part_launcher, Thread.currentThread().getId() + "", "","","","",resumeUtil.convertToJsonText(context,parametersToEncrypt));
 
-		java.util.concurrent.ConcurrentHashMap<Object, Object> concurrentHashMap = new java.util.concurrent.ConcurrentHashMap<Object, Object>();
-		globalMap.put("concurrentHashMap", concurrentHashMap);
+if(execStat) {
+    try {
+        runStat.openSocket(!isChildJob);
+        runStat.setAllPID(rootPid, fatherPid, pid, jobName);
+        runStat.startThreadStat(clientHost, portStats);
+        runStat.updateStatOnJob(RunStat.JOBSTART, fatherNode);
+    } catch (java.io.IOException ioException) {
+        ioException.printStackTrace();
+    }
+}
 
-		long startUsedMemory = Runtime.getRuntime().totalMemory()
-				- Runtime.getRuntime().freeMemory();
-		long endUsedMemory = 0;
-		long end = 0;
 
-		startTime = System.currentTimeMillis();
 
-		this.globalResumeTicket = true;// to run tPreJob
+	
+	    java.util.concurrent.ConcurrentHashMap<Object, Object> concurrentHashMap = new java.util.concurrent.ConcurrentHashMap<Object, Object>();
+	    globalMap.put("concurrentHashMap", concurrentHashMap);
+	
 
-		this.globalResumeTicket = false;// to run others jobs
+    long startUsedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+    long endUsedMemory = 0;
+    long end = 0;
 
-		try {
-			errorCode = null;
-			tJDBCConnection_1Process(globalMap);
-			if (!"failure".equals(status)) {
-				status = "end";
-			}
-		} catch (TalendException e_tJDBCConnection_1) {
-			globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", -1);
+    startTime = System.currentTimeMillis();
 
-			e_tJDBCConnection_1.printStackTrace();
 
-		}
+this.globalResumeTicket = true;//to run tPreJob
 
-		this.globalResumeTicket = true;// to run tPostJob
 
-		end = System.currentTimeMillis();
 
-		if (watch) {
-			System.out.println((end - startTime) + " milliseconds");
-		}
 
-		endUsedMemory = Runtime.getRuntime().totalMemory()
-				- Runtime.getRuntime().freeMemory();
-		if (false) {
-			System.out
-					.println((endUsedMemory - startUsedMemory)
-							+ " bytes memory increase when running : MinimalVersionCheck");
-		}
 
-		int returnCode = 0;
-		if (errorCode == null) {
-			returnCode = status != null && status.equals("failure") ? 1 : 0;
-		} else {
-			returnCode = errorCode.intValue();
-		}
-		resumeUtil.addLog("JOB_ENDED", "JOB:" + jobName, parent_part_launcher,
-				Thread.currentThread().getId() + "", "", "" + returnCode, "",
-				"", "");
+this.globalResumeTicket = false;//to run others jobs
 
-		return returnCode;
+try {
+errorCode = null;tJDBCConnection_1Process(globalMap);
+if(!"failure".equals(status)) { status = "end"; }
+}catch (TalendException e_tJDBCConnection_1) {
+globalMap.put("tJDBCConnection_1_SUBPROCESS_STATE", -1);
 
-	}
+e_tJDBCConnection_1.printStackTrace();
 
-	// only for OSGi env
-	public void destroy() {
-		closeSqlDbConnections();
+}
 
-	}
+this.globalResumeTicket = true;//to run tPostJob
 
-	private void closeSqlDbConnections() {
-		try {
-			Object obj_conn;
-			obj_conn = globalMap.remove("conn_tJDBCConnection_1");
-			if (null != obj_conn) {
-				((java.sql.Connection) obj_conn).close();
-			}
-			obj_conn = globalMap.remove("conn_tJDBCConnection_2");
-			if (null != obj_conn) {
-				((java.sql.Connection) obj_conn).close();
-			}
-		} catch (java.lang.Exception e) {
-		}
-	}
 
-	private java.util.Map<String, Object> getSharedConnections4REST() {
-		java.util.Map<String, Object> connections = new java.util.HashMap<String, Object>();
-		connections.put("conn_tJDBCConnection_1",
-				globalMap.get("conn_tJDBCConnection_1"));
-		connections.put("conn_tJDBCConnection_2",
-				globalMap.get("conn_tJDBCConnection_2"));
 
-		return connections;
-	}
 
-	private void evalParam(String arg) {
-		if (arg.startsWith("--resuming_logs_dir_path")) {
-			resuming_logs_dir_path = arg.substring(25);
-		} else if (arg.startsWith("--resuming_checkpoint_path")) {
-			resuming_checkpoint_path = arg.substring(27);
-		} else if (arg.startsWith("--parent_part_launcher")) {
-			parent_part_launcher = arg.substring(23);
-		} else if (arg.startsWith("--watch")) {
-			watch = true;
-		} else if (arg.startsWith("--stat_port=")) {
-			String portStatsStr = arg.substring(12);
-			if (portStatsStr != null && !portStatsStr.equals("null")) {
-				portStats = Integer.parseInt(portStatsStr);
-			}
-		} else if (arg.startsWith("--trace_port=")) {
-			portTraces = Integer.parseInt(arg.substring(13));
-		} else if (arg.startsWith("--client_host=")) {
-			clientHost = arg.substring(14);
-		} else if (arg.startsWith("--context=")) {
-			contextStr = arg.substring(10);
-			isDefaultContext = false;
-		} else if (arg.startsWith("--father_pid=")) {
-			fatherPid = arg.substring(13);
-		} else if (arg.startsWith("--root_pid=")) {
-			rootPid = arg.substring(11);
-		} else if (arg.startsWith("--father_node=")) {
-			fatherNode = arg.substring(14);
-		} else if (arg.startsWith("--pid=")) {
-			pid = arg.substring(6);
-		} else if (arg.startsWith("--context_param")) {
-			String keyValue = arg.substring(16);
+        end = System.currentTimeMillis();
+
+        if (watch) {
+            System.out.println((end-startTime)+" milliseconds");
+        }
+
+        endUsedMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        if (false) {
+            System.out.println((endUsedMemory - startUsedMemory) + " bytes memory increase when running : MinimalVersionCheck");
+        }
+
+
+
+if (execStat) {
+    runStat.updateStatOnJob(RunStat.JOBEND, fatherNode);
+    runStat.stopThreadStat();
+}
+    int returnCode = 0;
+
+
+    if(errorCode == null) {
+         returnCode = status != null && status.equals("failure") ? 1 : 0;
+    } else {
+         returnCode = errorCode.intValue();
+    }
+    resumeUtil.addLog("JOB_ENDED", "JOB:" + jobName, parent_part_launcher, Thread.currentThread().getId() + "", "","" + returnCode,"","","");
+
+    return returnCode;
+
+  }
+
+    // only for OSGi env
+    public void destroy() {
+    closeSqlDbConnections();
+
+
+    }
+
+
+
+    private void closeSqlDbConnections() {
+        try {
+            Object obj_conn;
+            obj_conn = globalMap.remove("conn_tJDBCConnection_1");
+            if (null != obj_conn) {
+                ((java.sql.Connection) obj_conn).close();
+            }
+            obj_conn = globalMap.remove("conn_tJDBCConnection_2");
+            if (null != obj_conn) {
+                ((java.sql.Connection) obj_conn).close();
+            }
+        } catch (java.lang.Exception e) {
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    private java.util.Map<String, Object> getSharedConnections4REST() {
+        java.util.Map<String, Object> connections = new java.util.HashMap<String, Object>();
+            connections.put("conn_tJDBCConnection_1", globalMap.get("conn_tJDBCConnection_1"));
+            connections.put("conn_tJDBCConnection_2", globalMap.get("conn_tJDBCConnection_2"));
+
+
+
+
+
+
+        return connections;
+    }
+
+    private void evalParam(String arg) {
+        if (arg.startsWith("--resuming_logs_dir_path")) {
+            resuming_logs_dir_path = arg.substring(25);
+        } else if (arg.startsWith("--resuming_checkpoint_path")) {
+            resuming_checkpoint_path = arg.substring(27);
+        } else if (arg.startsWith("--parent_part_launcher")) {
+            parent_part_launcher = arg.substring(23);
+        } else if (arg.startsWith("--watch")) {
+            watch = true;
+        } else if (arg.startsWith("--stat_port=")) {
+            String portStatsStr = arg.substring(12);
+            if (portStatsStr != null && !portStatsStr.equals("null")) {
+                portStats = Integer.parseInt(portStatsStr);
+            }
+        } else if (arg.startsWith("--trace_port=")) {
+            portTraces = Integer.parseInt(arg.substring(13));
+        } else if (arg.startsWith("--client_host=")) {
+            clientHost = arg.substring(14);
+        } else if (arg.startsWith("--context=")) {
+            contextStr = arg.substring(10);
+            isDefaultContext = false;
+        } else if (arg.startsWith("--father_pid=")) {
+            fatherPid = arg.substring(13);
+        } else if (arg.startsWith("--root_pid=")) {
+            rootPid = arg.substring(11);
+        } else if (arg.startsWith("--father_node=")) {
+            fatherNode = arg.substring(14);
+        } else if (arg.startsWith("--pid=")) {
+            pid = arg.substring(6);
+        } else if (arg.startsWith("--context_type")) {
+            String keyValue = arg.substring(15);
 			int index = -1;
-			if (keyValue != null && (index = keyValue.indexOf('=')) > -1) {
-				if (fatherPid == null) {
-					context_param.put(keyValue.substring(0, index),
-							replaceEscapeChars(keyValue.substring(index + 1)));
-				} else { // the subjob won't escape the especial chars
-					context_param.put(keyValue.substring(0, index),
-							keyValue.substring(index + 1));
-				}
-			}
-		} else if (arg.startsWith("--log4jLevel=")) {
-			log4jLevel = arg.substring(13);
+            if (keyValue != null && (index = keyValue.indexOf('=')) > -1) {
+                if (fatherPid==null) {
+                    context_param.setContextType(keyValue.substring(0, index), replaceEscapeChars(keyValue.substring(index + 1)));
+                } else { // the subjob won't escape the especial chars
+                    context_param.setContextType(keyValue.substring(0, index), keyValue.substring(index + 1) );
+                }
+
+            }
+
+		} else if (arg.startsWith("--context_param")) {
+            String keyValue = arg.substring(16);
+            int index = -1;
+            if (keyValue != null && (index = keyValue.indexOf('=')) > -1) {
+                if (fatherPid==null) {
+                    context_param.put(keyValue.substring(0, index), replaceEscapeChars(keyValue.substring(index + 1)));
+                } else { // the subjob won't escape the especial chars
+                    context_param.put(keyValue.substring(0, index), keyValue.substring(index + 1) );
+                }
+            }
+        } else if (arg.startsWith("--log4jLevel=")) {
+            log4jLevel = arg.substring(13);
+		} else if (arg.startsWith("--audit.enabled") && arg.contains("=")) {//for trunjob call
+		    final int equal = arg.indexOf('=');
+			final String key = arg.substring("--".length(), equal);
+			System.setProperty(key, arg.substring(equal + 1));
 		}
+    }
+    
+    private static final String NULL_VALUE_EXPRESSION_IN_COMMAND_STRING_FOR_CHILD_JOB_ONLY = "<TALEND_NULL>";
 
-	}
-
-	private final String[][] escapeChars = { { "\\\\", "\\" }, { "\\n", "\n" },
-			{ "\\'", "\'" }, { "\\r", "\r" }, { "\\f", "\f" }, { "\\b", "\b" },
-			{ "\\t", "\t" } };
-
-	private String replaceEscapeChars(String keyValue) {
+    private final String[][] escapeChars = {
+        {"\\\\","\\"},{"\\n","\n"},{"\\'","\'"},{"\\r","\r"},
+        {"\\f","\f"},{"\\b","\b"},{"\\t","\t"}
+        };
+    private String replaceEscapeChars (String keyValue) {
 
 		if (keyValue == null || ("").equals(keyValue.trim())) {
 			return keyValue;
@@ -3221,18 +5291,15 @@ public class MinimalVersionCheck implements TalendJob {
 			int index = -1;
 			// judege if the left string includes escape chars
 			for (String[] strArray : escapeChars) {
-				index = keyValue.indexOf(strArray[0], currIndex);
-				if (index >= 0) {
+				index = keyValue.indexOf(strArray[0],currIndex);
+				if (index>=0) {
 
-					result.append(keyValue.substring(currIndex,
-							index + strArray[0].length()).replace(strArray[0],
-							strArray[1]));
+					result.append(keyValue.substring(currIndex, index + strArray[0].length()).replace(strArray[0], strArray[1]));
 					currIndex = index + strArray[0].length();
 					break;
 				}
 			}
-			// if the left string doesn't include escape chars, append the left
-			// into the result
+			// if the left string doesn't include escape chars, append the left into the result
 			if (index < 0) {
 				result.append(keyValue.substring(currIndex));
 				currIndex = currIndex + keyValue.length();
@@ -3240,19 +5307,20 @@ public class MinimalVersionCheck implements TalendJob {
 		}
 
 		return result.toString();
-	}
+    }
 
-	public Integer getErrorCode() {
-		return errorCode;
-	}
+    public Integer getErrorCode() {
+        return errorCode;
+    }
 
-	public String getStatus() {
-		return status;
-	}
 
-	ResumeUtil resumeUtil = null;
+    public String getStatus() {
+        return status;
+    }
+
+    ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 88759 characters generated by Talend Open Studio for Data Integration on the
- * February 11, 2018 1:56:27 PM IST
+ *     155226 characters generated by Talend Open Studio for Data Integration 
+ *     on the January 6, 2022 at 1:14:42 PM IST
  ************************************************************************************************/

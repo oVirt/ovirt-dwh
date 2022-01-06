@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2015 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2021 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -13,10 +13,13 @@
 package routines.system;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
+import java.io.RandomAccessFile;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +27,7 @@ import java.util.Map;
 
 /**
  * ResumeUtil.
- * 
+ *
  */
 public class ResumeUtil {
 
@@ -51,9 +54,9 @@ public class ResumeUtil {
     private static Map<String, SimpleCsvWriter> sharedWriterMap = new HashMap<String, SimpleCsvWriter>();
 
     private static Object lock = new Object();
-    
+
     // step1: init the log file name
-    public ResumeUtil(String logFileName, boolean createNewFile, String root_pid) {
+    public ResumeUtil(String logFileName, boolean append, String root_pid) {
         if (logFileName == null || logFileName.equals("null")) {
             return;
         }
@@ -62,7 +65,7 @@ public class ResumeUtil {
         if (this.root_pid == null) {
             this.root_pid = root_pid;
         }
-        
+
         this.logFileName = logFileName;
 
         synchronized (lock) {
@@ -70,11 +73,14 @@ public class ResumeUtil {
             File file = new File(logFileName);
             try {
                 if (sharedWriter == null) {
-                    this.csvWriter = new SimpleCsvWriter(new FileWriter(logFileName, createNewFile));
-    
-                    // shared
-                    sharedWriterMap.put(this.root_pid, this.csvWriter);
-    
+                    FileChannel fc = new RandomAccessFile(logFileName, "rw").getChannel();
+                    if(append){
+                        fc.position(fc.size());
+                    }else {
+                        fc.truncate(0);
+                    }
+                    this.csvWriter = new SimpleCsvWriter(fc);
+
                     // output the header part
                     if (file.length() == 0) {
                         if (genDynamicPart) {
@@ -97,9 +103,12 @@ public class ResumeUtil {
                         csvWriter.write("errorCode");// errorCode
                         csvWriter.write("message");// message
                         csvWriter.write("stackTrace");// stackTrace
+                        csvWriter.write("dynamicData");// dynamicData
                         csvWriter.endRecord();
                         csvWriter.flush();
                     }
+                    // shared
+                    sharedWriterMap.put(this.root_pid, this.csvWriter);
                 } else {
                     csvWriter = sharedWriter;
                 }
@@ -135,8 +144,10 @@ public class ResumeUtil {
 
         JobLogItem item = new JobLogItem(eventDate, type, partName, parentPart, threadId, logPriority, errorCode, message,
                 stackTrace, dynamicData);
+        FileLock fileLock = null;
         try {
             synchronized (csvWriter) {
+                fileLock = csvWriter.getlock();
                 if (genDynamicPart) {
                     csvWriter.write(item.eventDate);// eventDate--------------->???
                     csvWriter.write(commonInfo.pid);// pid
@@ -145,7 +156,7 @@ public class ResumeUtil {
                 }
                 csvWriter.write(item.type);// type---------------->???
                 csvWriter.write(item.partName);// partName
-    
+
                 csvWriter.write(item.parentPart);// parentPart
                 if (genDynamicPart) {
                     csvWriter.write(commonInfo.project);// project
@@ -161,6 +172,7 @@ public class ResumeUtil {
                 csvWriter.write(item.dynamicData);// dynamicData--->it is the 17th field. @see:feature:11296
                 csvWriter.endRecord();
                 csvWriter.flush();
+                fileLock.release();
             }
             // for test the order
             // System.out.print(item.partName + ",");// partName
@@ -170,6 +182,15 @@ public class ResumeUtil {
             // System.out.println();
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            if (fileLock != null) {
+                try {
+                    fileLock.release();
+                    fileLock = null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -441,20 +462,24 @@ public class ResumeUtil {
 
     /**
      * this class is reference with CsvWriter.
-     * 
+     *
      * Because java.io.PrintWriter with this limit. {@link PrintWriter}, If automatic flushing is enabled it will be
      * done only when...
-     * 
+     *
      * This limit will affect parentJob/childrenJob operate the same csv writer file, they always hold data buffer
      * themselves, and flush() can't really flush.
-     * 
+     *
      * SimpleCsvWriter is without this problem.
-     * 
+     *
      * @author wyang
      */
     public class SimpleCsvWriter {
 
-        private Writer writer = null;
+        private FileChannel channel = null;
+
+        private ByteBuffer buf = null;
+
+
 
         private boolean firstColumn = true;
 
@@ -464,11 +489,11 @@ public class ResumeUtil {
 
         private static final int EscapeMode = ESCAPE_MODE_DOUBLED;
 
-        private static final char TextQualifier = '"';
+        private static final String TextQualifier = "\"";
 
-        private static final char BACKSLASH = '\\';
+        private static final String BACKSLASH = "\\";
 
-        private static final char Delimiter = ',';
+        private static final String Delimiter = ",";
 
         // JDK1.5 can't pass compile
         // private String lineSeparator = (String)
@@ -478,8 +503,9 @@ public class ResumeUtil {
 
         private String lineSeparator = System.getProperty("line.separator");
 
-        public SimpleCsvWriter(Writer writer) {
-            this.writer = writer;
+        public SimpleCsvWriter(FileChannel channel) {
+            this.channel = channel;
+            buf = ByteBuffer.allocate(2<<14);//32k buffer size
         }
 
         /**
@@ -492,10 +518,10 @@ public class ResumeUtil {
             }
 
             if (!firstColumn) {
-                writer.write(Delimiter);
+                buf.put(Delimiter.getBytes());
             }
 
-            writer.write(TextQualifier);
+            buf.put(TextQualifier.getBytes());
 
             // support backslash mode
             if (EscapeMode == ESCAPE_MODE_BACKSLASH) {
@@ -505,18 +531,22 @@ public class ResumeUtil {
                 content = replace(content, "" + TextQualifier, "" + TextQualifier + TextQualifier);
             }
 
-            writer.write(content);
+            buf.put(content.getBytes());
 
-            writer.write(TextQualifier);
+            buf.put(TextQualifier.getBytes());
 
             firstColumn = false;
+        }
+
+        public FileLock getlock() throws IOException {
+            return channel.lock();
         }
 
         /**
          * finish a record, prepare the next one
          */
         public void endRecord() throws IOException {
-            writer.write(lineSeparator);
+            buf.put(lineSeparator.getBytes());
             firstColumn = true;
         }
 
@@ -525,7 +555,13 @@ public class ResumeUtil {
          */
         public void flush() {
             try {
-                writer.flush();
+                ((Buffer) buf).flip();
+                channel.position(channel.size());
+                while(buf.hasRemaining()) {
+                    channel.write(buf);
+                }
+                channel.force(true);
+                ((Buffer) buf).clear();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -536,7 +572,7 @@ public class ResumeUtil {
          */
         public void close() {
             try {
-                writer.close();
+                channel.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }

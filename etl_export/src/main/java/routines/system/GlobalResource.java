@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2015 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2021 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -14,28 +14,23 @@ package routines.system;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GlobalResource {
 
-    // let it support the top level Object
-    public static Map<Object, Object> resourceMap = new HashMap<Object, Object>();
+	// let it support the top level Object
+	public static Map<Object, Object> resourceMap = new HashMap<Object, Object>();
 
-    // when there is multiple threads wants to insert stats&logs&meta into DB, it is used as a locker. bug:22677
-    public static TalendMultiThreadLockMap resourceLockMap = new TalendMultiThreadLockMap();
+	// when there is multiple threads wants to insert stats&logs&meta into DB, it is
+	// used as a locker. bug:22677
+	public static TalendMultiThreadLockMap resourceLockMap = new TalendMultiThreadLockMap();
 
-    public static class TalendMultiThreadLockMap {
+	public static class TalendMultiThreadLockMap {
 
-        private Map<Object, Object> tMultiTheadLockMap = new HashMap<Object, Object>();
+		private Map<Object, Object> tMultiTheadLockMap = new ConcurrentHashMap<>();
 
-        public Object get(Object key) {
-            if (tMultiTheadLockMap.get(key) == null) {
-                synchronized (TalendMultiThreadLockMap.this) {
-                    if (tMultiTheadLockMap.get(key) == null) {
-                        tMultiTheadLockMap.put(key, new Object());
-                    }
-                }
-            }
-            return tMultiTheadLockMap.get(key);
-        }
-    }
+		public Object get(Object key) {
+			return tMultiTheadLockMap.computeIfAbsent(key, k -> new Object());
+		}
+	}
 }

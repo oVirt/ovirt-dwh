@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  Copyright (c) 2011-2013 Talend Inc. - www.talend.com
+ *  Copyright (c) 2011-2019 Talend Inc. - www.talend.com
  *  All rights reserved.
  *
  *  This program and the accompanying materials are made available
@@ -42,5 +42,4 @@ public interface TalendESBJob extends TalendJob {
      * @param callback
      */
     void setProviderCallback(ESBProviderCallback callback);
-
 }

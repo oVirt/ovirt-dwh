@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2015 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2021 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -8,7 +8,7 @@
 // You should have received a copy of the agreement
 // along with this program; if not, write to Talend SA
 // 9 rue Pages 92150 Suresnes, France
-//   
+//
 // ============================================================================
 package routines.system;
 
@@ -25,9 +25,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class StringUtils {
-	
+
 	public static final String[] EMPTY_STRING_ARRAY = new String[0];
-	
+
 	public static final String EMPTY = "";
 
     public static String newStringFromSplit(CharsetDecoder decoder, CharsetDecoder utf8Decoder, String encoding,
@@ -81,7 +81,7 @@ public class StringUtils {
         utf8Decoder.onUnmappableCharacter(CodingErrorAction.REPORT);
 
         ArrayList<String> substrings = new ArrayList<String>();
-	
+
         int lineLength = line.limit();
         int sepCursor = 0;
         int fieldCursor = 0;
@@ -128,7 +128,7 @@ public class StringUtils {
 
 	/**
 	 * replace the method : String.split(String regex)
-     * 
+     *
 	 * @param str
 	 * @param separatorChars
 	 * @return
@@ -166,14 +166,18 @@ public class StringUtils {
             }
         }
 
+
         int resultSize = substrings.size();
+        String[] result = substrings.toArray(new String[resultSize]);
+
         while (resultSize > 0 && substrings.get(resultSize - 1).equals("")) {
-        	resultSize--;
+            resultSize--;
+            // Setting data to null for empty string in last columns to keep original behavior
+            result[resultSize] = null;
         }
-        String[] result = new String[resultSize];
-        return substrings.subList(0, resultSize).toArray(result);
+        return result;
 	}
-	
+
 	/**
      * split SQL columns like that :
      * from :
@@ -181,7 +185,7 @@ public class StringUtils {
      * to
      * [id] [name] [CONCAT(name,UPPER(address))] [CONCAT(age,name)]
      */
-    
+
     public static String[] splitSQLColumns(String sql) {
     	List<String> result = new ArrayList<String>();
     	int blockCount = 0;
@@ -193,12 +197,12 @@ public class StringUtils {
     		} else if(c == ')') {
     			blockCount--;
     		}
-    		
+
     		if((c == ',' && (blockCount<1))) {
     			result.add(sql.substring(start, i));
     			start = i + 1;
     		}
-    		
+
     		if(i == (sql.length()-1)) {
     			result.add(sql.substring(start));
     		}
@@ -286,7 +290,7 @@ public class StringUtils {
 
     /**
      * to discuss the case: src == null || regex == null || replacement == null
-     * 
+     *
      */
     public static String replaceAll(String src, String regex, String replacement) {
 
@@ -322,7 +326,7 @@ public class StringUtils {
 
     /**
      * ignore regex
-     * 
+     *
      */
     public static String replaceAllStrictly(String src, String search, String replacement, boolean entirelyMatch,
             boolean caseSensitive) {
@@ -339,7 +343,7 @@ public class StringUtils {
                 return null; // regex != null && src == null
             } else {
                 // case 3:
-                if (replacement == null) {
+                if (replacement == null || entirelyMatch) {
                     if ((caseSensitive && src.equals(search)) || (!caseSensitive && src.equalsIgnoreCase(search))) {
                         // regex != null && src != null && replacement != null, and match the whole src
                         return replacement;
@@ -348,15 +352,8 @@ public class StringUtils {
                     }
 
                 } else {
-                    // regex != null && src != null && replacement != null
-                    if (entirelyMatch) {
-                        String upperSrc = caseSensitive ? src : src.toUpperCase();
-                        String upperSearch = caseSensitive ? search : search.toUpperCase();
-                        return upperSrc.equals(upperSearch) ? replacement : src;
-                    } else {
-                        int flag = caseSensitive ? Pattern.LITERAL : Pattern.LITERAL | Pattern.CASE_INSENSITIVE;
-                        return Pattern.compile(search, flag).matcher(src).replaceAll(Matcher.quoteReplacement(replacement));
-                    }
+                    int flag = caseSensitive ? Pattern.LITERAL : Pattern.LITERAL | Pattern.CASE_INSENSITIVE;
+                    return Pattern.compile(search, flag).matcher(src).replaceAll(Matcher.quoteReplacement(replacement));
                 }
             }
         }
@@ -364,7 +361,7 @@ public class StringUtils {
 
     /**
      * make \n to \\n. It will process these chars: \n, \r, \t, \f, \\, \", \', \b
-     * 
+     *
      */
     public static String escapeChar(String s) {
         if (s == null) {
@@ -407,10 +404,27 @@ public class StringUtils {
         return sb.toString();
     }
     
+    /**
+     * check if string contains search string case-insensitivity
+     * the code is copied from apache commons-lang3 StringUtils and do some adjust to avoid the useless code
+     */
+    public static boolean containsIgnoreCase(final String str, final String searchStr) {
+        if (str == null || searchStr == null) {
+            return false;
+        }
+        final int len = searchStr.length();
+        final int max = str.length() - len;
+        for (int i = 0; i <= max; i++) {
+            if (str.regionMatches(true, i, searchStr, 0, len)) {
+                return true;
+            }
+        }
+        return false;
+    }
     
     /**
      * return null value not "null" String when obj is null that is the only difference with String.valueOf(Object obj)
-     * 
+     *
      * @param obj
      * @return
      */
@@ -445,5 +459,5 @@ public class StringUtils {
 	public static String valueOf(double d) {
 		return String.valueOf(d);
 	}
-	
+
 }
