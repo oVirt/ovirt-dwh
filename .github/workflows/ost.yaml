@@ -8,8 +8,8 @@ on:
 jobs:
   on-success:
     runs-on: self-hosted
-    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.review.state == 'approved' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: trigger
         run: >
-          echo "hi,$(id)" > /tmp
+          echo "hi,$(id)" > /tmp/x
