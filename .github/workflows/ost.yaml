@@ -1,0 +1,24 @@
+name: ost
+on:
+  workflow_run:
+    workflows: ["build"]
+    types:
+      - completed
+      
+jobs:
+  trigger-ost:
+    runs-on: self-hosted
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    timeout-minutes: 5
+    steps:
+      - name: trigger
+        env:
+          OST_LISTEN_PORT: ${{ secrets.OST_LISTEN_PORT }}
+        run: |
+          cd /var/lib/nginx/gh
+          echo ${{ github.event.workflow_run.artifacts_url }} | runuser -u nginx tee queue
+          nc -l -I 256 -W 1 ${OST_LISTEN_PORT} | grep '^run$'
+          mv -f queue run
+          nc -l -I 256 -W 1 ${OST_LISTEN_PORT} | grep '^rm$'
+          rm -f run
+          nc -l -I 256 -W 1 ${OST_LISTEN_PORT} | grep '^done$'
