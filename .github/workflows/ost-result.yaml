@@ -1,0 +1,11 @@
+name: ost-result
+on:
+  repository_dispatch:
+    types: [ost-event]
+
+jobs:
+  ost-result:
+    runs-on: ubuntu-latest
+    steps:
+      - name: result
+        run: echo compare ${{ github.event.client_payload.sha }}

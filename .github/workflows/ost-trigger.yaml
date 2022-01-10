@@ -1,4 +1,4 @@
-name: ost
+name: ost-trigger
 on:
   workflow_run:
     workflows: ["build"]
@@ -8,8 +8,8 @@ on:
 jobs:
   trigger-ost:
     runs-on: self-hosted
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    timeout-minutes: 5
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.review.state == 'approved' }}
+    timeout-minutes: 5 # should get enqueued in 1m
     steps:
       - name: trigger
         env:
