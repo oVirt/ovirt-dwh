@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2015 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2021 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -13,13 +13,55 @@
 package routines.system;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
+import java.util.Locale;
 
 import routines.TalendDate;
 
 public class FormatterUtils {
+
+    /**
+     * format every type object, use runtime type checking
+     * @param obj
+     * @param pattern
+     * @return the string content
+     */
+    public static String fm(Object obj, String pattern) {
+        if(obj == null) {
+            return null;
+        }
+
+        //the order is on purpose here for the appear rank
+        if(obj instanceof String) {
+            return obj.toString();
+        } else if(obj instanceof Integer) {//not call the format(int i, String pattern) method to avoid auto cast from Integer to int
+            return obj.toString();
+        } else if(obj instanceof Long) {
+            return obj.toString();
+        } else if(obj instanceof Date) {
+            return TalendDate.formatDate(pattern == null ? Constant.dateDefaultPattern : pattern, (Date)obj);
+        } else if(obj instanceof Boolean) {
+            return obj.toString();
+        } else if(obj instanceof BigDecimal) {
+            return ((BigDecimal)obj).toPlainString();
+        } else if(obj instanceof Double) {
+            return obj.toString();
+        } else if(obj instanceof Float) {
+            return obj.toString();
+        } else if(obj instanceof Character) {
+            return obj.toString();
+        } else if(obj instanceof char[]) {
+            return format((char[])obj, null);
+        } else if(obj instanceof byte[]) {
+            return format((byte[])obj, null);
+        }
+
+        return obj.toString();
+    }
 
     public static String format(Object obj, String pattern) {
         return (obj == null) ? null : obj.toString();
@@ -38,6 +80,18 @@ public class FormatterUtils {
             return null;
         }
         return decimal.toPlainString();
+    }
+
+    public static String format_BigDecimal(BigDecimal decimal, Integer scale) {
+        if (decimal == null) {
+            return null;
+        }
+
+        if (scale == null) {
+            return decimal.toPlainString();
+        }
+
+        return decimal.setScale(scale, RoundingMode.HALF_UP).toPlainString();
     }
 
     public static String format(byte data[], String pattern) {
@@ -105,12 +159,46 @@ public class FormatterUtils {
         }
     }
 
+    /**
+     * Formats a Date into a date/time string under an user specified timezone.
+     *
+     * @param date the time value to be formatted into a time string.
+     * @param pattern the pattern to format.
+     * @param zoneId id of the timezone to consider
+     * @return the formatted time string.
+     *
+     */
+    public static String format_DateInTimeZone(java.util.Date date, String pattern, String zoneId) {
+        if (date != null) {
+            return TalendDate.formatDateInTimeZone(pattern == null ? Constant.dateDefaultPattern : pattern, date, zoneId);
+        } else {
+            return null;
+        }
+    }
+
     public static String format_Date_Locale(java.util.Date date, String pattern, String locale) {
         if (date != null) {
             return TalendDate.formatDateLocale(pattern == null ? Constant.dateDefaultPattern : pattern, date, locale);
         } else {
             return null;
         }
+    }
+
+    /**
+     * in order to transform the number "1234567.89" to string 123,456.89
+     */
+    public static String format_Number(String s, String thousandsSeparator, String decimalSeparator) {
+        Character thousandsSeparatorChar = null;
+        if(thousandsSeparator!=null && !thousandsSeparator.isEmpty()) {
+            thousandsSeparatorChar = thousandsSeparator.charAt(0);
+        }
+
+        Character decimalSeparatorChar = null;
+        if(decimalSeparator!=null && !decimalSeparator.isEmpty()) {
+            decimalSeparatorChar = decimalSeparator.charAt(0);
+        }
+
+        return format_Number(s, thousandsSeparatorChar, decimalSeparatorChar);
     }
 
     /**
@@ -206,7 +294,34 @@ public class FormatterUtils {
         return returnString.toString();
     }
 
-    private static final DecimalFormat df = new DecimalFormat("#.###########################################################");
+    private static final DecimalFormat df = new DecimalFormat("#.####################################", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
+    static {
+        df.setRoundingMode(RoundingMode.HALF_UP);
+    }
+
+    /**
+     * the number format to avoid scientific notation and avoid locale-related and do best to keep precision
+     */
+    public static String formatNumber(Object number) {
+        if(number == null) {
+            return null;
+        }
+        //df.format(float/Float) will call Float.doubleValue, it will do some bad thing.
+        if(number instanceof Float) {
+            return formatUnwithE(number);
+        }
+        return df.format(number);
+    }
+
+    //overload it for performance to avoid auto convert to Double object
+    public static String formatNumber(double number) {
+        return df.format(number);
+    }
+
+    //overload it for performance to avoid auto convert to Float object
+    public static String formatNumber(float number) {
+        return formatUnwithE(number);
+    }
 
     /**
      * DOC Administrator Comment method "formatUnwithE". In java when double more than six decimal that use toString

@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2015 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2021 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -63,14 +63,18 @@ public class GetJarsToRegister {
     }
 
     public String replaceJarPaths(String originalClassPathLine, String scheme) throws Exception {
+        return replaceJarPaths(originalClassPathLine, scheme, false);
+    }
+
+    public String replaceJarPaths(String originalClassPathLine, String scheme, boolean encodeSpaces) throws Exception {
         String classPathLine = "";
         String crcMapPath = new java.io.File("../crcMap").getCanonicalPath();
 
         if (isNeedAddLibsPath(crcMapPath)) {
             java.util.Map<String, String> crcMap = null;
-            java.io.ObjectInputStream ois = new ObjectInputStream(new java.io.FileInputStream(crcMapPath));
-            crcMap = (java.util.Map<String, String>) ois.readObject();
-            ois.close();
+            try (java.io.ObjectInputStream ois = new ObjectInputStream(new java.io.FileInputStream(crcMapPath))) {
+                crcMap = (java.util.Map<String, String>) ois.readObject();
+            }
             classPathLine = addLibsPath(originalClassPathLine, crcMap);
         } else if (this.isOozieRuntime) {
             if (this.oozieClasspathLine != null) {
@@ -89,6 +93,9 @@ public class GetJarsToRegister {
                 classPathLine = scheme + originalClassPathLine;
             }
         }
+        if(encodeSpaces){
+            classPathLine = classPathLine.replaceAll("\\s", "%20");
+        }
         return classPathLine;
     }
 
@@ -102,24 +109,31 @@ public class GetJarsToRegister {
     private String addLibsPath(String line, java.util.Map<String, String> crcMap) {
         for (java.util.Map.Entry<String, String> entry : crcMap.entrySet()) {
             line = adaptLibPaths(line, entry);
+            if (new java.io.File(line).exists()) {
+                break;
+            }
         }
         return line;
     }
 
     private String adaptLibPaths(String line, java.util.Map.Entry<String, String> entry) {
+        line = line.replace("\\", "/");
         String jarName = entry.getValue();
         String crc = entry.getKey();
         String libStringFinder = "../lib/" + jarName;
         String libStringFinder2 = "./" + jarName; // for the job jar itself.
+        String replacement = "../../../cache/lib/" + crc + "/" + jarName;
 
         if (line.contains(libStringFinder)) {
-            line = line.replace(libStringFinder, "../../../cache/lib/" + crc + "/" + jarName);
+            line = line.replace(libStringFinder, replacement);
         } else if (line.toLowerCase().contains(libStringFinder2)) {
-            line = line.toLowerCase().replace(libStringFinder2, "../../../cache/lib/" + crc + "/" + jarName);
+            line = line.toLowerCase().replace(libStringFinder2, replacement);
+        } else if (line.equalsIgnoreCase(jarName)) {
+            line = replacement;
         } else if (line.contains(":$ROOT_PATH/" + jarName + ":")) {
-            line = line.replace(":$ROOT_PATH/" + jarName + ":", ":$ROOT_PATH/../../../cache/lib/" + crc + "/" + jarName + ":");
+            line = line.replace(":$ROOT_PATH/" + jarName + ":", ":$ROOT_PATH/" + replacement + ":");
         } else if (line.contains(";" + jarName + ";")) {
-            line = line.replace(";" + jarName + ";", ";../../../cache/lib/" + crc + "/" + jarName + ";");
+            line = line.replace(";" + jarName + ";", ";" + replacement + ";");
         }
         return line;
     }

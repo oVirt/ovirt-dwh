@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.dom4j.Node;
 import org.dom4j.XPath;
-import org.dom4j.tree.AbstractNode;
 
 public class DocumentToFlat {
 	
@@ -28,7 +28,7 @@ public class DocumentToFlat {
 	private boolean defineNS = true;
 	private NameSpaceTool namespaceTool;
 	
-	private List<AbstractNode> nodes;
+    private List<Node> nodes;
 
 	//result show
 	private List<Map<String,String>> resultSet = new ArrayList<Map<String,String>>();
@@ -48,7 +48,7 @@ public class DocumentToFlat {
 			loopXpath = doc.createXPath(currentLoop);
 		}
 		loopXpath.setNamespaceURIs(xmlNameSpaceMap);
-		nodes = convertToList(loopXpath.selectNodes(doc));
+		nodes = loopXpath.selectNodes(doc);
 		if(this.isOptional && nodes.size() == 0 && !top) {
 			setParentAsLoop();
 			flat();
@@ -60,7 +60,7 @@ public class DocumentToFlat {
 				}
 			}
 			
-			for(AbstractNode node : nodes) {
+            for (Node node : nodes) {
 				//init row
 				Map<String,String> row = new HashMap<String,String>();
 				resultSet.add(row);
@@ -184,7 +184,7 @@ public class DocumentToFlat {
 	public void flatForLookup(boolean isOptionalLoop) {
 		XPath loopXpath = doc.createXPath(currentLoop);
 		loopXpath.setNamespaceURIs(xmlNameSpaceMap);
-		nodes = convertToList(loopXpath.selectNodes(doc));
+		nodes = loopXpath.selectNodes(doc);
 		if(isOptionalLoop && nodes.size() == 0 && !top) {
 			setParentAsLoop();
 			flatForLookup(isOptionalLoop);
@@ -220,7 +220,7 @@ public class DocumentToFlat {
     	return content;
     }
 	
-	public List<AbstractNode> getNodes() {
+    public List<Node> getNodes() {
 		return nodes;
 	}
 	
@@ -246,14 +246,6 @@ public class DocumentToFlat {
 	
 	public void setIsOptional(boolean isLoopOptional) {
 		this.isOptional = isLoopOptional;
-	}
-
-	private List<AbstractNode> convertToList(Object nodes) {
-		if (nodes == null) {
-			return null;
-		} else {
-			return (List) nodes;
-		}
 	}
 	
 }

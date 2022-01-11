@@ -8,7 +8,7 @@ import java.util.Map;
 //
 // Talend Community Edition
 //
-// Copyright (C) 2006-2015 Talend - www.talend.com
+// Copyright (C) 2006-2021 Talend Inc. - www.talend.com
 //
 // This library is free software; you can redistribute it and/or
 // modify it under the terms of the GNU Lesser General Public
@@ -41,6 +41,7 @@ public class LocaleProvider {
 
     }
 
+    //though not thread safe here, but we syn in the client side, so ok
     public static Locale getLocale(String languageOrCountyCode) {
         if (cache == null) {
             initCache();
@@ -72,7 +73,11 @@ public class LocaleProvider {
                 key = language;
             }
             if (key != null) {
-                cache.put(key.toLowerCase(), locale);
+                String k = key.toLowerCase();
+                Locale old = cache.put(k, locale);
+                if(old != null && old.getCountry() !=null && old.getCountry().equalsIgnoreCase(old.getLanguage())) {
+                    cache.put(k, old);
+                }
             }
         }
     }

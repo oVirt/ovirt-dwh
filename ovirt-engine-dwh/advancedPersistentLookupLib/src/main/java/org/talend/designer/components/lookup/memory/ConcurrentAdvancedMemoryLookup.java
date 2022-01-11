@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2015 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2021 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -27,17 +27,20 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Class added and implemented to resolve thread safety issues surrounding the AdvancedMemoryLookup class where across
  * multiple partitions we would get various exceptions when multiple threads would try to use the same lookup to save
  * memory.
- * 
+ *
  * @param <V> V
  * @author rbaldwin
  */
 public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
 
-    public class ConcurrentMultiLazyValuesMap extends java.util.HashMap {
+    /**
+     * Concurrent multi lazy values map
+     */
+    private class CMLVM extends java.util.HashMap {
 
         private ConcurrentHashMap map;
 
-        public ConcurrentMultiLazyValuesMap(ConcurrentHashMap map) {
+        public CMLVM(ConcurrentHashMap map) {
             super();
             this.map = map;
         }
@@ -89,7 +92,7 @@ public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> i
 
         /**
          * DOC amaumont Comment method "instanciateNewList".
-         * 
+         *
          * @return
          */
         public Collection instanciateNewCollection() {
@@ -146,7 +149,7 @@ public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> i
         }
     }
 
-    private ConcurrentMultiLazyValuesMap mapOfCol;
+    private CMLVM mapOfCol;
 
     private Map<V, V> uniqueHash;
 
@@ -194,7 +197,7 @@ public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> i
             if (this.countValuesForEachKey) {
                 counterHash = new ConcurrentHashMap<V, Integer>(1000, .75f, 1);
             }
-            mapOfCol = new ConcurrentMultiLazyValuesMap(new ConcurrentHashMap(1000, .75f, 1));
+            mapOfCol = new CMLVM(new ConcurrentHashMap(1000, .75f, 1));
         }
     }
 
@@ -212,7 +215,7 @@ public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> i
                 counterHash = new ConcurrentHashMap<V, Integer>(1000, .9f, 1);
                 counterHash.putAll(other.counterHash);
             }
-            mapOfCol = new ConcurrentMultiLazyValuesMap(new ConcurrentHashMap(1000, .9f, 1));
+            mapOfCol = new CMLVM(new ConcurrentHashMap(1000, .9f, 1));
             mapOfCol.putAll(other.mapOfCol);
         }
     }
@@ -405,11 +408,11 @@ public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> i
 
     /**
      * DOC amaumont Comment method "incrementCountValues".
-     * 
+     *
      * @param value
      * @param previousValue
      */
-    private void incrementCountValues(V value, V previousValue) {
+    protected void incrementCountValues(V value, V previousValue) {
         if (countValuesForEachKey) {
             Integer count;
             if (previousValue == null) {
@@ -441,7 +444,7 @@ public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> i
 
     /**
      * DOC amaumont Comment method "hasResult".
-     * 
+     *
      * @return
      */
     public boolean hasResult() {
@@ -450,7 +453,7 @@ public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> i
 
     /**
      * Getter for hasHashKeys.
-     * 
+     *
      * @return the hasHashKeys
      */
     public boolean isUseHashKeys() {
@@ -459,7 +462,7 @@ public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> i
 
     /**
      * Getter for countValuesForEachKey.
-     * 
+     *
      * @return the countValuesForEachKey
      */
     public boolean isCountValuesForEachKey() {
@@ -468,7 +471,7 @@ public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> i
 
     /**
      * Getter for keepAllValues.
-     * 
+     *
      * @return the keepAllValues
      */
     public boolean isKeepAllValues() {
@@ -477,7 +480,7 @@ public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> i
 
     /**
      * Getter for uniqueMatch.
-     * 
+     *
      * @return the uniqueMatch
      */
     public boolean isUniqueMatch() {
@@ -486,7 +489,7 @@ public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> i
 
     /**
      * Getter for uniqueMatch.
-     * 
+     *
      * @return the uniqueMatch
      */
     public boolean isOnlyOneMatchResult() {
@@ -532,7 +535,7 @@ public class ConcurrentAdvancedMemoryLookup<V> extends AdvancedMemoryLookup<V> i
 
     /**
      * Getter for matchingMode.
-     * 
+     *
      * @return the matchingMode
      */
     public MATCHING_MODE getMatchingMode() {

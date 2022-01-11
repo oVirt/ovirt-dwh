@@ -1,0 +1,68 @@
+{
+  "itemId" : "_SHJWcLt3EeCeWLgt9FiAVg",
+  "contextList" : [ {
+    "contextName" : "Default",
+    "repoId" : "_3OYLIEP_EeC5PvJxFZIIsw",
+    "parameterList" : [ {
+      "id" : "_X_UhKXL_EeyTIIqG7_XnvA",
+      "name" : "deleteIncrement"
+    }, {
+      "id" : "_X_UhKnL_EeyTIIqG7_XnvA",
+      "name" : "deleteMultiplier"
+    }, {
+      "id" : "_X_UhJ3L_EeyTIIqG7_XnvA",
+      "name" : "dwhAggregationDebug"
+    }, {
+      "id" : "_X_UhJnL_EeyTIIqG7_XnvA",
+      "name" : "dwhUuid"
+    }, {
+      "id" : "_X_UhH3L_EeyTIIqG7_XnvA",
+      "name" : "etlVersion"
+    }, {
+      "id" : "_X_UhHHL_EeyTIIqG7_XnvA",
+      "name" : "hoursToKeepDaily"
+    }, {
+      "id" : "_X_UhG3L_EeyTIIqG7_XnvA",
+      "name" : "hoursToKeepHourly"
+    }, {
+      "id" : "_X_UhHXL_EeyTIIqG7_XnvA",
+      "name" : "hoursToKeepSamples"
+    }, {
+      "id" : "_X_UhIXL_EeyTIIqG7_XnvA",
+      "name" : "lastErrorSent"
+    }, {
+      "id" : "_X_UhEnL_EeyTIIqG7_XnvA",
+      "name" : "ovirtEngineDbDriverClass"
+    }, {
+      "id" : "_X_UhEXL_EeyTIIqG7_XnvA",
+      "name" : "ovirtEngineDbJdbcConnection"
+    }, {
+      "id" : "_X_UhFHL_EeyTIIqG7_XnvA",
+      "name" : "ovirtEngineDbPassword"
+    }, {
+      "id" : "_X_UhE3L_EeyTIIqG7_XnvA",
+      "name" : "ovirtEngineDbUser"
+    }, {
+      "id" : "_X_UhF3L_EeyTIIqG7_XnvA",
+      "name" : "ovirtEngineHistoryDbDriverClass"
+    }, {
+      "id" : "_X_UhFXL_EeyTIIqG7_XnvA",
+      "name" : "ovirtEngineHistoryDbJdbcConnection"
+    }, {
+      "id" : "_X_UhGHL_EeyTIIqG7_XnvA",
+      "name" : "ovirtEngineHistoryDbPassword"
+    }, {
+      "id" : "_X_UhFnL_EeyTIIqG7_XnvA",
+      "name" : "ovirtEngineHistoryDbUser"
+    }, {
+      "id" : "_X_UhIHL_EeyTIIqG7_XnvA",
+      "name" : "runDeleteTime"
+    }, {
+      "id" : "_X_UhGnL_EeyTIIqG7_XnvA",
+      "name" : "runInterleave"
+    }, {
+      "id" : "_X_UhInL_EeyTIIqG7_XnvA",
+      "name" : "timeBetweenErrorEvents"
+    } ]
+  } ]
+}

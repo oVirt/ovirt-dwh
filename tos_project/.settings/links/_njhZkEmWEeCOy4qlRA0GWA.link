@@ -1,0 +1,41 @@
+{
+  "itemId" : "_njhZkEmWEeCOy4qlRA0GWA",
+  "contextList" : [ {
+    "contextName" : "Default",
+    "repoId" : "_3OYLIEP_EeC5PvJxFZIIsw",
+    "parameterList" : [ {
+      "id" : "_X_UhKXL_EeyTIIqG7_XnvA",
+      "name" : "deleteIncrement"
+    }, {
+      "id" : "_X_UhKnL_EeyTIIqG7_XnvA",
+      "name" : "deleteMultiplier"
+    }, {
+      "id" : "_X_UhHHL_EeyTIIqG7_XnvA",
+      "name" : "hoursToKeepDaily"
+    }, {
+      "id" : "_X_UhG3L_EeyTIIqG7_XnvA",
+      "name" : "hoursToKeepHourly"
+    }, {
+      "id" : "_X_UhHXL_EeyTIIqG7_XnvA",
+      "name" : "hoursToKeepSamples"
+    }, {
+      "id" : "_X_UhKHL_EeyTIIqG7_XnvA",
+      "name" : "limitRows"
+    }, {
+      "id" : "_X_UhF3L_EeyTIIqG7_XnvA",
+      "name" : "ovirtEngineHistoryDbDriverClass"
+    }, {
+      "id" : "_X_UhFXL_EeyTIIqG7_XnvA",
+      "name" : "ovirtEngineHistoryDbJdbcConnection"
+    }, {
+      "id" : "_X_UhGHL_EeyTIIqG7_XnvA",
+      "name" : "ovirtEngineHistoryDbPassword"
+    }, {
+      "id" : "_X_UhFnL_EeyTIIqG7_XnvA",
+      "name" : "ovirtEngineHistoryDbUser"
+    }, {
+      "id" : "_X_UhGXL_EeyTIIqG7_XnvA",
+      "name" : "runTime"
+    } ]
+  } ]
+}

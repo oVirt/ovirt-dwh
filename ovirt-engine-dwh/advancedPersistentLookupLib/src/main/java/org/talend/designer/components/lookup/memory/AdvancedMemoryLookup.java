@@ -1,6 +1,6 @@
 // ============================================================================
 //
-// Copyright (C) 2006-2015 Talend Inc. - www.talend.com
+// Copyright (C) 2006-2021 Talend Inc. - www.talend.com
 //
 // This source code is available under agreement available at
 // %InstallDIR%\features\org.talend.rcp.branding.%PRODUCTNAME%\%PRODUCTNAME%license.txt
@@ -24,12 +24,12 @@ import org.talend.commons.utils.data.map.MultiLazyValuesMap;
 
 /**
  * DOC amaumont class global comment. Detailled comment <br/>
- * 
+ *
  * @param <V> value
  */
 public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
 
-    private MultiLazyValuesMap mapOfCol;
+    protected MultiLazyValuesMap mapOfCol;
 
     private Map<V, V> uniqueHash;
 
@@ -41,7 +41,7 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
 
     private Object[] arrayValues;
 
-    private boolean arrayIsDirty = true;
+    protected boolean arrayIsDirty = true;
 
     private List<V> listResult;
 
@@ -62,9 +62,9 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
     private boolean hasResult;
 
     /**
-     * 
+     *
      * <code>AdvancedLookup</code> can be configured to store values in different modes.
-     * 
+     *
      * @param useHashKeys use <code>equals()</code> and <code>hashCode()</code> methods by storing objects in hash maps
      * @param matchingMode to optimize storing and searching, and to specify which matching mode should used
      * @param uniqueMatch keep in the lookup only the last put object, but store the current number of same values for
@@ -77,22 +77,20 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
         this.keepAllValues = keepAllValues;
         this.matchingMode = matchingMode == null ? MATCHING_MODE.UNIQUE_MATCH : matchingMode;
         this.countValuesForEachKey = countValuesForEachKey; // || this.matchingMode == MATCHING_MODE.UNIQUE_MATCH;
-        if (matchingMode != MATCHING_MODE.ALL_ROWS) {
-            if (matchingMode == MATCHING_MODE.UNIQUE_MATCH && !keepAllValues) {
-                uniqueHash = new HashMap<V, V>();
-            }
-            if (this.countValuesForEachKey) {
-                counterHash = new HashMap<V, Integer>();
-            }
-            mapOfCol = new MultiLazyValuesMap(new HashMap()) {
-
-                @Override
-                public Collection instanciateNewCollection() {
-                    return new GrowthList(3);
-                }
-
-            };
+        if (matchingMode == MATCHING_MODE.UNIQUE_MATCH && !keepAllValues) {
+            uniqueHash = new HashMap<V, V>();
         }
+        if (this.countValuesForEachKey) {
+            counterHash = new HashMap<V, Integer>();
+        }
+        mapOfCol = new MultiLazyValuesMap(new HashMap()) {
+
+            @Override
+            public Collection instanciateNewCollection() {
+                return new GrowthList(3);
+            }
+
+        };
     }
 
     public AdvancedMemoryLookup() {
@@ -134,10 +132,12 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
         return listResult != null;
     }
 
+    @Override
     public void initPut() {
 
     }
 
+    @Override
     public V put(V value) {
         if (value != null) {
             if (matchingMode == MATCHING_MODE.UNIQUE_MATCH && !keepAllValues) {
@@ -159,14 +159,17 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
         return null;
     }
 
+    @Override
     public void endPut() {
 
     }
 
+    @Override
     public void initGet() {
 
     }
 
+    @Override
     public void lookup(V key) {
         if (matchingMode == MATCHING_MODE.UNIQUE_MATCH) {
             listResult = null;
@@ -203,6 +206,7 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
         }
     }
 
+    @Override
     public boolean hasNext() {
         if (objectResult != null) {
             return true;
@@ -212,6 +216,7 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
         return false;
     }
 
+    @Override
     public V next() {
         if (objectResult != null) {
             hasResult = true;
@@ -225,17 +230,18 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
         throw new NoSuchElementException();
     }
 
+    @Override
     public void endGet() {
         clear();
     }
 
     /**
      * DOC amaumont Comment method "incrementCountValues".
-     * 
+     *
      * @param value
      * @param previousValue
      */
-    private void incrementCountValues(V value, V previousValue) {
+    protected void incrementCountValues(V value, V previousValue) {
         if (countValuesForEachKey) {
             Integer count;
             if (previousValue == null) {
@@ -267,7 +273,7 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
 
     /**
      * DOC amaumont Comment method "hasResult".
-     * 
+     *
      * @return
      */
     public boolean hasResult() {
@@ -286,7 +292,7 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
 
     /**
      * Getter for hasHashKeys.
-     * 
+     *
      * @return the hasHashKeys
      */
     public boolean isUseHashKeys() {
@@ -295,7 +301,7 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
 
     /**
      * Getter for countValuesForEachKey.
-     * 
+     *
      * @return the countValuesForEachKey
      */
     public boolean isCountValuesForEachKey() {
@@ -304,7 +310,7 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
 
     /**
      * Getter for keepAllValues.
-     * 
+     *
      * @return the keepAllValues
      */
     public boolean isKeepAllValues() {
@@ -313,7 +319,7 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
 
     /**
      * Getter for uniqueMatch.
-     * 
+     *
      * @return the uniqueMatch
      */
     public boolean isUniqueMatch() {
@@ -322,7 +328,7 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
 
     /**
      * Getter for uniqueMatch.
-     * 
+     *
      * @return the uniqueMatch
      */
     public boolean isOnlyOneMatchResult() {
@@ -368,7 +374,7 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
 
     /**
      * Getter for matchingMode.
-     * 
+     *
      * @return the matchingMode
      */
     public MATCHING_MODE getMatchingMode() {
@@ -400,6 +406,15 @@ public class AdvancedMemoryLookup<V> implements IMemoryLookup<V, V>, Cloneable {
         sizeResultList = localList.size();
         objectResult = null;
         currentIndex = 0;
+    }
+
+    /**
+     * Getter for list.
+     *
+     * @return the list
+     */
+    public List<V> getList() {
+        return this.list;
     }
 
 }

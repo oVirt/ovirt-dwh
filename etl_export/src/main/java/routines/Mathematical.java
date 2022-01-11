@@ -17,6 +17,8 @@
 // ============================================================================
 package routines;
 
+import routines.system.RandomUtils;
+
 public class Mathematical {
 
     /**
@@ -296,7 +298,7 @@ public class Mathematical {
      *
      */
     public static double LN(double a) {
-        return Math.log(a) / Math.E;
+        return Math.log(a);
     }
 
     /**
@@ -393,7 +395,7 @@ public class Mathematical {
      *
      */
     public static double RND(double a) {
-        return Math.random() * a;
+        return RandomUtils.random() * a;
     }
 
     /**
