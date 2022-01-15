@@ -1,5 +1,0 @@
----
-Distributions: ["el8"]
-Release Branches:
-  master:
-    - ovirt-master
