@@ -67,6 +67,20 @@
   "id": null,
   "iteration": 1589726541070,
   "links": [],
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Administration Portal: Data Centers",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://${EngineFQDN}/ovirt-engine/webadmin/#dataCenters-storage;name=${datacenter_name_url}"
+    }
+  ],
   "panels": [
     {
       "datasource": "$datasource",
@@ -234,7 +248,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX02-1 - This query returns the\n-- number of cluster, hosts and vms\n-- in the latest data center configuration\n\nSELECT\n    COUNT ( DISTINCT v4_4_latest_configuration_clusters.cluster_id ) AS cluster_count,\n    COUNT ( DISTINCT v4_4_latest_configuration_hosts.host_id ) AS host_count,\n    COUNT ( DISTINCT v4_4_latest_configuration_vms.vm_id ) AS vm_count\nFROM \n    v4_4_latest_configuration_clusters\n    LEFT OUTER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_clusters.cluster_id =\n                v4_4_latest_configuration_hosts.cluster_id\n            )\n    LEFT OUTER JOIN v4_4_latest_configuration_vms\n        ON \n            (\n                v4_4_latest_configuration_clusters.cluster_id =\n                v4_4_latest_configuration_vms.cluster_id\n            )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_4_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )",
+          "rawSql": "-- EX02-1 - This query returns the\n-- number of cluster, hosts and vms\n-- in the latest data center configuration\n\nSELECT\n    COUNT ( DISTINCT v4_5_latest_configuration_clusters.cluster_id ) AS cluster_count,\n    COUNT ( DISTINCT v4_5_latest_configuration_hosts.host_id ) AS host_count,\n    COUNT ( DISTINCT v4_5_latest_configuration_vms.vm_id ) AS vm_count\nFROM \n    v4_5_latest_configuration_clusters\n    LEFT OUTER JOIN v4_5_latest_configuration_hosts\n        ON \n            (\n                v4_5_latest_configuration_clusters.cluster_id =\n                v4_5_latest_configuration_hosts.cluster_id\n            )\n    LEFT OUTER JOIN v4_5_latest_configuration_vms\n        ON \n            (\n                v4_5_latest_configuration_clusters.cluster_id =\n                v4_5_latest_configuration_vms.cluster_id\n            )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_5_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )",
           "refId": "A",
           "select": [
             [
@@ -260,7 +274,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX02-1 - This query returns the total count of \n-- storage domains for the chosen data center\n-- in the latest configuration.\n\nSELECT\n    COUNT ( DISTINCT v4_4_latest_map_datacenters_storage_domains.storage_domain_id ) AS storage_count\nFROM \n    v4_4_latest_map_datacenters_storage_domains\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_4_latest_map_datacenters_storage_domains.datacenter_id = CAST ( '$datacenter_id' AS UUID )",
+          "rawSql": "-- EX02-1 - This query returns the total count of \n-- storage domains for the chosen data center\n-- in the latest configuration.\n\nSELECT\n    COUNT ( DISTINCT v4_5_latest_map_datacenters_storage_domains.storage_domain_id ) AS storage_count\nFROM \n    v4_5_latest_map_datacenters_storage_domains\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_5_latest_map_datacenters_storage_domains.datacenter_id = CAST ( '$datacenter_id' AS UUID )",
           "refId": "B",
           "select": [
             [
@@ -355,7 +369,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX02-2 - This query returns for\n-- the specific data center the average hosts\n-- resources that are used ( cpu and memory )\n-- in the latest data center configuration.\n\nSELECT\n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n            INNER JOIN v4_4_latest_configuration_clusters\n                ON \n                    (\n                        v4_4_latest_configuration_clusters.cluster_id =\n                        v4_4_latest_configuration_hosts.cluster_id\n                    )\n        WHERE\n        -- Here we get only active hosts\n        v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n        -- Here we filter by the datacenter chosen by the user\n        AND v4_4_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    ) AS average_cpu_percent",
+          "rawSql": "-- EX02-2 - This query returns for\n-- the specific data center the average hosts\n-- resources that are used ( cpu and memory )\n-- in the latest data center configuration.\n\nSELECT\n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            v4_5_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_5_latest_configuration_hosts\n                ON \n                    (\n                        v4_5_latest_configuration_hosts.host_id =\n                        v4_5_statistics_hosts_resources_usage_samples.host_id\n                    )\n            INNER JOIN v4_5_latest_configuration_clusters\n                ON \n                    (\n                        v4_5_latest_configuration_clusters.cluster_id =\n                        v4_5_latest_configuration_hosts.cluster_id\n                    )\n        WHERE\n        -- Here we get only active hosts\n        v4_5_statistics_hosts_resources_usage_samples.host_status = 1\n        -- Here we filter by the datacenter chosen by the user\n        AND v4_5_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    ) AS average_cpu_percent",
           "refId": "A",
           "select": [
             [
@@ -460,7 +474,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX02-3 - This query returns for\n-- the specific data center the average hosts\n-- resources that are used ( cpu and memory )\n-- in the latest data center configuration.\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n            INNER JOIN v4_4_latest_configuration_clusters\n                ON \n                    (\n                        v4_4_latest_configuration_clusters.cluster_id =\n                        v4_4_latest_configuration_hosts.cluster_id\n                    )\n        WHERE\n        -- Here we get only active hosts\n        v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n        -- Here we filter by the datacenter chosen by the user\n        AND v4_4_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    ) AS average_memory_percent",
+          "rawSql": "-- EX02-3 - This query returns for\n-- the specific data center the average hosts\n-- resources that are used ( cpu and memory )\n-- in the latest data center configuration.\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_5_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_5_latest_configuration_hosts\n                ON \n                    (\n                        v4_5_latest_configuration_hosts.host_id =\n                        v4_5_statistics_hosts_resources_usage_samples.host_id\n                    )\n            INNER JOIN v4_5_latest_configuration_clusters\n                ON \n                    (\n                        v4_5_latest_configuration_clusters.cluster_id =\n                        v4_5_latest_configuration_hosts.cluster_id\n                    )\n        WHERE\n        -- Here we get only active hosts\n        v4_5_statistics_hosts_resources_usage_samples.host_status = 1\n        -- Here we filter by the datacenter chosen by the user\n        AND v4_5_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    ) AS average_memory_percent",
           "refId": "A",
           "select": [
             [
@@ -565,7 +579,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX02-4 - This query returns the uptime percent\n-- of the hosts in the chosen data center\n-- in the latest configuration.\n\nSELECT\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\n    INNER JOIN v4_4_latest_configuration_clusters\n        ON \n            (\n                v4_4_latest_configuration_hosts.cluster_id =\n                v4_4_latest_configuration_clusters.cluster_id\n            )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_4_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )",
+          "rawSql": "-- EX02-4 - This query returns the uptime percent\n-- of the hosts in the chosen data center\n-- in the latest configuration.\n\nSELECT\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_5_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_5_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_5_latest_configuration_hosts\n        ON \n            (\n                v4_5_latest_configuration_hosts.host_id =\n                v4_5_statistics_hosts_resources_usage_samples.host_id\n            )\n    INNER JOIN v4_5_latest_configuration_clusters\n        ON \n            (\n                v4_5_latest_configuration_hosts.cluster_id =\n                v4_5_latest_configuration_clusters.cluster_id\n            )\nWHERE\n    -- Here we filter by the datacenter chosen by the user\n    v4_5_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )",
           "refId": "A",
           "select": [
             [
@@ -670,7 +684,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX02-5 - This query returns the used disk size percent\n-- of the storage domains in the chosen datacenter\n-- in the latest configuration.\n\nSELECT\n    CASE \n        WHEN SUM ( CAST ( used_disk_size_gb AS float ) + CAST ( available_disk_size_gb AS float ) ) = 0\n            THEN NULL\n        ELSE \n            (\n                -- Used disk size\n                SUM ( CAST ( used_disk_size_gb AS float ) ) /\n                -- Total disk size ( available and used )\n                SUM \n                    (\n                        CAST ( used_disk_size_gb AS float ) +\n                        CAST ( available_disk_size_gb AS float )\n                    )\n            ) * 100 \n    END AS used_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\n    INNER JOIN v4_4_latest_map_datacenters_storage_domains\n        ON \n            (\n                storage_domain_samples_history.storage_domain_id =\n                v4_4_latest_map_datacenters_storage_domains.storage_domain_id\n            )\nWHERE\n    -- Here we filter the datacenter chosen by the user\n    v4_4_latest_map_datacenters_storage_domains.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    -- Here we get the latest storage domains configuration\n    AND storage_domain_samples_history.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )",
+          "rawSql": "-- EX02-5 - This query returns the used disk size percent\n-- of the storage domains in the chosen datacenter\n-- in the latest configuration.\n\nSELECT\n    CASE \n        WHEN SUM ( CAST ( used_disk_size_gb AS float ) + CAST ( available_disk_size_gb AS float ) ) = 0\n            THEN NULL\n        ELSE \n            (\n                -- Used disk size\n                SUM ( CAST ( used_disk_size_gb AS float ) ) /\n                -- Total disk size ( available and used )\n                SUM \n                    (\n                        CAST ( used_disk_size_gb AS float ) +\n                        CAST ( available_disk_size_gb AS float )\n                    )\n            ) * 100 \n    END AS used_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\n    INNER JOIN v4_5_latest_map_datacenters_storage_domains\n        ON \n            (\n                storage_domain_samples_history.storage_domain_id =\n                v4_5_latest_map_datacenters_storage_domains.storage_domain_id\n            )\nWHERE\n    -- Here we filter the datacenter chosen by the user\n    v4_5_latest_map_datacenters_storage_domains.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    -- Here we get the latest storage domains configuration\n    AND storage_domain_samples_history.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )",
           "refId": "A",
           "select": [
             [
@@ -869,7 +883,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX02-6 - This query returns for the top 5 busiest clusters,\n-- the max and average cpu and memory usage percent.\n-- in the latest configuration.\n\nSELECT\n    v4_4_latest_configuration_clusters.datacenter_id,\n    v4_4_latest_configuration_clusters.cluster_id,\n    v4_4_latest_configuration_clusters.cluster_name,\n    AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n    MAX ( cpu_usage_percent ) AS cpu_usage_percent_max,\n    AVG ( memory_usage_percent ) AS memory_usage_percent_avg,\n    MAX ( memory_usage_percent ) AS memory_usage_percent_max\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\n    INNER JOIN v4_4_latest_configuration_clusters\n        ON \n            (\n                v4_4_latest_configuration_clusters.cluster_id =\n                v4_4_latest_configuration_hosts.cluster_id\n            )\nWHERE\n    -- Here we get only active hosts\n    v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n    -- Here we filter by the datacenter chosen by the user\n    AND v4_4_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\nGROUP BY\n    v4_4_latest_configuration_clusters.datacenter_id,\n    v4_4_latest_configuration_clusters.cluster_id,\n    v4_4_latest_configuration_clusters.cluster_name\nORDER BY\n    AVG ( cpu_usage_percent ) +\n    MAX ( cpu_usage_percent ) +\n    AVG ( memory_usage_percent ) +\n    MAX ( memory_usage_percent ) \n    DESC\nLIMIT 5",
+          "rawSql": "-- EX02-6 - This query returns for the top 5 busiest clusters,\n-- the max and average cpu and memory usage percent.\n-- in the latest configuration.\n\nSELECT\n    v4_5_latest_configuration_clusters.datacenter_id,\n    v4_5_latest_configuration_clusters.cluster_id,\n    v4_5_latest_configuration_clusters.cluster_name,\n    AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n    MAX ( cpu_usage_percent ) AS cpu_usage_percent_max,\n    AVG ( memory_usage_percent ) AS memory_usage_percent_avg,\n    MAX ( memory_usage_percent ) AS memory_usage_percent_max\nFROM \n    v4_5_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_5_latest_configuration_hosts\n        ON \n            (\n                v4_5_latest_configuration_hosts.host_id =\n                v4_5_statistics_hosts_resources_usage_samples.host_id\n            )\n    INNER JOIN v4_5_latest_configuration_clusters\n        ON \n            (\n                v4_5_latest_configuration_clusters.cluster_id =\n                v4_5_latest_configuration_hosts.cluster_id\n            )\nWHERE\n    -- Here we get only active hosts\n    v4_5_statistics_hosts_resources_usage_samples.host_status = 1\n    -- Here we filter by the datacenter chosen by the user\n    AND v4_5_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\nGROUP BY\n    v4_5_latest_configuration_clusters.datacenter_id,\n    v4_5_latest_configuration_clusters.cluster_id,\n    v4_5_latest_configuration_clusters.cluster_name\nORDER BY\n    AVG ( cpu_usage_percent ) +\n    MAX ( cpu_usage_percent ) +\n    AVG ( memory_usage_percent ) +\n    MAX ( memory_usage_percent ) \n    DESC\nLIMIT 5",
           "refId": "A",
           "select": [
             [
@@ -1039,7 +1053,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX02-7 - This query returns for the 5 clusters with the most downtime,\n-- the uptime, planned downtime and unplanned downtime percent.\n-- in the latest configuration.\n\nSELECT\n    v4_4_latest_configuration_clusters.datacenter_id,\n    v4_4_latest_configuration_hosts.cluster_id,\n    v4_4_latest_configuration_clusters.cluster_name,\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN coalesce ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 2\n                        THEN coalesce ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent,\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 3\n                        THEN coalesce ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS unplanned_downtime_percent\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\n    INNER JOIN v4_4_latest_configuration_clusters\n        ON \n            (\n                v4_4_latest_configuration_hosts.cluster_id =\n                v4_4_latest_configuration_clusters.cluster_id\n            )\nWHERE\n    -- Here we filter the datacenter chosen by the user\n    v4_4_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\nGROUP BY\n    v4_4_latest_configuration_clusters.datacenter_id,\n    v4_4_latest_configuration_hosts.cluster_id,\n    v4_4_latest_configuration_clusters.cluster_name\nORDER BY\n    uptime_percent ASC,\n    unplanned_downtime_percent DESC,\n    planned_downtime_percent DESC\nLIMIT 5",
+          "rawSql": "-- EX02-7 - This query returns for the 5 clusters with the most downtime,\n-- the uptime, planned downtime and unplanned downtime percent.\n-- in the latest configuration.\n\nSELECT\n    v4_5_latest_configuration_clusters.datacenter_id,\n    v4_5_latest_configuration_hosts.cluster_id,\n    v4_5_latest_configuration_clusters.cluster_name,\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_5_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN coalesce ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_5_statistics_hosts_resources_usage_samples.host_status = 2\n                        THEN coalesce ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent,\n    (\n        SUM \n            (\n                CASE\n                    WHEN v4_5_statistics_hosts_resources_usage_samples.host_status = 3\n                        THEN coalesce ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS unplanned_downtime_percent\nFROM \n    v4_5_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_5_latest_configuration_hosts\n        ON \n            (\n                v4_5_latest_configuration_hosts.host_id =\n                v4_5_statistics_hosts_resources_usage_samples.host_id\n            )\n    INNER JOIN v4_5_latest_configuration_clusters\n        ON \n            (\n                v4_5_latest_configuration_hosts.cluster_id =\n                v4_5_latest_configuration_clusters.cluster_id\n            )\nWHERE\n    -- Here we filter the datacenter chosen by the user\n    v4_5_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\nGROUP BY\n    v4_5_latest_configuration_clusters.datacenter_id,\n    v4_5_latest_configuration_hosts.cluster_id,\n    v4_5_latest_configuration_clusters.cluster_name\nORDER BY\n    uptime_percent ASC,\n    unplanned_downtime_percent DESC,\n    planned_downtime_percent DESC\nLIMIT 5",
           "refId": "A",
           "select": [
             [
@@ -1220,7 +1234,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX02-8 - This query returns, for the 5 storage domains\n-- with the lowest available disk space, the available disk size,\n-- used disk size and available disk size percent.\n-- in the latest configuration.\n\nSELECT\n    'No' AS is_deleted, \n    datacenter_id,\n    v4_4_latest_configuration_storage_domains.storage_domain_id,\n    v4_4_latest_configuration_storage_domains.storage_domain_name,\n    available_disk_size_gb,\n    used_disk_size_gb,\n    CASE \n        WHEN SUM ( CAST ( used_disk_size_gb AS float ) + CAST ( available_disk_size_gb AS float ) ) = 0\n            THEN NULL\n        ELSE\n            ( \n                -- Available disk size\n                SUM ( CAST ( available_disk_size_gb AS float ) ) /\n                -- Total disk size ( available and used )\n                SUM \n                    (\n                        CAST ( used_disk_size_gb AS float ) +\n                        CAST ( available_disk_size_gb AS float )\n                    )\n            ) * 100 \n    END AS free_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\n    INNER JOIN v4_4_latest_map_datacenters_storage_domains\n        ON \n            (\n                storage_domain_samples_history.storage_domain_id =\n                v4_4_latest_map_datacenters_storage_domains.storage_domain_id\n            )\n    INNER JOIN v4_4_latest_configuration_storage_domains\n        ON \n            (\n                storage_domain_samples_history.storage_domain_id =\n                v4_4_latest_configuration_storage_domains.storage_domain_id\n            )\nWHERE\n    -- Here we filter the datacenter chosen by the user\n    v4_4_latest_map_datacenters_storage_domains.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    -- Here we get the latest storage domains configuration\n    AND storage_domain_samples_history.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )\nGROUP BY\n    -- Here we calculate per storage domain\n    datacenter_id,\n    v4_4_latest_configuration_storage_domains.storage_domain_id,\n    v4_4_latest_configuration_storage_domains.storage_domain_name,\n    available_disk_size_gb,\n    used_disk_size_gb\nORDER BY\n    free_disk_size_gb_percent ASC\nLIMIT 5",
+          "rawSql": "-- EX02-8 - This query returns, for the 5 storage domains\n-- with the lowest available disk space, the available disk size,\n-- used disk size and available disk size percent.\n-- in the latest configuration.\n\nSELECT\n    'No' AS is_deleted, \n    datacenter_id,\n    v4_5_latest_configuration_storage_domains.storage_domain_id,\n    v4_5_latest_configuration_storage_domains.storage_domain_name,\n    available_disk_size_gb,\n    used_disk_size_gb,\n    CASE \n        WHEN SUM ( CAST ( used_disk_size_gb AS float ) + CAST ( available_disk_size_gb AS float ) ) = 0\n            THEN NULL\n        ELSE\n            ( \n                -- Available disk size\n                SUM ( CAST ( available_disk_size_gb AS float ) ) /\n                -- Total disk size ( available and used )\n                SUM \n                    (\n                        CAST ( used_disk_size_gb AS float ) +\n                        CAST ( available_disk_size_gb AS float )\n                    )\n            ) * 100 \n    END AS free_disk_size_gb_percent\nFROM \n    storage_domain_samples_history\n    INNER JOIN v4_5_latest_map_datacenters_storage_domains\n        ON \n            (\n                storage_domain_samples_history.storage_domain_id =\n                v4_5_latest_map_datacenters_storage_domains.storage_domain_id\n            )\n    INNER JOIN v4_5_latest_configuration_storage_domains\n        ON \n            (\n                storage_domain_samples_history.storage_domain_id =\n                v4_5_latest_configuration_storage_domains.storage_domain_id\n            )\nWHERE\n    -- Here we filter the datacenter chosen by the user\n    v4_5_latest_map_datacenters_storage_domains.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n    -- Here we get the latest storage domains configuration\n    AND storage_domain_samples_history.history_id \n        IN \n            (\n                SELECT MAX ( a.history_id )\n                FROM storage_domain_samples_history AS a\n                GROUP BY a.storage_domain_id\n            )\nGROUP BY\n    -- Here we calculate per storage domain\n    datacenter_id,\n    v4_5_latest_configuration_storage_domains.storage_domain_id,\n    v4_5_latest_configuration_storage_domains.storage_domain_name,\n    available_disk_size_gb,\n    used_disk_size_gb\nORDER BY\n    free_disk_size_gb_percent ASC\nLIMIT 5",
           "refId": "A",
           "select": [
             [
@@ -1298,7 +1312,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX02-9 - This query returns the hosts Average Usage Peaks\n-- per cluster in the chosen datacenter\n-- in the latest configuration.\n\nSELECT\n--  cluster_id,\n    NOW () AS \"time\",\n    cluster_name,\n    AVG ( cpu_peak ) AS \"Avg. CPU Peak\",\n    AVG ( mem_peak ) AS \"Avg. Memory Peak\"\nFROM \n    (\n        SELECT\n            v4_4_latest_configuration_clusters.cluster_id,\n            v4_4_latest_configuration_clusters.cluster_name,\n            v4_4_latest_configuration_hosts.host_id,\n            MAX ( cpu_usage_percent ) AS cpu_peak,\n            MAX ( memory_usage_percent ) AS mem_peak\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n            INNER JOIN v4_4_latest_configuration_clusters\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.cluster_id =\n                        v4_4_latest_configuration_clusters.cluster_id\n                    )\n        WHERE\n            -- Here we filter by active hosts only\n            v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter the datacenter chosen by the user\n            AND v4_4_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n        GROUP BY\n        -- Here we calculate per cluster\n        v4_4_latest_configuration_clusters.cluster_id,\n        v4_4_latest_configuration_clusters.cluster_name,\n        v4_4_latest_configuration_hosts.host_id,\n        DATE_PART ( 'hour', v4_4_statistics_hosts_resources_usage_samples.history_datetime )\n    ) AS tbl_samples_peaks\nGROUP BY cluster_id, cluster_name",
+          "rawSql": "-- EX02-9 - This query returns the hosts Average Usage Peaks\n-- per cluster in the chosen datacenter\n-- in the latest configuration.\n\nSELECT\n--  cluster_id,\n    NOW () AS \"time\",\n    cluster_name,\n    AVG ( cpu_peak ) AS \"Avg. CPU Peak\",\n    AVG ( mem_peak ) AS \"Avg. Memory Peak\"\nFROM \n    (\n        SELECT\n            v4_5_latest_configuration_clusters.cluster_id,\n            v4_5_latest_configuration_clusters.cluster_name,\n            v4_5_latest_configuration_hosts.host_id,\n            MAX ( cpu_usage_percent ) AS cpu_peak,\n            MAX ( memory_usage_percent ) AS mem_peak\n        FROM \n            v4_5_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_5_latest_configuration_hosts\n                ON \n                    (\n                        v4_5_latest_configuration_hosts.host_id =\n                        v4_5_statistics_hosts_resources_usage_samples.host_id\n                    )\n            INNER JOIN v4_5_latest_configuration_clusters\n                ON \n                    (\n                        v4_5_latest_configuration_hosts.cluster_id =\n                        v4_5_latest_configuration_clusters.cluster_id\n                    )\n        WHERE\n            -- Here we filter by active hosts only\n            v4_5_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter the datacenter chosen by the user\n            AND v4_5_latest_configuration_clusters.datacenter_id = CAST ( '$datacenter_id' AS UUID )\n        GROUP BY\n        -- Here we calculate per cluster\n        v4_5_latest_configuration_clusters.cluster_id,\n        v4_5_latest_configuration_clusters.cluster_name,\n        v4_5_latest_configuration_hosts.host_id,\n        DATE_PART ( 'hour', v4_5_statistics_hosts_resources_usage_samples.history_datetime )\n    ) AS tbl_samples_peaks\nGROUP BY cluster_id, cluster_name",
           "refId": "A",
           "select": [
             [
@@ -1403,7 +1417,7 @@
         "allValue": null,
         "current": {},
         "datasource": "$datasource",
-        "definition": "SELECT DISTINCT \n    datacenter_name AS __text, \n    datacenter_id AS __value \nFROM v4_4_latest_configuration_datacenters",
+        "definition": "SELECT DISTINCT \n    datacenter_name AS __text, \n    datacenter_id AS __value \nFROM v4_5_latest_configuration_datacenters",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -1411,11 +1425,59 @@
         "multi": false,
         "name": "datacenter_id",
         "options": [],
-        "query": "SELECT DISTINCT \n    datacenter_name AS __text, \n    datacenter_id AS __value \nFROM v4_4_latest_configuration_datacenters",
+        "query": "SELECT DISTINCT \n    datacenter_name AS __text, \n    datacenter_id AS __value \nFROM v4_5_latest_configuration_datacenters",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "SELECT var_value\nFROM history_configuration\nWHERE var_name = 'EngineFQDN'",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "EngineFQDN",
+        "options": [],
+        "query": "SELECT var_value\nFROM history_configuration\nWHERE var_name = 'EngineFQDN'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "SELECT DISTINCT datacenter_name\nFROM v4_5_latest_configuration_datacenters\nWHERE datacenter_id IN ('$datacenter_id')",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "datacenter_name_url",
+        "options": [],
+        "query": "SELECT DISTINCT datacenter_name\nFROM v4_5_latest_configuration_datacenters\nWHERE datacenter_id IN ('$datacenter_id')",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",

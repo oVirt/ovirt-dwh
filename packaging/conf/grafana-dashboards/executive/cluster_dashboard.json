@@ -67,6 +67,20 @@
   "id": null,
   "iteration": 1589472284614,
   "links": [],
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "external link",
+      "includeVars": false,
+      "keepTime": false,
+      "tags": [],
+      "targetBlank": true,
+      "title": "Administration Portal: Clusters",
+      "tooltip": "",
+      "type": "link",
+      "url": "https://${EngineFQDN}/ovirt-engine/webadmin/#clusters-general;name=${cluster_name_url}"
+    }
+  ],
   "panels": [
     {
       "datasource": "$datasource",
@@ -207,7 +221,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-1 - This query returns the\n-- number of hosts and the number of vms\n-- in the latest cluster configuration\n\n-- This query returns the number of active hosts in a chosen cluster\nSELECT\n    COUNT ( DISTINCT v4_4_latest_configuration_hosts.host_id ) AS host_count\nFROM \n    v4_4_latest_configuration_hosts\n    INNER JOIN v4_4_latest_configuration_vms\n        ON \n            (\n                v4_4_latest_configuration_hosts.cluster_id =\n                v4_4_latest_configuration_vms.cluster_id\n            )\nWHERE\n    --Here we filter by the cluster chosen by the user\n    v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )",
+          "rawSql": "-- EX03-1 - This query returns the\n-- number of hosts and the number of vms\n-- in the latest cluster configuration\n\n-- This query returns the number of active hosts in a chosen cluster\nSELECT\n    COUNT ( DISTINCT v4_5_latest_configuration_hosts.host_id ) AS host_count\nFROM \n    v4_5_latest_configuration_hosts\n    INNER JOIN v4_5_latest_configuration_vms\n        ON \n            (\n                v4_5_latest_configuration_hosts.cluster_id =\n                v4_5_latest_configuration_vms.cluster_id\n            )\nWHERE\n    --Here we filter by the cluster chosen by the user\n    v4_5_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )",
           "refId": "A",
           "select": [
             [
@@ -312,7 +326,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-2 - This query returns the\n-- number of hosts and the number of vms\n-- in the latest cluster configuration\n\n-- This query returns the number of active vms in a chosen cluster\nSELECT\n    COUNT ( DISTINCT v4_4_latest_configuration_vms.vm_id ) AS vm_count\nFROM \n    v4_4_latest_configuration_hosts\n    INNER JOIN v4_4_latest_configuration_vms\n        ON \n            (\n                v4_4_latest_configuration_hosts.cluster_id =\n                v4_4_latest_configuration_vms.cluster_id\n            )\nWHERE\n    --Here we filter by the cluster chosen by the user\n    v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )",
+          "rawSql": "-- EX03-2 - This query returns the\n-- number of hosts and the number of vms\n-- in the latest cluster configuration\n\n-- This query returns the number of active vms in a chosen cluster\nSELECT\n    COUNT ( DISTINCT v4_5_latest_configuration_vms.vm_id ) AS vm_count\nFROM \n    v4_5_latest_configuration_hosts\n    INNER JOIN v4_5_latest_configuration_vms\n        ON \n            (\n                v4_5_latest_configuration_hosts.cluster_id =\n                v4_5_latest_configuration_vms.cluster_id\n            )\nWHERE\n    --Here we filter by the cluster chosen by the user\n    v4_5_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )",
           "refId": "A",
           "select": [
             [
@@ -417,7 +431,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-3 - This query returns the average\n-- uptime percent for the hosts in the specific cluster\n\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                v4_4_statistics_hosts_resources_usage_samples.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )",
+          "rawSql": "-- EX03-3 - This query returns the average\n-- uptime percent for the hosts in the specific cluster\n\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM \n            (\n                CASE\n                    WHEN v4_5_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time\n        SUM \n            (\n                v4_5_statistics_hosts_resources_usage_samples.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_5_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_5_latest_configuration_hosts\n        ON \n            (\n                v4_5_latest_configuration_hosts.host_id =\n                v4_5_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_5_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )",
           "refId": "A",
           "select": [
             [
@@ -522,7 +536,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-4 - This query returns the average\n-- resources that are used ( cpu and memory )\n-- for the hosts in the specific cluster\n\nSELECT\n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we get only active hosts\n            v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n    ) AS average_cpu_percent",
+          "rawSql": "-- EX03-4 - This query returns the average\n-- resources that are used ( cpu and memory )\n-- for the hosts in the specific cluster\n\nSELECT\n    cpu_usage_percent_avg AS average_cpu_used\nFROM \n    (\n        SELECT\n            AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg\n        FROM \n            v4_5_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_5_latest_configuration_hosts\n                ON \n                    (\n                        v4_5_latest_configuration_hosts.host_id =\n                        v4_5_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we get only active hosts\n            v4_5_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_5_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n    ) AS average_cpu_percent",
           "refId": "A",
           "select": [
             [
@@ -626,7 +640,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-5 - This query returns the average\n-- resources that are used ( cpu and memory )\n-- for the hosts in the specific cluster\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we get only active hosts\n            v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n    ) AS average_memory_percent\n",
+          "rawSql": "-- EX03-5 - This query returns the average\n-- resources that are used ( cpu and memory )\n-- for the hosts in the specific cluster\n\nSELECT\n    memory_usage_percent_avg AS average_memory_used\nFROM \n    (\n        SELECT\n            AVG ( memory_usage_percent ) AS memory_usage_percent_avg\n        FROM \n            v4_5_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_5_latest_configuration_hosts\n                ON \n                    (\n                        v4_5_latest_configuration_hosts.host_id =\n                        v4_5_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we get only active hosts\n            v4_5_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_5_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n    ) AS average_memory_percent\n",
           "refId": "A",
           "select": [
             [
@@ -730,7 +744,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-6 - This query returns the\n-- uptime percent of high availability vms\n-- for the specific cluster\n\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM\n            (\n                CASE\n                    WHEN v4_4_statistics_vms_resources_usage_samples.vm_status = 1\n                        THEN COALESCE ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time    \n        SUM \n            (\n                v4_4_statistics_vms_resources_usage_samples.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_4_statistics_vms_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_vms\n        ON \n            (\n                v4_4_latest_configuration_vms.vm_id =\n                v4_4_statistics_vms_resources_usage_samples.vm_id\n            )\nWHERE\n    -- Here we get only high availability vms\n    v4_4_latest_configuration_vms.high_availability = TRUE\n    -- Here we filter by the cluster chosen by the user\n    AND v4_4_latest_configuration_vms.cluster_id = CAST ( '$cluster_id' AS UUID )",
+          "rawSql": "-- EX03-6 - This query returns the\n-- uptime percent of high availability vms\n-- for the specific cluster\n\nSELECT\n    (\n        -- Here we sum the total uptime\n        SUM\n            (\n                CASE\n                    WHEN v4_5_statistics_vms_resources_usage_samples.vm_status = 1\n                        THEN COALESCE ( v4_5_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        -- Here we sum the total time    \n        SUM \n            (\n                v4_5_statistics_vms_resources_usage_samples.minutes_in_status\n            )\n    ) * 100 AS uptime_mins_percent\nFROM \n    v4_5_statistics_vms_resources_usage_samples\n    INNER JOIN v4_5_latest_configuration_vms\n        ON \n            (\n                v4_5_latest_configuration_vms.vm_id =\n                v4_5_statistics_vms_resources_usage_samples.vm_id\n            )\nWHERE\n    -- Here we get only high availability vms\n    v4_5_latest_configuration_vms.high_availability = TRUE\n    -- Here we filter by the cluster chosen by the user\n    AND v4_5_latest_configuration_vms.cluster_id = CAST ( '$cluster_id' AS UUID )",
           "refId": "A",
           "select": [
             [
@@ -883,7 +897,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-7 - This query returns the\n-- average cpu and memory peaks per host\n-- for the specific cluster\n\nSELECT\n    'No' AS is_deleted,\n    host_id,\n    host_name,\n    AVG ( cpu_peak ) AS avg_cpu_peak,\n    AVG ( mem_peak ) AS avg_mem_peak\nFROM \n    (\n        -- Calculation of samples cpu and memory usage peaks\n        SELECT\n            v4_4_latest_configuration_hosts.host_id,\n            v4_4_latest_configuration_hosts.host_name,\n            MAX ( cpu_usage_percent ) AS cpu_peak,\n            MAX ( memory_usage_percent ) AS mem_peak\n        FROM \n            v4_4_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_4_latest_configuration_hosts\n                ON \n                    (\n                        v4_4_latest_configuration_hosts.host_id =\n                        v4_4_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter by active hosts only\n            v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY\n            v4_4_latest_configuration_hosts.host_id,\n            v4_4_latest_configuration_hosts.host_name,\n            DATE_TRUNC ( 'hour', v4_4_statistics_hosts_resources_usage_samples.history_datetime )\n    ) AS tbl_samples_peaks\nGROUP BY host_id, host_name",
+          "rawSql": "-- EX03-7 - This query returns the\n-- average cpu and memory peaks per host\n-- for the specific cluster\n\nSELECT\n    'No' AS is_deleted,\n    host_id,\n    host_name,\n    AVG ( cpu_peak ) AS avg_cpu_peak,\n    AVG ( mem_peak ) AS avg_mem_peak\nFROM \n    (\n        -- Calculation of samples cpu and memory usage peaks\n        SELECT\n            v4_5_latest_configuration_hosts.host_id,\n            v4_5_latest_configuration_hosts.host_name,\n            MAX ( cpu_usage_percent ) AS cpu_peak,\n            MAX ( memory_usage_percent ) AS mem_peak\n        FROM \n            v4_5_statistics_hosts_resources_usage_samples\n            INNER JOIN v4_5_latest_configuration_hosts\n                ON \n                    (\n                        v4_5_latest_configuration_hosts.host_id =\n                        v4_5_statistics_hosts_resources_usage_samples.host_id\n                    )\n        WHERE\n            -- Here we filter by active hosts only\n            v4_5_statistics_hosts_resources_usage_samples.host_status = 1\n            -- Here we filter by the cluster chosen by the user\n            AND v4_5_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY\n            v4_5_latest_configuration_hosts.host_id,\n            v4_5_latest_configuration_hosts.host_name,\n            DATE_TRUNC ( 'hour', v4_5_statistics_hosts_resources_usage_samples.history_datetime )\n    ) AS tbl_samples_peaks\nGROUP BY host_id, host_name",
           "refId": "A",
           "select": [
             [
@@ -1061,7 +1075,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-8 - This query returns the\n-- cpu and memory usage for the\n-- top 5 busiest hosts in the specific cluster\n\nSELECT\n    'No' AS is_deleted,\n    v4_4_latest_configuration_hosts.host_id,\n    v4_4_latest_configuration_hosts.host_name,\n    AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n    MAX ( cpu_usage_percent ) AS cpu_usage_percent_max,\n    AVG ( memory_usage_percent ) AS memory_usage_percent_avg,\n    MAX ( memory_usage_percent ) AS memory_usage_percent_max\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we get only active hosts\n    v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n    -- Here we filter by the cluster chosen by the user\n    AND v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\nGROUP BY\n    v4_4_latest_configuration_hosts.host_id,\n    v4_4_latest_configuration_hosts.host_name\nORDER BY\n    AVG ( cpu_usage_percent ) +\n    MAX ( cpu_usage_percent ) +\n    AVG ( memory_usage_percent ) +\n    MAX ( memory_usage_percent ) \n    DESC\nLIMIT 5",
+          "rawSql": "-- EX03-8 - This query returns the\n-- cpu and memory usage for the\n-- top 5 busiest hosts in the specific cluster\n\nSELECT\n    'No' AS is_deleted,\n    v4_5_latest_configuration_hosts.host_id,\n    v4_5_latest_configuration_hosts.host_name,\n    AVG ( cpu_usage_percent ) AS cpu_usage_percent_avg,\n    MAX ( cpu_usage_percent ) AS cpu_usage_percent_max,\n    AVG ( memory_usage_percent ) AS memory_usage_percent_avg,\n    MAX ( memory_usage_percent ) AS memory_usage_percent_max\nFROM \n    v4_5_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_5_latest_configuration_hosts\n        ON \n            (\n                v4_5_latest_configuration_hosts.host_id =\n                v4_5_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we get only active hosts\n    v4_5_statistics_hosts_resources_usage_samples.host_status = 1\n    -- Here we filter by the cluster chosen by the user\n    AND v4_5_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\nGROUP BY\n    v4_5_latest_configuration_hosts.host_id,\n    v4_5_latest_configuration_hosts.host_name\nORDER BY\n    AVG ( cpu_usage_percent ) +\n    MAX ( cpu_usage_percent ) +\n    AVG ( memory_usage_percent ) +\n    MAX ( memory_usage_percent ) \n    DESC\nLIMIT 5",
           "refId": "A",
           "select": [
             [
@@ -1136,7 +1150,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-9 - This query returns the\n-- total number of CPU's for the hosts and vms \n-- in the specific cluster.\n\n-- total hosts number of CPUs\nSELECT\n    NOW () AS time,\n    'Total Hosts Number of CPUs' AS entity,\n    SUM ( nested_query.cpu_cores ) AS cpu_cores_hosts\nFROM\n    (\n        SELECT\n            a.host_id,\n            -- Calculation of host number of CPUs \n            CASE\n                WHEN count_threads_as_cores = TRUE\n                    THEN COALESCE ( a.number_of_threads, 0 )\n                ELSE COALESCE ( a.number_of_cores, 0 )\n            END AS cpu_cores\n        FROM \n            v4_4_latest_configuration_hosts AS a\n            INNER JOIN v4_4_statistics_hosts_resources_usage_samples AS b \n                ON \n                    (\n                        a.history_id =\n                        b.host_configuration_version\n                        AND b.history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_4_statistics_hosts_resources_usage_samples\n                                    GROUP BY host_id\n                                )\n                        -- Here we get only active hosts\n                        AND b.host_status = 1\n                    )\n            INNER JOIN v4_4_latest_configuration_clusters\n                ON \n                    (\n                        a.cluster_id =\n                        v4_4_latest_configuration_clusters.cluster_id\n                    )\n        WHERE\n            -- Here we filter by the cluster chosen by the user\n            a.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY a.host_id, count_threads_as_cores, number_of_cores, number_of_threads\n    ) AS nested_query",
+          "rawSql": "-- EX03-9 - This query returns the\n-- total number of CPU's for the hosts and vms \n-- in the specific cluster.\n\n-- total hosts number of CPUs\nSELECT\n    NOW () AS time,\n    'Total Hosts Number of CPUs' AS entity,\n    SUM ( nested_query.cpu_cores ) AS cpu_cores_hosts\nFROM\n    (\n        SELECT\n            a.host_id,\n            -- Calculation of host number of CPUs \n            CASE\n                WHEN count_threads_as_cores = TRUE\n                    THEN COALESCE ( a.number_of_threads, 0 )\n                ELSE COALESCE ( a.number_of_cores, 0 )\n            END AS cpu_cores\n        FROM \n            v4_5_latest_configuration_hosts AS a\n            INNER JOIN v4_5_statistics_hosts_resources_usage_samples AS b \n                ON \n                    (\n                        a.history_id =\n                        b.host_configuration_version\n                        AND b.history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_5_statistics_hosts_resources_usage_samples\n                                    GROUP BY host_id\n                                )\n                        -- Here we get only active hosts\n                        AND b.host_status = 1\n                    )\n            INNER JOIN v4_5_latest_configuration_clusters\n                ON \n                    (\n                        a.cluster_id =\n                        v4_5_latest_configuration_clusters.cluster_id\n                    )\n        WHERE\n            -- Here we filter by the cluster chosen by the user\n            a.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY a.host_id, count_threads_as_cores, number_of_cores, number_of_threads\n    ) AS nested_query",
           "refId": "A",
           "select": [
             [
@@ -1162,7 +1176,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-9 - This query returns the\n-- total number of CPU's for the hosts and vms \n-- in the specific cluster.\n\n-- total vms number of CPUs\nSELECT\n    NOW () AS time,\n    'Total vms Number of CPUs' AS entity,\n    SUM ( nested_query.cpu_cores ) AS cpu_cores_vms\nFROM\n    (\n        SELECT\n            a.vm_id,\n            -- Calculation of vm number of CPUs \n            (\n                COALESCE ( a.cpu_per_socket, 0 )\n                *\n                COALESCE ( a.number_of_sockets, 0 ) \n            ) AS cpu_cores\n        FROM \n            v4_4_latest_configuration_vms AS a\n            INNER JOIN v4_4_statistics_vms_resources_usage_samples AS b \n                ON \n                    (\n                        a.history_id =\n                        b.vm_configuration_version\n                        AND b.history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_4_statistics_vms_resources_usage_samples\n                                    GROUP BY vm_id\n                                )\n                        -- Here we get only active vms\n                        AND b.vm_status = 1\n                    )\n        WHERE\n            -- Here we filter by the cluster chosen by the user\n            a.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY a.vm_id, cpu_per_socket, number_of_sockets\n    ) AS nested_query",
+          "rawSql": "-- EX03-9 - This query returns the\n-- total number of CPU's for the hosts and vms \n-- in the specific cluster.\n\n-- total vms number of CPUs\nSELECT\n    NOW () AS time,\n    'Total vms Number of CPUs' AS entity,\n    SUM ( nested_query.cpu_cores ) AS cpu_cores_vms\nFROM\n    (\n        SELECT\n            a.vm_id,\n            -- Calculation of vm number of CPUs \n            (\n                COALESCE ( a.cpu_per_socket, 0 )\n                *\n                COALESCE ( a.number_of_sockets, 0 ) \n            ) AS cpu_cores\n        FROM \n            v4_5_latest_configuration_vms AS a\n            INNER JOIN v4_5_statistics_vms_resources_usage_samples AS b \n                ON \n                    (\n                        a.history_id =\n                        b.vm_configuration_version\n                        AND b.history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_5_statistics_vms_resources_usage_samples\n                                    GROUP BY vm_id\n                                )\n                        -- Here we get only active vms\n                        AND b.vm_status = 1\n                    )\n        WHERE\n            -- Here we filter by the cluster chosen by the user\n            a.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY a.vm_id, cpu_per_socket, number_of_sockets\n    ) AS nested_query",
           "refId": "B",
           "select": [
             [
@@ -1275,7 +1289,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-10 - This query returns the\n-- total memory size for the hosts and vms \n-- in the specific cluster.\n\n-- total hosts memory size\nSELECT\n    NOW () AS time,\n    'Total Hosts Memory' AS entity,\n    SUM ( nested_query.memory ) AS memory_hosts\nFROM\n    (\n        SELECT\n            a.host_id,\n            -- Calculation of host memory\n            CAST ( COALESCE ( a.memory_size_mb, 0 ) AS float ) / 1024 AS memory\n        FROM \n            v4_4_latest_configuration_hosts AS a\n            INNER JOIN v4_4_statistics_hosts_resources_usage_samples AS b \n                ON \n                    (\n                        a.history_id =\n                        b.host_configuration_version\n                        AND b.history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_4_statistics_hosts_resources_usage_samples\n                                    GROUP BY host_id\n                                )\n                        -- Here we get only active hosts\n                        AND b.host_status = 1\n                    )\n        WHERE\n            -- Here we filter by the cluster chosen by the user\n            a.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY a.host_id, memory_size_mb\n    ) AS nested_query",
+          "rawSql": "-- EX03-10 - This query returns the\n-- total memory size for the hosts and vms \n-- in the specific cluster.\n\n-- total hosts memory size\nSELECT\n    NOW () AS time,\n    'Total Hosts Memory' AS entity,\n    SUM ( nested_query.memory ) AS memory_hosts\nFROM\n    (\n        SELECT\n            a.host_id,\n            -- Calculation of host memory\n            CAST ( COALESCE ( a.memory_size_mb, 0 ) AS float ) / 1024 AS memory\n        FROM \n            v4_5_latest_configuration_hosts AS a\n            INNER JOIN v4_5_statistics_hosts_resources_usage_samples AS b \n                ON \n                    (\n                        a.history_id =\n                        b.host_configuration_version\n                        AND b.history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_5_statistics_hosts_resources_usage_samples\n                                    GROUP BY host_id\n                                )\n                        -- Here we get only active hosts\n                        AND b.host_status = 1\n                    )\n        WHERE\n            -- Here we filter by the cluster chosen by the user\n            a.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY a.host_id, memory_size_mb\n    ) AS nested_query",
           "refId": "A",
           "select": [
             [
@@ -1302,7 +1316,7 @@
           "hide": false,
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-10 - This query returns the\n-- total memory size for the hosts and vms \n-- in the specific cluster.\n\n-- total vms memory size\nSELECT\n    NOW () AS time,\n    'Total vms Memory' AS entity,\n    SUM ( nested_query.memory ) AS memory_vms\nFROM\n    (\n        SELECT\n            a.vm_id,\n            -- Calculation of vm memory\n            CAST ( COALESCE ( a.memory_size_mb, 0 ) AS float ) / 1024 AS memory\n        FROM \n            v4_4_latest_configuration_vms AS a\n            INNER JOIN v4_4_statistics_vms_resources_usage_samples AS b \n                ON \n                    (\n                        a.history_id =\n                        b.vm_configuration_version\n                        AND b.history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_4_statistics_vms_resources_usage_samples\n                                    GROUP BY vm_id\n                                )\n                        -- Here we get only active vms\n                        AND b.vm_status = 1\n                    )\n        WHERE\n            -- Here we filter by the cluster chosen by the user\n            a.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY a.vm_id, memory_size_mb\n    ) AS nested_query",
+          "rawSql": "-- EX03-10 - This query returns the\n-- total memory size for the hosts and vms \n-- in the specific cluster.\n\n-- total vms memory size\nSELECT\n    NOW () AS time,\n    'Total vms Memory' AS entity,\n    SUM ( nested_query.memory ) AS memory_vms\nFROM\n    (\n        SELECT\n            a.vm_id,\n            -- Calculation of vm memory\n            CAST ( COALESCE ( a.memory_size_mb, 0 ) AS float ) / 1024 AS memory\n        FROM \n            v4_5_latest_configuration_vms AS a\n            INNER JOIN v4_5_statistics_vms_resources_usage_samples AS b \n                ON \n                    (\n                        a.history_id =\n                        b.vm_configuration_version\n                        AND b.history_id\n                            IN\n                                (\n                                    SELECT MAX (history_id)\n                                    FROM v4_5_statistics_vms_resources_usage_samples\n                                    GROUP BY vm_id\n                                )\n                        -- Here we get only active vms\n                        AND b.vm_status = 1\n                    )\n        WHERE\n            -- Here we filter by the cluster chosen by the user\n            a.cluster_id = CAST ( '$cluster_id' AS UUID )\n        GROUP BY a.vm_id, memory_size_mb\n    ) AS nested_query",
           "refId": "B",
           "select": [
             [
@@ -1484,7 +1498,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-11 - This query returns for 5 high availability vms,\n-- that have the least uptime percent,\n-- the total uptime and planned downtime percent per vm.\n\nSELECT\n    'No' AS is_deleted,\n    v4_4_latest_configuration_vms.vm_id, \n    v4_4_latest_configuration_vms.vm_name,\n    (\n        -- Calculation of samples vm uptime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_vms_resources_usage_samples.vm_status = 1\n                        THEN COALESCE ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        -- Calculation of samples vm planned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_vms_resources_usage_samples.vm_status IN ( 0, 2 )\n                        THEN COALESCE ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_vms_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent\nFROM \n    v4_4_statistics_vms_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_vms\n        ON \n            (\n                v4_4_latest_configuration_vms.vm_id =\n                v4_4_statistics_vms_resources_usage_samples.vm_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_4_latest_configuration_vms.cluster_id = CAST ( '$cluster_id' AS UUID )\n    -- Here we get only high availability vms\n    AND v4_4_latest_configuration_vms.high_availability = TRUE\nGROUP BY\n    -- For the calculations to be per vm \n    v4_4_latest_configuration_vms.vm_id,\n    v4_4_latest_configuration_vms.vm_name\nORDER BY uptime_percent ASC\nLIMIT 5",
+          "rawSql": "-- EX03-11 - This query returns for 5 high availability vms,\n-- that have the least uptime percent,\n-- the total uptime and planned downtime percent per vm.\n\nSELECT\n    'No' AS is_deleted,\n    v4_5_latest_configuration_vms.vm_id, \n    v4_5_latest_configuration_vms.vm_name,\n    (\n        -- Calculation of samples vm uptime \n        SUM \n            (\n                CASE\n                    WHEN v4_5_statistics_vms_resources_usage_samples.vm_status = 1\n                        THEN COALESCE ( v4_5_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_5_statistics_vms_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        -- Calculation of samples vm planned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_5_statistics_vms_resources_usage_samples.vm_status IN ( 0, 2 )\n                        THEN COALESCE ( v4_5_statistics_vms_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_5_statistics_vms_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent\nFROM \n    v4_5_statistics_vms_resources_usage_samples\n    INNER JOIN v4_5_latest_configuration_vms\n        ON \n            (\n                v4_5_latest_configuration_vms.vm_id =\n                v4_5_statistics_vms_resources_usage_samples.vm_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_5_latest_configuration_vms.cluster_id = CAST ( '$cluster_id' AS UUID )\n    -- Here we get only high availability vms\n    AND v4_5_latest_configuration_vms.high_availability = TRUE\nGROUP BY\n    -- For the calculations to be per vm \n    v4_5_latest_configuration_vms.vm_id,\n    v4_5_latest_configuration_vms.vm_name\nORDER BY uptime_percent ASC\nLIMIT 5",
           "refId": "A",
           "select": [
             [
@@ -1645,7 +1659,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "-- EX03-12 - This query returns for 5 hosts,\n-- that have the least uptime percent, \n-- the total uptime, planned and unplanned \n-- downtime percent per host.\n\nSELECT\n    'No' AS is_deleted,\n    v4_4_latest_configuration_hosts.host_id,\n    v4_4_latest_configuration_hosts.host_name,\n    (\n        -- Calculation of samples host uptime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        -- Calculation of samples host planned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 2\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                ELSE 0\n                END\n            ) \n        / SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent,\n    (\n        -- Calculation of samples host unplanned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_4_statistics_hosts_resources_usage_samples.host_status = 3\n                        THEN COALESCE ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        SUM ( v4_4_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS unplanned_downtime_percent\nFROM \n    v4_4_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_4_latest_configuration_hosts\n        ON \n            (\n                v4_4_latest_configuration_hosts.host_id =\n                v4_4_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_4_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\nGROUP BY\n    -- For the calculations to be per host\n    v4_4_latest_configuration_hosts.host_id,\n    v4_4_latest_configuration_hosts.host_name\nORDER BY\n    uptime_percent ASC,\n    unplanned_downtime_percent DESC,\n    planned_downtime_percent DESC\nLIMIT 5",
+          "rawSql": "-- EX03-12 - This query returns for 5 hosts,\n-- that have the least uptime percent, \n-- the total uptime, planned and unplanned \n-- downtime percent per host.\n\nSELECT\n    'No' AS is_deleted,\n    v4_5_latest_configuration_hosts.host_id,\n    v4_5_latest_configuration_hosts.host_name,\n    (\n        -- Calculation of samples host uptime \n        SUM \n            (\n                CASE\n                    WHEN v4_5_statistics_hosts_resources_usage_samples.host_status = 1\n                        THEN COALESCE ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        / SUM ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS uptime_percent,\n    (\n        -- Calculation of samples host planned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_5_statistics_hosts_resources_usage_samples.host_status = 2\n                        THEN COALESCE ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                ELSE 0\n                END\n            ) \n        / SUM ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS planned_downtime_percent,\n    (\n        -- Calculation of samples host unplanned downtime \n        SUM \n            (\n                CASE\n                    WHEN v4_5_statistics_hosts_resources_usage_samples.host_status = 3\n                        THEN COALESCE ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status, 0 )\n                    ELSE 0\n                END\n            ) \n        /\n        SUM ( v4_5_statistics_hosts_resources_usage_samples.minutes_in_status )\n    ) * 100 AS unplanned_downtime_percent\nFROM \n    v4_5_statistics_hosts_resources_usage_samples\n    INNER JOIN v4_5_latest_configuration_hosts\n        ON \n            (\n                v4_5_latest_configuration_hosts.host_id =\n                v4_5_statistics_hosts_resources_usage_samples.host_id\n            )\nWHERE\n    -- Here we filter by the cluster chosen by the user\n    v4_5_latest_configuration_hosts.cluster_id = CAST ( '$cluster_id' AS UUID )\nGROUP BY\n    -- For the calculations to be per host\n    v4_5_latest_configuration_hosts.host_id,\n    v4_5_latest_configuration_hosts.host_name\nORDER BY\n    uptime_percent ASC,\n    unplanned_downtime_percent DESC,\n    planned_downtime_percent DESC\nLIMIT 5",
           "refId": "A",
           "select": [
             [
@@ -1711,7 +1725,7 @@
         "allValue": null,
         "current": {},
         "datasource": "$datasource",
-        "definition": "SELECT DISTINCT\n    datacenter_name AS __text, \n    datacenter_id AS __value\nFROM v4_4_latest_configuration_datacenters",
+        "definition": "SELECT DISTINCT\n    datacenter_name AS __text, \n    datacenter_id AS __value\nFROM v4_5_latest_configuration_datacenters",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -1719,7 +1733,7 @@
         "multi": false,
         "name": "datacenter_id",
         "options": [],
-        "query": "SELECT DISTINCT\n    datacenter_name AS __text, \n    datacenter_id AS __value\nFROM v4_4_latest_configuration_datacenters",
+        "query": "SELECT DISTINCT\n    datacenter_name AS __text, \n    datacenter_id AS __value\nFROM v4_5_latest_configuration_datacenters",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
@@ -1734,7 +1748,7 @@
         "allValue": null,
         "current": {},
         "datasource": "$datasource",
-        "definition": "SELECT DISTINCT \n    cluster_name AS __text, \n    cluster_id AS __value \nFROM v4_4_latest_configuration_clusters \nWHERE datacenter_id IN ('$datacenter_id')",
+        "definition": "SELECT DISTINCT \n    cluster_name AS __text, \n    cluster_id AS __value \nFROM v4_5_latest_configuration_clusters \nWHERE datacenter_id IN ('$datacenter_id')",
         "hide": 0,
         "includeAll": false,
         "index": -1,
@@ -1742,11 +1756,59 @@
         "multi": false,
         "name": "cluster_id",
         "options": [],
-        "query": "SELECT DISTINCT \n    cluster_name AS __text, \n    cluster_id AS __value \nFROM v4_4_latest_configuration_clusters \nWHERE datacenter_id IN ('$datacenter_id')",
+        "query": "SELECT DISTINCT \n    cluster_name AS __text, \n    cluster_id AS __value \nFROM v4_5_latest_configuration_clusters \nWHERE datacenter_id IN ('$datacenter_id')",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 1,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "SELECT var_value\nFROM history_configuration\nWHERE var_name = 'EngineFQDN'",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "EngineFQDN",
+        "options": [],
+        "query": "SELECT var_value\nFROM history_configuration\nWHERE var_name = 'EngineFQDN'",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "SELECT DISTINCT cluster_name\nFROM v4_5_latest_configuration_clusters\nWHERE cluster_id IN ('$cluster_id')",
+        "description": null,
+        "error": null,
+        "hide": 2,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "cluster_name_url",
+        "options": [],
+        "query": "SELECT DISTINCT cluster_name\nFROM v4_5_latest_configuration_clusters\nWHERE cluster_id IN ('$cluster_id')",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
         "tagValuesQuery": "",
         "tags": [],
         "tagsQuery": "",
