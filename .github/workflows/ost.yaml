@@ -18,10 +18,4 @@ jobs:
     uses: oVirt/ovirt-system-tests/.github/workflows/ost.yaml@master
     with:
       pr_url: ${{ github.event.issue.pull_request.url }}
-  debug:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    runs-on: ubuntu-latest
-    steps:
-    - name: ssh
-      uses: mxschmitt/action-tmate@v3
     
