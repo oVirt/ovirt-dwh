@@ -32,7 +32,7 @@ if [ -z "${WILDFLYDOM4JJAVACONF}" ]; then
 fi
 
 if [ -x /usr/bin/java-config ]; then
-	PACKAGES_BUILD="dom4j-1 commons-collections"
+	PACKAGES_BUILD="dom4j-1 commons-collections jackson-core jackson-databind jackson-annotations"
 	PACKAGES_RUNTIME="jdbc-postgresql"
 
 	packages="${PACKAGES_BUILD}"
@@ -53,10 +53,19 @@ elif [ -x /usr/bin/build-classpath ]; then
 	commons_collections="$(build-classpath apache-commons-collections 2> /dev/null)"
 	[ -z "${commons_collections}" ] && commons_collections="$(build-classpath commons-collections 2> /dev/null)"
 	[ -n "${commons_collections}" ] || die "Cannot find commons-collections"
+	jackson_core="$(build-classpath jackson-core 2> /dev/null)"
+	[ -z "${jackson_core}" ] && jackson_core="$(build-classpath jackson-core 2> /dev/null)"
+	[ -n "${jackson_core}" ] || die "Cannot find jackson-core"
+	jackson_databind="$(build-classpath jackson-databind 2> /dev/null)"
+	[ -z "${jackson_databind}" ] && jackson_databind="$(build-classpath jackson-databind 2> /dev/null)"
+	[ -n "${jackson_databind}" ] || die "Cannot find jackson-databind"
+	jackson_annotations="$(build-classpath jackson-annotations 2> /dev/null)"
+	[ -z "${jackson_annotations}" ] && jackson_annotations="$(build-classpath jackson-annotations 2> /dev/null)"
+	[ -n "${jackson_annotations}" ] || die "Cannot find jackson-annotations"
 	if [ "${what}" = "run" ]; then
 		postgresql_jdbc="$(build-classpath postgresql-jdbc)" || die "Canot find postgreql-jdbc"
 	fi
-	output="${output}:${dom4j}:${commons_collections}:${postgresql_jdbc}"
+	output="${output}:${dom4j}:${commons_collections}:${jackson_core}:${jackson_databind}:${jackson_annotations}:${postgresql_jdbc}"
 else
 	die "Cannot find a method to acquire dependencies"
 fi
