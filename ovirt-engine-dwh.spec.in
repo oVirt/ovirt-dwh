@@ -316,6 +316,14 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Mon Feb 28 2022 Aviv Litman <alitman@redhat.com> - 4.5.0
+- Bug 1931939 - Add the engine FQDN to dwh
+- Bug 2030663 - Update Network statistics types in DWH
+- Bug 2026358 - ovirt_engine_history_grafana user is not granted permissions to query new tables
+- Bug 2026362 - moved major version to 4.5.0
+- Bug 1925878 - Create links from Grafana to RHVM
+- Bug 2041220 - Update queries to use v4_5 views in all dashboards
+
 * Thu Sep 2 2021 Aviv Litman <alitman@redhat.com> - 4.4.9
 - Bug 1992690 - Customize 'oVirt Inventory Dashboard'
 
