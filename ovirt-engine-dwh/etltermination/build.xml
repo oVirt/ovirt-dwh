@@ -5,6 +5,9 @@
 
 	<path id="local.classpath">
 		<pathelement path="${dependencies.extra}"/>
+		<pathelement path="${dependencies.jackson-core}"/>
+		<pathelement path="${dependencies.jackson-databind}"/>
+		<pathelement path="${dependencies.jackson-annotations}"/>
 	</path>
 
 	<target name="all">

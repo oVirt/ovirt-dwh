@@ -21,6 +21,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Properties;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * ResumeUtil.
@@ -29,6 +34,8 @@ import java.util.Map;
 public class ResumeUtil {
 
     // final private static String fieldSeparator = ",";
+
+    public static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     String logFileName = null;
 
@@ -334,34 +341,38 @@ public class ResumeUtil {
     }
 
     // to support encrypt the password in the resume
-    public static String convertToJsonText(Object context, List<String> parametersToEncrypt) {
-        String jsonText = "";
-        try {
-            JSONObject firstNode = new JSONObject();
-            JSONObject secondNode = new JSONObject(context);
-            if (parametersToEncrypt != null) {
-                for (String parameterToEncrypt : parametersToEncrypt) {
-                    if (secondNode.isNull(parameterToEncrypt)) {
-                        continue;
-                    }
-
-                    secondNode.put(parameterToEncrypt,
-                            routines.system.PasswordEncryptUtil.encryptPassword(secondNode.getString(parameterToEncrypt)));
+    public static <T extends Properties> String  convertToJsonText(T context, List<String> parametersToEncrypt) {
+        if (parametersToEncrypt == null){
+            return "";
+        }
+        Properties copy = new Properties();
+        parametersToEncrypt.forEach(param -> {
+            final String plainValue = context.getProperty(param);
+            if (Objects.nonNull(plainValue)){
+                final String encrypted;
+                try {
+                    encrypted = PasswordEncryptUtil.encryptPassword(plainValue);
+                    copy.setProperty(param, encrypted);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
-            firstNode.putOpt("context_parameters", secondNode);
-            jsonText = firstNode.toString(8);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
 
-        return jsonText;
+        try {
+            Map<String, Properties> results = new HashMap<>();
+            results.put("context_parameters", copy);
+            return OBJECT_MAPPER.writeValueAsString(results);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     // Util: convert the context variable to json style text.
     // feature:11296
     // @Deprecated
-    public static String convertToJsonText(Object context) {
+    public static <T extends Properties> String convertToJsonText(T context) {
         return convertToJsonText(context, null);
     }
 

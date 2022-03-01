@@ -14,6 +14,9 @@
 %global EXTRA_BUILD_FLAGS %{?_ovirt_build_extra_flags:%{_ovirt_build_extra_flags}}%{?ovirt_build_extra_flags: %{ovirt_build_extra_flags}}
 %endif
 
+%global jackson_core jackson-core
+%global jackson_databind jackson-databind
+%global jackson_annotations jackson-annotations
 %if 0%{?fedora}
 %global ovirt_install_systemd 1
 %global ovirt_install_systemv 0
@@ -110,6 +113,9 @@ BuildRequires:	%{dom4j}
 BuildRequires:	ant
 BuildRequires:	jpackage-utils
 BuildRequires:	javapackages-tools
+BuildRequires:	jackson-core
+BuildRequires:	jackson-databind
+BuildRequires:	jackson-annotations
 BuildRequires:	make
 
 BuildRequires:	python3
@@ -126,6 +132,9 @@ Requires:	%{name}-grafana-integration-setup >= %{version}-%{release}
 Requires:	java-11-openjdk-headless >= 11.0.4
 Requires:	jpackage-utils
 Requires:	javapackages-tools
+Requires:	jackson-core
+Requires:	jackson-databind
+Requires:	jackson-annotations
 Requires:	logrotate
 Requires:	postgresql-jdbc
 
