@@ -12456,16 +12456,16 @@ public class StatisticsSync implements TalendJob {
 			return this.write_latency_seconds;
 		}
 
-		public Long read_ops_per_second;
+		public Double read_ops_total_count;
 
-		public Long getRead_ops_per_second() {
-			return this.read_ops_per_second;
+		public Double getRead_ops_total_count() {
+			return this.read_ops_total_count;
 		}
 
-		public Long write_ops_per_second;
+		public Double write_ops_total_count;
 
-		public Long getWrite_ops_per_second() {
-			return this.write_ops_per_second;
+		public Double getWrite_ops_total_count() {
+			return this.write_ops_total_count;
 		}
 
 		public Double flush_latency_seconds;
@@ -12580,16 +12580,16 @@ public class StatisticsSync implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.read_ops_per_second = null;
+						this.read_ops_total_count = null;
 					} else {
-						this.read_ops_per_second = dis.readLong();
+						this.read_ops_total_count = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.write_ops_per_second = null;
+						this.write_ops_total_count = null;
 					} else {
-						this.write_ops_per_second = dis.readLong();
+						this.write_ops_total_count = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -12681,22 +12681,22 @@ public class StatisticsSync implements TalendJob {
 					dos.writeDouble(this.write_latency_seconds);
 				}
 
-				// Long
+				// Double
 
-				if (this.read_ops_per_second == null) {
+				if (this.read_ops_total_count == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.read_ops_per_second);
+					dos.writeDouble(this.read_ops_total_count);
 				}
 
-				// Long
+				// Double
 
-				if (this.write_ops_per_second == null) {
+				if (this.write_ops_total_count == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.write_ops_per_second);
+					dos.writeDouble(this.write_ops_total_count);
 				}
 
 				// Double
@@ -12738,10 +12738,10 @@ public class StatisticsSync implements TalendJob {
 					+ String.valueOf(write_rate_bytes_per_second));
 			sb.append(",write_latency_seconds="
 					+ String.valueOf(write_latency_seconds));
-			sb.append(",read_ops_per_second="
-					+ String.valueOf(read_ops_per_second));
-			sb.append(",write_ops_per_second="
-					+ String.valueOf(write_ops_per_second));
+			sb.append(",read_ops_total_count="
+					+ String.valueOf(read_ops_total_count));
+			sb.append(",write_ops_total_count="
+					+ String.valueOf(write_ops_total_count));
 			sb.append(",flush_latency_seconds="
 					+ String.valueOf(flush_latency_seconds));
 			sb.append(",vm_disk_configuration_version="
@@ -12844,16 +12844,16 @@ public class StatisticsSync implements TalendJob {
 			return this.write_latency_seconds;
 		}
 
-		public Long read_ops_per_second;
+		public Double read_ops_total_count;
 
-		public Long getRead_ops_per_second() {
-			return this.read_ops_per_second;
+		public Double getRead_ops_total_count() {
+			return this.read_ops_total_count;
 		}
 
-		public Long write_ops_per_second;
+		public Double write_ops_total_count;
 
-		public Long getWrite_ops_per_second() {
-			return this.write_ops_per_second;
+		public Double getWrite_ops_total_count() {
+			return this.write_ops_total_count;
 		}
 
 		public Double flush_latency_seconds;
@@ -12972,16 +12972,16 @@ public class StatisticsSync implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.read_ops_per_second = null;
+						this.read_ops_total_count = null;
 					} else {
-						this.read_ops_per_second = dis.readLong();
+						this.read_ops_total_count = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.write_ops_per_second = null;
+						this.write_ops_total_count = null;
 					} else {
-						this.write_ops_per_second = dis.readLong();
+						this.write_ops_total_count = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -13067,22 +13067,22 @@ public class StatisticsSync implements TalendJob {
 					dos.writeDouble(this.write_latency_seconds);
 				}
 
-				// Long
+				// Double
 
-				if (this.read_ops_per_second == null) {
+				if (this.read_ops_total_count == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.read_ops_per_second);
+					dos.writeDouble(this.read_ops_total_count);
 				}
 
-				// Long
+				// Double
 
-				if (this.write_ops_per_second == null) {
+				if (this.write_ops_total_count == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.write_ops_per_second);
+					dos.writeDouble(this.write_ops_total_count);
 				}
 
 				// Double
@@ -13119,10 +13119,10 @@ public class StatisticsSync implements TalendJob {
 					+ String.valueOf(write_rate_bytes_per_second));
 			sb.append(",write_latency_seconds="
 					+ String.valueOf(write_latency_seconds));
-			sb.append(",read_ops_per_second="
-					+ String.valueOf(read_ops_per_second));
-			sb.append(",write_ops_per_second="
-					+ String.valueOf(write_ops_per_second));
+			sb.append(",read_ops_total_count="
+					+ String.valueOf(read_ops_total_count));
+			sb.append(",write_ops_total_count="
+					+ String.valueOf(write_ops_total_count));
 			sb.append(",flush_latency_seconds="
 					+ String.valueOf(flush_latency_seconds));
 			sb.append("]");
@@ -13223,16 +13223,16 @@ public class StatisticsSync implements TalendJob {
 			return this.write_latency_seconds;
 		}
 
-		public Long read_ops_per_second;
+		public Double read_ops_total_count;
 
-		public Long getRead_ops_per_second() {
-			return this.read_ops_per_second;
+		public Double getRead_ops_total_count() {
+			return this.read_ops_total_count;
 		}
 
-		public Long write_ops_per_second;
+		public Double write_ops_total_count;
 
-		public Long getWrite_ops_per_second() {
-			return this.write_ops_per_second;
+		public Double getWrite_ops_total_count() {
+			return this.write_ops_total_count;
 		}
 
 		public Double flush_latency_seconds;
@@ -13351,16 +13351,16 @@ public class StatisticsSync implements TalendJob {
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.read_ops_per_second = null;
+						this.read_ops_total_count = null;
 					} else {
-						this.read_ops_per_second = dis.readLong();
+						this.read_ops_total_count = dis.readDouble();
 					}
 
 					length = dis.readByte();
 					if (length == -1) {
-						this.write_ops_per_second = null;
+						this.write_ops_total_count = null;
 					} else {
-						this.write_ops_per_second = dis.readLong();
+						this.write_ops_total_count = dis.readDouble();
 					}
 
 					length = dis.readByte();
@@ -13446,22 +13446,22 @@ public class StatisticsSync implements TalendJob {
 					dos.writeDouble(this.write_latency_seconds);
 				}
 
-				// Long
+				// Double
 
-				if (this.read_ops_per_second == null) {
+				if (this.read_ops_total_count == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.read_ops_per_second);
+					dos.writeDouble(this.read_ops_total_count);
 				}
 
-				// Long
+				// Double
 
-				if (this.write_ops_per_second == null) {
+				if (this.write_ops_total_count == null) {
 					dos.writeByte(-1);
 				} else {
 					dos.writeByte(0);
-					dos.writeLong(this.write_ops_per_second);
+					dos.writeDouble(this.write_ops_total_count);
 				}
 
 				// Double
@@ -13498,10 +13498,10 @@ public class StatisticsSync implements TalendJob {
 					+ String.valueOf(write_rate_bytes_per_second));
 			sb.append(",write_latency_seconds="
 					+ String.valueOf(write_latency_seconds));
-			sb.append(",read_ops_per_second="
-					+ String.valueOf(read_ops_per_second));
-			sb.append(",write_ops_per_second="
-					+ String.valueOf(write_ops_per_second));
+			sb.append(",read_ops_total_count="
+					+ String.valueOf(read_ops_total_count));
+			sb.append(",write_ops_total_count="
+					+ String.valueOf(write_ops_total_count));
 			sb.append(",flush_latency_seconds="
 					+ String.valueOf(flush_latency_seconds));
 			sb.append("]");
@@ -13601,7 +13601,7 @@ public class StatisticsSync implements TalendJob {
 
 				String insert_tJDBCOutput_7 = "INSERT INTO "
 						+ "vm_disk_samples_history"
-						+ " (history_datetime,vm_disk_id,image_id,vm_disk_status,seconds_in_status,vm_disk_actual_size_mb,read_rate_bytes_per_second,read_latency_seconds,write_rate_bytes_per_second,write_latency_seconds,read_ops_per_second,write_ops_per_second,flush_latency_seconds,vm_disk_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+						+ " (history_datetime,vm_disk_id,image_id,vm_disk_status,seconds_in_status,vm_disk_actual_size_mb,read_rate_bytes_per_second,read_latency_seconds,write_rate_bytes_per_second,write_latency_seconds,read_ops_total_count,write_ops_total_count,flush_latency_seconds,vm_disk_configuration_version) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 				java.sql.PreparedStatement pstmt_tJDBCOutput_7 = connection_tJDBCOutput_7
 						.prepareStatement(insert_tJDBCOutput_7);
 
@@ -13665,7 +13665,7 @@ public class StatisticsSync implements TalendJob {
 				java.sql.Statement stmt_tJDBCInput_18 = conn_tJDBCInput_18
 						.createStatement();
 
-				String dbquery_tJDBCInput_18 = "SELECT vm_disk_id,\n		upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,\n        image_id,\n		vm_disk_status,\n		vm_disk_actual_size_mb,\n		read_rate_bytes_per_second,\n		read_latency_seconds,\n		write_rate_bytes_per_second,\n		write_latency_seconds,\n        read_ops_per_second,\n        write_ops_per_second,\n		flush_latency_seconds\nFROM dwh_vm_disks_history_view";
+				String dbquery_tJDBCInput_18 = "SELECT vm_disk_id,\n		upper(cast(vm_disk_id as char(36))) as vm_disk_join_id,\n        image_id,\n		vm_disk_status,\n		vm_disk_actual_size_mb,\n		read_rate_bytes_per_second,\n		read_latency_seconds,\n		write_rate_bytes_per_second,\n		write_latency_seconds,\n        read_ops_total_count,\n        write_ops_total_count,\n		flush_latency_seconds\nFROM dwh_vm_disks_history_view";
 
 				globalMap.put("tJDBCInput_18_QUERY", dbquery_tJDBCInput_18);
 
@@ -13777,25 +13777,25 @@ public class StatisticsSync implements TalendJob {
 							}
 						}
 						if (colQtyInRs_tJDBCInput_18 < 10) {
-							row1.read_ops_per_second = null;
+							row1.read_ops_total_count = null;
 						} else {
 
 							if (rs_tJDBCInput_18.getObject(10) != null) {
-								row1.read_ops_per_second = rs_tJDBCInput_18
-										.getLong(10);
+								row1.read_ops_total_count = rs_tJDBCInput_18
+										.getDouble(10);
 							} else {
-								row1.read_ops_per_second = null;
+								row1.read_ops_total_count = null;
 							}
 						}
 						if (colQtyInRs_tJDBCInput_18 < 11) {
-							row1.write_ops_per_second = null;
+							row1.write_ops_total_count = null;
 						} else {
 
 							if (rs_tJDBCInput_18.getObject(11) != null) {
-								row1.write_ops_per_second = rs_tJDBCInput_18
-										.getLong(11);
+								row1.write_ops_total_count = rs_tJDBCInput_18
+										.getDouble(11);
 							} else {
-								row1.write_ops_per_second = null;
+								row1.write_ops_total_count = null;
 							}
 						}
 						if (colQtyInRs_tJDBCInput_18 < 12) {
@@ -13914,8 +13914,8 @@ public class StatisticsSync implements TalendJob {
 								vm_disk_history_tmp.read_latency_seconds = row1.read_latency_seconds;
 								vm_disk_history_tmp.write_rate_bytes_per_second = row1.write_rate_bytes_per_second;
 								vm_disk_history_tmp.write_latency_seconds = row1.write_latency_seconds;
-								vm_disk_history_tmp.read_ops_per_second = row1.read_ops_per_second;
-								vm_disk_history_tmp.write_ops_per_second = row1.write_ops_per_second;
+								vm_disk_history_tmp.read_ops_total_count = row1.read_ops_total_count;
+								vm_disk_history_tmp.write_ops_total_count = row1.write_ops_total_count;
 								vm_disk_history_tmp.flush_latency_seconds = row1.flush_latency_seconds;
 								vm_disk_history_tmp.vm_disk_configuration_version = row3.history_id;
 								vm_disk_history = vm_disk_history_tmp;
@@ -14019,20 +14019,20 @@ public class StatisticsSync implements TalendJob {
 										vm_disk_history.write_latency_seconds);
 							}
 
-							if (vm_disk_history.read_ops_per_second == null) {
+							if (vm_disk_history.read_ops_total_count == null) {
 								pstmt_tJDBCOutput_7.setNull(11,
-										java.sql.Types.INTEGER);
+										java.sql.Types.DOUBLE);
 							} else {
-								pstmt_tJDBCOutput_7.setLong(11,
-										vm_disk_history.read_ops_per_second);
+								pstmt_tJDBCOutput_7.setDouble(11,
+										vm_disk_history.read_ops_total_count);
 							}
 
-							if (vm_disk_history.write_ops_per_second == null) {
+							if (vm_disk_history.write_ops_total_count == null) {
 								pstmt_tJDBCOutput_7.setNull(12,
-										java.sql.Types.INTEGER);
+										java.sql.Types.DOUBLE);
 							} else {
-								pstmt_tJDBCOutput_7.setLong(12,
-										vm_disk_history.write_ops_per_second);
+								pstmt_tJDBCOutput_7.setDouble(12,
+										vm_disk_history.write_ops_total_count);
 							}
 
 							if (vm_disk_history.flush_latency_seconds == null) {
@@ -16987,6 +16987,6 @@ public class StatisticsSync implements TalendJob {
 	ResumeUtil resumeUtil = null;
 }
 /************************************************************************************************
- * 465318 characters generated by Talend Open Studio for Data Integration on the
- * December 12, 2021 4:18:36 PM IST
+ * 465456 characters generated by Talend Open Studio for Data Integration on the
+ * March 13, 2022 7:12:33 PM IST
  ************************************************************************************************/
