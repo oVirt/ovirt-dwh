@@ -316,6 +316,11 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Fri Mar 18 2022 Martin Perina <mperina@redhat.com> - 4.5.1
+- Bug 1828982 - Use fasterxml for ResumeUtil json serialization
+- Bug 2010903 - Update read/write ops statistics
+- Bug 2010903 - Update the vm disk ops queries
+
 * Mon Feb 28 2022 Aviv Litman <alitman@redhat.com> - 4.5.0
 - Bug 1931939 - Add the engine FQDN to dwh
 - Bug 2030663 - Update Network statistics types in DWH
