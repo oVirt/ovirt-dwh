@@ -226,6 +226,7 @@ class FileLocations(oengcommcons.FileLocations):
 @util.export
 class Stages(object):
     CORE_ENABLE = 'osetup.grafana.core.enable'
+    GRAFANA_CONFIG = 'osetup.grafana.config'
     DB_GRAFANA_CONNECTION_CUSTOMIZATION = \
         'osetup.grafana.db.connection.customization'
     DB_CONNECTION_SETUP = 'osetup.grafana.db.connection.setup'
@@ -330,6 +331,28 @@ class RemoveEnv(object):
 class RPMDistroEnv(object):
     ADDITIONAL_PACKAGES = 'OVESETUP_GRAFANA_RPMDISTRO/additionalPackages'
     PACKAGES_SETUP = 'OVESETUP_GRAFANA_RPMDISRO_PACKAGES_SETUP'
+
+
+@util.export
+@util.codegen
+@osetupattrsclass
+class KeycloakEnv(object):
+    KEYCLOAK_ENABLED = 'OVESETUP_GRAFANA_CONFIG/keycloakEnabled'
+    KEYCLOAK_AUTH_URL = 'OVESETUP_GRAFANA_CONFIG/keycloakAuthUrl'
+    KEYCLOAK_TOKEN_URL = 'OVESETUP_GRAFANA_CONFIG/keycloakTokenUrl'
+    KEYCLOAK_USERINFO_URL = 'OVESETUP_GRAFANA_CONFIG/keycloakUserinfoUrl'
+    KEYCLOAK_GRAFANA_ADMIN_ROLE = 'OVESETUP_GRAFANA_CONFIG/keycloakGrafanaAdminRole'
+    KEYCLOAK_GRAFANA_EDITOR_ROLE = 'OVESETUP_GRAFANA_CONFIG/keycloakGrafanaEditorRole'
+    KEYCLOAK_GRAFANA_VIEWER_ROLE = 'OVESETUP_GRAFANA_CONFIG/keycloakGrafanaViewerRole'
+
+    @osetupattrs(
+        is_secret=True,
+    )
+    def KEYCLOAK_OVIRT_INTERNAL_CLIENT_SECRET(self):
+        return 'OVESETUP_GRAFANA_CONFIG/keycloakOvirtClientSecret'
+
+    KEYCLOAK_OVIRT_INTERNAL_CLIENT_ID = \
+        'OVESETUP_GRAFANA_CONFIG/keycloakOvirtClientId'
 
 
 # vim: expandtab tabstop=4 shiftwidth=4
