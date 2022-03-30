@@ -15,6 +15,19 @@ To open the talend ETL project:
 3. Add the PGSQL (postgresql-9.0-801.jdbc4) JDBC jars locations to the connections in "History ETL 0.1" job.
 4. Run and change context; ip, user and password to match the input (ovirt) and output (ovirt_engine_history).
 
+### `make` targets in `Makefile`
+
+all:: Build project.
+clean:: Clean project.
+all-dev:: Build project for development.
+install-dev:: Install a development environment at PREFIX.
+dist:: Create source tarball out of git repository.
+generated-files:: Create file from templates (.in files).
++
+  When creating new templates, generated files will be automatically appears in .gitignore, updated .gitignore should be part of commiting new templates.
+
+TODO: Add more content here, perhaps based on ovirt-engine's README, about development/building/packaging.
+
 ### Submitting patches
 
 Please submit patches to [GitHub:ovirt-dwh](https://github.com/oVirt/ovirt-dwh). If you are not familiar with the process, you can read about [collaborating with pull requests](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests) on the GitHub website.

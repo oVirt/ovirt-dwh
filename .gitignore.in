@@ -1,0 +1,11 @@
+lib
+target
+tmp.*
+*.scripts.md5
+*.log
+
+packaging/conf/settings.properties
+
+# Files generated from templates
+###########################
+@GENERATED_FILE_LIST@

@@ -75,6 +75,7 @@ BUILD_FILE=tmp.built
 .SUFFIXES: .in
 
 .in:
+	GENERATED_FILE_LIST=$$(echo "$(GENERATED)" | sed -e "s/.gitignore\s//g" -e "s/ /\\\n/g"); \
 	sed \
 	-e "s|@PKG_USER@|$(PKG_USER)|g" \
 	-e "s|@PKG_GROUP@|$(PKG_GROUP)|g" \
@@ -102,9 +103,13 @@ BUILD_FILE=tmp.built
 	-e "s|@GRAFANA_SYSCONF_DIR@|$(GRAFANA_SYSCONF_DIR)|g" \
 	-e "s|@GRAFANA_DATA_DIR@|$(GRAFANA_DATA_DIR)|g" \
 	-e "s|@GRAFANA_STATE_DIR@|$(GRAFANA_STATE_DIR)|g" \
+	-e "s|@GENERATED_FILE_LIST@|$${GENERATED_FILE_LIST}|g" \
 	$< > $@
 
+# If you add a template file here, and need to chmod it, add the chmod
+# command under the generated-files target.
 GENERATED = \
+	.gitignore \
 	build/python-check.sh \
 	ovirt-engine-dwh.spec \
 	packaging/etc/ovirt-engine-dwhd.conf.d/README \
