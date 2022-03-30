@@ -316,6 +316,10 @@ fi
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Mar 30 2022 Aviv Litman <alitman@redhat.com> - 4.5.2
+- Bug 2021497 - packaging: grafana SSO with internal Keycloak
+- build: auto-add generated files to gitignore
+
 * Fri Mar 18 2022 Martin Perina <mperina@redhat.com> - 4.5.1
 - Bug 1828982 - Use fasterxml for ResumeUtil json serialization
 - Bug 2010903 - Update read/write ops statistics
