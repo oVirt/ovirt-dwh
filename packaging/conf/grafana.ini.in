@@ -375,11 +375,12 @@ enabled = true
 allow_sign_up = false
 client_id = @OVIRT_GRAFANA_SSO_CLIENT_ID@
 client_secret = """@OVIRT_GRAFANA_SSO_CLIENT_SECRET@"""
-scopes = ovirt-app-admin,ovirt-app-portal,ovirt-ext=auth:sequence-priority=~
+scopes = @SCOPES@
+role_attribute_path = @ROLE_ATTRIBUTE_PATH@
 email_attribute_name = email
-auth_url = @ENGINE_SSO_AUTH_URL@/openid/authorize
-token_url = @ENGINE_SSO_AUTH_URL@/openid/token
-api_url = @ENGINE_SSO_AUTH_URL@/openid/userinfo
+auth_url = @SSO_AUTH_URL@
+token_url = @SSO_TOKEN_URL@
+api_url = @SSO_API_URL@
 team_ids =
 allowed_organizations =
 tls_skip_verify_insecure = false

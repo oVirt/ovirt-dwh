@@ -65,6 +65,10 @@ class Plugin(plugin.PluginBase):
             ogdwhcons.ConfigEnv.CONF_SECRET_KEY,
             self._generatePassword()
         )
+        self.environment.setdefault(
+            ogdwhcons.KeycloakEnv.KEYCLOAK_ENABLED,
+            None,
+        )
 
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
@@ -222,6 +226,7 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_MISC,
+        name=ogdwhcons.Stages.GRAFANA_CONFIG,
         after=(
             oengcommcons.Stages.DB_CREDENTIALS_WRITTEN,
         ),
@@ -248,6 +253,81 @@ class Plugin(plugin.PluginBase):
             group='ovirt_grafana_files',
             fileList=self._uninstall_files,
         )
+        substitutions = {
+            '@ADMIN_PASSWORD@': self.environment[
+                ogdwhcons.ConfigEnv.ADMIN_PASSWORD
+            ],
+            '@PROVISIONING@':
+                ogdwhcons.FileLocations.
+                    GRAFANA_PROVISIONING_CONFIGURATION,
+            '@GRAFANA_PORT@': self.environment[
+                ogdwhcons.ConfigEnv.GRAFANA_PORT
+            ],
+            '@SECRET_KEY@': self.environment[
+                ogdwhcons.ConfigEnv.CONF_SECRET_KEY
+            ],
+            '@GRAFANA_STATE_DIR@': ogdwhcons.FileLocations.GRAFANA_STATE_DIR,
+            '@GRAFANA_DB@': ogdwhcons.FileLocations.GRAFANA_DB,
+            '@ROOT_URL@': '%s' % self._grafana_url,
+            '@GRAFANA_TLS_CLIENT_CA@': oengcommcons.FileLocations.
+                OVIRT_ENGINE_PKI_APACHE_CA_CERT,
+        }
+
+        fqdn = self.environment[
+            oenginecons.ConfigEnv.ENGINE_FQDN
+        ]
+        auth_url = f'https://{fqdn}/ovirt-engine/sso/openid/authorize'
+        token_url = f'https://{fqdn}/ovirt-engine/sso/openid/token'
+        api_url = f'https://{fqdn}/ovirt-engine/sso/openid/userinfo'
+        scopes = 'ovirt-app-admin,ovirt-app-portal,' \
+                 'ovirt-ext=auth:sequence-priority=~'
+        role_attr = ''
+
+        # override  configuration for internal Keycloak based SSO
+        if self.environment[ogdwhcons.KeycloakEnv.KEYCLOAK_ENABLED]:
+            auth_url = self.environment[
+                ogdwhcons.KeycloakEnv.KEYCLOAK_AUTH_URL
+            ]
+            token_url = self.environment[
+                ogdwhcons.KeycloakEnv.KEYCLOAK_TOKEN_URL
+            ]
+            api_url = self.environment[
+                ogdwhcons.KeycloakEnv.KEYCLOAK_USERINFO_URL
+            ]
+            scopes = f'openid,{scopes}'
+            client_id = self.environment[
+                ogdwhcons.KeycloakEnv.KEYCLOAK_OVIRT_INTERNAL_CLIENT_ID
+            ]
+            client_secret = self.environment[
+                ogdwhcons.KeycloakEnv.KEYCLOAK_OVIRT_INTERNAL_CLIENT_SECRET
+            ]
+            admin_role = self.environment[
+                ogdwhcons.KeycloakEnv.KEYCLOAK_GRAFANA_ADMIN_ROLE
+            ]
+            editor_role = self.environment[
+                ogdwhcons.KeycloakEnv.KEYCLOAK_GRAFANA_EDITOR_ROLE
+            ]
+            viewer_role = self.environment[
+                ogdwhcons.KeycloakEnv.KEYCLOAK_GRAFANA_VIEWER_ROLE
+            ]
+            role_attr = f"\"contains(realm_access.roles[*], " \
+                        f"'{admin_role}') && 'Admin' " \
+                        f"|| contains(realm_access.roles[*], " \
+                        f"'{editor_role}') && 'Editor' " \
+                        f"|| contains(realm_access.roles[*], " \
+                        f"'{viewer_role}') && 'Viewer'\""
+        else:
+            client_id = self._sso_config.get('SSO_CLIENT_ID')
+            client_secret = self._sso_config.get('SSO_CLIENT_SECRET')
+
+        substitutions['@SSO_AUTH_URL@'] = auth_url
+        substitutions['@SSO_TOKEN_URL@'] = token_url
+        substitutions['@SSO_API_URL@'] = api_url
+        substitutions['@SCOPES@'] = scopes
+        substitutions['@OVIRT_GRAFANA_SSO_CLIENT_ID@'] = client_id
+        substitutions['@OVIRT_GRAFANA_SSO_CLIENT_SECRET@'] = client_secret
+        substitutions['@ROLE_ATTRIBUTE_PATH@'] = role_attr
+
         self.environment[otopicons.CoreEnv.MAIN_TRANSACTION].append(
             filetransaction.FileTransaction(
                 name=(
@@ -263,45 +343,7 @@ class Plugin(plugin.PluginBase):
                         ogdwhcons.FileLocations.
                         GRAFANA_CONFIG_FILE_TEMPLATE
                     ),
-                    subst={
-                        '@ADMIN_PASSWORD@': self.environment[
-                            ogdwhcons.ConfigEnv.ADMIN_PASSWORD
-                        ],
-                        '@PROVISIONING@': (
-                            ogdwhcons.FileLocations.
-                            GRAFANA_PROVISIONING_CONFIGURATION
-                        ),
-                        '@GRAFANA_PORT@': self.environment[
-                            ogdwhcons.ConfigEnv.GRAFANA_PORT
-                        ],
-                        '@SECRET_KEY@': self.environment[
-                            ogdwhcons.ConfigEnv.CONF_SECRET_KEY
-                        ],
-                        '@GRAFANA_STATE_DIR@': (
-                            ogdwhcons.FileLocations.GRAFANA_STATE_DIR
-                        ),
-                        '@GRAFANA_DB@': (
-                            ogdwhcons.FileLocations.GRAFANA_DB
-                        ),
-                        '@OVIRT_GRAFANA_SSO_CLIENT_ID@': self._sso_config.get(
-                            'SSO_CLIENT_ID'
-                        ),
-                        '@OVIRT_GRAFANA_SSO_CLIENT_SECRET@': (
-                            self._sso_config.get('SSO_CLIENT_SECRET')
-                        ),
-                        '@ENGINE_SSO_AUTH_URL@': (
-                            'https://{fqdn}/ovirt-engine/sso'.format(
-                                fqdn=self.environment[
-                                    oenginecons.ConfigEnv.ENGINE_FQDN
-                                ],
-                            )
-                        ),
-                        '@ROOT_URL@': '%s' % self._grafana_url,
-                        '@GRAFANA_TLS_CLIENT_CA@': (
-                            oengcommcons.FileLocations.
-                            OVIRT_ENGINE_PKI_APACHE_CA_CERT
-                        ),
-                    },
+                    subst=substitutions,
                 ),
                 modifiedList=self._uninstall_files,
             )
