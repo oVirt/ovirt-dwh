@@ -1,0 +1,74 @@
+{
+  "itemId" : "_32iGcDEOEeSx2o9mrBi0rQ",
+  "contextList" : [ {
+    "contextName" : "Default",
+    "repoId" : "_3OYLIEP_EeC5PvJxFZIIsw",
+    "parameterList" : [ {
+      "id" : "_SOolBsPJEeyZv6XixOjC5A",
+      "name" : "dwhUuid"
+    }, {
+      "id" : "_SOok_sPJEeyZv6XixOjC5A",
+      "name" : "endTime"
+    }, {
+      "id" : "_SOok_8PJEeyZv6XixOjC5A",
+      "name" : "etlVersion"
+    }, {
+      "id" : "_SOok_MPJEeyZv6XixOjC5A",
+      "name" : "hoursToKeepDaily"
+    }, {
+      "id" : "_SOok-8PJEeyZv6XixOjC5A",
+      "name" : "hoursToKeepHourly"
+    }, {
+      "id" : "_SOok_cPJEeyZv6XixOjC5A",
+      "name" : "hoursToKeepSamples"
+    }, {
+      "id" : "_SOolAcPJEeyZv6XixOjC5A",
+      "name" : "lastErrorSent"
+    }, {
+      "id" : "_SOolBcPJEeyZv6XixOjC5A",
+      "name" : "lastSampling"
+    }, {
+      "id" : "_SOolBMPJEeyZv6XixOjC5A",
+      "name" : "lastStatisticsUpdate"
+    }, {
+      "id" : "_SOok8sPJEeyZv6XixOjC5A",
+      "name" : "ovirtEngineDbDriverClass"
+    }, {
+      "id" : "_SOok8cPJEeyZv6XixOjC5A",
+      "name" : "ovirtEngineDbJdbcConnection"
+    }, {
+      "id" : "_SOok9MPJEeyZv6XixOjC5A",
+      "name" : "ovirtEngineDbPassword"
+    }, {
+      "id" : "_SOok88PJEeyZv6XixOjC5A",
+      "name" : "ovirtEngineDbUser"
+    }, {
+      "id" : "_SOok98PJEeyZv6XixOjC5A",
+      "name" : "ovirtEngineHistoryDbDriverClass"
+    }, {
+      "id" : "_SOok9cPJEeyZv6XixOjC5A",
+      "name" : "ovirtEngineHistoryDbJdbcConnection"
+    }, {
+      "id" : "_SOok-MPJEeyZv6XixOjC5A",
+      "name" : "ovirtEngineHistoryDbPassword"
+    }, {
+      "id" : "_SOok9sPJEeyZv6XixOjC5A",
+      "name" : "ovirtEngineHistoryDbUser"
+    }, {
+      "id" : "_SOolAMPJEeyZv6XixOjC5A",
+      "name" : "runDeleteTime"
+    }, {
+      "id" : "_SOok-sPJEeyZv6XixOjC5A",
+      "name" : "runInterleave"
+    }, {
+      "id" : "_SOok-cPJEeyZv6XixOjC5A",
+      "name" : "runTime"
+    }, {
+      "id" : "_SOolAsPJEeyZv6XixOjC5A",
+      "name" : "timeBetweenErrorEvents"
+    }, {
+      "id" : "_SOolA8PJEeyZv6XixOjC5A",
+      "name" : "timesFailed"
+    } ]
+  } ]
+}
