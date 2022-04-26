@@ -17,39 +17,14 @@
 %global jackson_core jackson-core
 %global jackson_databind jackson-databind
 %global jackson_annotations jackson-annotations
-%if 0%{?fedora}
-%global ovirt_install_systemd 1
-%global ovirt_install_systemv 0
+%global systemd systemd
 %global commons_collections apache-commons-collections
-%global dom4j dom4j
-%endif
 
 %if 0%{?rhel}
-    %if 0%{?rhel} >= 8
-        %global ovirt_install_systemd 1
-        %global ovirt_install_systemv 0
-        %global commons_collections apache-commons-collections
-        %if 0%{?centos}
-            %global dom4j ovirt-engine-wildfly
-        %else
-            %global dom4j eap7-dom4j
-        %endif
+    %if 0%{?centos}
+        %global dom4j ovirt-engine-wildfly
     %else
-        %if 0%{?rhel} >= 7
-            %global ovirt_install_systemd 1
-            %global ovirt_install_systemv 0
-            %global commons_collections apache-commons-collections
-            %global dom4j dom4j
-        %else
-            %global ovirt_install_systemd 0
-            %global ovirt_install_systemv 1
-            %global commons_collections commons-collections
-            %if 0%{?centos}
-                %global dom4j dom4j
-            %else
-                %global dom4j dom4j-eap6
-            %endif
-        %endif
+        %global dom4j eap7-dom4j
     %endif
 %endif
 
@@ -121,9 +96,7 @@ BuildRequires:	make
 BuildRequires:	python3
 BuildRequires:	python3-devel
 
-%if %{ovirt_install_systemd}
 BuildRequires:	systemd
-%endif
 
 Requires:	%{commons_collections}
 Requires:	%{dom4j}
@@ -146,11 +119,9 @@ The %{product_description} package provides
 the ETL process and DB scripts to create a historic database API.
 Enables SQL BI reports creation for management and monitoring.
 
-%if %{ovirt_install_systemd}
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
 
 %package setup
 Summary:	%{product_name} setup
@@ -230,17 +201,8 @@ ln -s "ovirt-engine-dwh" "%{buildroot}%{_javadir}/ovirt-engine-dwh/../%{name}"
 #
 # Register services
 #
-%if %{ovirt_install_systemd}
 install -dm 755 "%{buildroot}%{_unitdir}"
 cp "%{buildroot}%{_datadir}/ovirt-engine-dwh/services/ovirt-engine-dwhd/ovirt-engine-dwhd.systemd" "%{buildroot}%{_unitdir}/ovirt-engine-dwhd.service"
-%endif
-
-%if %{ovirt_install_systemv}
-install -dm 755 "%{buildroot}%{_sysconfdir}/cron.hourly"
-cp "%{buildroot}%{_datadir}/ovirt-engine-dwh/services/ovirt-engine-dwhd/ovirt_engine_dwh_watchdog.cron" "%{buildroot}%{_sysconfdir}/cron.hourly"
-install -dm 755 "%{buildroot}%{_initddir}"
-cp "%{buildroot}%{_datadir}/ovirt-engine-dwh/services/ovirt-engine-dwhd/ovirt-engine-dwhd.sysv" "%{buildroot}%{_initddir}/ovirt-engine-dwhd"
-%endif
 
 # backward compatibly (pre-3.4.0)
 # perserve old configuration
@@ -255,28 +217,13 @@ touch "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properti
 %ovirt_create_user_engine
 
 %post
-%if %{ovirt_install_systemv}
-chkconfig --add ovirt-engine-dwhd
-%endif
-%if %{ovirt_install_systemd}
 %systemd_post ovirt-engine-dwhd.service
-%endif
 
 %preun
-%if %{ovirt_install_systemv}
-if [ "$1" -eq 0 ]; then
-	service ovirt-engine-dwhd stop > /dev/null 2>&1 || true
-	chkconfig --del ovirt-engine-dwhd
-fi
-%endif
-%if %{ovirt_install_systemd}
 %systemd_preun ovirt-engine-dwhd.service
-%endif
 
 %postun
-%if %{ovirt_install_systemd}
 %systemd_postun ovirt-engine-dwhd.service
-%endif
 
 %files
 
@@ -298,13 +245,7 @@ fi
 %{_javadir}/%{name}
 %endif
 
-%if %{ovirt_install_systemd}
 %{_unitdir}/ovirt-engine-dwhd.service
-%endif
-%if %{ovirt_install_systemv}
-%config %{_sysconfdir}/cron.hourly/ovirt_engine_dwh_watchdog.cron
-%{_initddir}/ovirt-engine-dwhd
-%endif
 
 %files setup
 %{_datadir}/ovirt-engine/setup/ovirt_engine_setup/dwh/
