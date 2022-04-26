@@ -27,8 +27,8 @@ if [ -z "${JAVA_HOME}" ]; then
 	export JAVA_HOME
 fi
 
-if [ -z "${WILDFLYDOM4JJAVACONF}" ]; then
-	WILDFLYDOM4JJAVACONFDIR="$(readlink -f $(dirname $(dirname $0)))/wildflydom4jjavaconf"
+if [ -z "${WILDFLYJAVACONF}" ]; then
+	WILDFLYJAVACONFDIR="$(readlink -f $(dirname $(dirname $0)))/wildflyjavaconf"
 fi
 
 if [ -x /usr/bin/java-config ]; then
@@ -47,8 +47,7 @@ if [ -x /usr/bin/java-config ]; then
 	done
 elif [ -x /usr/bin/build-classpath ]; then
 	dom4j="$(build-classpath dom4j 2> /dev/null)"
-	[ -z "${dom4j}" ] && dom4j="$(build-classpath dom4j-eap6 2> /dev/null)"
-	[ -z "${dom4j}" ] && dom4j="$(JAVACONFDIRS=${WILDFLYDOM4JJAVACONFDIR} build-classpath dom4j 2> /dev/null)"
+	[ -z "${dom4j}" ] && dom4j="$(JAVACONFDIRS=${WILDFLYJAVACONFDIR} build-classpath dom4j 2> /dev/null)"
 	[ -n "${dom4j}" ] || die "Cannot find dom4j"
 	commons_collections="$(build-classpath apache-commons-collections 2> /dev/null)"
 	[ -z "${commons_collections}" ] && commons_collections="$(build-classpath commons-collections 2> /dev/null)"
