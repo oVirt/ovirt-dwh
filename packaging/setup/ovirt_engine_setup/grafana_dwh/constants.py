@@ -60,6 +60,7 @@ class Const(object):
             DEK.DUMPER: DWHDBEnv.DUMPER,
             DEK.FILTER: DWHDBEnv.FILTER,
             DEK.RESTORE_JOBS: DWHDBEnv.RESTORE_JOBS,
+            DEK.CREDS_Q_NAME_FUNC: dwh_question_name,
         }
 
     @classproperty
@@ -92,6 +93,7 @@ class Const(object):
             DEK.DUMPER: DWHDBEnv.DUMPER,
             DEK.FILTER: DWHDBEnv.FILTER,
             DEK.RESTORE_JOBS: DWHDBEnv.RESTORE_JOBS,
+            DEK.CREDS_Q_NAME_FUNC: grafana_question_name,
         }
 
     @classproperty
@@ -111,6 +113,14 @@ class Const(object):
     OVIRT_GRAFANA_SSO_CLIENT_ID = 'ovirt-grafana'
 
     PKI_GRAFANA_APACHE_CERT_NAME = 'apache-grafana'
+
+
+def dwh_question_name(what):
+    return f'OVESETUP_DWH_DB_{what.upper()}'
+
+
+def grafana_question_name(what):
+    return f'OVESETUP_GRAFANA_DB_{what.upper()}'
 
 
 @util.export
@@ -260,6 +270,9 @@ class ConfigEnv(object):
     @osetupattrs(
         answerfile=True,
         is_secret=True,
+        # This is the name used by ovirt-setup-lib's dialog.queryPassword.
+        # TODO: Consider doing something to not hard-code this here.
+        asked_on=('queryEnvKey_input_OVESETUP_GRAFANA_CONFIG/adminPassword',),
     )
     def ADMIN_PASSWORD(self):
         return 'OVESETUP_GRAFANA_CONFIG/adminPassword'
@@ -269,6 +282,7 @@ class ConfigEnv(object):
 
     @osetupattrs(
         is_secret=True,
+        asked_on=(),
     )
     def CONF_SECRET_KEY(self):
         return 'OVESETUP_GRAFANA_CONFIG/confSecretKey'
@@ -310,6 +324,8 @@ class GrafanaDBEnv(object):
 
     @osetupattrs(
         answerfile=True,
+        is_secret=True,
+        asked_on=(grafana_question_name(DEK.PASSWORD),),
     )
     def PASSWORD(self):
         return 'OVESETUP_GRAFANA_DB/password'

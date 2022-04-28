@@ -30,6 +30,17 @@ class Plugin(plugin.PluginBase):
         super(Plugin, self).__init__(context=context)
 
     @plugin.event(
+        stage=plugin.Stages.STAGE_BOOT,
+        before=(
+            osetupcons.Stages.SECRETS_FILTERED_FROM_SETUP_ATTRS_MODULES,
+        ),
+    )
+    def _boot(self):
+        self.environment[
+            osetupcons.CoreEnv.SETUP_ATTRS_MODULES
+        ].append(odwhcons)
+
+    @plugin.event(
         stage=plugin.Stages.STAGE_INIT,
     )
     def _init(self):
@@ -47,9 +58,6 @@ class Plugin(plugin.PluginBase):
             description='DWH files',
             optional=True,
         )
-        self.environment[
-            osetupcons.CoreEnv.SETUP_ATTRS_MODULES
-        ].append(odwhcons)
         self.logger.debug(
             'dwh version: %s-%s (%s)\n',
             odwhcons.Const.PACKAGE_NAME,
