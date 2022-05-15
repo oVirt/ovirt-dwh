@@ -20,11 +20,10 @@
 %global systemd systemd
 %global commons_collections apache-commons-collections
 
+%global dom4j eap7-dom4j
 %if 0%{?rhel}
     %if 0%{?centos}
         %global dom4j ovirt-engine-wildfly
-    %else
-        %global dom4j eap7-dom4j
     %endif
 %endif
 
