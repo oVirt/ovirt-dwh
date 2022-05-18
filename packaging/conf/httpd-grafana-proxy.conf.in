@@ -3,6 +3,7 @@
 </IfModule>
 
 <Location @GRAFANA_URI_PATH@>
+    ProxyPreserveHost on
     ProxyPass http://127.0.0.1:@GRAFANA_PORT@ retry=0 disablereuse=On
     ProxyPassReverse http://127.0.0.1:@GRAFANA_PORT@@GRAFANA_URI_PATH@
 </Location>
