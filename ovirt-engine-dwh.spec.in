@@ -21,11 +21,21 @@
 %global commons_collections apache-commons-collections
 
 %if 0%{?rhel}
-    %if 0%{?centos}
-        %global dom4j ovirt-engine-wildfly
-    %else
-        %global dom4j eap7-dom4j
-    %endif
+%if 0%{?centos}
+# Build package for oVirt on CentOS Stream
+%define rhv_build 0
+%else
+# Build package for RHV on RHEL
+%define rhv_build 1
+%endif
+%else
+# Default to oVirt build for all other platforms
+%define rhv_build 0
+%endif
+
+%global dom4j ovirt-engine-wildfly
+%if %{rhv_build}
+%global dom4j eap7-dom4j
 %endif
 
 %global product_name Data warehouse package for oVirt Virtualization Suite
