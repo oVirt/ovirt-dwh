@@ -66,7 +66,7 @@ class Plugin(plugin.PluginBase):
             self._generatePassword()
         )
         self.environment.setdefault(
-            ogdwhcons.KeycloakEnv.KEYCLOAK_ENABLED,
+            oengcommcons.KeycloakEnv.ENABLE,
             None,
         )
 
@@ -232,8 +232,14 @@ class Plugin(plugin.PluginBase):
         ),
         condition=lambda self: (
             self.environment[ogdwhcons.CoreEnv.ENABLE] and
-            self.environment[ogdwhcons.ConfigEnv.NEW_DATABASE]
-        ),
+            (
+                self.environment[ogdwhcons.ConfigEnv.NEW_DATABASE] or
+                (
+                    self.environment[oengcommcons.KeycloakEnv.ENABLE] and
+                    not self.environment[oengcommcons.KeycloakEnv.CONFIGURED]
+                )
+            )
+        )
     )
     def _misc_grafana_config(self):
         if self._register_sso_client:
@@ -284,31 +290,34 @@ class Plugin(plugin.PluginBase):
         role_attr = ''
 
         # override  configuration for internal Keycloak based SSO
-        if self.environment[ogdwhcons.KeycloakEnv.KEYCLOAK_ENABLED]:
+        keycloak_enabled = self.environment.get(oengcommcons.KeycloakEnv.ENABLE)
+        keycloak_configured = self.environment.get(oengcommcons.KeycloakEnv.CONFIGURED)
+
+        if keycloak_enabled and not keycloak_configured:
             auth_url = self.environment[
-                ogdwhcons.KeycloakEnv.KEYCLOAK_AUTH_URL
+                oengcommcons.KeycloakEnv.KEYCLOAK_AUTH_URL
             ]
             token_url = self.environment[
-                ogdwhcons.KeycloakEnv.KEYCLOAK_TOKEN_URL
+                oengcommcons.KeycloakEnv.KEYCLOAK_TOKEN_URL
             ]
             api_url = self.environment[
-                ogdwhcons.KeycloakEnv.KEYCLOAK_USERINFO_URL
+                oengcommcons.KeycloakEnv.KEYCLOAK_USERINFO_URL
             ]
             scopes = f'openid,{scopes}'
             client_id = self.environment[
-                ogdwhcons.KeycloakEnv.KEYCLOAK_OVIRT_INTERNAL_CLIENT_ID
+                oengcommcons.KeycloakEnv.KEYCLOAK_OVIRT_INTERNAL_CLIENT_ID
             ]
             client_secret = self.environment[
-                ogdwhcons.KeycloakEnv.KEYCLOAK_OVIRT_INTERNAL_CLIENT_SECRET
+                oengcommcons.KeycloakEnv.KEYCLOAK_OVIRT_INTERNAL_CLIENT_SECRET
             ]
             admin_role = self.environment[
-                ogdwhcons.KeycloakEnv.KEYCLOAK_GRAFANA_ADMIN_ROLE
+                oengcommcons.KeycloakEnv.KEYCLOAK_GRAFANA_ADMIN_ROLE
             ]
             editor_role = self.environment[
-                ogdwhcons.KeycloakEnv.KEYCLOAK_GRAFANA_EDITOR_ROLE
+                oengcommcons.KeycloakEnv.KEYCLOAK_GRAFANA_EDITOR_ROLE
             ]
             viewer_role = self.environment[
-                ogdwhcons.KeycloakEnv.KEYCLOAK_GRAFANA_VIEWER_ROLE
+                oengcommcons.KeycloakEnv.KEYCLOAK_GRAFANA_VIEWER_ROLE
             ]
             role_attr = f"\"contains(realm_access.roles[*], " \
                         f"'{admin_role}') && 'Admin' " \
@@ -382,7 +391,6 @@ class Plugin(plugin.PluginBase):
         ),
         condition=lambda self: (
             self.environment[ogdwhcons.CoreEnv.ENABLE] and
-            self.environment[ogdwhcons.ConfigEnv.NEW_DATABASE] and
             not self.environment[oenginecons.CoreEnv.ENABLE]
         ),
     )
