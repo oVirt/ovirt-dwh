@@ -267,6 +267,14 @@ touch "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properti
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Jun 1 2022 Aviv Litman <alitman@redhat.com> - 4.5.3
+- spec: Remove fedora and rhel<8
+- spec: Fix dom4j definition
+- Fix Grafana proxy configuration
+- Mark temp repo directory as safe for COPR
+- update Java's classpath
+- Bug 2021497 - Reconfigure SSO on keycloak activation
+
 * Wed Mar 30 2022 Aviv Litman <alitman@redhat.com> - 4.5.2
 - Bug 2021497 - packaging: grafana SSO with internal Keycloak
 - build: auto-add generated files to gitignore
