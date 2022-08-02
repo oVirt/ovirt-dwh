@@ -391,7 +391,14 @@ class Plugin(plugin.PluginBase):
         ),
         condition=lambda self: (
             self.environment[ogdwhcons.CoreEnv.ENABLE] and
-            not self.environment[oenginecons.CoreEnv.ENABLE]
+            not self.environment[oenginecons.CoreEnv.ENABLE] and
+            (
+                self.environment[ogdwhcons.ConfigEnv.NEW_DATABASE] or
+                (
+                    self.environment[oengcommcons.KeycloakEnv.ENABLE] and
+                    not self.environment[oengcommcons.KeycloakEnv.CONFIGURED]
+                )
+            )
         ),
     )
     def _closeup_engine_grafana_access(self):
