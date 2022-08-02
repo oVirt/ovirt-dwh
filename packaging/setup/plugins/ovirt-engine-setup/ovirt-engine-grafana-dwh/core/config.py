@@ -168,6 +168,16 @@ class Plugin(plugin.PluginBase):
         )
 
     @plugin.event(
+        stage=plugin.Stages.STAGE_LATE_SETUP,
+        # env[REMOTE_ENGINE] is created in common engine-setup code,
+        # in STAGE_SETUP. So here in STAGE_LATE_SETUP is good enough.
+    )
+    def _late_setup_remote_engine(self):
+        self._remote_engine = self.environment[
+            osetupcons.CoreEnv.REMOTE_ENGINE
+        ]
+
+    @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
         before=(
             osetupcons.Stages.DIALOG_TITLES_E_MISC,
@@ -184,9 +194,6 @@ class Plugin(plugin.PluginBase):
         if self.environment[oenginecons.CoreEnv.ENABLE]:
             self._register_sso_client = True
         else:
-            self._remote_engine = self.environment[
-                osetupcons.CoreEnv.REMOTE_ENGINE
-            ]
             fd, tmpconf = tempfile.mkstemp()
             atexit.register(os.unlink, tmpconf)
             cmd = self._get_sso_client_registration_cmd(tmpconf)
