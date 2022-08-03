@@ -267,6 +267,9 @@ touch "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properti
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Aug 3 2022 Aviv Litman <alitman@redhat.com> - 4.5.4
+- Bug 2113980 - packaging: setup: Refine the condition on _closeup_engine_grafana_acc…
+
 * Wed Jun 1 2022 Aviv Litman <alitman@redhat.com> - 4.5.3
 - spec: Remove fedora and rhel<8
 - spec: Fix dom4j definition
