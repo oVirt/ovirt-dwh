@@ -105,7 +105,9 @@ class Plugin(plugin.PluginBase):
                 oengcommcons.FileLocations.OVIRT_ENGINE_PKI_APACHE_CA_CERT
             ),
             'apache',
-            True
+            True,
+            True,
+            self.environment,
         ):
             renew = dialog.queryBoolean(
                 dialog=self.dialog,
