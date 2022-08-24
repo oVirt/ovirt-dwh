@@ -89,7 +89,6 @@ class Plugin(plugin.PluginBase):
         )
         dbovirtutils.getCredentials(
             name='DWH',
-            queryprefix='OVESETUP_DWH_DB_',
             defaultdbenvkeys=odwhcons.Const.DEFAULT_DWH_DB_ENV_KEYS,
             show_create_msg=True,
         )

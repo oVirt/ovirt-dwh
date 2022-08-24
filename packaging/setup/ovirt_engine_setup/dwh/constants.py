@@ -65,6 +65,7 @@ class Const(object):
             DEK.DUMPER: DBEnv.DUMPER,
             DEK.FILTER: DBEnv.FILTER,
             DEK.RESTORE_JOBS: DBEnv.RESTORE_JOBS,
+            DEK.CREDS_Q_NAME_FUNC: dwh_question_name,
         }
 
     @classproperty
@@ -81,6 +82,10 @@ class Const(object):
             DEK.FILTER: Defaults.DEFAULT_DB_FILTER,
             DEK.RESTORE_JOBS: Defaults.DEFAULT_DB_RESTORE_JOBS,
         }
+
+
+def dwh_question_name(what):
+    return f'OVESETUP_DWH_DB_{what.upper()}'
 
 
 @util.export
@@ -302,6 +307,8 @@ class DBEnv(object):
         answerfile_condition=lambda env: not env.get(
             ProvisioningEnv.POSTGRES_PROVISIONING_ENABLED
         ),
+        is_secret=True,
+        asked_on=(dwh_question_name(DEK.PASSWORD),),
     )
     def PASSWORD(self):
         return 'OVESETUP_DWH_DB/password'

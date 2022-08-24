@@ -49,7 +49,6 @@ class Plugin(plugin.PluginBase):
             dbenvkeys=ogdwhcons.Const.GRAFANA_DB_ENV_KEYS,
         ).getCredentials(
             name='Grafana',
-            queryprefix='OVESETUP_GRAFANA_DB_',
             defaultdbenvkeys=ogdwhcons.Const.DEFAULT_GRAFANA_DB_ENV_KEYS,
             show_create_msg=False,
             validateconf=False,

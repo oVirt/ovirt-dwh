@@ -56,7 +56,6 @@ class Plugin(plugin.PluginBase):
         )
         dbovirtutils.getCredentials(
             name='Engine',
-            queryprefix='OVESETUP_ENGINE_DB_',
             defaultdbenvkeys={
                 'host': '',
                 'port': '5432',
