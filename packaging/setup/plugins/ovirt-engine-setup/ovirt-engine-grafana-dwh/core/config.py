@@ -386,6 +386,9 @@ class Plugin(plugin.PluginBase):
 
     @plugin.event(
         stage=plugin.Stages.STAGE_CLOSEUP,
+        before=(
+            osetupcons.Stages.REMOTE_ENGINE_CLEANUP,
+        ),
         after=(
             osetupcons.Stages.DIALOG_TITLES_E_SUMMARY,
         ),
