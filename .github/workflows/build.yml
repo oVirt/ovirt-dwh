@@ -1,9 +1,9 @@
 name: build
 on:
   push:
-    branches: [master]
+    branches: [master, ovirt-engine-dwh-4.5*]
   pull_request:
-    branches: [master]
+    branches: [master, ovirt-engine-dwh-4.5*]
   workflow_dispatch:
     branches: [master]
 
