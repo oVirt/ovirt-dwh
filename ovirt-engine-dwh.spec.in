@@ -267,6 +267,11 @@ touch "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properti
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Thu Sep 01 2022 Martin Perina <mperina@redhat.com> - 4.5.5
+- packaging: setup: Fix the call to ok_to_renew_cert
+- Fix type error in _customization_sso
+- Bug 2122174 - Perform remote engine operations before clean up
+
 * Wed Aug 3 2022 Aviv Litman <alitman@redhat.com> - 4.5.4
 - Bug 2113980 - packaging: setup: Refine the condition on _closeup_engine_grafana_acc…
 
