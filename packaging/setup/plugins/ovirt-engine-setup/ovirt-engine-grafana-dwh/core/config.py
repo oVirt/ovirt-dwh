@@ -220,7 +220,7 @@ class Plugin(plugin.PluginBase):
                 prompt=True,
                 default=True,
             )
-            with open(tmpconf, 'w') as f:
+            with open(tmpconf, 'wb') as f:
                 f.write(res)
             self._process_sso_client_registration_result(tmpconf)
 
