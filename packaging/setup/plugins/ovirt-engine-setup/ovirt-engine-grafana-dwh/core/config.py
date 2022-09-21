@@ -25,6 +25,7 @@ from ovirt_engine import util as outil
 
 from ovirt_engine_setup.engine import constants as oenginecons
 from ovirt_engine_setup.engine_common import constants as oengcommcons
+from ovirt_engine_setup.engine_common import keycloak_utils
 from ovirt_engine_setup import constants as osetupcons
 from ovirt_engine_setup.grafana_dwh import constants as ogdwhcons
 from ovirt_setup_lib import dialog
@@ -69,6 +70,15 @@ class Plugin(plugin.PluginBase):
             oengcommcons.KeycloakEnv.ENABLE,
             None,
         )
+        self._keycloak_enabled_on_remote_engine = None
+
+    @plugin.event(
+        stage=plugin.Stages.STAGE_LATE_SETUP,
+    )
+    def _late_setup(self):
+        self._remote_engine = self.environment[
+            osetupcons.CoreEnv.REMOTE_ENGINE
+        ]
 
     @plugin.event(
         stage=plugin.Stages.STAGE_CUSTOMIZATION,
@@ -184,9 +194,6 @@ class Plugin(plugin.PluginBase):
         if self.environment[oenginecons.CoreEnv.ENABLE]:
             self._register_sso_client = True
         else:
-            self._remote_engine = self.environment[
-                osetupcons.CoreEnv.REMOTE_ENGINE
-            ]
             fd, tmpconf = tempfile.mkstemp()
             atexit.register(os.unlink, tmpconf)
             cmd = self._get_sso_client_registration_cmd(tmpconf)
@@ -224,6 +231,95 @@ class Plugin(plugin.PluginBase):
                 f.write(res)
             self._process_sso_client_registration_result(tmpconf)
 
+    def _check_if_keycloak_enabled_on_remote_engine(self):
+        if not self.environment[oengcommcons.KeycloakEnv.SUPPORTED]:
+            # If keycloak integration is not supported, as is the case in RHV,
+            # no need to ask the remote engine.
+            return False
+
+        cmd = (
+            'otopi-config-query query '
+            '-k OVESETUP_CONFIG/keycloakEnable '
+            '-f /etc/ovirt-engine-setup.conf'
+        )
+        res = self._remote_engine.execute_on_engine(
+            cmd=cmd,
+            timeout=120,
+            text=_(
+                '\nPlease run the following command on the engine '
+                'machine {engine_fqdn}, and note the output.\n\n'
+                '{cmd}\n'
+            ).format(
+                engine_fqdn=self.environment[
+                    oenginecons.ConfigEnv.ENGINE_FQDN
+                ],
+                cmd=cmd,
+            ),
+        )
+        if res is None:
+            # Likely using manual_files. Ask the user.
+            remote_keycloak_enabled = dialog.queryBoolean(
+                dialog=self.dialog,
+                name='GRAFANA_REMOTE_ENGINE_KEYCLOAK_ENABLED',
+                note=_(
+                    'Was the output of the command "True"? '
+                    '(@VALUES@) [@DEFAULT@]: '
+                ),
+                prompt=True,
+                default=True,
+            )
+        else:
+            remote_keycloak_enabled = (
+                b''.join(res['stdout']).decode().strip() == 'True'
+            )
+        return remote_keycloak_enabled
+
+    @plugin.event(
+        stage=plugin.Stages.STAGE_CUSTOMIZATION,
+        before=(
+            osetupcons.Stages.DIALOG_TITLES_E_MISC,
+        ),
+        after=(
+            osetupcons.Stages.DIALOG_TITLES_S_MISC,
+        ),
+        condition=lambda self: (
+            self.environment[ogdwhcons.CoreEnv.ENABLE]
+        ),
+    )
+    def _customization_grafana_config(self):
+        # Update the environment where needed - on a separate machine, or
+        # when keycloak was already configured in a previous run.
+        config_content = None
+        config_filename = (
+            oenginecons.FileLocations.OVIRT_ENGINE_SERVICE_CONFIG_KEYCLOAK
+        )
+        if self.environment[oenginecons.CoreEnv.ENABLE]:
+            # We are on the engine machine
+            if (
+                self.environment[ogdwhcons.ConfigEnv.NEW_DATABASE] and
+                self.environment[oengcommcons.KeycloakEnv.ENABLE] and
+                self.environment[oengcommcons.KeycloakEnv.CONFIGURED]
+            ):
+                # Relevant flow:
+                # 1. engine-setup - enable keycloak, disable grafana
+                # 2. engine-setup --reconfigure-optional-components, enable
+                #    grafana.
+                with open(config_filename) as f:
+                    config_content = f.read().splitlines()
+        else:
+            # Engine is remote
+            if self.environment[ogdwhcons.ConfigEnv.NEW_DATABASE]:
+                if self._check_if_keycloak_enabled_on_remote_engine():
+                    self._keycloak_enabled_on_remote_engine = True
+                    config_content = self._remote_engine.copy_from_engine(
+                        file_name=config_filename,
+                        dialog_name='GRAFANA_REMOTE_ENGINE_KEYCLOAK_CONF',
+                    ).decode().splitlines()
+        if config_content:
+            self.environment.update(
+                keycloak_utils.keycloak_env_from_engine_conf(config_content)
+            )
+
     @plugin.event(
         stage=plugin.Stages.STAGE_MISC,
         name=ogdwhcons.Stages.GRAFANA_CONFIG,
@@ -237,7 +333,7 @@ class Plugin(plugin.PluginBase):
                 (
                     self.environment[oengcommcons.KeycloakEnv.ENABLE] and
                     not self.environment[oengcommcons.KeycloakEnv.CONFIGURED]
-                )
+                ) or self._keycloak_enabled_on_remote_engine
             )
         )
     )
@@ -290,10 +386,10 @@ class Plugin(plugin.PluginBase):
         role_attr = ''
 
         # override  configuration for internal Keycloak based SSO
-        keycloak_enabled = self.environment.get(oengcommcons.KeycloakEnv.ENABLE)
-        keycloak_configured = self.environment.get(oengcommcons.KeycloakEnv.CONFIGURED)
-
-        if keycloak_enabled and not keycloak_configured:
+        if (
+            self.environment.get(oengcommcons.KeycloakEnv.ENABLE) or
+            self._keycloak_enabled_on_remote_engine
+        ):
             auth_url = self.environment[
                 oengcommcons.KeycloakEnv.KEYCLOAK_AUTH_URL
             ]
@@ -394,14 +490,8 @@ class Plugin(plugin.PluginBase):
         ),
         condition=lambda self: (
             self.environment[ogdwhcons.CoreEnv.ENABLE] and
-            not self.environment[oenginecons.CoreEnv.ENABLE] and
-            (
-                self.environment[ogdwhcons.ConfigEnv.NEW_DATABASE] or
-                (
-                    self.environment[oengcommcons.KeycloakEnv.ENABLE] and
-                    not self.environment[oengcommcons.KeycloakEnv.CONFIGURED]
-                )
-            )
+            self.environment[ogdwhcons.ConfigEnv.NEW_DATABASE] and
+            not self.environment[oenginecons.CoreEnv.ENABLE]
         ),
     )
     def _closeup_engine_grafana_access(self):
