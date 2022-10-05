@@ -267,6 +267,9 @@ touch "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properti
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Oct 05 2022 Martin Perina <mperina@redhat.com> - 4.5.7
+- Revert "Fix type error in _customization_sso"
+
 * Tue Sep 06 2022 Martin Perina <mperina@redhat.com> - 4.5.6
 - packaging: setup: Filter from logs secrets from otopi answer files
 
