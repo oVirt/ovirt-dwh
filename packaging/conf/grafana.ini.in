@@ -301,6 +301,9 @@ oauth_auto_login = false
 # limit of api_key seconds to live before expiration
 api_key_max_seconds_to_live = -1
 
+# see https://github.com/grafana/grafana/issues/70203
+oauth_allow_insecure_email_lookup = true
+
 #################################### Anonymous Auth ######################
 [auth.anonymous]
 # enable anonymous access
@@ -388,8 +391,6 @@ tls_client_cert =
 tls_client_key =
 tls_client_ca = @GRAFANA_TLS_CLIENT_CA@
 send_client_credentials_via_post = false
-# see https://github.com/grafana/grafana/issues/70203
-oauth_allow_insecure_email_lookup = true
 
 #################################### SAML Auth ###########################
 [auth.saml] # Enterprise only
