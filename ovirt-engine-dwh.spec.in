@@ -85,12 +85,12 @@ getent passwd %1 >/dev/null || useradd -r -u %2 -g %3 -c %5 -s /sbin/nologin -d 
 Name:		@PACKAGE_NAME@
 Version:	@RPM_VERSION@
 Release:	@RPM_RELEASE@%{?release_suffix}%{?dist}
-License:	LGPLv2 and ASL 2.0
+License:	LGPL-2.0-only AND Apache-2.0
 Summary:	%{product_name}
 Group:		Virtualization/Management
-URL:		http://www.ovirt.org
+URL:		https://www.ovirt.org
 BuildArch:	noarch
-Source:		http://resources.ovirt.org/pub/src/@PACKAGE_NAME@/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
+Source:		https://resources.ovirt.org/pub/src/@PACKAGE_NAME@/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
 
 BuildRequires:  java-11-openjdk-devel >= 11.0.4
 BuildRequires:	%{commons_collections}
@@ -267,6 +267,10 @@ touch "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properti
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Wed Nov 29 2023 Sandro Bonazzola <sandro.bonazzola@gmail.com> - 4.5.8
+- Fix admin login for grafana
+- Migrate License tag to SPDX
+
 * Wed Oct 05 2022 Martin Perina <mperina@redhat.com> - 4.5.7
 - Revert "Fix type error in _customization_sso"
 
