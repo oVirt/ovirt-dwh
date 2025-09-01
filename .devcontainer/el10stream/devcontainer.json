@@ -1,0 +1,4 @@
+{
+	"name": "oVirt DWH Development (CentOS 10 Stream)",
+	"image": "quay.io/ovirt/buildcontainer:el10stream"
+}
