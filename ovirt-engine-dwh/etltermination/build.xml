@@ -21,8 +21,7 @@
 			debug="true"
 			debuglevel="lines,vars,source"
 			classpathref="local.classpath"
-			source="1.8"
-			target="1.8"
+			release="11"
 		/>
 		<jar
 			destfile="${local.output}"
