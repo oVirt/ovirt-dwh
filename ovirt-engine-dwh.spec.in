@@ -243,9 +243,6 @@ touch "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properti
 %dir %{_sysconfdir}/ovirt-engine-dwh
 %{_bindir}/dwh-vacuum
 %{_datadir}/ovirt-engine-dwh/
-%{_datadir}/ovirt-engine-dwh/bin/dwh-prolog.sh
-%{_datadir}/ovirt-engine-dwh/bin/dwh-vacuum.sh
-%{_datadir}/ovirt-engine-dwh/bin/generate-pgpass.sh
 %{_javadir}/ovirt-engine-dwh/
 %{_sysconfdir}/ovirt-engine-dwh/ovirt-engine-dwhd.conf.d/
 %{_localstatedir}/lib/ovirt-engine-dwh/backups/
