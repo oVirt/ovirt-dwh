@@ -1,8 +1,5 @@
 package org.ovirt.engine.dwh.etltermination;
 
-import sun.misc.Signal;
-import sun.misc.SignalHandler;
-
 public class Termination {
 
     private static volatile Termination instance;
@@ -22,13 +19,9 @@ public class Termination {
 
     private Termination() {
         terminate = false;
-        SignalHandler sh=new SignalHandler() {
-            public void handle(Signal signal) {
-                terminate = true;
-            }
-        };
-        Signal.handle(new Signal("TERM"), sh );
-        Signal.handle(new Signal("INT"), sh );
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            terminate = true;
+        }));
     }
 
     public boolean shouldTerminate() {

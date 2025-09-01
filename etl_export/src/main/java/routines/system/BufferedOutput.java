@@ -64,8 +64,9 @@ public class BufferedOutput extends java.io.Writer {
         nChars = sz;
         nextChar = 0;
 
-        lineSeparator = (String) java.security.AccessController.doPrivileged(new sun.security.action.GetPropertyAction(
-                "line.separator")); //$NON-NLS-1$
+        lineSeparator = java.security.AccessController.doPrivileged(
+            (java.security.PrivilegedAction<String>) () -> System.getProperty("line.separator")
+        );
     }
 
     /** Check to make sure that the stream has not been closed */

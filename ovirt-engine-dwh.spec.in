@@ -92,7 +92,7 @@ URL:		https://www.ovirt.org
 BuildArch:	noarch
 Source:		https://resources.ovirt.org/pub/src/@PACKAGE_NAME@/@PACKAGE_NAME@-@PACKAGE_VERSION@.tar.gz
 
-BuildRequires:  java-11-openjdk-devel >= 11.0.4
+BuildRequires:	maven-local-openjdk21
 BuildRequires:	%{commons_collections}
 BuildRequires:	%{dom4j}
 BuildRequires:	ant
@@ -112,7 +112,7 @@ Requires:	%{commons_collections}
 Requires:	%{dom4j}
 Requires:	%{name}-setup >= %{version}-%{release}
 Requires:	%{name}-grafana-integration-setup >= %{version}-%{release}
-Requires:	java-11-openjdk-headless >= 11.0.4
+Requires:	(java-11-openjdk-headless or java-21-openjdk-headless)
 Requires:	jpackage-utils
 Requires:	javapackages-tools
 Requires:	jackson-core
