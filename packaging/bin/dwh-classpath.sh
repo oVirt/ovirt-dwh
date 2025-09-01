@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/sh
 
 #
 # execute site local script if available
