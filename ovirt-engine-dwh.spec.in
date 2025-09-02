@@ -20,24 +20,6 @@
 %global systemd systemd
 %global commons_collections apache-commons-collections
 
-%if 0%{?rhel}
-%if 0%{?centos}
-# Build package for oVirt on CentOS Stream
-%define rhv_build 0
-%else
-# Build package for RHV on RHEL
-%define rhv_build 1
-%endif
-%else
-# Default to oVirt build for all other platforms
-%define rhv_build 0
-%endif
-
-%global dom4j ovirt-engine-wildfly
-%if %{rhv_build}
-%global dom4j eap7-dom4j
-%endif
-
 %global product_name Data warehouse package for oVirt Virtualization Suite
 %global product_description oVirt virtualization manager data warehouse
 
@@ -94,7 +76,7 @@ Source:		https://resources.ovirt.org/pub/src/@PACKAGE_NAME@/@PACKAGE_NAME@-@PACK
 
 BuildRequires:	maven-local-openjdk21
 BuildRequires:	%{commons_collections}
-BuildRequires:	%{dom4j}
+BuildRequires:	ovirt-engine-wildfly
 BuildRequires:	ant
 BuildRequires:	jpackage-utils
 BuildRequires:	javapackages-tools
@@ -109,7 +91,7 @@ BuildRequires:	python3-devel
 BuildRequires:	systemd
 
 Requires:	%{commons_collections}
-Requires:	%{dom4j}
+Requires:	ovirt-engine-wildfly
 Requires:	%{name}-setup >= %{version}-%{release}
 Requires:	%{name}-grafana-integration-setup >= %{version}-%{release}
 Requires:	(java-11-openjdk-headless or java-21-openjdk-headless)
