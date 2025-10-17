@@ -245,6 +245,13 @@ touch "%{buildroot}%{_sysconfdir}/ovirt-engine/ovirt-engine-dwh/Default.properti
 %{_sysconfdir}/grafana/conf/
 
 %changelog
+* Fri Oct 17 2025 Jean-Louis Dupond <jean-louis@dupond.be> - 4.5.9-1
+- Build for CentOS 10
+- Fix database connection on SELinux
+- Fix configuring grafana with keycloak
+- Build for Java 11
+- Build with Java 21
+
 * Wed Nov 29 2023 Sandro Bonazzola <sandro.bonazzola@gmail.com> - 4.5.8
 - Fix admin login for grafana
 - Migrate License tag to SPDX
