@@ -5,6 +5,7 @@ public class Termination {
     private static volatile Termination instance;
 
     private boolean terminate;
+    private boolean stop;
 
     public static Termination getInstance() {
         if (instance == null) {
@@ -19,8 +20,16 @@ public class Termination {
 
     private Termination() {
         terminate = false;
+
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             terminate = true;
+            try {
+                while (!stop) {
+                    Thread.sleep(100);
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }));
     }
 
@@ -28,4 +37,7 @@ public class Termination {
         return terminate;
     }
 
+    public void stop() {
+        stop = true;
+    }
 }

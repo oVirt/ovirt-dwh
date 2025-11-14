@@ -11390,6 +11390,7 @@ public class HistoryETL implements TalendJob {
 
 		int exitCode = HistoryETLClass.runJobInTOS(args);
 
+		org.ovirt.engine.dwh.etltermination.Termination.getInstance().stop();
 		System.exit(exitCode);
 	}
 
