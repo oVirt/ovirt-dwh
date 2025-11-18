@@ -100,6 +100,60 @@ class Daemon(service.Daemon):
                 mustExist=False,
             )
 
+    def _executeEngineDbQuery(self, query, params, operation_description):
+        """
+        Execute a query on the engine database.
+        
+        Args:
+            query: SQL query string
+            params: Tuple of parameters for the query
+            operation_description: Description of the operation for logging
+            
+        Returns:
+            True on success, False on failure
+        """
+        try:
+            import psycopg2
+            
+            conn = psycopg2.connect(
+                host=self._config.get('ENGINE_DB_HOST'),
+                port=self._config.get('ENGINE_DB_PORT'),
+                database=self._config.get('ENGINE_DB_DATABASE'),
+                user=self._config.get('ENGINE_DB_USER'),
+                password=self._config.get('ENGINE_DB_PASSWORD'),
+                connect_timeout=10
+            )
+            
+            try:
+                cur = conn.cursor()
+                cur.execute(query, params)
+                conn.commit()
+                cur.close()
+                
+                self.logger.debug('Successfully %s', operation_description)
+                return True
+            finally:
+                conn.close()
+                
+        except ImportError:
+            self.logger.warning(
+                'psycopg2 module not available, cannot %s', operation_description
+            )
+            return False
+        except Exception as e:
+            self.logger.warning(
+                'Exception while %s: %s', operation_description, e
+            )
+            return False
+
+    def externalProcessGracefulShutdown(self, process):
+        self.logger.info('Setting DisconnectDwh flag to request graceful shutdown')
+        return self._executeEngineDbQuery(
+            "UPDATE vdc_options SET option_value = %s WHERE option_name = %s",
+            ('1', 'DisconnectDwh'),
+            'set DisconnectDwh flag to 1'
+        )
+
     def daemonSetup(self):
 
         if os.geteuid() == 0:
@@ -228,6 +282,13 @@ class Daemon(service.Daemon):
         return (consoleLog, consoleLog)
 
     def daemonContext(self):
+        self.logger.info('Resetting DisconnectDwh flag to 0')
+        self._executeEngineDbQuery(
+            "UPDATE vdc_options SET option_value = %s WHERE option_name = %s",
+            ('0', 'DisconnectDwh'),
+            'reset DisconnectDwh flag to 0'
+        )
+
         self.daemonAsExternalProcess(
             executable=self._executable,
             args=self._serviceArgs,
