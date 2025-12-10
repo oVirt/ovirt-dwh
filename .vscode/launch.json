@@ -1,0 +1,23 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "HistoryETL",
+            "request": "launch",
+            "mainClass": "ovirt_engine_dwh.historyetl_4_5.HistoryETL",
+            "projectName": "ovirt-dwh_ec1cdaaa"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Attach)",
+            "projectName": "MyApplication",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 8787
+        }
+    ]
+}
