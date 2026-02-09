@@ -31,21 +31,7 @@ if [ -z "${WILDFLYJAVACONF}" ]; then
 	WILDFLYJAVACONFDIR="$(readlink -f $(dirname $(dirname $0)))/wildflyjavaconf"
 fi
 
-if [ -x /usr/bin/java-config ]; then
-	PACKAGES_BUILD="dom4j-1 commons-collections jackson-core jackson-databind jackson-annotations"
-	PACKAGES_RUNTIME="jdbc-postgresql"
-
-	packages="${PACKAGES_BUILD}"
-	args=
-	if [ "${what}" = "run" ]; then
-		packages="${packages} ${PACKAGES_RUNTIME}"
-		args="${args} -d"
-	fi
-	for package in ${packages}; do
-		output="${output}:$(java-config ${args} -p ${package} 2> /dev/null)" \
-			|| die "Cannot locate ${package}"
-	done
-elif [ -x /usr/bin/build-classpath ]; then
+if [ -x /usr/bin/build-classpath ]; then
 	dom4j="$(build-classpath dom4j 2> /dev/null)"
 	[ -z "${dom4j}" ] && dom4j="$(JAVACONFDIRS=${WILDFLYJAVACONFDIR} build-classpath dom4j 2> /dev/null)"
 	[ -n "${dom4j}" ] || die "Cannot find dom4j"
