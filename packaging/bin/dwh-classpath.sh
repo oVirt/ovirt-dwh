@@ -47,10 +47,15 @@ if [ -x /usr/bin/build-classpath ]; then
 	jackson_annotations="$(build-classpath jackson-annotations 2> /dev/null)"
 	[ -z "${jackson_annotations}" ] && jackson_annotations="$(build-classpath jackson-annotations 2> /dev/null)"
 	[ -n "${jackson_annotations}" ] || die "Cannot find jackson-annotations"
+	output="${output}:${dom4j}:${commons_collections}:${jackson_core}:${jackson_databind}:${jackson_annotations}"
 	if [ "${what}" = "run" ]; then
-		postgresql_jdbc="$(build-classpath postgresql-jdbc)" || die "Canot find postgreql-jdbc"
+		postgresql_jdbc="$(build-classpath postgresql-jdbc)" || die "Cannot find postgreql-jdbc"
+		output="${output}:${postgresql_jdbc}"
+		ongres_scram="$(build-classpath ongres-scram)"
+		[ -n "${ongres_scram}" ] && output="${output}:${ongres_scram}"
+		ongres_stringprep="$(build-classpath ongres-stringprep)"
+		[ -n "${ongres_stringprep}" ] && output="${output}:${ongres_stringprep}"
 	fi
-	output="${output}:${dom4j}:${commons_collections}:${jackson_core}:${jackson_databind}:${jackson_annotations}:${postgresql_jdbc}"
 else
 	die "Cannot find a method to acquire dependencies"
 fi
