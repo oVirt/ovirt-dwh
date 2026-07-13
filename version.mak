@@ -37,5 +37,4 @@ MILESTONE=master
 # while N is incremented each re-release
 # Use only for spec file changes
 #
-RPM_RELEASE=0.0.$(MILESTONE).$(shell date -u +%Y%m%d%H%M%S)
-#RPM_RELEASE=1
+RPM_RELEASE=0.master

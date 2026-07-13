@@ -64,12 +64,21 @@ PACKAGE_VERSION=$(VERSION)$(if $(MILESTONE),_$(MILESTONE))
 DISPLAY_VERSION=$(PACKAGE_VERSION)
 DWH_VERSION=$(VERSION)
 
+# Allow PACKAGE_RPM_RELEASE environment variable to override RPM_RELEASE
+ifdef PACKAGE_RPM_RELEASE
+RPM_RELEASE := $(PACKAGE_RPM_RELEASE)
+endif
+
 BUILD_FLAGS:=$(BUILD_FLAGS) $(EXTRA_BUILD_FLAGS)
 
 PYTHON_SYS_DIR:=$(shell $(PYTHON) -c "from distutils.sysconfig import get_python_lib as f;print(f())")
 
 TARBALL=$(PACKAGE_NAME)-$(PACKAGE_VERSION).tar.gz
 BUILD_FILE=tmp.built
+
+TMPREPOS = tmp.repos
+RPMBUILD_ARGS = --define "_topdir $(CURDIR)/$(TMPREPOS)"
+RPMBUILD_ARGS += $(if $(RELEASE_SUFFIX),--define "release_suffix $(RELEASE_SUFFIX)")
 
 .SUFFIXES:
 .SUFFIXES: .in
@@ -152,13 +161,22 @@ install: \
 	install-layout \
 	$(NULL)
 
-.PHONY: ovirt-engine-dwh.spec.in
+.PHONY: ovirt-engine-dwh.spec.in srpm rpm
 
 dist:	ovirt-engine-dwh.spec
 	git ls-files | tar --files-from /proc/self/fd/0 -czf "$(TARBALL)" ovirt-engine-dwh.spec
+
+srpm: dist
+	rm -rf "$(TMPREPOS)"
+	mkdir -vp $(TMPREPOS)/{SPECS,RPMS,SRPMS,SOURCES}
+	rpmbuild $(RPMBUILD_ARGS) -ts $(TARBALL)
 	@echo
-	@echo For distro specific packaging refer to https://www.ovirt.org/develop/dev-process/build-binary-package.html
+	@echo "srpm available at '$(TMPREPOS)'"
+
+rpm:
+	rpmbuild $(RPMBUILD_ARGS) --rebuild "$(TMPREPOS)"/SRPMS/*.src.rpm
 	@echo
+	@echo "rpm available at '$(TMPREPOS)'"
 
 # copy SOURCEDIR to TARGETDIR
 # exclude EXCLUDEGEN a list of files to exclude with .in
