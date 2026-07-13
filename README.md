@@ -1,5 +1,4 @@
 # oVirt Engine Data Warehouse
-[![Copr build status](https://copr.fedorainfracloud.org/coprs/ovirt/ovirt-master-snapshot/package/ovirt-engine-dwh/status_image/last_build.png)](https://copr.fedorainfracloud.org/coprs/ovirt/ovirt-master-snapshot/package/ovirt-engine-dwh/)
 
 Welcome to the oVirt Engine Data Warehouse source repository. This repository is hosted on [GitHub:ovirt-dwh](https://github.com/oVirt/ovirt-dwh).
 
